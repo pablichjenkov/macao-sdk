@@ -5,9 +5,8 @@ import android.arch.lifecycle.ViewModelProvider
 import android.support.v4.app.FragmentActivity
 
 
-class FlowManager internal constructor(activity: FragmentActivity) {
+class FlowRotationPersister internal constructor(activity: FragmentActivity) {
     private val flowStore: FlowStore
-
 
     init {
         val viewModelProvider = ViewModelProvider(activity, ViewModelProvider.NewInstanceFactory())
@@ -22,8 +21,8 @@ class FlowManager internal constructor(activity: FragmentActivity) {
         flowStore.rootFlow = rootFlow
     }
 
-    fun <F : Flow<*, *>> findTraversalSubFlowById(flowId: String): F? {
-        return flowStore.rootFlow?.findTraversalSubFlowById(flowId)
+    fun <F : Flow<*, *>> findFlowById(flowId: String): F? {
+        return flowStore.rootFlow?.depthFirstSearchFlowById(flowId)
     }
 
     class FlowStore : ViewModel() {
@@ -31,7 +30,7 @@ class FlowManager internal constructor(activity: FragmentActivity) {
         var rootFlow: Flow<*, *>? = null
 
         override fun onCleared() {
-            rootFlow?.abort()
+            rootFlow?.stop()
         }
 
     }

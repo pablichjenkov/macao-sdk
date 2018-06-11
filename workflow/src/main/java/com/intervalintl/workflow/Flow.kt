@@ -1,169 +1,76 @@
 package com.intervalintl.workflow
 
 import android.content.Intent
-import android.support.annotation.CallSuper
-import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.Subject
 
 
 /**
- * Don't keep references of Views, Activities or Fragments in this class, this class persist
- * Configuration Changes.
+ * Don't keep strong references to Views, Activities or Fragments in this class, this class persist
+ * Configuration Changes so retaining references will cause memory leaks.
  */
-abstract class Flow<Input: Any, Output: Flow.Event> {
+abstract class Flow<StateContext, Broadcast> {
 
     val flowId: String
-    var children: MutableList<Flow<*, *>>?
-            get() = children
-            set(children) { this.children = children }
+    private var stateContextSnapshot: StateContext? = null
 
-    protected lateinit var input: Input
-    protected val subject: Subject<out Output> by lazy { createBehaviorSubject() }
 
     constructor(flowId: String) {
         this.flowId = flowId
     }
 
-    constructor(flowId: String, children: MutableList<Flow<*, *>>) {
-        this.flowId = flowId
-        this.children = children
-    }
 
+    // region: Flow Tree Events
 
-    // region: Flow Graph Events
-
-    protected fun attachChildFlow(childFlow: Flow<*, *>) {
-        if (children == null) {
-            children = ArrayList()
-        }
-        children?.add(childFlow)
-    }
-
-    fun <F : Flow<*, *>> getChildFlowById(flowId: String): F? {
-
-        return children?.let {
-            var result: F? = null
-
-            for (child in it) {
-                if (child.flowId.equals(flowId)) {
-                    result = child as F
-                    break
-                }
-            }
-
-            return result
-
-        }
-
-    }
-
-    fun <F : Flow<*, *>> findTraversalSubFlowById(subFlowId: String): F? {
+    open internal fun <F : Flow<StateContext, *>> depthFirstSearchFlowById(subFlowId: String): F? {
 
         if (this.flowId.equals(subFlowId)) {
             return this as F
         }
 
-        return children?.let {
-            var result: Flow<*, *>? = null
+        return null
+    }
 
-            for (childFlow in it) {
-                result = childFlow.findTraversalSubFlowById(subFlowId)
+    open internal fun dispatchStateContextUpdate(stateContext: StateContext) {
 
-                if (result != null) {
-                    return result as F
-                }
-            }
+        // save a snapshot of StateContext to be provided later to a child when it attaches.
+        stateContextSnapshot = stateContext
 
-            return null
-
-        }
+        // consume the StateContext and put into it any dependency this flow provide
+        onStateContextUpdate(stateContext)
 
     }
 
-    fun subscribe(): Observable<out Output> {
-        return subject
-    }
+    // endregion
 
-    abstract fun createBehaviorSubject(): BehaviorSubject<out Output>
 
-    abstract fun init(input: Input)
+    // region: abstract Flow API, to be override
 
-    abstract fun process()
+    abstract fun onStateContextUpdate(stateContext: StateContext)
 
-    abstract fun abort()
+    abstract fun start()
+
+    abstract fun stop()
 
     // endregion
 
 
     // region: Activity Lifecycle Events
 
-    @CallSuper
-    fun create() {
-        children?.let {
-            for (childFlow in it) {
-                childFlow.create()
-            }
-        }
+    open fun onCreate() {}
+
+    open fun onResume() {}
+
+    open fun onPause() {}
+
+    open fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) : Boolean {
+        return false
     }
 
-    @CallSuper
-    fun resume() {
-        children?.let {
-            for (childFlow in it) {
-                childFlow.resume()
-            }
-        }
-    }
+    open fun onDestroy() {}
 
-    @CallSuper
-    fun pause() {
-        children?.let {
-            for (childFlow in it) {
-                childFlow.pause()
-            }
-        }
-    }
-
-    @CallSuper
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) : Boolean {
-
-        return children?.iterator()?.let {
-            var consumed = false
-            while (it.hasNext() && !consumed) {
-                consumed = it.next().onActivityResult(requestCode, resultCode, data)
-            }
-            return consumed
-
-        } ?: false
-
-    }
-
-    @CallSuper
-    fun destroy() {
-        children?.let {
-            for (childFlow in it) {
-                childFlow.destroy()
-            }
-        }
-    }
-
-    @CallSuper
-    fun onBackPressed() : Boolean {
-
-        return children?.iterator()?.let {
-            var consumed = false
-            while (it.hasNext() && !consumed) {
-                consumed = it.next().onBackPressed()
-            }
-            return consumed
-
-        } ?: false
-
+    open fun onBackPressed() : Boolean {
+        return false
     }
 
     // endregion
-
-    interface Event
 
 }
