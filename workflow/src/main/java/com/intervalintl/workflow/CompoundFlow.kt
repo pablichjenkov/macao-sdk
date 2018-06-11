@@ -23,7 +23,7 @@ abstract class CompoundFlow<StateContext : Any, Broadcast: Any> : Flow<StateCont
 
     // region: CompoundFlow Tree Events
 
-    protected fun attachChildFlow(childFlow: CompoundFlow<StateContext, *>) {
+    protected fun attachChildFlow(childFlow: Flow<StateContext, *>) {
         if (children == null) {
             children = ArrayList()
         }
