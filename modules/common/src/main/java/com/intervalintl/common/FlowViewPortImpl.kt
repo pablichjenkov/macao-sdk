@@ -1,4 +1,4 @@
-package com.intervalintl.workflow.common
+package com.intervalintl.common
 
 import android.support.annotation.IdRes
 import android.support.v4.app.Fragment

@@ -2,8 +2,8 @@ package com.intervalintl.login
 
 import com.intervalintl.common.StateContext
 import com.intervalintl.workflow.Flow
-import com.intervalintl.workflow.common.Constants
-import com.intervalintl.workflow.common.FlowViewPortService
+import com.intervalintl.common.Constants
+import com.intervalintl.common.FlowViewPortService
 import com.intervalintl.workflow.view.FlowViewPort
 import io.reactivex.subjects.BehaviorSubject
 
@@ -38,6 +38,11 @@ class LoginFlow(flowId: String) : Flow<StateContext, LoginFlowEvent>(flowId) {
     }
 
     override fun stop() {
+
+    }
+
+
+    fun subscribe() {
 
     }
 

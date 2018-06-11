@@ -2,13 +2,11 @@ package com.intervalintl.intro
 
 import android.os.Bundle
 import com.intervalintl.common.StateContext
-import com.intervalintl.login.LoginFlow
 import com.intervalintl.onboarding.OnboardindFlow
-import com.intervalintl.onboarding.SplashFlow
 import com.intervalintl.workflow.Flow
 import com.intervalintl.workflow.FlowActivity
-import com.intervalintl.workflow.common.Constants
-import com.intervalintl.workflow.common.FlowViewPortService
+import com.intervalintl.common.Constants
+import com.intervalintl.common.FlowViewPortService
 
 
 class IntroActivity : FlowActivity<StateContext>() {

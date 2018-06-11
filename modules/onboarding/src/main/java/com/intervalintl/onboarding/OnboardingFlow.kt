@@ -1,12 +1,17 @@
 package com.intervalintl.onboarding
 
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
 import com.intervalintl.common.StateContext
 import com.intervalintl.workflow.CompoundFlow
-import com.intervalintl.workflow.common.Constants
+import com.intervalintl.common.Constants
+import com.intervalintl.login.LoginFlow
 
 
 class OnboardindFlow(flowId: String) : CompoundFlow<StateContext, Nothing>(flowId) {
+
+
+    val mainHandler: Handler by lazy { Handler(Looper.getMainLooper()) }
 
 
     override fun onStateContextUpdate(stateContext: StateContext) {
@@ -16,9 +21,11 @@ class OnboardindFlow(flowId: String) : CompoundFlow<StateContext, Nothing>(flowI
     override fun start() {
 
         val splashFlow = SplashFlow(Constants.SPLASH_FLOW_ID)
-        splashFlow.setListener {
-            launchLogin()
-        }
+        splashFlow.setListener(object : SplashFlow.Listener{
+            override fun onSplashFinished() {
+                mainHandler.post { launchLogin() }
+            }
+        })
 
         attachChildFlow(splashFlow)
         splashFlow.start()
@@ -29,9 +36,8 @@ class OnboardindFlow(flowId: String) : CompoundFlow<StateContext, Nothing>(flowI
     }
 
     fun launchLogin() {
-        val loginFlow = SplashFlow(Constants.LOGIN_FLOW_ID)
-        loginFlow.setListener {
-            Log.d("OnboardindFlow", "Login Success")
-        }
+        val loginFlow = LoginFlow(Constants.LOGIN_FLOW_ID)
+        attachChildFlow(loginFlow)
+        loginFlow.start()
     }
 }

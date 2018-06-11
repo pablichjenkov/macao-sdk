@@ -1,8 +1,7 @@
-package com.intervalintl.workflow.common
+package com.intervalintl.common
 
 import android.support.v4.app.FragmentManager
 import android.view.ViewGroup
-import com.intervalintl.common.State
 import com.intervalintl.workflow.view.FlowViewPort
 
 

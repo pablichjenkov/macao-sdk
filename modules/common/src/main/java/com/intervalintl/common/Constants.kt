@@ -1,4 +1,4 @@
-package com.intervalintl.workflow.common
+package com.intervalintl.common
 
 
 object Constants {
