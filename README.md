@@ -85,15 +85,16 @@
  
  ### On Stage Flow
  The method **Flow.onStart()** indicates the Flow that has entered on stage. It is called after the
- StateContext has been provided so you should be ready to go and do whatever you want now.
+ StateContext has been provided so your dependencies are injected at this point, you are ready to go
+ and do whatever you want in your Flow.
  ```kotlin
-     if (stage == Stage.Idle) {
-         stage = Stage.LoginInternal
-         showInternalLoginScreen()
+     override fun start() {
+         if (stage == Stage.Idle) {
+             stage = Stage.LoginInternal
+             showLoginScreen()
+         }
      }
  ```
- 
- 
  It is the time to consul a web service, render data into the screen, perform business logic or
  perhaps starting another child Flow, who cares.
  Upon completion your Flow will indicate its parent that it is done, then the parent will decide
@@ -109,7 +110,16 @@
  Framework. 
  The StateContext can hold or be a DaggerObjectGraph that gets passed down and consumers get
  injected from it.
-  
+ 
+ 
+ ### Build times and Share-ability
+ A Flow is build and be tested independently, as long as it receives the appropriate dependencies
+ it will just work. It should not complain about and Android Framework class or anything like that.
+ That's what is important to depend only on abstractions and not on concretions. It should only care
+ about transitioning to the right next Stage like a good **Stage-Machine** does.
+ A Flow can also be shared from one project to another, ensure that the foreign StateContext
+ provides the right dependencies for the shared Flow and that's it.
+ As an example you can re-use a Login Flow across different projects.
  
  See the sample apps for most use cases. Start by playing with simple Flows by extending **Flow**
  and then create composite Flows by extending **CompoundFlow**.
