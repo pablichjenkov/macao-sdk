@@ -17,10 +17,6 @@ class IntroActivity : FlowActivity<StateContext>() {
         setContentView(R.layout.activity_intro)
     }
 
-    /*override fun onCreateRootFlow(): Flow<StateContext, *> {
-        return LoginFlow(Constants.LOGIN_FLOW_ID)
-    }*/
-
     override fun onCreateRootFlow(): Flow<StateContext, *> {
         return OnboardindFlow(Constants.ONBOARDING_FLOW_ID)
     }

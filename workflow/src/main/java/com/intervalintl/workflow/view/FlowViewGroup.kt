@@ -9,7 +9,7 @@ import com.intervalintl.workflow.view.delegate.FlowViewGroupBinder
 import com.intervalintl.workflow.view.delegate.FlowViewGroupSavedState
 
 
-class SampleFlowViewGroup<F : Flow<*, *>> : ViewGroup {
+abstract class FlowViewGroup<F : Flow<*, *>> : ViewGroup {
 
     private var flowViewGroupBinder: FlowViewGroupBinder<F>? = null
 
@@ -36,8 +36,6 @@ class SampleFlowViewGroup<F : Flow<*, *>> : ViewGroup {
     private fun init() {
         flowViewGroupBinder = FlowViewGroupBinder(this, viewGroupBinderCB)
     }
-
-    override fun onLayout(b: Boolean, i: Int, i1: Int, i2: Int, i3: Int) {}
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
