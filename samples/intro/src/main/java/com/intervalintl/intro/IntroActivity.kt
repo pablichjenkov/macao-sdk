@@ -6,7 +6,8 @@ import com.intervalintl.onboarding.OnboardindFlow
 import com.intervalintl.workflow.Flow
 import com.intervalintl.workflow.FlowActivity
 import com.intervalintl.common.Constants
-import com.intervalintl.common.FlowViewPortService
+import com.intervalintl.common.domain.screen.FlowScreenService
+import com.intervalintl.common.domain.user.UserService
 
 
 class IntroActivity : FlowActivity<StateContext>() {
@@ -25,10 +26,13 @@ class IntroActivity : FlowActivity<StateContext>() {
 
         val stateContext = StateContext()
 
-        // Register the Flow ViewPort Service
-        stateContext.registerState(FlowViewPortService(
+        // Register the Flow Screen Service so Flows can use the Activity View Tree
+        stateContext.registerStateService(FlowScreenService(
                 supportFragmentManager,
                 findViewById(R.id.introActivityViewContainer)))
+
+        // Register a User Service that control the business logic related to the User
+        stateContext.registerStateService(UserService())
 
         return stateContext
     }

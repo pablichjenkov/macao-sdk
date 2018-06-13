@@ -23,7 +23,15 @@ abstract class CompoundFlow<StateContext : Any, Broadcast: Any> : Flow<StateCont
 
     // region: CompoundFlow Tree Events
 
-    protected fun attachChildFlow(childFlow: Flow<StateContext, *>) {
+    protected fun attachAndStartChildFlow(childFlow: Flow<StateContext, *>) {
+        attachChildFlow(childFlow)?.let {
+            if (it) {
+                childFlow.start()
+            }
+        }
+    }
+
+    protected fun attachChildFlow(childFlow: Flow<StateContext, *>) : Boolean? {
         if (children == null) {
             children = ArrayList()
         }
@@ -32,7 +40,7 @@ abstract class CompoundFlow<StateContext : Any, Broadcast: Any> : Flow<StateCont
             childFlow.dispatchStateContextUpdate(it)
         }
 
-        children?.add(childFlow)
+        return children?.add(childFlow)
     }
 
     fun <F : CompoundFlow<*, *>> getChildFlowById(flowId: String): F? {
@@ -85,7 +93,7 @@ abstract class CompoundFlow<StateContext : Any, Broadcast: Any> : Flow<StateCont
         onStateContextUpdate(stateContext)
 
         // forward the stateContext to children flows.
-        children?.forEach { dispatchStateContextUpdate(stateContext) }
+        children?.forEach { it.dispatchStateContextUpdate(stateContext) }
     }
 
     // endregion

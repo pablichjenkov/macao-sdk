@@ -3,8 +3,10 @@ package com.intervalintl.login
 import com.intervalintl.common.StateContext
 import com.intervalintl.workflow.Flow
 import com.intervalintl.common.Constants
-import com.intervalintl.common.FlowViewPortService
-import com.intervalintl.workflow.view.FlowViewPort
+import com.intervalintl.common.domain.screen.FlowScreenService
+import com.intervalintl.common.domain.user.UserManager
+import com.intervalintl.common.domain.user.UserService
+import com.intervalintl.workflow.view.FlowScreen
 import io.reactivex.subjects.BehaviorSubject
 
 
@@ -17,15 +19,26 @@ class LoginFlow(flowId: String) : Flow<StateContext, LoginFlowEvent>(flowId) {
     }
 
     private var stage: Stage = Stage.Idle
-    private var onStageChildFlow: Flow<StateContext, LoginFlowEvent>? = null
+    private var currentFlow: Flow<StateContext, LoginFlowEvent>? = null
     private val loginSubject: BehaviorSubject<out LoginFlowEvent> = BehaviorSubject.createDefault(LoginFlowEvent.LoginIdle())
-    private var flowViewPort: FlowViewPort? = null
+    private var flowScreen: FlowScreen? = null
+    private var userManager: UserManager? = null
 
 
     override fun onStateContextUpdate(stateContext: StateContext) {
-        val clazz: Class<FlowViewPortService> = FlowViewPortService::class.java
-        val viewPortService: FlowViewPortService? = stateContext.getState(clazz, Constants.DEFAULT_FLOW_VIEWPORT_SERVICE_ID)
-        flowViewPort = viewPortService?.getFlowViewPort()
+
+        val screenService: FlowScreenService? = stateContext.getStateService(FlowScreenService::class.java,
+                Constants.DEFAULT_SCREEN_SERVICE_ID)
+
+        flowScreen = screenService?.getFlowViewPort()
+
+
+        val userService: UserService? = stateContext.getStateService(UserService::class.java,
+                Constants.DEFAULT_USER_MANAGER_SERVICE_ID)
+
+        userManager = userService?.getUserManager()
+
+        userManager?.setListener(userManagerListener)
     }
 
     override fun start() {
@@ -50,7 +63,47 @@ class LoginFlow(flowId: String) : Flow<StateContext, LoginFlowEvent>(flowId) {
         val loginFragment = LoginFragment()
         loginFragment.setFlowId(flowId)
 
-        flowViewPort?.setView(loginFragment, Constants.LOGIN_FRAGMENT_TAG)
+        flowScreen?.setView(loginFragment, Constants.LOGIN_FRAGMENT_TAG)
+    }
+
+
+    var userManagerListener = object: UserManager.Listener {
+
+        override fun internalSignUpFail() {
+            //flowScreen?.setView()
+        }
+
+        override fun internalSignUpSuccess() {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun internalLoginFail() {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun internalLoginSuccess() {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun oauthProviderPlatformLoginFail() {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun oauthProviderPlatformVerifyEmailSent() {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun oauthHamperPlatformLoginStarted() {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun oauthHamperPlatformLoginFail(t: Throwable) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun oauthHamperPlatformLoginSuccess() {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
     }
 
 }

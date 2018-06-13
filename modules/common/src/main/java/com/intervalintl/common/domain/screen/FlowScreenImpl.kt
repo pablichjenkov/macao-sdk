@@ -1,4 +1,4 @@
-package com.intervalintl.common
+package com.intervalintl.common.domain.screen
 
 import android.support.annotation.IdRes
 import android.support.v4.app.Fragment
@@ -6,11 +6,11 @@ import android.support.v4.app.FragmentManager
 import android.view.View
 import android.view.ViewGroup
 import com.intervalintl.workflow.view.FlowBindableView
-import com.intervalintl.workflow.view.FlowViewPort
+import com.intervalintl.workflow.view.FlowScreen
 
 
-class FlowViewPortImpl constructor(private val fragmentManager: FragmentManager,
-                                   private val viewPortContainer: ViewGroup) : FlowViewPort {
+class FlowScreenImpl constructor(private val fragmentManager: FragmentManager,
+                                 private val viewPortContainer: ViewGroup) : FlowScreen {
 
     @IdRes val viewPortContainerId: Int = viewPortContainer.id
 
