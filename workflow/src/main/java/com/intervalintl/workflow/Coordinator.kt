@@ -7,7 +7,7 @@ import android.content.Intent
  * Don't keep strong references to Views, Activities or Fragments in this class, this class persist
  * Configuration Changes so retaining references will cause memory leaks.
  */
-abstract class Flow<StateContext, Broadcast> {
+abstract class Coordinator<StateContext> {
 
     val flowId: String
     private var stateContextSnapshot: StateContext? = null
@@ -18,9 +18,10 @@ abstract class Flow<StateContext, Broadcast> {
     }
 
 
-    // region: Flow Tree Events
+    // region: Coordinator Tree Events
 
-    open internal fun <F : Flow<StateContext, *>> depthFirstSearchFlowById(subFlowId: String): F? {
+    internal open fun <F : Coordinator<StateContext>> depthFirstSearchFlowById(subFlowId: String)
+            : F? {
 
         if (this.flowId.equals(subFlowId)) {
             return this as F
@@ -29,7 +30,7 @@ abstract class Flow<StateContext, Broadcast> {
         return null
     }
 
-    open internal fun dispatchStateContextUpdate(stateContext: StateContext) {
+    internal open fun dispatchStateContextUpdate(stateContext: StateContext) {
 
         // save a snapshot of StateContext to be provided later to a child when it attaches.
         stateContextSnapshot = stateContext
@@ -42,7 +43,7 @@ abstract class Flow<StateContext, Broadcast> {
     // endregion
 
 
-    // region: abstract Flow API, to be override
+    // region: abstract Coordinator API, to be override
 
     abstract fun onStateContextUpdate(stateContext: StateContext)
 
@@ -61,7 +62,7 @@ abstract class Flow<StateContext, Broadcast> {
 
     open fun onPause() {}
 
-    open fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) : Boolean {
+    open fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) : Boolean {
         return false
     }
 

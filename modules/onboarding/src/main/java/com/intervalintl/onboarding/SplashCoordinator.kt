@@ -2,13 +2,13 @@ package com.intervalintl.onboarding
 
 import android.util.Log
 import com.intervalintl.common.StateContext
-import com.intervalintl.workflow.Flow
+import com.intervalintl.workflow.Coordinator
 import com.intervalintl.common.Constants
-import com.intervalintl.common.domain.screen.FlowScreenService
-import com.intervalintl.workflow.view.FlowScreen
+import com.intervalintl.common.domain.screen.ScreenCoordinatorService
+import com.intervalintl.workflow.view.ScreenCoordinator
 
 
-class SplashFlow(viewModelId: String) : Flow<StateContext, SplashFlow.SplashEvent>(viewModelId) {
+class SplashCoordinator(viewModelId: String) : Coordinator<StateContext>(viewModelId) {
 
     enum class Stage {
         Idle,
@@ -19,7 +19,7 @@ class SplashFlow(viewModelId: String) : Flow<StateContext, SplashFlow.SplashEven
     var stage = Stage.Idle
         private set
 
-    private var flowScreen: FlowScreen? = null
+    private var screenCoordinator: ScreenCoordinator? = null
 
     // TODO: Use PublishSubject from RxJava
     private var listener: Listener? = null
@@ -27,8 +27,8 @@ class SplashFlow(viewModelId: String) : Flow<StateContext, SplashFlow.SplashEven
 
     override fun onStateContextUpdate(stateContext: StateContext) {
 
-        flowScreen = stateContext
-                .getStateService(FlowScreenService::class.java, Constants.DEFAULT_SCREEN_SERVICE_ID)
+        screenCoordinator = stateContext
+                .getStateService(ScreenCoordinatorService::class.java, Constants.DEFAULT_SCREEN_SERVICE_ID)
                 ?.getFlowViewPort()
     }
 
@@ -53,7 +53,7 @@ class SplashFlow(viewModelId: String) : Flow<StateContext, SplashFlow.SplashEven
         val splashFragment = SplashFragment()
         splashFragment.setFlowId(flowId)
 
-        flowScreen?.setView(splashFragment, Constants.SPLASH_FRAGMENT_TAG)
+        screenCoordinator?.setView(splashFragment, Constants.SPLASH_FRAGMENT_TAG)
     }
 
 

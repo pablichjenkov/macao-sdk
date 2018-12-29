@@ -7,7 +7,7 @@ object Constants {
     val REQUEST_CODE_LOGIN_COORDINATOR_FIREBASE_AUTH = 1001
 
 
-    // Flow Ids
+    // Coordinator Ids
     val ONBOARDING_FLOW_ID = "ONBOARDING_FLOW"
     val SPLASH_FLOW_ID = "SPLASH_FLOW"
     val LOGIN_FLOW_ID = "LOGIN_FLOW"

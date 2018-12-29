@@ -9,7 +9,7 @@
  A Flow Tree is unique per Activity and the first node is called the **Root Flow.** This root Flow
  will be created when the hosting Activity is created and will persist configuration changes.
  If your Activity extends FlowActivity override the method bellow.
- *Otherwise, if having other inheritance ancestor already, check the FlowActivity.kt file to see
+ *Otherwise, if having other inheritance ancestor already, check the CoordinatorActivity.kt file to see
  how integrate it*.
  
  ```kotlin

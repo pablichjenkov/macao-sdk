@@ -40,7 +40,7 @@ class StateContext {
                 "and serviceId: $serviceId was not found in the StateContext. Make sure you " +
                 "register a the proper StateService into the StateContext either when the " +
                 "Activity calls the Activity.onProvideStateContext() method or in the " +
-                "Flow.onStateContextUpdate() method if your Flow provides dependencies to its " +
+                "Coordinator.onStateContextUpdate() method if your Coordinator provides dependencies to its " +
                 "descendant children")
 
         return null

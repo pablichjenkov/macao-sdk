@@ -1,24 +1,24 @@
 package com.intervalintl.workflow.view
 
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import com.intervalintl.workflow.Flow
-import com.intervalintl.workflow.view.delegate.FlowFragmentBinder
+import androidx.fragment.app.DialogFragment
+import com.intervalintl.workflow.Coordinator
+import com.intervalintl.workflow.view.delegate.CoordinatorFragmentBinder
 
 
-abstract class FlowDialogFragment<F : Flow<*, *>> : DialogFragment(), FlowBindableView {
+abstract class CoordinatorDialogFragment<F : Coordinator<*>> : DialogFragment(), CoordinatorBindableView {
 
-    private lateinit var coordinatorFragmentBinder: FlowFragmentBinder<F>
+    private lateinit var coordinatorFragmentBinder: CoordinatorFragmentBinder<F>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        coordinatorFragmentBinder = FlowFragmentBinder(
+        coordinatorFragmentBinder = CoordinatorFragmentBinder(
                 this,
-                object : FlowFragmentBinder.Callback<F> {
+                object : CoordinatorFragmentBinder.Callback<F> {
                     override fun onFlowBound(flow: F) {
-                        this@FlowDialogFragment.onFlowBound(flow)
+                        this@CoordinatorDialogFragment.onFlowBound(flow)
                     }
                 })
 

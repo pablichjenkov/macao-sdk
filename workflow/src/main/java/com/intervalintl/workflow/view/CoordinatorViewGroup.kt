@@ -4,17 +4,17 @@ import android.content.Context
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.ViewGroup
-import com.intervalintl.workflow.Flow
-import com.intervalintl.workflow.view.delegate.FlowViewGroupBinder
-import com.intervalintl.workflow.view.delegate.FlowViewGroupSavedState
+import com.intervalintl.workflow.Coordinator
+import com.intervalintl.workflow.view.delegate.CoordinatorViewGroupBinder
+import com.intervalintl.workflow.view.delegate.CoordinatorViewGroupSavedState
 
 
-abstract class FlowViewGroup<F : Flow<*, *>> : ViewGroup {
+abstract class CoordinatorViewGroup<F : Coordinator<*>> : ViewGroup {
 
-    private var flowViewGroupBinder: FlowViewGroupBinder<F>? = null
+    private var coordinatorViewGroupBinder: CoordinatorViewGroupBinder<F>? = null
 
 
-    private val viewGroupBinderCB = object : FlowViewGroupBinder.Callback<F> {
+    private val viewGroupBinderCB = object : CoordinatorViewGroupBinder.Callback<F> {
         override fun onFlowBound(flow: F) {
             // TODO(Pablo): Can define an abstract method and call it from here.
         }
@@ -34,17 +34,17 @@ abstract class FlowViewGroup<F : Flow<*, *>> : ViewGroup {
     }
 
     private fun init() {
-        flowViewGroupBinder = FlowViewGroupBinder(this, viewGroupBinderCB)
+        coordinatorViewGroupBinder = CoordinatorViewGroupBinder(this, viewGroupBinderCB)
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        flowViewGroupBinder?.onAttachedToWindow()
+        coordinatorViewGroupBinder?.onAttachedToWindow()
     }
 
     override fun onRestoreInstanceState(state: Parcelable) {
-        if (state is FlowViewGroupSavedState) {
-            flowViewGroupBinder!!.onRestoreInstanceState(state)
+        if (state is CoordinatorViewGroupSavedState) {
+            coordinatorViewGroupBinder!!.onRestoreInstanceState(state)
             super.onRestoreInstanceState(state.superState)
         } else {
             super.onRestoreInstanceState(state)
@@ -53,8 +53,8 @@ abstract class FlowViewGroup<F : Flow<*, *>> : ViewGroup {
 
     override fun onSaveInstanceState(): Parcelable? {
         val superParcelable = super.onSaveInstanceState()
-        val viewState = FlowViewGroupSavedState(superParcelable)
-        flowViewGroupBinder!!.onSaveInstanceState(viewState)
+        val viewState = CoordinatorViewGroupSavedState(superParcelable)
+        coordinatorViewGroupBinder!!.onSaveInstanceState(viewState)
 
         return viewState
     }

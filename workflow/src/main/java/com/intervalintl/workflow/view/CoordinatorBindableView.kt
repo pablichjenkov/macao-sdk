@@ -1,6 +1,6 @@
 package com.intervalintl.workflow.view
 
 
-interface FlowBindableView {
+interface CoordinatorBindableView {
     fun setFlowId(flowId: String)
 }

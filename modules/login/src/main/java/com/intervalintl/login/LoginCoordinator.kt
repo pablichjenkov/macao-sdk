@@ -1,16 +1,16 @@
 package com.intervalintl.login
 
 import com.intervalintl.common.StateContext
-import com.intervalintl.workflow.Flow
+import com.intervalintl.workflow.Coordinator
 import com.intervalintl.common.Constants
-import com.intervalintl.common.domain.screen.FlowScreenService
+import com.intervalintl.common.domain.screen.ScreenCoordinatorService
 import com.intervalintl.common.domain.user.UserManager
 import com.intervalintl.common.domain.user.UserService
-import com.intervalintl.workflow.view.FlowScreen
+import com.intervalintl.workflow.view.ScreenCoordinator
 import io.reactivex.subjects.BehaviorSubject
 
 
-class LoginFlow(flowId: String) : Flow<StateContext, LoginFlowEvent>(flowId) {
+class LoginCoordinator(flowId: String) : Coordinator<StateContext>(flowId) {
 
     enum class Stage {
         Idle,
@@ -19,18 +19,18 @@ class LoginFlow(flowId: String) : Flow<StateContext, LoginFlowEvent>(flowId) {
     }
 
     private var stage: Stage = Stage.Idle
-    private var currentFlow: Flow<StateContext, LoginFlowEvent>? = null
+    private var currentCoordinator: Coordinator<StateContext>? = null
     private val loginSubject: BehaviorSubject<out LoginFlowEvent> = BehaviorSubject.createDefault(LoginFlowEvent.LoginIdle())
-    private var flowScreen: FlowScreen? = null
+    private var screenCoordinator: ScreenCoordinator? = null
     private var userManager: UserManager? = null
 
 
     override fun onStateContextUpdate(stateContext: StateContext) {
 
-        val screenService: FlowScreenService? = stateContext.getStateService(FlowScreenService::class.java,
+        val screenCoordinatorService: ScreenCoordinatorService? = stateContext.getStateService(ScreenCoordinatorService::class.java,
                 Constants.DEFAULT_SCREEN_SERVICE_ID)
 
-        flowScreen = screenService?.getFlowViewPort()
+        screenCoordinator = screenCoordinatorService?.getFlowViewPort()
 
 
         val userService: UserService? = stateContext.getStateService(UserService::class.java,
@@ -63,14 +63,14 @@ class LoginFlow(flowId: String) : Flow<StateContext, LoginFlowEvent>(flowId) {
         val loginFragment = LoginFragment()
         loginFragment.setFlowId(flowId)
 
-        flowScreen?.setView(loginFragment, Constants.LOGIN_FRAGMENT_TAG)
+        screenCoordinator?.setView(loginFragment, Constants.LOGIN_FRAGMENT_TAG)
     }
 
 
     var userManagerListener = object: UserManager.Listener {
 
         override fun internalSignUpFail() {
-            //flowScreen?.setView()
+            //screenCoordinator?.setView()
         }
 
         override fun internalSignUpSuccess() {

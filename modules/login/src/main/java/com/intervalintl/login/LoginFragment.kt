@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.intervalintl.workflow.view.FlowFragment
-import io.reactivex.Observer
+import com.intervalintl.workflow.view.CoordinatorFragment
 import io.reactivex.disposables.Disposable
 
 
-class LoginFragment: FlowFragment<LoginFlow>() {
+class LoginFragment: CoordinatorFragment<LoginCoordinator>() {
 
     private lateinit var rootView: View
-    private lateinit var loginFlow: LoginFlow
+    private lateinit var loginFlow: LoginCoordinator
     private lateinit var disposable: Disposable
 
 
@@ -23,7 +22,7 @@ class LoginFragment: FlowFragment<LoginFlow>() {
         return rootView
     }
 
-    override fun onFlowBound(flow: LoginFlow) {
+    override fun onFlowBound(flow: LoginCoordinator) {
         loginFlow = flow
     }
 

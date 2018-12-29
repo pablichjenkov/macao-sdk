@@ -5,13 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.intervalintl.workflow.view.FlowFragment
+import com.intervalintl.workflow.view.CoordinatorFragment
 
 
-class SplashFragment : FlowFragment<SplashFlow>() {
+class SplashFragment : CoordinatorFragment<SplashCoordinator>() {
 
     private lateinit var rootView: View
-    private var splashFlow: SplashFlow? = null
+    private var splashFlow: SplashCoordinator? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -19,14 +19,14 @@ class SplashFragment : FlowFragment<SplashFlow>() {
         return rootView
     }
 
-    override fun onFlowBound(flow: SplashFlow) {
+    override fun onFlowBound(flow: SplashCoordinator) {
         Log.d("SplashFragment", "SplashFragment - binding to SplashViewModel")
         splashFlow = flow
         updateView()
     }
 
     private fun updateView() {
-        if (splashFlow!!.stage === SplashFlow.Stage.Idle) {
+        if (splashFlow!!.stage === SplashCoordinator.Stage.Idle) {
             splashFlow!!.startSplashTimeout()
         }
     }

@@ -1,18 +1,18 @@
 package com.intervalintl.workflow.view
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import com.intervalintl.workflow.Flow
-import com.intervalintl.workflow.view.delegate.FlowFragmentBinder
+import androidx.fragment.app.Fragment
+import com.intervalintl.workflow.Coordinator
+import com.intervalintl.workflow.view.delegate.CoordinatorFragmentBinder
 
 
-abstract class FlowFragment<F : Flow<*, *>> : Fragment(), FlowBindableView {
+abstract class CoordinatorFragment<F : Coordinator<*>> : Fragment(), CoordinatorBindableView {
 
-    private val coordinatorFragmentBinder = FlowFragmentBinder(
-            this@FlowFragment,
-            object : FlowFragmentBinder.Callback<F> {
+    private val coordinatorFragmentBinder = CoordinatorFragmentBinder(
+            this@CoordinatorFragment,
+            object : CoordinatorFragmentBinder.Callback<F> {
                 override fun onFlowBound(flow: F) {
-                    this@FlowFragment.onFlowBound(flow)
+                    this@CoordinatorFragment.onFlowBound(flow)
                 }
     })
 

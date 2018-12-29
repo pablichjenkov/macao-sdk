@@ -5,7 +5,7 @@ import android.os.Parcelable
 import android.view.View
 
 
-class FlowViewGroupSavedState : View.BaseSavedState {
+class CoordinatorViewGroupSavedState : View.BaseSavedState {
 
     lateinit var flowId: String
 
@@ -23,13 +23,13 @@ class FlowViewGroupSavedState : View.BaseSavedState {
 
     companion object {
 
-        val CREATOR: Parcelable.Creator<FlowViewGroupSavedState> = object : Parcelable.Creator<FlowViewGroupSavedState> {
+        val CREATOR: Parcelable.Creator<CoordinatorViewGroupSavedState> = object : Parcelable.Creator<CoordinatorViewGroupSavedState> {
 
-            override fun createFromParcel(input: Parcel): FlowViewGroupSavedState {
-                return FlowViewGroupSavedState(input)
+            override fun createFromParcel(input: Parcel): CoordinatorViewGroupSavedState {
+                return CoordinatorViewGroupSavedState(input)
             }
 
-            override fun newArray(size: Int): Array<FlowViewGroupSavedState?> {
+            override fun newArray(size: Int): Array<CoordinatorViewGroupSavedState?> {
                 return arrayOfNulls(size)
             }
         }

@@ -1,49 +1,49 @@
 package com.intervalintl.workflow
 
 import android.content.Intent
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
 
 
 /**
  * Don't keep strong references to Views, Activities or Fragments in this class, this class persist
  * Configuration Changes so retaining references will cause memory leaks.
  */
-abstract class CompoundFlow<StateContext : Any, Broadcast: Any> : Flow<StateContext, Broadcast> {
+abstract class CompoundCoordinator<StateContext : Any> : Coordinator<StateContext> {
 
-    private var children: MutableList<Flow<StateContext, *>>? = null
+    private var children: MutableList<Coordinator<StateContext>>? = null
     private var stateContextSnapshot: StateContext? = null
 
 
     constructor(flowId: String) : super(flowId)
 
-    constructor(flowId: String, children: MutableList<Flow<StateContext, *>>) : super(flowId) {
+    constructor(flowId: String, children: MutableList<Coordinator<StateContext>>) : super(flowId) {
         this.children = children
     }
 
 
-    // region: CompoundFlow Tree Events
+    // region: CompoundCoordinator Tree Events
 
-    protected fun attachAndStartChildFlow(childFlow: Flow<StateContext, *>) {
-        attachChildFlow(childFlow)?.let {
+    protected fun attachAndStartChildFlow(childCoordinator: Coordinator<StateContext>) {
+        attachChildFlow(childCoordinator)?.let {
             if (it) {
-                childFlow.start()
+                childCoordinator.start()
             }
         }
     }
 
-    protected fun attachChildFlow(childFlow: Flow<StateContext, *>) : Boolean? {
+    protected fun attachChildFlow(childCoordinator: Coordinator<StateContext>) : Boolean? {
         if (children == null) {
             children = ArrayList()
         }
 
         stateContextSnapshot?.let {
-            childFlow.dispatchStateContextUpdate(it)
+            childCoordinator.dispatchStateContextUpdate(it)
         }
 
-        return children?.add(childFlow)
+        return children?.add(childCoordinator)
     }
 
-    fun <F : CompoundFlow<*, *>> getChildFlowById(flowId: String): F? {
+    fun <F : CompoundCoordinator<*>> getChildFlowById(flowId: String): F? {
 
         return children?.let {
             var result: F? = null
@@ -61,14 +61,14 @@ abstract class CompoundFlow<StateContext : Any, Broadcast: Any> : Flow<StateCont
 
     }
 
-    override fun <F : Flow<StateContext, *>> depthFirstSearchFlowById(subFlowId: String): F? {
+    override fun <F : Coordinator<StateContext>> depthFirstSearchFlowById(subFlowId: String): F? {
 
         if (this.flowId.equals(subFlowId)) {
             return this as F
         }
 
         return children?.let {
-            var result: Flow<*, *>? = null
+            var result: Coordinator<*>? = null
 
             for (childFlow in it) {
                 result = childFlow.depthFirstSearchFlowById(subFlowId)
@@ -129,7 +129,7 @@ abstract class CompoundFlow<StateContext : Any, Broadcast: Any> : Flow<StateCont
     }
 
     @CallSuper
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) : Boolean {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) : Boolean {
 
         return children?.iterator()?.let {
             var consumed = false

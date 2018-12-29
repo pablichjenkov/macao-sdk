@@ -3,12 +3,12 @@ package com.intervalintl.onboarding
 import android.os.Handler
 import android.os.Looper
 import com.intervalintl.common.StateContext
-import com.intervalintl.workflow.CompoundFlow
+import com.intervalintl.workflow.CompoundCoordinator
 import com.intervalintl.common.Constants
-import com.intervalintl.login.LoginFlow
+import com.intervalintl.login.LoginCoordinator
 
 
-class OnboardindFlow(flowId: String) : CompoundFlow<StateContext, Nothing>(flowId) {
+class OnboardindCoordinator(flowId: String) : CompoundCoordinator<StateContext>(flowId) {
 
 
     val mainHandler: Handler by lazy { Handler(Looper.getMainLooper()) }
@@ -20,8 +20,8 @@ class OnboardindFlow(flowId: String) : CompoundFlow<StateContext, Nothing>(flowI
 
     override fun start() {
 
-        val splashFlow = SplashFlow(Constants.SPLASH_FLOW_ID)
-        splashFlow.setListener(object : SplashFlow.Listener{
+        val splashFlow = SplashCoordinator(Constants.SPLASH_FLOW_ID)
+        splashFlow.setListener(object : SplashCoordinator.Listener{
             override fun onSplashFinished() {
                 mainHandler.post { launchLogin() }
             }
@@ -36,7 +36,7 @@ class OnboardindFlow(flowId: String) : CompoundFlow<StateContext, Nothing>(flowI
     }
 
     fun launchLogin() {
-        val loginFlow = LoginFlow(Constants.LOGIN_FLOW_ID)
+        val loginFlow = LoginCoordinator(Constants.LOGIN_FLOW_ID)
         attachChildFlow(loginFlow)
         loginFlow.start()
     }
