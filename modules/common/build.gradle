@@ -1,6 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+repositories {
+    mavenCentral()
+}
+
 android {
     compileSdkVersion rootProject.compileSdkVersion
 
@@ -24,17 +28,23 @@ android {
 }
 
 dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     api project(':coordinator')
 
     implementation 'androidx.appcompat:appcompat:1.0.0'
 
+    // RxJava
+    api "io.reactivex.rxjava2:rxjava:$rootProject.rxjavaVersion"
+    api "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
+
+    // Local JVM Test
     testImplementation 'junit:junit:4.12'
+
+    // Device JVM Test
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-}
-repositories {
-    mavenCentral()
 }
