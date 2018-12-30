@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
 
-abstract class CoordinatorActivity : AppCompatActivity() {
+abstract class CoordinatorActivity : AppCompatActivity(), CoordinatorProvider {
 
     private var rotationPersister: RotationPersister? = null
     private var callCoordinatorStartWhenOnResume = false
@@ -16,14 +16,14 @@ abstract class CoordinatorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         rotationPersister = RotationPersister(this@CoordinatorActivity)
 
-        rootCoordinator = rotationPersister?.getRootFlow()
+        rootCoordinator = rotationPersister?.getRootCoordinator()
 
         if (rootCoordinator == null) {
             callCoordinatorStartWhenOnResume = true
-            rootCoordinator = onCreateRootFlow()
+            rootCoordinator = provideRootCoordinator()
 
             rootCoordinator?.let{
-                rotationPersister?.setRootFlow(it)
+                rotationPersister?.setRootCoordinator(it)
             }
 
         }
@@ -68,10 +68,10 @@ abstract class CoordinatorActivity : AppCompatActivity() {
         }
     }
 
-    fun <F : Coordinator> findFlowById(flowId: String): F? {
-        return rootCoordinator?.depthFirstSearchById(flowId)
+    override fun <F : Coordinator> getCoordinatorById(coordinatorId: String): F? {
+        return rootCoordinator?.depthFirstSearchById(coordinatorId)
     }
 
-    abstract fun onCreateRootFlow(): Coordinator
+    abstract fun provideRootCoordinator(): Coordinator
 
 }

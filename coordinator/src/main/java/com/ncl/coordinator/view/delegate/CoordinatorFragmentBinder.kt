@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.ncl.coordinator.Coordinator
 import com.ncl.coordinator.CoordinatorActivity
+import com.ncl.coordinator.CoordinatorProvider
 import com.ncl.coordinator.view.CoordinatorBindableView
 
 
@@ -13,6 +14,11 @@ class CoordinatorFragmentBinder<C : Coordinator>(
 
     private lateinit var coordinatorId: String
 
+
+    override fun setCoordinatorId(coordinatorId: String) {
+        this.coordinatorId = coordinatorId
+    }
+
     fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
             coordinatorId = savedInstanceState.getString(KEY_FLOW_ID)
@@ -21,30 +27,23 @@ class CoordinatorFragmentBinder<C : Coordinator>(
 
     fun onResume() {
 
-        val activity = fragment.activity
+        val coordinatorProvider = fragment.activity
+                as? CoordinatorProvider
+                ?: throw RuntimeException("Fragments that implement CoordinatorBindableView must " +
+                        "be used in an Activity that implements CoordinatorProvider interface.")
 
-        if (activity is CoordinatorActivity == false) {
-            return
-        }
+        coordinatorProvider.getCoordinatorById<C>(coordinatorId)?.let { coordinator ->
 
-        val coordinatorActivity: CoordinatorActivity = activity as CoordinatorActivity
+            callback.onCoordinatorBound(coordinator)
 
-        val coordinator: C? = coordinatorActivity.findFlowById(coordinatorId)
-        if(coordinator == null) {
-            throw RuntimeException("Coordinator: " + coordinatorId + " not found in the FlowTree. You missed " +
-                    "to assign the coordinatorId associated with this Fragment or attach the Coordinator in " +
-                    "the Parent Coordinator that belongs to Activity: " + activity.javaClass.simpleName)
-        }
-
-        callback.onCoordinatorBound(coordinator)
+        } ?: throw RuntimeException("Coordinator: " + coordinatorId + " not found in the Coordinators" +
+                "Tree. You missed to assign the coordinatorId associated with this Fragment " +
+                "or attach the Coordinator in a Parent Coordinator that belongs to Activity: " +
+                fragment.activity?.javaClass?.simpleName)
     }
 
     fun onSaveInstanceState(outState: Bundle) {
         outState.putString(KEY_FLOW_ID, coordinatorId)
-    }
-
-    override fun setCoordinatorId(coordinatorId: String) {
-        this.coordinatorId = coordinatorId
     }
 
 

@@ -29,7 +29,9 @@ class AppCoordinator(id: String,
 
 
     override fun start() {
-        launchOnboarding()
+        if (Stage.Idle == stage) {
+            launchOnboarding()
+        }
     }
 
     override fun stop() {
@@ -46,7 +48,7 @@ class AppCoordinator(id: String,
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(onboardingObserver)
 
-        onboardindCoordinator.start()
+        launch(onboardindCoordinator)
     }
 
     fun launchLogin() {
@@ -54,10 +56,10 @@ class AppCoordinator(id: String,
         val loginCoordinator = LoginCoordinator(Constants.LOGIN_COORDINATOR_ID,
                 screenCoordinator)
 
-        loginCoordinator.start()
+        launch(loginCoordinator)
     }
 
-    val onboardingObserver = object : Observer<OnboardingCoordinator.Event> {
+    private val onboardingObserver = object : Observer<OnboardingCoordinator.Event> {
 
         override fun onSubscribe(d: Disposable) {
             compositeDisposable.add(d)

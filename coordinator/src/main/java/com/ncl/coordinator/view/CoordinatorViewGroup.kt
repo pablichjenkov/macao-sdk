@@ -9,7 +9,7 @@ import com.ncl.coordinator.view.delegate.CoordinatorViewGroupBinder
 import com.ncl.coordinator.view.delegate.CoordinatorViewGroupSavedState
 
 
-abstract class CoordinatorViewGroup<C : Coordinator> : ViewGroup {
+abstract class CoordinatorViewGroup<C : Coordinator> : ViewGroup, CoordinatorBindableView {
 
     private var coordinatorViewGroupBinder: CoordinatorViewGroupBinder<C>? = null
 
@@ -54,7 +54,7 @@ abstract class CoordinatorViewGroup<C : Coordinator> : ViewGroup {
     override fun onSaveInstanceState(): Parcelable? {
         val superParcelable = super.onSaveInstanceState()
         val viewState = CoordinatorViewGroupSavedState(superParcelable)
-        coordinatorViewGroupBinder!!.onSaveInstanceState(viewState)
+        coordinatorViewGroupBinder?.onSaveInstanceState(viewState)
 
         return viewState
     }

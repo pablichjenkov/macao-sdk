@@ -4,6 +4,8 @@ import android.util.Log
 import com.ncl.common.Constants
 import com.ncl.common.domain.screen.ScreenCoordinator
 import com.ncl.coordinator.Coordinator
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 
 
 class SplashCoordinator(coordinatorId: String,
@@ -20,8 +22,7 @@ class SplashCoordinator(coordinatorId: String,
     var stage = Stage.Idle
         private set
 
-    // TODO: Use PublishSubject from RxJava
-    private var listener: Listener? = null
+    private var eventPipe: PublishSubject<Event> = PublishSubject.create()
 
 
     override fun start() {
@@ -37,14 +38,13 @@ class SplashCoordinator(coordinatorId: String,
 
     }
 
-    fun setListener(listener: Listener) {
-        this.listener = listener
+    fun getEventPipe(): Observable<Event> {
+        return eventPipe
     }
 
     private fun showSplashScreen() {
         val splashFragment = SplashFragment()
         splashFragment.setCoordinatorId(coordinatorId)
-        splashFragment.setCoordinator(this)
         screenCoordinator.setView(splashFragment, Constants.SPLASH_FRAGMENT_TAG)
     }
 
@@ -55,11 +55,11 @@ class SplashCoordinator(coordinatorId: String,
         Thread(Runnable {
             try {
 
-                Thread.sleep(1500)
+                Thread.sleep(2000)
 
                 Log.d("SplashViewModel", "SplashViewModel: Dispatching splash timeout")
-                listener?.onSplashFinished()
                 stage = Stage.Done
+                eventPipe.onNext(Event.Done())
 
             } catch (e: InterruptedException) {
                 e.printStackTrace()
@@ -68,12 +68,8 @@ class SplashCoordinator(coordinatorId: String,
 
     }
 
-    // TODO: Use PublishSubject Events
-    interface Listener {
-        fun onSplashFinished()
+    sealed class Event {
+        class Done : Event()
     }
-
-
-    inner class SplashEvent
 
 }

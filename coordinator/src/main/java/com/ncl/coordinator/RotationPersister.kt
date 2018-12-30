@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 
 
 class RotationPersister internal constructor(activity: FragmentActivity) {
+
     private val coordinatorStore: CoordinatorStore
 
     init {
@@ -13,15 +14,15 @@ class RotationPersister internal constructor(activity: FragmentActivity) {
         coordinatorStore = viewModelProvider.get(COORDINATOR_STORE_VIEW_MODEL_ID, CoordinatorStore::class.java)
     }
 
-    fun <F : Coordinator> getRootFlow(): F? {
+    fun <F : Coordinator> getRootCoordinator(): F? {
         return coordinatorStore.rootCoordinator as F?
     }
 
-    fun setRootFlow(rootCoordinator: Coordinator) {
+    fun setRootCoordinator(rootCoordinator: Coordinator) {
         coordinatorStore.rootCoordinator = rootCoordinator
     }
 
-    fun <F : Coordinator> findFlowById(flowId: String): F? {
+    fun <F : Coordinator> findCoordinatorById(flowId: String): F? {
         return coordinatorStore.rootCoordinator?.depthFirstSearchById(flowId)
     }
 

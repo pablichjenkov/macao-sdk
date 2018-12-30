@@ -1,13 +1,12 @@
 package com.ncl.login
 
 import com.ncl.common.Constants
-import com.ncl.common.StateContext
 import com.ncl.common.domain.screen.ScreenCoordinator
-import com.ncl.common.domain.screen.ScreenCoordinatorService
 import com.ncl.common.domain.user.UserManager
-import com.ncl.common.domain.user.UserService
 import com.ncl.coordinator.Coordinator
+import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import java.util.concurrent.TimeUnit
 
 
 class LoginCoordinator(coordinatorId: String,
@@ -23,15 +22,13 @@ class LoginCoordinator(coordinatorId: String,
 
     private var stage: Stage = Stage.Idle
     private var currentCoordinator: Coordinator? = null
-    private val loginSubject: BehaviorSubject<out LoginFlowEvent> = BehaviorSubject.createDefault(LoginFlowEvent.LoginIdle())
+    private val viewEventSubject: BehaviorSubject<ViewEvent> = BehaviorSubject.createDefault(ViewEvent.LoginIdle())
     private var userManager: UserManager? = null
 
 
     override fun start() {
         if (stage == Stage.Idle) {
             stage = Stage.LoginInternal
-            //onStageCoordinator = getChildById(Constants.LOGIN_VIEWMODEL_ID)
-            //onStageCoordinator.start()
             showLoginScreen()
         }
     }
@@ -40,9 +37,8 @@ class LoginCoordinator(coordinatorId: String,
 
     }
 
-
-    fun subscribe() {
-
+    fun getViewEventPipe() : Observable<ViewEvent> {
+        return viewEventSubject
     }
 
     private fun showLoginScreen() {
@@ -50,6 +46,22 @@ class LoginCoordinator(coordinatorId: String,
         loginFragment.setCoordinatorId(coordinatorId)
 
         screenCoordinator?.setView(loginFragment, Constants.LOGIN_FRAGMENT_TAG)
+    }
+
+    fun loginButtonClick() {
+        //userManager?.loginInternal()
+
+        viewEventSubject.onNext(ViewEvent.ProcessingInternalLogin())
+
+
+        Observable.create<Any> {
+            it.onNext(Any())
+        }
+                .delay(2, TimeUnit.SECONDS)
+                .subscribe {
+                    viewEventSubject.onNext(ViewEvent.InternalLoginSuccess())
+                }
+
     }
 
 
@@ -98,8 +110,10 @@ class LoginCoordinator(coordinatorId: String,
 data class LoginInput(val username: String, val password: String)
 
 
-sealed class LoginFlowEvent {
+sealed class ViewEvent {
 
-    class LoginIdle : LoginFlowEvent() {}
-
+    class LoginIdle : ViewEvent()
+    class ProcessingInternalLogin : ViewEvent()
+    class InternalLoginSuccess : ViewEvent()
+    class InternalLoginFail : ViewEvent()
 }

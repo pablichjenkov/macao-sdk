@@ -2,6 +2,7 @@ package com.ncl.coordinator
 
 import android.content.Intent
 import androidx.annotation.CallSuper
+import java.util.ArrayList
 
 
 /**
@@ -20,9 +21,31 @@ abstract class CompoundCoordinator: Coordinator {
     }
 
 
-    // region: CompoundCoordinator Tree Events
+    // region: CompoundCoordinator Tree Methods
 
-    fun <F : CompoundCoordinator> getChildById(id: String): F? {
+    fun launch(coordinator: Coordinator) {
+
+        children?.let {
+
+            if (!it.contains(coordinator)) {
+                it.add(coordinator)
+            }
+
+        }
+        ?: run {
+            children = ArrayList()
+            children?.add(coordinator)
+        }
+
+        coordinator.start()
+
+    }
+
+    /**
+     * Only look up in the children coordinator. For a whole tree search use depthFirstSearchById
+     * method.
+     * */
+    fun <F : Coordinator> getChildById(id: String): F? {
 
         return children?.let {
             var result: F? = null
@@ -40,9 +63,9 @@ abstract class CompoundCoordinator: Coordinator {
 
     }
 
-    override fun <F : Coordinator> depthFirstSearchById(subFlowId: String): F? {
+    override fun <F : Coordinator> depthFirstSearchById(coordinatorId: String): F? {
 
-        if (this.coordinatorId.equals(subFlowId)) {
+        if (this.coordinatorId.equals(coordinatorId)) {
             return this as F
         }
 
@@ -50,7 +73,7 @@ abstract class CompoundCoordinator: Coordinator {
             var result: Coordinator? = null
 
             for (childFlow in it) {
-                result = childFlow.depthFirstSearchById(subFlowId)
+                result = childFlow.depthFirstSearchById(coordinatorId)
 
                 if (result != null) {
                     return result as F

@@ -2,7 +2,7 @@ package com.ncl.coordinator.view.delegate
 
 import android.view.ViewGroup
 import com.ncl.coordinator.Coordinator
-import com.ncl.coordinator.CoordinatorActivity
+import com.ncl.coordinator.CoordinatorProvider
 import com.ncl.coordinator.view.CoordinatorBindableView
 
 
@@ -18,18 +18,18 @@ class CoordinatorViewGroupBinder<C : Coordinator>(
 
     fun onAttachedToWindow() {
 
-        val activity = viewGroup.context as? CoordinatorActivity
-                ?: throw RuntimeException("ViewGroups that implement CoordinatorBindableView must be " +
-                "used in an instance of CoordinatorActivity")
+        val coordinatorProvider = viewGroup.context as? CoordinatorProvider
+                ?: throw RuntimeException("ViewGroups that implement CoordinatorBindableView " +
+                        "must be used in an Activity that implements Coordinator interface")
 
-        val coordinator: C? = activity.findFlowById(coordinatorId)
-        if (coordinator == null) {
-            throw RuntimeException("Coordinator: " + coordinatorId + " not found in the FlowTree. You missed " +
-                    "to assign a coordinatorId to this ViewGroup or to attached the Coordinator in the same " +
-                    "CoordinatorActivity where this ViewGroup belongs to.")
-        }
+        coordinatorProvider.getCoordinatorById<C>(coordinatorId)?.let { coordinator ->
 
-        callback.onCoordinatorBound(coordinator)
+            callback.onCoordinatorBound(coordinator)
+
+        } ?: throw RuntimeException("Coordinator: " + coordinatorId + " not found in the Coordinators" +
+                " Tree. You missed to assign a coordinatorId to this ViewGroup or to attached the " +
+                "Coordinator to a parent coordinator that lives in the same Activity that holds" +
+                "this ViewGroup.")
     }
 
     fun onSaveInstanceState(viewState: CoordinatorViewGroupSavedState) {

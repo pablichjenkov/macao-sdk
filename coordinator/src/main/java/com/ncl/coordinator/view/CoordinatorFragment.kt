@@ -11,8 +11,8 @@ abstract class CoordinatorFragment<F : Coordinator> : Fragment(), CoordinatorBin
     private val coordinatorFragmentBinder = CoordinatorFragmentBinder(
             this@CoordinatorFragment,
             object : CoordinatorFragmentBinder.Callback<F> {
-                override fun onCoordinatorBound(flow: F) {
-                    this@CoordinatorFragment.onCoordinatorBound(flow)
+                override fun onCoordinatorBound(coordinator: F) {
+                    this@CoordinatorFragment.onCoordinatorBound(coordinator)
                 }
     })
 
@@ -36,10 +36,6 @@ abstract class CoordinatorFragment<F : Coordinator> : Fragment(), CoordinatorBin
         coordinatorFragmentBinder.setCoordinatorId(coordinatorId)
     }
 
-    protected abstract fun onCoordinatorBound(flow: F)
-
-    fun setCoordinator(coordinator: F) {
-        onCoordinatorBound(coordinator)
-    }
+    protected abstract fun onCoordinatorBound(coordinator: F)
 
 }
