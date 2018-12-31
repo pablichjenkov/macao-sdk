@@ -6,11 +6,12 @@ import com.ncl.common.domain.user.UserManager
 import com.ncl.coordinator.Coordinator
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
 
 class LoginCoordinator(coordinatorId: String,
-                       private val screenCoordinator: ScreenCoordinator?
+                       private val screenCoordinator: ScreenCoordinator
 
 ) : Coordinator(coordinatorId) {
 
@@ -23,7 +24,9 @@ class LoginCoordinator(coordinatorId: String,
     private var stage: Stage = Stage.Idle
     private var currentCoordinator: Coordinator? = null
     private val viewEventSubject: BehaviorSubject<ViewEvent> = BehaviorSubject.createDefault(ViewEvent.LoginIdle())
+    private val modelEventPipe: PublishSubject<ModelEvent> = PublishSubject.create()
     private var userManager: UserManager? = null
+    private var loginFragment: LoginFragment? = null
 
 
     override fun start() {
@@ -31,6 +34,17 @@ class LoginCoordinator(coordinatorId: String,
             stage = Stage.LoginInternal
             showLoginScreen()
         }
+    }
+
+    override fun onBackPressed(): Boolean {
+
+        loginFragment?.run {
+            screenCoordinator.pop(this)
+        }
+
+        modelEventPipe.onNext(ModelEvent.Done())
+
+        return true
     }
 
     override fun stop() {
@@ -41,11 +55,18 @@ class LoginCoordinator(coordinatorId: String,
         return viewEventSubject
     }
 
-    private fun showLoginScreen() {
-        val loginFragment = LoginFragment()
-        loginFragment.setCoordinatorId(coordinatorId)
+    fun getModelEventPipe() : Observable<ModelEvent> {
+        return modelEventPipe
+    }
 
-        screenCoordinator?.setView(loginFragment, Constants.LOGIN_FRAGMENT_TAG)
+    private fun showLoginScreen() {
+        loginFragment = LoginFragment()
+
+        loginFragment?.run {
+            setCoordinatorId(coordinatorId)
+            screenCoordinator.push(this, Constants.LOGIN_FRAGMENT_TAG)
+        }
+
     }
 
     fun loginButtonClick() {
@@ -54,9 +75,7 @@ class LoginCoordinator(coordinatorId: String,
         viewEventSubject.onNext(ViewEvent.ProcessingInternalLogin())
 
 
-        Observable.create<Any> {
-            it.onNext(Any())
-        }
+        Observable.create<Any> { it.onNext(Any()) }
                 .delay(2, TimeUnit.SECONDS)
                 .subscribe {
                     viewEventSubject.onNext(ViewEvent.InternalLoginSuccess())
@@ -116,4 +135,8 @@ sealed class ViewEvent {
     class ProcessingInternalLogin : ViewEvent()
     class InternalLoginSuccess : ViewEvent()
     class InternalLoginFail : ViewEvent()
+}
+
+sealed class ModelEvent {
+    class Done : ModelEvent()
 }

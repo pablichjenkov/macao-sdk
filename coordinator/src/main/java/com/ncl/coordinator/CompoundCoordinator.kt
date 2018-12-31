@@ -41,23 +41,26 @@ abstract class CompoundCoordinator: Coordinator {
 
     }
 
-    /**
-     * Only look up in the children coordinator. For a whole tree search use depthFirstSearchById
-     * method.
-     * */
-    fun <F : Coordinator> getChildById(id: String): F? {
+    fun removeChild(coordinatorId: String) {
 
-        return children?.let {
-            var result: F? = null
+        children?.iterator()?.let { childrenIterator ->
 
-            for (child in it) {
-                if (child.coordinatorId.equals(id)) {
-                    result = child as F
+            var childToRemove : Coordinator? = null
+
+            while (childrenIterator.hasNext()) {
+
+                val child = childrenIterator.next()
+
+                if (child.coordinatorId.equals(coordinatorId)) {
+                    childToRemove = child
                     break
                 }
             }
 
-            return result
+            childToRemove?.let { it ->
+                it.stop()
+                children?.remove(it)
+            }
 
         }
 
@@ -81,6 +84,28 @@ abstract class CompoundCoordinator: Coordinator {
             }
 
             return null
+
+        }
+
+    }
+
+    /**
+     * Only look up in the children coordinator. For a whole tree search use depthFirstSearchById
+     * method.
+     * */
+    fun <F : Coordinator> getChildById(id: String): F? {
+
+        return children?.let {
+            var result: F? = null
+
+            for (child in it) {
+                if (child.coordinatorId.equals(id)) {
+                    result = child as F
+                    break
+                }
+            }
+
+            return result
 
         }
 

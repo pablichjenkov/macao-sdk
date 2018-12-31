@@ -56,8 +56,10 @@ class IntroActivity : AppCompatActivity(), CoordinatorProvider {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        appCoordinator.onBackPressed()
+        val backConsumed = appCoordinator.onBackPressed()
+        if (backConsumed == false) {
+            super.onBackPressed()
+        }
     }
 
     // endregion

@@ -1,30 +1,43 @@
 
- ## Reactive Workflow
- The Reactive Workflow Pattern is basically the State Machine Pattern. Every Workflow or 
- **Flow**(for shorter) has a set of children Flows that enter **on stage** depending on certain
- actions received from external inputs. This nested structure form a **Flow Tree,**somehow
- equivalent to use **Nested Stores** in Redux architecture.
+ ## Coordinators
+  The Coordinators Pattern tries to resolve one of the most common and hard to scale problems in 
+  an application --**App Navigation**--.
+  
+  Popular **MVC** derived architectures resolve the problem of separating View from Model but 
+  they don't directly resolve the **Navigation** issue. In architectures like **MVP** or **MVVM** 
+  we end up writting Navigation logic in our Presenters or ViewModels, this practice makes harder 
+  to reuse our presenters because they need to know where they come from and where to go next. This 
+  is clear not a responsibility of a Presenter or a ViewModel is some one else job.
+  
+  The Coordinator architecture is built with the navigation problem in mind. Emphasizing the fact 
+  that Navigation should not be triggered from View events but from Business Logic events. Now lets 
+  talk about implementation.  
+  
+  Every Coordinator has a set of children Coordinators that enter **on stage** accordingly with the 
+  app navigation flow. This nested structure form a **Coordinator Tree** that lives in the 
+  underlying **Activity** and start with an initial Coordinator called root Coordinator. 
+  Coordinators enter **on stage** once their **start()** method gets called. While **on stage** a 
+  Coordinator listen to input events and react accordingly. A good Coordinator implementation has 
+  an internal **State Machine** that handles request from a message queue and deliver responses to 
+  such request through output pipes. Ideally they should work similar to the Actor model, the idea 
+  is that a Coordinator behaves like an Actor.
  
- ### Flow Lifecycle
- A Flow Tree is unique per Activity and the first node is called the **Root Flow.** This root Flow
- will be created when the hosting Activity is created and will persist configuration changes.
+ ### Coordinator Lifecycle
+ A Coordinator Tree is unique per Activity and the first node is called the **Root Coordinator**. 
+ This root Coordinator will be created when the hosting Activity is created and will persist 
+ configuration changes using the **OrientationPersister** class which internally uses the **Android 
+ ViewModel** from components architecture.
  If your Activity extends FlowActivity override the method bellow.
- *Otherwise, if having other inheritance ancestor already, check the CoordinatorActivity.kt file to see
- how integrate it*.
  
- ```kotlin
-    override fun onCreateRootFlow(): Flow<StateContext, *> {
-        return OnboardindFlow(Constants.ONBOARDING_FLOW_ID)
-    }
- ```
  
- **Flows should not know about Android Framework classes,** a Flow has dependencies and it must be provided
- by its parent Flow. Flows are agnostic to any method of injecting the dependencies into them. Any
- technique like *Dagger*, *Service Provider* or *State Lifting* can be used, just need to consider
- that Flows are immutable to configuration changes, so every time a dependency is updated, the new
- instance has to be propagated through the whole Flow Tree.
+ **Coordinators should not know about Android Framework classes**, a Coordinator has dependencies 
+ and it must be provided by its parent Coordinator before calling **start()**. Coordinators are 
+ agnostic to any method of injecting the dependencies into them. Any technique like *Dagger*, 
+ *Service Provider* or *State Lifting* can be used, just need to consider that Coordinators are 
+ immutable to configuration changes, so every time a dependency is updated, the new instance 
+ has to be propagated through the whole Coordinator Tree.
  
- *As an example, a Flow that presents UI elements in the screen would have somehow a dependency of
+ *As an example, a Coordinator that presents UI elements in the screen would have somehow a dependency of
  the current Activity, since an Activity is the owner of the **View Tree** where Views are inserted.
  You could use a Navigator or a ScreenManager that helps with the task of transitioning these Views.
  The way it works is that this Navigator is provided to all those Flows that present Views.
