@@ -30,7 +30,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     api project(':modules:common')
-    api project(':modules:login')
+    api project(':modules:auth')
 
     implementation 'androidx.appcompat:appcompat:1.0.0'
 

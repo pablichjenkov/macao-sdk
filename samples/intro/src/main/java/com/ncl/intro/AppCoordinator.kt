@@ -1,10 +1,11 @@
 package com.ncl.intro
 
+import com.ncl.auth.AuthCoordinator
+import com.ncl.auth.ModelEvent
 import com.ncl.common.Constants
+import com.ncl.common.domain.auth.AuthApi
 import com.ncl.common.domain.screen.ScreenCoordinator
 import com.ncl.coordinator.CompoundCoordinator
-import com.ncl.login.LoginCoordinator
-import com.ncl.login.ModelEvent
 import com.ncl.onboarding.OnboardingCoordinator
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,7 +14,8 @@ import io.reactivex.disposables.Disposable
 
 
 class AppCoordinator(id: String,
-                     val screenCoordinator: ScreenCoordinator
+                     val screenCoordinator: ScreenCoordinator,
+                     val authApi: AuthApi
 
 ) : CompoundCoordinator(id) {
 
@@ -36,7 +38,7 @@ class AppCoordinator(id: String,
     }
 
     override fun stop() {
-
+        compositeDisposable.clear()
     }
 
     fun launchOnboarding() {
@@ -54,8 +56,9 @@ class AppCoordinator(id: String,
 
     fun launchLogin() {
 
-        val loginCoordinator = LoginCoordinator(Constants.LOGIN_COORDINATOR_ID,
-                screenCoordinator)
+        val loginCoordinator = AuthCoordinator(Constants.AUTH_COORDINATOR_ID,
+                screenCoordinator,
+                authApi)
 
         loginCoordinator.getModelEventPipe().subscribe(loginObserver)
 
@@ -63,7 +66,7 @@ class AppCoordinator(id: String,
     }
 
     fun removeLogin() {
-        removeChild(Constants.LOGIN_COORDINATOR_ID)
+        removeChild(Constants.AUTH_COORDINATOR_ID)
     }
 
     private val onboardingObserver = object : Observer<OnboardingCoordinator.Event> {
@@ -100,7 +103,7 @@ class AppCoordinator(id: String,
 
             when (event) {
 
-                is ModelEvent.Done -> {
+                is ModelEvent.Cancel -> {
                     removeLogin()
                 }
 

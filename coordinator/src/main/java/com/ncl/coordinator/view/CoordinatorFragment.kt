@@ -6,12 +6,11 @@ import com.ncl.coordinator.Coordinator
 import com.ncl.coordinator.view.delegate.CoordinatorFragmentBinder
 
 
-abstract class CoordinatorFragment<F : Coordinator> : Fragment(), CoordinatorBindableView {
+abstract class CoordinatorFragment<C : Coordinator> : Fragment(), CoordinatorBindableView {
 
-    private val coordinatorFragmentBinder = CoordinatorFragmentBinder(
-            this@CoordinatorFragment,
-            object : CoordinatorFragmentBinder.Callback<F> {
-                override fun onCoordinatorBound(coordinator: F) {
+    private val coordinatorFragmentBinder = CoordinatorFragmentBinder(this@CoordinatorFragment,
+            object : CoordinatorFragmentBinder.Callback<C> {
+                override fun onCoordinatorBound(coordinator: C) {
                     this@CoordinatorFragment.onCoordinatorBound(coordinator)
                 }
     })
@@ -36,6 +35,12 @@ abstract class CoordinatorFragment<F : Coordinator> : Fragment(), CoordinatorBin
         coordinatorFragmentBinder.setCoordinatorId(coordinatorId)
     }
 
-    protected abstract fun onCoordinatorBound(coordinator: F)
+    /**
+     * This method will be called every time this Fragment instance resumes. It will be called
+     * after Fragment.onResume() method. If there is a Coordinator in the Coordinators Tree
+     * matching the coordinatorId corresponding to this Fragment, it will be supplied on this
+     * method. otherwise an exception will be thrown.
+     * */
+    protected abstract fun onCoordinatorBound(coordinator: C)
 
 }

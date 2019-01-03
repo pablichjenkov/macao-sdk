@@ -30,7 +30,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':modules:onboarding')
-    implementation project(':modules:login')
+    implementation project(':modules:auth')
 
     // Android Support
     implementation "androidx.appcompat:appcompat:1.0.0"

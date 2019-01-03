@@ -3,17 +3,26 @@ package com.ncl.common.domain.screen
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 
 
-class ScreenCoordinatorImpl constructor(private val fragmentManager: FragmentManager,
-                                        private val viewPortContainer: ViewGroup
+class ScreenCoordinatorImpl constructor(private var fragmentManager: FragmentManager,
+                                        private var viewPortContainer: ViewGroup
 
 ) : ScreenCoordinator {
 
-    @IdRes val viewPortContainerId: Int = viewPortContainer.id
+    @IdRes var viewPortContainerId: Int = viewPortContainer.id
 
+
+    override fun onConfigurationChange(fragmentManager: FragmentManager,
+                                       viewPortContainer: ViewGroup
+    ) {
+        this.fragmentManager = fragmentManager
+        this.viewPortContainer = viewPortContainer
+        this.viewPortContainerId = viewPortContainer.id
+    }
 
     override fun <F> push(fragment: F, fragmentTag: String) where F : Fragment {
         val fragmentTransaction = fragmentManager.beginTransaction()

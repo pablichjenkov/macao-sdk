@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.ncl.common.Constants
+import com.ncl.common.domain.auth.AuthApiMock
 import com.ncl.common.domain.screen.ScreenCoordinator
 import com.ncl.common.domain.screen.ScreenCoordinatorImpl
 import com.ncl.coordinator.Coordinator
@@ -13,8 +14,9 @@ import com.ncl.coordinator.CoordinatorProvider
 
 class IntroActivity : AppCompatActivity(), CoordinatorProvider {
 
-    lateinit var appCoordinator : AppCoordinator
-    lateinit var screenCoordinator: ScreenCoordinator
+    private lateinit var appCoordinator : AppCoordinator
+    private lateinit var screenCoordinator: ScreenCoordinator
+    private var authManager = AuthApiMock()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +27,9 @@ class IntroActivity : AppCompatActivity(), CoordinatorProvider {
 
         screenCoordinator = ScreenCoordinatorImpl(supportFragmentManager, viewContainer)
 
-        appCoordinator = AppCoordinator(Constants.APP_COORDINATOR_ID, screenCoordinator)
+        appCoordinator = AppCoordinator(Constants.APP_COORDINATOR_ID,
+                screenCoordinator,
+                authManager)
 
         appCoordinator.start()
 

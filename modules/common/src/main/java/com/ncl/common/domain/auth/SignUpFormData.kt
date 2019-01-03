@@ -1,4 +1,4 @@
-package com.ncl.common.domain.user
+package com.ncl.common.domain.auth
 
 data class SignUpFormData(
         val name: String,

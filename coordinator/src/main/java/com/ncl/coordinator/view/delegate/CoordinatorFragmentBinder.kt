@@ -3,7 +3,6 @@ package com.ncl.coordinator.view.delegate
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.ncl.coordinator.Coordinator
-import com.ncl.coordinator.CoordinatorActivity
 import com.ncl.coordinator.CoordinatorProvider
 import com.ncl.coordinator.view.CoordinatorBindableView
 
@@ -21,7 +20,7 @@ class CoordinatorFragmentBinder<C : Coordinator>(
 
     fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
-            coordinatorId = savedInstanceState.getString(KEY_FLOW_ID)
+            coordinatorId = savedInstanceState.getString(KEY_COORDINATOR_ID)
         }
     }
 
@@ -43,7 +42,7 @@ class CoordinatorFragmentBinder<C : Coordinator>(
     }
 
     fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(KEY_FLOW_ID, coordinatorId)
+        outState.putString(KEY_COORDINATOR_ID, coordinatorId)
     }
 
 
@@ -52,7 +51,7 @@ class CoordinatorFragmentBinder<C : Coordinator>(
     }
 
     companion object {
-        private val KEY_FLOW_ID = "key_flow_id"
+        private val KEY_COORDINATOR_ID = "key_coordinator_id"
     }
 
 }
