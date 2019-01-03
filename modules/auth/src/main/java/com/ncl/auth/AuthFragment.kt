@@ -52,6 +52,9 @@ class AuthFragment: CoordinatorFragment<AuthCoordinator>() {
 
     override fun onCoordinatorBound(coordinator: AuthCoordinator) {
         this.authCoordinator = coordinator
+
+        authCoordinator.getAuthOptionsEventPipe(this)
+
     }
 
 }

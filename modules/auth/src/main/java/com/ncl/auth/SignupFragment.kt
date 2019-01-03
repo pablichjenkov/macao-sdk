@@ -51,7 +51,7 @@ class SignupFragment: CoordinatorFragment<AuthCoordinator>() {
     override fun onCoordinatorBound(coordinator: AuthCoordinator) {
         this.authCoordinator = coordinator
 
-        authCoordinator.getSignupViewEventPipe()
+        authCoordinator.getSignupViewEventPipe(this@SignupFragment)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(newObserver())
     }

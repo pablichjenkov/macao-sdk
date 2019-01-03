@@ -10,12 +10,13 @@ import com.ncl.common.domain.screen.ScreenCoordinator
 import com.ncl.common.domain.screen.ScreenCoordinatorImpl
 import com.ncl.coordinator.Coordinator
 import com.ncl.coordinator.CoordinatorProvider
+import com.ncl.coordinator.RotationPersister
 
 
 class IntroActivity : AppCompatActivity(), CoordinatorProvider {
 
+    private lateinit var rotationPersister: RotationPersister
     private lateinit var appCoordinator : AppCoordinator
-    private lateinit var screenCoordinator: ScreenCoordinator
     private var authManager = AuthApiMock()
 
 
@@ -23,15 +24,34 @@ class IntroActivity : AppCompatActivity(), CoordinatorProvider {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
 
+        rotationPersister = RotationPersister(this@IntroActivity)
         val viewContainer: ViewGroup = findViewById(R.id.introActivityViewContainer)
 
-        screenCoordinator = ScreenCoordinatorImpl(supportFragmentManager, viewContainer)
+        rotationPersister.getRootCoordinator<AppCoordinator>()?.let {
+            appCoordinator = it
 
-        appCoordinator = AppCoordinator(Constants.APP_COORDINATOR_ID,
-                screenCoordinator,
-                authManager)
+            // Set the new created fragmentManager and viewContainer
+            val screenCoordinator = it.getChildById<ScreenCoordinator>(Constants.SCREEN_COORDINATOR_ID)
+            screenCoordinator?.onConfigurationChange(supportFragmentManager, viewContainer)
 
-        appCoordinator.start()
+
+        } ?: run {
+
+            val screenCoordinator = ScreenCoordinatorImpl(Constants.SCREEN_COORDINATOR_ID,
+                    supportFragmentManager,
+                    viewContainer)
+
+            val appCoordinatorCopy = AppCoordinator(Constants.APP_COORDINATOR_ID,
+                    screenCoordinator,
+                    authManager)
+
+            appCoordinator = appCoordinatorCopy
+
+            rotationPersister.setRootCoordinator(appCoordinatorCopy)
+
+            appCoordinatorCopy.start()
+
+        }
 
     }
 

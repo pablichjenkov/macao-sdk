@@ -3,15 +3,19 @@ package com.ncl.common.domain.screen
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 
 
-class ScreenCoordinatorImpl constructor(private var fragmentManager: FragmentManager,
+class ScreenCoordinatorImpl constructor(coordinatorId: String,
+                                        private var fragmentManager: FragmentManager,
                                         private var viewPortContainer: ViewGroup
 
-) : ScreenCoordinator {
+) : ScreenCoordinator(coordinatorId) {
+
+    override fun start() {}
+
+    override fun stop() {}
 
     @IdRes var viewPortContainerId: Int = viewPortContainer.id
 

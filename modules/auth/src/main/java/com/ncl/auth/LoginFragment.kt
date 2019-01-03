@@ -45,7 +45,7 @@ class LoginFragment: CoordinatorFragment<AuthCoordinator>() {
     override fun onCoordinatorBound(coordinator: AuthCoordinator) {
         this.authCoordinator = coordinator
 
-        authCoordinator.getLoginViewEventPipe()
+        authCoordinator.getLoginViewEventPipe(this@LoginFragment)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(newObserver())
     }

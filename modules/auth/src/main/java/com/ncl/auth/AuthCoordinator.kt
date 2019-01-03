@@ -72,7 +72,13 @@ class AuthCoordinator(coordinatorId: String,
         compositeDisposable.clear()
     }
 
-    fun getLoginViewEventPipe() : Observable<LoginViewEvent> {
+    fun getAuthOptionsEventPipe(authOptionsFragment: AuthFragment) {
+        this.authOptionsFragment = authOptionsFragment
+    }
+
+    fun getLoginViewEventPipe(loginFragment: LoginFragment) : Observable<LoginViewEvent> {
+
+        this.loginFragment = loginFragment
 
         // fixme: Workaround to send the current state to new subscribers. Use Observable.OnSubscribe
         // fixme: Action instead. Keep a list of subscriber with their id.
@@ -86,7 +92,9 @@ class AuthCoordinator(coordinatorId: String,
         return loginViewSubject
     }
 
-    fun getSignupViewEventPipe() : Observable<SignupViewEvent> {
+    fun getSignupViewEventPipe(signupFragment: SignupFragment) : Observable<SignupViewEvent> {
+
+        this.signupFragment = signupFragment
 
         // fixme: Workaround to send the current state to new subscribers. Use Observable.OnSubscribe
         // fixme: Action instead. Keep a list of subscriber with their id.

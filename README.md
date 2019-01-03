@@ -1,7 +1,7 @@
 
  ## Coordinators
-  The Coordinators Pattern tries to resolve one of the most common and hard to scale problems in 
-  an application --**App Navigation**--.
+  The Coordinators Pattern aims to resolve a common and hard to scale problems in an application 
+  --**App Navigation**--.
   
   Popular **MVC** derived architectures resolve the problem of separating View from Model but 
   they don't directly resolve the **Navigation** issue. In architectures like **MVP** or **MVVM** 
@@ -27,7 +27,6 @@
  This root Coordinator will be created when the hosting Activity is created and will persist 
  configuration changes using the **OrientationPersister** class which internally uses the **Android 
  ViewModel** from components architecture.
- If your Activity extends FlowActivity override the method bellow.
  
  
  **Coordinators should not know about Android Framework classes**, a Coordinator has dependencies 
@@ -37,69 +36,59 @@
  immutable to configuration changes, so every time a dependency is updated, the new instance 
  has to be propagated through the whole Coordinator Tree.
  
- *As an example, a Coordinator that presents UI elements in the screen would have somehow a dependency of
- the current Activity, since an Activity is the owner of the **View Tree** where Views are inserted.
- You could use a Navigator or a ScreenManager that helps with the task of transitioning these Views.
- The way it works is that this Navigator is provided to all those Flows that present Views.
- Now when the device rotates a new Activity instance and **View Tree** are created, invalidating 
- the old Activity which our Navigator has reference to. Since the Flow Tree is persisted across
- rotation conserving all its State/Stage, the old Navigator instance becomes invalid now. Then it
- means that if we want to keep presenting Views into the new Activity we need to update the
- Navigator instance and propagate it all the way down.*
- 
- When the above scenario happens the a callback method on the new Activity instance is called. Make
- sure you return the updated StateContext(*more on that later*).
- ```kotlin
-
-    override fun onProvideStateContext(): StateContext {
-
-        val stateContext = StateContext()
-
-        // Register a Navigator Service
-        stateContext.registerState(NavigatorService(
-                supportFragmentManager,
-                findViewById(R.id.introActivityViewContainer)))
-
-        return stateContext
-    }
-
- ```
- 
- Then the method **onStateContextUpdate(stateContext: StateContext)** will be called in every Flow
- of the Tree in a Depth First Search manner.
- ```kotlin
-
-    override fun onStateContextUpdate(stateContext: StateContext) {
-        val clazz: Class<NavigatorService> = NavigatorService::class.java
-        val navigatorService: NavigatorService? = stateContext.getState(clazz, Constants.DEFAULT_NAVIGATOR_SERVICE_ID)
-        val navigator: Navigator = navigatorService?.getNavigator()
-    }
- ```
- As a handy tool, the **Activity Lifecycle Events** are forwarded to the Flow Tree. This will 
- guide your Flow on what's going on in the Hosting Activity. Very useful since our Flows normally
- deal with **OnActivityResult(...)** and **onBackButtonPressed()**.
- 
- **Yes the back button event is handled at the Flow level, and it's just another input event, no
- more messy navigation logic depending on the FragmentBackStack.**
+ *As an example, a Coordinator that presents UI elements in the screen would have somehow a 
+ dependency of the current Activity, since an Activity is the owner of the **View Tree** where 
+ Views are inserted.
+ You can use a **ScreenCoordinator** to abstract the handling of the Activity FragmentManager 
+ or Root ViewGroup if you don't plan to use Fragments. You can then pass this  ScreenCoordinator 
+ implementation to Children Coordinators and they will have access to the underlying **Activity View 
+ Tree**
  
  
- Another concept in the architecture is the **FlowBindableView,** this is an interface that would be
- implemented by Fragments, Views or ViewGroups. Basically a FlowBindableView contains the **flowId**
- of the Flow that pushed it into the screen/ViewTree. Every time rotation happens the Activity
- View Tree is destroyed and recreated. When destroying the Views unsubscribe from its Flow and save
- the flowId in *onSaveInstanceState()*. Then when the View Tree gets re-created the view uses the
- **flowId** to find its corresponding Flow in the Tree and resubscribe to it.
+ ##### Activity Lifecycle
+ As a handy tool, the **Activity Lifecycle Events** are forwarded through the Coordinator Tree for 
+ free. This process tells a Coordinator what's going on in the Hosting Activity. Very useful if 
+ your Coordinator has to deal with **OnActivityResult(...)** and **onBackButtonPressed()**.
  
- Extending from **FlowFragment** or **FlowDialogFragment** or **FlowViewGroup** will save you time
- implementing it on your own, however, in case you have already another ancestor in your
- Fragment/ViewGroup inheritance you can use **FlowFragmentBinder** or **FlowViewGroupBinder** as
- delegates to do so, in fact the 3 classes a fore mentioned use them.
+ **Yes the back button event is handled at the Coordinator level, and it's just another input event,
+  no more messy navigation logic depending on the FragmentBackStack.**
  
  
- ### On Stage Flow
- The method **Flow.onStart()** indicates the Flow that has entered on stage. It is called after the
- StateContext has been provided so your dependencies are injected at this point, you are ready to go
- and do whatever you want in your Flow.
+ ##### Configuration Changes
+ Every time rotation happens the **Activity View Tree** is destroyed and recreated but the 
+ corresponding **CoordinatorTree** is persisted. After the View Tree is recreated, each View/Fragment 
+ needs to be bound to the corresponding Coordinator that originate it. 
+ This implementation uses an interface called **CoordinatorBindableView,** that is implemented by 
+ Fragments, Views or ViewGroups. Basically a CoordinatorBindableView interface is a setter for a 
+ **coordinatorId** of the original Coordinator that pushed it into the screen/ViewTree.
+ 
+ This **coordinatorId** will be used to fetch the corresponding coordinator from the 
+ Coordinator Tree once the View/Fragment is recreated by the system. 
+ The process normally works like this:
+ 
+ 1. Before pushing a View/Fragment to the View Tree a Coordinator sets its id to the View/Fragment 
+ and pushes it into to the Screen.
+ 
+ 2. As soon as the View/Fragment is resumed it fetches its corresponding Coordinator from the 
+ Coordinators Tree and binds to it. The binding is bidirectional, it means the View/Fragment has a 
+ reference to its Coordinator and the Coordinator has a reference to the View/Fragment as well.
+ 
+ 3. In case of rotation the View/Fragment will be destroyed, at this point the View/Fragment must 
+  unsubscribe from its Coordinator to avoid any resource leakage. 
+  
+ 4. Once the View/Fragment is recreated it will go to **step 2**.
+ 
+ 
+ Extending from **CoordinatorFragment** or **CoordinatorDialogFragment** or 
+ **CoordinatorViewGroup** will save you time implementing it on your own, however, in case you 
+ have already another ancestor in your Fragment/ViewGroup hierarchy you can use 
+ **CoordinatorFragmentBinder** or **CoordinatorViewGroupBinder** as delegates. Check the internal 
+ implementation of **CoordinatorFragment** or **CoordinatorDialogFragment** or 
+ **CoordinatorViewGroup** and use it as reference.
+ 
+ 
+ ##### Coordinator On Stage 
+ The method **Coordinator.onStart()** indicates the Coordinator that it has entered on stage.
  ```kotlin
      override fun start() {
          if (stage == Stage.Idle) {
@@ -108,31 +97,23 @@
          }
      }
  ```
- It is the time to consul a web service, render data into the screen, perform business logic or
- perhaps starting another child Flow, who cares.
- Upon completion your Flow will indicate its parent that it is done, then the parent will decide
- what to do next according to the navigation logic of your app. Communication between Parent and
- Child Flow is up to you, you can choose a Listener interface per Flow or do it in a more reactive
- way where the parent is an Observer of the Child Flow subjects, who cares.
+ It is the time to consult a web service, render data into the screen, perform business logic or
+ perhaps starting another child Coordinator.
+ Upon completion your Coordinator will indicate its parent that it is done, then the parent will 
+ decide what to do next according to the navigation logic of your app. Communication between 
+ Parent and Child Coordinator is up to the developer, you can choose a direct Listener Delegate 
+ pattern or do it in a more reactive way where the parent is an Observer of a Child Coordinator 
+ Observable pipe of events. See the samples.
  
  
- ### State Context
- The State Context is the component you pass traversing the Flow Tree to update Flow dependencies.
- A Flow Tree is parametrized to a StateContext type. Is up to the developer what method to use, the
- provided samples use a Service Provider mechanism inspired by the InheritedWidget model of Flutter
- Framework. 
- The StateContext can hold or be a DaggerObjectGraph that gets passed down and consumers get
- injected from it.
- 
- 
- ### Build times and Share-ability
- A Flow is build and be tested independently, as long as it receives the appropriate dependencies
- it will just work. It should not complain about and Android Framework class or anything like that.
- That's what is important to depend only on abstractions and not on concretions. It should only care
+ ### Build times, testability and Share-ability
+ A Coordinator is build and tested independently, as long as it receives the appropriate dependencies
+ it will just work. It should not complain about and Android Framework class most of the times.
+ That's why is important to depend only on abstractions and not on concretions. It should only care
  about transitioning to the right next Stage like a good **Stage-Machine** does.
- A Flow can also be shared from one project to another, ensure that the foreign StateContext
- provides the right dependencies for the shared Flow and that's it.
- As an example you can re-use a Login Flow across different projects.
+ As an example you can re-use an Authorization Coordinator across different projects.
  
- See the sample apps for most use cases. Start by playing with simple Flows by extending **Flow**
- and then create composite Flows by extending **CompoundFlow**.
+ See the sample apps for most use cases. Start by playing with simple Coordinators by 
+ extending **Coordinator** class and then create composite Coordinators by extending 
+ **CompoundCoordinator** class.
+ 

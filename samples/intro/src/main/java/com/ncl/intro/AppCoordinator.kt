@@ -28,11 +28,15 @@ class AppCoordinator(id: String,
 
     private var stage: Stage = Stage.Idle
     private lateinit var onboardindCoordinator : OnboardingCoordinator
+    private lateinit var authCoordinator: AuthCoordinator
     private val compositeDisposable = CompositeDisposable()
 
 
     override fun start() {
-        if (Stage.Idle == stage) {
+        if (stage == Stage.Idle) {
+            launch(screenCoordinator)
+
+            stage = Stage.Boarding
             launchOnboarding()
         }
     }
@@ -41,8 +45,17 @@ class AppCoordinator(id: String,
         compositeDisposable.clear()
     }
 
+    override fun onBackPressed(): Boolean {
+        val consumed = super.onBackPressed()
+
+        if (!consumed) {
+            stage = Stage.Idle
+        }
+
+        return consumed
+    }
+
     fun launchOnboarding() {
-        stage = Stage.Boarding
 
         onboardindCoordinator = OnboardingCoordinator(Constants.ONBOARDING_COORDINATOR_ID,
                 screenCoordinator)
@@ -56,13 +69,13 @@ class AppCoordinator(id: String,
 
     fun launchLogin() {
 
-        val loginCoordinator = AuthCoordinator(Constants.AUTH_COORDINATOR_ID,
+        authCoordinator = AuthCoordinator(Constants.AUTH_COORDINATOR_ID,
                 screenCoordinator,
                 authApi)
 
-        loginCoordinator.getModelEventPipe().subscribe(loginObserver)
+        authCoordinator.getModelEventPipe().subscribe(loginObserver)
 
-        launch(loginCoordinator)
+        launch(authCoordinator)
     }
 
     fun removeLogin() {
@@ -80,6 +93,7 @@ class AppCoordinator(id: String,
             when (event) {
 
                 is OnboardingCoordinator.Event.Done -> {
+                    stage = Stage.Authorizing
                     launchLogin()
                 }
 
@@ -104,6 +118,7 @@ class AppCoordinator(id: String,
             when (event) {
 
                 is ModelEvent.Cancel -> {
+                    stage = Stage.Boarding
                     removeLogin()
                 }
 

@@ -10,8 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.ncl.intro.IntroActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden">
+        <!-- If not doing re-creation on screen rotation, insert below line in the Activity -->
+        <!-- android:configChanges="orientation|screenSize|keyboardHidden" -->
+
+        <activity android:name="com.ncl.intro.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
