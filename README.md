@@ -10,9 +10,10 @@
   is clear not a responsibility of a Presenter or a ViewModel is some one else job.
   
   The Coordinator architecture is built with the navigation problem in mind. Emphasizing the fact 
-  that Navigation should not be triggered from View events but from Business Logic events. Now lets 
-  talk about implementation.  
+  that Navigation should not be triggered from View events but from Business Logic events.
   
+  
+ ##### Architecture Overview
   Every Coordinator has a set of children Coordinators that enter **on stage** accordingly with the 
   app navigation flow. This nested structure form a **Coordinator Tree** that lives in the 
   underlying **Activity** and start with an initial Coordinator called root Coordinator. 
@@ -42,7 +43,7 @@
  You can use a **ScreenCoordinator** to abstract the handling of the Activity FragmentManager 
  or Root ViewGroup if you don't plan to use Fragments. You can then pass this  ScreenCoordinator 
  implementation to Children Coordinators and they will have access to the underlying **Activity View 
- Tree**
+ Tree**.*
  
  
  ##### Activity Lifecycle
