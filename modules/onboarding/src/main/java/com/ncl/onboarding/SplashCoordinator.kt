@@ -52,7 +52,7 @@ class SplashCoordinator(coordinatorId: String,
     fun startSplashTimeout() {
         stage = Stage.Splash
 
-        Thread(Runnable {
+        Thread {
             try {
 
                 Thread.sleep(2000)
@@ -64,7 +64,7 @@ class SplashCoordinator(coordinatorId: String,
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }
-        }).start()
+        }.start()
 
     }
 

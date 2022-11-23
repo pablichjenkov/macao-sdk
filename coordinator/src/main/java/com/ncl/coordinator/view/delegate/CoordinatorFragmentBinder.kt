@@ -8,8 +8,9 @@ import com.ncl.coordinator.view.CoordinatorBindableView
 
 
 class CoordinatorFragmentBinder<C : Coordinator>(
-        private val fragment: Fragment,
-        private val callback: Callback<C>) : CoordinatorBindableView {
+    private val fragment: Fragment,
+    private val callback: Callback<C>
+) : CoordinatorBindableView {
 
     private lateinit var coordinatorId: String
 
@@ -21,6 +22,7 @@ class CoordinatorFragmentBinder<C : Coordinator>(
     fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
             coordinatorId = savedInstanceState.getString(KEY_COORDINATOR_ID)
+                ?: throw IllegalArgumentException()
         }
     }
 
@@ -28,17 +30,21 @@ class CoordinatorFragmentBinder<C : Coordinator>(
 
         val coordinatorProvider = fragment.activity
                 as? CoordinatorProvider
-                ?: throw RuntimeException("Fragments that implement CoordinatorBindableView must " +
-                        "be used in an Activity that implements CoordinatorProvider interface.")
+            ?: throw RuntimeException(
+                "Fragments that implement CoordinatorBindableView must " +
+                        "be used in an Activity that implements CoordinatorProvider interface."
+            )
 
         coordinatorProvider.getCoordinatorById<C>(coordinatorId)?.let { coordinator ->
 
             callback.onCoordinatorBound(coordinator)
 
-        } ?: throw RuntimeException("Coordinator: " + coordinatorId + " not found in the Coordinators" +
-                "Tree. You missed to assign the coordinatorId associated with this Fragment " +
-                "or attach the Coordinator in a Parent Coordinator that belongs to Activity: " +
-                fragment.activity?.javaClass?.simpleName)
+        } ?: throw RuntimeException(
+            "Coordinator: " + coordinatorId + " not found in the Coordinators" +
+                    "Tree. You missed to assign the coordinatorId associated with this Fragment " +
+                    "or attach the Coordinator in a Parent Coordinator that belongs to Activity: " +
+                    fragment.activity?.javaClass?.simpleName
+        )
     }
 
     fun onSaveInstanceState(outState: Bundle) {

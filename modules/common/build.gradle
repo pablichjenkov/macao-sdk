@@ -11,8 +11,6 @@ android {
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -29,20 +27,15 @@ android {
 
 dependencies {
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     api project(':coordinator')
-
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation "androidx.fragment:fragment-ktx:1.5.4"
 
     // RxJava
     api "io.reactivex.rxjava2:rxjava:$rootProject.rxjavaVersion"
     api "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
 
     // Local JVM Test
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
 
     // Device JVM Test
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

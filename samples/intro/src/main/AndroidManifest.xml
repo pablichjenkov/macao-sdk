@@ -13,7 +13,8 @@
         <!-- If not doing re-creation on screen rotation, insert below line in the Activity -->
         <!-- android:configChanges="orientation|screenSize|keyboardHidden" -->
 
-        <activity android:name="com.ncl.intro.IntroActivity">
+        <activity android:name="com.ncl.intro.IntroActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

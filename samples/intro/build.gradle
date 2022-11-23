@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -24,20 +23,15 @@ android {
 
 dependencies {
 
-    // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation project(':modules:onboarding')
     implementation project(':modules:auth')
 
     // Android Support
-    implementation "androidx.appcompat:appcompat:1.0.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel:2.0.0-rc01"
-    implementation "androidx.constraintlayout:constraintlayout:1.1.3"
+    implementation "androidx.appcompat:appcompat:1.5.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0-alpha03"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

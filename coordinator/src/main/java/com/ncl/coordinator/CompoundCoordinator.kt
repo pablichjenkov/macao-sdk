@@ -66,14 +66,14 @@ abstract class CompoundCoordinator: Coordinator {
 
     }
 
-    override fun <F : Coordinator> depthFirstSearchById(coordinatorId: String): F? {
+    override fun <F :Coordinator> depthFirstSearchById(coordinatorId: String): F? {
 
         if (this.coordinatorId.equals(coordinatorId)) {
             return this as F
         }
 
         return children?.let {
-            var result: Coordinator? = null
+            var result: Coordinator?
 
             for (childFlow in it) {
                 result = childFlow.depthFirstSearchById(coordinatorId)

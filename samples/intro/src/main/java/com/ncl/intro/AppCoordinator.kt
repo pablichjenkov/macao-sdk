@@ -121,8 +121,7 @@ class AppCoordinator(id: String,
                     stage = Stage.Boarding
                     removeLogin()
                 }
-
-
+                is ModelEvent.Complete -> {}
             }
         }
 

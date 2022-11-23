@@ -12,9 +12,9 @@ abstract class Coordinator(val coordinatorId: String) {
 
     // region: Coordinator Tree Events
 
-    open fun <F : Coordinator> depthFirstSearchById(subFlowId: String): F? {
+    open fun <F : Coordinator> depthFirstSearchById(coordinatorId: String): F? {
 
-        if (this.coordinatorId.equals(subFlowId)) {
+        if (this.coordinatorId.equals(coordinatorId)) {
             return this as F
         }
 

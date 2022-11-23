@@ -2,10 +2,11 @@ package com.ncl.coordinator
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
 
 
-abstract class CoordinatorActivity : AppCompatActivity(), CoordinatorProvider {
+abstract class CoordinatorActivity : ComponentActivity(), CoordinatorProvider {
 
     private var rotationPersister: RotationPersister? = null
     private var callCoordinatorStartWhenOnResume = false
@@ -14,15 +15,15 @@ abstract class CoordinatorActivity : AppCompatActivity(), CoordinatorProvider {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
         rotationPersister = RotationPersister(this@CoordinatorActivity)
-
         rootCoordinator = rotationPersister?.getRootCoordinator()
 
         if (rootCoordinator == null) {
             callCoordinatorStartWhenOnResume = true
             rootCoordinator = provideRootCoordinator()
 
-            rootCoordinator?.let{
+            rootCoordinator?.let {
                 rotationPersister?.setRootCoordinator(it)
             }
 
@@ -61,12 +62,15 @@ abstract class CoordinatorActivity : AppCompatActivity(), CoordinatorProvider {
         super.onDestroy()
     }
 
-    override fun onBackPressed() {
-        val backConsumed = rootCoordinator?.onBackPressed()
-        if (backConsumed == false) {
-            super.onBackPressed()
+    private val onBackPressedCallback: OnBackPressedCallback =
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val backPressedConsumed = rootCoordinator?.onBackPressed()
+                if (backPressedConsumed == false) {
+                    finish()
+                }
+            }
         }
-    }
 
     override fun <F : Coordinator> getCoordinatorById(coordinatorId: String): F? {
         return rootCoordinator?.depthFirstSearchById(coordinatorId)

@@ -29,7 +29,11 @@ abstract class CoordinatorViewGroup<C : Coordinator> : ViewGroup, CoordinatorBin
         init()
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         init()
     }
 
@@ -44,7 +48,7 @@ abstract class CoordinatorViewGroup<C : Coordinator> : ViewGroup, CoordinatorBin
 
     override fun onRestoreInstanceState(state: Parcelable) {
         if (state is CoordinatorViewGroupSavedState) {
-            coordinatorViewGroupBinder!!.onRestoreInstanceState(state)
+            coordinatorViewGroupBinder?.onRestoreInstanceState(state)
             super.onRestoreInstanceState(state.superState)
         } else {
             super.onRestoreInstanceState(state)
@@ -52,11 +56,12 @@ abstract class CoordinatorViewGroup<C : Coordinator> : ViewGroup, CoordinatorBin
     }
 
     override fun onSaveInstanceState(): Parcelable? {
-        val superParcelable = super.onSaveInstanceState()
-        val viewState = CoordinatorViewGroupSavedState(superParcelable)
-        coordinatorViewGroupBinder?.onSaveInstanceState(viewState)
+        return super.onSaveInstanceState()?.let { parcelable ->
+            CoordinatorViewGroupSavedState(parcelable).also { viewState ->
+                coordinatorViewGroupBinder?.onSaveInstanceState(viewState)
+            }
+        }
 
-        return viewState
     }
 
 }

@@ -3,6 +3,7 @@ package com.ncl.intro
 import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.ncl.common.Constants
 import com.ncl.common.domain.auth.AuthApiMock
@@ -22,6 +23,7 @@ class IntroActivity : AppCompatActivity(), CoordinatorProvider {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
         setContentView(R.layout.activity_intro)
 
         rotationPersister = RotationPersister(this@IntroActivity)
@@ -85,6 +87,16 @@ class IntroActivity : AppCompatActivity(), CoordinatorProvider {
             super.onBackPressed()
         }
     }
+
+    private val onBackPressedCallback: OnBackPressedCallback =
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val backPressedConsumed = appCoordinator.onBackPressed()
+                if (!backPressedConsumed) {
+                    finish()
+                }
+            }
+        }
 
     // endregion
 

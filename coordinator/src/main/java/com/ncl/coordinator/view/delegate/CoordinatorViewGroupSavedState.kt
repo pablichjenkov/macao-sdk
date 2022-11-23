@@ -13,7 +13,7 @@ class CoordinatorViewGroupSavedState : View.BaseSavedState {
     constructor(superState: Parcelable) : super(superState) {}
 
     private constructor(input: Parcel) : super(input) {
-        coordinatorId = input.readString()
+        coordinatorId = input.readString() ?: throw IllegalArgumentException()
     }
 
     override fun writeToParcel(out: Parcel, flags: Int) {
@@ -22,17 +22,17 @@ class CoordinatorViewGroupSavedState : View.BaseSavedState {
     }
 
     companion object {
+        @JvmField
+        val CREATOR: Parcelable.Creator<CoordinatorViewGroupSavedState> =
+            object : Parcelable.Creator<CoordinatorViewGroupSavedState> {
+                override fun createFromParcel(input: Parcel): CoordinatorViewGroupSavedState {
+                    return CoordinatorViewGroupSavedState(input)
+                }
 
-        val CREATOR: Parcelable.Creator<CoordinatorViewGroupSavedState> = object : Parcelable.Creator<CoordinatorViewGroupSavedState> {
-
-            override fun createFromParcel(input: Parcel): CoordinatorViewGroupSavedState {
-                return CoordinatorViewGroupSavedState(input)
+                override fun newArray(size: Int): Array<CoordinatorViewGroupSavedState?> {
+                    return arrayOfNulls(size)
+                }
             }
-
-            override fun newArray(size: Int): Array<CoordinatorViewGroupSavedState?> {
-                return arrayOfNulls(size)
-            }
-        }
     }
 
 }

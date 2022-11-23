@@ -1,17 +1,19 @@
 package com.ncl.coordinator
 
-import androidx.fragment.app.FragmentActivity
+import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
 
-class RotationPersister constructor(fragmentActivity: FragmentActivity) {
+class RotationPersister constructor(componentActivity: ComponentActivity) {
 
     private val coordinatorStore: CoordinatorStore
 
     init {
-        val viewModelProvider = ViewModelProvider(fragmentActivity, ViewModelProvider.NewInstanceFactory())
-        coordinatorStore = viewModelProvider.get(COORDINATOR_STORE_VIEW_MODEL_ID, CoordinatorStore::class.java)
+        val viewModelProvider =
+            ViewModelProvider(componentActivity, ViewModelProvider.NewInstanceFactory())
+        coordinatorStore =
+            viewModelProvider.get(COORDINATOR_STORE_VIEW_MODEL_ID, CoordinatorStore::class.java)
     }
 
     fun <C : Coordinator> getRootCoordinator(): C? {
