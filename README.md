@@ -3,7 +3,7 @@
 # @Deprecated
 ##### Modern Android has moved to Compose UI, although Compose UI could be mixed with traditional ViewGroups and Fragments UI, I prefer 
 ##### to have a separate library for just Compose. For a similar architecture pattern using State Management + Compose UI check bellow link:
-[UI-State Management + Compose](https://github.com/pablichjenkov/StateTree)
+[Separate UI-State Management + Compose](https://github.com/pablichjenkov/state-tree)
 
  ## Coordinators
   The Coordinators Pattern aims to resolve a common and hard to scale problems in an application 
