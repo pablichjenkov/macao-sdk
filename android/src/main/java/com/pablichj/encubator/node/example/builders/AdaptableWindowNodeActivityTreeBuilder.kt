@@ -5,8 +5,12 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
-import com.pablichj.encubator.node.*
+import com.pablichj.encubator.node.BackPressedCallback
+import com.pablichj.encubator.node.IBackPressDispatcher
+import com.pablichj.encubator.node.NavigatorNodeItem
+import com.pablichj.encubator.node.NodeContext
 import com.pablichj.encubator.node.adaptable.AdaptableWindowNode
+import com.pablichj.encubator.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.encubator.node.navbar.NavBarNode
 import com.pablichj.encubator.node.nodes.OnboardingNode
 
@@ -56,7 +60,7 @@ object AdaptableWindowNodeActivityTreeBuilder {
             NavigatorNodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(NavBarNode.context, "Orders / Current", Icons.Filled.Home){},
+                node = OnboardingNode(NavBarNode.context, "Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
             NavigatorNodeItem(
@@ -79,19 +83,27 @@ object AdaptableWindowNodeActivityTreeBuilder {
             NavigatorNodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(TemporalEmptyContext, "Home", Icons.Filled.Home) {}.apply {id = 1},
+                node = OnboardingNode(
+                    TemporalEmptyContext,
+                    "Home",
+                    Icons.Filled.Home
+                ) {}.apply { id = 1 },
                 selected = false
             ),
             NavigatorNodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
-                node = NavBarNode.apply{id = 2},
+                node = NavBarNode.apply { id = 2 },
                 selected = false
             ),
             NavigatorNodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node = OnboardingNode(TemporalEmptyContext, "Settings", Icons.Filled.Email) {}.apply{id = 3},
+                node = OnboardingNode(
+                    TemporalEmptyContext,
+                    "Settings",
+                    Icons.Filled.Email
+                ) {}.apply { id = 3 },
                 selected = false
             )
         )

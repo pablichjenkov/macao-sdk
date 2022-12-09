@@ -6,9 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
-import androidx.window.layout.WindowMetricsCalculator
-import com.pablichj.encubator.node.nodes.IWindowSizeInfoProvider
-import com.pablichj.encubator.node.nodes.WindowSizeInfo
+import com.pablichj.encubator.node.adaptable.IWindowSizeInfoProvider
+import com.pablichj.encubator.node.adaptable.WindowSizeInfo
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 class AndroidWindowSizeInfoProvider(
