@@ -15,6 +15,6 @@ pluginManagement {
     }
 }
 
-rootProject.name = "state-tree"
+rootProject.name = "uistate3"
 
 include(":android", ":desktop", ":common", ":node")
