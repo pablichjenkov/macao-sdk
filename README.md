@@ -1,126 +1,164 @@
+<H3>The Library</H3>
+
+Yet another State/Navigation management option in ***Jetpack/Jetbrains Compose***. The original concept is based on the **Coordinators** UI pattern (popular within iOS folks) and other state management libraries popular in Android. The motive behind the library is to achieve navigations like **Instagram** or **Youtube** Apps without the need of going through the pain of *saveState/restoreState* plus nesting **NavHosts** in the Jetpack Navigation world. It allows for easy nesting of navigation **nodes**, no need to worry about losing the State because a popped out **NavBackStackEntry** or a Composable left out in a recomposition. The state nodes live isolated from the *Composables* recomposition mechanics.
+
+<H4>Show me some code</H4>
+
+```kotlin
+class DrawerActivity : ComponentActivity() {
+
+    private val StateTree: Node = DrawerTreeBuilder.build(
+        backPressDispatcher = AndroidBackPressDispatcher(this@DrawerActivity),
+        backPressedCallback = object : BackPressedCallback() {
+            override fun onBackPressed() {
+                finish()
+            }
+        }
+    )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            AppTheme {
+                StateTree.Content(Modifier)
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        StateTree.start()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        StateTree.stop()
+    }
+
+}
+```
+
+Above code will produce the following video in a Macbook Pro:
+
+https://user-images.githubusercontent.com/5303301/205948739-af784cc9-acd7-4375-9baa-5ab470e5f046.mov
+
+Same App but in a mobile device:
+
+https://user-images.githubusercontent.com/5303301/205950623-1944bd2c-52c6-4bda-80a0-a7408055e1e1.mp4
 
 
-# @Deprecated
-##### Modern Android has moved to Compose UI, although Compose UI could be mixed with traditional ViewGroups and Fragments UI, I prefer 
-##### to have a separate library for just Compose. For a similar architecture pattern using State Management + Compose UI check bellow link:
-[State Management free of UI + Compose](https://github.com/pablichjenkov/state-tree)
+<H4>Navigation State Preserved</H4>
 
- ## Coordinators
-  The Coordinators Pattern aims to resolve a common and hard to scale problems in an application 
-  --**App Navigation**--.
-  
-  Popular **MVC** derived architectures resolve the problem of separating View from Model but 
-  they don't directly resolve the **Navigation** issue. In architectures like **MVP** or **MVVM** 
-  we end up writting Navigation logic in our Presenters or ViewModels, this practice makes harder 
-  to reuse our presenters because they need to know where they come from and where to go next. This 
-  is clear not a responsibility of a Presenter or a ViewModel is some one else job.
-  
-  The Coordinator architecture is built with the navigation problem in mind. Emphasizing the fact 
-  that Navigation should not be triggered from View events but from Business Logic events.
-  
-  
- ##### Architecture Overview
-  Every Coordinator has a set of children Coordinators that enter **on stage** accordingly with the 
-  app navigation flow. This nested structure form a **Coordinator Tree** that lives in the 
-  underlying **Activity** and start with an initial Coordinator called root Coordinator. 
-  Coordinators enter **on stage** once their **start()** method gets called. While **on stage** a 
-  Coordinator listen to input events and react accordingly. A good Coordinator implementation has 
-  an internal **State Machine** that handles request from a message queue and deliver responses to 
-  such request through output pipes. Ideally they should work similar to the Actor model, the idea 
-  is that a Coordinator behaves like an Actor.
- 
- ### Coordinator Lifecycle
- A Coordinator Tree is unique per Activity and the first node is called the **Root Coordinator**. 
- This root Coordinator will be created when the hosting Activity is created and will persist 
- configuration changes using the **OrientationPersister** class which internally uses the **Android 
- ViewModel** from components architecture.
- 
- 
- **Coordinators should not know about Android Framework classes**, a Coordinator has dependencies 
- and it must be provided by its parent Coordinator before calling **start()**. Coordinators are 
- agnostic to any method of injecting the dependencies into them. Any technique like *Dagger*, 
- *Service Provider* or *State Lifting* can be used, just need to consider that Coordinators are 
- immutable to configuration changes, so every time a dependency is updated, the new instance 
- has to be propagated through the whole Coordinator Tree.
- 
- *As an example, a Coordinator that presents UI elements in the screen would have somehow a 
- dependency of the current Activity, since an Activity is the owner of the **View Tree** where 
- Views are inserted.
- You can use a **ScreenCoordinator** to abstract the handling of the Activity FragmentManager 
- or Root ViewGroup if you don't plan to use Fragments. You can then pass this  ScreenCoordinator 
- implementation to Children Coordinators and they will have access to the underlying **Activity View 
- Tree**.*
- 
- 
- ##### Activity Lifecycle
- As a handy tool, the **Activity Lifecycle Events** are forwarded through the Coordinator Tree for 
- free. This process tells a Coordinator what's going on in the Hosting Activity. Very useful if 
- your Coordinator has to deal with **OnActivityResult(...)** and **onBackButtonPressed()**.
- 
- **Yes the back button event is handled at the Coordinator level, and it's just another input event,
-  no more messy navigation logic depending on the FragmentBackStack.**
- 
- 
- ##### Configuration Changes
- Every time rotation happens the **Activity View Tree** is destroyed and recreated but the 
- corresponding **CoordinatorTree** is persisted. After the View Tree is recreated, each View/Fragment 
- needs to be bound to the corresponding Coordinator that originate it. 
- This implementation uses an interface called **CoordinatorBindableView,** that is implemented by 
- Fragments, Views or ViewGroups. Basically a CoordinatorBindableView interface is a setter for a 
- **coordinatorId** of the original Coordinator that pushed it into the screen/ViewTree.
- 
- This **coordinatorId** will be used to fetch the corresponding coordinator from the 
- Coordinator Tree once the View/Fragment is recreated by the system. 
- The process normally works like this:
- 
- 1. Before pushing a View/Fragment to the View Tree a Coordinator sets its id to the View/Fragment 
- and pushes it into to the Screen.
- 
- 2. As soon as the View/Fragment is resumed it fetches its corresponding Coordinator from the 
- Coordinators Tree and binds to it. The binding is bidirectional, it means the View/Fragment has a 
- reference to its Coordinator and the Coordinator has a reference to the View/Fragment as well.
- 
- 3. In case of rotation the View/Fragment will be destroyed, at this point the View/Fragment must 
-  unsubscribe from its Coordinator to avoid any resource leakage. 
-  
- 4. Once the View/Fragment is recreated it will go to **step 2**.
- 
- 
- Extending from **CoordinatorFragment** or **CoordinatorDialogFragment** or 
- **CoordinatorViewGroup** will save you time implementing it on your own, however, in case you 
- have already another ancestor in your Fragment/ViewGroup hierarchy you can use 
- **CoordinatorFragmentBinder** or **CoordinatorViewGroupBinder** as delegates. Check the internal 
- implementation of **CoordinatorFragment** or **CoordinatorDialogFragment** or 
- **CoordinatorViewGroup** and use it as reference.
- 
- 
- ##### Coordinator On Stage 
- The method **Coordinator.onStart()** indicates the Coordinator that it has entered on stage.
- ```kotlin
-     override fun start() {
-         if (stage == Stage.Idle) {
-             stage = Stage.LoginInternal
-             showLoginScreen()
-         }
-     }
- ```
- It is the time to consult a web service, render data into the screen, perform business logic or
- perhaps starting another child Coordinator.
- Upon completion your Coordinator will indicate its parent that it is done, then the parent will 
- decide what to do next according to the navigation logic of your app. Communication between 
- Parent and Child Coordinator is up to the developer, you can choose a direct Listener Delegate 
- pattern or do it in a more reactive way where the parent is an Observer of a Child Coordinator 
- Observable pipe of events. See the samples.
- 
- 
- ### Build times, testability and Share-ability
- A Coordinator is build and tested independently, as long as it receives the appropriate dependencies
- it will just work. It should not complain about and Android Framework class most of the times.
- That's why is important to depend only on abstractions and not on concretions. It should only care
- about transitioning to the right next Stage like a good **Stage-Machine** does.
- As an example you can re-use an Authorization Coordinator across different projects.
- 
- See the sample apps for most use cases. Start by playing with simple Coordinators by 
- extending **Coordinator** class and then create composite Coordinators by extending 
- **CompoundCoordinator** class.
- 
+Notice how **Navigation State** is preserved in each screen as the user move through different parts of the App. They can also have a **Back Button Press** party and the original navigation path is preserved. No forced jumps to graph startDestinations or sort of things.
+
+<H4>Navigation Nodes Nesting</H4>
+
+In the case of large screens you can have multiple Navigation nodes in a split screen or you could nest them within another Navigation node. In the next video, one of the screens is splitted in two sections each with a navivation drawer on its own. Observe than switching pages in the outer NavigationDrawer doesn't affect the state of those inner NavigationDrawers. This is possible because each parent node contains its own navigation state and is not affected by being switched/swapped by a sibling node.  
+
+https://user-images.githubusercontent.com/5303301/205610888-7dd43864-50b9-4905-ac74-9efd421d11f1.mov
+
+or in the device, although is not to practical in this case.
+
+https://user-images.githubusercontent.com/5303301/205610976-ce7e3006-bbdf-4f42-941c-de784714b6cd.mp4
+
+<H4>Adaptable UI</H4>
+
+A NavigatorNode can be replaced with another NavigatorNode at any point in time while the App is running. All you have to do is transfer children nodes from one NavigatorNode to the other and attach the NavigatorNode to the parent Node. Automatically the tree will refresh its content. See AdaptableWindowNode for an example.
+
+https://user-images.githubusercontent.com/5303301/206708221-a8d13577-f38d-4b07-bcbf-f66cbca26d46.mov
+
+The corresponding scenario in a phone
+
+https://user-images.githubusercontent.com/5303301/206601512-84ff3d70-28e8-4cb3-bbf6-67f134f6fe08.mov
+
+Above videos show how the App switches between a **DrawerNode** and a **PanelNode**, but it could be any Node that implements NavigatorNode interface.
+Eg: NavBarNode, PagerNode, YourCustomNavigatorNode etc
+
+
+<H3>Library Concepts</H3>
+
+The pattern consists of designing your App navigation as if it was a Tree data structure. Users can visit the different nodes of the tree at any desired time. When the user modifies a node and visit a different node, the node state remains as the user left it. The next time the user comes back to that node, it will have the same state when it was last visited.
+
+<H4>Node</H4>
+
+A **Node** is the class used to build the State Tree.
+
+Each ***Node*** is in charge of hadling **back press** events as well as Activity Lifecycle events like start and stop.
+Also each ***Node*** is responsible for propagating Start/Stop events to its children nodes.
+In the case of a back pressed events, the top most node will have the opportunity to first process the event. In case no processing is needed, it has the responsability to pass the event up to its parent node. Then the parent do the same until the event reaches the root node.
+
+An example of a ***Node*** implementation that handles its children as a back stack is the ***BackStackNode***.
+It will have only one Active child at any time and this child will ocuppy the entire Viewport assigned to the ***BackStackNode***.
+The pattern allows to build any type of nested navigation within the tree. It is a matter of just placing a ***Node***
+implementation in the tree and handle the children nodes whatever the way you want.
+
+The ***Node*** abstract class produces a Composable content representing its State every time recomposition happens.
+
+```
+    @Composable
+    abstract fun Content(modifier: Modifier)
+```
+
+The state tree is not affected by recomposition or lifecycle changes. It can live in the ActivityRetained scope or in the Application scope and must survive configuration changes. It is up to the user of the State Tree where to scope it. When the root Composable is recreated in case of screen size, layout or rotation changes. The Tree will traverse all the children and will recreate the previous Composable output before the configuration changes.
+
+<H4>NodeContext</H4>
+
+**NodeContext** is used to share fundamental elements within the nodes in the state tree, similar to **CompositionLocal** in the Composable tree. The NodeContext is used to dispatch the BackPressed event from child node to parent node. It also can be queried to fetch the closest parent node handling navigation, things of that nature.
+This class should not be used to share data between the nodes, passing data implicitly within the tree is discouraged. Implicit data passing decreases portability of the node, it limits to use the **Node** in another application that might not provide the implicit state it depends on. To pass data to *Nodes* use the constructor, is the better option for testability as well.
+
+
+<H3>Build the Tree</H3>
+Creating a tree of nodes is simple. Start by the root node and append child nodes to it. Some nodes may have already a predifined child types that it knows how to handle. Bellow is an example of how to build a bottom bar navigator node.
+Check the other examples.
+
+```kotlin
+        val NavBarNode = NavBarNode(rootParentNodeContext)
+
+        val PagerNode = PagerNode(NavBarNode.context)
+
+        val pagerNavItems = mutableListOf(
+            NavigationNodeItem(
+                label = "Account",
+                icon = Icons.Filled.Home,
+                node = OnboardingNode(PagerNode.context, "Settings / Account", Icons.Filled.Home) {},
+                selected = false
+            ),
+            NavigationNodeItem(
+                label = "Profile",
+                icon = Icons.Filled.Edit,
+                node = OnboardingNode(PagerNode.context, "Settings / Profile", Icons.Filled.Edit) {},
+                selected = false
+            ),
+            NavigationNodeItem(
+                label = "About Us",
+                icon = Icons.Filled.Email,
+                node = OnboardingNode(PagerNode.context, "Settings / About Us", Icons.Filled.Email) {},
+                selected = false
+            )
+        )
+
+        val navbarNavItems = mutableListOf(
+            NavigationNodeItem(
+                label = "Home",
+                icon = Icons.Filled.Home,
+                node = OnboardingNode(NavBarNode.context, "Home", Icons.Filled.Home) {},
+                selected = false
+            ),
+            NavigationNodeItem(
+                label = "Orders",
+                icon = Icons.Filled.Edit,
+                node = OnboardingNode(NavBarNode.context, "Orders", Icons.Filled.Edit) {},
+                selected = false
+            ),
+            NavigationNodeItem(
+                label = "Settings",
+                icon = Icons.Filled.Email,
+                node =  PagerNode.also { it.setNavItems(pagerNavItems, 0) },
+                selected = false
+            )
+        )
+
+        return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }
+```
+
+This project has no license or owner, you can copy and paste it, use it or reuse it, modify, alter or do whatever you want with it. I just would like some feedback to be able to improve it since I am planning to use it as navigation/ui-state core in my personal ui projects.

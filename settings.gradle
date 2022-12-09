@@ -1,5 +1,0 @@
-include ':samples:intro',
-        ':modules:onboarding',
-        ':modules:auth',
-        ':modules:common',
-        ':coordinator'
