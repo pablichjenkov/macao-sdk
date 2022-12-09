@@ -1,0 +1,23 @@
+.gradle
+local.properties
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### IntelliJ IDEA ###
+.idea
+.idea/modules.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/libraries/
+*.iws
+*.iml
+*.ipr
+*.hprof
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### Mac OS ###
+.DS_Store
