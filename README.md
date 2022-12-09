@@ -1,6 +1,8 @@
 <H3>The Library</H3>
 
-Yet another State/Navigation management option in ***Jetpack/Jetbrains Compose***. The original concept is based on the **Coordinators** UI pattern (popular within iOS folks) and other state management libraries popular in Android. The motive behind the library is to achieve navigations like **Instagram** or **Youtube** Apps without the need of going through the pain of *saveState/restoreState* plus nesting **NavHosts** in the Jetpack Navigation world. It allows for easy nesting of navigation **nodes**, no need to worry about losing the State because a popped out **NavBackStackEntry** or a Composable left out in a recomposition. The state nodes live isolated from the *Composables* recomposition mechanics.
+Yet another State/Navigation management option in ***Jetpack/Jetbrains Compose***. The original concept is based on the **Coordinators** UI pattern (popular within iOS folks) and also considering the latest trends in Android UI state management. The motive behind the library is to create a tool that allows to build Apps quickly, with a variaty of navigation options and seamless for scalability.
+
+The library separates UI state from any of the underlying platforms, could be Desktop mobile doesn't matter. The library itself contain a mechanism for navigation but it can be integrated with other navigation solutions out there.
 
 <H4>Show me some code</H4>
 
