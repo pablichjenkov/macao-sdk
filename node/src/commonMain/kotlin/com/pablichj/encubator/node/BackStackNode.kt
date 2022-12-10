@@ -35,14 +35,13 @@ open class BackStackNode<T : Node>(parentContext: NodeContext) : Node(parentCont
         }
 
         val currentNode = stack.peek()
+
         if (currentNode == node) {
-            updateScreen()
             return
         }
 
         currentNode.stop()
         stack.push(node).also { node.start() }
-
         updateScreen()
     }
 
@@ -127,6 +126,7 @@ open class BackStackNode<T : Node>(parentContext: NodeContext) : Node(parentCont
     private fun updateScreen() {
         if (stack.size > 0) {
             // TODO: Look for another method to trigger the screen update, try the node reference itself
+            // Perhaps set the ActiveNode ot stack top most node, as ReactiveState
             if (screenUpdateCounter == Int.MAX_VALUE) {
                 screenUpdateCounter = 0
             } else {

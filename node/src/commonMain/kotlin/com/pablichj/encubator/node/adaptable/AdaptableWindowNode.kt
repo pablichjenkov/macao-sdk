@@ -90,7 +90,7 @@ class AdaptableWindowNode(
         adoptingNavigatorNode: NavigatorNode?
     ): NavigatorNode? {
 
-        if (donorNavigatorNode == adoptingNavigatorNode) {
+        if (adoptingNavigatorNode == donorNavigatorNode) {
             return adoptingNavigatorNode
         }
 

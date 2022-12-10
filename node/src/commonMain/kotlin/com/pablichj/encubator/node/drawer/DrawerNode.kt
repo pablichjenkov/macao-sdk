@@ -94,16 +94,21 @@ class DrawerNode(
     }
 
     override fun setNavItems(
-        navItems: MutableList<NavigatorNodeItem>,
+        navItemsList: MutableList<NavigatorNodeItem>,
         startingIndex: Int
     ) {
         this.startingIndex = startingIndex
         this.selectedIndex = startingIndex
-        this.navItems = navItems
+
+        navItems = navItemsList.map { it }.toMutableList()
 
         this.childNodes = navItems.map { navItem ->
-            navItem.node.context.updateParent(context)
-            navItem.node
+            navItem.node.also {
+                it.context.updateParent(context)
+                if (it.context.lifecycleState == LifecycleState.Started) {
+                    activeNode = it
+                }
+            }
         }.toMutableList()
 
         navDrawerState.navItems = navItems
@@ -115,7 +120,7 @@ class DrawerNode(
     }
 
     override fun getNavItems(): MutableList<NavigatorNodeItem> {
-        return this.navItems
+        return navItems
     }
 
     override fun addNavItem(navItem: NavigatorNodeItem, index: Int) {

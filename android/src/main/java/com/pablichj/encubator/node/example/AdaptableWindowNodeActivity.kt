@@ -31,16 +31,6 @@ class AdaptableWindowNodeActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        with(AdaptableWindowNode) {
-            setNavItems(
-                AdaptableWindowNodeActivityTreeBuilder.getOrCreateDetachedNavItems(), 0
-            )
-            setCompactNavigator(DrawerNode(context))
-            setMediumNavigator(NavBarNode(context))
-            setExpandedNavigator(PanelNode(context))
-        }
-
         setContent {
             AppTheme {
                 AdaptableWindowNode.Content(Modifier)

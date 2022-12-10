@@ -11,8 +11,10 @@ import com.pablichj.encubator.node.NavigatorNodeItem
 import com.pablichj.encubator.node.NodeContext
 import com.pablichj.encubator.node.adaptable.AdaptableWindowNode
 import com.pablichj.encubator.node.adaptable.IWindowSizeInfoProvider
+import com.pablichj.encubator.node.drawer.DrawerNode
 import com.pablichj.encubator.node.navbar.NavBarNode
 import com.pablichj.encubator.node.nodes.OnboardingNode
+import com.pablichj.encubator.node.panel.PanelNode
 
 object AdaptableWindowNodeActivityTreeBuilder {
 
@@ -41,6 +43,12 @@ object AdaptableWindowNodeActivityTreeBuilder {
             rootParentNodeContext,
             windowSizeInfoProvider
         ).also {
+            it.setNavItems(
+                getOrCreateDetachedNavItems(), 0
+            )
+            it.setCompactNavigator(DrawerNode(it.context))
+            it.setMediumNavigator(NavBarNode(it.context))
+            it.setExpandedNavigator(PanelNode(it.context))
             AdaptableWindowNode = it
         }
 

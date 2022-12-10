@@ -71,15 +71,23 @@ class PagerNode(
     }
 
     override fun setNavItems(
-        navItems: MutableList<NavigatorNodeItem>,
+        navItemsList: MutableList<NavigatorNodeItem>,
         startingIndex: Int
     ) {
         this.startingIndex = startingIndex
-        this.navItems = navItems
-        this.childNodes = navItems.map { navItem ->
-            navItem.node.context.updateParent(context)
-            navItem.node
+        this.selectedIndex = startingIndex
+
+        navItems = navItemsList.map { it }.toMutableList()
+
+        childNodes = navItems.map { navItem ->
+            navItem.node.also{
+                it.context.updateParent(context)
+                if (it.context.lifecycleState == LifecycleState.Started) {
+                    activeNode = it
+                }
+            }
         }.toMutableList()
+
         updateScreen()
     }
 
@@ -105,6 +113,7 @@ class PagerNode(
     // endregion
 
     private fun updateScreen() {
+        // Refresh the PagerState instance to trigger an update
         pagerState = PagerState(startingIndex)
     }
 

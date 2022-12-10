@@ -12,7 +12,7 @@ interface NavigatorNode {
     fun getSelectedNavItemIndex(): Int
 
     fun setNavItems(
-        navItems: MutableList<NavigatorNodeItem>,
+        navItemsList: MutableList<NavigatorNodeItem>,
         startingIndex: Int
     )
 
@@ -26,18 +26,16 @@ interface NavigatorNode {
 
     fun transferFrom(donorNavigatorNode: NavigatorNode) {
         val donorStackCopy = donorNavigatorNode.stack
-        val lastNodeToCopyIdx = donorStackCopy.size
+        val lastNodeToCopyIdx = donorStackCopy.size - 1
         stack.clear()
-        for (idx in 0 until lastNodeToCopyIdx) { // last element exclusive
+        for (idx in 0 .. lastNodeToCopyIdx) {
             stack.add(idx, donorStackCopy[idx])
         }
 
         setNavItems(
-            navItems = donorNavigatorNode.getNavItems(),
+            navItemsList = donorNavigatorNode.getNavItems(),
             startingIndex = donorNavigatorNode.getSelectedNavItemIndex()
         )
-
-        //donorNavigatorNode.clearNavItems()// release the old navigator references to the navItems
     }
 
 }

@@ -73,16 +73,21 @@ class PanelNode(
     }
 
     override fun setNavItems(
-        navItems: MutableList<NavigatorNodeItem>,
+        navItemsList: MutableList<NavigatorNodeItem>,
         startingIndex: Int
     ) {
         this.startingIndex = startingIndex
         this.selectedIndex = startingIndex
-        this.navItems = navItems
 
-        this.childNodes = navItems.map { navItem ->
-            navItem.node.context.updateParent(context)
-            navItem.node
+        navItems = navItemsList.map { it }.toMutableList()
+
+        childNodes = navItems.map { navItem ->
+            navItem.node.also {
+                it.context.updateParent(context)
+                if (it.context.lifecycleState == LifecycleState.Started) {
+                    activeNode = it
+                }
+            }
         }.toMutableList()
 
         panelState.navItems = navItems
@@ -94,7 +99,7 @@ class PanelNode(
     }
 
     override fun getNavItems(): MutableList<NavigatorNodeItem> {
-        return this.navItems
+        return navItems
     }
 
     override fun addNavItem(navItem: NavigatorNodeItem, index: Int) {
