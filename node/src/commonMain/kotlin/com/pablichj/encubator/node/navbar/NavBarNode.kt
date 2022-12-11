@@ -49,7 +49,7 @@ class NavBarNode(
         activeNodeState.value?.stop()
     }
 
-    override fun onStackPushSuccess(oldTop: Node?, newTop: Node) {
+    override fun onStackPush(oldTop: Node?, newTop: Node) {
         println("NavBarNode::onStackPop(), oldTop: ${oldTop?.javaClass?.simpleName}," +
                 " newTop: ${newTop.javaClass.simpleName}")
 
@@ -60,7 +60,7 @@ class NavBarNode(
         updateSelectedNavItem(newTop)
     }
 
-    override fun onStackPopSuccess(oldTop: Node, newTop: Node?) {
+    override fun onStackPop(oldTop: Node, newTop: Node?) {
         println("NavBarNode::onStackPop(), oldTop: ${oldTop.javaClass.simpleName}," +
                 " newTop: ${newTop?.javaClass?.simpleName}")
 

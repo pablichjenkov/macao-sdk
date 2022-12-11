@@ -51,7 +51,7 @@ class PanelNode(
 
     // region BackStackNode override
 
-    override fun onStackPushSuccess(oldTop: Node?, newTop: Node) {
+    override fun onStackPush(oldTop: Node?, newTop: Node) {
         println("PanelNode::onStackPop(), oldTop: ${oldTop?.javaClass?.simpleName}," +
                 " newTop: ${newTop.javaClass.simpleName}")
 
@@ -62,7 +62,7 @@ class PanelNode(
         updateSelectedNavItem(newTop)
     }
 
-    override fun onStackPopSuccess(oldTop: Node, newTop: Node?) {
+    override fun onStackPop(oldTop: Node, newTop: Node?) {
         println("PanelNode::onStackPop(), oldTop: ${oldTop.javaClass.simpleName}," +
                 " newTop: ${newTop?.javaClass?.simpleName}")
 

@@ -78,7 +78,7 @@ class OnboardingNode(
         activeNodeState.value?.stop()
     }
 
-    override fun onStackPushSuccess(oldTop: OnboardingStepNode?, newTop: OnboardingStepNode) {
+    override fun onStackPush(oldTop: OnboardingStepNode?, newTop: OnboardingStepNode) {
         activeNodeState.value = newTop
         newTop.start()
         oldTop?.stop()
@@ -90,7 +90,7 @@ class OnboardingNode(
         }
     }
 
-    override fun onStackPopSuccess(oldTop: OnboardingStepNode, newTop: OnboardingStepNode?) {
+    override fun onStackPop(oldTop: OnboardingStepNode, newTop: OnboardingStepNode?) {
         activeNodeState.value = newTop
         newTop?.start()
         oldTop.stop()

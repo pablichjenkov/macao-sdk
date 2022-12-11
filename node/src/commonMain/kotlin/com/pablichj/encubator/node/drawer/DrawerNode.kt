@@ -57,7 +57,7 @@ class DrawerNode(
 
     // region BackStackNode override
 
-    override fun onStackPushSuccess(oldTop: Node?, newTop: Node) {
+    override fun onStackPush(oldTop: Node?, newTop: Node) {
         println("DrawerNode::onStackPush(), oldTop: ${oldTop?.javaClass?.simpleName}," +
                 " newTop: ${newTop.javaClass.simpleName}")
 
@@ -68,7 +68,7 @@ class DrawerNode(
         updateSelectedNavItem(newTop)
     }
 
-    override fun onStackPopSuccess(oldTop: Node, newTop: Node?) {
+    override fun onStackPop(oldTop: Node, newTop: Node?) {
         println("DrawerNode::onStackPop(), oldTop: ${oldTop.javaClass.simpleName}," +
                 " newTop: ${newTop?.javaClass?.simpleName}")
 

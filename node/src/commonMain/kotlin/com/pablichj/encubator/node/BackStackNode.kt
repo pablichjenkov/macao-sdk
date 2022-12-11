@@ -20,7 +20,7 @@ abstract class BackStackNode<T : Node>(parentContext: NodeContext) : Node(parent
      * */
     protected fun pushNode(node: T) {
         if (stack.size == 0) {
-            onStackPushSuccess(oldTop = null, newTop = stack.push(node))
+            onStackPush(oldTop = null, newTop = stack.push(node))
             return
         }
 
@@ -31,7 +31,7 @@ abstract class BackStackNode<T : Node>(parentContext: NodeContext) : Node(parent
             return
         }
 
-        onStackPushSuccess(oldTop = currentNode, newTop = stack.push(node))
+        onStackPush(oldTop = currentNode, newTop = stack.push(node))
     }
 
 
@@ -44,7 +44,7 @@ abstract class BackStackNode<T : Node>(parentContext: NodeContext) : Node(parent
         val newTop = if (stack.size > 0) {
             stack.peek()
         } else null
-        onStackPopSuccess(oldTop = oldTop,  newTop = newTop)
+        onStackPop(oldTop = oldTop,  newTop = newTop)
     }
 
     protected fun popToNode(node: T, inclusive: Boolean): Boolean {
@@ -69,7 +69,7 @@ abstract class BackStackNode<T : Node>(parentContext: NodeContext) : Node(parent
             stack.pop()
         }
 
-        onStackPopSuccess(oldTop = oldTop, newTop = stack.lastElement())
+        onStackPop(oldTop = oldTop, newTop = stack.lastElement())
         return true
     }
 
@@ -79,10 +79,7 @@ abstract class BackStackNode<T : Node>(parentContext: NodeContext) : Node(parent
             return false
         }
 
-        // When removing the current active Node we gotta call stop() o it. Only for this Node,
-        // the rest of the Stack should have been Stopped already.
-        val currentStartedNode = stack.pop()
-        //currentStartedNode.stop()
+        val currentTop = stack.pop()
         poppingIndex--
 
         while (poppingIndex > popToIndex) {
@@ -90,7 +87,7 @@ abstract class BackStackNode<T : Node>(parentContext: NodeContext) : Node(parent
             poppingIndex--
         }
 
-        onStackPopSuccess(oldTop = currentStartedNode, newTop = stack.lastElement())
+        onStackPop(oldTop = currentTop, newTop = stack.lastElement())
         return true
     }
 
@@ -111,13 +108,13 @@ abstract class BackStackNode<T : Node>(parentContext: NodeContext) : Node(parent
      * The reason oldTop is null is because the first time a node is pushed, there is no previous
      * element in the stack.
      **/
-    abstract fun onStackPushSuccess(oldTop: T?, newTop: T)
+    abstract fun onStackPush(oldTop: T?, newTop: T)
 
     /**
      * The reason newTop is null is because the last time a node is popped, there is no previous
      * top element in the stack.
      **/
-    abstract fun onStackPopSuccess(oldTop: T, newTop: T?)
+    abstract fun onStackPop(oldTop: T, newTop: T?)
 
     //abstract fun onStackPopManySuccess()
 }

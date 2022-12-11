@@ -53,13 +53,13 @@ class AppCoordinatorNode(
         activeNodeState.value?.stop()
     }
 
-    override fun onStackPushSuccess(oldTop: Node?, newTop: Node) {
+    override fun onStackPush(oldTop: Node?, newTop: Node) {
         activeNodeState.value = newTop
         newTop.start()
         oldTop?.stop()
     }
 
-    override fun onStackPopSuccess(oldTop: Node, newTop: Node?) {
+    override fun onStackPop(oldTop: Node, newTop: Node?) {
         activeNodeState.value = newTop
         newTop?.start()
         oldTop.stop()
