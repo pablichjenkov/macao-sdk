@@ -6,6 +6,8 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -21,7 +23,7 @@ class DrawerNode(
 ) : BackStackNode<Node>(parentContext), INavigationProvider, NavigatorNode {
 
     private val nodeCoroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
-    private var activeNode: Node? = null
+    private var activeNodeState: MutableState<Node?> = mutableStateOf(null)
     private var startingIndex = 0
     private var selectedIndex = 0
     private var navItems: MutableList<NavigatorNodeItem> = mutableListOf()
@@ -41,32 +43,55 @@ class DrawerNode(
     override fun start() {
         super.start()
         val childNodesCopy = childNodes
-        if (activeNode == null && childNodesCopy.isNotEmpty()) {
-            pushNode(childNodesCopy[startingIndex]) // push() will call node.start() on success
+        if (activeNodeState.value == null && childNodesCopy.isNotEmpty()) {
+            pushNode(childNodesCopy[startingIndex])
         } else {
-            activeNode?.start()
+            activeNodeState.value?.start()
         }
     }
 
     override fun stop() {
         super.stop()
-        activeNode?.stop()
+        activeNodeState.value?.stop()
     }
 
-    override fun onStackTopChanged(node: Node) {
-        activeNode = node
+    // region BackStackNode override
 
-        getNavItemFromNode(node)?.let {
+    override fun onStackPushSuccess(oldTop: Node?, newTop: Node) {
+        println("DrawerNode::onStackPush(), oldTop: ${oldTop?.javaClass?.simpleName}," +
+                " newTop: ${newTop.javaClass.simpleName}")
+
+        activeNodeState.value = newTop
+        newTop.start()
+        oldTop?.stop()
+
+        updateSelectedNavItem(newTop)
+    }
+
+    override fun onStackPopSuccess(oldTop: Node, newTop: Node?) {
+        println("DrawerNode::onStackPop(), oldTop: ${oldTop.javaClass.simpleName}," +
+                " newTop: ${newTop?.javaClass?.simpleName}")
+
+        activeNodeState.value = newTop
+        newTop?.start()
+        oldTop.stop()
+
+        newTop?.let { updateSelectedNavItem(it) }
+    }
+
+    private fun updateSelectedNavItem(newTop: Node) {
+        getNavItemFromNode(newTop)?.let {
+            println("DrawerNode::updateSelectedNavItem(), selectedIndex = $it")
             navDrawerState.selectNavItem(it)
-            selectedIndex = childNodes.indexOf(node)
+            selectedIndex = childNodes.indexOf(newTop)
         }
-
-        println("DrawerNode::onStackTopChanged = ${getNavItemFromNode(node)}")
     }
 
     private fun getNavItemFromNode(node: Node): NavigatorNodeItem? {
         return navDrawerState.navItems.firstOrNull { it.node == node }
     }
+
+    // endregion
 
     // region: INavigationProvider
 
@@ -106,7 +131,7 @@ class DrawerNode(
             navItem.node.also {
                 it.context.updateParent(context)
                 if (it.context.lifecycleState == LifecycleState.Started) {
-                    activeNode = it
+                    activeNodeState.value = it
                 }
             }
         }.toMutableList()
@@ -150,7 +175,7 @@ class DrawerNode(
     @Composable
     override fun Content(modifier: Modifier) {
         println(
-            """DrawerNode.Content stack.size = ${stack.size}
+            """DrawerNode.Composing() stack.size = ${stack.size}
                 |lifecycleState = ${context.lifecycleState}
             """.trimMargin()
         )
@@ -160,8 +185,9 @@ class DrawerNode(
             navDrawerState = navDrawerState
         ) {
             Box {
-                if (screenUpdateCounter >= 0 && stack.size > 0) {
-                    stack.peek().Content(Modifier)
+                val activeNodeUpdate = activeNodeState.value
+                if (activeNodeUpdate != null && stack.size > 0) {
+                    activeNodeUpdate.Content(Modifier)
                 } else {
                     Text(
                         modifier = Modifier

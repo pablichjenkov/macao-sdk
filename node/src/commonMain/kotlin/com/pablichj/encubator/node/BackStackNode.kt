@@ -1,65 +1,50 @@
 package com.pablichj.encubator.node
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+//import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+//import androidx.compose.runtime.setValue
 import java.util.*
 
 /**
  * A stack of references to Node instances. Can be inherited by a Child class
  * that wants to manage children navigation.
  * */
-open class BackStackNode<T : Node>(parentContext: NodeContext) : Node(parentContext) {
+abstract class BackStackNode<T : Node>(parentContext: NodeContext) : Node(parentContext) {
 
     val stack: Stack<T> = Stack()
-    var screenUpdateCounter by mutableStateOf(0)
+    var screenUpdateCounter = mutableStateOf(0)
 
     /**
      * Push a Node to the top of the stack.
-     * When a Node is push successfully, the start() function will be called on it.
+     * When a Node is push successfully, a callback function will be called in subclasses.
      * */
     protected fun pushNode(node: T) {
-
         if (stack.size == 0) {
-            stack.push(node).also { node.start() }
-            updateScreen()
+            onStackPushSuccess(oldTop = null, newTop = stack.push(node))
             return
         }
 
         val currentNode = stack.peek()
 
+        // No action if the same node is pushed
         if (currentNode == node) {
             return
         }
 
-        currentNode.stop()
-        stack.push(node).also { node.start() }
-        updateScreen()
+        onStackPushSuccess(oldTop = currentNode, newTop = stack.push(node))
     }
+
 
     /**
      * Remove the top most Node from the stack.
-     * When a Node is pop successfully, the stop() function will be called on it.
+     * When a Node is pop successfully, a callback function will be called in subclasses.
      * */
-    protected fun popNode(): Boolean {
-        return if (stack.size > 0) {
-            val poppingNode = stack.pop()
-            poppingNode.stop()
-            // After popping the current node, the coming one needs start() called on it
-            if (stack.size > 0) {
-                stack.peek().start()
-            }
-            updateScreen()
-            true
-        } else false
+    protected fun popNode() {
+        val oldTop = stack.pop()
+        val newTop = if (stack.size > 0) {
+            stack.peek()
+        } else null
+        onStackPopSuccess(oldTop = oldTop,  newTop = newTop)
     }
 
     protected fun popToNode(node: T, inclusive: Boolean): Boolean {
@@ -69,7 +54,12 @@ open class BackStackNode<T : Node>(parentContext: NodeContext) : Node(parentCont
             return false
         }
 
-        var popping = stack.peek() != node
+        val oldTop =stack.peek()
+        if (oldTop == node && !inclusive) {
+            return false
+        }
+
+        var popping = oldTop != node
         while (popping) {
             stack.pop()
             popping = stack.peek() != node
@@ -79,7 +69,7 @@ open class BackStackNode<T : Node>(parentContext: NodeContext) : Node(parentCont
             stack.pop()
         }
 
-        updateScreen()
+        onStackPopSuccess(oldTop = oldTop, newTop = stack.lastElement())
         return true
     }
 
@@ -92,7 +82,7 @@ open class BackStackNode<T : Node>(parentContext: NodeContext) : Node(parentCont
         // When removing the current active Node we gotta call stop() o it. Only for this Node,
         // the rest of the Stack should have been Stopped already.
         val currentStartedNode = stack.pop()
-        currentStartedNode.stop()
+        //currentStartedNode.stop()
         poppingIndex--
 
         while (poppingIndex > popToIndex) {
@@ -100,59 +90,34 @@ open class BackStackNode<T : Node>(parentContext: NodeContext) : Node(parentCont
             poppingIndex--
         }
 
-        updateScreen()
+        onStackPopSuccess(oldTop = currentStartedNode, newTop = stack.lastElement())
         return true
     }
 
     override fun handleBackPressed() {
-        println("BackStack::handleBackPressed in class ${this.javaClass.simpleName}, size = ${stack.size}")
+        println("BackStack::handleBackPressed in class ${this.javaClass.simpleName}," +
+                " size = ${stack.size}")
         if (stack.size > 1) {
             popNode()
         } else {
+            // We delegate the back event when the stack has 1 element and not 0. The reason is if
+            // we pop all the way to zero the stack empty view will be show for a fraction of
+            // milliseconds and this creates an undesirable effect.
             delegateBackPressedToParent()
         }
     }
 
-    // TODO: Potentially make this function abstract
-    protected open fun onStackTopChanged(node: T) {
-        throw NotImplementedError(
-            """You have to override function onStackTopChanged()
-                | in class ${this.javaClass.simpleName}
-                | and do not call super.onStackTopChanged(node)
-            """.trimMargin()
-        )
-    }
+    /**
+     * The reason oldTop is null is because the first time a node is pushed, there is no previous
+     * element in the stack.
+     **/
+    abstract fun onStackPushSuccess(oldTop: T?, newTop: T)
 
-    private fun updateScreen() {
-        if (stack.size > 0) {
-            // TODO: Look for another method to trigger the screen update, try the node reference itself
-            // Perhaps set the ActiveNode ot stack top most node, as ReactiveState
-            if (screenUpdateCounter == Int.MAX_VALUE) {
-                screenUpdateCounter = 0
-            } else {
-                screenUpdateCounter ++
-            }
-            onStackTopChanged(stack.peek())
-        }
-    }
+    /**
+     * The reason newTop is null is because the last time a node is popped, there is no previous
+     * top element in the stack.
+     **/
+    abstract fun onStackPopSuccess(oldTop: T, newTop: T?)
 
-    // TODO: Potentially make this function abstract
-    @Composable
-    override fun Content(modifier: Modifier) {
-        println("BackStackNavigatorNode::Composing BackStackNavigatorNode.Content stackSize = ${stack.size}")
-
-        Box(modifier = Modifier.fillMaxSize()) {
-            if (screenUpdateCounter >= 0 && stack.size > 0) {
-                stack.peek().Content(Modifier)
-            } else {
-                Text(
-                    modifier = Modifier.fillMaxWidth().align(Alignment.Center),
-                    text = "Empty Stack, Please add some children",
-                    textAlign = TextAlign.Center
-                )
-            }
-        }
-
-    }
-
+    //abstract fun onStackPopManySuccess()
 }

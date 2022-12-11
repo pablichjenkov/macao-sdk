@@ -132,9 +132,9 @@ class PagerNode(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("PagerNode::Composing PagerNode.Content page = ${pagerState.currentPage}")
+        println("PagerNode::Composing() currentPage = ${pagerState.currentPage}")
         println(
-            """PagerNode.Content stack.size = ${stack.size}
+            """PagerNode.Composing() stack.size = ${stack.size}
                 |currentPage = ${pagerState.currentPage}
                 |lifecycleState = ${context.lifecycleState}
             """.trimMargin()

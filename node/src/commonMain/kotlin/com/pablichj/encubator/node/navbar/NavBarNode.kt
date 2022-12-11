@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -17,7 +19,7 @@ class NavBarNode(
 ) : BackStackNode<Node>(parentContext), NavigatorNode {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
-    private var activeNode: Node? = null
+    private var activeNodeState: MutableState<Node?> = mutableStateOf(null)
     private var startingIndex = 0
     private var selectedIndex = 0
     private var navItems: MutableList<NavigatorNodeItem> = mutableListOf()
@@ -35,32 +37,53 @@ class NavBarNode(
     override fun start() {
         super.start()
         val childNodesCopy = childNodes
-        if (activeNode == null && childNodesCopy.isNotEmpty()) {
+        if (activeNodeState.value == null && childNodesCopy.isNotEmpty()) {
             pushNode(childNodesCopy[startingIndex]) // push() will call node.start() on success
         } else {
-            activeNode?.start()
+            activeNodeState.value?.start()
         }
     }
 
     override fun stop() {
         super.stop()
-        activeNode?.stop()
+        activeNodeState.value?.stop()
     }
 
-    override fun onStackTopChanged(node: Node) {
-        activeNode = node
+    override fun onStackPushSuccess(oldTop: Node?, newTop: Node) {
+        println("NavBarNode::onStackPop(), oldTop: ${oldTop?.javaClass?.simpleName}," +
+                " newTop: ${newTop.javaClass.simpleName}")
 
-        getNavItemFromNode(node)?.let {
+        activeNodeState.value = newTop
+        newTop.start()
+        oldTop?.stop()
+
+        updateSelectedNavItem(newTop)
+    }
+
+    override fun onStackPopSuccess(oldTop: Node, newTop: Node?) {
+        println("NavBarNode::onStackPop(), oldTop: ${oldTop.javaClass.simpleName}," +
+                " newTop: ${newTop?.javaClass?.simpleName}")
+
+        activeNodeState.value = newTop
+        newTop?.start()
+        oldTop.stop()
+
+        newTop?.let { updateSelectedNavItem(it) }
+    }
+
+    private fun updateSelectedNavItem(newTop: Node) {
+        getNavItemFromNode(newTop)?.let {
+            println("NavBarNode::updateSelectedNavItem(), selectedIndex = $it")
             navBarState.selectNavItem(it)
-            selectedIndex = childNodes.indexOf(node)
+            selectedIndex = childNodes.indexOf(newTop)
         }
-
-        println("NavBarNode::onStackTopChanged = ${getNavItemFromNode(node)}")
     }
 
     private fun getNavItemFromNode(node: Node): NavigatorNodeItem? {
         return navBarState.navItems.firstOrNull { it.node == node }
     }
+
+    // endregion
 
     // region: NavigatorItems
 
@@ -85,7 +108,7 @@ class NavBarNode(
             navItem.node.also {
                 it.context.updateParent(context)
                 if (it.context.lifecycleState == LifecycleState.Started) {
-                    activeNode = it
+                    activeNodeState.value = it
                 }
             }
         }.toMutableList()
@@ -130,7 +153,7 @@ class NavBarNode(
     @Composable
     override fun Content(modifier: Modifier) {
         println(
-            """NavBarNode.Content stack.size = ${stack.size}
+            """NavBarNode.Composing() stack.size = ${stack.size}
                 |lifecycleState = ${context.lifecycleState}
             """.trimMargin()
         )
@@ -140,8 +163,9 @@ class NavBarNode(
             navbarState = navBarState
         ) {
             Box {
-                if (screenUpdateCounter >= 0 && stack.size > 0) {
-                    stack.peek().Content(Modifier)
+                val activeNodeUpdate = activeNodeState.value
+                if (activeNodeUpdate != null && stack.size > 0) {
+                    activeNodeUpdate.Content(Modifier)
                 } else {
                     Text(
                         modifier = Modifier

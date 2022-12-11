@@ -7,6 +7,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -35,20 +37,32 @@ class AppCoordinatorNode(
     lateinit var HomeNode: Node
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
-    private var activeNode: Node? = null
+    private var activeNodeState: MutableState<Node?>  = mutableStateOf(null)
 
     override fun start() {
         super.start()
-        if (activeNode == null) {
+        if (activeNodeState.value == null) {
             pushNode(SplashNode)
         } else {
-            activeNode?.start()
+            activeNodeState.value?.start()
         }
     }
 
     override fun stop() {
         super.stop()
-        activeNode?.stop()
+        activeNodeState.value?.stop()
+    }
+
+    override fun onStackPushSuccess(oldTop: Node?, newTop: Node) {
+        activeNodeState.value = newTop
+        newTop.start()
+        oldTop?.stop()
+    }
+
+    override fun onStackPopSuccess(oldTop: Node, newTop: Node?) {
+        activeNodeState.value = newTop
+        newTop?.start()
+        oldTop.stop()
     }
 
     /**
@@ -57,7 +71,7 @@ class AppCoordinatorNode(
     override fun handleBackPressed() {
 
         // TODO: Replace this logic by a proper state machine state variable and not the class type
-        when (val node = activeNode) {
+        when (val node = activeNodeState.value) {
             is SplashNode -> {
 
             }
@@ -70,19 +84,16 @@ class AppCoordinatorNode(
         }
     }
 
-    override fun onStackTopChanged(node: Node) {
-        activeNode = node
-    }
-
     @Composable
     override fun Content(modifier: Modifier) {
         println(
-            "AppCoordinatorNode::Composing AppCoordinatorNode.Content stackSize = ${stack.size}"
+            "AppCoordinatorNode::Composing() stack.size = ${stack.size}"
         )
 
         Box(modifier = Modifier.fillMaxSize()) {
-            if (screenUpdateCounter >= 0 && stack.size > 0) {
-                stack.peek().Content(Modifier)
+            val activeNodeUpdate = activeNodeState.value
+            if (activeNodeUpdate != null && stack.size > 0) {
+                activeNodeUpdate.Content(Modifier)
             } else {
                 Text(
                     modifier = Modifier

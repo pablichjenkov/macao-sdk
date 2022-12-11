@@ -10,6 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.encubator.node.*
 
+/**
+ * This node is basically a proxy, it transfer request and events to its active child node
+ * */
 class AdaptableWindowNode(
     parentContext: NodeContext,
     var windowSizeInfoProvider: IWindowSizeInfoProvider
@@ -52,6 +55,7 @@ class AdaptableWindowNode(
 
     @Composable
     override fun Content(modifier: Modifier) {
+        println("AdaptableWindowNode.Composing() lifecycleState = ${context.lifecycleState}")
 
         val windowSizeInfo by windowSizeInfoProvider.windowSizeInfo()
 

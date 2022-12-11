@@ -30,7 +30,7 @@ class SplitNavNode(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("SplitNavNode::Composing SplitNavNode.Content")
+        println("SplitNavNode::Composing()")
         Column(modifier = Modifier.fillMaxSize()) {
             val TopNodeCopy = TopNode
             if (TopNodeCopy != null) {

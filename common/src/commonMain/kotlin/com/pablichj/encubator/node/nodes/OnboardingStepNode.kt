@@ -28,7 +28,7 @@ class OnboardingStepNode(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("OnboardingStepNode::Composing OnboardingStepNode.Content()")
+        println("OnboardingStepNode::Composing()")
         Box(modifier = modifier.fillMaxSize().background(bgColor)) {
             Text(
                 modifier = Modifier
