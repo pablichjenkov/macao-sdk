@@ -1,10 +1,55 @@
 <H3>The Library</H3>
 
-Yet another State/Navigation management option in ***Jetpack/Jetbrains Compose***. The original concept is based on the **Coordinators** UI pattern (popular within iOS folks) and also considering the latest trends in Android UI state management. The motive behind the library is to create a tool that allows to build Apps quickly, with a variaty of navigation options and seamless for scalability.
+Yet another State/Navigation management option in ***Jetpack/Jetbrains Compose***. The original concept is based on the **Coordinators Architecture** pattern (popular within iOS folks) and also considering the latest trends in Android UI state management. The motive behind the library is to create a tool that allows to build Apps quickly, with a variaty of navigation options and seamless effort to achieve scalability.
 
 The library separates UI state from any of the underlying platforms, could be Desktop mobile doesn't matter. The library itself contain a mechanism for navigation but it can be integrated with other navigation solutions out there.
 
 <H4>Show me some code</H4>
+
+```
+fun main() = application {
+
+    val windowState = rememberWindowState(
+        size = DpSize(width = 400.dp, height = 800.dp)
+    )
+
+    val RootNode = remember<Node>(key1 = windowState) {
+        DrawerTreeBuilder.build(
+            JvmBackPressDispatcher(),
+            backPressedCallback = object : BackPressedCallback() {
+                override fun onBackPressed() {}
+            }
+        )
+    }
+
+    Window(onCloseRequest = ::exitApplication, windowState) {
+        RootNode.Content(Modifier)
+        LaunchedEffect(windowState) {
+            launch {
+                snapshotFlow { windowState.isMinimized }
+                    .onEach {
+                        onWindowMinimized(RootNode, it)
+                    }
+                    .launchIn(this)
+            }
+        }
+    }
+
+}
+
+private fun onWindowMinimized(RootNode: Node, minimized: Boolean) {
+    if (minimized) {
+        RootNode.stop()
+    } else {
+        RootNode.start()
+    }
+}
+```
+Above code will produce an desktop application like the one shown bellow:
+
+https://user-images.githubusercontent.com/5303301/205948739-af784cc9-acd7-4375-9baa-5ab470e5f046.mov
+
+Lets see how the Android code will look like for the same NavigatonDrawer type of Application.
 
 ```kotlin
 class DrawerActivity : ComponentActivity() {
@@ -39,12 +84,6 @@ class DrawerActivity : ComponentActivity() {
 
 }
 ```
-
-Above code will produce the following video in a Macbook Pro:
-
-https://user-images.githubusercontent.com/5303301/205948739-af784cc9-acd7-4375-9baa-5ab470e5f046.mov
-
-Same App but in a mobile device:
 
 https://user-images.githubusercontent.com/5303301/205950623-1944bd2c-52c6-4bda-80a0-a7408055e1e1.mp4
 
