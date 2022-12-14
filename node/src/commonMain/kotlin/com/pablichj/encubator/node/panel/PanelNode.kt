@@ -38,7 +38,7 @@ class PanelNode(
         super.start()
         val childNodesCopy = childNodes
         if (activeNodeState.value == null && childNodesCopy.isNotEmpty()) {
-            pushNode(childNodesCopy[startingIndex]) // push() will call node.start() on success
+            pushNode(childNodesCopy[startingIndex])
         } else {
             activeNodeState.value?.start()
         }
@@ -52,8 +52,10 @@ class PanelNode(
     // region BackStackNode override
 
     override fun onStackPush(oldTop: Node?, newTop: Node) {
-        println("PanelNode::onStackPop(), oldTop: ${oldTop?.javaClass?.simpleName}," +
-                " newTop: ${newTop.javaClass.simpleName}")
+        println(
+            "PanelNode::onStackPop(), oldTop: ${oldTop?.javaClass?.simpleName}," +
+                    " newTop: ${newTop.javaClass.simpleName}"
+        )
 
         activeNodeState.value = newTop
         newTop.start()
@@ -63,8 +65,10 @@ class PanelNode(
     }
 
     override fun onStackPop(oldTop: Node, newTop: Node?) {
-        println("PanelNode::onStackPop(), oldTop: ${oldTop.javaClass.simpleName}," +
-                " newTop: ${newTop?.javaClass?.simpleName}")
+        println(
+            "PanelNode::onStackPop(), oldTop: ${oldTop.javaClass.simpleName}," +
+                    " newTop: ${newTop?.javaClass?.simpleName}"
+        )
 
         activeNodeState.value = newTop
         newTop?.start()
@@ -81,13 +85,13 @@ class PanelNode(
         }
     }
 
-    // endregion
-
     private fun getNavItemFromNode(node: Node): NavigatorNodeItem? {
         return panelState.navItems.firstOrNull { it.node == node }
     }
 
-    // region: NavigatorNode
+    // endregion
+
+    // region: INavigatorNode
 
     override fun getNode(): Node {
         return this
@@ -147,6 +151,19 @@ class PanelNode(
         navItems.clear()
         childNodes.clear()
         stack.clear()
+    }
+
+    // endregion
+
+    // region: DeepLink
+
+    override fun getDeepLinkNodes(): List<Node> {
+        return childNodes
+    }
+
+    override fun onDeepLinkMatchingNode(matchingNode: Node) {
+        println("PanelNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
+        pushNode(matchingNode)
     }
 
     // endregion

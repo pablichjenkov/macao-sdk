@@ -11,7 +11,7 @@ import com.pablichj.encubator.node.nodes.OnboardingNode
 
 class InMemoryRotationPersister : ViewModel() {
 
-    private val rootParentNodeContext = NodeContext(null)
+    private val rootParentNodeContext = NodeContext.Root()
     private lateinit var NavBarNode: NavBarNode
 
     fun getOrCreateNode(

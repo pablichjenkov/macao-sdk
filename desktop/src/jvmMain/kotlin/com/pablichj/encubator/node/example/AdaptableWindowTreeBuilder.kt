@@ -13,7 +13,7 @@ import com.pablichj.encubator.node.nodes.OnboardingNode
 
 object AdaptableWindowTreeBuilder {
 
-    private val rootParentNodeContext = NodeContext(null)
+    private val rootParentNodeContext = NodeContext.Root()
     private lateinit var AdaptableWindowNode: AdaptableWindowNode
     private lateinit var subTreeNavItems: MutableList<NavigatorNodeItem>
 
@@ -38,6 +38,7 @@ object AdaptableWindowTreeBuilder {
             rootParentNodeContext,
             windowSizeInfoProvider
         ).also {
+            it.context.subPath = SubPath("AdaptableWindow")
             AdaptableWindowNode = it
         }
 
@@ -54,47 +55,59 @@ object AdaptableWindowTreeBuilder {
         val TemporalEmptyContext = NodeContext(null)
 
         val NavBarNode = NavBarNode(TemporalEmptyContext)
+            .apply { context.subPath = SubPath("Orders") }
 
         val navbarNavItems = mutableListOf(
             NavigatorNodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(NavBarNode.context, "Orders / Current", Icons.Filled.Home){},
+                node = OnboardingNode(
+                    NavBarNode.context, "Orders / Current", Icons.Filled.Home, {}
+                ).apply { context.subPath = SubPath("Current") },
                 selected = false
             ),
             NavigatorNodeItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                node = OnboardingNode(NavBarNode.context, "Orders / Past", Icons.Filled.Edit) {},
+                node = OnboardingNode(
+                    NavBarNode.context, "Orders / Past", Icons.Filled.Edit, {}
+                ).apply { context.subPath = SubPath("Past") },
                 selected = false
             ),
             NavigatorNodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                node = OnboardingNode(NavBarNode.context, "Orders / Claim", Icons.Filled.Email) {},
+                node = OnboardingNode(NavBarNode.context, "Orders / Claim", Icons.Filled.Email, {})
+                    .apply { context.subPath = SubPath("Claim") },
                 selected = false
             )
         )
 
         NavBarNode.setNavItems(navbarNavItems, 0)
 
+        val SettingNode =
+            OnboardingNode(TemporalEmptyContext, "Settings", Icons.Filled.Email, {})
+                .apply { context.subPath = SubPath("Settings") }
+
         val navItems = mutableListOf(
             NavigatorNodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(TemporalEmptyContext, "Home", Icons.Filled.Home) {}.apply {id = 1},
+                node = OnboardingNode(
+                    TemporalEmptyContext, "Home", Icons.Filled.Home, {}
+                ).apply { context.subPath = SubPath("Home") },
                 selected = false
             ),
             NavigatorNodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
-                node = NavBarNode.apply{id = 2},
+                node = NavBarNode,
                 selected = false
             ),
             NavigatorNodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node = OnboardingNode(TemporalEmptyContext, "Settings", Icons.Filled.Email) {}.apply{id = 3},
+                node = SettingNode,
                 selected = false
             )
         )

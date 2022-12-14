@@ -15,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NavBarNode(
-    parentContext: NodeContext
+    parentContext: NodeContext,
 ) : BackStackNode<Node>(parentContext), NavigatorNode {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
@@ -38,7 +38,7 @@ class NavBarNode(
         super.start()
         val childNodesCopy = childNodes
         if (activeNodeState.value == null && childNodesCopy.isNotEmpty()) {
-            pushNode(childNodesCopy[startingIndex]) // push() will call node.start() on success
+            pushNode(childNodesCopy[startingIndex])
         } else {
             activeNodeState.value?.start()
         }
@@ -50,8 +50,10 @@ class NavBarNode(
     }
 
     override fun onStackPush(oldTop: Node?, newTop: Node) {
-        println("NavBarNode::onStackPop(), oldTop: ${oldTop?.javaClass?.simpleName}," +
-                " newTop: ${newTop.javaClass.simpleName}")
+        println(
+            "NavBarNode::onStackPop(), oldTop: ${oldTop?.javaClass?.simpleName}," +
+                    " newTop: ${newTop.javaClass.simpleName}"
+        )
 
         activeNodeState.value = newTop
         newTop.start()
@@ -61,8 +63,10 @@ class NavBarNode(
     }
 
     override fun onStackPop(oldTop: Node, newTop: Node?) {
-        println("NavBarNode::onStackPop(), oldTop: ${oldTop.javaClass.simpleName}," +
-                " newTop: ${newTop?.javaClass?.simpleName}")
+        println(
+            "NavBarNode::onStackPop(), oldTop: ${oldTop.javaClass.simpleName}," +
+                    " newTop: ${newTop?.javaClass?.simpleName}"
+        )
 
         activeNodeState.value = newTop
         newTop?.start()
@@ -146,6 +150,19 @@ class NavBarNode(
         navItems.clear()
         childNodes.clear()
         stack.clear()
+    }
+
+    // endregion
+
+    // region: DeepLink
+
+    override fun getDeepLinkNodes(): List<Node> {
+        return childNodes
+    }
+
+    override fun onDeepLinkMatchingNode(matchingNode: Node) {
+        println("NavBarNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
+        pushNode(matchingNode)
     }
 
     // endregion

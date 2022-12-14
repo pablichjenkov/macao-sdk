@@ -10,10 +10,7 @@ import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.pablichj.encubator.node.BackPressedCallback
-import com.pablichj.encubator.node.JvmBackPressDispatcher
-import com.pablichj.encubator.node.JvmWindowSizeInfoProvider
-import com.pablichj.encubator.node.Node
+import com.pablichj.encubator.node.*
 import com.pablichj.encubator.node.drawer.DrawerNode
 import com.pablichj.encubator.node.navbar.NavBarNode
 import com.pablichj.encubator.node.panel.PanelNode
@@ -40,15 +37,28 @@ fun main() = application {
 
         AdaptableWindowNode.apply {
             setNavItems(subtreeNavItems, 0)
-            setCompactNavigator(DrawerNode(context))
-            setMediumNavigator(NavBarNode(context))
-            setExpandedNavigator(PanelNode(context))
+            setCompactNavigator(DrawerNode(context).apply { context.subPath = SubPath("Drawer") })
+            setMediumNavigator(NavBarNode(context).apply { context.subPath = SubPath("Navbar") })
+            setExpandedNavigator(PanelNode(context).apply { context.subPath = SubPath("Panel") })
         }
     }
 
     Window(onCloseRequest = ::exitApplication, windowState) {
         MenuBar {
             Menu("File") {
+                Item(
+                    "Deep Link",
+                    onClick = {
+                        val path = getDeepLinkPath()
+                        val deepLinkResult = RootNode.checkDeepLinkMatch(path)
+                        println(deepLinkResult.toString())
+                        if (deepLinkResult == DeepLinkResult.Success) {
+                            //todo nice function to reuse the same path. See how replace it
+                            path.moveToStart()
+                            RootNode.navigateUpToDeepLink(path)
+                        }
+                    }
+                )
                 Item("New window", onClick = { /*state.openNewWindow*/ })
                 Item("Exit", onClick = {/*state.exit*/ })
             }
@@ -73,4 +83,11 @@ private fun onWindowMinimized(RootNode: Node, minimized: Boolean) {
     } else {
         RootNode.start()
     }
+}
+
+private fun getDeepLinkPath(): Path {
+    return Path("AdaptableWindow")
+        .appendSubPath("Drawer")
+        .appendSubPath("Orders")
+        .appendSubPath("Past")
 }

@@ -13,7 +13,7 @@ import com.pablichj.encubator.node.panel.PanelNode
 
 object PanelTreeBuilder {
 
-    private val rootParentNodeContext = NodeContext(null)
+    private val rootParentNodeContext = NodeContext.Root()
     private lateinit var PanelNode: PanelNode
 
     fun build(

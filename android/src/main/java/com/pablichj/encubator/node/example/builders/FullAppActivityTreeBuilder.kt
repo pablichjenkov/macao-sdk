@@ -13,7 +13,7 @@ import com.pablichj.encubator.node.nodes.OnboardingNode
 
 object FullAppActivityTreeBuilder {
 
-    private val rootParentNodeContext = NodeContext(null)
+    private val rootParentNodeContext = NodeContext.Root()
     private lateinit var AppCoordinatorNode: Node
 
     fun build(

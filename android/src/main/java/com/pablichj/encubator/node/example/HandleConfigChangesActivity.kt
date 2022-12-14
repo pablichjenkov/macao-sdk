@@ -30,7 +30,7 @@ class HandleConfigChangesActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val rootNodeContext = NodeContext(null).apply {
+        val rootNodeContext = NodeContext.Root().apply {
             backPressDispatcher = AndroidBackPressDispatcher(
                 this@HandleConfigChangesActivity
             )

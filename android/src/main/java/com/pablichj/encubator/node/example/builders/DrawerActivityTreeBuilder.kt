@@ -11,7 +11,7 @@ import com.pablichj.encubator.node.nodes.OnboardingNode
 
 object DrawerActivityTreeBuilder {
 
-    private val rootParentNodeContext = NodeContext(null)
+    private val rootParentNodeContext = NodeContext.Root()
     private lateinit var DrawerNode: DrawerNode
 
     fun build(

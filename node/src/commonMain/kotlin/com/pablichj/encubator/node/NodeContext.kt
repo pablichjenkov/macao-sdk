@@ -4,7 +4,9 @@ package com.pablichj.encubator.node
  * Singly Linked List that represents a path of NodeContext from the current node
  * up to the root node.
  * */
-class NodeContext(var parentContext: NodeContext?) {
+open class NodeContext(
+    var parentContext: NodeContext?
+) {
 
     // region: Tree traversal
 
@@ -76,5 +78,13 @@ class NodeContext(var parentContext: NodeContext?) {
     }
 
     // endregion
+
+    // region: Deep Link
+
+    var subPath: SubPath = SubPath.Empty
+
+    // endregion
+
+    class Root : NodeContext(null)
 
 }

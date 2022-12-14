@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -23,12 +25,12 @@ class AdaptableWindowNode(
     private var CompactNavigator: NavigatorNode? = null
     private var MediumNavigator: NavigatorNode? = null
     private var ExpandedNavigator: NavigatorNode? = null
-    private var CurrentNavigatorNode: NavigatorNode? = null
+    private var CurrentNavigatorNode = mutableStateOf<NavigatorNode?>(null) // todo: This should be a reactive state
 
     fun setNavItems(navItems: MutableList<NavigatorNodeItem>, startingPosition: Int) {
         this.navItems = navItems
         this.startingPosition = startingPosition
-        CurrentNavigatorNode?.setNavItems(navItems, startingPosition)
+        CurrentNavigatorNode.value?.setNavItems(navItems, startingPosition)
     }
 
     fun setCompactNavigator(navigatorNode: NavigatorNode) {
@@ -45,12 +47,35 @@ class AdaptableWindowNode(
 
     override fun start() {
         super.start()
-        CurrentNavigatorNode?.getNode()?.start()
+        CurrentNavigatorNode.value?.getNode()?.start()
     }
 
     override fun stop() {
         super.stop()
-        CurrentNavigatorNode?.getNode()?.stop()
+        CurrentNavigatorNode.value?.getNode()?.stop()
+    }
+
+    override fun getDeepLinkNodes(): List<Node>  {
+        return listOfNotNull(
+            CompactNavigator?.getNode(),
+            MediumNavigator?.getNode(),
+            ExpandedNavigator?.getNode()
+        )
+    }
+
+    override fun onDeepLinkMatchingNode(matchingNode: Node) {
+        println("AdaptableWindowNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
+        CurrentNavigatorNode.value = when (matchingNode) {
+            CompactNavigator?.getNode() -> {
+                tryTransfer(CurrentNavigatorNode.value, CompactNavigator)
+            }
+            MediumNavigator?.getNode() -> {
+                tryTransfer(CurrentNavigatorNode.value, MediumNavigator)
+            }
+            else -> {
+                tryTransfer(CurrentNavigatorNode.value, ExpandedNavigator)
+            }
+        }
     }
 
     @Composable
@@ -59,19 +84,19 @@ class AdaptableWindowNode(
 
         val windowSizeInfo by windowSizeInfoProvider.windowSizeInfo()
 
-        CurrentNavigatorNode = when (windowSizeInfo) {
+        CurrentNavigatorNode.value = when (windowSizeInfo) {
             WindowSizeInfo.Compact -> {
-                tryTransfer(CurrentNavigatorNode, CompactNavigator)
+                tryTransfer(CurrentNavigatorNode.value, CompactNavigator)
             }
             WindowSizeInfo.Medium -> {
-                tryTransfer(CurrentNavigatorNode, MediumNavigator)
+                tryTransfer(CurrentNavigatorNode.value, MediumNavigator)
             }
             WindowSizeInfo.Expanded -> {
-                tryTransfer(CurrentNavigatorNode, ExpandedNavigator)
+                tryTransfer(CurrentNavigatorNode.value, ExpandedNavigator)
             }
         }
 
-        val CurrentNode = CurrentNavigatorNode?.getNode()
+        val CurrentNode = CurrentNavigatorNode.value?.getNode()
 
         if (CurrentNode != null) {
             CurrentNode.Content(modifier)

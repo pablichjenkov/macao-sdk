@@ -56,13 +56,15 @@ class OnboardingNode(
         }
     }
 
-    val Step3 = OnboardingStepNode(context, "$screenName / Page 1 / Page 2 / Page 3", Color.Cyan) { msg ->
-        when (msg) {
-            OnboardingStepNode.Msg.Next -> {
-                onMessage(Msg.OnboardDone)
+    val Step3 =
+        OnboardingStepNode(context, "$screenName / Page 1 / Page 2 / Page 3", Color.Cyan) { msg ->
+            when (msg) {
+                OnboardingStepNode.Msg.Next -> {
+                    onMessage(Msg.OnboardDone)
+                }
             }
         }
-    }
+
 
     override fun start() {
         super.start()
@@ -148,6 +150,19 @@ class OnboardingNode(
         }
     }
 
+    // region: DeepLink
+
+    override fun getDeepLinkNodes(): List<Node> {
+        return listOf(Step1, Step2, Step3)
+    }
+
+    override fun onDeepLinkMatchingNode(matchingNode: Node) {
+        println("OnboardingNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
+        pushNode(matchingNode as OnboardingStepNode) //todo: see how get rid of the cast
+    }
+
+    // endregion
+
     sealed interface Msg {
         object OnboardDone : Msg
     }
@@ -157,7 +172,7 @@ class OnboardingNode(
     override fun Content(modifier: Modifier) {
         println("OnboardingNode::Composing(), stack.size = ${stack.size}")
 
-        Scaffold (
+        Scaffold(
             modifier = modifier,
             topBar = { TopBar(topBarState) }
         ) { paddingValues ->

@@ -10,7 +10,7 @@ import com.pablichj.encubator.node.nodes.OnboardingNode
 
 object PagerActivityTreeBuilder {
 
-    private val rootParentNodeContext = NodeContext(null)
+    private val rootParentNodeContext = NodeContext.Root()
     private lateinit var PagerNode: PagerNode
 
     fun build(

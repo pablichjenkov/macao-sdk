@@ -9,7 +9,9 @@ import java.util.*
  * A stack of references to Node instances. Can be inherited by a Child class
  * that wants to manage children navigation.
  * */
-abstract class BackStackNode<T : Node>(parentContext: NodeContext) : Node(parentContext) {
+abstract class BackStackNode<T : Node>(
+    parentContext: NodeContext
+) : Node(parentContext) {
 
     val stack: Stack<T> = Stack()
     var screenUpdateCounter = mutableStateOf(0)

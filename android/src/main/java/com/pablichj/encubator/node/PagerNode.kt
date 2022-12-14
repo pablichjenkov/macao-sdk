@@ -52,9 +52,7 @@ class PagerNode(
 
     override fun handleBackPressed() {
         if (pagerState.currentPage > 0) {
-            composableCoroutineScope.launch {
-                pagerState.animateScrollToPage(pagerState.currentPage - 1)
-            }
+            selectPage(pagerState.currentPage - 1)
         } else {
             delegateBackPressedToParent()
         }
@@ -80,7 +78,7 @@ class PagerNode(
         navItems = navItemsList.map { it }.toMutableList()
 
         childNodes = navItems.map { navItem ->
-            navItem.node.also{
+            navItem.node.also {
                 it.context.updateParent(context)
                 if (it.context.lifecycleState == LifecycleState.Started) {
                     activeNode = it
@@ -111,6 +109,29 @@ class PagerNode(
     }
 
     // endregion
+
+    // region: DeepLink
+
+    override fun getDeepLinkNodes(): List<Node> {
+        return childNodes
+    }
+
+    override fun onDeepLinkMatchingNode(matchingNode: Node) {
+        println("PagerNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
+        val matchingNodeIndex = childNodes.indexOf(matchingNode)
+        if (matchingNodeIndex > 0) {
+            selectPage(matchingNodeIndex)
+        }
+
+    }
+
+    // endregion
+
+    private fun selectPage(pageIdx: Int) {
+        composableCoroutineScope.launch {
+            pagerState.animateScrollToPage(pageIdx)
+        }
+    }
 
     private fun updateScreen() {
         // Refresh the PagerState instance to trigger an update

@@ -172,6 +172,19 @@ class DrawerNode(
 
     // endregion
 
+    // region: DeepLink
+
+    override fun getDeepLinkNodes(): List<Node>  {
+        return childNodes
+    }
+
+    override fun onDeepLinkMatchingNode(matchingNode: Node) {
+        println("DrawerNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
+        pushNode(matchingNode)
+    }
+
+    // endregion
+
     @Composable
     override fun Content(modifier: Modifier) {
         println(

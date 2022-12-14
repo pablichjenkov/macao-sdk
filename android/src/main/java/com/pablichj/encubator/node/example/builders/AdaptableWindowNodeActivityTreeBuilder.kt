@@ -18,7 +18,7 @@ import com.pablichj.encubator.node.panel.PanelNode
 
 object AdaptableWindowNodeActivityTreeBuilder {
 
-    private val rootParentNodeContext = NodeContext(null)
+    private val rootParentNodeContext = NodeContext.Root()
     private lateinit var AdaptableWindowNode: AdaptableWindowNode
     private lateinit var subTreeNavItems: MutableList<NavigatorNodeItem>
 
@@ -60,7 +60,7 @@ object AdaptableWindowNodeActivityTreeBuilder {
             return subTreeNavItems
         }
 
-        val TemporalEmptyContext = NodeContext(null)
+        val TemporalEmptyContext = NodeContext.Root()
 
         val NavBarNode = NavBarNode(TemporalEmptyContext)
 
@@ -95,13 +95,13 @@ object AdaptableWindowNodeActivityTreeBuilder {
                     TemporalEmptyContext,
                     "Home",
                     Icons.Filled.Home
-                ) {}.apply { id = 1 },
+                ) {},
                 selected = false
             ),
             NavigatorNodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
-                node = NavBarNode.apply { id = 2 },
+                node = NavBarNode,
                 selected = false
             ),
             NavigatorNodeItem(
@@ -111,7 +111,7 @@ object AdaptableWindowNodeActivityTreeBuilder {
                     TemporalEmptyContext,
                     "Settings",
                     Icons.Filled.Email
-                ) {}.apply { id = 3 },
+                ) {},
                 selected = false
             )
         )

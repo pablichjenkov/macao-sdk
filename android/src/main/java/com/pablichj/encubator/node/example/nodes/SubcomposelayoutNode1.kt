@@ -51,7 +51,7 @@ fun MyCoolGrid(modifier: Modifier, list: List<UiModel>) {
                 modifier = Modifier,
                 columns = GridCells.Fixed(2),
             ) {
-                itemsIndexed(list) { index, item ->
+                itemsIndexed(list) { _, item ->
                     TestItem(
                         text = "$maxHeight",
                         countText = item.lines,
