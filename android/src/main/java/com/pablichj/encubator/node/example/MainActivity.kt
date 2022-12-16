@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                         "Bottom Bar Example"
                     )
                     LaunchButton(
-                        FullAppActivity::class.java,
+                        FullAppIntroActivity::class.java,
                         "Full App Example"
                     )
                     LaunchButton(

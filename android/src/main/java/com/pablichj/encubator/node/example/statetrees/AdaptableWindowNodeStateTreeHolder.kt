@@ -1,20 +1,19 @@
-package com.pablichj.encubator.node.example
+package com.pablichj.encubator.node.example.statetrees
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
-import androidx.lifecycle.ViewModel
 import com.pablichj.encubator.node.*
 import com.pablichj.encubator.node.navbar.NavBarNode
 import com.pablichj.encubator.node.nodes.OnboardingNode
 
-class InMemoryRotationPersister : ViewModel() {
+class AdaptableWindowNodeStateTreeHolder : ActivityStateHolder<Node>() {
 
     private val rootParentNodeContext = NodeContext.Root()
     private lateinit var NavBarNode: NavBarNode
 
-    fun getOrCreateNode(
+    override fun getOrCreateStateTree(
         backPressDispatcher: IBackPressDispatcher,
         backPressedCallback: BackPressedCallback
     ): Node {

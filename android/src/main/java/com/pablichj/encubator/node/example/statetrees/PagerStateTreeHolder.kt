@@ -1,4 +1,4 @@
-package com.pablichj.encubator.node.example.builders
+package com.pablichj.encubator.node.example.statetrees
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -8,12 +8,12 @@ import com.pablichj.encubator.node.*
 import com.pablichj.encubator.node.navbar.NavBarNode
 import com.pablichj.encubator.node.nodes.OnboardingNode
 
-object PagerActivityTreeBuilder {
+class PagerStateTreeHolder : ActivityStateHolder<Node>() {
 
     private val rootParentNodeContext = NodeContext.Root()
     private lateinit var PagerNode: PagerNode
 
-    fun build(
+    override fun getOrCreateStateTree(
         backPressDispatcher: IBackPressDispatcher,
         backPressedCallback: BackPressedCallback
     ): Node {
@@ -22,7 +22,7 @@ object PagerActivityTreeBuilder {
         rootParentNodeContext.backPressedCallbackDelegate =
             backPressedCallback
 
-        if (PagerActivityTreeBuilder::PagerNode.isInitialized) {
+        if (this@PagerStateTreeHolder::PagerNode.isInitialized) {
             return PagerNode
         }
 

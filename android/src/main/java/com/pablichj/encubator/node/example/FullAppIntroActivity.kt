@@ -3,26 +3,30 @@ package com.pablichj.encubator.node.example
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.ui.Modifier
 import com.pablichj.encubator.node.AndroidBackPressDispatcher
 import com.pablichj.encubator.node.BackPressedCallback
-import com.pablichj.encubator.node.example.builders.FullAppActivityTreeBuilder
+import com.pablichj.encubator.node.Node
+import com.pablichj.encubator.node.example.statetrees.FullAppIntroStateTreeHolder
 import com.pablichj.encubator.node.example.theme.AppTheme
 
+class FullAppIntroActivity : ComponentActivity() {
 
-class FullAppActivity : ComponentActivity() {
-
-    private var StateTree = FullAppActivityTreeBuilder.build(
-        backPressDispatcher = AndroidBackPressDispatcher(this@FullAppActivity),
-        backPressedCallback = object : BackPressedCallback() {
-            override fun onBackPressed() {
-                finish()
-            }
-        }
-    )
+    private val activityStateHolder by viewModels<FullAppIntroStateTreeHolder>()
+    private lateinit var StateTree: Node
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // It creates a state tree where the root node is an AppCoordinator node
+        StateTree = activityStateHolder.getOrCreateStateTree(
+            backPressDispatcher = AndroidBackPressDispatcher(this@FullAppIntroActivity),
+            backPressedCallback = object : BackPressedCallback() {
+                override fun onBackPressed() {
+                    finish()
+                }
+            }
+        )
         setContent {
             AppTheme {
                 StateTree.Content(Modifier)

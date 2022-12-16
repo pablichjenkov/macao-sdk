@@ -33,7 +33,7 @@
             android:name=".example.NavBarActivity"
             android:exported="true" />
         <activity
-            android:name=".example.FullAppActivity"
+            android:name=".example.FullAppIntroActivity"
             android:exported="true" />
         <activity
             android:name=".example.HandleConfigChangesActivity"

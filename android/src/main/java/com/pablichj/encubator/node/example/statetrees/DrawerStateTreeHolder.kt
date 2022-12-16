@@ -1,4 +1,4 @@
-package com.pablichj.encubator.node.example.builders
+package com.pablichj.encubator.node.example.statetrees
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -9,12 +9,12 @@ import com.pablichj.encubator.node.drawer.DrawerNode
 import com.pablichj.encubator.node.navbar.NavBarNode
 import com.pablichj.encubator.node.nodes.OnboardingNode
 
-object DrawerActivityTreeBuilder {
+class DrawerStateTreeHolder : ActivityStateHolder<Node>() {
 
     private val rootParentNodeContext = NodeContext.Root()
     private lateinit var DrawerNode: DrawerNode
 
-    fun build(
+    override fun getOrCreateStateTree(
         backPressDispatcher: IBackPressDispatcher,
         backPressedCallback: BackPressedCallback
     ): Node {
@@ -22,7 +22,7 @@ object DrawerActivityTreeBuilder {
         rootParentNodeContext.backPressDispatcher = backPressDispatcher
         rootParentNodeContext.backPressedCallbackDelegate = backPressedCallback
 
-        if (DrawerActivityTreeBuilder::DrawerNode.isInitialized) {
+        if (this@DrawerStateTreeHolder::DrawerNode.isInitialized) {
             return DrawerNode
         }
 
@@ -61,19 +61,31 @@ object DrawerActivityTreeBuilder {
             NavigatorNodeItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(PagerNode.context, "Settings / Account", Icons.Filled.Home) {},
+                node = OnboardingNode(
+                    PagerNode.context,
+                    "Settings / Account",
+                    Icons.Filled.Home
+                ) {},
                 selected = false
             ),
             NavigatorNodeItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
-                node = OnboardingNode(PagerNode.context, "Settings / Profile", Icons.Filled.Edit) {},
+                node = OnboardingNode(
+                    PagerNode.context,
+                    "Settings / Profile",
+                    Icons.Filled.Edit
+                ) {},
                 selected = false
             ),
             NavigatorNodeItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
-                node = OnboardingNode(PagerNode.context, "Settings / About Us", Icons.Filled.Email) {},
+                node = OnboardingNode(
+                    PagerNode.context,
+                    "Settings / About Us",
+                    Icons.Filled.Email
+                ) {},
                 selected = false
             )
         )
@@ -88,13 +100,13 @@ object DrawerActivityTreeBuilder {
             NavigatorNodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
-                node = NavBarNode.also { it.setNavItems(navbarNavItems, 0)},
+                node = NavBarNode.also { it.setNavItems(navbarNavItems, 0) },
                 selected = false
             ),
             NavigatorNodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node =  PagerNode.also { it.setNavItems(pagerNavItems, 0) },
+                node = PagerNode.also { it.setNavItems(pagerNavItems, 0) },
                 selected = false
             )
         )

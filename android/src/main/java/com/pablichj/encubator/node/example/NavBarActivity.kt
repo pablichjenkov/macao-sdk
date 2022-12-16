@@ -8,17 +8,18 @@ import androidx.compose.ui.Modifier
 import com.pablichj.encubator.node.AndroidBackPressDispatcher
 import com.pablichj.encubator.node.BackPressedCallback
 import com.pablichj.encubator.node.Node
+import com.pablichj.encubator.node.example.statetrees.NavBarStateTreeHolder
 import com.pablichj.encubator.node.example.theme.AppTheme
 
 class NavBarActivity : ComponentActivity() {
 
-    lateinit var StateTree: Node
+    private val activityStateHolder by viewModels<NavBarStateTreeHolder>()
+    private lateinit var StateTree: Node
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        val inMemoryRotationPersister by viewModels<InMemoryRotationPersister>()
-
-        StateTree = inMemoryRotationPersister.getOrCreateNode(
+        super.onCreate(savedInstanceState)
+        // It creates a state tree where the root node is a NavBar node
+        StateTree = activityStateHolder.getOrCreateStateTree(
             backPressDispatcher = AndroidBackPressDispatcher(this@NavBarActivity),
             backPressedCallback = object : BackPressedCallback() {
                 override fun onBackPressed() {
@@ -26,8 +27,6 @@ class NavBarActivity : ComponentActivity() {
                 }
             }
         )
-
-        super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
                 StateTree.Content(Modifier)

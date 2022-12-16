@@ -1,4 +1,4 @@
-package com.pablichj.encubator.node.example.builders
+package com.pablichj.encubator.node.example.statetrees
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -6,17 +6,17 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import com.pablichj.encubator.node.*
 import com.pablichj.encubator.node.drawer.DrawerNode
-import com.pablichj.encubator.node.nodes.SplitNavNode
 import com.pablichj.encubator.node.navbar.NavBarNode
 import com.pablichj.encubator.node.nodes.AppCoordinatorNode
 import com.pablichj.encubator.node.nodes.OnboardingNode
+import com.pablichj.encubator.node.nodes.SplitNavNode
 
-object FullAppActivityTreeBuilder {
+class FullAppIntroStateTreeHolder : ActivityStateHolder<Node>() {
 
     private val rootParentNodeContext = NodeContext.Root()
     private lateinit var AppCoordinatorNode: Node
 
-    fun build(
+    override fun getOrCreateStateTree(
         backPressDispatcher: IBackPressDispatcher,
         backPressedCallback: BackPressedCallback
     ): Node {
@@ -24,7 +24,7 @@ object FullAppActivityTreeBuilder {
         rootParentNodeContext.backPressDispatcher = backPressDispatcher
         rootParentNodeContext.backPressedCallbackDelegate = backPressedCallback
 
-        if (FullAppActivityTreeBuilder::AppCoordinatorNode.isInitialized) {
+        if (this@FullAppIntroStateTreeHolder::AppCoordinatorNode.isInitialized) {
             return AppCoordinatorNode
         }
 
@@ -43,7 +43,8 @@ object FullAppActivityTreeBuilder {
 
         val SplitNavNode = SplitNavNode(NavBarNode.context).apply {
             TopNode = buildNestedDrawer(context)
-            BottomNode = OnboardingNode(NavBarNode.context, "Orders / Current", Icons.Filled.Edit) {}
+            BottomNode =
+                OnboardingNode(NavBarNode.context, "Orders / Current", Icons.Filled.Edit) {}
         }
 
         val navbarNavItems = mutableListOf(
@@ -77,19 +78,31 @@ object FullAppActivityTreeBuilder {
             NavigatorNodeItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(PagerNode.context, "Settings / Account", Icons.Filled.Home) {},
+                node = OnboardingNode(
+                    PagerNode.context,
+                    "Settings / Account",
+                    Icons.Filled.Home
+                ) {},
                 selected = false
             ),
             NavigatorNodeItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
-                node = OnboardingNode(PagerNode.context, "Settings / Profile", Icons.Filled.Edit) {},
+                node = OnboardingNode(
+                    PagerNode.context,
+                    "Settings / Profile",
+                    Icons.Filled.Edit
+                ) {},
                 selected = false
             ),
             NavigatorNodeItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
-                node = OnboardingNode(PagerNode.context, "Settings / About Us", Icons.Filled.Email) {},
+                node = OnboardingNode(
+                    PagerNode.context,
+                    "Settings / About Us",
+                    Icons.Filled.Email
+                ) {},
                 selected = false
             )
         )
