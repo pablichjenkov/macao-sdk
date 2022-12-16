@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 
 abstract class Node(
     parentContext: NodeContext
-) : Lifecycle, DeepLinkable {
+) : Lifecycle {
     val context: NodeContext = NodeContext(parentContext)
 
     private val backPressedCallback = object : BackPressedCallback() {
@@ -57,7 +57,17 @@ abstract class Node(
     protected open fun getDeepLinkNodes(): List<Node> = emptyList()
     protected open fun onDeepLinkMatchingNode(matchingNode: Node) {}
 
-    override fun checkDeepLinkMatch(path: Path): DeepLinkResult {
+    fun handleDeepLink(path: Path): DeepLinkResult {
+        return when(val deepLinkResult = checkDeepLinkMatch(path))  {
+            is DeepLinkResult.Error -> deepLinkResult
+            DeepLinkResult.Success -> {
+                path.moveToStart()
+                navigateUpToDeepLink(path)
+            }
+        }
+    }
+
+    internal fun checkDeepLinkMatch(path: Path): DeepLinkResult {
         return PathMatcher.traverseWithChildMatchAction(
             path,
             context.subPath,
@@ -67,7 +77,7 @@ abstract class Node(
         }
     }
 
-    override fun navigateUpToDeepLink(path: Path): DeepLinkResult {
+    internal fun navigateUpToDeepLink(path: Path): DeepLinkResult {
         return PathMatcher.traverseWithChildMatchAction(
             path,
             context.subPath,

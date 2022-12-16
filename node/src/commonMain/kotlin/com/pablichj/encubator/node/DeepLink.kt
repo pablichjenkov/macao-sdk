@@ -111,9 +111,12 @@ object PathMatcher {
 
         val matchingNode = deepLinkNodes
             .filterNot {
+                //println("Checking link: ${it.context.subPath.route}")
                 it.context.subPath == SubPath.Empty
             }
             .firstOrNull { it.context.subPath.route == childSubPathToMatch.route }
+
+        //println("One above has to match: ${childSubPathToMatch.route}")
 
         return if (matchingNode != null) {
             onChildMatchAction(path.moveToNextSubPath(), matchingNode)

@@ -41,6 +41,12 @@ fun main() = application {
             setMediumNavigator(NavBarNode(context).apply { context.subPath = SubPath("Navbar") })
             setExpandedNavigator(PanelNode(context).apply { context.subPath = SubPath("Panel") })
         }
+        /*FullAppTreeBuilder.build(
+            JvmBackPressDispatcher(),
+            backPressedCallback = object : BackPressedCallback() {
+                override fun onBackPressed() {}
+            }
+        )*/
     }
 
     Window(onCloseRequest = ::exitApplication, windowState) {
@@ -49,14 +55,7 @@ fun main() = application {
                 Item(
                     "Deep Link",
                     onClick = {
-                        val path = getDeepLinkPath()
-                        val deepLinkResult = RootNode.checkDeepLinkMatch(path)
-                        println(deepLinkResult.toString())
-                        if (deepLinkResult == DeepLinkResult.Success) {
-                            //todo nice function to reuse the same path. See how replace it
-                            path.moveToStart()
-                            RootNode.navigateUpToDeepLink(path)
-                        }
+                        RootNode.handleDeepLink(getDeepLinkPath())
                     }
                 )
                 Item("New window", onClick = { /*state.openNewWindow*/ })
@@ -90,4 +89,5 @@ private fun getDeepLinkPath(): Path {
         .appendSubPath("Drawer")
         .appendSubPath("Orders")
         .appendSubPath("Past")
+        .appendSubPath("Page3")
 }

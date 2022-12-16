@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.pablichj.encubator.node.BackStackNode
 import com.pablichj.encubator.node.Node
 import com.pablichj.encubator.node.NodeContext
+import com.pablichj.encubator.node.SubPath
 import com.pablichj.encubator.node.topbar.TitleSectionStateHolder
 import com.pablichj.encubator.node.topbar.TopBar
 import com.pablichj.encubator.node.topbar.TopBarState
@@ -40,12 +41,18 @@ class OnboardingNode(
     private val topBarState = TopBarState()
     private var activeNodeState: MutableState<OnboardingStepNode?> = mutableStateOf(null)
 
-    val Step1 = OnboardingStepNode(context, "$screenName / Page 1", Color.Yellow) { msg ->
+    val Step1 = OnboardingStepNode(
+        context,
+        "$screenName / Page 1",
+        Color.Yellow
+    ) { msg ->
         when (msg) {
             OnboardingStepNode.Msg.Next -> {
                 pushNode(Step2)
             }
         }
+    }.also {
+        it.context.subPath = SubPath("Page1")
     }
 
     val Step2 = OnboardingStepNode(context, "$screenName / Page 1 / Page 2", Color.Green) { msg ->
@@ -54,17 +61,24 @@ class OnboardingNode(
                 pushNode(Step3)
             }
         }
+    }.also {
+        it.context.subPath = SubPath("Page2")
     }
 
     val Step3 =
-        OnboardingStepNode(context, "$screenName / Page 1 / Page 2 / Page 3", Color.Cyan) { msg ->
+        OnboardingStepNode(
+            context,
+            "$screenName / Page 1 / Page 2 / Page 3",
+            Color.Cyan
+        ) { msg ->
             when (msg) {
                 OnboardingStepNode.Msg.Next -> {
                     onMessage(Msg.OnboardDone)
                 }
             }
+        }.also {
+            it.context.subPath = SubPath("Page3")
         }
-
 
     override fun start() {
         super.start()
