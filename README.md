@@ -96,7 +96,7 @@ Notice how **Navigation State** is preserved in each screen as the user move thr
 
 In the case of large screens you can have multiple Navigation nodes in a split screen or you could nest them within another Navigation node. In the next video, one of the screens is splitted in two sections each with a navivation drawer on its own. Observe than switching pages in the outer NavigationDrawer doesn't affect the state of those inner NavigationDrawers. This is possible because each parent node contains its own navigation state and is not affected by being switched/swapped by a sibling node.  
 
-https://user-images.githubusercontent.com/5303301/205610888-7dd43864-50b9-4905-ac74-9efd421d11f1.mov
+https://user-images.githubusercontent.com/5303301/208034085-7a8cf47c-3339-45b0-b411-b94be1f5f974.mov
 
 or in the device, although is not to practical in this case.
 
