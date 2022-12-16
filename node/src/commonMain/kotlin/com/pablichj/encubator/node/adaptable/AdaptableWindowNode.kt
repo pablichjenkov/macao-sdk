@@ -63,19 +63,14 @@ class AdaptableWindowNode(
         )
     }
 
+    override fun onInterceptMatchingNode(matchingNode: Node): Node {
+        return CurrentNavigatorNode.value?.getNode()?.also { currentNode ->
+            currentNode.context.subPath = matchingNode.context.subPath.copy()
+        } ?: matchingNode
+    }
+
     override fun onDeepLinkMatchingNode(matchingNode: Node) {
         println("AdaptableWindowNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
-        CurrentNavigatorNode.value = when (matchingNode) {
-            CompactNavigator?.getNode() -> {
-                tryTransfer(CurrentNavigatorNode.value, CompactNavigator)
-            }
-            MediumNavigator?.getNode() -> {
-                tryTransfer(CurrentNavigatorNode.value, MediumNavigator)
-            }
-            else -> {
-                tryTransfer(CurrentNavigatorNode.value, ExpandedNavigator)
-            }
-        }
     }
 
     @Composable

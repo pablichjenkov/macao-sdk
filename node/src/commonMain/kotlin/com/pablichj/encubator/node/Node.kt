@@ -55,11 +55,21 @@ abstract class Node(
     // region: DeepLink
 
     protected open fun getDeepLinkNodes(): List<Node> = emptyList()
+
     protected open fun onDeepLinkMatchingNode(matchingNode: Node) {}
 
+    // Give a chance to the subclass to override the selected node. Good for cases like the
+    // Adaptable windows, where the current node is always returned
+    protected open fun onInterceptMatchingNode(matchingNode: Node): Node {
+        return matchingNode
+    }
+
     fun handleDeepLink(path: Path): DeepLinkResult {
-        return when(val deepLinkResult = checkDeepLinkMatch(path))  {
-            is DeepLinkResult.Error -> deepLinkResult
+        return when (val deepLinkResult = checkDeepLinkMatch(path)) {
+            is DeepLinkResult.Error -> {
+                println("Error matching deep link path: ${deepLinkResult.errorMsg}")
+                deepLinkResult
+            }
             DeepLinkResult.Success -> {
                 path.moveToStart()
                 navigateUpToDeepLink(path)
@@ -73,7 +83,8 @@ abstract class Node(
             context.subPath,
             getDeepLinkNodes()
         ) { advancedPath, matchingNode ->
-            matchingNode.checkDeepLinkMatch(advancedPath)
+            val interceptNode = onInterceptMatchingNode(matchingNode)
+            interceptNode.checkDeepLinkMatch(advancedPath)
         }
     }
 
@@ -83,9 +94,10 @@ abstract class Node(
             context.subPath,
             getDeepLinkNodes()
         ) { advancedPath, matchingNode ->
-            // Let subclasses know about the match so they push the child to the stack
-            onDeepLinkMatchingNode(matchingNode)
-            matchingNode.navigateUpToDeepLink(advancedPath)
+            val interceptNode = onInterceptMatchingNode(matchingNode)
+            // Let subclasses know about the match so they push the matching child to their stack
+            onDeepLinkMatchingNode(interceptNode)
+            interceptNode.navigateUpToDeepLink(advancedPath)
         }
     }
 
