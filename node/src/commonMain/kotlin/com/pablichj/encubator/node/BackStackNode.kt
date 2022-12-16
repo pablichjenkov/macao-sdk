@@ -1,8 +1,8 @@
 package com.pablichj.encubator.node
 
-//import androidx.compose.runtime.getValue
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-//import androidx.compose.runtime.setValue
+import androidx.compose.runtime.setValue
 import java.util.*
 
 /**
@@ -14,7 +14,7 @@ abstract class BackStackNode<T : Node>(
 ) : Node(parentContext) {
 
     val stack: Stack<T> = Stack()
-    var screenUpdateCounter = mutableStateOf(0)
+    var screenUpdateCounter by mutableStateOf(0)
 
     /**
      * Push a Node to the top of the stack.
