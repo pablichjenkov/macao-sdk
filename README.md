@@ -6,7 +6,7 @@ The library separates UI state from any of the underlying platforms, could be De
 
 <H4>Show me some code</H4>
 
-```
+```kotlin
 fun main() = application {
 
     val windowState = rememberWindowState(
@@ -54,17 +54,20 @@ Lets see how the Android code will look like for the same NavigatonDrawer type o
 ```kotlin
 class DrawerActivity : ComponentActivity() {
 
-    private val StateTree: Node = DrawerTreeBuilder.build(
-        backPressDispatcher = AndroidBackPressDispatcher(this@DrawerActivity),
-        backPressedCallback = object : BackPressedCallback() {
-            override fun onBackPressed() {
-                finish()
-            }
-        }
-    )
+    private val stateTreeHolder by viewModels<DrawerStateTreeHolder>()
+    private lateinit var StateTree: Node
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // It creates a state tree where the root node is a NavigationDrawer
+        StateTree = stateTreeHolder.getOrCreate(
+            backPressDispatcher = AndroidBackPressDispatcher(this@DrawerActivity),
+            backPressedCallback = object : BackPressedCallback() {
+                override fun onBackPressed() {
+                    finish()
+                }
+            }
+        )
         setContent {
             AppTheme {
                 StateTree.Content(Modifier)
@@ -135,7 +138,7 @@ implementation in the tree and handle the children nodes whatever the way you wa
 
 The ***Node*** abstract class produces a Composable content representing its State every time recomposition happens.
 
-```
+```kotlin
     @Composable
     abstract fun Content(modifier: Modifier)
 ```
