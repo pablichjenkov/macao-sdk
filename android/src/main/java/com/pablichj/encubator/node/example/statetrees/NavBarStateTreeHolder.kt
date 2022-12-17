@@ -4,16 +4,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
+import androidx.lifecycle.ViewModel
 import com.pablichj.encubator.node.*
 import com.pablichj.encubator.node.navbar.NavBarNode
 import com.pablichj.encubator.node.nodes.OnboardingNode
 
-class NavBarStateTreeHolder : ActivityStateHolder<Node>() {
+class NavBarStateTreeHolder : ViewModel() {
 
     private val rootParentNodeContext = NodeContext.Root()
     private lateinit var NavBarNode: NavBarNode
 
-    override fun getOrCreateStateTree(
+    fun getOrCreate(
         backPressDispatcher: IBackPressDispatcher,
         backPressedCallback: BackPressedCallback
     ): Node {
@@ -33,19 +34,31 @@ class NavBarStateTreeHolder : ActivityStateHolder<Node>() {
             NavigatorNodeItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(PagerNode.context, "Settings / Account", Icons.Filled.Home) {},
+                node = OnboardingNode(
+                    PagerNode.context,
+                    "Settings / Account",
+                    Icons.Filled.Home
+                ) {},
                 selected = false
             ),
             NavigatorNodeItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
-                node = OnboardingNode(PagerNode.context, "Settings / Profile", Icons.Filled.Edit) {},
+                node = OnboardingNode(
+                    PagerNode.context,
+                    "Settings / Profile",
+                    Icons.Filled.Edit
+                ) {},
                 selected = false
             ),
             NavigatorNodeItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
-                node = OnboardingNode(PagerNode.context, "Settings / About Us", Icons.Filled.Email) {},
+                node = OnboardingNode(
+                    PagerNode.context,
+                    "Settings / About Us",
+                    Icons.Filled.Email
+                ) {},
                 selected = false
             )
         )
@@ -66,7 +79,7 @@ class NavBarStateTreeHolder : ActivityStateHolder<Node>() {
             NavigatorNodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node =  PagerNode.also { it.setNavItems(pagerNavItems, 0) },
+                node = PagerNode.also { it.setNavItems(pagerNavItems, 0) },
                 selected = false
             )
         )

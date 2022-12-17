@@ -18,8 +18,8 @@ class PagerActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // It creates a state tree where the root node is a NavBar node
-        StateTree = activityStateHolder.getOrCreateStateTree(
+        // It creates a state tree where the root node is a Pager
+        StateTree = activityStateHolder.getOrCreate(
             backPressDispatcher = AndroidBackPressDispatcher(this@PagerActivity),
             backPressedCallback = object : BackPressedCallback() {
                 override fun onBackPressed() {
@@ -27,7 +27,6 @@ class PagerActivity : ComponentActivity() {
                 }
             }
         )
-
         setContent {
             AppTheme {
                 StateTree.Content(Modifier)

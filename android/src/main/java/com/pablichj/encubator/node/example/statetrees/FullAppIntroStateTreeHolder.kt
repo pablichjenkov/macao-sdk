@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
+import androidx.lifecycle.ViewModel
 import com.pablichj.encubator.node.*
 import com.pablichj.encubator.node.drawer.DrawerNode
 import com.pablichj.encubator.node.navbar.NavBarNode
@@ -11,12 +12,12 @@ import com.pablichj.encubator.node.nodes.AppCoordinatorNode
 import com.pablichj.encubator.node.nodes.OnboardingNode
 import com.pablichj.encubator.node.nodes.SplitNavNode
 
-class FullAppIntroStateTreeHolder : ActivityStateHolder<Node>() {
+class FullAppIntroStateTreeHolder : ViewModel() {
 
     private val rootParentNodeContext = NodeContext.Root()
     private lateinit var AppCoordinatorNode: Node
 
-    override fun getOrCreateStateTree(
+    fun getOrCreate(
         backPressDispatcher: IBackPressDispatcher,
         backPressedCallback: BackPressedCallback
     ): Node {

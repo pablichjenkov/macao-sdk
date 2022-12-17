@@ -19,7 +19,7 @@ class NavBarActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // It creates a state tree where the root node is a NavBar node
-        StateTree = activityStateHolder.getOrCreateStateTree(
+        StateTree = activityStateHolder.getOrCreate(
             backPressDispatcher = AndroidBackPressDispatcher(this@NavBarActivity),
             backPressedCallback = object : BackPressedCallback() {
                 override fun onBackPressed() {

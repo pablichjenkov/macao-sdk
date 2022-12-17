@@ -13,13 +13,13 @@ import com.pablichj.encubator.node.example.theme.AppTheme
 
 class DrawerActivity : ComponentActivity() {
 
-    private val activityStateHolder by viewModels<DrawerStateTreeHolder>()
+    private val stateTreeHolder by viewModels<DrawerStateTreeHolder>()
     private lateinit var StateTree: Node
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // It creates a state tree where the root node is a NavBar node
-        StateTree = activityStateHolder.getOrCreateStateTree(
+        // It creates a state tree where the root node is a NavigationDrawer
+        StateTree = stateTreeHolder.getOrCreate(
             backPressDispatcher = AndroidBackPressDispatcher(this@DrawerActivity),
             backPressedCallback = object : BackPressedCallback() {
                 override fun onBackPressed() {

@@ -18,8 +18,8 @@ class FullAppIntroActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // It creates a state tree where the root node is an AppCoordinator node
-        StateTree = activityStateHolder.getOrCreateStateTree(
+        // It creates a state tree where the root node is an AppCoordinator
+        StateTree = activityStateHolder.getOrCreate(
             backPressDispatcher = AndroidBackPressDispatcher(this@FullAppIntroActivity),
             backPressedCallback = object : BackPressedCallback() {
                 override fun onBackPressed() {

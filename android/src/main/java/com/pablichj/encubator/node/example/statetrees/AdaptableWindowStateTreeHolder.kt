@@ -1,10 +1,11 @@
-package com.pablichj.encubator.node.example.builders
+package com.pablichj.encubator.node.example.statetrees
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
+import androidx.lifecycle.ViewModel
 import com.pablichj.encubator.node.BackPressedCallback
 import com.pablichj.encubator.node.IBackPressDispatcher
 import com.pablichj.encubator.node.NavigatorNodeItem
@@ -16,13 +17,13 @@ import com.pablichj.encubator.node.navbar.NavBarNode
 import com.pablichj.encubator.node.nodes.OnboardingNode
 import com.pablichj.encubator.node.panel.PanelNode
 
-object AdaptableWindowNodeActivityTreeBuilder {
+class AdaptableWindowStateTreeHolder : ViewModel() {
 
     private val rootParentNodeContext = NodeContext.Root()
     private lateinit var AdaptableWindowNode: AdaptableWindowNode
     private lateinit var subTreeNavItems: MutableList<NavigatorNodeItem>
 
-    fun build(
+    fun getOrCreate(
         windowSizeInfoProvider: IWindowSizeInfoProvider,
         backPressDispatcher: IBackPressDispatcher,
         backPressedCallback: BackPressedCallback
@@ -32,7 +33,7 @@ object AdaptableWindowNodeActivityTreeBuilder {
         rootParentNodeContext.backPressDispatcher = backPressDispatcher
         rootParentNodeContext.backPressedCallbackDelegate = backPressedCallback
 
-        if (AdaptableWindowNodeActivityTreeBuilder::AdaptableWindowNode.isInitialized) {
+        if (this::AdaptableWindowNode.isInitialized) {
             return AdaptableWindowNode.apply {
                 this.context.parentContext = rootParentNodeContext
                 this.windowSizeInfoProvider = windowSizeInfoProvider
@@ -56,7 +57,7 @@ object AdaptableWindowNodeActivityTreeBuilder {
 
     fun getOrCreateDetachedNavItems(): MutableList<NavigatorNodeItem> {
 
-        if (AdaptableWindowNodeActivityTreeBuilder::subTreeNavItems.isInitialized) {
+        if (this::subTreeNavItems.isInitialized) {
             return subTreeNavItems
         }
 

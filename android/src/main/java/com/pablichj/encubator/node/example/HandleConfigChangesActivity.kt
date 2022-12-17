@@ -6,22 +6,23 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.ui.Modifier
 import com.pablichj.encubator.node.*
 import com.pablichj.encubator.node.drawer.DrawerNode
-import com.pablichj.encubator.node.nodes.AppCoordinatorNode
 import com.pablichj.encubator.node.example.theme.AppTheme
 import com.pablichj.encubator.node.navbar.NavBarNode
+import com.pablichj.encubator.node.nodes.AppCoordinatorNode
 import com.pablichj.encubator.node.nodes.OnboardingNode
-
 
 class HandleConfigChangesActivity : ComponentActivity() {
 
-    // Reference to the StateTree living in the Application scope
     private lateinit var StateTree: Node
 
-    private val childBackPressedCallback = object : com.pablichj.encubator.node.BackPressedCallback() {
+    private val childBackPressedCallback = object : BackPressedCallback() {
         override fun onBackPressed() {
             finish()
         }
@@ -92,7 +93,11 @@ class HandleConfigChangesActivity : ComponentActivity() {
             NavigatorNodeItem(
                 label = "Past",
                 icon = Icons.Filled.AccountCircle,
-                node = OnboardingNode(NavBarNode.context, "Orders / Past", Icons.Filled.AccountCircle) {},
+                node = OnboardingNode(
+                    NavBarNode.context,
+                    "Orders / Past",
+                    Icons.Filled.AccountCircle
+                ) {},
                 selected = false
             ),
             NavigatorNodeItem(
@@ -107,19 +112,31 @@ class HandleConfigChangesActivity : ComponentActivity() {
             NavigatorNodeItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(PagerNode.context, "Settings / Account", Icons.Filled.Home) {},
+                node = OnboardingNode(
+                    PagerNode.context,
+                    "Settings / Account",
+                    Icons.Filled.Home
+                ) {},
                 selected = false
             ),
             NavigatorNodeItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
-                node = OnboardingNode(PagerNode.context, "Settings / Profile", Icons.Filled.Edit) {},
+                node = OnboardingNode(
+                    PagerNode.context,
+                    "Settings / Profile",
+                    Icons.Filled.Edit
+                ) {},
                 selected = false
             ),
             NavigatorNodeItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
-                node = OnboardingNode(PagerNode.context, "Settings / About Us", Icons.Filled.Email) {},
+                node = OnboardingNode(
+                    PagerNode.context,
+                    "Settings / About Us",
+                    Icons.Filled.Email
+                ) {},
                 selected = false
             )
         )
@@ -140,13 +157,12 @@ class HandleConfigChangesActivity : ComponentActivity() {
             NavigatorNodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node =  PagerNode.also { it.setNavItems(pagerNavItems, 0) },
+                node = PagerNode.also { it.setNavItems(pagerNavItems, 0) },
                 selected = false
             )
         )
 
         return DrawerNode.also { it.setNavItems(drawerNavItems, 0) }
     }
-
 
 }

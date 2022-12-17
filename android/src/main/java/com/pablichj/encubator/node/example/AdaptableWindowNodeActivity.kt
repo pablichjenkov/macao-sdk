@@ -5,21 +5,24 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.ui.Modifier
 import com.pablichj.encubator.node.AndroidBackPressDispatcher
 import com.pablichj.encubator.node.AndroidWindowSizeInfoProvider
 import com.pablichj.encubator.node.BackPressedCallback
-import com.pablichj.encubator.node.drawer.DrawerNode
-import com.pablichj.encubator.node.example.builders.AdaptableWindowNodeActivityTreeBuilder
-import com.pablichj.encubator.node.adaptable.AdaptableWindowNode
+import com.pablichj.encubator.node.Node
+import com.pablichj.encubator.node.example.statetrees.AdaptableWindowStateTreeHolder
 import com.pablichj.encubator.node.example.theme.AppTheme
-import com.pablichj.encubator.node.navbar.NavBarNode
-import com.pablichj.encubator.node.panel.PanelNode
 
 class AdaptableWindowNodeActivity : ComponentActivity() {
 
-    private val AdaptableWindowNode: AdaptableWindowNode =
-        AdaptableWindowNodeActivityTreeBuilder.build(
+    private val stateTreeHolder by viewModels<AdaptableWindowStateTreeHolder>()
+    private lateinit var StateTree: Node
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // It creates a state tree where the root node is an AdaptableWindow
+        StateTree = stateTreeHolder.getOrCreate(
             windowSizeInfoProvider = AndroidWindowSizeInfoProvider(this),
             backPressDispatcher = AndroidBackPressDispatcher(this),
             backPressedCallback = object : BackPressedCallback() {
@@ -28,24 +31,21 @@ class AdaptableWindowNodeActivity : ComponentActivity() {
                 }
             }
         )
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
-                AdaptableWindowNode.Content(Modifier)
+                StateTree.Content(Modifier)
             }
         }
     }
 
     override fun onStart() {
         super.onStart()
-        AdaptableWindowNode.start()
+        StateTree.start()
     }
 
     override fun onStop() {
         super.onStop()
-        AdaptableWindowNode.stop()
+        StateTree.stop()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
