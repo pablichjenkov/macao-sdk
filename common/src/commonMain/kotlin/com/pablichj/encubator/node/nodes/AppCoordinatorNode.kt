@@ -37,7 +37,7 @@ class AppCoordinatorNode(
     lateinit var HomeNode: Node
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
-    private var activeNodeState: MutableState<Node?>  = mutableStateOf(null)
+    private var activeNodeState: MutableState<Node?> = mutableStateOf(null)
 
     override fun start() {
         super.start()

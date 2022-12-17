@@ -4,13 +4,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.encubator.node.*
+import com.pablichj.encubator.node.navigation.DeepLinkResult
 
 /**
  * This node is basically a proxy, it transfer request and events to its active child node
@@ -21,11 +21,12 @@ class AdaptableWindowNode(
 ) : Node(parentContext) {
 
     private var navItems: MutableList<NavigatorNodeItem> = mutableListOf()
-    private var startingPosition :Int = 0
+    private var startingPosition: Int = 0
     private var CompactNavigator: NavigatorNode? = null
     private var MediumNavigator: NavigatorNode? = null
     private var ExpandedNavigator: NavigatorNode? = null
-    private var CurrentNavigatorNode = mutableStateOf<NavigatorNode?>(null) // todo: This should be a reactive state
+    private var CurrentNavigatorNode =
+        mutableStateOf<NavigatorNode?>(null) // todo: This should be a reactive state
 
     fun setNavItems(navItems: MutableList<NavigatorNodeItem>, startingPosition: Int) {
         this.navItems = navItems
@@ -55,7 +56,9 @@ class AdaptableWindowNode(
         CurrentNavigatorNode.value?.getNode()?.stop()
     }
 
-    override fun getDeepLinkNodes(): List<Node>  {
+    // region: DeepLink
+
+    override fun getDeepLinkNodes(): List<Node> {
         return listOfNotNull(
             CompactNavigator?.getNode(),
             MediumNavigator?.getNode(),
@@ -63,15 +66,27 @@ class AdaptableWindowNode(
         )
     }
 
-    override fun onInterceptMatchingNode(matchingNode: Node): Node {
-        return CurrentNavigatorNode.value?.getNode()?.also { currentNode ->
-            currentNode.context.subPath = matchingNode.context.subPath.copy()
-        } ?: matchingNode
+    override fun onCheckChildMatchHandler(advancedPath: Path, matchingNode: Node): DeepLinkResult {
+        val interceptingNode = CurrentNavigatorNode.value?.getNode() ?: matchingNode
+        interceptingNode.context.subPath = matchingNode.context.subPath.copy()
+        return interceptingNode.checkDeepLinkMatch(advancedPath)
+    }
+
+    override fun onNavigateChildMatchHandler(
+        advancedPath: Path,
+        matchingNode: Node
+    ): DeepLinkResult {
+        val interceptingNode = CurrentNavigatorNode.value?.getNode() ?: matchingNode
+        interceptingNode.context.subPath = matchingNode.context.subPath.copy()
+        onDeepLinkMatchingNode(interceptingNode)
+        return interceptingNode.navigateUpToDeepLink(advancedPath)
     }
 
     override fun onDeepLinkMatchingNode(matchingNode: Node) {
         println("AdaptableWindowNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
     }
+
+    // endregion
 
     @Composable
     override fun Content(modifier: Modifier) {

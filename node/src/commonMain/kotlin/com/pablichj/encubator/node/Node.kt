@@ -2,6 +2,9 @@ package com.pablichj.encubator.node
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.pablichj.encubator.node.navigation.DeepLinkResult
+import com.pablichj.encubator.node.navigation.DefaultPathMatcher
+import com.pablichj.encubator.node.navigation.IPathMatcher
 
 abstract class Node(
     parentContext: NodeContext
@@ -54,20 +57,27 @@ abstract class Node(
 
     // region: DeepLink
 
+    open fun onCheckChildMatchHandler(advancedPath: Path, matchingNode: Node): DeepLinkResult {
+        return matchingNode.checkDeepLinkMatch(advancedPath)
+    }
+
+    open fun onNavigateChildMatchHandler(advancedPath: Path, matchingNode: Node): DeepLinkResult {
+        onDeepLinkMatchingNode(matchingNode)
+        return matchingNode.navigateUpToDeepLink(advancedPath)
+    }
+
+    open val pathMatcher: IPathMatcher by lazy {
+        DefaultPathMatcher
+    }
+
     protected open fun getDeepLinkNodes(): List<Node> = emptyList()
 
     protected open fun onDeepLinkMatchingNode(matchingNode: Node) {}
 
-    // Give a chance to the subclass to override the selected node. Good for cases like the
-    // Adaptable windows, where the current node is always returned
-    protected open fun onInterceptMatchingNode(matchingNode: Node): Node {
-        return matchingNode
-    }
-
     fun handleDeepLink(path: Path): DeepLinkResult {
         return when (val deepLinkResult = checkDeepLinkMatch(path)) {
             is DeepLinkResult.Error -> {
-                println("Error matching deep link path: ${deepLinkResult.errorMsg}")
+                println(deepLinkResult.errorMsg)
                 deepLinkResult
             }
             DeepLinkResult.Success -> {
@@ -78,26 +88,22 @@ abstract class Node(
     }
 
     internal fun checkDeepLinkMatch(path: Path): DeepLinkResult {
-        return PathMatcher.traverseWithChildMatchAction(
+        return pathMatcher.traverseWithChildMatchAction(
             path,
             context.subPath,
             getDeepLinkNodes()
         ) { advancedPath, matchingNode ->
-            val interceptNode = onInterceptMatchingNode(matchingNode)
-            interceptNode.checkDeepLinkMatch(advancedPath)
+            onCheckChildMatchHandler(advancedPath, matchingNode)
         }
     }
 
     internal fun navigateUpToDeepLink(path: Path): DeepLinkResult {
-        return PathMatcher.traverseWithChildMatchAction(
+        return pathMatcher.traverseWithChildMatchAction(
             path,
             context.subPath,
             getDeepLinkNodes()
         ) { advancedPath, matchingNode ->
-            val interceptNode = onInterceptMatchingNode(matchingNode)
-            // Let subclasses know about the match so they push the matching child to their stack
-            onDeepLinkMatchingNode(interceptNode)
-            interceptNode.navigateUpToDeepLink(advancedPath)
+            onNavigateChildMatchHandler(advancedPath, matchingNode)
         }
     }
 
