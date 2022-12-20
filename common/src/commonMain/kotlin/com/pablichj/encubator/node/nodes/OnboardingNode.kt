@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.pablichj.encubator.node.BackStackNode
 import com.pablichj.encubator.node.Node
 import com.pablichj.encubator.node.NodeContext
-import com.pablichj.encubator.node.SubPath
+import com.pablichj.encubator.node.navigation.SubPath
 import com.pablichj.encubator.node.topbar.TitleSectionStateHolder
 import com.pablichj.encubator.node.topbar.TopBar
 import com.pablichj.encubator.node.topbar.TopBarState

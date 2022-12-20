@@ -1,8 +1,6 @@
-package com.pablichj.encubator.node.navigation;
+package com.pablichj.encubator.node.navigation
 
 import com.pablichj.encubator.node.Node
-import com.pablichj.encubator.node.Path
-import com.pablichj.encubator.node.SubPath
 
 object DefaultPathMatcher : IPathMatcher {
 
@@ -17,7 +15,7 @@ object DefaultPathMatcher : IPathMatcher {
         if (currentRoute != currentNodeSubPath.route) {
             return DeepLinkResult.Error(
                 """
-                Node::deepLink(). This node with route(${currentNodeSubPath}) did not match
+                Node::deepLink(). This node with route(${currentNodeSubPath.route}) did not match
                 any child in parent node with absolute path: ${path.getCurrentPathAsString()}
             """.trimIndent()
             )

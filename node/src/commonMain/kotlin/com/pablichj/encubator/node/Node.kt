@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import com.pablichj.encubator.node.navigation.DeepLinkResult
 import com.pablichj.encubator.node.navigation.DefaultPathMatcher
 import com.pablichj.encubator.node.navigation.IPathMatcher
+import com.pablichj.encubator.node.navigation.Path
 
 abstract class Node(
     parentContext: NodeContext

@@ -9,6 +9,7 @@ import com.pablichj.encubator.node.*
 import com.pablichj.encubator.node.adaptable.AdaptableWindowNode
 import com.pablichj.encubator.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.encubator.node.navbar.NavBarNode
+import com.pablichj.encubator.node.navigation.SubPath
 import com.pablichj.encubator.node.nodes.OnboardingNode
 
 object AdaptableWindowTreeBuilder {

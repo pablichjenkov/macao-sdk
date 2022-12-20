@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowState
 import com.pablichj.encubator.node.BackPressedCallback
 import com.pablichj.encubator.node.JvmBackPressDispatcher
 import com.pablichj.encubator.node.Node
@@ -16,38 +17,39 @@ import kotlinx.coroutines.launch
 
 class SettingsWindowNode(
     parentContext: NodeContext
-) : WindowNode(parentContext) {
+) : Node(parentContext) {
+    private val windowState = WindowState()
+    private var isActive = mutableStateOf(true)
 
-    var isActive = mutableStateOf(true)
-    private var activeNode: Node
-
-    init {
-        activeNode = FullAppTreeBuilder.build(
-            JvmBackPressDispatcher(),
-            backPressedCallback = object : BackPressedCallback() {
-                override fun onBackPressed() {}
-            }
-        )
-    }
+    private var activeNode: Node = FullAppTreeBuilder.build(
+        JvmBackPressDispatcher(),
+        backPressedCallback = object : BackPressedCallback() {
+            override fun onBackPressed() {}
+        }
+    )
 
     @Composable
     override fun Content(modifier: Modifier) {
+        if (!isActive.value) {
+            return
+        }
 
-        if (!isActive.value) { return }
-
-        Window(onCloseRequest = {
-            isActive.value = false
-        },
-            windowState) {
+        Window(
+            state = windowState,
+            onCloseRequest = {
+                isActive.value = false
+            }
+        ) {
             activeNode.Content(Modifier)
-            LaunchedEffect(windowState) {
-                launch {
-                    snapshotFlow { windowState.isMinimized }
-                        .onEach {
-                            onWindowMinimized(activeNode, it)
-                        }
-                        .launchIn(this)
-                }
+        }
+
+        LaunchedEffect(windowState) {
+            launch {
+                snapshotFlow { windowState.isMinimized }
+                    .onEach {
+                        onWindowMinimized(activeNode, it)
+                    }
+                    .launchIn(this)
             }
         }
     }

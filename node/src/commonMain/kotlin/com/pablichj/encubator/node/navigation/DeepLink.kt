@@ -1,4 +1,4 @@
-package com.pablichj.encubator.node
+package com.pablichj.encubator.node.navigation
 
 class Path() {
 
@@ -73,6 +73,16 @@ class Path() {
     fun moveToStart(): Path {
         currentSubPathIndex = 0
         return this
+    }
+
+    override fun toString(): String {
+        val stringBuilder = subPathList.fold(
+            StringBuilder()
+        ) { sb, subPath ->
+            sb.append(subPath.route)
+            sb.append("/")
+        }
+        return stringBuilder.toString()
     }
 }
 

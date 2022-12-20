@@ -1,5 +1,7 @@
 package com.pablichj.encubator.node
 
+import com.pablichj.encubator.node.navigation.SubPath
+
 /**
  * Singly Linked List that represents a path of NodeContext from the current node
  * up to the root node.

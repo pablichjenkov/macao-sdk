@@ -3,7 +3,7 @@ package com.pablichj.encubator.node.example
 import com.pablichj.encubator.node.BackPressedCallback
 import com.pablichj.encubator.node.IBackPressDispatcher
 import com.pablichj.encubator.node.NodeContext
-import com.pablichj.encubator.node.SubPath
+import com.pablichj.encubator.node.navigation.SubPath
 
 object DesktopAppStateTreeBuilder {
 
