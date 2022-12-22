@@ -1,13 +1,12 @@
-package com.pablichj.encubator.node.example
+package com.pablichj.encubator.node.example.statetrees
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.*
 import com.pablichj.encubator.node.BackPressedCallback
 import com.pablichj.encubator.node.IBackPressDispatcher
 import com.pablichj.encubator.node.NavigatorNodeItem
 import com.pablichj.encubator.node.NodeContext
+import com.pablichj.encubator.node.navbar.NavBarNode
 import com.pablichj.encubator.node.nodes.OnboardingNode
 import com.pablichj.encubator.node.panel.PanelNode
 
@@ -41,7 +40,7 @@ object PanelTreeBuilder {
             NavigatorNodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
-                node = NavBarTreeBuilder.build(PanelNode.context),
+                node = buildNavBarNode(PanelNode.context),
                 selected = false
             ),
             NavigatorNodeItem(
@@ -53,6 +52,34 @@ object PanelTreeBuilder {
         )
 
         return PanelNode.also { it.setNavItems(panelNavItems, 0) }
+    }
+
+    private fun buildNavBarNode(parentContext: NodeContext): NavBarNode {
+
+        val NavBarNode = NavBarNode(parentContext)
+
+        val navbarNavItems = mutableListOf(
+            NavigatorNodeItem(
+                label = "Home",
+                icon = Icons.Filled.Home,
+                node = OnboardingNode(NavBarNode.context, "Home", Icons.Filled.Home) {},
+                selected = false
+            ),
+            NavigatorNodeItem(
+                label = "Orders",
+                icon = Icons.Filled.Settings,
+                node = OnboardingNode(NavBarNode.context, "Orders", Icons.Filled.Settings) {},
+                selected = false
+            ),
+            NavigatorNodeItem(
+                label = "Settings",
+                icon = Icons.Filled.Add,
+                node = OnboardingNode(NavBarNode.context, "Settings", Icons.Filled.Add) {},
+                selected = false
+            )
+        )
+
+        return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }
     }
 
 }

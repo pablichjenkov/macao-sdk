@@ -1,9 +1,11 @@
-package com.pablichj.encubator.node.example
+package com.pablichj.encubator.node.example.statetrees
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
+import com.pablichj.encubator.node.BackPressedCallback
+import com.pablichj.encubator.node.IBackPressDispatcher
 import com.pablichj.encubator.node.NavigatorNodeItem
 import com.pablichj.encubator.node.NodeContext
 import com.pablichj.encubator.node.navbar.NavBarNode
@@ -11,9 +13,23 @@ import com.pablichj.encubator.node.nodes.OnboardingNode
 
 object NavBarTreeBuilder {
 
-    fun build(parentContext: NodeContext): NavBarNode {
+    private val rootParentNodeContext = NodeContext.Root()
+    private lateinit var NavBarNode: NavBarNode
 
-        val NavBarNode = NavBarNode(parentContext)
+    fun build(
+        backPressDispatcher: IBackPressDispatcher,
+        backPressedCallback: BackPressedCallback
+    ): NavBarNode {
+
+        // Update the back pressed dispatcher with the new Activity OnBackPressDispatcher.
+        rootParentNodeContext.backPressDispatcher = backPressDispatcher
+        rootParentNodeContext.backPressedCallbackDelegate = backPressedCallback
+
+        if (NavBarTreeBuilder::NavBarNode.isInitialized) {
+            return NavBarNode
+        }
+
+        val NavBarNode = NavBarNode(rootParentNodeContext)
 
         val navbarNavItems = mutableListOf(
             NavigatorNodeItem(

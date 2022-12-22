@@ -11,12 +11,12 @@ import com.pablichj.encubator.node.AndroidBackPressDispatcher
 import com.pablichj.encubator.node.AndroidWindowSizeInfoProvider
 import com.pablichj.encubator.node.BackPressedCallback
 import com.pablichj.encubator.node.Node
-import com.pablichj.encubator.node.example.statetrees.AdaptableWindowStateTreeHolder
+import com.pablichj.encubator.node.example.statetrees.AdaptableSizeStateTreeHolder
 import com.pablichj.encubator.node.example.theme.AppTheme
 
-class AdaptableWindowNodeActivity : ComponentActivity() {
+class AdaptableSizeNodeActivity : ComponentActivity() {
 
-    private val stateTreeHolder by viewModels<AdaptableWindowStateTreeHolder>()
+    private val stateTreeHolder by viewModels<AdaptableSizeStateTreeHolder>()
     private lateinit var StateTree: Node
 
     override fun onCreate(savedInstanceState: Bundle?) {

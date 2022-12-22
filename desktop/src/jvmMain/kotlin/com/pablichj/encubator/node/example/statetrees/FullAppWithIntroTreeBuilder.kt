@@ -1,4 +1,4 @@
-package com.pablichj.encubator.node.example
+package com.pablichj.encubator.node.example.statetrees
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -11,7 +11,7 @@ import com.pablichj.encubator.node.nodes.AppCoordinatorNode
 import com.pablichj.encubator.node.nodes.OnboardingNode
 import com.pablichj.encubator.node.nodes.SplitNavNode
 
-object FullAppTreeBuilder {
+object FullAppWithIntroTreeBuilder {
 
     private val rootParentNodeContext = NodeContext.Root()
     private lateinit var AppCoordinatorNode: Node
@@ -25,7 +25,7 @@ object FullAppTreeBuilder {
         rootParentNodeContext.backPressDispatcher = backPressDispatcher
         rootParentNodeContext.backPressedCallbackDelegate = backPressedCallback
 
-        if (FullAppTreeBuilder::AppCoordinatorNode.isInitialized) {
+        if (FullAppWithIntroTreeBuilder::AppCoordinatorNode.isInitialized) {
             return AppCoordinatorNode
         }
 

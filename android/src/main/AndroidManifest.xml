@@ -40,7 +40,7 @@
             android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true" />
         <activity
-            android:name=".example.AdaptableWindowNodeActivity"
+            android:name=".example.AdaptableSizeNodeActivity"
             android:exported="true" />
     </application>
 

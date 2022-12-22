@@ -16,7 +16,7 @@ import com.pablichj.encubator.node.navigation.Path
 /**
  * This node is basically a proxy, it transfer request and events to its active child node
  * */
-class AdaptableWindowNode(
+class AdaptableSizeNode(
     parentContext: NodeContext,
     var windowSizeInfoProvider: IWindowSizeInfoProvider
 ) : Node(parentContext) {

@@ -1,4 +1,4 @@
-package com.pablichj.encubator.node.example
+package com.pablichj.encubator.node.example.statetrees
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -6,48 +6,48 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
 import com.pablichj.encubator.node.*
-import com.pablichj.encubator.node.adaptable.AdaptableWindowNode
+import com.pablichj.encubator.node.adaptable.AdaptableSizeNode
 import com.pablichj.encubator.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.encubator.node.navbar.NavBarNode
 import com.pablichj.encubator.node.navigation.SubPath
 import com.pablichj.encubator.node.nodes.OnboardingNode
 
-object AdaptableWindowTreeBuilder {
+object AdaptableSizeTreeBuilder {
 
     private val rootParentNodeContext = NodeContext.Root()
-    private lateinit var AdaptableWindowNode: AdaptableWindowNode
+    private lateinit var AdaptableSizeNode: AdaptableSizeNode
     private lateinit var subTreeNavItems: MutableList<NavigatorNodeItem>
 
-    fun build(
+    fun getOrCreateAdaptableSizeNode(
         windowSizeInfoProvider: IWindowSizeInfoProvider,
         backPressDispatcher: IBackPressDispatcher,
         backPressedCallback: BackPressedCallback
-    ): AdaptableWindowNode {
+    ): AdaptableSizeNode {
 
         // Update the back pressed dispatcher with the new Activity OnBackPressDispatcher.
         rootParentNodeContext.backPressDispatcher = backPressDispatcher
         rootParentNodeContext.backPressedCallbackDelegate = backPressedCallback
 
-        if (AdaptableWindowTreeBuilder::AdaptableWindowNode.isInitialized) {
-            return AdaptableWindowNode.apply {
+        if (AdaptableSizeTreeBuilder::AdaptableSizeNode.isInitialized) {
+            return AdaptableSizeNode.apply {
                 this.context.parentContext = rootParentNodeContext
                 this.windowSizeInfoProvider = windowSizeInfoProvider
             }
         }
 
-        return AdaptableWindowNode(
+        return AdaptableSizeNode(
             rootParentNodeContext,
             windowSizeInfoProvider
         ).also {
             it.context.subPath = SubPath("AdaptableWindow")
-            AdaptableWindowNode = it
+            AdaptableSizeNode = it
         }
 
     }
 
     fun getOrCreateDetachedNavItems(): MutableList<NavigatorNodeItem> {
 
-        if (AdaptableWindowTreeBuilder::subTreeNavItems.isInitialized) {
+        if (AdaptableSizeTreeBuilder::subTreeNavItems.isInitialized) {
             return subTreeNavItems
         }
 

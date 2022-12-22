@@ -10,37 +10,37 @@ import com.pablichj.encubator.node.BackPressedCallback
 import com.pablichj.encubator.node.IBackPressDispatcher
 import com.pablichj.encubator.node.NavigatorNodeItem
 import com.pablichj.encubator.node.NodeContext
-import com.pablichj.encubator.node.adaptable.AdaptableWindowNode
+import com.pablichj.encubator.node.adaptable.AdaptableSizeNode
 import com.pablichj.encubator.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.encubator.node.drawer.DrawerNode
 import com.pablichj.encubator.node.navbar.NavBarNode
 import com.pablichj.encubator.node.nodes.OnboardingNode
 import com.pablichj.encubator.node.panel.PanelNode
 
-class AdaptableWindowStateTreeHolder : ViewModel() {
+class AdaptableSizeStateTreeHolder : ViewModel() {
 
     private val rootParentNodeContext = NodeContext.Root()
-    private lateinit var AdaptableWindowNode: AdaptableWindowNode
+    private lateinit var AdaptableSizeNode: AdaptableSizeNode
     private lateinit var subTreeNavItems: MutableList<NavigatorNodeItem>
 
     fun getOrCreate(
         windowSizeInfoProvider: IWindowSizeInfoProvider,
         backPressDispatcher: IBackPressDispatcher,
         backPressedCallback: BackPressedCallback
-    ): AdaptableWindowNode {
+    ): AdaptableSizeNode {
 
         // Update the back pressed dispatcher with the new Activity OnBackPressDispatcher.
         rootParentNodeContext.backPressDispatcher = backPressDispatcher
         rootParentNodeContext.backPressedCallbackDelegate = backPressedCallback
 
-        if (this::AdaptableWindowNode.isInitialized) {
-            return AdaptableWindowNode.apply {
+        if (this::AdaptableSizeNode.isInitialized) {
+            return AdaptableSizeNode.apply {
                 this.context.parentContext = rootParentNodeContext
                 this.windowSizeInfoProvider = windowSizeInfoProvider
             }
         }
 
-        return AdaptableWindowNode(
+        return AdaptableSizeNode(
             rootParentNodeContext,
             windowSizeInfoProvider
         ).also {
@@ -50,7 +50,7 @@ class AdaptableWindowStateTreeHolder : ViewModel() {
             it.setCompactNavigator(DrawerNode(it.context))
             it.setMediumNavigator(NavBarNode(it.context))
             it.setExpandedNavigator(PanelNode(it.context))
-            AdaptableWindowNode = it
+            AdaptableSizeNode = it
         }
 
     }

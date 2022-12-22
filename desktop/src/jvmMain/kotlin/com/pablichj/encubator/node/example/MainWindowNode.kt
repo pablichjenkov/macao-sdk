@@ -2,7 +2,6 @@ package com.pablichj.encubator.node.example
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.MenuBar
@@ -13,6 +12,7 @@ import com.pablichj.encubator.node.drawer.DrawerNode
 import com.pablichj.encubator.node.navbar.NavBarNode
 import com.pablichj.encubator.node.navigation.SubPath
 import com.pablichj.encubator.node.panel.PanelNode
+import com.pablichj.encubator.node.example.statetrees.AdaptableSizeTreeBuilder
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -20,20 +20,18 @@ import kotlinx.coroutines.launch
 class MainWindowNode(
     parentContext: NodeContext,
     val onOpenDeepLinkClick: () -> Unit,
+    val onRootNodeSelection: (WindowNodeSample) -> Unit,
     val onExitClick: () -> Unit
-) : Node(parentContext) {
+) : Node(parentContext), WindowNode {
     private val windowState = WindowState()
     private val windowSizeInfoProvider = JvmWindowSizeInfoProvider(windowState)
-
-    // todo: Replace isActive by onCloseCallback
-    private var isActive = mutableStateOf(true)
-    private var activeNode: Node
+    private var AdaptableSizeNode: Node
 
     init {
         this@MainWindowNode.context.subPath = SubPath("App")
-        val subtreeNavItems = AdaptableWindowTreeBuilder.getOrCreateDetachedNavItems()
+        val subtreeNavItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
 
-        activeNode = AdaptableWindowTreeBuilder.build(
+        AdaptableSizeNode = AdaptableSizeTreeBuilder.getOrCreateAdaptableSizeNode(
             windowSizeInfoProvider,
             JvmBackPressDispatcher(),
             backPressedCallback = object : BackPressedCallback() {
@@ -52,30 +50,23 @@ class MainWindowNode(
     // region: DeepLink
 
     override fun getDeepLinkNodes(): List<Node> {
-        return listOf(activeNode)
+        return listOf(AdaptableSizeNode)
     }
 
     override fun onDeepLinkMatchingNode(matchingNode: Node) {
-        println("OnboardingNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
-        //activeNode.
+        println("MainWindowNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
     }
 
     // endregion
 
     @Composable
     override fun Content(modifier: Modifier) {
-        if (!isActive.value) {
-            return
-        }
-
         Window(
             state = windowState,
-            onCloseRequest = {
-                isActive.value = false
-            }
+            onCloseRequest = { onExitClick() }
         ) {
             MenuBar {
-                Menu("File") {
+                Menu("Actions") {
                     Item(
                         "Deep Link",
                         onClick = {
@@ -89,15 +80,44 @@ class MainWindowNode(
                         }
                     )
                 }
+                Menu("Root Node") {
+                    Item(
+                        "Slide Drawer",
+                        onClick = {
+                            onRootNodeSelection(WindowNodeSample.Drawer)
+                        }
+                    )
+                    Item(
+                        "Nav Bottom Bar",
+                        onClick = {
+                            onRootNodeSelection(WindowNodeSample.Navbar)
+                        }
+                    )
+                    Item(
+                        "Left Panel",
+                        onClick = {
+                            onRootNodeSelection(WindowNodeSample.Panel)
+                        }
+                    )
+                    Item(
+                        "Full App Sample",
+                        onClick = {
+                            onRootNodeSelection(WindowNodeSample.FullApp)
+                        }
+                    )
+                }
+
             }
-            activeNode.Content(Modifier)
+
+            AdaptableSizeNode.Content(Modifier)
+
         }
 
         LaunchedEffect(windowState) {
             launch {
                 snapshotFlow { windowState.isMinimized }
                     .onEach {
-                        onWindowMinimized(activeNode, it)
+                        onWindowMinimized(AdaptableSizeNode, it)
                     }
                     .launchIn(this)
             }

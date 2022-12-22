@@ -1,11 +1,12 @@
-package com.pablichj.encubator.node.example
+package com.pablichj.encubator.node.example.statetrees
 
 import com.pablichj.encubator.node.BackPressedCallback
 import com.pablichj.encubator.node.IBackPressDispatcher
 import com.pablichj.encubator.node.NodeContext
+import com.pablichj.encubator.node.example.DesktopAppNode
 import com.pablichj.encubator.node.navigation.SubPath
 
-object DesktopAppStateTreeBuilder {
+object DesktopAppTreeBuilder {
 
     private val rootParentNodeContext = NodeContext.Root()
     private lateinit var DesktopAppNode: DesktopAppNode
@@ -19,7 +20,7 @@ object DesktopAppStateTreeBuilder {
         rootParentNodeContext.backPressDispatcher = backPressDispatcher
         rootParentNodeContext.backPressedCallbackDelegate = backPressedCallback
 
-        if (DesktopAppStateTreeBuilder::DesktopAppNode.isInitialized) {
+        if (DesktopAppTreeBuilder::DesktopAppNode.isInitialized) {
             return DesktopAppNode.apply {
                 this.context.parentContext = rootParentNodeContext
             }

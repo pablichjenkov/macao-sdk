@@ -1,16 +1,18 @@
 package com.pablichj.encubator.node.example
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
@@ -21,12 +23,15 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
+
 class DeepLinkNode(
     parentContext: NodeContext,
     val onDeepLinkClick: (path: Path) -> Unit,
     val onCloseClick: () -> Unit
-) : Node(parentContext) {
-    private val windowState = WindowState()
+) : Node(parentContext), WindowNode {
+    private val windowState = WindowState(
+        width = Dp.Unspecified, height = 800.dp
+    )
 
     private val deepLinks = mutableListOf<Path>(
         getDeepLinkPath1(),
@@ -74,15 +79,28 @@ class DeepLinkNode(
                 items(
                     items = deepLinks,
                     itemContent = { path ->
-                        Text(
-                            modifier = Modifier.clickable(
-                                enabled = true
+                        Card(
+                            modifier = Modifier
+                                .wrapContentWidth()
+                                .padding(8.dp)
+                                .clickable {
+                                    onDeepLinkClick(path.moveToStart())
+                                },
+                            elevation = 8.dp
+                        ) {
+                            Column (
+                                modifier = Modifier
+                                    .wrapContentWidth()
+                                    .height(72.dp)
+                                    .padding(8.dp)
                             ) {
-                                onDeepLinkClick(path.moveToStart())
-                            },
-                            text = path.toString(),
-                            style = TextStyle(fontSize = 18.sp)
-                        )
+                                Text(
+                                    text = path.toString(),
+                                    style = TextStyle(fontSize = 18.sp)
+                                )
+                            }
+
+                        }
                     })
             }
         }

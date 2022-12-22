@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
                         "Handle onConfigurationChanged() Example"
                     )
                     LaunchButton(
-                        AdaptableWindowNodeActivity::class.java,
+                        AdaptableSizeNodeActivity::class.java,
                         "Swap Root Navigation Example"
                     )
                 }
