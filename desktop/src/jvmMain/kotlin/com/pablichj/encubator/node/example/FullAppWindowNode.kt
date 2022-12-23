@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import com.pablichj.encubator.node.BackPressedCallback
@@ -19,7 +21,7 @@ class FullAppWindowNode(
     parentContext: NodeContext,
     val onCloseClick: () -> Unit
 ) : Node(parentContext), WindowNode {
-    private val windowState = WindowState()
+    private val windowState = WindowState(size = DpSize(800.dp, 900.dp))
 
     private var activeNode: Node = FullAppWithIntroTreeBuilder.build(
         JvmBackPressDispatcher(),

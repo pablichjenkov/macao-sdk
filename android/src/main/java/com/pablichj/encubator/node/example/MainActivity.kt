@@ -80,19 +80,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    // TODO: Implement FloatingButton navigation node: FloatingButtonNode
-    @Composable
-    fun BoxScope.FloatingButton() {
-        Button(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp),
-            onClick = {
-                //(StateTree as DrawerNode).popToHome()
-            }
-        ) {
-            Text(text = "Pop Root")
-        }
-    }
-
 }

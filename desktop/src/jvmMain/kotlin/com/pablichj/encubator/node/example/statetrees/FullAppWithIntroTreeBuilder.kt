@@ -54,18 +54,6 @@ object FullAppWithIntroTreeBuilder {
                 selected = false
             ),
             NavigatorNodeItem(
-                label = "Past",
-                icon = Icons.Filled.Edit,
-                node = OnboardingNode(NavBarNode.context, "Orders / Past", Icons.Filled.Edit) {},
-                selected = false
-            ),
-            NavigatorNodeItem(
-                label = "Claim",
-                icon = Icons.Filled.Email,
-                node = OnboardingNode(NavBarNode.context, "Orders / Claim", Icons.Filled.Email) {},
-                selected = false
-            ),
-            NavigatorNodeItem(
                 label = "Nested Node",
                 icon = Icons.Filled.Email,
                 node = SplitNavNode,

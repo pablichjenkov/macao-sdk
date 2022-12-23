@@ -1,9 +1,15 @@
 package com.pablichj.encubator.node.example
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
@@ -23,8 +29,9 @@ class MainWindowNode(
     val onRootNodeSelection: (WindowNodeSample) -> Unit,
     val onExitClick: () -> Unit
 ) : Node(parentContext), WindowNode {
-    private val windowState = WindowState()
+    private val windowState = WindowState(size = DpSize(800.dp, 900.dp))
     private val windowSizeInfoProvider = JvmWindowSizeInfoProvider(windowState)
+    private val jvmBackPressDispatcher = JvmBackPressDispatcher()
     private var AdaptableSizeNode: Node
 
     init {
@@ -33,9 +40,11 @@ class MainWindowNode(
 
         AdaptableSizeNode = AdaptableSizeTreeBuilder.getOrCreateAdaptableSizeNode(
             windowSizeInfoProvider,
-            JvmBackPressDispatcher(),
+            jvmBackPressDispatcher,
             backPressedCallback = object : BackPressedCallback() {
-                override fun onBackPressed() {}
+                override fun onBackPressed() {
+                    onExitClick()
+                }
             }
         ).apply {
             this@apply.context.subPath = SubPath("AdaptableWindow")
@@ -44,7 +53,6 @@ class MainWindowNode(
             setMediumNavigator(NavBarNode(context).apply { context.subPath = SubPath("Navbar") })
             setExpandedNavigator(PanelNode(context).apply { context.subPath = SubPath("Panel") })
         }
-
     }
 
     // region: DeepLink
@@ -80,7 +88,7 @@ class MainWindowNode(
                         }
                     )
                 }
-                Menu("Root Node") {
+                Menu("Samples") {
                     Item(
                         "Slide Drawer",
                         onClick = {
@@ -109,7 +117,15 @@ class MainWindowNode(
 
             }
 
-            AdaptableSizeNode.Content(Modifier)
+            Box {
+                AdaptableSizeNode.Content(Modifier)
+                FloatingButton(
+                    modifier = Modifier.offset(y = 48.dp),
+                    alignment = Alignment.TopStart,
+                    onClick = { jvmBackPressDispatcher.dispatchBackPressed() }
+                )
+
+            }
 
         }
 

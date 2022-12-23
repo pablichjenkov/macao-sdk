@@ -10,7 +10,7 @@ class AndroidBackPressDispatcher(
     override fun subscribe(backPressedCallback: BackPressedCallback) {
         activity.onBackPressedDispatcher.addCallback(
             activity,
-            AndroidBackPressedCallback(backPressedCallback, true)
+            AndroidBackPressedCallbackProxy(backPressedCallback, true)
         )
     }
 
@@ -20,7 +20,7 @@ class AndroidBackPressDispatcher(
 
 }
 
-class AndroidBackPressedCallback(
+internal class AndroidBackPressedCallbackProxy(
     private val backPressedCallback: BackPressedCallback,
     enabled: Boolean
 ) : OnBackPressedCallback(enabled) {

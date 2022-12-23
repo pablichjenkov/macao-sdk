@@ -11,14 +11,13 @@ object DesktopAppTreeBuilder {
     private val rootParentNodeContext = NodeContext.Root()
     private lateinit var DesktopAppNode: DesktopAppNode
 
-    fun getOrCreateDesktopAppNode(
-        backPressDispatcher: IBackPressDispatcher,
-        backPressedCallback: BackPressedCallback
-    ): DesktopAppNode {
+    fun build(): DesktopAppNode {
 
         // Update the back pressed dispatcher with the new Activity OnBackPressDispatcher.
-        rootParentNodeContext.backPressDispatcher = backPressDispatcher
-        rootParentNodeContext.backPressedCallbackDelegate = backPressedCallback
+        rootParentNodeContext.backPressDispatcher = null
+        rootParentNodeContext.backPressedCallbackDelegate = object : BackPressedCallback() {
+            override fun onBackPressed() {}
+        }
 
         if (DesktopAppTreeBuilder::DesktopAppNode.isInitialized) {
             return DesktopAppNode.apply {
