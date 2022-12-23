@@ -9,45 +9,18 @@ The library separates UI state from any of the underlying platforms, could be De
 ```kotlin
 fun main() = application {
 
-    val windowState = rememberWindowState(
-        size = DpSize(width = 400.dp, height = 800.dp)
-    )
-
-    val RootNode = remember<Node>(key1 = windowState) {
-        DrawerTreeBuilder.build(
-            JvmBackPressDispatcher(),
-            backPressedCallback = object : BackPressedCallback() {
-                override fun onBackPressed() {}
-            }
-        )
+    val DesktopAppNode: DesktopAppNode = remember(key1 = this) {
+        DesktopAppTreeBuilder.build()
     }
 
-    Window(onCloseRequest = ::exitApplication, windowState) {
-        RootNode.Content(Modifier)
-        LaunchedEffect(windowState) {
-            launch {
-                snapshotFlow { windowState.isMinimized }
-                    .onEach {
-                        onWindowMinimized(RootNode, it)
-                    }
-                    .launchIn(this)
-            }
-        }
-    }
-
-}
-
-private fun onWindowMinimized(RootNode: Node, minimized: Boolean) {
-    if (minimized) {
-        RootNode.stop()
-    } else {
-        RootNode.start()
-    }
+    DesktopAppNode.Content(Modifier)
 }
 ```
-Above code will produce an desktop application like the one shown bellow:
+Above code will produce the desktop application shown in the video below. The **DesktopAppNode** is a demo node that consists of, an **AdaptableSizeNode** as a parent of 3 **NavigatorNodes**(Drawer, BottomBar, Panel) that share children of type **BackStackNodes** which contain single page Nodes(Page1, Page2, Page3). When the window size changes, the **DesktopAppNode** sets the corresponding **NavigatorNode** as active, and the children nodes are tranfered from one navigator parent to the new active navigator parent. In the video there is also a demonstration of how deep links work. Deep links are represented as a path in the state tree, each subpath represents a node. When a deep link path is traversed, each node represented in a subpath is activated, all the way upto the last node. The node path can be mapped to a web url.
 
-https://user-images.githubusercontent.com/5303301/205948739-af784cc9-acd7-4375-9baa-5ab470e5f046.mov
+
+https://user-images.githubusercontent.com/5303301/209282619-06748ddc-3fb1-4a74-8849-0c2215bbafc4.mp4
+
 
 Lets see how the Android code will look like for the same NavigatonDrawer type of Application.
 
