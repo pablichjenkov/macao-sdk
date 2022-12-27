@@ -7,6 +7,86 @@ The library separates UI state from any of the underlying platforms, could be De
 <H4>Show me some code</H4>
 
 ```kotlin
+// An example of how to make a tree. In this case a DrawerNode that will have a BottomBarNode as one of its child.
+object DrawerTreeBuilder {
+
+    private val rootContext = NodeContext.Root()
+    private lateinit var DrawerNode: DrawerNode
+
+    fun build(
+        backPressDispatcher: IBackPressDispatcher,
+        backPressedCallback: BackPressedCallback
+    ): DrawerNode {
+
+        // Update the back pressed dispatcher with the new Activity OnBackPressDispatcher.
+        rootContext.backPressDispatcher = backPressDispatcher
+        rootContext.backPressedCallbackDelegate = backPressedCallback
+
+        if (DrawerTreeBuilder::DrawerNode.isInitialized) {
+            return DrawerNode
+        }
+
+        val DrawerNode = DrawerNode(rootContext)
+
+        val drawerNavItems = mutableListOf(
+            NavigatorNodeItem(
+                label = "Home",
+                icon = Icons.Filled.Home,
+                node = OnboardingNode(DrawerNode.context, "Home", Icons.Filled.Home) {},
+                selected = false
+            ),
+            NavigatorNodeItem(
+                label = "Orders",
+                icon = Icons.Filled.Refresh,
+                node = buildNavBarNode(DrawerNode.context),
+                selected = false
+            ),
+            NavigatorNodeItem(
+                label = "Settings",
+                icon = Icons.Filled.Email,
+                node = OnboardingNode(DrawerNode.context, "Settings", Icons.Filled.Email) {},
+                selected = false
+            )
+        )
+
+        return DrawerNode.also { it.setNavItems(drawerNavItems, 0) }
+    }
+
+    private fun buildNavBarNode(parentContext: NodeContext): NavBarNode {
+
+        val NavBarNode = NavBarNode(parentContext)
+
+        val navbarNavItems = mutableListOf(
+            NavigatorNodeItem(
+                label = "Home",
+                icon = Icons.Filled.Home,
+                node = OnboardingNode(NavBarNode.context, "Home", Icons.Filled.Home) {},
+                selected = false
+            ),
+            NavigatorNodeItem(
+                label = "Orders",
+                icon = Icons.Filled.Settings,
+                node = OnboardingNode(NavBarNode.context, "Orders", Icons.Filled.Settings) {},
+                selected = false
+            ),
+            NavigatorNodeItem(
+                label = "Settings",
+                icon = Icons.Filled.Add,
+                node = OnboardingNode(NavBarNode.context, "Settings", Icons.Filled.Add) {},
+                selected = false
+            )
+        )
+
+        return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }
+    }
+
+}
+
+...
+
+// Once you have a tree consisting of Nodes, then just call Content(Modifier) on the root Node. The compose 
+// machinery will traverse the tree painting on the screen each active Node.Content(Modifier).
+
 fun main() = application {
 
     val DesktopAppNode: DesktopAppNode = remember(key1 = this) {
