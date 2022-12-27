@@ -258,4 +258,8 @@ Check the other examples.
         return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }
 ```
 
-This project has no license or owner, you can copy and paste it, use it or reuse it, modify, alter or do whatever you want with it. I just would like some feedback to be able to improve it since I am planning to use it as navigation/ui-state core in my personal ui projects.
+
+<H3>Contribute</H3>
+
+This project has no license or owner, you can copy and paste it, use it or reuse it, modify, alter or do whatever you want with it.
+Any feedback or contribution would be greatly appreciated. Thanks!!
