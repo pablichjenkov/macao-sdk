@@ -2,10 +2,10 @@ package com.pablichj.encubator.node
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,7 +17,7 @@ fun BoxScope.FloatingButton(
     alignment: Alignment = Alignment.TopStart,
     onClick: () -> Unit
 ) {
-    ExtendedFloatingActionButton(
+    FloatingActionButton(
         modifier = modifier
             .align(alignment)
             .padding(8.dp),

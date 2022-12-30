@@ -1,8 +1,10 @@
 package com.pablichj.encubator.node.drawer
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -13,7 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.pablichj.encubator.node.NavigatorNodeItem
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationDrawer(
     modifier: Modifier = Modifier,
@@ -23,7 +24,7 @@ fun NavigationDrawer(
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
-    ModalNavigationDrawer(
+    ModalDrawer(
         drawerContent = {
             DrawerContentModal(modifier, navDrawerState)
         },
@@ -50,7 +51,7 @@ fun NavigationDrawer(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun DrawerContentModal(
     modifier: Modifier = Modifier,
@@ -58,7 +59,7 @@ fun DrawerContentModal(
 ) {
     val navItems by navDrawerState.navItemsFlow.collectAsState(emptyList())
 
-    ModalDrawerSheet(modifier = modifier) {
+    Column(modifier = modifier) {
         DrawerLogo()
         DrawerContentList(
             navItems = navItems,
@@ -85,7 +86,6 @@ fun DrawerLogo(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DrawerContentList(
     modifier: Modifier = Modifier,
@@ -103,9 +103,36 @@ fun DrawerContentList(
                 label = { Text(navItem.label) },
                 icon = { Icon(navItem.icon, null) },
                 selected = navItem.selected,
-                onClick = { onNavItemClick(navItem) },
-                modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                onClick = { onNavItemClick(navItem) }
             )
         }
+    }
+}
+
+@Composable
+internal fun NavigationDrawerItem(
+    label : @Composable () -> Unit,
+    icon : @Composable () -> Unit,
+    selected : Boolean,
+    onClick : () -> Unit
+) {
+    val modifier = if (selected) {
+        Modifier
+            .border(width = 1.dp, color = Color.Black)
+            .background(Color.LightGray)
+            .padding(8.dp)
+            .clickable {
+                onClick()
+            }
+    } else {
+        Modifier
+            .padding(8.dp)
+            .clickable {
+                onClick()
+            }
+    }
+    Row(modifier = modifier) {
+        icon()
+        label()
     }
 }

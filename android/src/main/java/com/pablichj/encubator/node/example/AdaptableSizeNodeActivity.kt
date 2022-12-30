@@ -6,13 +6,13 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.Modifier
 import com.pablichj.encubator.node.AndroidBackPressDispatcher
 import com.pablichj.encubator.node.AndroidWindowSizeInfoProvider
 import com.pablichj.encubator.node.BackPressedCallback
 import com.pablichj.encubator.node.Node
 import com.pablichj.encubator.node.example.statetrees.AdaptableSizeStateTreeHolder
-import com.pablichj.encubator.node.example.theme.AppTheme
 
 class AdaptableSizeNodeActivity : ComponentActivity() {
 
@@ -32,7 +32,7 @@ class AdaptableSizeNodeActivity : ComponentActivity() {
             }
         )
         setContent {
-            AppTheme {
+            MaterialTheme {
                 StateTree.Content(Modifier)
             }
         }

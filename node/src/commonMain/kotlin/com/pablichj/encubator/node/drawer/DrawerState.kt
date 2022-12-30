@@ -1,7 +1,6 @@
 package com.pablichj.encubator.node.drawer
 
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.DrawerValue
 import com.pablichj.encubator.node.NavigatorNodeItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +9,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 interface INavigationDrawerState {
     /**
      * Intended for the Composable NavigationDrawer to render the List if NavDrawer items
@@ -43,7 +41,6 @@ interface INavigationDrawerState {
     fun setDrawerState(drawerValue: DrawerValue)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 class NavigationDrawerState /*@Inject */ constructor(
     //val dispatchersBin: DispatchersBin
     var navItems: List<NavigatorNodeItem>

@@ -4,12 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.Modifier
 import com.pablichj.encubator.node.AndroidBackPressDispatcher
 import com.pablichj.encubator.node.BackPressedCallback
 import com.pablichj.encubator.node.Node
 import com.pablichj.encubator.node.example.statetrees.FullAppIntroStateTreeHolder
-import com.pablichj.encubator.node.example.theme.AppTheme
 
 class FullAppIntroActivity : ComponentActivity() {
 
@@ -28,7 +28,7 @@ class FullAppIntroActivity : ComponentActivity() {
             }
         )
         setContent {
-            AppTheme {
+            MaterialTheme {
                 StateTree.Content(Modifier)
             }
         }

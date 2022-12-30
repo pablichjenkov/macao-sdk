@@ -9,7 +9,6 @@ plugins {
 group = "com.pablichj.encubator"
 version = "1.0-SNAPSHOT"
 
-@OptIn(ExperimentalComposeLibrary::class)
 kotlin {
     android()
     jvm("desktop")
@@ -20,7 +19,8 @@ kotlin {
                 api(project(":node"))
                 api(compose.runtime)
                 api(compose.foundation)
-                api(compose.material3)
+                api(compose.ui)
+                api(compose.material)
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
             }
         }

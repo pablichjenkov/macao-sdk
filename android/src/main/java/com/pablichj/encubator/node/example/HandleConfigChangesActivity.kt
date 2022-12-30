@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Edit
@@ -13,7 +14,6 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.ui.Modifier
 import com.pablichj.encubator.node.*
 import com.pablichj.encubator.node.drawer.DrawerNode
-import com.pablichj.encubator.node.example.theme.AppTheme
 import com.pablichj.encubator.node.navbar.NavBarNode
 import com.pablichj.encubator.node.nodes.AppCoordinatorNode
 import com.pablichj.encubator.node.nodes.OnboardingNode
@@ -43,7 +43,7 @@ class HandleConfigChangesActivity : ComponentActivity() {
         }
 
         setContent {
-            AppTheme {
+            MaterialTheme {
                 StateTree.Content(Modifier)
             }
         }

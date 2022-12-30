@@ -4,14 +4,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.pablichj.encubator.node.NavigatorNodeItem
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationBottom(
     modifier: Modifier = Modifier,
@@ -20,7 +19,7 @@ fun NavigationBottom(
 ) {
     val navItems by navbarState.navItemsFlow.collectAsState(emptyList())
 
-    Scaffold(
+    Scaffold (
         modifier = modifier,
         bottomBar = {
             BottomBar(navItems) { navItem ->
@@ -40,11 +39,11 @@ private fun BottomBar(
     navItems: List<NavigatorNodeItem>,
     onNavItemClick: (NavigatorNodeItem) -> Unit
 ) {
-    NavigationBar(
+    BottomNavigation(
         modifier = Modifier.fillMaxWidth()
     ) {
         navItems.forEach { navItem ->
-            NavigationBarItem(
+            BottomNavigationItem(
                 label = { Text(text = navItem.label) },
                 alwaysShowLabel = true,
                 selected = navItem.selected,
