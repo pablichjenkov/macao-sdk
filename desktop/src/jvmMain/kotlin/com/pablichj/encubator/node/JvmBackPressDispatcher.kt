@@ -1,7 +1,5 @@
 package com.pablichj.encubator.node
 
-import java.util.*
-
 class JvmBackPressDispatcher : IBackPressDispatcher {
 
     private val onBackPressedCallbacks: ArrayDeque<JvmBackPressedCallbackProxy> =

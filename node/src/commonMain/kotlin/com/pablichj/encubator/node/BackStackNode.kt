@@ -1,9 +1,9 @@
 package com.pablichj.encubator.node
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import java.util.*
+//import androidx.compose.runtime.getValue
+//import androidx.compose.runtime.mutableStateOf
+//import androidx.compose.runtime.setValue
+import kotlin.collections.ArrayDeque
 
 /**
  * A stack of references to Node instances. Can be inherited by a Child class
@@ -13,27 +13,28 @@ abstract class BackStackNode<T : Node>(
     parentContext: NodeContext
 ) : Node(parentContext) {
 
-    val stack: Stack<T> = Stack()
-    var screenUpdateCounter by mutableStateOf(0)
-
+    val stack: ArrayDeque<T> = ArrayDeque()
+//    var screenUpdateCounter by mutableStateOf(0)
     /**
      * Push a Node to the top of the stack.
      * When a Node is push successfully, a callback function will be called in subclasses.
      * */
     protected fun pushNode(node: T) {
         if (stack.size == 0) {
-            onStackPush(oldTop = null, newTop = stack.push(node))
+            stack.addLast(node)
+            onStackPush(oldTop = null, newTop = node )
             return
         }
 
-        val currentNode = stack.peek()
+        val currentNode = stack.lastOrNull()
 
         // No action if the same node is pushed
         if (currentNode == node) {
             return
         }
 
-        onStackPush(oldTop = currentNode, newTop = stack.push(node))
+        stack.addLast(node)
+        onStackPush(oldTop = currentNode, newTop = node)
     }
 
 
@@ -42,36 +43,36 @@ abstract class BackStackNode<T : Node>(
      * When a Node is pop successfully, a callback function will be called in subclasses.
      * */
     protected fun popNode() {
-        val oldTop = stack.pop()
+        val oldTop = stack.removeLast()
         val newTop = if (stack.size > 0) {
-            stack.peek()
+            stack.lastOrNull()
         } else null
         onStackPop(oldTop = oldTop,  newTop = newTop)
     }
 
     protected fun popToNode(node: T, inclusive: Boolean): Boolean {
 
-        val shouldPop: Boolean = stack.search(node) != -1
+        val shouldPop: Boolean = stack.lastIndexOf(node) != -1
         if (!shouldPop) {
             return false
         }
 
-        val oldTop =stack.peek()
+        val oldTop = stack.last()
         if (oldTop == node && !inclusive) {
             return false
         }
 
         var popping = oldTop != node
         while (popping) {
-            stack.pop()
-            popping = stack.peek() != node
+            stack.removeLast()
+            popping = stack.lastOrNull() != node
         }
 
         if (inclusive) {
-            stack.pop()
+            stack.removeLast()
         }
 
-        onStackPop(oldTop = oldTop, newTop = stack.lastElement())
+        onStackPop(oldTop = oldTop, newTop = stack.lastOrNull())
         return true
     }
 
@@ -81,7 +82,7 @@ abstract class BackStackNode<T : Node>(
             return false
         }
 
-        val currentTop = stack.pop()
+        val currentTop = stack.removeLast()
         poppingIndex--
 
         while (poppingIndex > popToIndex) {
@@ -89,7 +90,7 @@ abstract class BackStackNode<T : Node>(
             poppingIndex--
         }
 
-        onStackPop(oldTop = currentTop, newTop = stack.lastElement())
+        onStackPop(oldTop = currentTop, newTop = stack.lastOrNull())
         return true
     }
 

@@ -1,11 +1,10 @@
 package com.pablichj.encubator.node
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import java.util.*
 
 interface NavigatorNode {
 
-    val stack: Stack<Node>
+    val stack: ArrayDeque<Node>
 
     fun getNode(): Node
 

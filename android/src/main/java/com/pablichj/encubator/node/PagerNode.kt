@@ -21,7 +21,6 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.util.*
 
 // TODO: Add indicator
 @OptIn(ExperimentalPagerApi::class)
@@ -38,7 +37,7 @@ class PagerNode(
     private var navItems: MutableList<NavigatorNodeItem> = mutableListOf()
     private var childNodes: MutableList<Node> = mutableListOf(EmptyNode(context))
     private var pagerState = PagerState(startingIndex)
-    override val stack = Stack<Node>()
+    override val stack = ArrayDeque<Node>()
 
     override fun start() {
         super.start()
