@@ -86,7 +86,7 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.runtime)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
             }
         }
 
@@ -101,16 +101,19 @@ kotlin {
             dependsOn(commonMain)
             kotlin.srcDirs("src/jvmMain/kotlin")
             dependencies {
-                implementation("androidx.appcompat:appcompat:1.5.1")
-                implementation("androidx.activity:activity-compose:1.5.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
+                implementation("androidx.activity:activity-compose:1.6.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+                implementation ("com.google.accompanist:accompanist-pager:0.28.0")
+                implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
+                implementation ("androidx.window:window:1.0.0")
+                implementation( "androidx.compose.material3:material3-window-size-class:1.0.1")
             }
         }
 
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
             }
         }
 
@@ -196,6 +199,7 @@ afterEvaluate {
 }
 
 android {
+    namespace = "com.pablichj.incubator.uistate3"
     compileSdk = 33
 
     defaultConfig {
@@ -206,6 +210,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
     }
 
     sourceSets {

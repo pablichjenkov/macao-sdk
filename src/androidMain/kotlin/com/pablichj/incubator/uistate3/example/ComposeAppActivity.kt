@@ -1,10 +1,11 @@
-package com.pablichj.incubator.uistate3
+package com.pablichj.incubator.uistate3.example
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
+import com.pablichj.incubator.uistate3.ComposeApp
 
-class MainActivity : AppCompatActivity() {
+class ComposeAppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
