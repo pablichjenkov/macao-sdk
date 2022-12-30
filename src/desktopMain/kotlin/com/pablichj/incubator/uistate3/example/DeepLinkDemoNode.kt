@@ -23,8 +23,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-
-class DeepLinkNode(
+class DeepLinkDemoNode(
     parentContext: NodeContext,
     val onDeepLinkClick: (path: Path) -> Unit,
     val onCloseClick: () -> Unit

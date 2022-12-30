@@ -23,7 +23,7 @@ class DesktopAppNode(
         onExitClick = { exit() }
     )
 
-    private val DeepLinkNode = DeepLinkNode(
+    private val DeepLinkDemoNode = DeepLinkDemoNode(
         context,
         onDeepLinkClick = { path ->
             MainWindowNode.handleDeepLink(path)
@@ -66,8 +66,8 @@ class DesktopAppNode(
     }
 
     private fun openDeepLinkWindow() {
-        if (!activeWindows.contains(DeepLinkNode)) {
-            activeWindows.add(DeepLinkNode)
+        if (!activeWindows.contains(DeepLinkDemoNode)) {
+            activeWindows.add(DeepLinkDemoNode)
         }
     }
 
@@ -84,7 +84,7 @@ class DesktopAppNode(
     }
 
     private fun closeDeepLinkWindow() {
-        activeWindows.remove(DeepLinkNode)
+        activeWindows.remove(DeepLinkDemoNode)
     }
 
     private fun closeDrawerWindowNode() {
