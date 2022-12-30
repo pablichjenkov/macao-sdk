@@ -7,10 +7,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.pablichj.incubator.uistate3.node.BackPressedCallback
-import example.nodes.DefaultBackPressDispatcher
+import com.pablichj.incubator.uistate3.node.DefaultBackPressDispatcher
 import kotlinx.coroutines.delay
-import treebuilder.DrawerTreeBuilder
 import androidx.compose.runtime.mutableStateOf
+import treebuilder.DrawerTreeBuilder
 
 @Composable
 fun ComposeApp() {
@@ -30,28 +30,6 @@ fun ComposeApp() {
 
     MaterialTheme {
         Box(modifier = Modifier.fillMaxSize()) {
-            /*Scaffold(
-                topBar = {
-                    TopAppBar(
-                        title = { Text("Chat sample") }
-                    )
-                }
-            ) {
-                Column(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Box(Modifier.weight(1f)) {
-                        Messages(state.messages)
-                    }
-                    SendMessage { text ->
-                        store.send(
-                            Action.SendMessage(
-                                Message(myUser, timeMs = com.pablichj.incubator.uistate3.timestampMs(), text)
-                            )
-                        )
-                    }
-                }
-            }*/
             DrawerNode.Content(Modifier)
             Text(timeText.value)
         }

@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.pablichj.incubator.uistate3.node.drawer.DrawerContentList
 import com.pablichj.incubator.uistate3.node.drawer.DrawerLogo
 
@@ -18,7 +19,7 @@ fun NavigationPanel(
 
     Row(modifier = modifier.fillMaxSize()) {
         Column(
-            modifier = Modifier.wrapContentWidth()
+            modifier = Modifier.width(240.dp)
         ) {
             DrawerLogo()
             DrawerContentList(

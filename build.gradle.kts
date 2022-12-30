@@ -86,7 +86,7 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.runtime)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
             }
         }
 
@@ -102,7 +102,7 @@ kotlin {
             kotlin.srcDirs("src/jvmMain/kotlin")
             dependencies {
                 implementation("androidx.activity:activity-compose:1.6.1")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
                 implementation ("com.google.accompanist:accompanist-pager:0.28.0")
                 implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
                 implementation ("androidx.window:window:1.0.0")
@@ -113,7 +113,7 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.3")
             }
         }
 

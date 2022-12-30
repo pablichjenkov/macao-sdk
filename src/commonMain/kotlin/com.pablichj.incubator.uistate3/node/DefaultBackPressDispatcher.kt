@@ -1,23 +1,19 @@
-package example.nodes
-
-import com.pablichj.incubator.uistate3.node.BackPressedCallback
-import com.pablichj.incubator.uistate3.node.IBackPressDispatcher
+package com.pablichj.incubator.uistate3.node
 
 class DefaultBackPressDispatcher : IBackPressDispatcher {
 
-    private val onBackPressedCallbacks: ArrayDeque<JvmBackPressedCallbackProxy> =
-        ArrayDeque<JvmBackPressedCallbackProxy>()
+    private val onBackPressedCallbacks: ArrayDeque<DefaultBackPressedCallbackProxy> = ArrayDeque()
 
     override fun subscribe(backPressedCallback: BackPressedCallback) {
-        val jvmBackPressCBProxy = JvmBackPressedCallbackProxy(backPressedCallback, true)
-        if (!onBackPressedCallbacks.contains(jvmBackPressCBProxy)) {
-            onBackPressedCallbacks.add(jvmBackPressCBProxy)
+        val backPressCBProxy = DefaultBackPressedCallbackProxy(backPressedCallback, true)
+        if (!onBackPressedCallbacks.contains(backPressCBProxy)) {
+            onBackPressedCallbacks.add(backPressCBProxy)
         }
     }
 
     override fun unsubscribe(backPressedCallback: BackPressedCallback) {
         onBackPressedCallbacks.remove(
-            JvmBackPressedCallbackProxy(backPressedCallback, true)
+            DefaultBackPressedCallbackProxy(backPressedCallback, true)
         )
     }
 
@@ -27,7 +23,7 @@ class DefaultBackPressDispatcher : IBackPressDispatcher {
 
 }
 
-internal class JvmBackPressedCallbackProxy(
+private class DefaultBackPressedCallbackProxy(
     private val backPressedCallback: BackPressedCallback,
     var isEnabled: Boolean
 ) {
@@ -43,9 +39,9 @@ internal class JvmBackPressedCallbackProxy(
     }
 
     override fun equals(other: Any?): Boolean {
-        val otherJvmBackPressedCallbackProxy =
-            other as? JvmBackPressedCallbackProxy ?: return false
-        return this.backPressedCallback == otherJvmBackPressedCallbackProxy.backPressedCallback
+        val otherDefaultBackPressedCallbackProxy =
+            other as? DefaultBackPressedCallbackProxy ?: return false
+        return this.backPressedCallback == otherDefaultBackPressedCallbackProxy.backPressedCallback
     }
 
     override fun hashCode(): Int {

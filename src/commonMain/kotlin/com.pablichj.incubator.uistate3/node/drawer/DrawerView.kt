@@ -118,6 +118,8 @@ internal fun NavigationDrawerItem(
 ) {
     val modifier = if (selected) {
         Modifier
+            .fillMaxWidth()
+            .height(56.dp)
             .border(width = 1.dp, color = Color.Black)
             .background(Color.LightGray)
             .padding(8.dp)
@@ -126,13 +128,20 @@ internal fun NavigationDrawerItem(
             }
     } else {
         Modifier
+            .fillMaxWidth()
+            .height(56.dp)
             .padding(8.dp)
             .clickable {
                 onClick()
             }
     }
-    Row(modifier = modifier) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
+    ) {
         icon()
+        Spacer(Modifier.width(8.dp))
         label()
     }
 }
