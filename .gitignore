@@ -1,16 +1,13 @@
 .gradle
 local.properties
 build/
+kotlin-js-store
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 
 ### IntelliJ IDEA ###
 .idea
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
 *.iws
 *.iml
 *.ipr
