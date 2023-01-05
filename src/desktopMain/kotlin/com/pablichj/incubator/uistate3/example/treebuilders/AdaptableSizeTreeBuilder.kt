@@ -5,12 +5,13 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
-import com.pablichj.incubator.uistate3.node.*
+import com.pablichj.incubator.uistate3.node.NavigatorNodeItem
+import com.pablichj.incubator.uistate3.node.NodeContext
 import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeNode
 import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
 import com.pablichj.incubator.uistate3.node.navigation.SubPath
-import com.pablichj.incubator.uistate3.node.nodes.OnboardingNode
+import example.nodes.OnboardingNode
 
 object AdaptableSizeTreeBuilder {
 
@@ -19,14 +20,8 @@ object AdaptableSizeTreeBuilder {
     private lateinit var subTreeNavItems: MutableList<NavigatorNodeItem>
 
     fun getOrCreateAdaptableSizeNode(
-        windowSizeInfoProvider: IWindowSizeInfoProvider,
-        backPressDispatcher: IBackPressDispatcher,
-        backPressedCallback: BackPressedCallback
+        windowSizeInfoProvider: IWindowSizeInfoProvider
     ): AdaptableSizeNode {
-
-        // Update the back pressed dispatcher with the new Activity OnBackPressDispatcher.
-        rootParentNodeContext.backPressDispatcher = backPressDispatcher
-        rootParentNodeContext.backPressedCallbackDelegate = backPressedCallback
 
         if (AdaptableSizeTreeBuilder::AdaptableSizeNode.isInitialized) {
             return AdaptableSizeNode.apply {
@@ -86,7 +81,7 @@ object AdaptableSizeTreeBuilder {
 
         NavBarNode.setNavItems(navbarNavItems, 0)
 
-        val SettingNode =
+        val SettingsNode =
             OnboardingNode(TemporalEmptyContext, "Settings", Icons.Filled.Email, {})
                 .apply { context.subPath = SubPath("Settings") }
 
@@ -108,7 +103,7 @@ object AdaptableSizeTreeBuilder {
             NavigatorNodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node = SettingNode,
+                node = SettingsNode,
                 selected = false
             )
         )

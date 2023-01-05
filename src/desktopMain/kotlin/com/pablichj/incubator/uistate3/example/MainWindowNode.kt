@@ -3,6 +3,7 @@ package com.pablichj.incubator.uistate3.example
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -12,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
+import com.pablichj.incubator.uistate3.ComposeApp
 import com.pablichj.incubator.uistate3.FloatingButton
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
@@ -31,7 +33,7 @@ class MainWindowNode(
 ) : Node(parentContext), WindowNode {
     private val windowState = WindowState(size = DpSize(800.dp, 900.dp))
     private val windowSizeInfoProvider = JvmWindowSizeInfoProvider(windowState)
-    private val DefaultBackPressDispatcher = DefaultBackPressDispatcher()
+    private val defaultBackPressDispatcher = DefaultBackPressDispatcher()
     private var AdaptableSizeNode: Node
 
     init {
@@ -39,13 +41,7 @@ class MainWindowNode(
         val subtreeNavItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
 
         AdaptableSizeNode = AdaptableSizeTreeBuilder.getOrCreateAdaptableSizeNode(
-            windowSizeInfoProvider,
-            DefaultBackPressDispatcher,
-            backPressedCallback = object : BackPressedCallback() {
-                override fun onBackPressed() {
-                    onExitClick()
-                }
-            }
+            windowSizeInfoProvider
         ).apply {
             this@apply.context.subPath = SubPath("AdaptableWindow")
             setNavItems(subtreeNavItems, 0)
@@ -117,14 +113,18 @@ class MainWindowNode(
 
             }
 
-            Box {
-                AdaptableSizeNode.Content(Modifier)
-                FloatingButton(
-                    modifier = Modifier.offset(y = 48.dp),
-                    alignment = Alignment.TopStart,
-                    onClick = { DefaultBackPressDispatcher.dispatchBackPressed() }
-                )
+            CompositionLocalProvider(
+                LocalBackPressedDispatcher provides defaultBackPressDispatcher,
+            ){
+                Box {
+                    AdaptableSizeNode.Content(Modifier)
+                    FloatingButton(
+                        modifier = Modifier.offset(y = 48.dp),
+                        alignment = Alignment.TopStart,
+                        onClick = { defaultBackPressDispatcher.dispatchBackPressed() }
+                    )
 
+                }
             }
 
         }

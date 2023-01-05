@@ -56,28 +56,9 @@ open class NodeContext(
 
     // region: IBackPressDispatcher
 
+    //todo: make these 2 internal
     var backPressDispatcher: IBackPressDispatcher? = null
-    lateinit var backPressedCallbackDelegate: BackPressedCallback
-
-    fun findBackPressDispatcher(): IBackPressDispatcher? {
-        // Check if this Node itself contains the property we are looking for
-        if (backPressDispatcher != null) return backPressDispatcher
-
-        var contextIterator = parentContext
-
-        while (contextIterator != null) {
-
-            val backPressDispatcher = contextIterator.backPressDispatcher
-
-            if (backPressDispatcher != null) {
-                return backPressDispatcher
-            }
-
-            contextIterator = contextIterator.parentContext
-        }
-
-        return null
-    }
+    var backPressedCallbackDelegate: BackPressedCallback = EmptyBackPressCallback
 
     // endregion
 

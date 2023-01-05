@@ -13,14 +13,7 @@ object DrawerTreeBuilder {
     private val rootContext = NodeContext.Root()
     private lateinit var DrawerNode: DrawerNode
 
-    fun build(
-        backPressDispatcher: IBackPressDispatcher,
-        backPressedCallback: BackPressedCallback
-    ): DrawerNode {
-
-        // Update the back pressed dispatcher with the new Activity OnBackPressDispatcher.
-        rootContext.backPressDispatcher = backPressDispatcher
-        rootContext.backPressedCallbackDelegate = backPressedCallback
+    fun getOrCreate(): DrawerNode {
 
         if (DrawerTreeBuilder::DrawerNode.isInitialized) {
             return DrawerNode

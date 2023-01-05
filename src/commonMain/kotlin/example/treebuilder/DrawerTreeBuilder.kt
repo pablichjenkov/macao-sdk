@@ -2,13 +2,12 @@ package example.treebuilder
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import com.pablichj.incubator.uistate3.node.BackPressedCallback
-import com.pablichj.incubator.uistate3.node.IBackPressDispatcher
+import com.pablichj.incubator.uistate3.node.ForwardBackPressCallback
 import com.pablichj.incubator.uistate3.node.NavigatorNodeItem
 import com.pablichj.incubator.uistate3.node.NodeContext
 import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
 import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
-import com.pablichj.incubator.uistate3.node.nodes.OnboardingNode
+import example.nodes.OnboardingNode
 
 object DrawerTreeBuilder {
 
@@ -16,13 +15,13 @@ object DrawerTreeBuilder {
     private lateinit var DrawerNode: DrawerNode
 
     fun build(
-        backPressDispatcher: IBackPressDispatcher,
-        backPressedCallback: BackPressedCallback
+        backPressAction: () -> Unit,
     ): DrawerNode {
 
-        // Update the back pressed dispatcher with the new Activity OnBackPressDispatcher.
-        rootParentNodeContext.backPressDispatcher = backPressDispatcher
-        rootParentNodeContext.backPressedCallbackDelegate = backPressedCallback
+        // Update the backPressAction
+        rootParentNodeContext.backPressedCallbackDelegate = ForwardBackPressCallback {
+            backPressAction()
+        }
 
         if (DrawerTreeBuilder::DrawerNode.isInitialized) {
             return DrawerNode

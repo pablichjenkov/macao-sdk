@@ -7,7 +7,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.lifecycle.ViewModel
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
-import com.pablichj.incubator.uistate3.node.nodes.OnboardingNode
+import example.nodes.OnboardingNode
 
 class NavBarStateTreeHolder : ViewModel() {
 

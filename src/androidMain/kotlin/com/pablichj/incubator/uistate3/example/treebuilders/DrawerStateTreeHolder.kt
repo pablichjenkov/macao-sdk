@@ -5,23 +5,20 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.lifecycle.ViewModel
-import com.pablichj.incubator.uistate3.node.*
+import com.pablichj.incubator.uistate3.node.NavigatorNodeItem
+import com.pablichj.incubator.uistate3.node.Node
+import com.pablichj.incubator.uistate3.node.NodeContext
+import com.pablichj.incubator.uistate3.node.PagerNode
 import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
 import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
-import com.pablichj.incubator.uistate3.node.nodes.OnboardingNode
+import example.nodes.OnboardingNode
 
 class DrawerStateTreeHolder : ViewModel() {
 
     private val rootParentNodeContext = NodeContext.Root()
     private lateinit var DrawerNode: DrawerNode
 
-    fun getOrCreate(
-        backPressDispatcher: IBackPressDispatcher,
-        backPressedCallback: BackPressedCallback
-    ): Node {
-
-        rootParentNodeContext.backPressDispatcher = backPressDispatcher
-        rootParentNodeContext.backPressedCallbackDelegate = backPressedCallback
+    fun getOrCreate(): Node {
 
         if (this@DrawerStateTreeHolder::DrawerNode.isInitialized) {
             return DrawerNode
@@ -34,6 +31,7 @@ class DrawerStateTreeHolder : ViewModel() {
             "Home",
             Icons.Filled.Home
         ) {}
+
         val NavBarNode = NavBarNode(DrawerNode.context)
         val PagerNode = PagerNode(DrawerNode.context)
 

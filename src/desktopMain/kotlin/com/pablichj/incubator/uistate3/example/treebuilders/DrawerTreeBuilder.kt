@@ -8,7 +8,7 @@ import com.pablichj.incubator.uistate3.node.NavigatorNodeItem
 import com.pablichj.incubator.uistate3.node.NodeContext
 import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
 import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
-import com.pablichj.incubator.uistate3.node.nodes.OnboardingNode
+import example.nodes.OnboardingNode
 
 object DrawerTreeBuilder {
 

@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.node.nodes
+package example.nodes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import com.pablichj.incubator.uistate3.node.BackPressHandler
 import com.pablichj.incubator.uistate3.node.Node
 import com.pablichj.incubator.uistate3.node.NodeContext
 
@@ -29,6 +30,9 @@ class OnboardingStepNode(
     @Composable
     override fun Content(modifier: Modifier) {
         println("OnboardingStepNode::Composing()")
+        BackPressHandler {
+            this@OnboardingStepNode.backPressedCallback.onBackPressed()
+        }
         Box(modifier = modifier.fillMaxSize().background(bgColor)) {
             Text(
                 modifier = Modifier

@@ -5,11 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import com.pablichj.incubator.uistate3.node.AndroidBackPressDispatcher
-import com.pablichj.incubator.uistate3.node.BackPressedCallback
-import com.pablichj.incubator.uistate3.node.Node
 import com.pablichj.incubator.uistate3.example.treebuilders.DrawerStateTreeHolder
+import com.pablichj.incubator.uistate3.node.AndroidBackPressDispatcher
+import com.pablichj.incubator.uistate3.node.LocalBackPressedDispatcher
+import com.pablichj.incubator.uistate3.node.Node
 
 class DrawerActivity : ComponentActivity() {
 
@@ -19,17 +20,14 @@ class DrawerActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // It creates a state tree where the root node is a NavigationDrawer
-        StateTree = stateTreeHolder.getOrCreate(
-            backPressDispatcher = AndroidBackPressDispatcher(this@DrawerActivity),
-            backPressedCallback = object : BackPressedCallback() {
-                override fun onBackPressed() {
-                    finish()
-                }
-            }
-        )
+        StateTree = stateTreeHolder.getOrCreate()
         setContent {
             MaterialTheme {
-                StateTree.Content(Modifier)
+                CompositionLocalProvider(
+                    LocalBackPressedDispatcher provides AndroidBackPressDispatcher(this@DrawerActivity),
+                ) {
+                    StateTree.Content(Modifier)
+                }
             }
         }
     }

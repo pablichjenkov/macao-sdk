@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
 import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
-import com.pablichj.incubator.uistate3.node.nodes.AppCoordinatorNode
-import com.pablichj.incubator.uistate3.node.nodes.OnboardingNode
+import example.nodes.AppCoordinatorNode
+import example.nodes.OnboardingNode
 
 class HandleConfigChangesActivity : ComponentActivity() {
 

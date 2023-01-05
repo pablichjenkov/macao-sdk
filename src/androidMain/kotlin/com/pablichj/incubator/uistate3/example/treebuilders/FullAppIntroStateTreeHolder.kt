@@ -8,9 +8,9 @@ import androidx.lifecycle.ViewModel
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
 import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
-import com.pablichj.incubator.uistate3.node.nodes.AppCoordinatorNode
-import com.pablichj.incubator.uistate3.node.nodes.OnboardingNode
-import com.pablichj.incubator.uistate3.node.nodes.SplitNavNode
+import example.nodes.AppCoordinatorNode
+import example.nodes.OnboardingNode
+import example.nodes.SplitNavNode
 
 class FullAppIntroStateTreeHolder : ViewModel() {
 

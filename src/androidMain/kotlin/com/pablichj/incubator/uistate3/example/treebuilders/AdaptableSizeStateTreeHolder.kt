@@ -14,7 +14,7 @@ import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeNode
 import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
 import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
-import com.pablichj.incubator.uistate3.node.nodes.OnboardingNode
+import example.nodes.OnboardingNode
 import com.pablichj.incubator.uistate3.node.panel.PanelNode
 
 class AdaptableSizeStateTreeHolder : ViewModel() {

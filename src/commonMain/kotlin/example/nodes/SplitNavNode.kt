@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.node.nodes
+package example.nodes
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable

@@ -12,7 +12,7 @@ abstract class Node(
 ) : Lifecycle {
     val context: NodeContext = NodeContext(parentContext)
 
-    private val backPressedCallback = object : BackPressedCallback() {
+    protected val backPressedCallback = object : BackPressedCallback() {
         override fun onBackPressed() {
             println("Node::onBackPressed() called, class = ${this@Node::class.simpleName}")
             handleBackPressed()
@@ -25,22 +25,23 @@ abstract class Node(
 
     override fun start() {
         context.lifecycleState = LifecycleState.Started
-        backPressDispatcher()?.run {
+        /*backPressDispatcher()?.run {
             println("Subscribing to backPressDispatcher, class = ${this@Node::class.simpleName}")
             subscribe(backPressedCallback)
-        }
+        }*/
     }
 
     override fun stop() {
         context.lifecycleState = LifecycleState.Stopped
-        backPressDispatcher()?.run {
+        /*backPressDispatcher()?.run {
             println("Unsubscribing to backPressDispatcher, class = ${this@Node::class.simpleName}")
             unsubscribe(backPressedCallback)
-        }
+        }*/
     }
 
     private fun backPressDispatcher(): IBackPressDispatcher? {
-        return context.findBackPressDispatcher()
+        //todo: get the backpressDispatcher from LocalComposition
+        return null//context.findBackPressDispatcher()
     }
 
     /**

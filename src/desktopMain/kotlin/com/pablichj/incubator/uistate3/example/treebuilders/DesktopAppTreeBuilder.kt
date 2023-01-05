@@ -1,8 +1,7 @@
 package com.pablichj.incubator.uistate3.example.treebuilders
 
-import com.pablichj.incubator.uistate3.node.BackPressedCallback
-import com.pablichj.incubator.uistate3.node.NodeContext
 import com.pablichj.incubator.uistate3.example.DesktopAppNode
+import com.pablichj.incubator.uistate3.node.NodeContext
 import com.pablichj.incubator.uistate3.node.navigation.SubPath
 
 object DesktopAppTreeBuilder {
@@ -11,12 +10,6 @@ object DesktopAppTreeBuilder {
     private lateinit var DesktopAppNode: DesktopAppNode
 
     fun build(): DesktopAppNode {
-
-        // Update the back pressed dispatcher with the new Activity OnBackPressDispatcher.
-        rootParentNodeContext.backPressDispatcher = null
-        rootParentNodeContext.backPressedCallbackDelegate = object : BackPressedCallback() {
-            override fun onBackPressed() {}
-        }
 
         if (DesktopAppTreeBuilder::DesktopAppNode.isInitialized) {
             return DesktopAppNode.apply {

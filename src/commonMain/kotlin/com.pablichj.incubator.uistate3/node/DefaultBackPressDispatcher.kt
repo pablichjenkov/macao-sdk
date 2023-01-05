@@ -1,5 +1,10 @@
 package com.pablichj.incubator.uistate3.node
 
+interface IBackPressDispatcher {
+    fun subscribe(backPressedCallback: BackPressedCallback)
+    fun unsubscribe(backPressedCallback: BackPressedCallback)
+}
+
 class DefaultBackPressDispatcher : IBackPressDispatcher {
 
     private val onBackPressedCallbacks: ArrayDeque<DefaultBackPressedCallbackProxy> = ArrayDeque()
@@ -21,6 +26,11 @@ class DefaultBackPressDispatcher : IBackPressDispatcher {
         onBackPressedCallbacks.lastOrNull { it.isEnabled }?.handleOnBackPressed()
     }
 
+}
+
+abstract class BackPressedCallback {
+    var onEnableChanged: ((Boolean) -> Unit)? = null
+    abstract fun onBackPressed()
 }
 
 private class DefaultBackPressedCallbackProxy(
@@ -50,4 +60,18 @@ private class DefaultBackPressedCallbackProxy(
         return result
     }
 
+}
+
+object EmptyBackPressCallback: BackPressedCallback() {
+    override fun onBackPressed() {
+        println("EmptyBackPressCallback::onBackPressed does nothing")
+    }
+}
+
+class ForwardBackPressCallback(
+    private val onBackPressedAction: () -> Unit
+): BackPressedCallback() {
+    override fun onBackPressed() {
+        onBackPressedAction()
+    }
 }
