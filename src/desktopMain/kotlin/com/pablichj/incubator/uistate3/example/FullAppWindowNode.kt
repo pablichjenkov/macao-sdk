@@ -18,17 +18,11 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class FullAppWindowNode(
-    parentContext: NodeContext,
     val onCloseClick: () -> Unit
-) : Node(parentContext), WindowNode {
+) : Node(), WindowNode {
     private val windowState = WindowState(size = DpSize(800.dp, 900.dp))
 
-    private var activeNode: Node = FullAppWithIntroTreeBuilder.build(
-        DefaultBackPressDispatcher(),
-        backPressedCallback = object : BackPressedCallback() {
-            override fun onBackPressed() {}
-        }
-    )
+    private var activeNode: Node = FullAppWithIntroTreeBuilder.build()
 
     @Composable
     override fun Content(modifier: Modifier) {

@@ -17,9 +17,8 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class SplashNode(
-    context: NodeContext,
     val onDone: () -> Unit
-) : Node(context) {
+) : Node() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
     private var splashJob: Job? = null

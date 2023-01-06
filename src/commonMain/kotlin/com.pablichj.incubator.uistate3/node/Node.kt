@@ -7,10 +7,8 @@ import com.pablichj.incubator.uistate3.node.navigation.DefaultPathMatcher
 import com.pablichj.incubator.uistate3.node.navigation.IPathMatcher
 import com.pablichj.incubator.uistate3.node.navigation.Path
 
-abstract class Node(
-    parentContext: NodeContext
-) : Lifecycle {
-    val context: NodeContext = NodeContext(parentContext)
+abstract class Node : Lifecycle {
+    val context: NodeContext = NodeContext()
 
     protected val backPressedCallback = object : BackPressedCallback() {
         override fun onBackPressed() {
@@ -53,8 +51,15 @@ abstract class Node(
     }
 
     protected fun delegateBackPressedToParent() {
-        println("Node::delegateBackPressedToParent()")
-        context.parentContext?.backPressedCallbackDelegate?.onBackPressed()
+        val parentContext = context.parentContext
+        if (parentContext != null) {
+            println("Node::delegateBackPressedToParent()")
+            parentContext.backPressedCallbackDelegate.onBackPressed()
+        } else {
+            println("Node::delegateBackPressedToRootEvent()")
+            context.rootNodeBackPressedDelegate?.onBackPressed()
+        }
+
     }
 
     // region: DeepLink

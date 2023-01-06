@@ -17,7 +17,7 @@ import com.pablichj.incubator.uistate3.node.NodeContext
 
 data class UiModel(val lines: Int)
 
-class SubcomposeLayout1Node(context: NodeContext) : Node(context) {
+class SubcomposeLayout1Node : Node() {
     @Composable
     override fun Content(modifier: Modifier) {
         MyCoolGrid(

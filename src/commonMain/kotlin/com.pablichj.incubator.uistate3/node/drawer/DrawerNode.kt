@@ -16,9 +16,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DrawerNode(
-    parentContext: NodeContext,
     // TODO: Ask for the Header Info to render the Drawer header
-) : BackStackNode<Node>(parentContext), INavigationProvider, ContainerNode {
+) : BackStackNode<Node>(), ContainerNode, INavigationProvider {
 
     private val nodeCoroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
     private var activeNodeState: MutableState<Node?> = mutableStateOf(null)
@@ -127,7 +126,7 @@ class DrawerNode(
 
         this.childNodes = navItems.map { navItem ->
             navItem.node.also {
-                it.context.updateParent(context)
+                it.context.attachToParent(context)
                 if (it.context.lifecycleState == LifecycleState.Started) {
                     activeNodeState.value = it
                 }

@@ -13,44 +13,34 @@ import example.nodes.SplitNavNode
 
 object FullAppWithIntroTreeBuilder {
 
-    private val rootParentNodeContext = NodeContext.Root()
     private lateinit var AppCoordinatorNode: Node
 
-    fun build(
-        backPressDispatcher: IBackPressDispatcher,
-        backPressedCallback: BackPressedCallback
-    ): Node {
-
-        // Update the back pressed dispatcher with the new Activity OnBackPressDispatcher.
-        rootParentNodeContext.backPressDispatcher = backPressDispatcher
-        rootParentNodeContext.backPressedCallbackDelegate = backPressedCallback
+    fun build(): Node {
 
         if (FullAppWithIntroTreeBuilder::AppCoordinatorNode.isInitialized) {
             return AppCoordinatorNode
         }
 
-        return AppCoordinatorNode(rootParentNodeContext).also {
+        return AppCoordinatorNode().also {
             it.HomeNode = buildDrawerStateTree(it.context)
             AppCoordinatorNode = it
         }
     }
 
     private fun buildDrawerStateTree(parentContext: NodeContext): Node {
+        val DrawerNode = DrawerNode()
+        val NavBarNode = NavBarNode()
 
-        val DrawerNode = DrawerNode(parentContext)
-
-        val NavBarNode = NavBarNode(DrawerNode.context)
-
-        val SplitNavNode = SplitNavNode(NavBarNode.context).apply {
-            TopNode = buildNestedDrawer(context)
-            BottomNode = OnboardingNode(NavBarNode.context, "Orders / Current", Icons.Filled.Edit) {}
+        val SplitNavNode = SplitNavNode().apply {
+            TopNode = buildNestedDrawer()
+            BottomNode = OnboardingNode("Orders / Current", Icons.Filled.Edit) {}
         }
 
         val navbarNavItems = mutableListOf(
             NodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(NavBarNode.context, "Orders / Current", Icons.Filled.Home) {},
+                node = OnboardingNode("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
@@ -65,7 +55,7 @@ object FullAppWithIntroTreeBuilder {
             NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(DrawerNode.context, "Home", Icons.Filled.Home) {},
+                node = OnboardingNode("Home", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
@@ -77,32 +67,32 @@ object FullAppWithIntroTreeBuilder {
         )
 
         return DrawerNode.apply {
+            context.attachToParent(parentContext)
             setItems(drawerNavItems, 0)
         }
     }
 
-    private fun buildNestedDrawer(parentContext: NodeContext): DrawerNode {
-
-        val DrawerNode = DrawerNode(parentContext)
-        val NavBarNode = NavBarNode(DrawerNode.context)
+    private fun buildNestedDrawer(): DrawerNode {
+        val DrawerNode = DrawerNode()
+        val NavBarNode = NavBarNode()
 
         val navbarNavItems = mutableListOf(
             NodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(NavBarNode.context, "Orders / Current", Icons.Filled.Home) {},
+                node = OnboardingNode("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                node = OnboardingNode(NavBarNode.context, "Orders / Past", Icons.Filled.Edit) {},
+                node = OnboardingNode("Orders / Past", Icons.Filled.Edit) {},
                 selected = false
             ),
             NodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                node = OnboardingNode(NavBarNode.context, "Orders / Claim", Icons.Filled.Email) {},
+                node = OnboardingNode("Orders / Claim", Icons.Filled.Email) {},
                 selected = false
             )
         )
@@ -111,7 +101,7 @@ object FullAppWithIntroTreeBuilder {
             NodeItem(
                 label = "Home Nested",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(DrawerNode.context, "Home", Icons.Filled.Home) {},
+                node = OnboardingNode("Home", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(

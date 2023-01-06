@@ -11,44 +11,36 @@ import example.nodes.OnboardingNode
 
 class PagerStateTreeHolder : ViewModel() {
 
-    private val rootParentNodeContext = NodeContext.Root()
     private lateinit var PagerNode: PagerNode
 
-    fun getOrCreate(
-        backPressDispatcher: IBackPressDispatcher,
-        backPressedCallback: BackPressedCallback
-    ): Node {
-
-        rootParentNodeContext.backPressDispatcher = backPressDispatcher
-        rootParentNodeContext.backPressedCallbackDelegate =
-            backPressedCallback
+    fun getOrCreate(): Node {
 
         if (this@PagerStateTreeHolder::PagerNode.isInitialized) {
             return PagerNode
         }
 
-        PagerNode = PagerNode(rootParentNodeContext)
+        PagerNode = PagerNode()
 
-        val NavBarNode1 = NavBarNode(PagerNode.context)
-        val NavBarNode2 = NavBarNode(PagerNode.context)
+        val NavBarNode1 = NavBarNode()
+        val NavBarNode2 = NavBarNode()
 
         val navbarNavItems1 = mutableListOf(
             NodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(NavBarNode1.context, "Orders/ Current") {},
+                node = OnboardingNode("Orders/ Current") {},
                 selected = false
             ),
             NodeItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                node = OnboardingNode(NavBarNode1.context, "Orders / Past") {},
+                node = OnboardingNode("Orders / Past") {},
                 selected = false
             ),
             NodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                node = OnboardingNode(NavBarNode1.context, "Orders / Claim") {},
+                node = OnboardingNode("Orders / Claim") {},
                 selected = false
             )
         )
@@ -57,19 +49,19 @@ class PagerStateTreeHolder : ViewModel() {
             NodeItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(NavBarNode2.context, "Settings / Account") {},
+                node = OnboardingNode("Settings / Account") {},
                 selected = false
             ),
             NodeItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
-                node = OnboardingNode(NavBarNode2.context, "Settings / Profile") {},
+                node = OnboardingNode("Settings / Profile") {},
                 selected = false
             ),
             NodeItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
-                node = OnboardingNode(NavBarNode2.context, "Settings / About Us") {},
+                node = OnboardingNode("Settings / About Us") {},
                 selected = false
             )
         )
@@ -78,7 +70,7 @@ class PagerStateTreeHolder : ViewModel() {
             NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(PagerNode.context, "Home") {},
+                node = OnboardingNode("Home") {},
                 selected = false
             ),
             NodeItem(

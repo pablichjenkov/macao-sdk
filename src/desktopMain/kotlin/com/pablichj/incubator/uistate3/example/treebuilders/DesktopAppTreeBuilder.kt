@@ -6,20 +6,15 @@ import com.pablichj.incubator.uistate3.node.navigation.SubPath
 
 object DesktopAppTreeBuilder {
 
-    private val rootParentNodeContext = NodeContext.Root()
     private lateinit var DesktopAppNode: DesktopAppNode
 
     fun build(): DesktopAppNode {
 
         if (DesktopAppTreeBuilder::DesktopAppNode.isInitialized) {
-            return DesktopAppNode.apply {
-                this.context.parentContext = rootParentNodeContext
-            }
+            return DesktopAppNode
         }
 
-        return DesktopAppNode(
-            rootParentNodeContext
-        ).also {
+        return DesktopAppNode().also {
             it.context.subPath = SubPath("DesktopAppNode")
             DesktopAppNode = it
         }

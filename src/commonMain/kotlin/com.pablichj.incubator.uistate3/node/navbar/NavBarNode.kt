@@ -14,9 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class NavBarNode(
-    parentContext: NodeContext,
-) : BackStackNode<Node>(parentContext), ContainerNode {
+class NavBarNode : BackStackNode<Node>(), ContainerNode {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
     private var activeNodeState: MutableState<Node?> = mutableStateOf(null)
@@ -110,7 +108,7 @@ class NavBarNode(
 
         childNodes = navItems.map { navItem ->
             navItem.node.also {
-                it.context.updateParent(context)
+                it.context.attachToParent(this@NavBarNode.context)
                 if (it.context.lifecycleState == LifecycleState.Started) {
                     activeNodeState.value = it
                 }

@@ -7,12 +7,22 @@ import androidx.compose.ui.unit.dp
 import com.pablichj.incubator.uistate3.node.Node
 import com.pablichj.incubator.uistate3.node.NodeContext
 
-class SplitNavNode(
-    parentContext: NodeContext
-) : Node(parentContext) {
+class SplitNavNode : Node() {
 
-    var TopNode: Node? = null
-    var BottomNode: Node? = null
+    private var TopNode: Node? = null
+    private var BottomNode: Node? = null
+
+    fun setTopNode(TopNode: Node) {
+        this.TopNode=TopNode.apply {
+            context.attachToParent(this@SplitNavNode.context)
+        }
+    }
+
+    fun setBottomNode(BottomNode: Node) {
+        this.BottomNode=BottomNode.apply {
+            context.attachToParent(this@SplitNavNode.context)
+        }
+    }
 
     override fun start() {
         super.start()

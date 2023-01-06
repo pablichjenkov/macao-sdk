@@ -15,7 +15,6 @@ import example.nodes.OnboardingNode
 
 class DrawerStateTreeHolder : ViewModel() {
 
-    private val rootParentNodeContext = NodeContext.Root()
     private lateinit var DrawerNode: DrawerNode
 
     fun getOrCreate(): Node {
@@ -24,34 +23,33 @@ class DrawerStateTreeHolder : ViewModel() {
             return DrawerNode
         }
 
-        DrawerNode = DrawerNode(rootParentNodeContext)
+        DrawerNode = DrawerNode()
 
         val OnboardingNode = OnboardingNode(
-            DrawerNode.context,
             "Home",
             Icons.Filled.Home
         ) {}
 
-        val NavBarNode = NavBarNode(DrawerNode.context)
-        val PagerNode = PagerNode(DrawerNode.context)
+        val NavBarNode = NavBarNode()
+        val PagerNode = PagerNode()
 
         val navbarNavItems = mutableListOf(
             NodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(NavBarNode.context, "Orders / Current", Icons.Filled.Home) {},
+                node = OnboardingNode("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                node = OnboardingNode(NavBarNode.context, "Orders / Past", Icons.Filled.Edit) {},
+                node = OnboardingNode("Orders / Past", Icons.Filled.Edit) {},
                 selected = false
             ),
             NodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                node = OnboardingNode(NavBarNode.context, "Orders / Claim", Icons.Filled.Email) {},
+                node = OnboardingNode("Orders / Claim", Icons.Filled.Email) {},
                 selected = false
             )
         )
@@ -61,7 +59,6 @@ class DrawerStateTreeHolder : ViewModel() {
                 label = "Account",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(
-                    PagerNode.context,
                     "Settings / Account",
                     Icons.Filled.Home
                 ) {},
@@ -71,7 +68,6 @@ class DrawerStateTreeHolder : ViewModel() {
                 label = "Profile",
                 icon = Icons.Filled.Edit,
                 node = OnboardingNode(
-                    PagerNode.context,
                     "Settings / Profile",
                     Icons.Filled.Edit
                 ) {},
@@ -81,7 +77,6 @@ class DrawerStateTreeHolder : ViewModel() {
                 label = "About Us",
                 icon = Icons.Filled.Email,
                 node = OnboardingNode(
-                    PagerNode.context,
                     "Settings / About Us",
                     Icons.Filled.Email
                 ) {},

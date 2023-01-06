@@ -24,10 +24,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class DeepLinkDemoNode(
-    parentContext: NodeContext,
     val onDeepLinkClick: (path: Path) -> Unit,
     val onCloseClick: () -> Unit
-) : Node(parentContext), WindowNode {
+) : Node(), WindowNode {
     private val windowState = WindowState(
         width = Dp.Unspecified, height = 800.dp
     )

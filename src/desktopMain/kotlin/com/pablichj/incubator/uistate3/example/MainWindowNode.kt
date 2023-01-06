@@ -25,11 +25,10 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class MainWindowNode(
-    parentContext: NodeContext,
     val onOpenDeepLinkClick: () -> Unit,
     val onRootNodeSelection: (WindowNodeSample) -> Unit,
     val onExitClick: () -> Unit
-) : Node(parentContext), WindowNode {
+) : Node(), WindowNode {
     private val windowState = WindowState(size = DpSize(800.dp, 900.dp))
     private val windowSizeInfoProvider = JvmWindowSizeInfoProvider(windowState)
     private val defaultBackPressDispatcher = DefaultBackPressDispatcher()
@@ -41,12 +40,12 @@ class MainWindowNode(
 
         AdaptableSizeNode = AdaptableSizeTreeBuilder.getOrCreateAdaptableSizeNode(
             windowSizeInfoProvider
-        ).apply {
-            this@apply.context.subPath = SubPath("AdaptableWindow")
-            setNavItems(subtreeNavItems, 0)
-            setCompactContainer(DrawerNode(context).apply { context.subPath = SubPath("Drawer") })
-            setMediumContainer(NavBarNode(context).apply { context.subPath = SubPath("Navbar") })
-            setExpandedContainer(PanelNode(context).apply { context.subPath = SubPath("Panel") })
+        ).also {
+            it.context.subPath = SubPath("AdaptableWindow")
+            it.setNavItems(subtreeNavItems, 0)
+            it.setCompactContainer(DrawerNode().apply { context.subPath = SubPath("Drawer") })
+            it.setMediumContainer(NavBarNode().apply { context.subPath = SubPath("Navbar") })
+            it.setExpandedContainer(PanelNode().apply { context.subPath = SubPath("Panel") })
         }
     }
 

@@ -7,13 +7,10 @@ import androidx.compose.ui.Modifier
 import com.pablichj.incubator.uistate3.node.Node
 import com.pablichj.incubator.uistate3.node.NodeContext
 
-class DesktopAppNode(
-    parentContext: NodeContext
-) : Node(parentContext) {
+class DesktopAppNode : Node() {
     private val activeWindows = mutableStateListOf<WindowNode>()
 
     private val MainWindowNode = MainWindowNode(
-        parentContext = context,
         onOpenDeepLinkClick = {
             openDeepLinkWindow()
         },
@@ -24,7 +21,6 @@ class DesktopAppNode(
     )
 
     private val DeepLinkDemoNode = DeepLinkDemoNode(
-        context,
         onDeepLinkClick = { path ->
             MainWindowNode.handleDeepLink(path)
         },
@@ -34,28 +30,24 @@ class DesktopAppNode(
     )
 
     private val DrawerWindowNode = DrawerWindowNode(
-        context,
         onCloseClick = {
             closeDrawerWindowNode()
         }
     )
 
     private val NavBarWindowNode = NavBarWindowNode(
-        context,
         onCloseClick = {
             closeNavBarWindowNode()
         }
     )
 
     private val PanelWindowNode = PanelWindowNode(
-        context,
         onCloseClick = {
             closePanelWindowNode()
         }
     )
 
     private val FullAppWindowNode = FullAppWindowNode(
-        context,
         onCloseClick = {
             closeFullAppWindowNode()
         }

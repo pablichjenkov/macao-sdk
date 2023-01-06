@@ -6,15 +6,17 @@ import com.pablichj.incubator.uistate3.node.navigation.SubPath
  * Singly Linked List that represents a path of NodeContext from the current node
  * up to the root node.
  * */
-open class NodeContext(
-    var parentContext: NodeContext?
-) {
+open class NodeContext {
+
+    var parentContext: NodeContext? = null
 
     // region: Tree traversal
 
-    fun updateParent(newParentContext: NodeContext) {
-        parentContext = newParentContext
+    fun attachToParent(parentContext: NodeContext) {
+        this.parentContext = parentContext
     }
+
+    fun isAttached(): Boolean = parentContext != null
 
     // endregion
 
@@ -58,7 +60,8 @@ open class NodeContext(
 
     //todo: make these 2 internal
     var backPressDispatcher: IBackPressDispatcher? = null
-    var backPressedCallbackDelegate: BackPressedCallback = EmptyBackPressCallback
+    internal var backPressedCallbackDelegate: BackPressedCallback = EmptyBackPressCallback
+    var rootNodeBackPressedDelegate : BackPressedCallback? = null
 
     // endregion
 
@@ -67,7 +70,5 @@ open class NodeContext(
     var subPath: SubPath = SubPath.Empty
 
     // endregion
-
-    class Root : NodeContext(null)
 
 }

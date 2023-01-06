@@ -15,7 +15,6 @@ import example.nodes.OnboardingNode
 
 object AdaptableSizeTreeBuilder {
 
-    private val rootParentNodeContext = NodeContext.Root()
     private lateinit var AdaptableSizeNode: AdaptableSizeNode
     private lateinit var subTreeNavItems: MutableList<NodeItem>
 
@@ -25,13 +24,11 @@ object AdaptableSizeTreeBuilder {
 
         if (AdaptableSizeTreeBuilder::AdaptableSizeNode.isInitialized) {
             return AdaptableSizeNode.apply {
-                this.context.parentContext = rootParentNodeContext
                 this.windowSizeInfoProvider = windowSizeInfoProvider
             }
         }
 
         return AdaptableSizeNode(
-            rootParentNodeContext,
             windowSizeInfoProvider
         ).also {
             it.context.subPath = SubPath("AdaptableWindow")
@@ -46,11 +43,7 @@ object AdaptableSizeTreeBuilder {
             return subTreeNavItems
         }
 
-        // Temporary empty context until the navItems get attached to a NavigatorNode.
-        // At that point the navItems parent context will point to the NavigatorNode's context
-        val TemporalEmptyContext = NodeContext(null)
-
-        val NavBarNode = NavBarNode(TemporalEmptyContext)
+        val NavBarNode = NavBarNode()
             .apply { context.subPath = SubPath("Orders") }
 
         val navbarNavItems = mutableListOf(
@@ -58,7 +51,7 @@ object AdaptableSizeTreeBuilder {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(
-                    NavBarNode.context, "Orders / Current", Icons.Filled.Home, {}
+                    "Orders / Current", Icons.Filled.Home, {}
                 ).apply { context.subPath = SubPath("Current") },
                 selected = false
             ),
@@ -66,14 +59,14 @@ object AdaptableSizeTreeBuilder {
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 node = OnboardingNode(
-                    NavBarNode.context, "Orders / Past", Icons.Filled.Edit, {}
+                    "Orders / Past", Icons.Filled.Edit, {}
                 ).apply { context.subPath = SubPath("Past") },
                 selected = false
             ),
             NodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                node = OnboardingNode(NavBarNode.context, "Orders / Claim", Icons.Filled.Email, {})
+                node = OnboardingNode("Orders / Claim", Icons.Filled.Email, {})
                     .apply { context.subPath = SubPath("Claim") },
                 selected = false
             )
@@ -82,7 +75,7 @@ object AdaptableSizeTreeBuilder {
         NavBarNode.setItems(navbarNavItems, 0)
 
         val SettingsNode =
-            OnboardingNode(TemporalEmptyContext, "Settings", Icons.Filled.Email, {})
+            OnboardingNode("Settings", Icons.Filled.Email, {})
                 .apply { context.subPath = SubPath("Settings") }
 
         val navItems = mutableListOf(
@@ -90,7 +83,7 @@ object AdaptableSizeTreeBuilder {
                 label = "Home",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(
-                    TemporalEmptyContext, "Home", Icons.Filled.Home, {}
+                    "Home", Icons.Filled.Home, {}
                 ).apply { context.subPath = SubPath("Home") },
                 selected = false
             ),

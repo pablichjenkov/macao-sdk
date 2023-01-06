@@ -18,21 +18,18 @@ import com.pablichj.incubator.uistate3.node.NodeContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
-class AppCoordinatorNode(
-    parentContext: NodeContext
-) : BackStackNode<Node>(parentContext) {
+class AppCoordinatorNode : BackStackNode<Node>() {
 
-    private val SplashNode = SplashNode(context) {
+    private val SplashNode = SplashNode {
         pushNode(OnboardingNode)
-    }
+    }.also { it.context.attachToParent(this@AppCoordinatorNode.context) }
 
     private val OnboardingNode: Node = OnboardingNode(
-        context,
         "Onboard",
         Icons.Filled.Home
     ) {
         pushNode(HomeNode)
-    }
+    }.also { it.context.attachToParent(this@AppCoordinatorNode.context) }
 
     lateinit var HomeNode: Node
 

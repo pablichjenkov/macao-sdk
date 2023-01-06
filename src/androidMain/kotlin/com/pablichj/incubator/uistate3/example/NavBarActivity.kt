@@ -5,11 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import com.pablichj.incubator.uistate3.node.AndroidBackPressDispatcher
-import com.pablichj.incubator.uistate3.node.BackPressedCallback
-import com.pablichj.incubator.uistate3.node.Node
 import com.pablichj.incubator.uistate3.example.treebuilders.NavBarStateTreeHolder
+import com.pablichj.incubator.uistate3.node.*
 
 class NavBarActivity : ComponentActivity() {
 
@@ -19,17 +18,19 @@ class NavBarActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // It creates a state tree where the root node is a NavBar node
-        StateTree = activityStateHolder.getOrCreate(
-            backPressDispatcher = AndroidBackPressDispatcher(this@NavBarActivity),
-            backPressedCallback = object : BackPressedCallback() {
-                override fun onBackPressed() {
-                    finish()
-                }
-            }
-        )
+        StateTree = activityStateHolder.getOrCreate().apply {
+            context.rootNodeBackPressedDelegate = ForwardBackPressCallback { finish() }
+        }
+
         setContent {
             MaterialTheme {
-                StateTree.Content(Modifier)
+                CompositionLocalProvider(
+                    LocalBackPressedDispatcher provides AndroidBackPressDispatcher(
+                        this@NavBarActivity
+                    ),
+                ) {
+                    StateTree.Content(Modifier)
+                }
             }
         }
     }

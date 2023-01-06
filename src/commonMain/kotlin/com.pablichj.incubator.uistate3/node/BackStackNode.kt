@@ -8,9 +8,7 @@ package com.pablichj.incubator.uistate3.node
  * A stack of references to Node instances. Can be inherited by a Child class
  * that wants to manage children navigation.
  * */
-abstract class BackStackNode<T : Node>(
-    parentContext: NodeContext
-) : Node(parentContext) {
+abstract class BackStackNode<T : Node> : Node() {
 
     val stack: ArrayDeque<T> = ArrayDeque()
 //    var screenUpdateCounter by mutableStateOf(0)
@@ -21,7 +19,7 @@ abstract class BackStackNode<T : Node>(
     protected fun pushNode(node: T) {
         if (stack.size == 0) {
             stack.addLast(node)
-            onStackPush(oldTop = null, newTop = node )
+            onStackPush(oldTop = null, newTop = node)
             return
         }
 
@@ -46,7 +44,7 @@ abstract class BackStackNode<T : Node>(
         val newTop = if (stack.size > 0) {
             stack.lastOrNull()
         } else null
-        onStackPop(oldTop = oldTop,  newTop = newTop)
+        onStackPop(oldTop = oldTop, newTop = newTop)
     }
 
     protected fun popToNode(node: T, inclusive: Boolean): Boolean {
@@ -94,8 +92,10 @@ abstract class BackStackNode<T : Node>(
     }
 
     override fun handleBackPressed() {
-        println("BackStack::handleBackPressed in class ${this@BackStackNode::class.simpleName}," +
-                " size = ${stack.size}")
+        println(
+            "BackStack::handleBackPressed in class ${this@BackStackNode::class.simpleName}," +
+                    " size = ${stack.size}"
+        )
         if (stack.size > 1) {
             popNode()
         } else {

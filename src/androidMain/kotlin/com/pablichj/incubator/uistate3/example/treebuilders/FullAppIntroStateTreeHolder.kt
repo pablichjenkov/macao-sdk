@@ -5,7 +5,10 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.lifecycle.ViewModel
-import com.pablichj.incubator.uistate3.node.*
+import com.pablichj.incubator.uistate3.node.Node
+import com.pablichj.incubator.uistate3.node.NodeContext
+import com.pablichj.incubator.uistate3.node.NodeItem
+import com.pablichj.incubator.uistate3.node.PagerNode
 import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
 import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
 import example.nodes.AppCoordinatorNode
@@ -14,57 +17,51 @@ import example.nodes.SplitNavNode
 
 class FullAppIntroStateTreeHolder : ViewModel() {
 
-    private val rootParentNodeContext = NodeContext.Root()
     private lateinit var AppCoordinatorNode: Node
 
-    fun getOrCreate(
-        backPressDispatcher: IBackPressDispatcher,
-        backPressedCallback: BackPressedCallback
-    ): Node {
-
-        rootParentNodeContext.backPressDispatcher = backPressDispatcher
-        rootParentNodeContext.backPressedCallbackDelegate = backPressedCallback
+    fun getOrCreate(): Node {
 
         if (this@FullAppIntroStateTreeHolder::AppCoordinatorNode.isInitialized) {
             return AppCoordinatorNode
         }
 
-        return AppCoordinatorNode(rootParentNodeContext).also {
-            it.HomeNode = buildDrawerActivityStateTree(it.context)
+        return AppCoordinatorNode().also {
+            buildDrawerActivityStateTree(it.context).also { homeNode ->
+                it.HomeNode = homeNode
+            }
             AppCoordinatorNode = it
         }
     }
 
     private fun buildDrawerActivityStateTree(parentContext: NodeContext): Node {
 
-        val DrawerNode = DrawerNode(parentContext)
+        val DrawerNode = DrawerNode()
 
-        val NavBarNode = NavBarNode(DrawerNode.context)
-        val PagerNode = PagerNode(DrawerNode.context)
+        val NavBarNode = NavBarNode()
+        val PagerNode = PagerNode()
 
-        val SplitNavNode = SplitNavNode(NavBarNode.context).apply {
-            TopNode = buildNestedDrawer(context)
-            BottomNode =
-                OnboardingNode(NavBarNode.context, "Orders / Current", Icons.Filled.Edit) {}
+        val SplitNavNode = SplitNavNode().apply {
+            setTopNode(buildNestedDrawer())
+            setBottomNode(OnboardingNode("Orders / Current", Icons.Filled.Edit) {})
         }
 
         val navbarNavItems = mutableListOf(
             NodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(NavBarNode.context, "Orders / Current", Icons.Filled.Home) {},
+                node = OnboardingNode("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                node = OnboardingNode(NavBarNode.context, "Orders / Past", Icons.Filled.Edit) {},
+                node = OnboardingNode("Orders / Past", Icons.Filled.Edit) {},
                 selected = false
             ),
             NodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                node = OnboardingNode(NavBarNode.context, "Orders / Claim", Icons.Filled.Email) {},
+                node = OnboardingNode("Orders / Claim", Icons.Filled.Email) {},
                 selected = false
             ),
             NodeItem(
@@ -80,7 +77,6 @@ class FullAppIntroStateTreeHolder : ViewModel() {
                 label = "Account",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(
-                    PagerNode.context,
                     "Settings / Account",
                     Icons.Filled.Home
                 ) {},
@@ -90,7 +86,6 @@ class FullAppIntroStateTreeHolder : ViewModel() {
                 label = "Profile",
                 icon = Icons.Filled.Edit,
                 node = OnboardingNode(
-                    PagerNode.context,
                     "Settings / Profile",
                     Icons.Filled.Edit
                 ) {},
@@ -100,7 +95,6 @@ class FullAppIntroStateTreeHolder : ViewModel() {
                 label = "About Us",
                 icon = Icons.Filled.Email,
                 node = OnboardingNode(
-                    PagerNode.context,
                     "Settings / About Us",
                     Icons.Filled.Email
                 ) {},
@@ -112,7 +106,7 @@ class FullAppIntroStateTreeHolder : ViewModel() {
             NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(DrawerNode.context, "Home", Icons.Filled.Home) {},
+                node = OnboardingNode("Home", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
@@ -130,32 +124,33 @@ class FullAppIntroStateTreeHolder : ViewModel() {
         )
 
         return DrawerNode.apply {
+            context.attachToParent(parentContext)
             setItems(drawerNavItems, 0)
         }
     }
 
-    private fun buildNestedDrawer(parentContext: NodeContext): DrawerNode {
+    private fun buildNestedDrawer(): DrawerNode {
 
-        val DrawerNode = DrawerNode(parentContext)
-        val NavBarNode = NavBarNode(DrawerNode.context)
+        val DrawerNode = DrawerNode()
+        val NavBarNode = NavBarNode()
 
         val navbarNavItems = mutableListOf(
             NodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(NavBarNode.context, "Orders / Current", Icons.Filled.Home) {},
+                node = OnboardingNode("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                node = OnboardingNode(NavBarNode.context, "Orders / Past", Icons.Filled.Edit) {},
+                node = OnboardingNode("Orders / Past", Icons.Filled.Edit) {},
                 selected = false
             ),
             NodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                node = OnboardingNode(NavBarNode.context, "Orders / Claim", Icons.Filled.Email) {},
+                node = OnboardingNode("Orders / Claim", Icons.Filled.Email) {},
                 selected = false
             )
         )
@@ -164,7 +159,7 @@ class FullAppIntroStateTreeHolder : ViewModel() {
             NodeItem(
                 label = "Home Nested",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(DrawerNode.context, "Home", Icons.Filled.Home) {},
+                node = OnboardingNode("Home", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(

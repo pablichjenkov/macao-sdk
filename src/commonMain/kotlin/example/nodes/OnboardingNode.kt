@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.pablichj.incubator.uistate3.node.BackStackNode
+import com.pablichj.incubator.uistate3.node.ContainerNode
 import com.pablichj.incubator.uistate3.node.Node
 import com.pablichj.incubator.uistate3.node.NodeContext
 import com.pablichj.incubator.uistate3.node.navigation.SubPath
@@ -30,18 +31,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 class OnboardingNode(
-    parentContext: NodeContext,
     val screenName: String,
     val screenIcon: ImageVector? = null,
     val onMessage: (Msg) -> Unit
-) : BackStackNode<OnboardingStepNode>(parentContext) {
+) : BackStackNode<OnboardingStepNode>() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
     private val topBarState = TopBarState()
     private var activeNodeState: MutableState<OnboardingStepNode?> = mutableStateOf(null)
 
     val Step1 = OnboardingStepNode(
-        context,
         "$screenName / Page 1",
         Color.Yellow
     ) { msg ->
@@ -51,22 +50,26 @@ class OnboardingNode(
             }
         }
     }.also {
+        it.context.attachToParent(this@OnboardingNode.context)
         it.context.subPath = SubPath("Page1")
     }
 
-    val Step2 = OnboardingStepNode(context, "$screenName / Page 1 / Page 2", Color.Green) { msg ->
+    val Step2 = OnboardingStepNode(
+        "$screenName / Page 1 / Page 2",
+        Color.Green
+    ) { msg ->
         when (msg) {
             OnboardingStepNode.Msg.Next -> {
                 pushNode(Step3)
             }
         }
     }.also {
+        it.context.attachToParent(this@OnboardingNode.context)
         it.context.subPath = SubPath("Page2")
     }
 
     val Step3 =
         OnboardingStepNode(
-            context,
             "$screenName / Page 1 / Page 2 / Page 3",
             Color.Cyan
         ) { msg ->
@@ -76,6 +79,7 @@ class OnboardingNode(
                 }
             }
         }.also {
+            it.context.attachToParent(this@OnboardingNode.context)
             it.context.subPath = SubPath("Page3")
         }
 

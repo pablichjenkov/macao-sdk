@@ -20,9 +20,8 @@ import com.pablichj.incubator.uistate3.node.navigation.Path
  * This node is basically a proxy, it transfer request and events to its active child node
  * */
 class AdaptableSizeNode(
-    parentContext: NodeContext,
     var windowSizeInfoProvider: IWindowSizeInfoProvider
-) : Node(parentContext) {
+) : Node() {
 
     private var navItems: MutableList<NodeItem> = mutableListOf()
     private var startingPosition: Int = 0

@@ -23,9 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
-class PagerNode(
-    parentContext: NodeContext
-) : Node(parentContext), ContainerNode {
+class PagerNode : Node(), ContainerNode {
 
     //private var nodeCoroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
     // Used to call functions in specific Composable's States that need a monotonic clock
@@ -34,7 +32,7 @@ class PagerNode(
     private var startingIndex = 0
     private var selectedIndex = 0
     private var navItems: MutableList<NodeItem> = mutableListOf()
-    private var childNodes: MutableList<Node> = mutableListOf(EmptyNode(context))
+    private var childNodes: MutableList<Node> = mutableListOf(EmptyNode())
     private var pagerState = PagerState(startingIndex)
     override val stack = ArrayDeque<Node>()
 
@@ -77,7 +75,7 @@ class PagerNode(
 
         childNodes = navItems.map { navItem ->
             navItem.node.also {
-                it.context.updateParent(context)
+                it.context.attachToParent(context)
                 if (it.context.lifecycleState == LifecycleState.Started) {
                     activeNode = it
                 }
@@ -103,7 +101,7 @@ class PagerNode(
 
     override fun clearItems() {
         childNodes.clear()
-        childNodes.add(EmptyNode(context))
+        childNodes.add(EmptyNode())
     }
 
     // endregion
@@ -191,7 +189,7 @@ class PagerNode(
 
 }
 
-private class EmptyNode(parentContext: NodeContext) : Node(parentContext) {
+private class EmptyNode : Node() {
     @Composable
     override fun Content(modifier: Modifier) {
         Box {

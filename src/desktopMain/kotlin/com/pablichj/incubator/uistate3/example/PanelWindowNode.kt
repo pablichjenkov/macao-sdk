@@ -11,18 +11,16 @@ import com.pablichj.incubator.uistate3.node.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlin.system.exitProcess
 
 class PanelWindowNode(
-    parentContext: NodeContext,
     val onCloseClick: () -> Unit
-) : Node(parentContext), WindowNode {
+) : Node(), WindowNode {
     private val windowState = WindowState()
 
     private var PanelNode: Node = PanelTreeBuilder.build(
-        DefaultBackPressDispatcher(),
-        backPressedCallback = object : BackPressedCallback() {
-            override fun onBackPressed() {}
-        }
+        backPressDispatcher = DefaultBackPressDispatcher(),
+        backPressedCallback = ForwardBackPressCallback { exitProcess(0) }
     )
 
     @Composable

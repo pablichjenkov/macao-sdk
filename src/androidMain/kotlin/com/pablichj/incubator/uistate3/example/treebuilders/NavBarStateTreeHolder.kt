@@ -11,31 +11,22 @@ import example.nodes.OnboardingNode
 
 class NavBarStateTreeHolder : ViewModel() {
 
-    private val rootParentNodeContext = NodeContext.Root()
     private lateinit var NavBarNode: NavBarNode
 
-    fun getOrCreate(
-        backPressDispatcher: IBackPressDispatcher,
-        backPressedCallback: BackPressedCallback
-    ): Node {
-
-        rootParentNodeContext.backPressDispatcher = backPressDispatcher
-        rootParentNodeContext.backPressedCallbackDelegate = backPressedCallback
+    fun getOrCreate(): Node {
 
         if (this::NavBarNode.isInitialized) {
             return NavBarNode
         }
 
-        NavBarNode = NavBarNode(rootParentNodeContext)
-
-        val PagerNode = PagerNode(NavBarNode.context)
+        NavBarNode = NavBarNode()
+        val PagerNode = PagerNode()
 
         val pagerNavItems = mutableListOf(
             NodeItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(
-                    PagerNode.context,
                     "Settings / Account",
                     Icons.Filled.Home
                 ) {},
@@ -45,7 +36,6 @@ class NavBarStateTreeHolder : ViewModel() {
                 label = "Profile",
                 icon = Icons.Filled.Edit,
                 node = OnboardingNode(
-                    PagerNode.context,
                     "Settings / Profile",
                     Icons.Filled.Edit
                 ) {},
@@ -55,7 +45,6 @@ class NavBarStateTreeHolder : ViewModel() {
                 label = "About Us",
                 icon = Icons.Filled.Email,
                 node = OnboardingNode(
-                    PagerNode.context,
                     "Settings / About Us",
                     Icons.Filled.Email
                 ) {},
@@ -67,13 +56,13 @@ class NavBarStateTreeHolder : ViewModel() {
             NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode(NavBarNode.context, "Home", Icons.Filled.Home) {},
+                node = OnboardingNode("Home", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
-                node = OnboardingNode(NavBarNode.context, "Orders", Icons.Filled.Edit) {},
+                node = OnboardingNode("Orders", Icons.Filled.Edit) {},
                 selected = false
             ),
             NodeItem(

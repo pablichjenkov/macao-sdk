@@ -14,14 +14,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.pablichj.incubator.uistate3.node.BackPressHandler
 import com.pablichj.incubator.uistate3.node.Node
-import com.pablichj.incubator.uistate3.node.NodeContext
 
 class OnboardingStepNode(
-    parentContext: NodeContext,
     val text: String,
     val bgColor: Color,
     val onMessage: (Msg) -> Unit
-) : Node(parentContext) {
+) : Node() {
 
     sealed interface Msg {
         object Next : Msg
