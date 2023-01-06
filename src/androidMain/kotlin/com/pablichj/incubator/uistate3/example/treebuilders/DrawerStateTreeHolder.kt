@@ -5,7 +5,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.lifecycle.ViewModel
-import com.pablichj.incubator.uistate3.node.NavigatorNodeItem
+import com.pablichj.incubator.uistate3.node.NodeItem
 import com.pablichj.incubator.uistate3.node.Node
 import com.pablichj.incubator.uistate3.node.NodeContext
 import com.pablichj.incubator.uistate3.node.PagerNode
@@ -36,19 +36,19 @@ class DrawerStateTreeHolder : ViewModel() {
         val PagerNode = PagerNode(DrawerNode.context)
 
         val navbarNavItems = mutableListOf(
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(NavBarNode.context, "Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 node = OnboardingNode(NavBarNode.context, "Orders / Past", Icons.Filled.Edit) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 node = OnboardingNode(NavBarNode.context, "Orders / Claim", Icons.Filled.Email) {},
@@ -57,7 +57,7 @@ class DrawerStateTreeHolder : ViewModel() {
         )
 
         val pagerNavItems = mutableListOf(
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(
@@ -67,7 +67,7 @@ class DrawerStateTreeHolder : ViewModel() {
                 ) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
                 node = OnboardingNode(
@@ -77,7 +77,7 @@ class DrawerStateTreeHolder : ViewModel() {
                 ) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
                 node = OnboardingNode(
@@ -90,27 +90,27 @@ class DrawerStateTreeHolder : ViewModel() {
         )
 
         val drawerNavItems = mutableListOf(
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode,
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
-                node = NavBarNode.also { it.setNavItems(navbarNavItems, 0) },
+                node = NavBarNode.also { it.setItems(navbarNavItems, 0) },
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node = PagerNode.also { it.setNavItems(pagerNavItems, 0) },
+                node = PagerNode.also { it.setItems(pagerNavItems, 0) },
                 selected = false
             )
         )
 
-        return DrawerNode.apply { setNavItems(drawerNavItems, 0) }
+        return DrawerNode.apply { setItems(drawerNavItems, 0) }
     }
 
 }

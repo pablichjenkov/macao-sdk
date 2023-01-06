@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 class PagerNode(
     parentContext: NodeContext
-) : Node(parentContext), NavigatorNode {
+) : Node(parentContext), ContainerNode {
 
     //private var nodeCoroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
     // Used to call functions in specific Composable's States that need a monotonic clock
@@ -33,7 +33,7 @@ class PagerNode(
     private var activeNode: Node? = null
     private var startingIndex = 0
     private var selectedIndex = 0
-    private var navItems: MutableList<NavigatorNodeItem> = mutableListOf()
+    private var navItems: MutableList<NodeItem> = mutableListOf()
     private var childNodes: MutableList<Node> = mutableListOf(EmptyNode(context))
     private var pagerState = PagerState(startingIndex)
     override val stack = ArrayDeque<Node>()
@@ -62,12 +62,12 @@ class PagerNode(
         return this
     }
 
-    override fun getSelectedNavItemIndex(): Int {
+    override fun getSelectedItemIndex(): Int {
         return selectedIndex
     }
 
-    override fun setNavItems(
-        navItemsList: MutableList<NavigatorNodeItem>,
+    override fun setItems(
+        navItemsList: MutableList<NodeItem>,
         startingIndex: Int
     ) {
         this.startingIndex = startingIndex
@@ -87,21 +87,21 @@ class PagerNode(
         updateScreen()
     }
 
-    override fun getNavItems(): MutableList<NavigatorNodeItem> {
+    override fun getItems(): MutableList<NodeItem> {
         return this.navItems
     }
 
-    override fun addNavItem(navItem: NavigatorNodeItem, index: Int) {
-        childNodes.add(index, navItem.node)
+    override fun addItem(nodeItem: NodeItem, index: Int) {
+        childNodes.add(index, nodeItem.node)
         updateScreen()
     }
 
-    override fun removeNavItem(index: Int) {
+    override fun removeItem(index: Int) {
         childNodes.removeAt(index)
         updateScreen()
     }
 
-    override fun clearNavItems() {
+    override fun clearItems() {
         childNodes.clear()
         childNodes.add(EmptyNode(context))
     }

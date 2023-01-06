@@ -33,19 +33,19 @@ class PagerStateTreeHolder : ViewModel() {
         val NavBarNode2 = NavBarNode(PagerNode.context)
 
         val navbarNavItems1 = mutableListOf(
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(NavBarNode1.context, "Orders/ Current") {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 node = OnboardingNode(NavBarNode1.context, "Orders / Past") {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 node = OnboardingNode(NavBarNode1.context, "Orders / Claim") {},
@@ -54,19 +54,19 @@ class PagerStateTreeHolder : ViewModel() {
         )
 
         val navbarNavItems2 = mutableListOf(
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(NavBarNode2.context, "Settings / Account") {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
                 node = OnboardingNode(NavBarNode2.context, "Settings / Profile") {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
                 node = OnboardingNode(NavBarNode2.context, "Settings / About Us") {},
@@ -75,27 +75,27 @@ class PagerStateTreeHolder : ViewModel() {
         )
 
         val pagerNavItems = mutableListOf(
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(PagerNode.context, "Home") {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
-                node = NavBarNode1.also { it.setNavItems(navbarNavItems1, 0) },
+                node = NavBarNode1.also { it.setItems(navbarNavItems1, 0) },
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node = NavBarNode2.also { it.setNavItems(navbarNavItems2, 0) },
+                node = NavBarNode2.also { it.setItems(navbarNavItems2, 0) },
                 selected = false
             )
         )
 
-        return PagerNode.also { it.setNavItems(pagerNavItems, 0) }
+        return PagerNode.also { it.setItems(pagerNavItems, 0) }
     }
 
 }

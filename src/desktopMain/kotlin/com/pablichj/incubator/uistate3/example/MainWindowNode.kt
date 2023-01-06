@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import com.pablichj.incubator.uistate3.ComposeApp
 import com.pablichj.incubator.uistate3.FloatingButton
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
@@ -45,9 +44,9 @@ class MainWindowNode(
         ).apply {
             this@apply.context.subPath = SubPath("AdaptableWindow")
             setNavItems(subtreeNavItems, 0)
-            setCompactNavigator(DrawerNode(context).apply { context.subPath = SubPath("Drawer") })
-            setMediumNavigator(NavBarNode(context).apply { context.subPath = SubPath("Navbar") })
-            setExpandedNavigator(PanelNode(context).apply { context.subPath = SubPath("Panel") })
+            setCompactContainer(DrawerNode(context).apply { context.subPath = SubPath("Drawer") })
+            setMediumContainer(NavBarNode(context).apply { context.subPath = SubPath("Navbar") })
+            setExpandedContainer(PanelNode(context).apply { context.subPath = SubPath("Panel") })
         }
     }
 

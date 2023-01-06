@@ -4,7 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import com.pablichj.incubator.uistate3.node.BackPressedCallback
 import com.pablichj.incubator.uistate3.node.IBackPressDispatcher
-import com.pablichj.incubator.uistate3.node.NavigatorNodeItem
+import com.pablichj.incubator.uistate3.node.NodeItem
 import com.pablichj.incubator.uistate3.node.NodeContext
 import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
 import example.nodes.OnboardingNode
@@ -31,19 +31,19 @@ object PanelTreeBuilder {
         val PanelNode = PanelNode(rootParentNodeContext)
 
         val panelNavItems = mutableListOf(
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(PanelNode.context, "Home", Icons.Filled.Home) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
                 node = buildNavBarNode(PanelNode.context),
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
                 node = OnboardingNode(PanelNode.context, "Settings", Icons.Filled.Email) {},
@@ -51,7 +51,7 @@ object PanelTreeBuilder {
             )
         )
 
-        return PanelNode.also { it.setNavItems(panelNavItems, 0) }
+        return PanelNode.also { it.setItems(panelNavItems, 0) }
     }
 
     private fun buildNavBarNode(parentContext: NodeContext): NavBarNode {
@@ -59,19 +59,19 @@ object PanelTreeBuilder {
         val NavBarNode = NavBarNode(parentContext)
 
         val navbarNavItems = mutableListOf(
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(NavBarNode.context, "Home", Icons.Filled.Home) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
                 node = OnboardingNode(NavBarNode.context, "Orders", Icons.Filled.Settings) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Add,
                 node = OnboardingNode(NavBarNode.context, "Settings", Icons.Filled.Add) {},
@@ -79,7 +79,7 @@ object PanelTreeBuilder {
             )
         )
 
-        return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }
+        return NavBarNode.also { it.setItems(navbarNavItems, 0) }
     }
 
 }

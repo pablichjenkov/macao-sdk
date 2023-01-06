@@ -31,7 +31,7 @@ class NavBarStateTreeHolder : ViewModel() {
         val PagerNode = PagerNode(NavBarNode.context)
 
         val pagerNavItems = mutableListOf(
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(
@@ -41,7 +41,7 @@ class NavBarStateTreeHolder : ViewModel() {
                 ) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
                 node = OnboardingNode(
@@ -51,7 +51,7 @@ class NavBarStateTreeHolder : ViewModel() {
                 ) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
                 node = OnboardingNode(
@@ -64,27 +64,27 @@ class NavBarStateTreeHolder : ViewModel() {
         )
 
         val navbarNavItems = mutableListOf(
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(NavBarNode.context, "Home", Icons.Filled.Home) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
                 node = OnboardingNode(NavBarNode.context, "Orders", Icons.Filled.Edit) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node = PagerNode.also { it.setNavItems(pagerNavItems, 0) },
+                node = PagerNode.also { it.setItems(pagerNavItems, 0) },
                 selected = false
             )
         )
 
-        return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }
+        return NavBarNode.also { it.setItems(navbarNavItems, 0) }
     }
 
 }

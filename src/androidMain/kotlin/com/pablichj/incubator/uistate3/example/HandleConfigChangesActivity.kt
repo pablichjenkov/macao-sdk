@@ -84,13 +84,13 @@ class HandleConfigChangesActivity : ComponentActivity() {
         val PagerNode = PagerNode(DrawerNode.context)
 
         val navbarNavItems = mutableListOf(
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(NavBarNode.context, "Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Past",
                 icon = Icons.Filled.AccountCircle,
                 node = OnboardingNode(
@@ -100,7 +100,7 @@ class HandleConfigChangesActivity : ComponentActivity() {
                 ) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 node = OnboardingNode(NavBarNode.context, "Orders / Claim", Icons.Filled.Email) {},
@@ -109,7 +109,7 @@ class HandleConfigChangesActivity : ComponentActivity() {
         )
 
         val pagerNavItems = mutableListOf(
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(
@@ -119,7 +119,7 @@ class HandleConfigChangesActivity : ComponentActivity() {
                 ) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
                 node = OnboardingNode(
@@ -129,7 +129,7 @@ class HandleConfigChangesActivity : ComponentActivity() {
                 ) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
                 node = OnboardingNode(
@@ -142,27 +142,27 @@ class HandleConfigChangesActivity : ComponentActivity() {
         )
 
         val drawerNavItems = mutableListOf(
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode,
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
-                node = NavBarNode.also { it.setNavItems(navbarNavItems, 0) },
+                node = NavBarNode.also { it.setItems(navbarNavItems, 0) },
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node = PagerNode.also { it.setNavItems(pagerNavItems, 0) },
+                node = PagerNode.also { it.setItems(pagerNavItems, 0) },
                 selected = false
             )
         )
 
-        return DrawerNode.also { it.setNavItems(drawerNavItems, 0) }
+        return DrawerNode.also { it.setItems(drawerNavItems, 0) }
     }
 
 }

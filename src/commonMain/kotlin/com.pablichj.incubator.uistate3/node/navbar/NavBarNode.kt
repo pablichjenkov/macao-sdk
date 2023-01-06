@@ -16,13 +16,13 @@ import kotlinx.coroutines.launch
 
 class NavBarNode(
     parentContext: NodeContext,
-) : BackStackNode<Node>(parentContext), NavigatorNode {
+) : BackStackNode<Node>(parentContext), ContainerNode {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
     private var activeNodeState: MutableState<Node?> = mutableStateOf(null)
     private var startingIndex = 0
     private var selectedIndex = 0
-    private var navItems: MutableList<NavigatorNodeItem> = mutableListOf()
+    private var navItems: MutableList<NodeItem> = mutableListOf()
     private var childNodes: MutableList<Node> = mutableListOf()
     private val navBarState = NavBarState(emptyList())
 
@@ -83,7 +83,7 @@ class NavBarNode(
         }
     }
 
-    private fun getNavItemFromNode(node: Node): NavigatorNodeItem? {
+    private fun getNavItemFromNode(node: Node): NodeItem? {
         return navBarState.navItems.firstOrNull { it.node == node }
     }
 
@@ -95,12 +95,12 @@ class NavBarNode(
         return this
     }
 
-    override fun getSelectedNavItemIndex(): Int {
+    override fun getSelectedItemIndex(): Int {
         return selectedIndex
     }
 
-    override fun setNavItems(
-        navItemsList: MutableList<NavigatorNodeItem>,
+    override fun setItems(
+        navItemsList: MutableList<NodeItem>,
         startingIndex: Int
     ) {
         this.startingIndex = startingIndex
@@ -125,19 +125,19 @@ class NavBarNode(
         }
     }
 
-    override fun getNavItems(): MutableList<NavigatorNodeItem> {
+    override fun getItems(): MutableList<NodeItem> {
         return navItems
     }
 
-    override fun addNavItem(navItem: NavigatorNodeItem, index: Int) {
-        navItems.add(index, navItem)
-        childNodes.add(index, navItem.node)
+    override fun addItem(nodeItem: NodeItem, index: Int) {
+        navItems.add(index, nodeItem)
+        childNodes.add(index, nodeItem.node)
         // The call to toMutableList() should return a new stack variable that triggers
         // recomposition in navDrawerState.
         navBarState.navItems = navItems.toMutableList()
     }
 
-    override fun removeNavItem(index: Int) {
+    override fun removeItem(index: Int) {
         navItems.removeAt(index)
         childNodes.removeAt(index)
         // The call to toMutableList() should return a new stack variable that triggers
@@ -145,7 +145,7 @@ class NavBarNode(
         navBarState.navItems = navItems.toMutableList()
     }
 
-    override fun clearNavItems() {
+    override fun clearItems() {
         println("Navbar.clearNavItems")
         navItems.clear()
         childNodes.clear()

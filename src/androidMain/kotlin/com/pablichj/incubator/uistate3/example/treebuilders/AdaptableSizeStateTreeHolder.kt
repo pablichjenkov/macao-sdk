@@ -8,7 +8,7 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.lifecycle.ViewModel
 import com.pablichj.incubator.uistate3.node.BackPressedCallback
 import com.pablichj.incubator.uistate3.node.IBackPressDispatcher
-import com.pablichj.incubator.uistate3.node.NavigatorNodeItem
+import com.pablichj.incubator.uistate3.node.NodeItem
 import com.pablichj.incubator.uistate3.node.NodeContext
 import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeNode
 import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
@@ -21,7 +21,7 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
 
     private val rootParentNodeContext = NodeContext.Root()
     private lateinit var AdaptableSizeNode: AdaptableSizeNode
-    private lateinit var subTreeNavItems: MutableList<NavigatorNodeItem>
+    private lateinit var subTreeNavItems: MutableList<NodeItem>
 
     fun getOrCreate(
         windowSizeInfoProvider: IWindowSizeInfoProvider,
@@ -47,15 +47,15 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
             it.setNavItems(
                 getOrCreateDetachedNavItems(), 0
             )
-            it.setCompactNavigator(DrawerNode(it.context))
-            it.setMediumNavigator(NavBarNode(it.context))
-            it.setExpandedNavigator(PanelNode(it.context))
+            it.setCompactContainer(DrawerNode(it.context))
+            it.setMediumContainer(NavBarNode(it.context))
+            it.setExpandedContainer(PanelNode(it.context))
             AdaptableSizeNode = it
         }
 
     }
 
-    fun getOrCreateDetachedNavItems(): MutableList<NavigatorNodeItem> {
+    fun getOrCreateDetachedNavItems(): MutableList<NodeItem> {
 
         if (this::subTreeNavItems.isInitialized) {
             return subTreeNavItems
@@ -66,19 +66,19 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
         val NavBarNode = NavBarNode(TemporalEmptyContext)
 
         val navbarNavItems = mutableListOf(
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(NavBarNode.context, "Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 node = OnboardingNode(NavBarNode.context, "Orders / Past", Icons.Filled.Edit) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 node = OnboardingNode(NavBarNode.context, "Orders / Claim", Icons.Filled.Email) {},
@@ -86,10 +86,10 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
             )
         )
 
-        NavBarNode.setNavItems(navbarNavItems, 0)
+        NavBarNode.setItems(navbarNavItems, 0)
 
         val navItems = mutableListOf(
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(
@@ -99,13 +99,13 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
                 ) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
                 node = NavBarNode,
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
                 node = OnboardingNode(

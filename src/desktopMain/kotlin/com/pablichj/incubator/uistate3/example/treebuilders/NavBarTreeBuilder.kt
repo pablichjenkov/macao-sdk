@@ -6,7 +6,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import com.pablichj.incubator.uistate3.node.BackPressedCallback
 import com.pablichj.incubator.uistate3.node.IBackPressDispatcher
-import com.pablichj.incubator.uistate3.node.NavigatorNodeItem
+import com.pablichj.incubator.uistate3.node.NodeItem
 import com.pablichj.incubator.uistate3.node.NodeContext
 import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
 import example.nodes.OnboardingNode
@@ -32,19 +32,19 @@ object NavBarTreeBuilder {
         val NavBarNode = NavBarNode(rootParentNodeContext)
 
         val navbarNavItems = mutableListOf(
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
                 node = OnboardingNode(NavBarNode.context, "Home", Icons.Filled.Home) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
                 node = OnboardingNode(NavBarNode.context, "Orders", Icons.Filled.Settings) {},
                 selected = false
             ),
-            NavigatorNodeItem(
+            NodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Add,
                 node = OnboardingNode(NavBarNode.context, "Settings", Icons.Filled.Add) {},
@@ -52,7 +52,7 @@ object NavBarTreeBuilder {
             )
         )
 
-        return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }
+        return NavBarNode.also { it.setItems(navbarNavItems, 0) }
     }
 
 }

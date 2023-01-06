@@ -18,13 +18,13 @@ import kotlinx.coroutines.launch
 class DrawerNode(
     parentContext: NodeContext,
     // TODO: Ask for the Header Info to render the Drawer header
-) : BackStackNode<Node>(parentContext), INavigationProvider, NavigatorNode {
+) : BackStackNode<Node>(parentContext), INavigationProvider, ContainerNode {
 
     private val nodeCoroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
     private var activeNodeState: MutableState<Node?> = mutableStateOf(null)
     private var startingIndex = 0
     private var selectedIndex = 0
-    private var navItems: MutableList<NavigatorNodeItem> = mutableListOf()
+    private var navItems: MutableList<NodeItem> = mutableListOf()
     private var childNodes: MutableList<Node> = mutableListOf()
     private val navDrawerState = NavigationDrawerState(emptyList())
 
@@ -85,7 +85,7 @@ class DrawerNode(
         }
     }
 
-    private fun getNavItemFromNode(node: Node): NavigatorNodeItem? {
+    private fun getNavItemFromNode(node: Node): NodeItem? {
         return navDrawerState.navItems.firstOrNull { it.node == node }
     }
 
@@ -112,12 +112,12 @@ class DrawerNode(
         return this
     }
 
-    override fun getSelectedNavItemIndex(): Int {
+    override fun getSelectedItemIndex(): Int {
         return selectedIndex
     }
 
-    override fun setNavItems(
-        navItemsList: MutableList<NavigatorNodeItem>,
+    override fun setItems(
+        navItemsList: MutableList<NodeItem>,
         startingIndex: Int
     ) {
         this.startingIndex = startingIndex
@@ -142,19 +142,19 @@ class DrawerNode(
         }
     }
 
-    override fun getNavItems(): MutableList<NavigatorNodeItem> {
+    override fun getItems(): MutableList<NodeItem> {
         return navItems
     }
 
-    override fun addNavItem(navItem: NavigatorNodeItem, index: Int) {
-        navItems.add(index, navItem)
-        childNodes.add(index, navItem.node)
+    override fun addItem(nodeItem: NodeItem, index: Int) {
+        navItems.add(index, nodeItem)
+        childNodes.add(index, nodeItem.node)
         // The call to toMutableList() should return a new stack variable that triggers
         // recomposition in navDrawerState.
         navDrawerState.navItems = navItems.toMutableList()
     }
 
-    override fun removeNavItem(index: Int) {
+    override fun removeItem(index: Int) {
         navItems.removeAt(index)
         childNodes.removeAt(index)
         // The call to toMutableList() should return a new stack variable that triggers
@@ -162,7 +162,7 @@ class DrawerNode(
         navDrawerState.navItems = navItems.toMutableList()
     }
 
-    override fun clearNavItems() {
+    override fun clearItems() {
         navItems.clear()
         childNodes.clear()
         stack.clear()

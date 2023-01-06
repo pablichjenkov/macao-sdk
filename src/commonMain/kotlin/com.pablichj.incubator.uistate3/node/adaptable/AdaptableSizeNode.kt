@@ -9,8 +9,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import com.pablichj.incubator.uistate3.node.NavigatorNode
-import com.pablichj.incubator.uistate3.node.NavigatorNodeItem
+import com.pablichj.incubator.uistate3.node.ContainerNode
+import com.pablichj.incubator.uistate3.node.NodeItem
 import com.pablichj.incubator.uistate3.node.Node
 import com.pablichj.incubator.uistate3.node.NodeContext
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
@@ -24,40 +24,40 @@ class AdaptableSizeNode(
     var windowSizeInfoProvider: IWindowSizeInfoProvider
 ) : Node(parentContext) {
 
-    private var navItems: MutableList<NavigatorNodeItem> = mutableListOf()
+    private var navItems: MutableList<NodeItem> = mutableListOf()
     private var startingPosition: Int = 0
-    private var CompactNavigator: NavigatorNode? = null
-    private var MediumNavigator: NavigatorNode? = null
-    private var ExpandedNavigator: NavigatorNode? = null
-    private var CurrentNavigatorNode =
-        mutableStateOf<NavigatorNode?>(null) // todo: This should be a reactive state
+    private var CompactNavigator: ContainerNode? = null
+    private var MediumNavigator: ContainerNode? = null
+    private var ExpandedNavigator: ContainerNode? = null
+    private var currentContainerNode =
+        mutableStateOf<ContainerNode?>(null) // todo: This should be a reactive state
 
-    fun setNavItems(navItems: MutableList<NavigatorNodeItem>, startingPosition: Int) {
+    fun setNavItems(navItems: MutableList<NodeItem>, startingPosition: Int) {
         this.navItems = navItems
         this.startingPosition = startingPosition
-        CurrentNavigatorNode.value?.setNavItems(navItems, startingPosition)
+        currentContainerNode.value?.setItems(navItems, startingPosition)
     }
 
-    fun setCompactNavigator(navigatorNode: NavigatorNode) {
-        CompactNavigator = navigatorNode
+    fun setCompactContainer(containerNode: ContainerNode) {
+        CompactNavigator = containerNode
     }
 
-    fun setMediumNavigator(navigatorNode: NavigatorNode) {
-        MediumNavigator = navigatorNode
+    fun setMediumContainer(containerNode: ContainerNode) {
+        MediumNavigator = containerNode
     }
 
-    fun setExpandedNavigator(navigatorNode: NavigatorNode) {
-        ExpandedNavigator = navigatorNode
+    fun setExpandedContainer(containerNode: ContainerNode) {
+        ExpandedNavigator = containerNode
     }
 
     override fun start() {
         super.start()
-        CurrentNavigatorNode.value?.getNode()?.start()
+        currentContainerNode.value?.getNode()?.start()
     }
 
     override fun stop() {
         super.stop()
-        CurrentNavigatorNode.value?.getNode()?.stop()
+        currentContainerNode.value?.getNode()?.stop()
     }
 
     // region: DeepLink
@@ -71,7 +71,7 @@ class AdaptableSizeNode(
     }
 
     override fun onCheckChildMatchHandler(advancedPath: Path, matchingNode: Node): DeepLinkResult {
-        val interceptingNode = CurrentNavigatorNode.value?.getNode() ?: matchingNode
+        val interceptingNode = currentContainerNode.value?.getNode() ?: matchingNode
         interceptingNode.context.subPath = matchingNode.context.subPath.copy()
         return interceptingNode.checkDeepLinkMatch(advancedPath)
     }
@@ -80,7 +80,7 @@ class AdaptableSizeNode(
         advancedPath: Path,
         matchingNode: Node
     ): DeepLinkResult {
-        val interceptingNode = CurrentNavigatorNode.value?.getNode() ?: matchingNode
+        val interceptingNode = currentContainerNode.value?.getNode() ?: matchingNode
         interceptingNode.context.subPath = matchingNode.context.subPath.copy()
         onDeepLinkMatchingNode(interceptingNode)
         return interceptingNode.navigateUpToDeepLink(advancedPath)
@@ -98,19 +98,19 @@ class AdaptableSizeNode(
 
         val windowSizeInfo by windowSizeInfoProvider.windowSizeInfo()
 
-        CurrentNavigatorNode.value = when (windowSizeInfo) {
+        currentContainerNode.value = when (windowSizeInfo) {
             WindowSizeInfo.Compact -> {
-                tryTransfer(CurrentNavigatorNode.value, CompactNavigator)
+                tryTransfer(currentContainerNode.value, CompactNavigator)
             }
             WindowSizeInfo.Medium -> {
-                tryTransfer(CurrentNavigatorNode.value, MediumNavigator)
+                tryTransfer(currentContainerNode.value, MediumNavigator)
             }
             WindowSizeInfo.Expanded -> {
-                tryTransfer(CurrentNavigatorNode.value, ExpandedNavigator)
+                tryTransfer(currentContainerNode.value, ExpandedNavigator)
             }
         }
 
-        val CurrentNode = CurrentNavigatorNode.value?.getNode()
+        val CurrentNode = currentContainerNode.value?.getNode()
 
         if (CurrentNode != null) {
             CurrentNode.Content(modifier)
@@ -129,25 +129,25 @@ class AdaptableSizeNode(
     }
 
     private fun tryTransfer(
-        donorNavigatorNode: NavigatorNode?,
-        adoptingNavigatorNode: NavigatorNode?
-    ): NavigatorNode? {
+        donorContainerNode: ContainerNode?,
+        adoptingContainerNode: ContainerNode?
+    ): ContainerNode? {
 
-        if (adoptingNavigatorNode == donorNavigatorNode) {
-            return adoptingNavigatorNode
+        if (adoptingContainerNode == donorContainerNode) {
+            return adoptingContainerNode
         }
 
-        val adoptingNavigatorCopy = adoptingNavigatorNode ?: return donorNavigatorNode
+        val adoptingNavigatorCopy = adoptingContainerNode ?: return donorContainerNode
 
-        return if (donorNavigatorNode == null) { // The first time when no node has been setup yet
-            adoptingNavigatorNode.setNavItems(navItems, startingPosition)
-            adoptingNavigatorNode.getNode().start()
-            adoptingNavigatorNode
+        return if (donorContainerNode == null) { // The first time when no node has been setup yet
+            adoptingContainerNode.setItems(navItems, startingPosition)
+            adoptingContainerNode.getNode().start()
+            adoptingContainerNode
         } else { // do the real transfer here
-            adoptingNavigatorCopy.transferFrom(donorNavigatorNode)
-            donorNavigatorNode.getNode().stop()
-            adoptingNavigatorNode.getNode().start()
-            adoptingNavigatorNode
+            adoptingNavigatorCopy.transferFrom(donorContainerNode)
+            donorContainerNode.getNode().stop()
+            adoptingContainerNode.getNode().start()
+            adoptingContainerNode
         }
     }
 
