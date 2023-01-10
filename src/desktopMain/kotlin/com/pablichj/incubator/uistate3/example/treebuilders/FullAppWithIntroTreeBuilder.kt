@@ -32,8 +32,10 @@ object FullAppWithIntroTreeBuilder {
         val NavBarNode = NavBarNode()
 
         val SplitNavNode = SplitNavNode().apply {
-            TopNode = buildNestedDrawer()
-            BottomNode = OnboardingNode("Orders / Current", Icons.Filled.Edit) {}
+            setTopNode(buildNestedDrawer())
+            setBottomNode(
+                OnboardingNode("Orders / Current", Icons.Filled.Edit) {}
+            )
         }
 
         val navbarNavItems = mutableListOf(
