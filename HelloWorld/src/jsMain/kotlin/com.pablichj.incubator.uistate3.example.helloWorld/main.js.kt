@@ -1,3 +1,4 @@
+package com.pablichj.incubator.uistate3.example.helloWorld
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

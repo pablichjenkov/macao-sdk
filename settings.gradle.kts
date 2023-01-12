@@ -22,7 +22,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "templato"
+rootProject.name = "uistate3"
 
 include(":HelloWorld")
 include(":shared")
