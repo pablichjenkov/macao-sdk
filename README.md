@@ -1,6 +1,4 @@
-# UI-State3
-
-## What is it?
+## UI-State3
 Yet another State Management option in ***Jetpack/Jetbrains Compose***. The original
 concept is based on the **Coordinators Architecture** pattern (popular within iOS folks) and also
 considering the latest trends in Android UI state management(Decompose/Voyager/Appyx). The motive behind the library is to
@@ -12,7 +10,7 @@ matter. The library itself contain a mechanism for navigation but it can be inte
 navigation solutions out there.
 
 <H4>Getting Started</H4>
-The best way to get familiar with the concepts is to check the project wiki page https://github.com/pablichjenkov/uistate3/wiki
+The best way to get familiar with the concepts is to check the project wiki [wiki](https://github.com/pablichjenkov/uistate3/wiki)
 
 <H4>Show me some code</H4>
 
