@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.pablichj.incubator.uistate3.timestampMs
 import kotlinx.coroutines.delay
+/*
 
 @Composable
 fun ComposeApp(
@@ -47,6 +48,22 @@ fun ComposeApp(
             delay(1000)
             timeMs = timestampMs()
         }
+    }
+
+}*/
+@Composable
+fun ComposeApp(
+    onExit: () -> Unit = {}
+) {
+
+    val ComposeAppState = remember { AppStateHolder.ComposeAppState }
+
+    MaterialTheme {
+        ComposeAppState.PresentContent(onExit)
+    }
+
+    LaunchedEffect(ComposeAppState) {
+        ComposeAppState.start()
     }
 
 }

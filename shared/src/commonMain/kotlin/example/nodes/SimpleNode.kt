@@ -29,7 +29,7 @@ class SimpleNode(
     override fun Content(modifier: Modifier) {
         println("OnboardingStepNode::Composing()")
         BackPressHandler {
-            this@SimpleNode.backPressedCallback.onBackPressed()
+            this@SimpleNode.backPressedCallbackHandler.onBackPressed()
         }
         Box(modifier = modifier.fillMaxSize().background(bgColor)) {
             Text(

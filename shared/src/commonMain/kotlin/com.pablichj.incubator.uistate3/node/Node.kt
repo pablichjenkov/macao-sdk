@@ -9,16 +9,17 @@ import com.pablichj.incubator.uistate3.node.navigation.Path
 
 abstract class Node : Lifecycle {
     val context: NodeContext = NodeContext()
+    private val clazz = this::class.simpleName
 
-    protected val backPressedCallback = object : BackPressedCallback() {
+    protected val backPressedCallbackHandler = object : BackPressedCallback() {
         override fun onBackPressed() {
-            println("Node::onBackPressed() called, class = ${this@Node::class.simpleName}")
+            println("$clazz::onBackPressed() called")
             handleBackPressed()
         }
     }
 
     init {
-        context.backPressedCallbackDelegate = backPressedCallback
+        context.backPressedCallbackDelegate = backPressedCallbackHandler
     }
 
     override fun start() {
@@ -37,11 +38,6 @@ abstract class Node : Lifecycle {
         }*/
     }
 
-    private fun backPressDispatcher(): IBackPressDispatcher? {
-        //todo: get the backpressDispatcher from LocalComposition
-        return null//context.findBackPressDispatcher()
-    }
-
     /**
      * Default implementation for a back press event. It does nothing, just forward it
      * to the parent.
@@ -53,10 +49,10 @@ abstract class Node : Lifecycle {
     protected fun delegateBackPressedToParent() {
         val parentContext = context.parentContext
         if (parentContext != null) {
-            println("Node::delegateBackPressedToParent()")
+            println("$clazz::delegateBackPressedToParent()")
             parentContext.backPressedCallbackDelegate.onBackPressed()
         } else {
-            println("Node::delegateBackPressedToRootEvent()")
+            println("$clazz::delegateBackPressedToRootFinal()")
             context.rootNodeBackPressedDelegate?.onBackPressed()
         }
 

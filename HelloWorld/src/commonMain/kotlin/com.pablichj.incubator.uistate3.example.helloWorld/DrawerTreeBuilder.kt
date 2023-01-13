@@ -12,7 +12,7 @@ object DrawerTreeBuilder {
 
     private lateinit var DrawerNode: DrawerNode
 
-    fun build(
+    fun getOrCreate(
         backPressAction: () -> Unit,
     ): DrawerNode {
 

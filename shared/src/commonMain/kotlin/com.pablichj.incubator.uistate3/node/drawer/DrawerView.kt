@@ -19,7 +19,7 @@ import com.pablichj.incubator.uistate3.node.NodeItem
 fun NavigationDrawer(
     modifier: Modifier = Modifier,
     navDrawerState: INavigationDrawerState,
-    Content: @Composable () -> Unit
+    content: @Composable () -> Unit
 ) {
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -35,7 +35,7 @@ fun NavigationDrawer(
     ) {
         Scaffold { paddingValues ->
             Box(modifier = modifier.fillMaxSize().padding(paddingValues)) {
-                Content()
+                content()
             }
         }
     }
