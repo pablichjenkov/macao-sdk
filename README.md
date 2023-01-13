@@ -11,6 +11,9 @@ The library separates UI state from any of the underlying platforms, could be De
 matter. The library itself contain a mechanism for navigation but it can be integrated with other
 navigation solutions out there.
 
+<H4>Getting Started</H4>
+The best way to get familiar with the concepts is to check the project wiki page [here](https://github.com/pablichjenkov/uistate3/wiki)
+
 <H4>Show me some code</H4>
 
 ```kotlin
