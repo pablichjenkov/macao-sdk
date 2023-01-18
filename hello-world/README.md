@@ -300,7 +300,7 @@ installed either in Android Studio or in AppCode with [installed CocoaPods](http
 
 ### Run on Android via Gradle
 - connect device or emulator
-- `./gradlew :HelloWorld:installDebug`
+- `./gradlew :androidApp:installDebug`
 - open app
 
 Choose a run configuration for an appropriate target in IDE and run it.
@@ -315,11 +315,11 @@ Then choose **iosApp** configuration in IDE and run it
 (may also be referred as `FallingBalls` in the Run Configurations or `iosApp_` for Android studio).
 
 ### Run on desktop via Gradle
-`./gradlew :HelloWorld:run`
+`./gradlew :desktopApp:run`
 
 ### Run JS in browser with WebAssembly Skia via Gradle
 
-`./gradlew HelloWorld:jsBrowserDevelopmentRun`
+`./gradlew :jsApp:jsBrowserDevelopmentRun`
 
 ### Prepare Xcode to launch on iOS device
 
