@@ -22,7 +22,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "uistate3"
+rootProject.name = "hello-world"
 
 include(":shared")
 include(":androidApp")
