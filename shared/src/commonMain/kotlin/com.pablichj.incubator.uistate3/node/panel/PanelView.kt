@@ -10,7 +10,7 @@ import com.pablichj.incubator.uistate3.node.drawer.DrawerContentList
 import com.pablichj.incubator.uistate3.node.drawer.DrawerLogo
 
 @Composable
-fun NavigationPanel(
+internal fun NavigationPanel(
     modifier: Modifier = Modifier,
     panelState: IPanelState,
     Content: @Composable () -> Unit

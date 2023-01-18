@@ -4,12 +4,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 
 class AndroidBackPressDispatcher(
-    private val activity: ComponentActivity,
+    private val componentActivity: ComponentActivity,
 ) : IBackPressDispatcher {
 
     override fun subscribe(backPressedCallback: BackPressedCallback) {
-        activity.onBackPressedDispatcher.addCallback(
-            activity,
+        componentActivity.onBackPressedDispatcher.addCallback(
+            componentActivity,
             AndroidBackPressedCallbackProxy(backPressedCallback, true)
         )
     }

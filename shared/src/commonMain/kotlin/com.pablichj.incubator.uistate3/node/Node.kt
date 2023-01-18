@@ -113,7 +113,7 @@ abstract class Node : Lifecycle {
     // endregion
 
     @Composable
-    abstract fun Content(modifier: Modifier)
+    internal abstract fun Content(modifier: Modifier)
 
     sealed interface LifecycleState {
         object Created : LifecycleState
