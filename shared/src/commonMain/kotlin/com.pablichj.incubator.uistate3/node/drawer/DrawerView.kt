@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.pablichj.incubator.uistate3.node.NodeItem
 
 @Composable
-fun NavigationDrawer(
+internal fun NavigationDrawer(
     modifier: Modifier = Modifier,
     navDrawerState: INavigationDrawerState,
     content: @Composable () -> Unit
@@ -53,7 +53,7 @@ fun NavigationDrawer(
 
 
 @Composable
-fun DrawerContentModal(
+internal fun DrawerContentModal(
     modifier: Modifier = Modifier,
     navDrawerState: INavigationDrawerState
 ) {
@@ -69,7 +69,7 @@ fun DrawerContentModal(
 }
 
 @Composable
-fun DrawerLogo(
+internal fun DrawerLogo(
     // TODO: Create the Header State in INavigationDrawerState and use it here
     modifier: Modifier = Modifier
 ) {
@@ -87,7 +87,7 @@ fun DrawerLogo(
 }
 
 @Composable
-fun DrawerContentList(
+internal fun DrawerContentList(
     modifier: Modifier = Modifier,
     navItems: List<NodeItem>,
     onNavItemClick: (NodeItem) -> Unit

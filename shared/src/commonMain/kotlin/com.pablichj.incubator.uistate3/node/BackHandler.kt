@@ -9,7 +9,7 @@ import androidx.compose.runtime.*
  *
  */
 @Composable
-fun BackPressHandler(onBackPressed: () -> Unit) {
+internal fun BackPressHandler(onBackPressed: () -> Unit) {
     // Safely update the current `onBack` lambda when a new one is provided
     val currentOnBackPressed by rememberUpdatedState(onBackPressed)
 
@@ -47,5 +47,5 @@ fun BackPressHandler(onBackPressed: () -> Unit) {
  *
  * and setting up the callbacks with [BackPressHandler].
  */
-val LocalBackPressedDispatcher =
+internal val LocalBackPressedDispatcher =
     staticCompositionLocalOf<IBackPressDispatcher> { error("No Back Dispatcher provided") }

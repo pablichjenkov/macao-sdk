@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun BoxScope.FloatingButton(
+internal fun BoxScope.FloatingButton(
     modifier: Modifier = Modifier,
     alignment: Alignment = Alignment.TopStart,
     onClick: () -> Unit

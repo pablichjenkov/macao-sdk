@@ -15,8 +15,8 @@ kotlin {
     ios()
     iosSimulatorArm64()
     cocoapods {
-        summary = "Shared code for the sample"
-        homepage = "https://github.com/JetBrains/compose-jb"
+        summary = "Shared code for the UiState3 example"
+        homepage = "https://github.com/pablichjenkov/uistate3b"
         ios.deploymentTarget = "14.1"
         podfile = project.file("../iosApp/Podfile")
         framework {
@@ -32,7 +32,7 @@ kotlin {
     // JS
     js(IR) {
         browser()
-        binaries.executable()
+        //binaries.executable()
     }
 
     // MACOS

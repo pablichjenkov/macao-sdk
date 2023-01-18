@@ -12,10 +12,10 @@ import com.pablichj.incubator.uistate3.node.adaptable.WindowSizeInfo
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 class AndroidWindowSizeInfoProvider(
     val activity: Activity,
-) : IWindowSizeInfoProvider {
+) : IWindowSizeInfoProvider() {
 
     @Composable
-    override fun windowSizeInfo(): State<WindowSizeInfo> {
+    internal override fun windowSizeInfo(): State<WindowSizeInfo> {
         val windowSize = calculateWindowSizeClass(activity)
 
         return remember(windowSize) {

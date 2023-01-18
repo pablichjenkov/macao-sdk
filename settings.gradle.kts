@@ -24,5 +24,7 @@ pluginManagement {
 
 rootProject.name = "uistate3"
 
-include(":HelloWorld")
 include(":shared")
+include(":androidApp")
+include(":jsApp")
+include(":desktopApp")

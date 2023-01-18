@@ -3,9 +3,9 @@ package com.pablichj.incubator.uistate3.node.adaptable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 
-interface IWindowSizeInfoProvider {
+abstract class IWindowSizeInfoProvider {
     @Composable
-    fun windowSizeInfo(): State<WindowSizeInfo>
+    internal abstract fun windowSizeInfo(): State<WindowSizeInfo>
 }
 
 sealed interface WindowSizeInfo {
