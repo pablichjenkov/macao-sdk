@@ -21,6 +21,7 @@ class AdaptableSizeNodeActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         // It creates a state tree where the root node is an AdaptableWindow
         StateTree = stateTreeHolder.getOrCreate(
+            //todo: provide this with a CompositionLocalProvider
             windowSizeInfoProvider = AndroidWindowSizeInfoProvider(this),
         ).apply {
             context.rootNodeBackPressedDelegate = ForwardBackPressCallback { finish() }

@@ -16,7 +16,7 @@ import platform.posix.close
 import kotlin.system.exitProcess
 
 fun MainViewController(): UIViewController =
-    Application("Hello World") {
+    Application("State3 Demo") {
 
         val backPressDispatcher = remember {
             DefaultBackPressDispatcher()

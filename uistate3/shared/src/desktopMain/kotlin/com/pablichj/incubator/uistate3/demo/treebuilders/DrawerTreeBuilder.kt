@@ -1,8 +1,7 @@
-package com.pablichj.incubator.uistate3.example.helloWorld
+package com.pablichj.incubator.uistate3.demo.treebuilders
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import com.pablichj.incubator.uistate3.node.ForwardBackPressCallback
 import com.pablichj.incubator.uistate3.node.NodeItem
 import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
 import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
@@ -12,22 +11,13 @@ object DrawerTreeBuilder {
 
     private lateinit var DrawerNode: DrawerNode
 
-    fun getOrCreate(
-        backPressAction: () -> Unit,
-    ): DrawerNode {
+    fun build(): DrawerNode {
 
         if (DrawerTreeBuilder::DrawerNode.isInitialized) {
-            DrawerNode.context.rootNodeBackPressedDelegate = ForwardBackPressCallback {
-                backPressAction()
-            }
             return DrawerNode
         }
 
-        val DrawerNode = DrawerNode().apply {
-            context.rootNodeBackPressedDelegate = ForwardBackPressCallback {
-                backPressAction()
-            }
-        }
+        val DrawerNode = DrawerNode()
 
         val drawerNavItems = mutableListOf(
             NodeItem(

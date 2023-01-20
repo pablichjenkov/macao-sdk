@@ -8,7 +8,7 @@ import com.pablichj.incubator.uistate3.node.AndroidBackPressDispatcher
 import com.pablichj.incubator.uistate3.node.LocalBackPressedDispatcher
 
 @Composable
-fun HelloWorldApp(componentActivity: ComponentActivity) {
+fun AndroidComposeApp(componentActivity: ComponentActivity) {
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides AndroidBackPressDispatcher(componentActivity),
     ) {

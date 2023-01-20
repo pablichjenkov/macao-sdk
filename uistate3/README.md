@@ -32,7 +32,7 @@ object DrawerTreeBuilder {
             NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode("Home", Icons.Filled.Home) {},
+                node = TopBarNode("Home", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
@@ -44,7 +44,7 @@ object DrawerTreeBuilder {
             NodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node = OnboardingNode("Settings", Icons.Filled.Email) {},
+                node = TopBarNode("Settings", Icons.Filled.Email) {},
                 selected = false
             )
         )
@@ -60,19 +60,19 @@ object DrawerTreeBuilder {
             NodeItem(
                 label = "Active",
                 icon = Icons.Filled.Home,
-                node = OnboardingNode("Orders/Active", Icons.Filled.Home) {},
+                node = TopBarNode("Orders/Active", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
                 label = "Past",
                 icon = Icons.Filled.Settings,
-                node = OnboardingNode("Orders/Past", Icons.Filled.Settings) {},
+                node = TopBarNode("Orders/Past", Icons.Filled.Settings) {},
                 selected = false
             ),
             NodeItem(
                 label = "New Order",
                 icon = Icons.Filled.Add,
-                node = OnboardingNode("Orders/New Order", Icons.Filled.Add) {},
+                node = TopBarNode("Orders/New Order", Icons.Filled.Add) {},
                 selected = false
             )
         )
@@ -248,19 +248,19 @@ val pagerNavItems = mutableListOf(
     NavigationNodeItem(
         label = "Account",
         icon = Icons.Filled.Home,
-        node = OnboardingNode(PagerNode.context, "Settings / Account", Icons.Filled.Home) {},
+        node = TopBarNode(PagerNode.context, "Settings / Account", Icons.Filled.Home) {},
         selected = false
     ),
     NavigationNodeItem(
         label = "Profile",
         icon = Icons.Filled.Edit,
-        node = OnboardingNode(PagerNode.context, "Settings / Profile", Icons.Filled.Edit) {},
+        node = TopBarNode(PagerNode.context, "Settings / Profile", Icons.Filled.Edit) {},
         selected = false
     ),
     NavigationNodeItem(
         label = "About Us",
         icon = Icons.Filled.Email,
-        node = OnboardingNode(PagerNode.context, "Settings / About Us", Icons.Filled.Email) {},
+        node = TopBarNode(PagerNode.context, "Settings / About Us", Icons.Filled.Email) {},
         selected = false
     )
 )
@@ -269,13 +269,13 @@ val navbarNavItems = mutableListOf(
     NavigationNodeItem(
         label = "Home",
         icon = Icons.Filled.Home,
-        node = OnboardingNode(NavBarNode.context, "Home", Icons.Filled.Home) {},
+        node = TopBarNode(NavBarNode.context, "Home", Icons.Filled.Home) {},
         selected = false
     ),
     NavigationNodeItem(
         label = "Orders",
         icon = Icons.Filled.Edit,
-        node = OnboardingNode(NavBarNode.context, "Orders", Icons.Filled.Edit) {},
+        node = TopBarNode(NavBarNode.context, "Orders", Icons.Filled.Edit) {},
         selected = false
     ),
     NavigationNodeItem(

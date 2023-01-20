@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.example.helloWorld
+package com.pablichj.incubator.uistate3.demo.helloWorld
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

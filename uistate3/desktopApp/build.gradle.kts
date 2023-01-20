@@ -16,6 +16,7 @@ kotlin {
                 implementation(project(":shared"))
                 implementation(compose.desktop.common)
                 implementation(compose.desktop.currentOs)
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.3")
                 //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
             }
@@ -25,7 +26,7 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "MainKt"
+        mainClass = "com.pablichj.incubator.uistate3.demo.MainKt"
     }
 }
 

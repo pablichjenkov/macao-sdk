@@ -172,7 +172,7 @@ class TopBarNode(
     }
 
     override fun onDeepLinkMatchingNode(matchingNode: Node) {
-        println("OnboardingNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
+        println("TopBarNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
         pushNode(matchingNode as SimpleNode) //todo: see how get rid of the cast
     }
 
@@ -184,7 +184,7 @@ class TopBarNode(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("OnboardingNode::Composing(), stack.size = ${stack.size}")
+        println("TopBarNode::Composing(), stack.size = ${stack.size}")
 
         Scaffold (
             modifier = modifier,

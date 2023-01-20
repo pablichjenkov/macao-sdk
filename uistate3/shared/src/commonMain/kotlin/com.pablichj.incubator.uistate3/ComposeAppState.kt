@@ -4,24 +4,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.pablichj.incubator.uistate3.node.ForwardBackPressCallback
 import com.pablichj.incubator.uistate3.node.Node
-import com.pablichj.incubator.uistate3.example.helloWorld.HelloWorldNode
 
 /**
  * This class will define the node tree used in your Application.
  * */
 class ComposeAppState {
 
-    private val HelloWorldNode: Node = HelloWorldNode()
+    private lateinit var RootNode: Node
     private var onBackPressEventLastUpdate: () -> Unit = {}
 
-    init {
-        HelloWorldNode.context.rootNodeBackPressedDelegate = ForwardBackPressCallback {
+    fun setRootNode(RootNode: Node) {
+        this.RootNode = RootNode
+        RootNode.context.rootNodeBackPressedDelegate = ForwardBackPressCallback {
+            println("Pablo, exitProcess isnt working")
             onBackPressEventLastUpdate()
         }
     }
 
     fun start() {
-        HelloWorldNode.start()
+        RootNode.start()
     }
 
     fun stop() {}
@@ -32,7 +33,7 @@ class ComposeAppState {
     ) {
         onBackPressEventLastUpdate = onBackPressEvent
         // comment it out only for iOS
-        HelloWorldNode.Content(Modifier)
+        RootNode.Content(Modifier)
     }
 
 }
