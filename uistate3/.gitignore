@@ -1,0 +1,25 @@
+### General
+.gradle
+local.properties
+build/
+**/build
+kotlin-js-store
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+*.hprof
+out/
+
+### iOS Xcode generated ###
+iosApp/Podfile.lock
+iosApp/Pods/*
+iosApp/HelloWorld.xcworkspace/*
+iosApp/HelloWorld.xcodeproj/*
+!iosApp/HelloWorld.xcodeproj/project.pbxproj
+shared/shared.podspec
+
+### Mac OS ###
+.DS_Store

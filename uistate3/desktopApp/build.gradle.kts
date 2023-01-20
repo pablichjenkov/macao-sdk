@@ -13,10 +13,10 @@ kotlin {
     sourceSets {
         val jvmMain by getting  {
             dependencies {
-                //implementation(project(":shared"))
-                implementation("com.pablichj:state3-desktop:0.1.0")
+                implementation(project(":shared"))
                 implementation(compose.desktop.common)
                 implementation(compose.desktop.currentOs)
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.3")
                 //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
             }
         }

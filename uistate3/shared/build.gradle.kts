@@ -128,7 +128,6 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.runtime)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
             }
         }
         val commonTest by getting {
@@ -145,7 +144,6 @@ kotlin {
                 implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
                 implementation ("androidx.window:window:1.0.0")
                 implementation( "androidx.compose.material3:material3-window-size-class:1.0.1")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
             }
         }
         val androidTest by getting {
@@ -180,11 +178,7 @@ kotlin {
         }
 
         // JVM
-        val desktopMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
-            }
-        }
+        val desktopMain by getting
 
         // JS
         val jsMain by getting

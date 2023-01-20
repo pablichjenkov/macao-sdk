@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Widget"
+        android:enableOnBackInvokedCallback="true">
+        <activity
+            android:name=".demo.DrawerActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".demo.PagerActivity"
+            android:exported="true" />
+        <activity
+            android:name=".demo.NavBarActivity"
+            android:exported="true" />
+        <activity
+            android:name=".demo.FullAppIntroActivity"
+            android:exported="true" />
+        <activity
+            android:name=".demo.HandleConfigChangesActivity"
+            android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
+            android:exported="true" />
+        <activity
+            android:name=".demo.AdaptableSizeNodeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".demo.ComposeAppActivity"
+            android:exported="true" />
+    </application>
+</manifest>
