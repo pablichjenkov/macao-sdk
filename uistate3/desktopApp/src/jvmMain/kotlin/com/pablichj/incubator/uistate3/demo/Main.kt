@@ -1,9 +1,11 @@
 package com.pablichj.incubator.uistate3.demo
 
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.application
-import com.pablichj.incubator.uistate3.DesktopComposeApp
+import com.pablichj.incubator.uistate3.DesktopNodeRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.DesktopAppTreeBuilder
+import kotlin.system.exitProcess
 
 fun main() = application {
 
@@ -11,6 +13,14 @@ fun main() = application {
         DesktopAppTreeBuilder.build()
     }
 
-    DesktopComposeApp(DesktopAppNode)
+    MaterialTheme {
+        DesktopNodeRender(
+            DesktopAppNode,
+            onBackPressEvent = {
+                exitProcess(0)
+            }
+        )
+    }
+
 }
 

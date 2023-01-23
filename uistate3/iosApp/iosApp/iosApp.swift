@@ -7,7 +7,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
-        let mainViewController = Main_iosKt.MainViewController()
+    
+        let SplahNode = SplashNode(
+            onDone: {}
+        )
+        
+        let mainViewController = Main_iosKt.MainViewController(
+            rootNode: SplahNode
+        )
+    
         window?.rootViewController = mainViewController
         window?.makeKeyAndVisible()
         return true

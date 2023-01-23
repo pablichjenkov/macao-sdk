@@ -8,7 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.Modifier
+import com.pablichj.incubator.uistate3.AndroidNodeRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeStateTreeHolder
 import com.pablichj.incubator.uistate3.node.*
 
@@ -34,7 +34,7 @@ class AdaptableSizeNodeActivity : ComponentActivity() {
                         this@AdaptableSizeNodeActivity
                     )
                 ) {
-                    StateTree.Content(Modifier)
+                    AndroidNodeRender(StateTree)
                 }
             }
         }

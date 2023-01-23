@@ -1,19 +1,25 @@
 package com.pablichj.incubator.uistate3
 
-import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import com.pablichj.incubator.uistate3.ComposeApp
-import com.pablichj.incubator.uistate3.node.AndroidBackPressDispatcher
-import com.pablichj.incubator.uistate3.node.LocalBackPressedDispatcher
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import com.pablichj.incubator.uistate3.node.Node
 
 @Composable
-fun AndroidComposeApp(componentActivity: ComponentActivity) {
-    CompositionLocalProvider(
-        LocalBackPressedDispatcher provides AndroidBackPressDispatcher(componentActivity),
-    ) {
-        ComposeApp(
-            onExit = { componentActivity.finishAffinity() }
-        )
+fun AndroidNodeRender(
+    rootNode: Node,
+    onBackPressEvent: () -> Unit = {}
+) {
+    val composeAppState = remember {
+        AppStateHolder.ComposeAppState.also {
+            it.setRootNode(rootNode)
+            it.setBackPressHandler(onBackPressEvent)
+        }
+    }
+
+    composeAppState.PresentContent()
+
+    LaunchedEffect(composeAppState) {
+        composeAppState.start()
     }
 }

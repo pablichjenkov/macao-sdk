@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.demo.treebuilders
+package com.pablichj.incubator.uistate3.demo
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*

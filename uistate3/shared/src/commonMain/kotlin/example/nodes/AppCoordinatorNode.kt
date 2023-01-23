@@ -30,6 +30,7 @@ class AppCoordinatorNode : BackStackNode<Node>() {
         pushNode(HomeNode)
     }.also { it.context.attachToParent(this@AppCoordinatorNode.context) }
 
+    //todo: Use setHomeNode instead, and attach to parent context, see SplitNode class as example
     lateinit var HomeNode: Node
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin

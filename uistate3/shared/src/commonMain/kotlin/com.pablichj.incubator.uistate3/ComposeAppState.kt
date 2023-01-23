@@ -6,33 +6,37 @@ import com.pablichj.incubator.uistate3.node.ForwardBackPressCallback
 import com.pablichj.incubator.uistate3.node.Node
 
 /**
- * This class will define the node tree used in your Application.
+ * This class will host the root node passed from the client application.
  * */
 class ComposeAppState {
 
     private lateinit var RootNode: Node
-    private var onBackPressEventLastUpdate: () -> Unit = {}
+    private var onBackPressEvent: () -> Unit = {}
 
     fun setRootNode(RootNode: Node) {
         this.RootNode = RootNode
         RootNode.context.rootNodeBackPressedDelegate = ForwardBackPressCallback {
-            println("Pablo, exitProcess isnt working")
-            onBackPressEventLastUpdate()
+            onBackPressEvent()
         }
+    }
+
+    fun setBackPressHandler(onBackPressEvent: () -> Unit) {
+        this.onBackPressEvent = onBackPressEvent
     }
 
     fun start() {
         RootNode.start()
     }
 
-    fun stop() {}
+    fun stop() {
+        RootNode.stop()
+    }
 
     @Composable
-    internal fun PresentContent(
-        onBackPressEvent: () -> Unit = {}
-    ) {
-        onBackPressEventLastUpdate = onBackPressEvent
-        // comment it out only for iOS
+    internal fun PresentContent() {
+        /**
+         * Render the actual node content
+         * */
         RootNode.Content(Modifier)
     }
 
