@@ -6,10 +6,12 @@ import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 import com.pablichj.incubator.uistate3.node.navigation.DefaultPathMatcher
 import com.pablichj.incubator.uistate3.node.navigation.IPathMatcher
 import com.pablichj.incubator.uistate3.node.navigation.Path
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 abstract class Node : Lifecycle {
     val context: NodeContext = NodeContext()
-    private val clazz = this::class.simpleName
+    internal val clazz = this::class.simpleName
 
     protected val backPressedCallbackHandler = object : BackPressedCallback() {
         override fun onBackPressed() {
@@ -18,24 +20,22 @@ abstract class Node : Lifecycle {
         }
     }
 
+    private val _nodeLifecycleFlow = MutableStateFlow<LifecycleState>(LifecycleState.Created)
+    val nodeLifecycleFlow: Flow<LifecycleState>
+        get() = _nodeLifecycleFlow
+
     init {
         context.backPressedCallbackDelegate = backPressedCallbackHandler
     }
 
     override fun start() {
         context.lifecycleState = LifecycleState.Started
-        /*backPressDispatcher()?.run {
-            println("Subscribing to backPressDispatcher, class = ${this@Node::class.simpleName}")
-            subscribe(backPressedCallback)
-        }*/
+        _nodeLifecycleFlow.value = LifecycleState.Started
     }
 
     override fun stop() {
         context.lifecycleState = LifecycleState.Stopped
-        /*backPressDispatcher()?.run {
-            println("Unsubscribing to backPressDispatcher, class = ${this@Node::class.simpleName}")
-            unsubscribe(backPressedCallback)
-        }*/
+        _nodeLifecycleFlow.value = LifecycleState.Stopped
     }
 
     /**

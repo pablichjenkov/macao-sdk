@@ -9,29 +9,46 @@ import androidx.compose.runtime.*
  *
  */
 @Composable
-internal fun BackPressHandler(onBackPressed: () -> Unit) {
+internal fun BackPressHandler(
+    node: Node,
+    onBackPressed: () -> Unit
+) {
     // Safely update the current `onBack` lambda when a new one is provided
     val currentOnBackPressed by rememberUpdatedState(onBackPressed)
 
     // Remember in Composition a back callback that calls the `onBackPressed` lambda
-    val backCallback = remember {
+    val backPressCallback = remember {
         ForwardBackPressCallback {
             currentOnBackPressed()
         }
     }
 
-    val backDispatcher = LocalBackPressedDispatcher.current
+    val backPressDispatcher = LocalBackPressedDispatcher.current
+    val nodeLifecycleState by node.nodeLifecycleFlow.collectAsState(Node.LifecycleState.Created)
+
+    when (nodeLifecycleState) {
+        Node.LifecycleState.Created -> {
+            // Ignore
+        }
+        Node.LifecycleState.Started -> {
+            println("${node.clazz}::onStart, BackPressHandler Subscribing")
+            backPressDispatcher.subscribe(backPressCallback)
+        }
+        Node.LifecycleState.Stopped -> {
+            println("${node.clazz}::onStop BackPressHandler Unsubscribing")
+        }
+    }
 
     // Whenever there's a new dispatcher set up the callback
-    DisposableEffect(backDispatcher) {
+    /*DisposableEffect(backPressDispatcher) {
         println("Subscribing to backPressDispatcher, class = className here")
-        backDispatcher.subscribe(backCallback)
+        backPressDispatcher.subscribe(backCallback)
         // When the effect leaves the Composition, or there's a new dispatcher, remove the callback
         onDispose {
             println("BackPressHandler::onDispose Unsubscribing from backPressDispatcher, class = className here")
-            backDispatcher.unsubscribe(backCallback)
+            backPressDispatcher.unsubscribe(backCallback)
         }
-    }
+    }*/
 }
 
 /**

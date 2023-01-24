@@ -39,14 +39,17 @@ class AdaptableSizeNode(
 
     fun setCompactContainer(containerNode: ContainerNode) {
         CompactNavigator = containerNode
+        containerNode.getNode().context.parentContext = this.context
     }
 
     fun setMediumContainer(containerNode: ContainerNode) {
         MediumNavigator = containerNode
+        containerNode.getNode().context.parentContext = this.context
     }
 
     fun setExpandedContainer(containerNode: ContainerNode) {
         ExpandedNavigator = containerNode
+        containerNode.getNode().context.parentContext = this.context
     }
 
     override fun start() {

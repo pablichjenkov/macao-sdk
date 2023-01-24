@@ -7,10 +7,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.CompositionLocalProvider
 import com.pablichj.incubator.uistate3.AndroidNodeRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeStateTreeHolder
-import com.pablichj.incubator.uistate3.node.*
+import com.pablichj.incubator.uistate3.node.AndroidWindowSizeInfoProvider
+import com.pablichj.incubator.uistate3.node.Node
 
 class AdaptableSizeNodeActivity : ComponentActivity() {
 
@@ -23,31 +23,16 @@ class AdaptableSizeNodeActivity : ComponentActivity() {
         StateTree = stateTreeHolder.getOrCreate(
             //todo: provide this with a CompositionLocalProvider
             windowSizeInfoProvider = AndroidWindowSizeInfoProvider(this),
-        ).apply {
-            context.rootNodeBackPressedDelegate = ForwardBackPressCallback { finish() }
-        }
+        )
 
         setContent {
             MaterialTheme {
-                CompositionLocalProvider(
-                    LocalBackPressedDispatcher provides AndroidBackPressDispatcher(
-                        this@AdaptableSizeNodeActivity
-                    )
-                ) {
-                    AndroidNodeRender(StateTree)
-                }
+                AndroidNodeRender(
+                    rootNode = StateTree,
+                    onBackPressEvent = { finish() }
+                )
             }
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        StateTree.start()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        StateTree.stop()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
