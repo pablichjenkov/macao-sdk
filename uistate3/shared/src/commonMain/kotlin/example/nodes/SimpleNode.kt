@@ -28,9 +28,10 @@ class SimpleNode(
     @Composable
     override fun Content(modifier: Modifier) {
         println("OnboardingStepNode::Composing()")
-        BackPressHandler {
-            this@SimpleNode.backPressedCallbackHandler.onBackPressed()
-        }
+        BackPressHandler(
+            node = this,
+            onBackPressed = { this.backPressedCallbackHandler.onBackPressed() }
+        )
         Box(modifier = modifier.fillMaxSize().background(bgColor)) {
             Text(
                 modifier = Modifier

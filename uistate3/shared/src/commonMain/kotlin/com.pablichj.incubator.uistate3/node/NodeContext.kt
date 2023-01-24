@@ -58,10 +58,8 @@ open class NodeContext {
 
     // region: IBackPressDispatcher
 
-    //todo: make these 2 internal
-    var backPressDispatcher: IBackPressDispatcher? = null
     internal var backPressedCallbackDelegate: BackPressedCallback = EmptyBackPressCallback
-    var rootNodeBackPressedDelegate : BackPressedCallback? = null
+    internal var rootNodeBackPressedDelegate : BackPressedCallback? = null
 
     // endregion
 

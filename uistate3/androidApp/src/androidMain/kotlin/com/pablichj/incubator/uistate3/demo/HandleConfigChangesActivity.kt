@@ -11,8 +11,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.Modifier
+import com.pablichj.incubator.uistate3.AndroidNodeRender
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
 import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
@@ -27,32 +26,19 @@ class HandleConfigChangesActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         StateTree = AppCoordinatorNode().also {
-            it.context.rootNodeBackPressedDelegate = ForwardBackPressCallback { finish() }
+            //it.context.rootNodeBackPressedDelegate = ForwardBackPressCallback { finish() }
             it.HomeNode = buildHomeNode(it.context)
         }
 
         setContent {
             MaterialTheme {
-                CompositionLocalProvider(
-                    LocalBackPressedDispatcher provides AndroidBackPressDispatcher(
-                        this@HandleConfigChangesActivity
-                    ),
-                ) {
-                    StateTree.Content(Modifier)
-                }
+                AndroidNodeRender(
+                    rootNode = StateTree,
+                    onBackPressEvent = { finish() }
+                )
             }
         }
 
-    }
-
-    override fun onStart() {
-        super.onStart()
-        StateTree.start()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        StateTree.stop()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

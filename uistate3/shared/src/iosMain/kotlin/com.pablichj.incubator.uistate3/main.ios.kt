@@ -17,7 +17,7 @@ import com.pablichj.incubator.uistate3.node.Node
 import example.nodes.SimpleNode
 import platform.UIKit.UIViewController
 
-fun MainViewController(
+fun IosNodeRender(
     rootNode: Node
 ): UIViewController = Application("State3 Demo") {
 

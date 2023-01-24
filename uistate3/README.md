@@ -133,16 +133,6 @@ class DrawerActivity : ComponentActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        StateTree.start()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        StateTree.stop()
-    }
-
 }
 ```
 
