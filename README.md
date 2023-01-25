@@ -5,8 +5,8 @@ Each template produces an Android, iOS, Browser and JVM application. The user of
 
 ## UiState3
 
-[docs/images/state3-droid.jpg](docs/images/state3-droid.jpg)
+![docs/images/state3-droid.jpg](docs/images/state3-droid.jpg)
 
-[docs/images/state3-ios.jpg](docs/images/state3-ios.jpg)
+![docs/images/state3-ios.jpg](docs/images/state3-ios.jpg)
 
-[docs/images/state3-web.jpg](docs/images/state3-web.jpg)
+![docs/images/state3-web.jpg](docs/images/state3-web.jpg)
