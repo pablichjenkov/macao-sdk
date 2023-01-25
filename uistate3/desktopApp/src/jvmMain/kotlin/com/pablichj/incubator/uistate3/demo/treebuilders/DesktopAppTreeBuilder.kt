@@ -14,7 +14,7 @@ object DesktopAppTreeBuilder {
         }
 
         return DesktopAppNode().also {
-            it.context.subPath = SubPath("DesktopAppNode")
+            //it.context.subPath = SubPath("DesktopAppNode")
             DesktopAppNode = it
         }
 

@@ -1,26 +1,25 @@
-package com.pablichj.incubator.uistate3.demo.treebuilders
+package com.pablichj.incubator.uistate3
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import com.pablichj.incubator.uistate3.node.NodeContext
 import com.pablichj.incubator.uistate3.node.NodeItem
+import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
 import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
-import com.pablichj.incubator.uistate3.node.panel.PanelNode
 import example.nodes.TopBarNode
 
-object PanelTreeBuilder {
+object DrawerTreeBuilder {
 
-    private lateinit var PanelNode: PanelNode
+    private lateinit var DrawerNode: DrawerNode
 
-    fun build(): PanelNode {
+    fun build(): DrawerNode {
 
-        if (PanelTreeBuilder::PanelNode.isInitialized) {
-            return PanelNode
+        if (DrawerTreeBuilder::DrawerNode.isInitialized) {
+            return DrawerNode
         }
 
-        val PanelNode = PanelNode()
+        val DrawerNode = DrawerNode()
 
-        val panelNavItems = mutableListOf(
+        val drawerNavItems = mutableListOf(
             NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
@@ -41,7 +40,7 @@ object PanelTreeBuilder {
             )
         )
 
-        return PanelNode.also { it.setItems(panelNavItems, 0) }
+        return DrawerNode.also { it.setItems(drawerNavItems, 0) }
     }
 
     private fun buildNavBarNode(): NavBarNode {
@@ -50,21 +49,21 @@ object PanelTreeBuilder {
 
         val navbarNavItems = mutableListOf(
             NodeItem(
-                label = "Home",
+                label = "Active",
                 icon = Icons.Filled.Home,
-                node = TopBarNode("Home", Icons.Filled.Home) {},
+                node = TopBarNode("Orders/Active", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
-                label = "Orders",
+                label = "Past",
                 icon = Icons.Filled.Settings,
-                node = TopBarNode("Orders", Icons.Filled.Settings) {},
+                node = TopBarNode("Orders/Past", Icons.Filled.Settings) {},
                 selected = false
             ),
             NodeItem(
-                label = "Settings",
+                label = "New Order",
                 icon = Icons.Filled.Add,
-                node = TopBarNode("Settings", Icons.Filled.Add) {},
+                node = TopBarNode("Orders/New Order", Icons.Filled.Add) {},
                 selected = false
             )
         )

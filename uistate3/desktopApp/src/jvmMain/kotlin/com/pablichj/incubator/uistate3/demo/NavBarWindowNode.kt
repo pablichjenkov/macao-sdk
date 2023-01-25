@@ -6,35 +6,40 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import com.pablichj.incubator.uistate3.demo.treebuilders.PanelTreeBuilder
+import com.pablichj.incubator.uistate3.DesktopNodeRender
+import com.pablichj.incubator.uistate3.demo.treebuilders.NavBarTreeBuilder
 import com.pablichj.incubator.uistate3.node.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
-class PanelWindowNode(
+class NavBarWindowNode(
     val onCloseClick: () -> Unit
-) : Node(), WindowNode {
+) : WindowNode {
     private val windowState = WindowState()
 
-    private var PanelNode: Node = PanelTreeBuilder.build()
+    private var NavBarNode: Node = NavBarTreeBuilder.build()
 
     @Composable
-    override fun Content(modifier: Modifier) {
+    override fun WindowContent(modifier: Modifier) {
         Window(
             state = windowState,
             onCloseRequest = { onCloseClick() }
         ) {
-            PanelNode.Content(Modifier)
-            context.rootNodeBackPressedDelegate = ForwardBackPressCallback { exitProcess(0) }
+            DesktopNodeRender(
+                rootNode = NavBarNode,
+                onBackPressEvent = { onCloseClick }
+            )
+            //NavBarNode.Content(Modifier)
+            //context.rootNodeBackPressedDelegate = ForwardBackPressCallback { exitProcess(0) }
         }
 
         LaunchedEffect(windowState) {
             launch {
                 snapshotFlow { windowState.isMinimized }
                     .onEach {
-                        onWindowMinimized(PanelNode, it)
+                        onWindowMinimized(NavBarNode, it)
                     }
                     .launchIn(this)
             }

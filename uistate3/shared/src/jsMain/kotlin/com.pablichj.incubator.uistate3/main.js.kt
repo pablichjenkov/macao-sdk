@@ -28,17 +28,17 @@ fun BrowserNodeRender(
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
 
-            val composeAppState = remember {
-                AppStateHolder.ComposeAppState.also {
+            val rootState = remember {
+                RootState().also {
                     it.setRootNode(rootNode)
                     it.setBackPressHandler(onBackPressEvent)
                 }
             }
 
-            composeAppState.PresentContent()
+            rootState.PresentContent()
 
-            LaunchedEffect(composeAppState) {
-                composeAppState.start()
+            LaunchedEffect(rootState) {
+                rootState.start()
             }
 
             FloatingButton(
