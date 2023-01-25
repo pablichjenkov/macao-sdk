@@ -295,7 +295,7 @@ installed either in Android Studio or in AppCode with [installed CocoaPods](http
 
 Choose a run configuration for an appropriate target in IDE and run it.
 
-![run-configurations.png](run-configurations.png)
+![docs/images/run-configurations.png](docs/images/run-configurations.png)
 
 To run on iOS device, please correct `iosApp/Configuration/TeamId.xcconfig` with your Apple Team ID.
 Alternatively, you may setup signing within XCode opening `iosApp/FallingBalls.xcworkspace` and then
@@ -315,13 +315,13 @@ Then choose **iosApp** configuration in IDE and run it
 
 1) **Add your Apple ID.**  
    Xcode -> Preferences... -> Accounts  
-   ![apple-id.png](apple-id.png)
+   ![docs/images/apple-id.png](docs/images/apple-id.png)
 
 2) **Create certificates with XCode in temporary project.**  
    You can create a certificate in Xcode. Create a new iOS app in Xcode.  
    File -> New -> Project  
    Choose iOS, App:  
-   ![ios-app.png](ios-app.png)
+   ![docs/images/ios-app.png](docs/images/ios-app.png)
 
 3) **In next dialog set any product name and choose your teamID.**
 
