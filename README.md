@@ -12,4 +12,5 @@ Each template produces an Android, iOS, Browser and JVM application. The user of
 ![docs/images/state3-web.jpg](docs/images/state3-web.jpg)
 
 
-![state3-droid](https://user-images.githubusercontent.com/5303301/214517170-80037e52-ff5f-49b4-9e3c-2423d565d48e.jpg)
+<img title="UiState 3 Android" src="https://user-images.githubusercontent.com/5303301/214517170-80037e52-ff5f-49b4-9e3c-2423d565d48e.jpg" alt="uistate3-android" width="200">
+
