@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 
 interface WindowNode {
     @Composable
-    fun Content(modifier: Modifier)
+    fun WindowContent(modifier: Modifier)
 }
 
 sealed interface WindowNodeSample {

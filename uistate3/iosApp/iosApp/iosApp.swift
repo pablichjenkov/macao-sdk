@@ -8,11 +8,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
     
-        let splahNode = SplashNode(
-            onDone: {}
-        )
+        let drawerNode = Main_iosKt.buildDrawerNode()
         
-        let mainViewController = Main_iosKt.IosNodeRender(rootNode: splahNode)
+        let mainViewController = Main_iosKt.IosNodeRender(rootNode: drawerNode)
     
         window?.rootViewController = mainViewController
         window?.makeKeyAndVisible()

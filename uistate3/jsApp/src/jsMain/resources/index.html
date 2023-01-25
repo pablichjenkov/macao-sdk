@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Hello World</title>
-    <script src="skiko.js"> </script>
-    <link type="text/css" rel="stylesheet" href="styles.css" />
+    <script src="skiko.js"></script>
+    <link type="text/css" rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-    <div>
-        <canvas id="ComposeTarget" width="600" height="600"></canvas>
-    </div>
-    <script src="jsApp.js"> </script>
+<div>
+    <canvas id="ComposeTarget"></canvas>
+</div>
+<script>
+    var canvas = document.getElementById("ComposeTarget");
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+</script>
+<script src="jsApp.js"></script>
 </body>
 </html>

@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 class DeepLinkDemoNode(
     val onDeepLinkClick: (path: Path) -> Unit,
     val onCloseClick: () -> Unit
-) : Node(), WindowNode {
+) : WindowNode {
     private val windowState = WindowState(
         width = Dp.Unspecified, height = 800.dp
     )
@@ -62,7 +62,7 @@ class DeepLinkDemoNode(
     }
 
     @Composable
-    override fun Content(modifier: Modifier) {
+    override fun WindowContent(modifier: Modifier) {
 
         Window(
             state = windowState,

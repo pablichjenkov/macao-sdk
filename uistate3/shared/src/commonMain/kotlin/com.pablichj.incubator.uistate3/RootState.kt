@@ -8,7 +8,7 @@ import com.pablichj.incubator.uistate3.node.Node
 /**
  * This class will host the root node passed from the client application.
  * */
-class ComposeAppState {
+class RootState {
 
     private lateinit var RootNode: Node
     private var onBackPressEvent: () -> Unit = {}

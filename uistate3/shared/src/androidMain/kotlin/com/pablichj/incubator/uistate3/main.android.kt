@@ -15,8 +15,8 @@ fun AndroidNodeRender(
     rootNode: Node,
     onBackPressEvent: () -> Unit = {}
 ) {
-    val composeAppState = remember {
-        AppStateHolder.ComposeAppState.also {
+    val rootState = remember {
+        RootState().also {
             it.setRootNode(rootNode)
             it.setBackPressHandler(onBackPressEvent)
         }
@@ -27,10 +27,10 @@ fun AndroidNodeRender(
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides AndroidBackPressDispatcher(activity)
     ) {
-        composeAppState.PresentContent()
+        rootState.PresentContent()
     }
 
-    LaunchedEffect(composeAppState) {
-        composeAppState.start()
+    LaunchedEffect(rootState) {
+        rootState.start()
     }
 }

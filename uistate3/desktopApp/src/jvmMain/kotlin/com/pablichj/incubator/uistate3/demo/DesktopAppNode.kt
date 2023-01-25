@@ -4,9 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Modifier
-import com.pablichj.incubator.uistate3.node.Node
 
-class DesktopAppNode : Node() {
+class DesktopAppNode : WindowNode {
     private val activeWindows = mutableStateListOf<WindowNode>()
 
     private val MainWindowNode = MainWindowNode(
@@ -99,10 +98,10 @@ class DesktopAppNode : Node() {
     }
 
     @Composable
-    override fun Content(modifier: Modifier) {
+    override fun WindowContent(modifier: Modifier) {
         for (window in activeWindows) {
             key(window) {
-                window.Content(modifier)
+                window.WindowContent(modifier)
             }
         }
     }
