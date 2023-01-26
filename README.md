@@ -41,8 +41,8 @@ Hello World is a simple example of how to get started with a node creation and c
     <td><b style="font-size:30px">iOS</b></td>
  </tr>
  <tr>
-    <td><img title="Hello World Android" src="https://user-images.githubusercontent.com/5303301/212223898-3a36b2e8-d7f0-4e19-9a18-bf653fe6e0e1.png" alt="hello-world-android" width="300"></td>
-    <td><img title="Hello World iOS" src="https://user-images.githubusercontent.com/5303301/214517783-4b71c5af-cd25-4c90-8f02-9859e2fb5cd7.jpg" alt="hello-world-ios" width="300"></td>
+    <td><img title="Hello World Android" src="https://user-images.githubusercontent.com/5303301/214742670-217fccb4-2a12-4b82-91af-d85d261efd17.jpg" alt="hello-world-android" width="300"></td>
+    <td><img title="Hello World iOS" src="https://user-images.githubusercontent.com/5303301/214742102-878b386e-e324-433f-aee9-9c5629500ccc.jpg" alt="hello-world-ios" width="300"></td>
  </tr>
 </table>
 <table border="0">
@@ -50,8 +50,6 @@ Hello World is a simple example of how to get started with a node creation and c
     <td><b style="font-size:30px">Web</b></td>
  </tr>
  <tr>
-    <td><img title="Hello World Web" src="https://user-images.githubusercontent.com/5303301/212225160-2339549f-f136-426e-8280-2c5c73d8aff7.png" alt="hello-world-web" width="800"></td>
+    <td><img title="Hello World Web" src="https://user-images.githubusercontent.com/5303301/214742259-f912843a-cf85-4ce7-b69d-74b301eca6e5.jpg" alt="hello-world-web" width="800"></td>
  </tr>
 </table>
-
-
