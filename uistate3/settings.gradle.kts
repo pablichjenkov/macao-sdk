@@ -25,6 +25,16 @@ pluginManagement {
 rootProject.name = "uistate3"
 
 include(":shared")
+project(":shared").name = "uistate3"
+
 include(":androidApp")
 include(":jsApp")
 include(":desktopApp")
+
+/*include(":Narengi")
+project(":Narengi").name = "Bunny"
+
+// OR
+
+include(":Bunny")
+project(":Bunny").projectDir = file("Narengi/")*/

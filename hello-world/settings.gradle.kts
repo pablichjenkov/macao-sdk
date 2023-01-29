@@ -28,3 +28,6 @@ include(":shared")
 include(":androidApp")
 include(":jsApp")
 include(":desktopApp")
+
+include(":uistate3")
+project(":uistate3").projectDir = File("../uistate3/shared")

@@ -19,7 +19,7 @@ iosApp/Pods/*
 iosApp/HelloWorld.xcworkspace/*
 iosApp/HelloWorld.xcodeproj/*
 !iosApp/HelloWorld.xcodeproj/project.pbxproj
-shared/shared.podspec
+shared/*.podspec
 
 ### Mac OS ###
 .DS_Store

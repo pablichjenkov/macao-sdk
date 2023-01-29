@@ -1,5 +1,5 @@
-target 'HelloWorld' do
+target 'UiState3Demo' do
   use_frameworks!
   platform :ios, '14.1'
-  pod 'shared', :path => '../shared'
+  pod 'uistate3', :path => '../shared'
 end

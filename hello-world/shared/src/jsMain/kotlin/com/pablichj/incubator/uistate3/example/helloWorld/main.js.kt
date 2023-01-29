@@ -2,18 +2,19 @@ package com.pablichj.incubator.uistate3.example.helloWorld
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import com.pablichj.incubator.uistate3.DesktopNodeRender
+import com.pablichj.incubator.uistate3.BrowserNodeRender
 import example.helloworld.HelloWorldNode
-import kotlin.system.exitProcess
 
 @Composable
 fun HelloWorldApp() {
     MaterialTheme {
-        DesktopNodeRender(
+        BrowserNodeRender(
             rootNode = HelloWorldNode(),
             onBackPressEvent = {
-                exitProcess(0)
+                println("Back pressed event reached root node. Should ste back button invisible")
             }
         )
     }
 }
+
+

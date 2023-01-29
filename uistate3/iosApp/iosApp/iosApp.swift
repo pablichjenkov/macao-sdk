@@ -1,5 +1,5 @@
 import UIKit
-import shared
+import uistate3
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -10,7 +10,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         let drawerNode = Main_iosKt.buildDrawerNode()
         
-        let mainViewController = Main_iosKt.IosNodeRender(rootNode: drawerNode)
+        let mainViewController = Main_iosKt.IosNodeRender(
+            rootNode: drawerNode,
+            appName: "UiState3 Demo"
+        )
     
         window?.rootViewController = mainViewController
         window?.makeKeyAndVisible()
