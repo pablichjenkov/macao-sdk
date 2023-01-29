@@ -33,7 +33,6 @@ UiState3 is the core library where the Node logic resides. Bellow are some scree
 ### Hello World
 
 Hello World is a simple example of how to get started with a node creation and configuration.
-// TODO: Replace with hello world sample screenshots
 
 <table border="0">
  <tr>
