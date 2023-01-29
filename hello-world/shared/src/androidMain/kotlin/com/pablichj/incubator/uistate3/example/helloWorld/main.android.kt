@@ -2,18 +2,13 @@ package com.pablichj.incubator.uistate3.example.helloWorld
 
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import com.pablichj.incubator.uistate3.ComposeApp
-import com.pablichj.incubator.uistate3.node.AndroidBackPressDispatcher
-import com.pablichj.incubator.uistate3.node.LocalBackPressedDispatcher
+import com.pablichj.incubator.uistate3.AndroidNodeRender
+import example.helloworld.HelloWorldNode
 
 @Composable
 fun HelloWorldApp(componentActivity: ComponentActivity) {
-    CompositionLocalProvider(
-        LocalBackPressedDispatcher provides AndroidBackPressDispatcher(componentActivity),
-    ) {
-        ComposeApp(
-            onExit = { componentActivity.finishAffinity() }
-        )
-    }
+    AndroidNodeRender(
+        rootNode = HelloWorldNode(),
+        onBackPressEvent = { componentActivity.finishAffinity() }
+    )
 }

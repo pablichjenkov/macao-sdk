@@ -9,8 +9,9 @@ plugins {
 }
 
 group = "com.pablichj"
-version = "0.1.0"
+version = "0.1.0.2"
 
+/*
 fun String.dasherize() = fold("") {acc, value ->
     if (value.isUpperCase()) {
         "$acc-${value.toLowerCase()}"
@@ -44,6 +45,7 @@ configure<PublishingExtension> {
         }
     }
 }
+*/
 
 /*publishing {
     publications {
@@ -75,11 +77,11 @@ kotlin {
     //iosSimulatorArm64()
     cocoapods {
         summary = "Shared code for the UiState3 example"
-        homepage = "https://github.com/pablichjenkov/uistate3b"
+        homepage = "https://github.com/pablichjenkov/uistate3"
         ios.deploymentTarget = "14.1"
         podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = "shared"
+            baseName = "uistate3"
             isStatic = true
         }
         extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
@@ -96,13 +98,13 @@ kotlin {
         }
     }
 
-    // JVM
-    jvm("desktop")
-
     // JS
     js(IR) {
         browser()
     }
+
+    // JVM
+    jvm("desktop")
 
     // MACOS
     /*macosX64 {
@@ -146,11 +148,12 @@ kotlin {
                 implementation( "androidx.compose.material3:material3-window-size-class:1.0.1")
             }
         }
-        val androidTest by getting {
+        val androidUnitTest by getting {
             dependencies {
                 implementation("junit:junit:4.13.2")
             }
         }
+        val androidInstrumentedTest by getting
 
         // IOS
         /*val iosMain by getting
@@ -177,11 +180,11 @@ kotlin {
             iosSimulatorArm64Test.dependsOn(this)
         }
 
-        // JVM
-        val desktopMain by getting
-
         // JS
         val jsMain by getting
+
+        // JVM
+        val desktopMain by getting
 
         // MACOS
         /*val macosMain by creating {

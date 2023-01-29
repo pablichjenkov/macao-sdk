@@ -9,7 +9,7 @@ kotlin {
     sourceSets {
         val androidMain by getting {
             dependencies {
-                implementation(project(":shared"))
+                implementation(project(":uistate3"))
                 implementation(compose.material)
                 implementation("androidx.activity:activity-compose:1.6.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")

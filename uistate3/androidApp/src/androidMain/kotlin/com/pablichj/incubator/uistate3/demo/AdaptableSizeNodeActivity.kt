@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
 import com.pablichj.incubator.uistate3.AndroidNodeRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeStateTreeHolder
+import com.pablichj.incubator.uistate3.node.AndroidBackPressDispatcher
 import com.pablichj.incubator.uistate3.node.AndroidWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.Node
 

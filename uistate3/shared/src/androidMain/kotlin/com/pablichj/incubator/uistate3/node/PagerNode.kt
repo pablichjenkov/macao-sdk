@@ -66,7 +66,8 @@ class PagerNode : Node(), ContainerNode {
 
     override fun setItems(
         navItemsList: MutableList<NodeItem>,
-        startingIndex: Int
+        startingIndex: Int,
+        isTransfer: Boolean
     ) {
         this.startingIndex = startingIndex
         this.selectedIndex = startingIndex
