@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.pablichj"
-version = "0.1.0.2"
+version = "0.1.0.3"
 
 /*
 fun String.dasherize() = fold("") {acc, value ->

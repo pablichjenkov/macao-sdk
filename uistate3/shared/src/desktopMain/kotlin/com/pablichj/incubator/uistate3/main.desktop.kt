@@ -27,7 +27,15 @@ fun DesktopNodeRender(
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides desktopBackPressDispatcher
     ) {
-        rootNode.Content(Modifier.fillMaxSize())
+        Box {
+            rootNode.Content(Modifier.fillMaxSize())
+            FloatingButton(
+                modifier = Modifier.offset(y = 48.dp),
+                alignment = Alignment.TopStart,
+                onClick = { desktopBackPressDispatcher.dispatchBackPressed() }
+            )
+
+        }
     }
 
     LaunchedEffect(key1 = rootNode, key2 = onBackPressEvent) {
@@ -36,62 +44,4 @@ fun DesktopNodeRender(
         }
         rootNode.start()
     }
-
-    /*CompositionLocalProvider(
-        LocalBackPressedDispatcher provides desktopBackPressDispatcher,
-    ) {
-
-        val rootState = remember {
-            RootState().also {
-                it.setRootNode(rootNode)
-                it.setBackPressHandler(onBackPressEvent)
-            }
-        }
-
-        Box {
-            rootState.PresentContent()
-            FloatingButton(
-                modifier = Modifier.offset(y = 48.dp),
-                alignment = Alignment.TopStart,
-                onClick = { desktopBackPressDispatcher.dispatchBackPressed() }
-            )
-
-        }
-
-        LaunchedEffect(rootState) {
-            rootState.start()
-        }
-
-    }*/
-
 }
-
-/*
-@Composable
-fun AndroidNodeRender(
-    rootNode: Node,
-    onBackPressEvent: () -> Unit = {}
-) {
-
-
-    LifecycleEventObserver(
-        lifecycleOwner = LocalLifecycleOwner.current,
-        onStart = {
-            println("Pablo Receiving Activity.onStart() event")
-            if (rootNode.context.lifecycleState != Node.LifecycleState.Started) {
-                rootNode.start()
-            }
-        },
-        onStop = {
-            println("Pablo Receiving Activity.onStop() event")
-            if (rootNode.context.lifecycleState != Node.LifecycleState.Stopped) {
-                rootNode.stop()
-            }
-        }
-    )
-
-    val activity = LocalContext.current as ComponentActivity
-
-
-
-}*/

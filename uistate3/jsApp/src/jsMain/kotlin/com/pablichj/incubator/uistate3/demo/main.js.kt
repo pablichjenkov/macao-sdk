@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import com.pablichj.incubator.uistate3.BrowserNodeRender
+import com.pablichj.incubator.uistate3.BrowserViewportWindow
 import org.jetbrains.skiko.wasm.onWasmReady
 
 fun main() {
@@ -12,7 +13,7 @@ fun main() {
 
         val PanelNode = PanelTreeBuilder.build()
 
-        Window("State 3 Demo") {
+        /*Window("State 3 Demo") {
             Column(modifier = Modifier.fillMaxSize()) {
                 BrowserNodeRender(
                     rootNode = PanelNode,
@@ -21,6 +22,14 @@ fun main() {
                     }
                 )
             }
+        }*/
+        BrowserViewportWindow("Hello World") {
+            BrowserNodeRender(
+                rootNode = PanelNode,
+                onBackPressEvent = {
+                    println("Back press dispatched in root node")
+                }
+            )
         }
     }
 }
