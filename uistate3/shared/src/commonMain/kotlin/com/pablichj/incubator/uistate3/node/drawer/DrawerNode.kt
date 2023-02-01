@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class DrawerNode(
     // TODO: Ask for the Header Info to render the Drawer header
-) : BackStackNode<Node>(), ContainerNode, INavigationProvider {
+) : BackStackNode<Node>(), ContainerNode, IDrawerNode {
 
     private val nodeCoroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
     private var activeNodeState: MutableState<Node?> = mutableStateOf(null)
@@ -32,21 +32,18 @@ class DrawerNode(
                 pushNode(navItemClick.node)
             }
         }
-
-        context.setNavigationProvider(this)
     }
 
     override fun start() {
         super.start()
         val childNodesCopy = childNodes
         if (activeNodeState.value == null) {
-            if (childNodesCopy.isNotEmpty()) {
+            if (childNodesCopy.size > selectedIndex) {
                 println("DrawerNode::start() with selectedIndex = $selectedIndex")
                 pushNode(childNodesCopy[selectedIndex])
             } else {
-                println("DrawerNode::start() with childNodes empty")
+                println("DrawerNode::start() childSize < selectedIndex BAD!")
             }
-
         } else {
             println("DrawerNode::start() with activeNodeState = ${activeNodeState.value?.clazz}")
             activeNodeState.value?.start()
@@ -132,9 +129,9 @@ class DrawerNode(
         navItems = navItemsList.map { it }.toMutableList()
 
         var selectedNodeFromTransfer : Node? = null
-        this.childNodes = navItems.mapIndexed{ idx, navItem ->
+        this.childNodes = navItems.mapIndexed { idx, navItem ->
             navItem.node.also {
-                it.context.attachToParent(context)
+                it.attachToParent(parentNode = this@DrawerNode)
                 if (idx == selectedIndex) { selectedNodeFromTransfer = it }
             }
         }.toMutableList()
@@ -143,9 +140,9 @@ class DrawerNode(
         navDrawerState.selectNavItem(navItems[selectedIndex])
 
         // If setItem() is called after start() was call, then we update the UI right here
-        if (context.lifecycleState == LifecycleState.Started) {
+        if (lifecycleState == LifecycleState.Started) {
             pushNode(childNodes[selectedIndex])
-        } else {
+        } else {// The node is in stopped state
             if (isTransfer) {
                 activeNodeState.value = selectedNodeFromTransfer
             }
@@ -187,7 +184,7 @@ class DrawerNode(
     }
 
     override fun onDeepLinkMatchingNode(matchingNode: Node) {
-        println("DrawerNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
+        println("DrawerNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.subPath}")
         pushNode(matchingNode)
     }
 
@@ -197,7 +194,7 @@ class DrawerNode(
     override fun Content(modifier: Modifier) {
         println(
             """DrawerNode.Composing() stack.size = ${stack.size}
-                |lifecycleState = ${context.lifecycleState}
+                |lifecycleState = ${lifecycleState}
             """.trimMargin()
         )
 

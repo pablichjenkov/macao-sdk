@@ -35,13 +35,12 @@ class PanelNode : BackStackNode<Node>(), ContainerNode {
         super.start()
         val childNodesCopy = childNodes
         if (activeNodeState.value == null) {
-            if (childNodesCopy.isNotEmpty()) {
+            if (childNodesCopy.size > selectedIndex) {
                 println("PanelNode::start() with selectedIndex = $selectedIndex")
                 pushNode(childNodesCopy[selectedIndex])
             } else {
-                println("PanelNode::start() with childNodes empty")
+                println("PanelNode::start() childSize < selectedIndex BAD!")
             }
-
         } else {
             println("PanelNode::start() with activeNodeState = ${activeNodeState.value?.clazz}")
             activeNodeState.value?.start()
@@ -116,9 +115,9 @@ class PanelNode : BackStackNode<Node>(), ContainerNode {
         navItems = navItemsList.map { it }.toMutableList()
 
         var selectedNodeFromTransfer : Node? = null
-        this.childNodes = navItems.mapIndexed{ idx, navItem ->
+        this.childNodes = navItems.mapIndexed { idx, navItem ->
             navItem.node.also {
-                it.context.attachToParent(context)
+                it.attachToParent(this@PanelNode)
                 if (idx == selectedIndex) { selectedNodeFromTransfer = it }
             }
         }.toMutableList()
@@ -127,9 +126,9 @@ class PanelNode : BackStackNode<Node>(), ContainerNode {
         panelState.selectNavItem(navItems[selectedIndex])
 
         // If setItem() is called after start() was call, then we update the UI right here
-        if (context.lifecycleState == LifecycleState.Started) {
+        if (lifecycleState == LifecycleState.Started) {
             pushNode(childNodes[selectedIndex])
-        } else {
+        } else {// The node is in stopped state
             if (isTransfer) {
                 activeNodeState.value = selectedNodeFromTransfer
             }
@@ -171,7 +170,7 @@ class PanelNode : BackStackNode<Node>(), ContainerNode {
     }
 
     override fun onDeepLinkMatchingNode(matchingNode: Node) {
-        println("PanelNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
+        println("PanelNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.subPath}")
         pushNode(matchingNode)
     }
 
@@ -181,7 +180,7 @@ class PanelNode : BackStackNode<Node>(), ContainerNode {
     override fun Content(modifier: Modifier) {
         println(
             """PanelNode.Composing() stack.size = ${stack.size}
-                |lifecycleState = ${context.lifecycleState}
+                |lifecycleState = ${lifecycleState}
             """.trimMargin()
         )
 

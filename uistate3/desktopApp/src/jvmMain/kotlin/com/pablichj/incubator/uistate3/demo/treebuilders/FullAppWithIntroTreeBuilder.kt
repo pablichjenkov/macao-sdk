@@ -22,12 +22,12 @@ object FullAppWithIntroTreeBuilder {
         }
 
         return AppCoordinatorNode().also {
-            it.HomeNode = buildDrawerStateTree(it.context)
+            it.HomeNode = buildDrawerStateTree(it)
             AppCoordinatorNode = it
         }
     }
 
-    private fun buildDrawerStateTree(parentContext: NodeContext): Node {
+    private fun buildDrawerStateTree(parentNode: Node): Node {
         val DrawerNode = DrawerNode()
         val NavBarNode = NavBarNode()
 
@@ -69,7 +69,7 @@ object FullAppWithIntroTreeBuilder {
         )
 
         return DrawerNode.apply {
-            context.attachToParent(parentContext)
+            attachToParent(parentNode)
             setItems(drawerNavItems, 0)
         }
     }

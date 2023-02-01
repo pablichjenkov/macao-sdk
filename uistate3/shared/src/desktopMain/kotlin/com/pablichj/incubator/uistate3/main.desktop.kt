@@ -39,7 +39,7 @@ fun DesktopNodeRender(
     }
 
     LaunchedEffect(key1 = rootNode, key2 = onBackPressEvent) {
-        rootNode.context.rootNodeBackPressedDelegate = ForwardBackPressCallback {
+        rootNode.rootNodeBackPressedDelegate = ForwardBackPressCallback {
             onBackPressEvent()
         }
         rootNode.start()

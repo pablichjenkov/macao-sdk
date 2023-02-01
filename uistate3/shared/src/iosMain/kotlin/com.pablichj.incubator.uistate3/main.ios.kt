@@ -41,7 +41,7 @@ fun IosNodeRender(
     }
 
     LaunchedEffect(key1 = rootNode/*, key2 = onBackPressEvent*/) {
-        rootNode.context.rootNodeBackPressedDelegate = ForwardBackPressCallback {
+        rootNode.rootNodeBackPressedDelegate = ForwardBackPressCallback {
             //onBackPressEvent()
             println("back pressed dispatched in root node")
         }

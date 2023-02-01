@@ -29,16 +29,27 @@ class PagerNode : Node(), ContainerNode {
     // Used to call functions in specific Composable's States that need a monotonic clock
     private lateinit var composableCoroutineScope: CoroutineScope
     private var activeNode: Node? = null
-    private var startingIndex = 0
     private var selectedIndex = 0
     private var navItems: MutableList<NodeItem> = mutableListOf()
     private var childNodes: MutableList<Node> = mutableListOf(EmptyNode())
-    private var pagerState = PagerState(startingIndex)
+    private var pagerState = PagerState(selectedIndex)
     override val stack = ArrayDeque<Node>()
 
     override fun start() {
         super.start()
-        activeNode?.start()
+        val childNodesLocal = childNodes
+        val activeNodeLocal = activeNode
+        if (activeNodeLocal == null) {
+            if (childNodesLocal.size > selectedIndex) {
+                println("PagerNode::start() with selectedIndex = $selectedIndex")
+                updateScreen()
+            } else {
+                println("PagerNode::start() childSize < selectedIndex BAD!")
+            }
+        } else {
+            println("PagerNode::start() with activeNodeState = ${activeNodeLocal.clazz}")
+            activeNodeLocal.start()
+        }
     }
 
     override fun stop() {
@@ -66,20 +77,16 @@ class PagerNode : Node(), ContainerNode {
 
     override fun setItems(
         navItemsList: MutableList<NodeItem>,
-        startingIndex: Int,
+        selectedIndex: Int,
         isTransfer: Boolean
     ) {
-        this.startingIndex = startingIndex
-        this.selectedIndex = startingIndex
+        this.selectedIndex = selectedIndex
 
         navItems = navItemsList.map { it }.toMutableList()
 
-        childNodes = navItems.map { navItem ->
+        this.childNodes = navItems.mapIndexed { idx, navItem ->
             navItem.node.also {
-                it.context.attachToParent(context)
-                if (it.context.lifecycleState == LifecycleState.Started) {
-                    activeNode = it
-                }
+                it.attachToParent(this@PagerNode)
             }
         }.toMutableList()
 
@@ -114,7 +121,7 @@ class PagerNode : Node(), ContainerNode {
     }
 
     override fun onDeepLinkMatchingNode(matchingNode: Node) {
-        println("PagerNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
+        println("PagerNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.subPath}")
         val matchingNodeIndex = childNodes.indexOf(matchingNode)
         if (matchingNodeIndex > 0) {
             selectPage(matchingNodeIndex)
@@ -132,7 +139,7 @@ class PagerNode : Node(), ContainerNode {
 
     private fun updateScreen() {
         // Refresh the PagerState instance to trigger an update
-        pagerState = PagerState(startingIndex)
+        pagerState = PagerState(selectedIndex)
     }
 
     private fun onPageChanged(pageIndex: Int) {
@@ -154,7 +161,7 @@ class PagerNode : Node(), ContainerNode {
         println(
             """PagerNode.Composing() stack.size = ${stack.size}
                 |currentPage = ${pagerState.currentPage}
-                |lifecycleState = ${context.lifecycleState}
+                |lifecycleState = ${lifecycleState}
             """.trimMargin()
         )
 

@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.pablichj.incubator.uistate3.findClosestIDrawerNode
 import com.pablichj.incubator.uistate3.node.BackStackNode
 import com.pablichj.incubator.uistate3.node.Node
 import com.pablichj.incubator.uistate3.node.navigation.SubPath
@@ -48,8 +49,8 @@ class TopBarNode(
             }
         }
     }.also {
-        it.context.attachToParent(this@TopBarNode.context)
-        it.context.subPath = SubPath("Page1")
+        it.attachToParent(this@TopBarNode)
+        it.subPath = SubPath("Page1")
     }
 
     val Step2 = SimpleNode(
@@ -62,8 +63,8 @@ class TopBarNode(
             }
         }
     }.also {
-        it.context.attachToParent(this@TopBarNode.context)
-        it.context.subPath = SubPath("Page2")
+        it.attachToParent(this@TopBarNode)
+        it.subPath = SubPath("Page2")
     }
 
     val Step3 =
@@ -77,8 +78,8 @@ class TopBarNode(
                 }
             }
         }.also {
-            it.context.attachToParent(this@TopBarNode.context)
-            it.context.subPath = SubPath("Page3")
+            it.attachToParent(this@TopBarNode)
+            it.subPath = SubPath("Page3")
         }
 
     override fun start() {
@@ -128,10 +129,10 @@ class TopBarNode(
                 title = node.text,
                 icon1 = resolveFirstIcon(),
                 onIcon1Click = {
-                    context.findClosestNavigationProvider()?.open()
+                    findClosestIDrawerNode()?.open()
                 },
                 onTitleClick = {
-                    context.findClosestNavigationProvider()?.open()
+                    findClosestIDrawerNode()?.open()
                 }
             )
         )
@@ -146,7 +147,7 @@ class TopBarNode(
                 },
                 icon1 = resolveFirstIcon(),
                 onIcon1Click = {
-                    context.findClosestNavigationProvider()?.open()
+                    findClosestIDrawerNode()?.open()
                 },
                 icon2 = Icons.Filled.ArrowBack,
                 onIcon2Click = {
@@ -157,7 +158,7 @@ class TopBarNode(
     }
 
     private fun resolveFirstIcon(): ImageVector? {
-        val canProvideGlobalNavigation = context.findClosestNavigationProvider() != null
+        val canProvideGlobalNavigation = findClosestIDrawerNode() != null
         return if (canProvideGlobalNavigation) {
             Icons.Filled.Menu
         } else {
@@ -172,7 +173,7 @@ class TopBarNode(
     }
 
     override fun onDeepLinkMatchingNode(matchingNode: Node) {
-        println("TopBarNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
+        println("TopBarNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.subPath}")
         pushNode(matchingNode as SimpleNode) //todo: see how get rid of the cast
     }
 

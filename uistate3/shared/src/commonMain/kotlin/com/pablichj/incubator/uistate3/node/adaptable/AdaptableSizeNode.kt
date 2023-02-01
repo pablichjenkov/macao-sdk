@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
@@ -13,7 +12,6 @@ import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.ContainerNode
 import com.pablichj.incubator.uistate3.node.NodeItem
 import com.pablichj.incubator.uistate3.node.Node
-import com.pablichj.incubator.uistate3.node.NodeContext
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 import com.pablichj.incubator.uistate3.node.navigation.Path
 
@@ -40,17 +38,17 @@ class AdaptableSizeNode(
 
     fun setCompactContainer(containerNode: ContainerNode) {
         CompactNavigator = containerNode
-        containerNode.getNode().context.parentContext = this.context
+        containerNode.getNode().attachToParent(this@AdaptableSizeNode)
     }
 
     fun setMediumContainer(containerNode: ContainerNode) {
         MediumNavigator = containerNode
-        containerNode.getNode().context.parentContext = this.context
+        containerNode.getNode().attachToParent(this@AdaptableSizeNode)
     }
 
     fun setExpandedContainer(containerNode: ContainerNode) {
         ExpandedNavigator = containerNode
-        containerNode.getNode().context.parentContext = this.context
+        containerNode.getNode().attachToParent(this@AdaptableSizeNode)
     }
 
     override fun start() {
@@ -75,7 +73,7 @@ class AdaptableSizeNode(
 
     override fun onCheckChildMatchHandler(advancedPath: Path, matchingNode: Node): DeepLinkResult {
         val interceptingNode = currentContainerNode.value?.getNode() ?: matchingNode
-        interceptingNode.context.subPath = matchingNode.context.subPath.copy()
+        interceptingNode.subPath = matchingNode.subPath.copy()
         return interceptingNode.checkDeepLinkMatch(advancedPath)
     }
 
@@ -84,20 +82,20 @@ class AdaptableSizeNode(
         matchingNode: Node
     ): DeepLinkResult {
         val interceptingNode = currentContainerNode.value?.getNode() ?: matchingNode
-        interceptingNode.context.subPath = matchingNode.context.subPath.copy()
+        interceptingNode.subPath = matchingNode.subPath.copy()
         onDeepLinkMatchingNode(interceptingNode)
         return interceptingNode.navigateUpToDeepLink(advancedPath)
     }
 
     override fun onDeepLinkMatchingNode(matchingNode: Node) {
-        println("AdaptableWindowNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
+        println("AdaptableWindowNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.subPath}")
     }
 
     // endregion
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("AdaptableWindowNode.Composing() lifecycleState = ${context.lifecycleState}")
+        println("AdaptableWindowNode.Composing() lifecycleState = ${lifecycleState}")
 
         val windowSizeInfo by windowSizeInfoProvider.windowSizeInfo()
 

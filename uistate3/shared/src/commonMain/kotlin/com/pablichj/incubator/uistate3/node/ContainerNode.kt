@@ -12,7 +12,7 @@ interface ContainerNode {
 
     fun setItems(
         navItemsList: MutableList<NodeItem>,
-        startingIndex: Int,
+        selectedIndex: Int,
         isTransfer: Boolean = false
     )
 
@@ -33,7 +33,7 @@ interface ContainerNode {
 
         setItems(
             navItemsList = donorContainerNode.getItems(),
-            startingIndex = donorContainerNode.getSelectedItemIndex(),
+            selectedIndex = donorContainerNode.getSelectedItemIndex(),
             true
         )
 

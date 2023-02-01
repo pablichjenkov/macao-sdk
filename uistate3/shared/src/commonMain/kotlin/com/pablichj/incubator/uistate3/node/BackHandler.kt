@@ -21,6 +21,12 @@ internal fun BackPressHandler(
         ForwardBackPressCallback {
             currentOnBackPressed()
         }
+        /* uncomment to test: https://github.com/JetBrains/compose-jb/issues/2615
+        object : BackPressedCallback() {
+            override fun onBackPressed() {
+                currentOnBackPressed()
+            }
+        }*/
     }
 
     val backPressDispatcher = LocalBackPressedDispatcher.current
@@ -36,6 +42,7 @@ internal fun BackPressHandler(
         }
         Node.LifecycleState.Stopped -> {
             println("${node.clazz}::onStop BackPressHandler Unsubscribing")
+            backPressDispatcher.unsubscribe(backPressCallback)
         }
     }
 

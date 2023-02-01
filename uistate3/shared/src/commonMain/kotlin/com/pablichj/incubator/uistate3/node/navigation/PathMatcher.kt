@@ -30,10 +30,10 @@ object DefaultPathMatcher : IPathMatcher {
 
         val matchingNode = deepLinkNodes
             .filterNot {
-                println("Checking link: ${it.context.subPath.route}")
-                it.context.subPath == SubPath.Empty
+                println("Checking link: ${it.subPath.route}")
+                it.subPath == SubPath.Empty
             }
-            .firstOrNull { it.context.subPath.route == childSubPathToMatch.route }
+            .firstOrNull { it.subPath.route == childSubPathToMatch.route }
 
         println("One above has to match: ${childSubPathToMatch.route}")
 

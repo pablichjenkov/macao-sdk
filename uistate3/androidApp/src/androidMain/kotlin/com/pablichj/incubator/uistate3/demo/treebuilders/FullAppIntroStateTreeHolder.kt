@@ -6,7 +6,6 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.lifecycle.ViewModel
 import com.pablichj.incubator.uistate3.node.Node
-import com.pablichj.incubator.uistate3.node.NodeContext
 import com.pablichj.incubator.uistate3.node.NodeItem
 import com.pablichj.incubator.uistate3.node.PagerNode
 import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
@@ -26,14 +25,14 @@ class FullAppIntroStateTreeHolder : ViewModel() {
         }
 
         return AppCoordinatorNode().also {
-            buildDrawerActivityStateTree(it.context).also { homeNode ->
+            buildDrawerActivityStateTree(it).also { homeNode ->
                 it.HomeNode = homeNode
             }
             AppCoordinatorNode = it
         }
     }
 
-    private fun buildDrawerActivityStateTree(parentContext: NodeContext): Node {
+    private fun buildDrawerActivityStateTree(parentNode: Node): Node {
 
         val DrawerNode = DrawerNode()
 
@@ -124,7 +123,7 @@ class FullAppIntroStateTreeHolder : ViewModel() {
         )
 
         return DrawerNode.apply {
-            context.attachToParent(parentContext)
+            attachToParent(parentNode)
             setItems(drawerNavItems, 0)
         }
     }

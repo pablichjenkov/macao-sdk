@@ -27,7 +27,7 @@ class HandleConfigChangesActivity : ComponentActivity() {
 
         StateTree = AppCoordinatorNode().also {
             //it.context.rootNodeBackPressedDelegate = ForwardBackPressCallback { finish() }
-            it.HomeNode = buildHomeNode(it.context)
+            it.HomeNode = buildHomeNode(it)
         }
 
         setContent {
@@ -52,7 +52,7 @@ class HandleConfigChangesActivity : ComponentActivity() {
         }
     }
 
-    private fun buildHomeNode(parentContext: NodeContext): Node {
+    private fun buildHomeNode(parentNode: Node): Node {
 
         val DrawerNode = DrawerNode()
 
@@ -127,7 +127,7 @@ class HandleConfigChangesActivity : ComponentActivity() {
         )
 
         return DrawerNode.also {
-            it.context.attachToParent(parentContext)
+            it.attachToParent(parentNode)
             it.setItems(drawerNavItems, 0)
         }
     }

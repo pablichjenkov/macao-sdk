@@ -18,7 +18,6 @@ class NavBarNode : BackStackNode<Node>(), ContainerNode {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
     private var activeNodeState: MutableState<Node?> = mutableStateOf(null)
-    private var startingIndex = 0
     private var selectedIndex = 0
     private var navItems: MutableList<NodeItem> = mutableListOf()
     private var childNodes: MutableList<Node> = mutableListOf()
@@ -35,9 +34,15 @@ class NavBarNode : BackStackNode<Node>(), ContainerNode {
     override fun start() {
         super.start()
         val childNodesCopy = childNodes
-        if (activeNodeState.value == null && childNodesCopy.isNotEmpty()) {
-            pushNode(childNodesCopy[startingIndex])
+        if (activeNodeState.value == null) {
+            if (childNodesCopy.size > selectedIndex) {
+                println("NavBarNode::start() with selectedIndex = $selectedIndex")
+                pushNode(childNodesCopy[selectedIndex])
+            } else {
+                println("NavBarNode::start() childSize < selectedIndex BAD!")
+            }
         } else {
+            println("NavBarNode::start() with activeNodeState = ${activeNodeState.value?.clazz}")
             activeNodeState.value?.start()
         }
     }
@@ -102,25 +107,28 @@ class NavBarNode : BackStackNode<Node>(), ContainerNode {
         startingIndex: Int,
         isTransfer: Boolean
     ) {
-        this.startingIndex = startingIndex
         this.selectedIndex = startingIndex
 
         navItems = navItemsList.map { it }.toMutableList()
 
-        childNodes = navItems.map { navItem ->
+        var selectedNodeFromTransfer : Node? = null
+        this.childNodes = navItems.mapIndexed { idx, navItem ->
             navItem.node.also {
-                it.context.attachToParent(this@NavBarNode.context)
-                if (it.context.lifecycleState == LifecycleState.Started) {
-                    activeNodeState.value = it
-                }
+                it.attachToParent(parentNode = this@NavBarNode)
+                if (idx == selectedIndex) { selectedNodeFromTransfer = it }
             }
         }.toMutableList()
 
         navBarState.navItems = navItems
         navBarState.selectNavItem(navItems[startingIndex])
 
-        if (context.lifecycleState == LifecycleState.Started) {
-            pushNode(childNodes[startingIndex])
+        // If setItem() is called after start() was call, then we update the UI right here
+        if (lifecycleState == LifecycleState.Started) {
+            pushNode(childNodes[selectedIndex])
+        } else {// The node is in stopped state
+            if (isTransfer) {
+                activeNodeState.value = selectedNodeFromTransfer
+            }
         }
     }
 
@@ -160,7 +168,7 @@ class NavBarNode : BackStackNode<Node>(), ContainerNode {
     }
 
     override fun onDeepLinkMatchingNode(matchingNode: Node) {
-        println("NavBarNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
+        println("NavBarNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.subPath}")
         pushNode(matchingNode)
     }
 
@@ -170,7 +178,7 @@ class NavBarNode : BackStackNode<Node>(), ContainerNode {
     override fun Content(modifier: Modifier) {
         println(
             """NavBarNode.Composing() stack.size = ${stack.size}
-                |lifecycleState = ${context.lifecycleState}
+                |lifecycleState = ${lifecycleState}
             """.trimMargin()
         )
 

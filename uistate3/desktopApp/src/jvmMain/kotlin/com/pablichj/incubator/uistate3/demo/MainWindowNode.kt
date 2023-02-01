@@ -43,11 +43,11 @@ class MainWindowNode(
         AdaptableSizeNode = AdaptableSizeTreeBuilder.build(
             windowSizeInfoProvider
         ).also {
-            it.context.subPath = SubPath("AdaptableWindow")
+            it.subPath = SubPath("AdaptableWindow")
             it.setNavItems(subtreeNavItems, 0)
-            it.setCompactContainer(DrawerNode().apply { context.subPath = SubPath("Drawer") })
-            it.setMediumContainer(NavBarNode().apply { context.subPath = SubPath("Navbar") })
-            it.setExpandedContainer(PanelNode().apply { context.subPath = SubPath("Panel") })
+            it.setCompactContainer(DrawerNode().apply { subPath = SubPath("Drawer") })
+            it.setMediumContainer(NavBarNode().apply { subPath = SubPath("Navbar") })
+            it.setExpandedContainer(PanelNode().apply { subPath = SubPath("Panel") })
         }
     }
 
@@ -60,7 +60,7 @@ class MainWindowNode(
     }
 
     /*override */ fun onDeepLinkMatchingNode(matchingNode: Node) {
-        println("MainWindowNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.context.subPath}")
+        println("MainWindowNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.subPath}")
     }
 
     // endregion

@@ -21,14 +21,14 @@ class AppCoordinatorNode : BackStackNode<Node>() {
 
     private val SplashNode = SplashNode {
         pushNode(TopBarNode)
-    }.also { it.context.attachToParent(this@AppCoordinatorNode.context) }
+    }.also { it.attachToParent(this@AppCoordinatorNode) }
 
     private val TopBarNode: Node = TopBarNode(
         "Onboard",
         Icons.Filled.Home
     ) {
         pushNode(HomeNode)
-    }.also { it.context.attachToParent(this@AppCoordinatorNode.context) }
+    }.also { it.attachToParent(this@AppCoordinatorNode) }
 
     //todo: Use setHomeNode instead, and attach to parent context, see SplitNode class as example
     lateinit var HomeNode: Node

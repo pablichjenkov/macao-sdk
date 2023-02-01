@@ -30,7 +30,7 @@ object AdaptableSizeTreeBuilder {
         return AdaptableSizeNode(
             windowSizeInfoProvider
         ).also {
-            it.context.subPath = SubPath("AdaptableWindow")
+            it.subPath = SubPath("AdaptableWindow")
             AdaptableSizeNode = it
         }
 
@@ -43,7 +43,7 @@ object AdaptableSizeTreeBuilder {
         }
 
         val NavBarNode = NavBarNode()
-            .apply { context.subPath = SubPath("Orders") }
+            .apply { subPath = SubPath("Orders") }
 
         val navbarNavItems = mutableListOf(
             NodeItem(
@@ -51,7 +51,7 @@ object AdaptableSizeTreeBuilder {
                 icon = Icons.Filled.Home,
                 node = TopBarNode(
                     "Orders / Current", Icons.Filled.Home, {}
-                ).apply { context.subPath = SubPath("Current") },
+                ).apply { subPath = SubPath("Current") },
                 selected = false
             ),
             NodeItem(
@@ -59,14 +59,14 @@ object AdaptableSizeTreeBuilder {
                 icon = Icons.Filled.Edit,
                 node = TopBarNode(
                     "Orders / Past", Icons.Filled.Edit, {}
-                ).apply { context.subPath = SubPath("Past") },
+                ).apply { subPath = SubPath("Past") },
                 selected = false
             ),
             NodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 node = TopBarNode("Orders / Claim", Icons.Filled.Email, {})
-                    .apply { context.subPath = SubPath("Claim") },
+                    .apply { subPath = SubPath("Claim") },
                 selected = false
             )
         )
@@ -75,7 +75,7 @@ object AdaptableSizeTreeBuilder {
 
         val SettingsNode =
             TopBarNode("Settings", Icons.Filled.Email, {})
-                .apply { context.subPath = SubPath("Settings") }
+                .apply { subPath = SubPath("Settings") }
 
         val navItems = mutableListOf(
             NodeItem(
@@ -83,7 +83,7 @@ object AdaptableSizeTreeBuilder {
                 icon = Icons.Filled.Home,
                 node = TopBarNode(
                     "Home", Icons.Filled.Home, {}
-                ).apply { context.subPath = SubPath("Home") },
+                ).apply { subPath = SubPath("Home") },
                 selected = false
             ),
             NodeItem(

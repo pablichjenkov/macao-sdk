@@ -19,7 +19,7 @@ fun AndroidNodeRender(
     onBackPressEvent: () -> Unit = {}
 ) {
     LaunchedEffect(key1 = rootNode, key2 = onBackPressEvent) {
-        rootNode.context.rootNodeBackPressedDelegate = ForwardBackPressCallback {
+        rootNode.rootNodeBackPressedDelegate = ForwardBackPressCallback {
             onBackPressEvent()
         }
     }
@@ -28,13 +28,13 @@ fun AndroidNodeRender(
         lifecycleOwner = LocalLifecycleOwner.current,
         onStart = {
             println("Pablo Receiving Activity.onStart() event")
-            if (rootNode.context.lifecycleState != Node.LifecycleState.Started) {
+            if (rootNode.lifecycleState != Node.LifecycleState.Started) {
                 rootNode.start()
             }
         },
         onStop = {
             println("Pablo Receiving Activity.onStop() event")
-            if (rootNode.context.lifecycleState != Node.LifecycleState.Stopped) {
+            if (rootNode.lifecycleState != Node.LifecycleState.Stopped) {
                 rootNode.stop()
             }
         }
