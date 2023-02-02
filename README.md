@@ -3,6 +3,9 @@ Templato is a set of kotlin multiplatform template projects, ready to adapt to a
 
 Each template produces an Android, iOS, Browser and JVM application. The user of the template is responsible for the business logic and deployment of the App. Check each individual example and the wiki pages for the concepts behind templato.
 
+### Running the templates
+To run the projects you need to have the kotlin multiplatform environment setup in your working computer. For this matter visit the following link [Setup Environment](https://kotlinlang.org/docs/multiplatform-mobile-setup.html#install-the-necessary-tools). The page makes reference to an important cli tool called **kdoctor**. This tool will allow you to check if the environment is ready to build multiplatform Apps in kotlin. I recommend installing it.
+
 ---
 
 ### UiState3
