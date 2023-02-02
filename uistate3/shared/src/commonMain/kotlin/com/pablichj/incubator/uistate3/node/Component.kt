@@ -2,18 +2,19 @@ package com.pablichj.incubator.uistate3.node
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.pablichj.incubator.uistate3.node.backstack.BackPressedCallback
 import com.pablichj.incubator.uistate3.node.navigation.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
-abstract class Node : Lifecycle {
-    var parentNode: Node? = null
-    var lifecycleState: Node.LifecycleState = Node.LifecycleState.Created
+abstract class Component : Lifecycle {
+    var parentComponent: Component? = null
+    var lifecycleState: LifecycleState = LifecycleState.Created
     var subPath: SubPath = SubPath.Empty
-    internal var rootNodeBackPressedDelegate : BackPressedCallback? = null
+    internal var rootBackPressedCallbackDelegate : BackPressedCallback? = null
     internal val clazz = this::class.simpleName
 
-    internal val backPressedCallbackHandler = object : BackPressedCallback() {
+    internal val backPressedCallbackDelegate = object : BackPressedCallback() {
         override fun onBackPressed() {
             println("$clazz::onBackPressed() handling")
             handleBackPressed()
@@ -24,17 +25,14 @@ abstract class Node : Lifecycle {
     val nodeLifecycleFlow: Flow<LifecycleState>
         get() = _nodeLifecycleFlow
 
-    init {
-    }
-
     // region: Tree
 
-    fun attachToParent(parentNode: Node) {
-        if (this == parentNode) throw IllegalArgumentException("A Node cannot be its parentNode")
-        this.parentNode = parentNode
+    fun attachToParent(parentComponent: Component) {
+        if (this == parentComponent) throw IllegalArgumentException("A Node cannot be its parentNode")
+        this.parentComponent = parentComponent
     }
 
-    fun isAttached(): Boolean = parentNode != null
+    fun isAttached(): Boolean = parentComponent != null
 
     // endregion
 
@@ -48,6 +46,11 @@ abstract class Node : Lifecycle {
         _nodeLifecycleFlow.value = LifecycleState.Stopped
     }
 
+    override fun destroy() {
+        lifecycleState = LifecycleState.Destroyed
+        _nodeLifecycleFlow.value = LifecycleState.Destroyed
+    }
+
     /**
      * If a Component does not override handleBackPressed() function, the default behavior is to
      * delegate/forward the back press event upstream, for its parent Component to handle it.
@@ -58,36 +61,36 @@ abstract class Node : Lifecycle {
     }
 
     protected fun delegateBackPressedToParent() {
-        val parentNodeLocal = parentNode
+        val parentNodeLocal = parentComponent
         if (parentNodeLocal != null) {
             println("$clazz::delegateBackPressedToParent()")
-            parentNodeLocal.backPressedCallbackHandler.onBackPressed()
+            parentNodeLocal.backPressedCallbackDelegate.onBackPressed()
         } else {
             // We have reached the root Component
             println("$clazz::delegateBackPressedInRootComponent()")
-            rootNodeBackPressedDelegate?.onBackPressed()
+            rootBackPressedCallbackDelegate?.onBackPressed()
         }
 
     }
 
     // region: DeepLink
 
-    open fun onCheckChildMatchHandler(advancedPath: Path, matchingNode: Node): DeepLinkResult {
-        return matchingNode.checkDeepLinkMatch(advancedPath)
+    open fun onCheckChildMatchHandler(advancedPath: Path, matchingComponent: Component): DeepLinkResult {
+        return matchingComponent.checkDeepLinkMatch(advancedPath)
     }
 
-    open fun onNavigateChildMatchHandler(advancedPath: Path, matchingNode: Node): DeepLinkResult {
-        onDeepLinkMatchingNode(matchingNode)
-        return matchingNode.navigateUpToDeepLink(advancedPath)
+    open fun onNavigateChildMatchHandler(advancedPath: Path, matchingComponent: Component): DeepLinkResult {
+        onDeepLinkMatchingNode(matchingComponent)
+        return matchingComponent.navigateUpToDeepLink(advancedPath)
     }
 
     open val pathMatcher: IPathMatcher by lazy {
         DefaultPathMatcher
     }
 
-    protected open fun getDeepLinkNodes(): List<Node> = emptyList()
+    protected open fun getDeepLinkNodes(): List<Component> = emptyList()
 
-    protected open fun onDeepLinkMatchingNode(matchingNode: Node) {}
+    protected open fun onDeepLinkMatchingNode(matchingComponent: Component) {}
 
     fun handleDeepLink(path: Path): DeepLinkResult {
         return when (val deepLinkResult = checkDeepLinkMatch(path)) {
@@ -131,6 +134,7 @@ abstract class Node : Lifecycle {
         object Created : LifecycleState
         object Started : LifecycleState
         object Stopped : LifecycleState
+        object Destroyed : LifecycleState
     }
 
 }
@@ -138,4 +142,5 @@ abstract class Node : Lifecycle {
 interface Lifecycle {
     fun start()
     fun stop()
+    fun destroy()
 }

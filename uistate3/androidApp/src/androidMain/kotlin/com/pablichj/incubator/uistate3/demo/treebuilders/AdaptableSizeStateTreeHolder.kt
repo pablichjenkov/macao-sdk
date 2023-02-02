@@ -7,21 +7,22 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
 import androidx.lifecycle.ViewModel
 import com.pablichj.incubator.uistate3.node.NodeItem
-import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeNode
+import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeComponent
 import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
-import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
-import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
-import example.nodes.TopBarNode
-import com.pablichj.incubator.uistate3.node.panel.PanelNode
+import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
+import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
+import example.nodes.TopBarComponent
+import com.pablichj.incubator.uistate3.node.panel.PanelComponent
+import com.pablichj.incubator.uistate3.node.setItems
 
 class AdaptableSizeStateTreeHolder : ViewModel() {
 
-    private lateinit var AdaptableSizeNode: AdaptableSizeNode
+    private lateinit var AdaptableSizeNode: AdaptableSizeComponent
     private lateinit var subTreeNavItems: MutableList<NodeItem>
 
     fun getOrCreate(
         windowSizeInfoProvider: IWindowSizeInfoProvider,
-    ): AdaptableSizeNode {
+    ): AdaptableSizeComponent {
 
         if (this::AdaptableSizeNode.isInitialized) {
             return AdaptableSizeNode.apply {
@@ -29,15 +30,15 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
             }
         }
 
-        return AdaptableSizeNode(
+        return AdaptableSizeComponent(
             windowSizeInfoProvider
         ).also {
             it.setNavItems(
                 getOrCreateDetachedNavItems(), 0
             )
-            it.setCompactContainer(DrawerNode())
-            it.setMediumContainer(NavBarNode())
-            it.setExpandedContainer(PanelNode())
+            it.setCompactContainer(DrawerComponent())
+            it.setMediumContainer(NavBarComponent())
+            it.setExpandedContainer(PanelComponent())
             AdaptableSizeNode = it
         }
 
@@ -49,25 +50,25 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
             return subTreeNavItems
         }
 
-        val NavBarNode = NavBarNode()
+        val NavBarNode = NavBarComponent()
 
         val navbarNavItems = mutableListOf(
             NodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                node = TopBarNode("Orders / Current", Icons.Filled.Home) {},
+                component = TopBarComponent("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                node = TopBarNode("Orders / Past", Icons.Filled.Edit) {},
+                component = TopBarComponent("Orders / Past", Icons.Filled.Edit) {},
                 selected = false
             ),
             NodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                node = TopBarNode("Orders / Claim", Icons.Filled.Email) {},
+                component = TopBarComponent("Orders / Claim", Icons.Filled.Email) {},
                 selected = false
             )
         )
@@ -78,7 +79,7 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
             NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                node = TopBarNode(
+                component = TopBarComponent(
                     "Home",
                     Icons.Filled.Home
                 ) {},
@@ -87,13 +88,13 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
             NodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
-                node = NavBarNode,
+                component = NavBarNode,
                 selected = false
             ),
             NodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node = TopBarNode(
+                component = TopBarComponent(
                     "Settings",
                     Icons.Filled.Email
                 ) {},

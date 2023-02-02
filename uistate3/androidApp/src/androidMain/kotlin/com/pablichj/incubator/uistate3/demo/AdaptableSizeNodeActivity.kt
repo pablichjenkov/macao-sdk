@@ -9,14 +9,13 @@ import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
 import com.pablichj.incubator.uistate3.AndroidNodeRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeStateTreeHolder
-import com.pablichj.incubator.uistate3.node.AndroidBackPressDispatcher
 import com.pablichj.incubator.uistate3.node.AndroidWindowSizeInfoProvider
-import com.pablichj.incubator.uistate3.node.Node
+import com.pablichj.incubator.uistate3.node.Component
 
 class AdaptableSizeNodeActivity : ComponentActivity() {
 
     private val stateTreeHolder by viewModels<AdaptableSizeStateTreeHolder>()
-    private lateinit var StateTree: Node
+    private lateinit var StateTree: Component
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +28,7 @@ class AdaptableSizeNodeActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 AndroidNodeRender(
-                    rootNode = StateTree,
+                    rootComponent = StateTree,
                     onBackPressEvent = { finish() }
                 )
             }

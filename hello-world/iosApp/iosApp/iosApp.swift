@@ -9,7 +9,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         
         let mainViewController = Main_iosKt.IosNodeRender(
-            rootNode: HelloWorldNode(),
+            rootComponent: HelloWorldComponent(),
             appName: "Hello World"
         )
         

@@ -11,13 +11,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import com.pablichj.incubator.uistate3.node.Node
+import com.pablichj.incubator.uistate3.node.Component
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class SplashNode(
+class SplashComponent(
     val onDone: () -> Unit
-) : Node() {
+) : Component() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
     private var splashJob: Job? = null

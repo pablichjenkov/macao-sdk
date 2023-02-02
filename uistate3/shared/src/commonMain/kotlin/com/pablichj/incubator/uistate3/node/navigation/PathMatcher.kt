@@ -1,14 +1,14 @@
 package com.pablichj.incubator.uistate3.node.navigation
 
-import com.pablichj.incubator.uistate3.node.Node
+import com.pablichj.incubator.uistate3.node.Component
 
 object DefaultPathMatcher : IPathMatcher {
 
     override fun traverseWithChildMatchAction(
         path: Path,
         currentNodeSubPath: SubPath,
-        deepLinkNodes: List<Node>,
-        onChildMatchAction: (path: Path, matchingNode: Node) -> DeepLinkResult
+        deepLinkComponents: List<Component>,
+        onChildMatchAction: (path: Path, matchingComponent: Component) -> DeepLinkResult
     ): DeepLinkResult {
         // Check that current Path route matches current parent node
         val currentRoute = path.getCurrentSubPath().route
@@ -28,7 +28,7 @@ object DefaultPathMatcher : IPathMatcher {
         // Check at least a child matches any of the child subPath routes
         val childSubPathToMatch = path.getNextSubPath()
 
-        val matchingNode = deepLinkNodes
+        val matchingNode = deepLinkComponents
             .filterNot {
                 println("Checking link: ${it.subPath.route}")
                 it.subPath == SubPath.Empty
@@ -56,8 +56,8 @@ interface IPathMatcher {
     fun traverseWithChildMatchAction(
         path: Path,
         currentNodeSubPath: SubPath,
-        deepLinkNodes: List<Node>,
-        onChildMatchAction: (path: Path, matchingNode: Node) -> DeepLinkResult
+        deepLinkComponents: List<Component>,
+        onChildMatchAction: (path: Path, matchingComponent: Component) -> DeepLinkResult
     ): DeepLinkResult
 }
 

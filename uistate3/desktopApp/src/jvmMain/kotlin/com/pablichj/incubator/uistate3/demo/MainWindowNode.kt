@@ -11,14 +11,14 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import com.pablichj.incubator.uistate3.DesktopNodeRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeTreeBuilder
-import com.pablichj.incubator.uistate3.node.DefaultBackPressDispatcher
+import com.pablichj.incubator.uistate3.node.backstack.DefaultBackPressDispatcher
 import com.pablichj.incubator.uistate3.node.JvmWindowSizeInfoProvider
-import com.pablichj.incubator.uistate3.node.Node
-import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
-import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
+import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
+import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.navigation.Path
 import com.pablichj.incubator.uistate3.node.navigation.SubPath
-import com.pablichj.incubator.uistate3.node.panel.PanelNode
+import com.pablichj.incubator.uistate3.node.panel.PanelComponent
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -34,20 +34,20 @@ class MainWindowNode(
     // todo: get this from a compositionlocalprovider
     private val windowSizeInfoProvider = JvmWindowSizeInfoProvider(windowState)
     private val defaultBackPressDispatcher = DefaultBackPressDispatcher()
-    private var AdaptableSizeNode: Node
+    private var adaptableSizeComponent: Component
 
     init {
         //this@MainWindowNode.context.subPath = SubPath("App")
         val subtreeNavItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
 
-        AdaptableSizeNode = AdaptableSizeTreeBuilder.build(
+        adaptableSizeComponent = AdaptableSizeTreeBuilder.build(
             windowSizeInfoProvider
         ).also {
             it.subPath = SubPath("AdaptableWindow")
             it.setNavItems(subtreeNavItems, 0)
-            it.setCompactContainer(DrawerNode().apply { subPath = SubPath("Drawer") })
-            it.setMediumContainer(NavBarNode().apply { subPath = SubPath("Navbar") })
-            it.setExpandedContainer(PanelNode().apply { subPath = SubPath("Panel") })
+            it.setCompactContainer(DrawerComponent().apply { subPath = SubPath("Drawer") })
+            it.setMediumContainer(NavBarComponent().apply { subPath = SubPath("Navbar") })
+            it.setExpandedContainer(PanelComponent().apply { subPath = SubPath("Panel") })
         }
     }
 
@@ -55,12 +55,12 @@ class MainWindowNode(
 
     fun handleDeepLink(path: Path) {}
 
-    /*override */fun getDeepLinkNodes(): List<Node> {
-        return listOf(AdaptableSizeNode)
+    /*override */fun getDeepLinkNodes(): List<Component> {
+        return listOf(adaptableSizeComponent)
     }
 
-    /*override */ fun onDeepLinkMatchingNode(matchingNode: Node) {
-        println("MainWindowNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.subPath}")
+    /*override */ fun onDeepLinkMatchingNode(matchingComponent: Component) {
+        println("MainWindowNode.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
     }
 
     // endregion
@@ -130,7 +130,7 @@ class MainWindowNode(
             }*/
 
             DesktopNodeRender(
-                rootNode = AdaptableSizeNode,
+                rootComponent = adaptableSizeComponent,
                 onBackPressEvent = { exitProcess(0) }
             )
 
@@ -140,7 +140,7 @@ class MainWindowNode(
             launch {
                 snapshotFlow { windowState.isMinimized }
                     .onEach {
-                        onWindowMinimized(AdaptableSizeNode, it)
+                        onWindowMinimized(adaptableSizeComponent, it)
                     }
                     .launchIn(this)
             }
@@ -148,11 +148,11 @@ class MainWindowNode(
 
     }
 
-    private fun onWindowMinimized(activeNode: Node, minimized: Boolean) {
+    private fun onWindowMinimized(activeComponent: Component, minimized: Boolean) {
         if (minimized) {
-            activeNode.stop()
+            activeComponent.stop()
         } else {
-            activeNode.start()
+            activeComponent.start()
         }
     }
 

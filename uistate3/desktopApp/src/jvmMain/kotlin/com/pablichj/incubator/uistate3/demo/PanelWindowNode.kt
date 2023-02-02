@@ -12,14 +12,13 @@ import com.pablichj.incubator.uistate3.node.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlin.system.exitProcess
 
 class PanelWindowNode(
     val onCloseClick: () -> Unit
 ) : WindowNode {
     private val windowState = WindowState()
 
-    private var PanelNode: Node = PanelTreeBuilder.build()
+    private var panelComponent: Component = PanelTreeBuilder.build()
 
     @Composable
     override fun WindowContent(modifier: Modifier) {
@@ -28,7 +27,7 @@ class PanelWindowNode(
             onCloseRequest = { onCloseClick() }
         ) {
             DesktopNodeRender(
-                rootNode = PanelNode,
+                rootComponent = panelComponent,
                 onBackPressEvent = { onCloseClick }
             )
         }
@@ -37,18 +36,18 @@ class PanelWindowNode(
             launch {
                 snapshotFlow { windowState.isMinimized }
                     .onEach {
-                        onWindowMinimized(PanelNode, it)
+                        onWindowMinimized(panelComponent, it)
                     }
                     .launchIn(this)
             }
         }
     }
 
-    private fun onWindowMinimized(RootNode: Node, minimized: Boolean) {
+    private fun onWindowMinimized(rootComponent: Component, minimized: Boolean) {
         if (minimized) {
-            RootNode.stop()
+            rootComponent.stop()
         } else {
-            RootNode.start()
+            rootComponent.start()
         }
     }
 

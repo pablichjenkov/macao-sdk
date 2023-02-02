@@ -2,18 +2,18 @@ package example.helloworld
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.pablichj.incubator.uistate3.node.BackPressHandler
-import com.pablichj.incubator.uistate3.node.Node
+import com.pablichj.incubator.uistate3.node.backstack.BackPressHandler
+import com.pablichj.incubator.uistate3.node.Component
 
-class HelloWorldNode : Node() {
+class HelloWorldComponent : Component() {
 
     private val helloWorldState = HelloWorldState()
 
     @Composable
     override fun Content(modifier: Modifier) {
         BackPressHandler(
-            node = this,
-            onBackPressed = { backPressedCallbackHandler.onBackPressed() }
+            component = this,
+            onBackPressed = { backPressedCallbackDelegate.onBackPressed() }
         )
         HelloWorldView(helloWorldState)
     }

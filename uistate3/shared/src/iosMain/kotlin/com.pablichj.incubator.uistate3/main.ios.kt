@@ -2,21 +2,19 @@ package com.pablichj.incubator.uistate3
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Application
-import com.pablichj.incubator.uistate3.node.DefaultBackPressDispatcher
-import com.pablichj.incubator.uistate3.node.ForwardBackPressCallback
-import com.pablichj.incubator.uistate3.node.LocalBackPressedDispatcher
-import com.pablichj.incubator.uistate3.node.Node
+import com.pablichj.incubator.uistate3.node.backstack.DefaultBackPressDispatcher
+import com.pablichj.incubator.uistate3.node.backstack.ForwardBackPressCallback
+import com.pablichj.incubator.uistate3.node.backstack.LocalBackPressedDispatcher
+import com.pablichj.incubator.uistate3.node.Component
 import platform.UIKit.UIViewController
 
 fun IosNodeRender(
-    rootNode: Node,
+    rootComponent: Component,
     appName: String
 ): UIViewController = Application(appName) {
 
@@ -29,7 +27,7 @@ fun IosNodeRender(
     ) {
         Box(modifier = Modifier.padding(top = 45.dp).fillMaxSize()) {
 
-            rootNode.Content(Modifier.fillMaxSize())
+            rootComponent.Content(Modifier.fillMaxSize())
 
             /* todo: Implement it outside this class in swift code*/
             /*FloatingButton(
@@ -40,16 +38,16 @@ fun IosNodeRender(
         }
     }
 
-    LaunchedEffect(key1 = rootNode/*, key2 = onBackPressEvent*/) {
-        rootNode.rootNodeBackPressedDelegate = ForwardBackPressCallback {
+    LaunchedEffect(key1 = rootComponent/*, key2 = onBackPressEvent*/) {
+        rootComponent.rootBackPressedCallbackDelegate = ForwardBackPressCallback {
             //onBackPressEvent()
             println("back pressed dispatched in root node")
         }
-        rootNode.start()
+        rootComponent.start()
     }
 }
 
 
-fun buildDrawerNode(): Node {
+fun buildDrawerNode(): Component {
     return DrawerTreeBuilder.build()
 }

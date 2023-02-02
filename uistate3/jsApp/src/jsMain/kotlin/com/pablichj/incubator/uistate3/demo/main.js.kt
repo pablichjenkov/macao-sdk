@@ -1,9 +1,5 @@
 package com.pablichj.incubator.uistate3.demo
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.window.Window
 import com.pablichj.incubator.uistate3.BrowserNodeRender
 import com.pablichj.incubator.uistate3.BrowserViewportWindow
 import org.jetbrains.skiko.wasm.onWasmReady
@@ -25,7 +21,7 @@ fun main() {
         }*/
         BrowserViewportWindow("Hello World") {
             BrowserNodeRender(
-                rootNode = PanelNode,
+                rootComponent = PanelNode,
                 onBackPressEvent = {
                     println("Back press dispatched in root node")
                 }

@@ -12,14 +12,13 @@ import com.pablichj.incubator.uistate3.node.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlin.system.exitProcess
 
 class NavBarWindowNode(
     val onCloseClick: () -> Unit
 ) : WindowNode {
     private val windowState = WindowState()
 
-    private var NavBarNode: Node = NavBarTreeBuilder.build()
+    private var navBarComponent: Component = NavBarTreeBuilder.build()
 
     @Composable
     override fun WindowContent(modifier: Modifier) {
@@ -28,7 +27,7 @@ class NavBarWindowNode(
             onCloseRequest = { onCloseClick() }
         ) {
             DesktopNodeRender(
-                rootNode = NavBarNode,
+                rootComponent = navBarComponent,
                 onBackPressEvent = { onCloseClick }
             )
             //NavBarNode.Content(Modifier)
@@ -39,18 +38,18 @@ class NavBarWindowNode(
             launch {
                 snapshotFlow { windowState.isMinimized }
                     .onEach {
-                        onWindowMinimized(NavBarNode, it)
+                        onWindowMinimized(navBarComponent, it)
                     }
                     .launchIn(this)
             }
         }
     }
 
-    private fun onWindowMinimized(RootNode: Node, minimized: Boolean) {
+    private fun onWindowMinimized(rootComponent: Component, minimized: Boolean) {
         if (minimized) {
-            RootNode.stop()
+            rootComponent.stop()
         } else {
-            RootNode.start()
+            rootComponent.start()
         }
     }
 

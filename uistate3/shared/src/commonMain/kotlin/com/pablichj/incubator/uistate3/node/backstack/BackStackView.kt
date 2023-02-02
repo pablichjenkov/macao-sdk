@@ -1,6 +1,7 @@
-package com.pablichj.incubator.uistate3.node
+package com.pablichj.incubator.uistate3.node.backstack
 
 import androidx.compose.runtime.*
+import com.pablichj.incubator.uistate3.node.Component
 
 /**
  * This [Composable] can be used with a [LocalBackPressedDispatcher] to intercept a back press.
@@ -10,7 +11,7 @@ import androidx.compose.runtime.*
  */
 @Composable
 internal fun BackPressHandler(
-    node: Node,
+    component: Component,
     onBackPressed: () -> Unit
 ) {
     // Safely update the current `onBack` lambda when a new one is provided
@@ -30,19 +31,22 @@ internal fun BackPressHandler(
     }
 
     val backPressDispatcher = LocalBackPressedDispatcher.current
-    val nodeLifecycleState by node.nodeLifecycleFlow.collectAsState(Node.LifecycleState.Created)
+    val componentLifecycleState by component.nodeLifecycleFlow.collectAsState(Component.LifecycleState.Created)
 
-    when (nodeLifecycleState) {
-        Node.LifecycleState.Created -> {
+    when (componentLifecycleState) {
+        Component.LifecycleState.Created -> {
             // Ignore
         }
-        Node.LifecycleState.Started -> {
-            println("${node.clazz}::onStart, BackPressHandler Subscribing")
+        Component.LifecycleState.Started -> {
+            println("${component.clazz}::onStart, BackPressHandler Subscribing")
             backPressDispatcher.subscribe(backPressCallback)
         }
-        Node.LifecycleState.Stopped -> {
-            println("${node.clazz}::onStop BackPressHandler Unsubscribing")
+        Component.LifecycleState.Stopped -> {
+            println("${component.clazz}::onStop BackPressHandler Unsubscribing")
             backPressDispatcher.unsubscribe(backPressCallback)
+        }
+        Component.LifecycleState.Destroyed -> {
+
         }
     }
 

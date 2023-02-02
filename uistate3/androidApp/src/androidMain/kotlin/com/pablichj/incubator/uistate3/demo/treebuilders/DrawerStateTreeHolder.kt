@@ -5,50 +5,51 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.lifecycle.ViewModel
-import com.pablichj.incubator.uistate3.node.Node
+import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.NodeItem
-import com.pablichj.incubator.uistate3.node.PagerNode
-import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
-import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
-import example.nodes.TopBarNode
+import com.pablichj.incubator.uistate3.node.PagerComponent
+import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
+import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
+import com.pablichj.incubator.uistate3.node.setItems
+import example.nodes.TopBarComponent
 
 class DrawerStateTreeHolder : ViewModel() {
 
-    private lateinit var DrawerNode: DrawerNode
+    private lateinit var DrawerNode: DrawerComponent
 
-    fun getOrCreate(): Node {
+    fun getOrCreate(): Component {
 
         if (this@DrawerStateTreeHolder::DrawerNode.isInitialized) {
             return DrawerNode
         }
 
-        DrawerNode = DrawerNode()
+        DrawerNode = DrawerComponent()
 
-        val TopBarNode = TopBarNode(
+        val TopBarNode = TopBarComponent(
             "Home",
             Icons.Filled.Home
         ) {}
 
-        val NavBarNode = NavBarNode()
-        val PagerNode = PagerNode()
+        val NavBarNode = NavBarComponent()
+        val PagerNode = PagerComponent()
 
         val navbarNavItems = mutableListOf(
             NodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                node = TopBarNode("Orders / Current", Icons.Filled.Home) {},
+                component = TopBarComponent("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                node = TopBarNode("Orders / Past", Icons.Filled.Edit) {},
+                component = TopBarComponent("Orders / Past", Icons.Filled.Edit) {},
                 selected = false
             ),
             NodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                node = TopBarNode("Orders / Claim", Icons.Filled.Email) {},
+                component = TopBarComponent("Orders / Claim", Icons.Filled.Email) {},
                 selected = false
             )
         )
@@ -57,7 +58,7 @@ class DrawerStateTreeHolder : ViewModel() {
             NodeItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
-                node = TopBarNode(
+                component = TopBarComponent(
                     "Settings / Account",
                     Icons.Filled.Home
                 ) {},
@@ -66,7 +67,7 @@ class DrawerStateTreeHolder : ViewModel() {
             NodeItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
-                node = TopBarNode(
+                component = TopBarComponent(
                     "Settings / Profile",
                     Icons.Filled.Edit
                 ) {},
@@ -75,7 +76,7 @@ class DrawerStateTreeHolder : ViewModel() {
             NodeItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
-                node = TopBarNode(
+                component = TopBarComponent(
                     "Settings / About Us",
                     Icons.Filled.Email
                 ) {},
@@ -87,19 +88,19 @@ class DrawerStateTreeHolder : ViewModel() {
             NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                node = TopBarNode,
+                component = TopBarNode,
                 selected = false
             ),
             NodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
-                node = NavBarNode.also { it.setItems(navbarNavItems, 0) },
+                component = NavBarNode.also { it.setItems(navbarNavItems, 0) },
                 selected = false
             ),
             NodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node = PagerNode.also { it.setItems(pagerNavItems, 0) },
+                component = PagerNode.also { it.setItems(pagerNavItems, 0) },
                 selected = false
             )
         )

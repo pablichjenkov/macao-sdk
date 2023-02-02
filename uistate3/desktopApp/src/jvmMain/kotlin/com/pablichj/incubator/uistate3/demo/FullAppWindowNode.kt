@@ -10,7 +10,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import com.pablichj.incubator.uistate3.DesktopNodeRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.FullAppWithIntroTreeBuilder
-import com.pablichj.incubator.uistate3.node.Node
+import com.pablichj.incubator.uistate3.node.Component
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ class FullAppWindowNode(
 ) : WindowNode {
     private val windowState = WindowState(size = DpSize(800.dp, 900.dp))
 
-    private var activeNode: Node = FullAppWithIntroTreeBuilder.build()
+    private var activeComponent: Component = FullAppWithIntroTreeBuilder.build()
 
     @Composable
     override fun WindowContent(modifier: Modifier) {
@@ -29,7 +29,7 @@ class FullAppWindowNode(
             onCloseRequest = { onCloseClick() }
         ) {
             DesktopNodeRender(
-                rootNode = activeNode,
+                rootComponent = activeComponent,
                 onBackPressEvent = { onCloseClick }
             )
         }
@@ -38,18 +38,18 @@ class FullAppWindowNode(
             launch {
                 snapshotFlow { windowState.isMinimized }
                     .onEach {
-                        onWindowMinimized(activeNode, it)
+                        onWindowMinimized(activeComponent, it)
                     }
                     .launchIn(this)
             }
         }
     }
 
-    private fun onWindowMinimized(RootNode: Node, minimized: Boolean) {
+    private fun onWindowMinimized(rootComponent: Component, minimized: Boolean) {
         if (minimized) {
-            RootNode.stop()
+            rootComponent.stop()
         } else {
-            RootNode.start()
+            rootComponent.start()
         }
     }
 

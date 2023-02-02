@@ -3,39 +3,40 @@ package com.pablichj.incubator.uistate3.demo
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import com.pablichj.incubator.uistate3.node.NodeItem
-import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
-import com.pablichj.incubator.uistate3.node.panel.PanelNode
-import example.nodes.TopBarNode
+import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
+import com.pablichj.incubator.uistate3.node.panel.PanelComponent
+import com.pablichj.incubator.uistate3.node.setItems
+import example.nodes.TopBarComponent
 
 object PanelTreeBuilder {
 
-    private lateinit var PanelNode: PanelNode
+    private lateinit var PanelNode: PanelComponent
 
-    fun build(): PanelNode {
+    fun build(): PanelComponent {
 
         if (PanelTreeBuilder::PanelNode.isInitialized) {
             return PanelNode
         }
 
-        val PanelNode = PanelNode()
+        val PanelNode = PanelComponent()
 
         val panelNavItems = mutableListOf(
             NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                node = TopBarNode("Home", Icons.Filled.Home) {},
+                component = TopBarComponent("Home", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
-                node = buildNavBarNode(),
+                component = buildNavBarNode(),
                 selected = false
             ),
             NodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node = TopBarNode("Settings", Icons.Filled.Email) {},
+                component = TopBarComponent("Settings", Icons.Filled.Email) {},
                 selected = false
             )
         )
@@ -43,27 +44,27 @@ object PanelTreeBuilder {
         return PanelNode.also { it.setItems(panelNavItems, 0) }
     }
 
-    private fun buildNavBarNode(): NavBarNode {
+    private fun buildNavBarNode(): NavBarComponent {
 
-        val NavBarNode = NavBarNode()
+        val NavBarNode = NavBarComponent()
 
         val navbarNavItems = mutableListOf(
             NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                node = TopBarNode("Home", Icons.Filled.Home) {},
+                component = TopBarComponent("Home", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
-                node = TopBarNode("Orders", Icons.Filled.Settings) {},
+                component = TopBarComponent("Orders", Icons.Filled.Settings) {},
                 selected = false
             ),
             NodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Add,
-                node = TopBarNode("Settings", Icons.Filled.Add) {},
+                component = TopBarComponent("Settings", Icons.Filled.Add) {},
                 selected = false
             )
         )
