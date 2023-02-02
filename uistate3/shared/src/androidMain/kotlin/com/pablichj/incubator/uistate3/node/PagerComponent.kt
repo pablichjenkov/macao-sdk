@@ -6,10 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,26 +16,25 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
+import com.pablichj.incubator.uistate3.node.backstack.BackStack
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
-class PagerNode : Node(), ContainerNode {
-
-    //private var nodeCoroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
+class PagerComponent : Component(), Container {
+    override val backStack = BackStack<Component>()
+    override var navItems: MutableList<NodeItem> = mutableListOf()
+    override var selectedIndex: Int = 0
+    override var childComponents: MutableList<Component> = mutableListOf()
+    override var activeComponent: MutableState<Component?> = mutableStateOf(null)
+    private var pagerState = PagerState(selectedIndex)
     // Used to call functions in specific Composable's States that need a monotonic clock
     private lateinit var composableCoroutineScope: CoroutineScope
-    private var activeNode: Node? = null
-    private var selectedIndex = 0
-    private var navItems: MutableList<NodeItem> = mutableListOf()
-    private var childNodes: MutableList<Node> = mutableListOf(EmptyNode())
-    private var pagerState = PagerState(selectedIndex)
-    override val stack = ArrayDeque<Node>()
 
     override fun start() {
         super.start()
-        val childNodesLocal = childNodes
-        val activeNodeLocal = activeNode
+        val childNodesLocal = childComponents
+        val activeNodeLocal = activeComponent.value
         if (activeNodeLocal == null) {
             if (childNodesLocal.size > selectedIndex) {
                 println("PagerNode::start() with selectedIndex = $selectedIndex")
@@ -54,7 +50,7 @@ class PagerNode : Node(), ContainerNode {
 
     override fun stop() {
         super.stop()
-        activeNode?.stop()
+        activeComponent.value?.stop()
     }
 
     override fun handleBackPressed() {
@@ -65,64 +61,47 @@ class PagerNode : Node(), ContainerNode {
         }
     }
 
-    // region: NavigatorNode
+    // region: NavigatorItemsManagerNode
 
-    override fun getNode(): Node {
+    override fun getComponent(): Component {
         return this
     }
 
-    override fun getSelectedItemIndex(): Int {
-        return selectedIndex
+    override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NodeItem>) {
+        //navBarState.navItems = navItems
+        //navBarState.selectNavItem(navItems[selectedIndex])
+        if (getComponent().lifecycleState == LifecycleState.Started) {
+            backStack.push(childComponents[selectedIndex])
+        }
     }
 
-    override fun setItems(
-        navItemsList: MutableList<NodeItem>,
-        selectedIndex: Int,
-        isTransfer: Boolean
-    ) {
-        this.selectedIndex = selectedIndex
+    /**
+     * TODO: Try to update the navitem instead, using a Backstack<NavItem>, sounds more efficient
+     * */
+    override fun updateSelectedNavItem(newTop: Component) {
 
-        navItems = navItemsList.map { it }.toMutableList()
-
-        this.childNodes = navItems.mapIndexed { idx, navItem ->
-            navItem.node.also {
-                it.attachToParent(this@PagerNode)
-            }
-        }.toMutableList()
-
-        updateScreen()
     }
 
-    override fun getItems(): MutableList<NodeItem> {
-        return this.navItems
-    }
-
-    override fun addItem(nodeItem: NodeItem, index: Int) {
-        childNodes.add(index, nodeItem.node)
-        updateScreen()
-    }
-
-    override fun removeItem(index: Int) {
-        childNodes.removeAt(index)
-        updateScreen()
-    }
-
-    override fun clearItems() {
-        childNodes.clear()
-        childNodes.add(EmptyNode())
+    override fun onDestroyChildComponent(component: Component) {
+        if (component.lifecycleState == LifecycleState.Started) {
+            component.stop()
+            component.destroy()
+        } else {
+            component.destroy()
+        }
     }
 
     // endregion
 
     // region: DeepLink
 
-    override fun getDeepLinkNodes(): List<Node> {
-        return childNodes
+    override fun getDeepLinkNodes(): List<Component> {
+        return childComponents
     }
 
-    override fun onDeepLinkMatchingNode(matchingNode: Node) {
-        println("PagerNode.onDeepLinkMatchingNode() matchingNode = ${matchingNode.subPath}")
-        val matchingNodeIndex = childNodes.indexOf(matchingNode)
+    override fun onDeepLinkMatchingNode(matchingComponent: Component) {
+        println("PagerNode.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
+        val matchingNodeIndex = childComponents.indexOf(matchingComponent)
         if (matchingNodeIndex > 0) {
             selectPage(matchingNodeIndex)
         }
@@ -145,21 +124,21 @@ class PagerNode : Node(), ContainerNode {
     private fun onPageChanged(pageIndex: Int) {
         println("PagerNode::onPageChanged newPage = $pageIndex")
         // Lets dispatch the appropriate lifecycle events
-        val previousNode = activeNode
-        val currentNode = childNodes[pageIndex]
+        val previousNode = activeComponent
+        val currentNode = childComponents[pageIndex]
 
-        previousNode?.stop()
+        previousNode.value?.stop()
         currentNode.start()
 
         selectedIndex = pageIndex
-        activeNode = currentNode
+        activeComponent.value = currentNode
     }
 
     @Composable
     override fun Content(modifier: Modifier) {
         println("PagerNode::Composing() currentPage = ${pagerState.currentPage}")
         println(
-            """PagerNode.Composing() stack.size = ${stack.size}
+            """PagerNode.Composing() stack.size = ${backStack.size()}
                 |currentPage = ${pagerState.currentPage}
                 |lifecycleState = ${lifecycleState}
             """.trimMargin()
@@ -169,14 +148,14 @@ class PagerNode : Node(), ContainerNode {
 
         Box {
             HorizontalPager(
-                count = childNodes.size,
+                count = childComponents.size,
                 modifier = Modifier
                     .fillMaxSize()
                     .border(2.dp, Color.Blue)
                     .padding(4.dp),
                 state = pagerState
             ) { pageIndex ->
-                childNodes[pageIndex].Content(modifier = modifier)
+                childComponents[pageIndex].Content(modifier = modifier)
             }
             HorizontalPagerIndicator(
                 pagerState = pagerState,
@@ -197,7 +176,7 @@ class PagerNode : Node(), ContainerNode {
 
 }
 
-private class EmptyNode : Node() {
+private class EmptyComponent : Component() {
     @Composable
     override fun Content(modifier: Modifier) {
         Box {

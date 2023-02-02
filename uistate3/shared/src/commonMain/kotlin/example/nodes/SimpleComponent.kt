@@ -11,14 +11,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pablichj.incubator.uistate3.node.BackPressHandler
-import com.pablichj.incubator.uistate3.node.Node
+import com.pablichj.incubator.uistate3.node.backstack.BackPressHandler
+import com.pablichj.incubator.uistate3.node.Component
 
-class SimpleNode(
+class SimpleComponent(
     val text: String,
     val bgColor: Color,
     val onMessage: (Msg) -> Unit
-) : Node() {
+) : Component() {
 
     sealed interface Msg {
         object Next : Msg
@@ -28,8 +28,8 @@ class SimpleNode(
     override fun Content(modifier: Modifier) {
         println("OnboardingStepNode::Composing()")
         BackPressHandler(
-            node = this,
-            onBackPressed = { this.backPressedCallbackHandler.onBackPressed() }
+            component = this,
+            onBackPressed = { this.backPressedCallbackDelegate.onBackPressed() }
         )
         Box(modifier = modifier.fillMaxSize().background(bgColor)) {
             Text(

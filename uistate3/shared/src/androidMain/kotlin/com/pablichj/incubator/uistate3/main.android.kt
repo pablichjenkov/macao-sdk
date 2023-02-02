@@ -9,17 +9,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import com.pablichj.incubator.uistate3.node.AndroidBackPressDispatcher
-import com.pablichj.incubator.uistate3.node.ForwardBackPressCallback
-import com.pablichj.incubator.uistate3.node.LocalBackPressedDispatcher
-import com.pablichj.incubator.uistate3.node.Node
+import com.pablichj.incubator.uistate3.node.backstack.ForwardBackPressCallback
+import com.pablichj.incubator.uistate3.node.backstack.LocalBackPressedDispatcher
+import com.pablichj.incubator.uistate3.node.Component
 
 @Composable
 fun AndroidNodeRender(
-    rootNode: Node,
+    rootComponent: Component,
     onBackPressEvent: () -> Unit = {}
 ) {
-    LaunchedEffect(key1 = rootNode, key2 = onBackPressEvent) {
-        rootNode.rootNodeBackPressedDelegate = ForwardBackPressCallback {
+    LaunchedEffect(key1 = rootComponent, key2 = onBackPressEvent) {
+        rootComponent.rootBackPressedCallbackDelegate = ForwardBackPressCallback {
             onBackPressEvent()
         }
     }
@@ -28,14 +28,14 @@ fun AndroidNodeRender(
         lifecycleOwner = LocalLifecycleOwner.current,
         onStart = {
             println("Pablo Receiving Activity.onStart() event")
-            if (rootNode.lifecycleState != Node.LifecycleState.Started) {
-                rootNode.start()
+            if (rootComponent.lifecycleState != Component.LifecycleState.Started) {
+                rootComponent.start()
             }
         },
         onStop = {
             println("Pablo Receiving Activity.onStop() event")
-            if (rootNode.lifecycleState != Node.LifecycleState.Stopped) {
-                rootNode.stop()
+            if (rootComponent.lifecycleState != Component.LifecycleState.Stopped) {
+                rootComponent.stop()
             }
         }
     )
@@ -45,7 +45,7 @@ fun AndroidNodeRender(
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides AndroidBackPressDispatcher(activity)
     ) {
-        rootNode.Content(Modifier.fillMaxSize())
+        rootComponent.Content(Modifier.fillMaxSize())
     }
 
 }

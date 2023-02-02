@@ -6,41 +6,41 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.lifecycle.ViewModel
 import com.pablichj.incubator.uistate3.node.*
-import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
-import example.nodes.TopBarNode
+import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
+import example.nodes.TopBarComponent
 
 class PagerStateTreeHolder : ViewModel() {
 
-    private lateinit var PagerNode: PagerNode
+    private lateinit var PagerNode: PagerComponent
 
-    fun getOrCreate(): Node {
+    fun getOrCreate(): Component {
 
         if (this@PagerStateTreeHolder::PagerNode.isInitialized) {
             return PagerNode
         }
 
-        PagerNode = PagerNode()
+        PagerNode = PagerComponent()
 
-        val NavBarNode1 = NavBarNode()
-        val NavBarNode2 = NavBarNode()
+        val NavBarNode1 = NavBarComponent()
+        val NavBarNode2 = NavBarComponent()
 
         val navbarNavItems1 = mutableListOf(
             NodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                node = TopBarNode("Orders/ Current") {},
+                component = TopBarComponent("Orders/ Current") {},
                 selected = false
             ),
             NodeItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                node = TopBarNode("Orders / Past") {},
+                component = TopBarComponent("Orders / Past") {},
                 selected = false
             ),
             NodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                node = TopBarNode("Orders / Claim") {},
+                component = TopBarComponent("Orders / Claim") {},
                 selected = false
             )
         )
@@ -49,19 +49,19 @@ class PagerStateTreeHolder : ViewModel() {
             NodeItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
-                node = TopBarNode("Settings / Account") {},
+                component = TopBarComponent("Settings / Account") {},
                 selected = false
             ),
             NodeItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
-                node = TopBarNode("Settings / Profile") {},
+                component = TopBarComponent("Settings / Profile") {},
                 selected = false
             ),
             NodeItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
-                node = TopBarNode("Settings / About Us") {},
+                component = TopBarComponent("Settings / About Us") {},
                 selected = false
             )
         )
@@ -70,19 +70,19 @@ class PagerStateTreeHolder : ViewModel() {
             NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                node = TopBarNode("Home") {},
+                component = TopBarComponent("Home") {},
                 selected = false
             ),
             NodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
-                node = NavBarNode1.also { it.setItems(navbarNavItems1, 0) },
+                component = NavBarNode1.also { it.setItems(navbarNavItems1, 0) },
                 selected = false
             ),
             NodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node = NavBarNode2.also { it.setItems(navbarNavItems2, 0) },
+                component = NavBarNode2.also { it.setItems(navbarNavItems2, 0) },
                 selected = false
             )
         )

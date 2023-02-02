@@ -89,7 +89,7 @@ class NavigationDrawerState /*@Inject */ constructor(
 
     private suspend fun updateDrawerSelectedItem(drawerNavItem: NodeItem) {
         navItems = navItems.map {
-            it.copy().apply { selected = drawerNavItem.node == it.node }
+            it.copy().apply { selected = drawerNavItem.component == it.component }
         }
         _navItemsFlow.emit(navItems)
     }

@@ -6,20 +6,21 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
 import com.pablichj.incubator.uistate3.node.NodeItem
-import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeNode
+import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeComponent
 import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
-import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
+import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.navigation.SubPath
-import example.nodes.TopBarNode
+import com.pablichj.incubator.uistate3.node.setItems
+import example.nodes.TopBarComponent
 
 object AdaptableSizeTreeBuilder {
 
-    private lateinit var AdaptableSizeNode: AdaptableSizeNode
+    private lateinit var AdaptableSizeNode: AdaptableSizeComponent
     private lateinit var subTreeNavItems: MutableList<NodeItem>
 
     fun build(
         windowSizeInfoProvider: IWindowSizeInfoProvider
-    ): AdaptableSizeNode {
+    ): AdaptableSizeComponent {
 
         if (AdaptableSizeTreeBuilder::AdaptableSizeNode.isInitialized) {
             return AdaptableSizeNode.apply {
@@ -27,7 +28,7 @@ object AdaptableSizeTreeBuilder {
             }
         }
 
-        return AdaptableSizeNode(
+        return AdaptableSizeComponent(
             windowSizeInfoProvider
         ).also {
             it.subPath = SubPath("AdaptableWindow")
@@ -42,14 +43,14 @@ object AdaptableSizeTreeBuilder {
             return subTreeNavItems
         }
 
-        val NavBarNode = NavBarNode()
+        val NavBarNode = NavBarComponent()
             .apply { subPath = SubPath("Orders") }
 
         val navbarNavItems = mutableListOf(
             NodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                node = TopBarNode(
+                component = TopBarComponent(
                     "Orders / Current", Icons.Filled.Home, {}
                 ).apply { subPath = SubPath("Current") },
                 selected = false
@@ -57,7 +58,7 @@ object AdaptableSizeTreeBuilder {
             NodeItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                node = TopBarNode(
+                component = TopBarComponent(
                     "Orders / Past", Icons.Filled.Edit, {}
                 ).apply { subPath = SubPath("Past") },
                 selected = false
@@ -65,7 +66,7 @@ object AdaptableSizeTreeBuilder {
             NodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                node = TopBarNode("Orders / Claim", Icons.Filled.Email, {})
+                component = TopBarComponent("Orders / Claim", Icons.Filled.Email, {})
                     .apply { subPath = SubPath("Claim") },
                 selected = false
             )
@@ -74,14 +75,14 @@ object AdaptableSizeTreeBuilder {
         NavBarNode.setItems(navbarNavItems, 0)
 
         val SettingsNode =
-            TopBarNode("Settings", Icons.Filled.Email, {})
+            TopBarComponent("Settings", Icons.Filled.Email, {})
                 .apply { subPath = SubPath("Settings") }
 
         val navItems = mutableListOf(
             NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                node = TopBarNode(
+                component = TopBarComponent(
                     "Home", Icons.Filled.Home, {}
                 ).apply { subPath = SubPath("Home") },
                 selected = false
@@ -89,13 +90,13 @@ object AdaptableSizeTreeBuilder {
             NodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
-                node = NavBarNode,
+                component = NavBarNode,
                 selected = false
             ),
             NodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node = SettingsNode,
+                component = SettingsNode,
                 selected = false
             )
         )

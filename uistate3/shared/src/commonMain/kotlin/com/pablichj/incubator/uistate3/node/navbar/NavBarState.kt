@@ -67,7 +67,7 @@ class NavBarState /*@Inject */ constructor(
 
     private suspend fun updateNavBarSelectedItem(navbarItem: NodeItem) {
         navItems = navItems.map {
-            it.copy().apply { selected = navbarItem.node == it.node }
+            it.copy().apply { selected = navbarItem.component == it.component }
         }
         _navItemsFlow.emit(navItems)
     }

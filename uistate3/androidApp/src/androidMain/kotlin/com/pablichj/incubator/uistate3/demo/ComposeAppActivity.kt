@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.graphics.Color
 import com.pablichj.incubator.uistate3.AndroidNodeRender
-import example.nodes.SimpleNode
+import example.nodes.SimpleComponent
 
 class ComposeAppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,7 +14,7 @@ class ComposeAppActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 AndroidNodeRender(
-                    rootNode = SimpleNode("A Simple Node", Color.Cyan, {}),
+                    rootComponent = SimpleComponent("A Simple Node", Color.Cyan, {}),
                     onBackPressEvent = { finish() }
                 )
             }

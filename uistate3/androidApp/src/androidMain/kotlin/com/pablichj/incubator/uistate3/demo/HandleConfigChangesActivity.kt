@@ -13,27 +13,27 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import com.pablichj.incubator.uistate3.AndroidNodeRender
 import com.pablichj.incubator.uistate3.node.*
-import com.pablichj.incubator.uistate3.node.drawer.DrawerNode
-import com.pablichj.incubator.uistate3.node.navbar.NavBarNode
-import example.nodes.AppCoordinatorNode
-import example.nodes.TopBarNode
+import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
+import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
+import example.nodes.AppCoordinatorComponent
+import example.nodes.TopBarComponent
 
 class HandleConfigChangesActivity : ComponentActivity() {
 
-    private lateinit var StateTree: Node
+    private lateinit var StateTree: Component
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        StateTree = AppCoordinatorNode().also {
+        StateTree = AppCoordinatorComponent().also {
             //it.context.rootNodeBackPressedDelegate = ForwardBackPressCallback { finish() }
-            it.HomeNode = buildHomeNode(it)
+            it.homeComponent = buildHomeNode(it)
         }
 
         setContent {
             MaterialTheme {
                 AndroidNodeRender(
-                    rootNode = StateTree,
+                    rootComponent = StateTree,
                     onBackPressEvent = { finish() }
                 )
             }
@@ -52,34 +52,34 @@ class HandleConfigChangesActivity : ComponentActivity() {
         }
     }
 
-    private fun buildHomeNode(parentNode: Node): Node {
+    private fun buildHomeNode(parentComponent: Component): Component {
 
-        val DrawerNode = DrawerNode()
+        val DrawerNode = DrawerComponent()
 
-        val TopBarNode = TopBarNode(
+        val TopBarNode = TopBarComponent(
             "Home",
             Icons.Filled.Home
         ) {}
-        val NavBarNode = NavBarNode()
-        val PagerNode = PagerNode()
+        val NavBarNode = NavBarComponent()
+        val PagerNode = PagerComponent()
 
         val navbarNavItems = mutableListOf(
             NodeItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                node = TopBarNode("Orders / Current", Icons.Filled.Home) {},
+                component = TopBarComponent("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
                 label = "Past",
                 icon = Icons.Filled.AccountCircle,
-                node = TopBarNode("Orders / Past", Icons.Filled.AccountCircle) {},
+                component = TopBarComponent("Orders / Past", Icons.Filled.AccountCircle) {},
                 selected = false
             ),
             NodeItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                node = TopBarNode("Orders / Claim", Icons.Filled.Email) {},
+                component = TopBarComponent("Orders / Claim", Icons.Filled.Email) {},
                 selected = false
             )
         )
@@ -88,19 +88,19 @@ class HandleConfigChangesActivity : ComponentActivity() {
             NodeItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
-                node = TopBarNode("Settings / Account", Icons.Filled.Home) {},
+                component = TopBarComponent("Settings / Account", Icons.Filled.Home) {},
                 selected = false
             ),
             NodeItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
-                node = TopBarNode("Settings / Profile", Icons.Filled.Edit) {},
+                component = TopBarComponent("Settings / Profile", Icons.Filled.Edit) {},
                 selected = false
             ),
             NodeItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
-                node = TopBarNode("Settings / About Us", Icons.Filled.Email) {},
+                component = TopBarComponent("Settings / About Us", Icons.Filled.Email) {},
                 selected = false
             )
         )
@@ -109,25 +109,25 @@ class HandleConfigChangesActivity : ComponentActivity() {
             NodeItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                node = TopBarNode,
+                component = TopBarNode,
                 selected = false
             ),
             NodeItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
-                node = NavBarNode.also { it.setItems(navbarNavItems, 0) },
+                component = NavBarNode.also { it.setItems(navbarNavItems, 0) },
                 selected = false
             ),
             NodeItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node = PagerNode.also { it.setItems(pagerNavItems, 0) },
+                component = PagerNode.also { it.setItems(pagerNavItems, 0) },
                 selected = false
             )
         )
 
         return DrawerNode.also {
-            it.attachToParent(parentNode)
+            it.attachToParent(parentComponent)
             it.setItems(drawerNavItems, 0)
         }
     }

@@ -4,44 +4,44 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.pablichj.incubator.uistate3.node.Node
+import com.pablichj.incubator.uistate3.node.Component
 
-class SplitNavNode : Node() {
+class SplitNavComponent : Component() {
 
-    private var TopNode: Node? = null
-    private var BottomNode: Node? = null
+    private var topComponent: Component? = null
+    private var bottomComponent: Component? = null
 
-    fun setTopNode(TopNode: Node) {
-        this.TopNode=TopNode.apply {
-            attachToParent(this@SplitNavNode)
+    fun setTopNode(topComponent: Component) {
+        this.topComponent=topComponent.apply {
+            attachToParent(this@SplitNavComponent)
         }
     }
 
-    fun setBottomNode(BottomNode: Node) {
-        this.BottomNode=BottomNode.apply {
-            attachToParent(this@SplitNavNode)
+    fun setBottomNode(bottomComponent: Component) {
+        this.bottomComponent=bottomComponent.apply {
+            attachToParent(this@SplitNavComponent)
         }
     }
 
     override fun start() {
         super.start()
         println("SplitNavNode::start")
-        TopNode?.start()
-        BottomNode?.start()
+        topComponent?.start()
+        bottomComponent?.start()
     }
 
     override fun stop() {
         super.stop()
         println("SplitNavNode::stop")
-        TopNode?.stop()
-        BottomNode?.stop()
+        topComponent?.stop()
+        bottomComponent?.stop()
     }
 
     @Composable
     override fun Content(modifier: Modifier) {
         println("SplitNavNode::Composing()")
         Column(modifier = Modifier.fillMaxSize()) {
-            val TopNodeCopy = TopNode
+            val TopNodeCopy = topComponent
             if (TopNodeCopy != null) {
                 Box(
                     modifier = Modifier
@@ -53,7 +53,7 @@ class SplitNavNode : Node() {
                 }
             }
 
-            val BottomNodeCopy = BottomNode
+            val BottomNodeCopy = bottomComponent
             if (BottomNodeCopy != null) {
                 Box(
                     modifier = Modifier

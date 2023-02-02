@@ -7,13 +7,12 @@ import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
 import com.pablichj.incubator.uistate3.AndroidNodeRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.NavBarStateTreeHolder
-import com.pablichj.incubator.uistate3.node.ForwardBackPressCallback
-import com.pablichj.incubator.uistate3.node.Node
+import com.pablichj.incubator.uistate3.node.Component
 
 class NavBarActivity : ComponentActivity() {
 
     private val activityStateHolder by viewModels<NavBarStateTreeHolder>()
-    private lateinit var StateTree: Node
+    private lateinit var StateTree: Component
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +22,7 @@ class NavBarActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 AndroidNodeRender(
-                    rootNode = StateTree,
+                    rootComponent = StateTree,
                     onBackPressEvent = { finish() }
                 )
             }

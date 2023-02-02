@@ -10,14 +10,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.pablichj.incubator.uistate3.node.DefaultBackPressDispatcher
-import com.pablichj.incubator.uistate3.node.ForwardBackPressCallback
-import com.pablichj.incubator.uistate3.node.LocalBackPressedDispatcher
-import com.pablichj.incubator.uistate3.node.Node
+import com.pablichj.incubator.uistate3.node.backstack.DefaultBackPressDispatcher
+import com.pablichj.incubator.uistate3.node.backstack.ForwardBackPressCallback
+import com.pablichj.incubator.uistate3.node.backstack.LocalBackPressedDispatcher
+import com.pablichj.incubator.uistate3.node.Component
 
 @Composable
 fun BrowserNodeRender(
-    rootNode: Node,
+    rootComponent: Component,
     onBackPressEvent: () -> Unit
 ) {
     val webBackPressDispatcher = remember {
@@ -28,7 +28,7 @@ fun BrowserNodeRender(
         LocalBackPressedDispatcher provides webBackPressDispatcher,
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            rootNode.Content(Modifier.fillMaxSize())
+            rootComponent.Content(Modifier.fillMaxSize())
             FloatingButton(
                 modifier = Modifier.offset(y = 48.dp),
                 alignment = Alignment.TopStart,
@@ -37,10 +37,10 @@ fun BrowserNodeRender(
         }
     }
 
-    LaunchedEffect(key1 = rootNode, key2 = onBackPressEvent) {
-        rootNode.rootNodeBackPressedDelegate = ForwardBackPressCallback {
+    LaunchedEffect(key1 = rootComponent, key2 = onBackPressEvent) {
+        rootComponent.rootBackPressedCallbackDelegate = ForwardBackPressCallback {
             onBackPressEvent()
         }
-        rootNode.start()
+        rootComponent.start()
     }
 }
