@@ -84,6 +84,10 @@ class TopBarComponent(
             it.subPath = SubPath("Page3")
         }
 
+    init {
+        childComponents = mutableListOf(Step1, Step2, Step3)
+    }
+
     override fun start() {
         super.start()
         println("$clazz::start()")
@@ -130,7 +134,11 @@ class TopBarComponent(
     }
 
     override fun updateSelectedNavItem(newTop: Component) {
-
+        if (backStack.size() > 1) {
+            setTitleSectionForBackClick(newTop as SimpleComponent)
+        } else {
+            setTitleSectionForHomeClick(newTop as SimpleComponent)
+        }
     }
 
     override fun onDestroyChildComponent(component: Component) {
@@ -219,7 +227,7 @@ class TopBarComponent(
                     .padding(paddingValues)
             ) {
                 val activeNodeUpdate = activeComponent.value
-                if (activeNodeUpdate != null /*&& backStack.size() > 0*/) {
+                if (activeNodeUpdate != null && backStack.size() > 0) {
                     activeNodeUpdate.Content(Modifier)
                 } else {
                     Text(
