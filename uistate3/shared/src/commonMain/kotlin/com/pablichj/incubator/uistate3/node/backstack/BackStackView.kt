@@ -38,7 +38,7 @@ internal fun BackPressHandler(
             // Ignore
         }
         Component.LifecycleState.Started -> {
-            println("${component.clazz}::onStart, BackPressHandler Subscribing")
+            println("${component.clazz}::Lifecycle Flow = Started, BackPressHandler Subscribing")
             backPressDispatcher.subscribe(backPressCallback)
         }
         Component.LifecycleState.Stopped -> {

@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.Container
+import com.pablichj.incubator.uistate3.node.INavComponent
 import com.pablichj.incubator.uistate3.node.NodeItem
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
 import com.pablichj.incubator.uistate3.node.processBackstackEvent
@@ -18,7 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class NavBarComponent : Component(), Container {
+class NavBarComponent : Component(), INavComponent {
     override val backStack = BackStack<Component>()
     override var navItems: MutableList<NodeItem> = mutableListOf()
     override var selectedIndex: Int = 0
@@ -43,10 +43,10 @@ class NavBarComponent : Component(), Container {
         val childNodesCopy = childComponents
         if (activeComponent.value == null) {
             if (childNodesCopy.size > selectedIndex) {
-                println("$clazz::start() with selectedIndex = $selectedIndex")
+                println("$clazz::start(). Pushing selectedIndex = $selectedIndex")
                 backStack.push(childNodesCopy[selectedIndex])
             } else {
-                println("$clazz::start() childSize < selectedIndex BAD!")
+                println("$clazz::start() childSize(${childNodesCopy.size}) < selectedIndex($selectedIndex) BAD!")
             }
         } else {
             println("$clazz::start() with activeNodeState = ${activeComponent.value?.clazz}")
@@ -55,6 +55,7 @@ class NavBarComponent : Component(), Container {
     }
 
     override fun stop() {
+        println("$clazz::stop()")
         super.stop()
         activeComponent.value?.stop()
     }
@@ -127,7 +128,7 @@ class NavBarComponent : Component(), Container {
     @Composable
     override fun Content(modifier: Modifier) {
         println(
-            """NavBarNode.Composing() stack.size = ${backStack.size()}
+            """$clazz.Composing() stack.size = ${backStack.size()}
                 |lifecycleState = ${lifecycleState}
             """.trimMargin()
         )

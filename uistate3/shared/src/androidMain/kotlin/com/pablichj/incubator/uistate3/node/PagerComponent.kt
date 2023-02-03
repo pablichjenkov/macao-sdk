@@ -21,7 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
-class PagerComponent : Component(), Container {
+class PagerComponent : Component(), INavComponent {
     override val backStack = BackStack<Component>()
     override var navItems: MutableList<NodeItem> = mutableListOf()
     override var selectedIndex: Int = 0
@@ -37,19 +37,20 @@ class PagerComponent : Component(), Container {
         val activeNodeLocal = activeComponent.value
         if (activeNodeLocal == null) {
             if (childNodesLocal.size > selectedIndex) {
-                println("PagerNode::start() with selectedIndex = $selectedIndex")
+                println("$clazz::start(). Pushing selectedIndex = $selectedIndex")
                 updateScreen()
             } else {
-                println("PagerNode::start() childSize < selectedIndex BAD!")
+                println("$clazz::start() childSize(${childNodesLocal.size}) < selectedIndex($selectedIndex) BAD!")
             }
         } else {
-            println("PagerNode::start() with activeNodeState = ${activeNodeLocal.clazz}")
+            println("$clazz::start() with activeNodeState = ${activeNodeLocal.clazz}")
             activeNodeLocal.start()
         }
     }
 
     override fun stop() {
         super.stop()
+        println("$clazz::stop()")
         activeComponent.value?.stop()
     }
 

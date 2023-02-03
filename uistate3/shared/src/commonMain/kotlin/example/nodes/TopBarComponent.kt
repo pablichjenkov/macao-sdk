@@ -32,7 +32,7 @@ class TopBarComponent(
     val screenName: String,
     val screenIcon: ImageVector? = null,
     val onMessage: (Msg) -> Unit
-) : Component(), Container {
+) : Component(), INavComponent {
     override val backStack = BackStack<Component>()
     override var navItems: MutableList<NodeItem> = mutableListOf()
     override var selectedIndex: Int = 0
@@ -144,34 +144,6 @@ class TopBarComponent(
 
     // endregion
 
-
-    /*override fun onStackPush(oldTop: SimpleComponent?, newTop: SimpleComponent) {
-        activeNodeState.value = newTop
-        newTop.start()
-        oldTop?.stop()
-
-        if (backStack.size() > 1) {
-            setTitleSectionForBackClick(newTop)
-        } else {
-            setTitleSectionForHomeClick(newTop)
-        }
-    }
-
-    override fun onStackPop(oldTop: SimpleComponent, newTop: SimpleComponent?) {
-        activeNodeState.value = newTop
-        newTop?.start()
-        oldTop.stop()
-
-        if (newTop != null) {
-            if (stack.size > 1) {
-                setTitleSectionForBackClick(newTop)
-            } else {
-                setTitleSectionForHomeClick(newTop)
-            }
-        }
-
-    }*/
-
     private fun setTitleSectionForHomeClick(node: SimpleComponent) {
         topBarState.setTitleSectionState(
             TitleSectionStateHolder(
@@ -222,7 +194,7 @@ class TopBarComponent(
     }
 
     override fun onDeepLinkMatchingNode(matchingComponent: Component) {
-        println("TopBarNode.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
+        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
         backStack.push(matchingComponent as SimpleComponent) //todo: see how get rid of the cast
     }
 
@@ -234,7 +206,7 @@ class TopBarComponent(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("TopBarNode::Composing(), stack.size = ${backStack.size()}")
+        println("$clazz::Composing(), stack.size = ${backStack.size()}")
 
         Scaffold (
             modifier = modifier,
