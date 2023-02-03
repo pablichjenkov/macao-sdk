@@ -25,14 +25,14 @@ class SplitNavComponent : Component() {
 
     override fun start() {
         super.start()
-        println("SplitNavNode::start")
+        println("$clazz::start")
         topComponent?.start()
         bottomComponent?.start()
     }
 
     override fun stop() {
         super.stop()
-        println("SplitNavNode::stop")
+        println("$clazz::stop")
         topComponent?.stop()
         bottomComponent?.stop()
     }

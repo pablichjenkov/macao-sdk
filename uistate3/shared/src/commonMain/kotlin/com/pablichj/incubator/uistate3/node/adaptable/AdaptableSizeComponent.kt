@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.*
-import com.pablichj.incubator.uistate3.node.Container
+import com.pablichj.incubator.uistate3.node.INavComponent
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 import com.pablichj.incubator.uistate3.node.navigation.Path
 import com.pablichj.incubator.uistate3.node.setItems
@@ -24,41 +24,43 @@ class AdaptableSizeComponent(
 
     private var navItems: MutableList<NodeItem> = mutableListOf()
     private var startingPosition: Int = 0
-    private var CompactNavigator: Container? = null
-    private var MediumNavigator: Container? = null
-    private var ExpandedNavigator: Container? = null
-    private var currentContainer =
-        mutableStateOf<Container?>(null) // todo: This should be a reactive state
+    private var CompactNavigator: INavComponent? = null
+    private var MediumNavigator: INavComponent? = null
+    private var ExpandedNavigator: INavComponent? = null
+    private var currentNavComponent =
+        mutableStateOf<INavComponent?>(null) // todo: This should be a reactive state
 
     fun setNavItems(navItems: MutableList<NodeItem>, startingPosition: Int) {
         this.navItems = navItems
         this.startingPosition = startingPosition
-        currentContainer.value?.setItems(navItems, startingPosition)
+        currentNavComponent.value?.setItems(navItems, startingPosition)
     }
 
-    fun setCompactContainer(container: Container) {
-        CompactNavigator = container
-        container.getComponent().attachToParent(this@AdaptableSizeComponent)
+    fun setCompactContainer(INavComponent: INavComponent) {
+        CompactNavigator = INavComponent
+        INavComponent.getComponent().attachToParent(this@AdaptableSizeComponent)
     }
 
-    fun setMediumContainer(container: Container) {
-        MediumNavigator = container
-        container.getComponent().attachToParent(this@AdaptableSizeComponent)
+    fun setMediumContainer(INavComponent: INavComponent) {
+        MediumNavigator = INavComponent
+        INavComponent.getComponent().attachToParent(this@AdaptableSizeComponent)
     }
 
-    fun setExpandedContainer(container: Container) {
-        ExpandedNavigator = container
-        container.getComponent().attachToParent(this@AdaptableSizeComponent)
+    fun setExpandedContainer(INavComponent: INavComponent) {
+        ExpandedNavigator = INavComponent
+        INavComponent.getComponent().attachToParent(this@AdaptableSizeComponent)
     }
 
     override fun start() {
         super.start()
-        currentContainer.value?.getComponent()?.start()
+        println("$clazz::start()")
+        currentNavComponent.value?.getComponent()?.start()
     }
 
     override fun stop() {
         super.stop()
-        currentContainer.value?.getComponent()?.stop()
+        println("$clazz::stop()")
+        currentNavComponent.value?.getComponent()?.stop()
     }
 
     // region: DeepLink
@@ -72,7 +74,7 @@ class AdaptableSizeComponent(
     }
 
     override fun onCheckChildMatchHandler(advancedPath: Path, matchingComponent: Component): DeepLinkResult {
-        val interceptingNode = currentContainer.value?.getComponent() ?: matchingComponent
+        val interceptingNode = currentNavComponent.value?.getComponent() ?: matchingComponent
         interceptingNode.subPath = matchingComponent.subPath.copy()
         return interceptingNode.checkDeepLinkMatch(advancedPath)
     }
@@ -81,7 +83,7 @@ class AdaptableSizeComponent(
         advancedPath: Path,
         matchingComponent: Component
     ): DeepLinkResult {
-        val interceptingNode = currentContainer.value?.getComponent() ?: matchingComponent
+        val interceptingNode = currentNavComponent.value?.getComponent() ?: matchingComponent
         interceptingNode.subPath = matchingComponent.subPath.copy()
         onDeepLinkMatchingNode(interceptingNode)
         return interceptingNode.navigateUpToDeepLink(advancedPath)
@@ -101,19 +103,19 @@ class AdaptableSizeComponent(
 
         //val nodeLifecycleState by nodeLifecycleFlow.collectAsState(LifecycleState.Created)
 
-        currentContainer.value = when (windowSizeInfo) {
+        currentNavComponent.value = when (windowSizeInfo) {
             WindowSizeInfo.Compact -> {
-                tryTransfer(currentContainer.value, CompactNavigator)
+                tryTransfer(currentNavComponent.value, CompactNavigator)
             }
             WindowSizeInfo.Medium -> {
-                tryTransfer(currentContainer.value, MediumNavigator)
+                tryTransfer(currentNavComponent.value, MediumNavigator)
             }
             WindowSizeInfo.Expanded -> {
-                tryTransfer(currentContainer.value, ExpandedNavigator)
+                tryTransfer(currentNavComponent.value, ExpandedNavigator)
             }
         }
 
-        val CurrentNode = currentContainer.value?.getComponent()
+        val CurrentNode = currentNavComponent.value?.getComponent()
 
         if (CurrentNode != null) {
             CurrentNode.Content(modifier)
@@ -132,25 +134,22 @@ class AdaptableSizeComponent(
     }
 
     private fun tryTransfer(
-        donorContainer: Container?,
-        adoptingContainer: Container?
-    ): Container? {
+        donorNavComponent: INavComponent?,
+        adoptingINavComponent: INavComponent?
+    ): INavComponent? {
 
-        if (adoptingContainer == donorContainer) {
-            return adoptingContainer
+        if (adoptingINavComponent == donorNavComponent) {
+            return adoptingINavComponent
         }
 
-        val adoptingNavigatorCopy = adoptingContainer ?: return donorContainer
+        val adoptingNavigatorCopy = adoptingINavComponent ?: return donorNavComponent
 
-        return if (donorContainer == null) { // The first time when no node has been setup yet
-            adoptingContainer.setItems(navItems, startingPosition)
-            adoptingContainer.getComponent().start()
-            adoptingContainer
+        return if (donorNavComponent == null) { // The first time when no node has been setup yet
+            adoptingINavComponent.setItems(navItems, startingPosition)
+            adoptingINavComponent
         } else { // do the real transfer here
-            adoptingNavigatorCopy.transferFrom(donorContainer)
-            donorContainer.getComponent().stop()
-            adoptingContainer.getComponent().start()
-            adoptingContainer
+            adoptingNavigatorCopy.transferFrom(donorNavComponent)
+            adoptingNavigatorCopy
         }
     }
 

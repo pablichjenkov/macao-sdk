@@ -20,13 +20,23 @@ class SimpleComponent(
     val onMessage: (Msg) -> Unit
 ) : Component() {
 
+    override fun start() {
+        super.start()
+        println("${clazz}::start()")
+    }
+
+    override fun stop() {
+        super.stop()
+        println("${clazz}::stop()")
+    }
+
     sealed interface Msg {
         object Next : Msg
     }
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("OnboardingStepNode::Composing()")
+        println("$clazz::Composing()")
         BackPressHandler(
             component = this,
             onBackPressed = { this.backPressedCallbackDelegate.onBackPressed() }

@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 //TODO: Ask for the Header Info to render the Drawer header
 class DrawerComponent(
 
-) : Component(), Container, IDrawerNode {
+) : Component(), INavComponent, IDrawerNode {
     override val backStack = BackStack<Component>()
     override var navItems: MutableList<NodeItem> = mutableListOf()
     override var selectedIndex: Int = 0
@@ -44,10 +44,10 @@ class DrawerComponent(
         val childNodesCopy = childComponents
         if (activeComponent.value == null) {
             if (childNodesCopy.size > selectedIndex) {
-                println("$clazz::start() with selectedIndex = $selectedIndex")
+                println("$clazz::start(). Pushing selectedIndex = $selectedIndex")
                 backStack.push(childNodesCopy[selectedIndex])
             } else {
-                println("DrawerNode::start() childSize < selectedIndex BAD!")
+                println("$clazz::start() childSize(${childNodesCopy.size}) < selectedIndex($selectedIndex) BAD!")
             }
         } else {
             println("$clazz::start() with activeNodeState = ${activeComponent.value?.clazz}")
@@ -57,6 +57,7 @@ class DrawerComponent(
 
     override fun stop() {
         super.stop()
+        println("$clazz::stop()")
         activeComponent.value?.stop()
     }
 
@@ -139,7 +140,7 @@ class DrawerComponent(
     @Composable
     override fun Content(modifier: Modifier) {
         println(
-            """DrawerNode.Composing() stack.size = ${backStack.size()}
+            """$clazz.Composing() stack.size = ${backStack.size()}
                 |lifecycleState = ${lifecycleState}
             """.trimMargin()
         )
