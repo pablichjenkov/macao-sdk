@@ -127,9 +127,9 @@ class AppCoordinatorComponent : Component() {
         )
 
         Box(modifier = Modifier.fillMaxSize()) {
-            val activeNodeUpdate = activeComponent.value
-            if (activeNodeUpdate != null && backStack.size() > 0) {
-                activeNodeUpdate.Content(Modifier)
+            val activeComponentCopy = activeComponent.value
+            if (activeComponentCopy != null && backStack.size() > 0) {
+                activeComponentCopy.Content(Modifier)
             } else {
                 Text(
                     modifier = Modifier

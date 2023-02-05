@@ -42,8 +42,5 @@
         <activity
             android:name=".AdaptableSizeNodeActivity"
             android:exported="true" />
-        <activity
-            android:name=".ComposeAppActivity"
-            android:exported="true" />
     </application>
 </manifest>

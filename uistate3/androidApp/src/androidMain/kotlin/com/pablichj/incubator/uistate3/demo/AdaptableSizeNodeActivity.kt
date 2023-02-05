@@ -6,8 +6,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.material.MaterialTheme
-import com.pablichj.incubator.uistate3.AndroidNodeRender
+import com.pablichj.incubator.uistate3.AndroidComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeStateTreeHolder
 import com.pablichj.incubator.uistate3.node.AndroidWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.Component
@@ -26,12 +25,10 @@ class AdaptableSizeNodeActivity : ComponentActivity() {
         )
 
         setContent {
-            MaterialTheme {
-                AndroidNodeRender(
-                    rootComponent = StateTree,
-                    onBackPressEvent = { finish() }
-                )
-            }
+            AndroidComponentRender(
+                rootComponent = StateTree,
+                onBackPressEvent = { finish() }
+            )
         }
     }
 

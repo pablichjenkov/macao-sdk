@@ -5,16 +5,18 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
-import com.pablichj.incubator.uistate3.AndroidNodeRender
-import com.pablichj.incubator.uistate3.node.*
+import com.pablichj.incubator.uistate3.AndroidComponentRender
+import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.node.NodeItem
+import com.pablichj.incubator.uistate3.node.PagerComponent
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
+import com.pablichj.incubator.uistate3.node.setItems
 import example.nodes.AppCoordinatorComponent
 import example.nodes.TopBarComponent
 
@@ -31,12 +33,10 @@ class HandleConfigChangesActivity : ComponentActivity() {
         }
 
         setContent {
-            MaterialTheme {
-                AndroidNodeRender(
-                    rootComponent = StateTree,
-                    onBackPressEvent = { finish() }
-                )
-            }
+            AndroidComponentRender(
+                rootComponent = StateTree,
+                onBackPressEvent = { finish() }
+            )
         }
 
     }

@@ -17,7 +17,7 @@ interface INavComponent {
     fun onDestroyChildComponent(component: Component)
 }
 
-data class NodeItem(
+data class NodeItem(//todo: Rename to NavItem
     val label: String,
     val icon: ImageVector,
     val component: Component,

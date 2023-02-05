@@ -21,9 +21,9 @@ abstract class Component : Lifecycle {
         }
     }
 
-    private val _nodeLifecycleFlow = MutableStateFlow<LifecycleState>(LifecycleState.Created)
-    val nodeLifecycleFlow: Flow<LifecycleState>
-        get() = _nodeLifecycleFlow
+    private val _componentLifecycleFlow = MutableStateFlow<LifecycleState>(LifecycleState.Created)
+    val componentLifecycleFlow: Flow<LifecycleState>
+        get() = _componentLifecycleFlow
 
     // region: Tree
 
@@ -38,17 +38,17 @@ abstract class Component : Lifecycle {
 
     override fun start() {
         lifecycleState = LifecycleState.Started
-        _nodeLifecycleFlow.value = LifecycleState.Started
+        _componentLifecycleFlow.value = LifecycleState.Started
     }
 
     override fun stop() {
         lifecycleState = LifecycleState.Stopped
-        _nodeLifecycleFlow.value = LifecycleState.Stopped
+        _componentLifecycleFlow.value = LifecycleState.Stopped
     }
 
     override fun destroy() {
         lifecycleState = LifecycleState.Destroyed
-        _nodeLifecycleFlow.value = LifecycleState.Destroyed
+        _componentLifecycleFlow.value = LifecycleState.Destroyed
     }
 
     /**
