@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.pablichj.incubator.uistate3.node.NodeItem
+import com.pablichj.incubator.uistate3.node.NavItem
 
 @Composable
 internal fun NavigationDrawer(
@@ -89,8 +89,8 @@ internal fun DrawerLogo(
 @Composable
 internal fun DrawerContentList(
     modifier: Modifier = Modifier,
-    navItems: List<NodeItem>,
-    onNavItemClick: (NodeItem) -> Unit
+    navItems: List<NavItem>,
+    onNavItemClick: (NavItem) -> Unit
 ) {
     Column(
         modifier

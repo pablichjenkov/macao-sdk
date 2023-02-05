@@ -21,7 +21,7 @@ class DrawerComponent(
 
 ) : Component(), INavComponent, IDrawerNode {
     override val backStack = BackStack<Component>()
-    override var navItems: MutableList<NodeItem> = mutableListOf()
+    override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
@@ -93,7 +93,7 @@ class DrawerComponent(
         return this
     }
 
-    override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NodeItem>) {
+    override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
         navDrawerState.navItems = navItems
         navDrawerState.selectNavItem(navItems[selectedIndex])
         if (getComponent().lifecycleState == LifecycleState.Started) {
@@ -109,7 +109,7 @@ class DrawerComponent(
         }
     }
 
-    private fun getNavItemFromNode(component: Component): NodeItem? {
+    private fun getNavItemFromNode(component: Component): NavItem? {
         return navDrawerState.navItems.firstOrNull { it.component == component }
     }
 

@@ -3,7 +3,7 @@ package com.pablichj.incubator.uistate3.node
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
 
 fun INavComponent.setItems(
-    newNavItems: MutableList<NodeItem>,
+    newNavItems: MutableList<NavItem>,
     newSelectedIndex: Int
 ) {
     println("${getComponent().clazz}.setItems()")
@@ -20,12 +20,12 @@ fun INavComponent.setItems(
     onSelectNavItem(selectedIndex, navItems)
 }
 
-internal fun INavComponent.addItem(newIndex: Int, nodeItem: NodeItem) {
+internal fun INavComponent.addItem(newIndex: Int, navItem: NavItem) {
     if (newIndex < selectedIndex) {
         selectedIndex++
     }
-    navItems.add(newIndex, nodeItem)
-    childComponents.add(newIndex, nodeItem.component)
+    navItems.add(newIndex, navItem)
+    childComponents.add(newIndex, navItem.component)
 
     // Let's update the UI
     onSelectNavItem(selectedIndex, navItems)

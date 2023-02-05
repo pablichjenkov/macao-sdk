@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.INavComponent
-import com.pablichj.incubator.uistate3.node.NodeItem
+import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
 import com.pablichj.incubator.uistate3.node.processBackstackEvent
 import kotlinx.coroutines.CoroutineScope
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 class NavBarComponent : Component(), INavComponent {
     override val backStack = BackStack<Component>()
-    override var navItems: MutableList<NodeItem> = mutableListOf()
+    override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
@@ -78,7 +78,7 @@ class NavBarComponent : Component(), INavComponent {
         return this
     }
 
-    override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NodeItem>) {
+    override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
         navBarState.navItems = navItems
         navBarState.selectNavItem(navItems[selectedIndex])
         if (getComponent().lifecycleState == LifecycleState.Started) {
@@ -97,7 +97,7 @@ class NavBarComponent : Component(), INavComponent {
         }
     }
 
-    private fun getNavItemFromNode(component: Component): NodeItem? {
+    private fun getNavItemFromNode(component: Component): NavItem? {
         return navBarState.navItems.firstOrNull { it.component == component }
     }
 

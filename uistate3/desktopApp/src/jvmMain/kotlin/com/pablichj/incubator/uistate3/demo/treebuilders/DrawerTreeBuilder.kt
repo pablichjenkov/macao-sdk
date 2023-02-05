@@ -2,7 +2,7 @@ package com.pablichj.incubator.uistate3.demo.treebuilders
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import com.pablichj.incubator.uistate3.node.NodeItem
+import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setItems
@@ -21,19 +21,19 @@ object DrawerTreeBuilder {
         val DrawerNode = DrawerComponent()
 
         val drawerNavItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent("Home", Icons.Filled.Home) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
                 component = buildNavBarNode(),
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent("Settings", Icons.Filled.Email) {},
@@ -49,19 +49,19 @@ object DrawerTreeBuilder {
         val NavBarNode = NavBarComponent()
 
         val navbarNavItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Active",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent("Orders/Active", Icons.Filled.Home) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Past",
                 icon = Icons.Filled.Settings,
                 component = TopBarComponent("Orders/Past", Icons.Filled.Settings) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "New Order",
                 icon = Icons.Filled.Add,
                 component = TopBarComponent("Orders/New Order", Icons.Filled.Add) {},

@@ -25,19 +25,19 @@ class PagerStateTreeHolder : ViewModel() {
         val NavBarNode2 = NavBarComponent()
 
         val navbarNavItems1 = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent("Orders/ Current") {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent("Orders / Past") {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent("Orders / Claim") {},
@@ -46,19 +46,19 @@ class PagerStateTreeHolder : ViewModel() {
         )
 
         val navbarNavItems2 = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent("Settings / Account") {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent("Settings / Profile") {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent("Settings / About Us") {},
@@ -67,19 +67,19 @@ class PagerStateTreeHolder : ViewModel() {
         )
 
         val pagerNavItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent("Home") {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
                 component = NavBarNode1.also { it.setItems(navbarNavItems1, 0) },
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
                 component = NavBarNode2.also { it.setItems(navbarNavItems2, 0) },

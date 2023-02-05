@@ -5,7 +5,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
-import com.pablichj.incubator.uistate3.node.NodeItem
+import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeComponent
 import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
@@ -16,7 +16,7 @@ import example.nodes.TopBarComponent
 object AdaptableSizeTreeBuilder {
 
     private lateinit var AdaptableSizeNode: AdaptableSizeComponent
-    private lateinit var subTreeNavItems: MutableList<NodeItem>
+    private lateinit var subTreeNavItems: MutableList<NavItem>
 
     fun build(
         windowSizeInfoProvider: IWindowSizeInfoProvider
@@ -37,7 +37,7 @@ object AdaptableSizeTreeBuilder {
 
     }
 
-    fun getOrCreateDetachedNavItems(): MutableList<NodeItem> {
+    fun getOrCreateDetachedNavItems(): MutableList<NavItem> {
 
         if (AdaptableSizeTreeBuilder::subTreeNavItems.isInitialized) {
             return subTreeNavItems
@@ -47,7 +47,7 @@ object AdaptableSizeTreeBuilder {
             .apply { subPath = SubPath("Orders") }
 
         val navbarNavItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
@@ -55,7 +55,7 @@ object AdaptableSizeTreeBuilder {
                 ).apply { subPath = SubPath("Current") },
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
@@ -63,7 +63,7 @@ object AdaptableSizeTreeBuilder {
                 ).apply { subPath = SubPath("Past") },
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent("Orders / Claim", Icons.Filled.Email, {})
@@ -79,7 +79,7 @@ object AdaptableSizeTreeBuilder {
                 .apply { subPath = SubPath("Settings") }
 
         val navItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
@@ -87,13 +87,13 @@ object AdaptableSizeTreeBuilder {
                 ).apply { subPath = SubPath("Home") },
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
                 component = NavBarNode,
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
                 component = SettingsNode,
