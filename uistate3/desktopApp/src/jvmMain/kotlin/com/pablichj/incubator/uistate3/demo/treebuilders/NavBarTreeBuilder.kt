@@ -6,7 +6,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
-import com.pablichj.incubator.uistate3.node.setItems
+import com.pablichj.incubator.uistate3.node.setNavItems
 import example.nodes.TopBarComponent
 
 object NavBarTreeBuilder {
@@ -42,7 +42,7 @@ object NavBarTreeBuilder {
             )
         )
 
-        return NavBarNode.also { it.setItems(navbarNavItems, 0) }
+        return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }
     }
 
 }

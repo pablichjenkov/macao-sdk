@@ -5,7 +5,7 @@ import androidx.compose.material.icons.filled.*
 import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
-import com.pablichj.incubator.uistate3.node.setItems
+import com.pablichj.incubator.uistate3.node.setNavItems
 import example.nodes.TopBarComponent
 
 object PanelTreeBuilder {
@@ -41,7 +41,7 @@ object PanelTreeBuilder {
             )
         )
 
-        return PanelNode.also { it.setItems(panelNavItems, 0) }
+        return PanelNode.also { it.setNavItems(panelNavItems, 0) }
     }
 
     private fun buildNavBarNode(): NavBarComponent {
@@ -69,7 +69,7 @@ object PanelTreeBuilder {
             )
         )
 
-        return NavBarNode.also { it.setItems(navbarNavItems, 0) }
+        return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }
     }
 
 }

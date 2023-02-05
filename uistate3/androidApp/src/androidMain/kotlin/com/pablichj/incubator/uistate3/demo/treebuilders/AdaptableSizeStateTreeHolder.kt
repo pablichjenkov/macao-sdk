@@ -13,7 +13,7 @@ import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import example.nodes.TopBarComponent
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
-import com.pablichj.incubator.uistate3.node.setItems
+import com.pablichj.incubator.uistate3.node.setNavItems
 
 class AdaptableSizeStateTreeHolder : ViewModel() {
 
@@ -73,7 +73,7 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
             )
         )
 
-        NavBarNode.setItems(navbarNavItems, 0)
+        NavBarNode.setNavItems(navbarNavItems, 0)
 
         val navItems = mutableListOf(
             NavItem(

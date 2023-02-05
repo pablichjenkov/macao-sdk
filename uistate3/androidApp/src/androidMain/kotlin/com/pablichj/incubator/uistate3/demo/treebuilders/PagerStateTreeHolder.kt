@@ -76,18 +76,18 @@ class PagerStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
-                component = NavBarNode1.also { it.setItems(navbarNavItems1, 0) },
+                component = NavBarNode1.also { it.setNavItems(navbarNavItems1, 0) },
                 selected = false
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = NavBarNode2.also { it.setItems(navbarNavItems2, 0) },
+                component = NavBarNode2.also { it.setNavItems(navbarNavItems2, 0) },
                 selected = false
             )
         )
 
-        return PagerNode.also { it.setItems(pagerNavItems, 0) }
+        return PagerNode.also { it.setNavItems(pagerNavItems, 0) }
     }
 
 }

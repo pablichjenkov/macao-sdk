@@ -68,12 +68,12 @@ class NavBarStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = PagerNode.also { it.setItems(pagerNavItems, 0) },
+                component = PagerNode.also { it.setNavItems(pagerNavItems, 0) },
                 selected = false
             )
         )
 
-        return NavBarNode.also { it.setItems(navbarNavItems, 0) }
+        return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }
     }
 
 }

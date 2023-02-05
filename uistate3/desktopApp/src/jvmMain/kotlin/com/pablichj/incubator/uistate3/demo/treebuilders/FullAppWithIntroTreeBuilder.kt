@@ -63,14 +63,14 @@ object FullAppWithIntroTreeBuilder {
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
-                component = NavBarNode.also { it.setItems(navbarNavItems, 0) },
+                component = NavBarNode.also { it.setNavItems(navbarNavItems, 0) },
                 selected = false
             )
         )
 
         return DrawerNode.apply {
             attachToParent(parentComponent)
-            setItems(drawerNavItems, 0)
+            setNavItems(drawerNavItems, 0)
         }
     }
 
@@ -109,12 +109,12 @@ object FullAppWithIntroTreeBuilder {
             NavItem(
                 label = "Orders Nested",
                 icon = Icons.Filled.Edit,
-                component = NavBarNode.also { it.setItems(navbarNavItems, 0) },
+                component = NavBarNode.also { it.setNavItems(navbarNavItems, 0) },
                 selected = false
             )
         )
 
-        return DrawerNode.also { it.setItems(drawerNavItems, 0) }
+        return DrawerNode.also { it.setNavItems(drawerNavItems, 0) }
     }
 
 }

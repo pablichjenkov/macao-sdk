@@ -2,7 +2,7 @@ package com.pablichj.incubator.uistate3.node
 
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
 
-fun INavComponent.setItems(
+fun INavComponent.setNavItems(
     newNavItems: MutableList<NavItem>,
     newSelectedIndex: Int
 ) {
@@ -10,7 +10,7 @@ fun INavComponent.setItems(
     selectedIndex = newSelectedIndex
 
     newNavItems.map { nodeItem ->
-        nodeItem.component.attachToParent(parentComponent = this@setItems.getComponent())
+        nodeItem.component.attachToParent(parentComponent = this@setNavItems.getComponent())
         nodeItem to nodeItem.component
     }.unzip().let {
         navItems = it.first.toMutableList()
@@ -20,7 +20,7 @@ fun INavComponent.setItems(
     onSelectNavItem(selectedIndex, navItems)
 }
 
-internal fun INavComponent.addItem(newIndex: Int, navItem: NavItem) {
+internal fun INavComponent.addNavItem(newIndex: Int, navItem: NavItem) {
     if (newIndex < selectedIndex) {
         selectedIndex++
     }
@@ -32,7 +32,7 @@ internal fun INavComponent.addItem(newIndex: Int, navItem: NavItem) {
 }
 
 
-internal fun INavComponent.removeItem(removeIndex: Int) {
+internal fun INavComponent.removeNavItem(removeIndex: Int) {
     if (removeIndex < selectedIndex) {
         selectedIndex--
     }
@@ -44,7 +44,7 @@ internal fun INavComponent.removeItem(removeIndex: Int) {
     onSelectNavItem(selectedIndex, navItems)
 }
 
-internal fun INavComponent.clearItems() {
+internal fun INavComponent.clearNavItems() {
     println("${getComponent().clazz}.clearNavItems")
     backStack.clear()
     navItems.clear()
@@ -125,7 +125,7 @@ internal fun INavComponent.transferFrom(donorNavComponent: INavComponent) {
     onSelectNavItem(selectedIndex, navItems)
 
     // Make sure we don't keep references to the navItems in the donor Container
-    donorNavComponent.clearItems()
+    donorNavComponent.clearNavItems()
 }
 
 

@@ -5,7 +5,7 @@ import androidx.compose.material.icons.filled.*
 import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
-import com.pablichj.incubator.uistate3.node.setItems
+import com.pablichj.incubator.uistate3.node.setNavItems
 import example.nodes.TopBarComponent
 
 object DrawerTreeBuilder {
@@ -41,7 +41,7 @@ object DrawerTreeBuilder {
             )
         )
 
-        return DrawerNode.also { it.setItems(drawerNavItems, 0) }
+        return DrawerNode.also { it.setNavItems(drawerNavItems, 0) }
     }
 
     private fun buildNavBarNode(): NavBarComponent {
@@ -69,7 +69,7 @@ object DrawerTreeBuilder {
             )
         )
 
-        return NavBarNode.also { it.setItems(navbarNavItems, 0) }
+        return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }
     }
 
 }
