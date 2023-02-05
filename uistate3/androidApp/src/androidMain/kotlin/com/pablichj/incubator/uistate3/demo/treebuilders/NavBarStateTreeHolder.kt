@@ -23,7 +23,7 @@ class NavBarStateTreeHolder : ViewModel() {
         val PagerNode = PagerComponent()
 
         val pagerNavItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
@@ -32,7 +32,7 @@ class NavBarStateTreeHolder : ViewModel() {
                 ) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
@@ -41,7 +41,7 @@ class NavBarStateTreeHolder : ViewModel() {
                 ) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
@@ -53,19 +53,19 @@ class NavBarStateTreeHolder : ViewModel() {
         )
 
         val navbarNavItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent("Home", Icons.Filled.Home) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent("Orders", Icons.Filled.Edit) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
                 component = PagerNode.also { it.setItems(pagerNavItems, 0) },

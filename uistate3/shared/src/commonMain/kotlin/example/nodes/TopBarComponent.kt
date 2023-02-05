@@ -34,7 +34,7 @@ class TopBarComponent(
     val onMessage: (Msg) -> Unit
 ) : Component(), INavComponent {
     override val backStack = BackStack<Component>()
-    override var navItems: MutableList<NodeItem> = mutableListOf()
+    override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
@@ -125,7 +125,7 @@ class TopBarComponent(
         return this
     }
 
-    override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NodeItem>) {
+    override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
         //navBarState.navItems = navItems
         //navBarState.selectNavItem(navItems[selectedIndex])
         if (getComponent().lifecycleState == LifecycleState.Started) {

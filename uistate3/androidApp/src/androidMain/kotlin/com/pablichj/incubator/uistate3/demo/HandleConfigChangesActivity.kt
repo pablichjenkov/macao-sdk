@@ -12,7 +12,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import com.pablichj.incubator.uistate3.AndroidComponentRender
 import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.NodeItem
+import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.PagerComponent
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
@@ -64,19 +64,19 @@ class HandleConfigChangesActivity : ComponentActivity() {
         val PagerNode = PagerComponent()
 
         val navbarNavItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Past",
                 icon = Icons.Filled.AccountCircle,
                 component = TopBarComponent("Orders / Past", Icons.Filled.AccountCircle) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent("Orders / Claim", Icons.Filled.Email) {},
@@ -85,19 +85,19 @@ class HandleConfigChangesActivity : ComponentActivity() {
         )
 
         val pagerNavItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent("Settings / Account", Icons.Filled.Home) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent("Settings / Profile", Icons.Filled.Edit) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent("Settings / About Us", Icons.Filled.Email) {},
@@ -106,19 +106,19 @@ class HandleConfigChangesActivity : ComponentActivity() {
         )
 
         val drawerNavItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarNode,
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
                 component = NavBarNode.also { it.setItems(navbarNavItems, 0) },
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
                 component = PagerNode.also { it.setItems(pagerNavItems, 0) },

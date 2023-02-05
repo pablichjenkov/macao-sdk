@@ -1,6 +1,6 @@
 package com.pablichj.incubator.uistate3.node.navbar
 
-import com.pablichj.incubator.uistate3.node.NodeItem
+import com.pablichj.incubator.uistate3.node.NavItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -12,45 +12,45 @@ interface INavBarState {
     /**
      * Intended for the Composable NavBar to render the List if NavBarItems items
      * */
-    val navItemsFlow: Flow<List<NodeItem>>
+    val navItemsFlow: Flow<List<NavItem>>
 
     /**
      * Intended for a client class to listen for navItem click events
      * */
-    val navItemClickFlow: Flow<NodeItem>
+    val navItemClickFlow: Flow<NavItem>
 
     /**
      * Intended to be called from the Composable NavBar item click events
      * */
-    fun navItemClick(navbarItem: NodeItem)
+    fun navItemClick(navbarItem: NavItem)
 
     /**
      * Intended to be called from a client class to select a navItem in the NavBar
      * */
-    fun selectNavItem(navbarItem: NodeItem)
+    fun selectNavItem(navbarItem: NavItem)
 }
 
 class NavBarState /*@Inject */ constructor(
     //val dispatchersBin: DispatchersBin
-    var navItems: List<NodeItem>
+    var navItems: List<NavItem>
 ) : INavBarState {
 
     // TODO: Use DispatchersBin
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
-    private val _navItemsFlow = MutableStateFlow<List<NodeItem>>(emptyList())
-    override val navItemsFlow: Flow<List<NodeItem>>
+    private val _navItemsFlow = MutableStateFlow<List<NavItem>>(emptyList())
+    override val navItemsFlow: Flow<List<NavItem>>
         get() = _navItemsFlow
 
-    private val _navItemClickFlow = MutableSharedFlow<NodeItem>()
-    override val navItemClickFlow: Flow<NodeItem>
+    private val _navItemClickFlow = MutableSharedFlow<NavItem>()
+    override val navItemClickFlow: Flow<NavItem>
         get() = _navItemClickFlow
 
     init {
         _navItemsFlow.value = navItems
     }
 
-    override fun navItemClick(navbarItem: NodeItem) {
+    override fun navItemClick(navbarItem: NavItem) {
         coroutineScope.launch {
             _navItemClickFlow.emit(navbarItem)
         }
@@ -59,13 +59,13 @@ class NavBarState /*@Inject */ constructor(
     /**
      * To be called by a client class when the Drawer selected item needs to be updated.
      * */
-    override fun selectNavItem(navbarItem: NodeItem) {
+    override fun selectNavItem(navbarItem: NavItem) {
         coroutineScope.launch {
             updateNavBarSelectedItem(navbarItem)
         }
     }
 
-    private suspend fun updateNavBarSelectedItem(navbarItem: NodeItem) {
+    private suspend fun updateNavBarSelectedItem(navbarItem: NavItem) {
         navItems = navItems.map {
             it.copy().apply { selected = navbarItem.component == it.component }
         }

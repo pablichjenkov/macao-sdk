@@ -6,7 +6,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
 import androidx.lifecycle.ViewModel
-import com.pablichj.incubator.uistate3.node.NodeItem
+import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeComponent
 import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
@@ -18,7 +18,7 @@ import com.pablichj.incubator.uistate3.node.setItems
 class AdaptableSizeStateTreeHolder : ViewModel() {
 
     private lateinit var AdaptableSizeNode: AdaptableSizeComponent
-    private lateinit var subTreeNavItems: MutableList<NodeItem>
+    private lateinit var subTreeNavItems: MutableList<NavItem>
 
     fun getOrCreate(
         windowSizeInfoProvider: IWindowSizeInfoProvider,
@@ -44,7 +44,7 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
 
     }
 
-    fun getOrCreateDetachedNavItems(): MutableList<NodeItem> {
+    fun getOrCreateDetachedNavItems(): MutableList<NavItem> {
 
         if (this::subTreeNavItems.isInitialized) {
             return subTreeNavItems
@@ -53,19 +53,19 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
         val NavBarNode = NavBarComponent()
 
         val navbarNavItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent("Orders / Past", Icons.Filled.Edit) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent("Orders / Claim", Icons.Filled.Email) {},
@@ -76,7 +76,7 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
         NavBarNode.setItems(navbarNavItems, 0)
 
         val navItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
@@ -85,13 +85,13 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
                 ) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
                 component = NavBarNode,
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(

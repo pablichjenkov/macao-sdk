@@ -39,13 +39,13 @@ object FullAppWithIntroTreeBuilder {
         }
 
         val navbarNavItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Nested Node",
                 icon = Icons.Filled.Email,
                 component = SplitNavNode,
@@ -54,13 +54,13 @@ object FullAppWithIntroTreeBuilder {
         )
 
         val drawerNavItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent("Home", Icons.Filled.Home) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
                 component = NavBarNode.also { it.setItems(navbarNavItems, 0) },
@@ -79,19 +79,19 @@ object FullAppWithIntroTreeBuilder {
         val NavBarNode = NavBarComponent()
 
         val navbarNavItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent("Orders / Past", Icons.Filled.Edit) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent("Orders / Claim", Icons.Filled.Email) {},
@@ -100,13 +100,13 @@ object FullAppWithIntroTreeBuilder {
         )
 
         val drawerNavItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Home Nested",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent("Home", Icons.Filled.Home) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Orders Nested",
                 icon = Icons.Filled.Edit,
                 component = NavBarNode.also { it.setItems(navbarNavItems, 0) },

@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class PanelComponent : Component(), INavComponent {
     override val backStack = BackStack<Component>()
-    override var navItems: MutableList<NodeItem> = mutableListOf()
+    override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
@@ -77,7 +77,7 @@ class PanelComponent : Component(), INavComponent {
         return this
     }
 
-    override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NodeItem>) {
+    override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
         panelState.navItems = navItems
         panelState.selectNavItem(navItems[selectedIndex])
         if (getComponent().lifecycleState == LifecycleState.Started) {
@@ -96,7 +96,7 @@ class PanelComponent : Component(), INavComponent {
         }
     }
 
-    private fun getNavItemFromNode(component: Component): NodeItem? {
+    private fun getNavItemFromNode(component: Component): NavItem? {
         return panelState.navItems.firstOrNull { it.component == component }
     }
 

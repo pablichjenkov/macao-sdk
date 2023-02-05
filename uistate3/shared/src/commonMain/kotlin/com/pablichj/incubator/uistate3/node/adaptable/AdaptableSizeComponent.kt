@@ -21,7 +21,7 @@ class AdaptableSizeComponent(
     var windowSizeInfoProvider: IWindowSizeInfoProvider
 ) : Component() {
 
-    private var navItems: MutableList<NodeItem> = mutableListOf()
+    private var navItems: MutableList<NavItem> = mutableListOf()
     private var startingPosition: Int = 0
     private var CompactNavComponent: INavComponent? = null
     private var MediumNavComponent: INavComponent? = null
@@ -29,7 +29,7 @@ class AdaptableSizeComponent(
     private var currentNavComponent =
         mutableStateOf<INavComponent?>(null) // todo: This should be a reactive state
 
-    fun setNavItems(navItems: MutableList<NodeItem>, startingPosition: Int) {
+    fun setNavItems(navItems: MutableList<NavItem>, startingPosition: Int) {
         this.navItems = navItems
         this.startingPosition = startingPosition
         currentNavComponent.value?.setItems(navItems, startingPosition)
