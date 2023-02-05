@@ -10,7 +10,7 @@ import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeComponent
 import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.navigation.SubPath
-import com.pablichj.incubator.uistate3.node.setItems
+import com.pablichj.incubator.uistate3.node.setNavItems
 import example.nodes.TopBarComponent
 
 object AdaptableSizeTreeBuilder {
@@ -72,7 +72,7 @@ object AdaptableSizeTreeBuilder {
             )
         )
 
-        NavBarNode.setItems(navbarNavItems, 0)
+        NavBarNode.setNavItems(navbarNavItems, 0)
 
         val SettingsNode =
             TopBarComponent("Settings", Icons.Filled.Email, {})

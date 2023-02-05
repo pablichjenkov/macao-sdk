@@ -32,7 +32,7 @@ class AdaptableSizeComponent(
     fun setNavItems(navItems: MutableList<NavItem>, startingPosition: Int) {
         this.navItems = navItems
         this.startingPosition = startingPosition
-        currentNavComponent.value?.setItems(navItems, startingPosition)
+        currentNavComponent.value?.setNavItems(navItems, startingPosition)
     }
 
     fun setCompactContainer(INavComponent: INavComponent) {
@@ -153,7 +153,7 @@ class AdaptableSizeComponent(
             WindowSizeInfo.Medium -> MediumNavComponent
             WindowSizeInfo.Expanded -> ExpandedNavComponent
         }
-        navComponent?.setItems(navItems, startingPosition)
+        navComponent?.setNavItems(navItems, startingPosition)
         navComponent?.getComponent()?.start()
         currentNavComponent.value = navComponent
     }
@@ -187,7 +187,7 @@ class AdaptableSizeComponent(
         val adoptingNavigatorCopy = adoptingNavComponent ?: return donorNavComponent
 
         return if (donorNavComponent == null) { // The first time when no node has been setup yet
-            adoptingNavComponent.setItems(navItems, startingPosition)
+            adoptingNavComponent.setNavItems(navItems, startingPosition)
             adoptingNavComponent
         } else { // do the real transfer here
             adoptingNavigatorCopy.transferFrom(donorNavComponent)

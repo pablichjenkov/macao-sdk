@@ -10,7 +10,7 @@ import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.PagerComponent
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
-import com.pablichj.incubator.uistate3.node.setItems
+import com.pablichj.incubator.uistate3.node.setNavItems
 import com.pablichj.incubator.uistate3.node.split.SplitNavComponent
 import example.nodes.AppCoordinatorComponent
 import example.nodes.TopBarComponent
@@ -112,20 +112,20 @@ class FullAppIntroStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
-                component = NavBarNode.also { it.setItems(navbarNavItems, 0) },
+                component = NavBarNode.also { it.setNavItems(navbarNavItems, 0) },
                 selected = false
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = PagerNode.also { it.setItems(pagerNavItems, 0) },
+                component = PagerNode.also { it.setNavItems(pagerNavItems, 0) },
                 selected = false
             )
         )
 
         return DrawerNode.apply {
             attachToParent(parentComponent)
-            setItems(drawerNavItems, 0)
+            setNavItems(drawerNavItems, 0)
         }
     }
 
@@ -165,12 +165,12 @@ class FullAppIntroStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Orders Nested",
                 icon = Icons.Filled.Edit,
-                component = NavBarNode.also { it.setItems(navbarNavItems, 0) },
+                component = NavBarNode.also { it.setNavItems(navbarNavItems, 0) },
                 selected = false
             )
         )
 
-        return DrawerNode.also { it.setItems(drawerNavItems, 0) }
+        return DrawerNode.also { it.setNavItems(drawerNavItems, 0) }
     }
 
 }
