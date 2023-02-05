@@ -127,7 +127,7 @@ class PanelComponent : Component(), INavComponent {
     @Composable
     override fun Content(modifier: Modifier) {
         println(
-            """PanelNode.Composing() stack.size = ${backStack.size()}
+            """$clazz.Composing() stack.size = ${backStack.size()}
                 |lifecycleState = ${lifecycleState}
             """.trimMargin()
         )
@@ -137,9 +137,9 @@ class PanelComponent : Component(), INavComponent {
             panelState = panelState
         ) {
             Box {
-                val activeNodeUpdate = activeComponent.value
-                if (activeNodeUpdate != null && backStack.size() > 0) {
-                    activeNodeUpdate.Content(Modifier)
+                val activeComponentCopy = activeComponent.value
+                if (activeComponentCopy != null && backStack.size() > 0) {
+                    activeComponentCopy.Content(Modifier)
                 } else {
                     Text(
                         modifier = Modifier

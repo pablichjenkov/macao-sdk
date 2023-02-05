@@ -31,7 +31,7 @@ internal fun BackPressHandler(
     }
 
     val backPressDispatcher = LocalBackPressedDispatcher.current
-    val componentLifecycleState by component.nodeLifecycleFlow.collectAsState(Component.LifecycleState.Created)
+    val componentLifecycleState by component.componentLifecycleFlow.collectAsState(Component.LifecycleState.Created)
 
     when (componentLifecycleState) {
         Component.LifecycleState.Created -> {

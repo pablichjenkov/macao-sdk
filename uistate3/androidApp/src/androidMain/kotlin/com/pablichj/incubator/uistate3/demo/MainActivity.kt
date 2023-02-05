@@ -50,10 +50,6 @@ class MainActivity : ComponentActivity() {
                         AdaptableSizeNodeActivity::class.java,
                         "Swap Root Navigation Example"
                     )
-                    LaunchButton(
-                        ComposeAppActivity::class.java,
-                        "Compose App Example"
-                    )
                 }
             }
         }

@@ -4,16 +4,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.*
-import com.pablichj.incubator.uistate3.node.INavComponent
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 import com.pablichj.incubator.uistate3.node.navigation.Path
-import com.pablichj.incubator.uistate3.node.setItems
 
 /**
  * This node is basically a proxy, it transfer request and events to its active child node
@@ -24,9 +23,9 @@ class AdaptableSizeComponent(
 
     private var navItems: MutableList<NodeItem> = mutableListOf()
     private var startingPosition: Int = 0
-    private var CompactNavigator: INavComponent? = null
-    private var MediumNavigator: INavComponent? = null
-    private var ExpandedNavigator: INavComponent? = null
+    private var CompactNavComponent: INavComponent? = null
+    private var MediumNavComponent: INavComponent? = null
+    private var ExpandedNavComponent: INavComponent? = null
     private var currentNavComponent =
         mutableStateOf<INavComponent?>(null) // todo: This should be a reactive state
 
@@ -37,17 +36,17 @@ class AdaptableSizeComponent(
     }
 
     fun setCompactContainer(INavComponent: INavComponent) {
-        CompactNavigator = INavComponent
+        CompactNavComponent = INavComponent
         INavComponent.getComponent().attachToParent(this@AdaptableSizeComponent)
     }
 
     fun setMediumContainer(INavComponent: INavComponent) {
-        MediumNavigator = INavComponent
+        MediumNavComponent = INavComponent
         INavComponent.getComponent().attachToParent(this@AdaptableSizeComponent)
     }
 
     fun setExpandedContainer(INavComponent: INavComponent) {
-        ExpandedNavigator = INavComponent
+        ExpandedNavComponent = INavComponent
         INavComponent.getComponent().attachToParent(this@AdaptableSizeComponent)
     }
 
@@ -67,13 +66,16 @@ class AdaptableSizeComponent(
 
     override fun getDeepLinkNodes(): List<Component> {
         return listOfNotNull(
-            CompactNavigator?.getComponent(),
-            MediumNavigator?.getComponent(),
-            ExpandedNavigator?.getComponent()
+            CompactNavComponent?.getComponent(),
+            MediumNavComponent?.getComponent(),
+            ExpandedNavComponent?.getComponent()
         )
     }
 
-    override fun onCheckChildMatchHandler(advancedPath: Path, matchingComponent: Component): DeepLinkResult {
+    override fun onCheckChildMatchHandler(
+        advancedPath: Path,
+        matchingComponent: Component
+    ): DeepLinkResult {
         val interceptingNode = currentNavComponent.value?.getComponent() ?: matchingComponent
         interceptingNode.subPath = matchingComponent.subPath.copy()
         return interceptingNode.checkDeepLinkMatch(advancedPath)
@@ -90,35 +92,44 @@ class AdaptableSizeComponent(
     }
 
     override fun onDeepLinkMatchingNode(matchingComponent: Component) {
-        println("AdaptableWindowNode.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
+        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
     }
 
     // endregion
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("AdaptableWindowNode.Composing() lifecycleState = ${lifecycleState}")
-
-        val windowSizeInfo by windowSizeInfoProvider.windowSizeInfo()
-
-        //val nodeLifecycleState by nodeLifecycleFlow.collectAsState(LifecycleState.Created)
-
-        currentNavComponent.value = when (windowSizeInfo) {
-            WindowSizeInfo.Compact -> {
-                tryTransfer(currentNavComponent.value, CompactNavigator)
+        println("$clazz.Composing() lifecycleState = $lifecycleState")
+        val componentLifecycleState by componentLifecycleFlow.collectAsState(LifecycleState.Created)
+        when (componentLifecycleState) {
+            LifecycleState.Created,
+            LifecycleState.Destroyed -> {
             }
-            WindowSizeInfo.Medium -> {
-                tryTransfer(currentNavComponent.value, MediumNavigator)
+            LifecycleState.Started -> {
+                val windowSizeInfo by windowSizeInfoProvider.windowSizeInfo()
+                println("Pablo $clazz.Composing.Started() windowSizeInfo = $windowSizeInfo")
+
+                val currentNavComponentCopy = currentNavComponent.value
+
+                if (currentNavComponentCopy == null) {
+                    SetNavComponentContent(windowSizeInfo)
+                } else {
+                    TransferNavComponentContent(windowSizeInfo)
+                }
+
+                StartedContent(modifier, currentNavComponentCopy)
             }
-            WindowSizeInfo.Expanded -> {
-                tryTransfer(currentNavComponent.value, ExpandedNavigator)
+            LifecycleState.Stopped -> {
             }
         }
+    }
 
-        val CurrentNode = currentNavComponent.value?.getComponent()
+    @Composable
+    private fun StartedContent(modifier: Modifier, currentNavComponent: INavComponent?) {
+        val currentComponent = currentNavComponent?.getComponent()
 
-        if (CurrentNode != null) {
-            CurrentNode.Content(modifier)
+        if (currentComponent != null) {
+            currentComponent.Content(modifier)
         } else {
             Box {
                 Text(
@@ -133,20 +144,51 @@ class AdaptableSizeComponent(
 
     }
 
-    private fun tryTransfer(
+    @Composable
+    private fun SetNavComponentContent(
+        windowSizeInfo: WindowSizeInfo
+    ) {
+         val navComponent = when (windowSizeInfo) {
+            WindowSizeInfo.Compact -> CompactNavComponent
+            WindowSizeInfo.Medium -> MediumNavComponent
+            WindowSizeInfo.Expanded -> ExpandedNavComponent
+        }
+        navComponent?.setItems(navItems, startingPosition)
+        navComponent?.getComponent()?.start()
+        currentNavComponent.value = navComponent
+    }
+
+    @Composable
+    private fun TransferNavComponentContent(
+        windowSizeInfo: WindowSizeInfo
+    ) {
+        currentNavComponent.value = when (windowSizeInfo) {
+            WindowSizeInfo.Compact -> {
+                transfer(currentNavComponent.value, CompactNavComponent)
+            }
+            WindowSizeInfo.Medium -> {
+                transfer(currentNavComponent.value, MediumNavComponent)
+            }
+            WindowSizeInfo.Expanded -> {
+                transfer(currentNavComponent.value, ExpandedNavComponent)
+            }
+        }
+    }
+
+    private fun transfer(
         donorNavComponent: INavComponent?,
-        adoptingINavComponent: INavComponent?
+        adoptingNavComponent: INavComponent?
     ): INavComponent? {
 
-        if (adoptingINavComponent == donorNavComponent) {
-            return adoptingINavComponent
+        if (adoptingNavComponent == donorNavComponent) {
+            return adoptingNavComponent
         }
 
-        val adoptingNavigatorCopy = adoptingINavComponent ?: return donorNavComponent
+        val adoptingNavigatorCopy = adoptingNavComponent ?: return donorNavComponent
 
         return if (donorNavComponent == null) { // The first time when no node has been setup yet
-            adoptingINavComponent.setItems(navItems, startingPosition)
-            adoptingINavComponent
+            adoptingNavComponent.setItems(navItems, startingPosition)
+            adoptingNavComponent
         } else { // do the real transfer here
             adoptingNavigatorCopy.transferFrom(donorNavComponent)
             adoptingNavigatorCopy

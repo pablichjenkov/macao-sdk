@@ -4,8 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.material.MaterialTheme
-import com.pablichj.incubator.uistate3.AndroidNodeRender
+import com.pablichj.incubator.uistate3.AndroidComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.FullAppIntroStateTreeHolder
 import com.pablichj.incubator.uistate3.node.Component
 
@@ -20,12 +19,10 @@ class FullAppIntroActivity : ComponentActivity() {
         StateTree = activityStateHolder.getOrCreate()
 
         setContent {
-            MaterialTheme {
-                AndroidNodeRender(
-                    rootComponent = StateTree,
-                    onBackPressEvent = { finish() }
-                )
-            }
+            AndroidComponentRender(
+                rootComponent = StateTree,
+                onBackPressEvent = { finish() }
+            )
         }
     }
 

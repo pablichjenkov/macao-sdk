@@ -1,6 +1,7 @@
 package com.pablichj.incubator.uistate3.node
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.material3.windowsizeclass.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -17,7 +18,7 @@ class AndroidWindowSizeInfoProvider(
     @Composable
     internal override fun windowSizeInfo(): State<WindowSizeInfo> {
         val windowSize = calculateWindowSizeClass(activity)
-
+        Log.d("Pablo", "windowSizeInfo: windowSize = $windowSize")
         return remember(windowSize) {
             derivedStateOf {
                 when (windowSize.widthSizeClass) {
@@ -26,10 +27,8 @@ class AndroidWindowSizeInfoProvider(
                     WindowWidthSizeClass.Expanded -> WindowSizeInfo.Expanded
                     else -> throw IllegalStateException()
                 }
-
             }
         }
-
     }
 
 }
