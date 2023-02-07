@@ -1,7 +1,6 @@
 package com.pablichj.incubator.uistate3.demo.treebuilders
 
 import com.pablichj.incubator.uistate3.demo.DesktopAppNode
-import com.pablichj.incubator.uistate3.node.navigation.SubPath
 
 object DesktopAppTreeBuilder {
 

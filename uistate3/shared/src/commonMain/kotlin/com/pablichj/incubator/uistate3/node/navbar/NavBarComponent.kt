@@ -120,7 +120,7 @@ class NavBarComponent : Component(), INavComponent {
     }
 
     override fun onDeepLinkMatchingNode(matchingComponent: Component): DeepLinkResult {
-        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
+        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.clazz}")
         backStack.push(matchingComponent)
         return DeepLinkResult.Success
     }

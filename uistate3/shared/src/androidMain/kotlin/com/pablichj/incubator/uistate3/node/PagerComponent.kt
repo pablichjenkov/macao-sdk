@@ -29,6 +29,7 @@ class PagerComponent : Component(), INavComponent {
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
     private var pagerState = PagerState(selectedIndex)
+
     // Used to call functions in specific Composable's States that need a monotonic clock
     private lateinit var composableCoroutineScope: CoroutineScope
 
@@ -102,7 +103,7 @@ class PagerComponent : Component(), INavComponent {
     }
 
     override fun onDeepLinkMatchingNode(matchingComponent: Component): DeepLinkResult {
-        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
+        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.clazz}")
         val matchingNodeIndex = childComponents.indexOf(matchingComponent)
         selectPage(matchingNodeIndex)
         return DeepLinkResult.Success

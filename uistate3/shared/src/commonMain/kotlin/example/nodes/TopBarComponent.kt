@@ -21,10 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
-import com.pablichj.incubator.uistate3.node.navigation.ComponentDestination
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
-import com.pablichj.incubator.uistate3.node.navigation.Navigator
-import com.pablichj.incubator.uistate3.node.navigation.SubPath
 import com.pablichj.incubator.uistate3.node.topbar.TitleSectionStateHolder
 import com.pablichj.incubator.uistate3.node.topbar.TopBar
 import com.pablichj.incubator.uistate3.node.topbar.TopBarState
@@ -55,7 +52,6 @@ class TopBarComponent(
         }
     }.also {
         it.attachToParent(this@TopBarComponent)
-        it.subPath = SubPath("Page1")
     }
 
     val Step2 = SimpleComponent(
@@ -69,7 +65,6 @@ class TopBarComponent(
         }
     }.also {
         it.attachToParent(this@TopBarComponent)
-        it.subPath = SubPath("Page2")
     }
 
     val Step3 =
@@ -84,7 +79,6 @@ class TopBarComponent(
             }
         }.also {
             it.attachToParent(this@TopBarComponent)
-            it.subPath = SubPath("Page3")
         }
 
     init {
@@ -205,7 +199,7 @@ class TopBarComponent(
     }
 
     override fun onDeepLinkMatchingNode(matchingComponent: Component): DeepLinkResult {
-        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
+        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.clazz}")
         backStack.push(matchingComponent as SimpleComponent) //todo: see how get rid of the cast
         return DeepLinkResult.Success
     }
@@ -220,7 +214,7 @@ class TopBarComponent(
     override fun Content(modifier: Modifier) {
         println("$clazz::Composing(), stack.size = ${backStack.size()}")
 
-        Scaffold (
+        Scaffold(
             modifier = modifier,
             topBar = { TopBar(topBarState) }
         ) { paddingValues ->

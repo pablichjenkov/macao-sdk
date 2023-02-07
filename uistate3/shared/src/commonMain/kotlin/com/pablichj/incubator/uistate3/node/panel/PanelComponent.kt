@@ -9,9 +9,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import com.pablichj.incubator.uistate3.node.*
+import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.node.INavComponent
+import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
+import com.pablichj.incubator.uistate3.node.processBackstackEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -119,7 +122,7 @@ class PanelComponent : Component(), INavComponent {
     }
 
     override fun onDeepLinkMatchingNode(matchingComponent: Component): DeepLinkResult {
-        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
+        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.clazz}")
         backStack.push(matchingComponent)
         return DeepLinkResult.Success
     }
