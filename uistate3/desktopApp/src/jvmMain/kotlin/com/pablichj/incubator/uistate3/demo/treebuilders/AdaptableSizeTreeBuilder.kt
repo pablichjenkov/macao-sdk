@@ -9,6 +9,8 @@ import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeComponent
 import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
+import com.pablichj.incubator.uistate3.node.navigation.ComponentDestination
+import com.pablichj.incubator.uistate3.node.navigation.Navigator
 import com.pablichj.incubator.uistate3.node.navigation.SubPath
 import com.pablichj.incubator.uistate3.node.setNavItems
 import example.nodes.TopBarComponent
@@ -43,8 +45,13 @@ object AdaptableSizeTreeBuilder {
             return subTreeNavItems
         }
 
-        val NavBarNode = NavBarComponent()
-            .apply { subPath = SubPath("Orders") }
+        val NavBarComponent = NavBarComponent()
+            .apply {
+                subPath = SubPath("Orders")
+                Navigator.registerDestination(
+                    ComponentDestination("Orders/Page1", this)
+                )
+            }
 
         val navbarNavItems = mutableListOf(
             NavItem(
@@ -72,31 +79,50 @@ object AdaptableSizeTreeBuilder {
             )
         )
 
-        NavBarNode.setNavItems(navbarNavItems, 0)
+        NavBarComponent.setNavItems(navbarNavItems, 0)
 
-        val SettingsNode =
+        val SettingsComponent =
             TopBarComponent("Settings", Icons.Filled.Email, {})
-                .apply { subPath = SubPath("Settings") }
+                .apply {
+                    subPath = SubPath("Settings")
+                    Navigator.registerDestination(
+                        ComponentDestination(
+                            "Settings/Page1",
+                            this
+                        )
+                    )
+                }
+
+        val HomeComponent =
+            TopBarComponent(
+                "Home", Icons.Filled.Home, {}
+            ).apply {
+                subPath = SubPath("Home")
+                Navigator.registerDestination(
+                    ComponentDestination(
+                        "Home/Page1",
+                        this
+                    )
+                )
+            }
 
         val navItems = mutableListOf(
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent(
-                    "Home", Icons.Filled.Home, {}
-                ).apply { subPath = SubPath("Home") },
+                component = HomeComponent,
                 selected = false
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
-                component = NavBarNode,
+                component = NavBarComponent,
                 selected = false
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = SettingsNode,
+                component = SettingsComponent,
                 selected = false
             )
         )

@@ -64,7 +64,7 @@ class AdaptableSizeComponent(
 
     // region: DeepLink
 
-    override fun getDeepLinkNodes(): List<Component> {
+    override fun getDeepLinkSubscribedList(): List<Component> {
         return listOfNotNull(
             CompactNavComponent?.getComponent(),
             MediumNavComponent?.getComponent(),
@@ -72,27 +72,9 @@ class AdaptableSizeComponent(
         )
     }
 
-    override fun onCheckChildMatchHandler(
-        advancedPath: Path,
-        matchingComponent: Component
-    ): DeepLinkResult {
-        val interceptingNode = currentNavComponent.value?.getComponent() ?: matchingComponent
-        interceptingNode.subPath = matchingComponent.subPath.copy()
-        return interceptingNode.checkDeepLinkMatch(advancedPath)
-    }
-
-    override fun onNavigateChildMatchHandler(
-        advancedPath: Path,
-        matchingComponent: Component
-    ): DeepLinkResult {
-        val interceptingNode = currentNavComponent.value?.getComponent() ?: matchingComponent
-        interceptingNode.subPath = matchingComponent.subPath.copy()
-        onDeepLinkMatchingNode(interceptingNode)
-        return interceptingNode.navigateUpToDeepLink(advancedPath)
-    }
-
-    override fun onDeepLinkMatchingNode(matchingComponent: Component) {
-        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
+    override fun onDeepLinkMatchingNode(matchingComponent: Component): DeepLinkResult {
+        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.clazz}")
+        return DeepLinkResult.Success
     }
 
     // endregion

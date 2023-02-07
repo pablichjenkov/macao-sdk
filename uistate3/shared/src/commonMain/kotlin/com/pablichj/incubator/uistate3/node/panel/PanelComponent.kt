@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
+import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -113,13 +114,14 @@ class PanelComponent : Component(), INavComponent {
 
     // region: DeepLink
 
-    override fun getDeepLinkNodes(): List<Component> {
+    override fun getDeepLinkSubscribedList(): List<Component> {
         return childComponents
     }
 
-    override fun onDeepLinkMatchingNode(matchingComponent: Component) {
-        println("PanelNode.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
+    override fun onDeepLinkMatchingNode(matchingComponent: Component): DeepLinkResult {
+        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
         backStack.push(matchingComponent)
+        return DeepLinkResult.Success
     }
 
     // endregion

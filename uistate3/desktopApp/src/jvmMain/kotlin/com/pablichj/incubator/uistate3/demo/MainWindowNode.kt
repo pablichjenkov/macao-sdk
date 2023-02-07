@@ -16,6 +16,7 @@ import com.pablichj.incubator.uistate3.node.JvmWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
+import com.pablichj.incubator.uistate3.node.navigation.Navigator
 import com.pablichj.incubator.uistate3.node.navigation.Path
 import com.pablichj.incubator.uistate3.node.navigation.SubPath
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
@@ -53,14 +54,9 @@ class MainWindowNode(
 
     // region: DeepLink
 
-    fun handleDeepLink(path: Path) {}
-
-    /*override */fun getDeepLinkNodes(): List<Component> {
-        return listOf(adaptableSizeComponent)
-    }
-
-    /*override */ fun onDeepLinkMatchingNode(matchingComponent: Component) {
-        println("MainWindowNode.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
+    fun handleDeepLink(destination: String) {
+        val deepLinkResult = Navigator.handleDeepLink(destination)
+        println("Pablo::MainWindow deepLinkResult=${deepLinkResult}")
     }
 
     // endregion
