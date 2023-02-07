@@ -21,6 +21,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
+import com.pablichj.incubator.uistate3.node.navigation.ComponentDestination
+import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
+import com.pablichj.incubator.uistate3.node.navigation.Navigator
 import com.pablichj.incubator.uistate3.node.navigation.SubPath
 import com.pablichj.incubator.uistate3.node.topbar.TitleSectionStateHolder
 import com.pablichj.incubator.uistate3.node.topbar.TopBar
@@ -197,13 +200,14 @@ class TopBarComponent(
 
     // region: DeepLink
 
-    override fun getDeepLinkNodes(): List<Component> {
+    override fun getDeepLinkSubscribedList(): List<Component> {
         return listOf(Step1, Step2, Step3)
     }
 
-    override fun onDeepLinkMatchingNode(matchingComponent: Component) {
+    override fun onDeepLinkMatchingNode(matchingComponent: Component): DeepLinkResult {
         println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
         backStack.push(matchingComponent as SimpleComponent) //todo: see how get rid of the cast
+        return DeepLinkResult.Success
     }
 
     // endregion

@@ -17,6 +17,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
+import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -96,17 +97,15 @@ class PagerComponent : Component(), INavComponent {
 
     // region: DeepLink
 
-    override fun getDeepLinkNodes(): List<Component> {
+    override fun getDeepLinkSubscribedList(): List<Component> {
         return childComponents
     }
 
-    override fun onDeepLinkMatchingNode(matchingComponent: Component) {
-        println("PagerNode.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
+    override fun onDeepLinkMatchingNode(matchingComponent: Component): DeepLinkResult {
+        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
         val matchingNodeIndex = childComponents.indexOf(matchingComponent)
-        if (matchingNodeIndex > 0) {
-            selectPage(matchingNodeIndex)
-        }
-
+        selectPage(matchingNodeIndex)
+        return DeepLinkResult.Success
     }
 
     // endregion

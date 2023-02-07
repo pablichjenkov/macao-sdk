@@ -94,7 +94,6 @@ internal fun INavComponent.processBackstackEvent(event: BackStack.Event<Componen
                 "${getComponent().clazz}::Event.PushEqualTop()," +
                         " backStack.size = ${backStack.size()}"
             )
-            //activeComponent.value = event.stack.lastOrNull()
         }
         is BackStack.Event.PopEmptyStack -> {
             println("${getComponent().clazz}::Event.PopEmptyStack(), backStack.size = 0")

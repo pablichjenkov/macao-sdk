@@ -3,15 +3,16 @@ package com.pablichj.incubator.uistate3.node
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.pablichj.incubator.uistate3.node.backstack.BackPressedCallback
-import com.pablichj.incubator.uistate3.node.navigation.*
+import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
+import com.pablichj.incubator.uistate3.node.navigation.SubPath
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
-abstract class Component : Lifecycle {
+abstract class Component : ComponentLifecycle {
     var parentComponent: Component? = null
     var lifecycleState: LifecycleState = LifecycleState.Created
     var subPath: SubPath = SubPath.Empty
-    internal var rootBackPressedCallbackDelegate : BackPressedCallback? = null
+    internal var rootBackPressedCallbackDelegate: BackPressedCallback? = null
     internal val clazz = this::class.simpleName
 
     internal val backPressedCallbackDelegate = object : BackPressedCallback() {
@@ -75,54 +76,44 @@ abstract class Component : Lifecycle {
 
     // region: DeepLink
 
-    open fun onCheckChildMatchHandler(advancedPath: Path, matchingComponent: Component): DeepLinkResult {
-        return matchingComponent.checkDeepLinkMatch(advancedPath)
+    //todo: Rename to onDeepLinkMatch()
+    protected open fun onDeepLinkMatchingNode(matchingComponent: Component): DeepLinkResult {
+        return DeepLinkResult.Error(
+            """
+            $clazz::onDeepLinkMatchingNode has been called but the function is not " +
+                "override in this class. Default implementation does nothing.
+            """
+        )
     }
 
-    open fun onNavigateChildMatchHandler(advancedPath: Path, matchingComponent: Component): DeepLinkResult {
-        onDeepLinkMatchingNode(matchingComponent)
-        return matchingComponent.navigateUpToDeepLink(advancedPath)
-    }
+    protected open fun getDeepLinkSubscribedList(): List<Component> = emptyList()
 
-    open val pathMatcher: IPathMatcher by lazy {
-        DefaultPathMatcher
-    }
+    internal fun navigateToDeepLink(path: ArrayDeque<Component>): DeepLinkResult {
 
-    protected open fun getDeepLinkNodes(): List<Component> = emptyList()
+        val nextComponent = path.firstOrNull() ?: return DeepLinkResult.Success
 
-    protected open fun onDeepLinkMatchingNode(matchingComponent: Component) {}
+        val matchingComponent = getDeepLinkSubscribedList().firstOrNull {
+            it == nextComponent
+        }
+            ?: return DeepLinkResult.Error(
+                """
+                In the path, Component with clazz = $clazz could not find the required child
+                Component with clazz = ${nextComponent.clazz} in the DeepLinkSubscribedList.
+            """
+            )
 
-    fun handleDeepLink(path: Path): DeepLinkResult {
-        return when (val deepLinkResult = checkDeepLinkMatch(path)) {
+        val deepLinkResult = onDeepLinkMatchingNode(matchingComponent)
+
+        return when (deepLinkResult) {
             is DeepLinkResult.Error -> {
-                println(deepLinkResult.errorMsg)
                 deepLinkResult
             }
             DeepLinkResult.Success -> {
-                path.moveToStart()
-                navigateUpToDeepLink(path)
+                path.removeFirst()
+                matchingComponent.navigateToDeepLink(path)
             }
         }
-    }
 
-    internal fun checkDeepLinkMatch(path: Path): DeepLinkResult {
-        return pathMatcher.traverseWithChildMatchAction(
-            path,
-            subPath,
-            getDeepLinkNodes()
-        ) { advancedPath, matchingNode ->
-            onCheckChildMatchHandler(advancedPath, matchingNode)
-        }
-    }
-
-    internal fun navigateUpToDeepLink(path: Path): DeepLinkResult {
-        return pathMatcher.traverseWithChildMatchAction(
-            path,
-            subPath,
-            getDeepLinkNodes()
-        ) { advancedPath, matchingNode ->
-            onNavigateChildMatchHandler(advancedPath, matchingNode)
-        }
     }
 
     // endregion
@@ -139,7 +130,7 @@ abstract class Component : Lifecycle {
 
 }
 
-interface Lifecycle {
+interface ComponentLifecycle {
     fun start()
     fun stop()
     fun destroy()

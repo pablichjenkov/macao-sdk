@@ -13,6 +13,7 @@ import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.INavComponent
 import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
+import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 import com.pablichj.incubator.uistate3.node.processBackstackEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -114,13 +115,14 @@ class NavBarComponent : Component(), INavComponent {
 
     // region: DeepLink
 
-    override fun getDeepLinkNodes(): List<Component> {
+    override fun getDeepLinkSubscribedList(): List<Component> {
         return childComponents
     }
 
-    override fun onDeepLinkMatchingNode(matchingComponent: Component) {
+    override fun onDeepLinkMatchingNode(matchingComponent: Component): DeepLinkResult {
         println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.subPath}")
         backStack.push(matchingComponent)
+        return DeepLinkResult.Success
     }
 
     // endregion

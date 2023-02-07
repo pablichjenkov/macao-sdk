@@ -22,43 +22,18 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class DeepLinkDemoNode(
-    val onDeepLinkClick: (path: Path) -> Unit,
+    val onDeepLinkClick: (destination: String) -> Unit,
     val onCloseClick: () -> Unit
 ) : WindowNode {
     private val windowState = WindowState(
-        width = Dp.Unspecified, height = 800.dp
+        width = 300.dp, height = 800.dp
     )
 
-    private val deepLinks = mutableListOf<Path>(
-        getDeepLinkPath1(),
-        getDeepLinkPath2(),
-        getDeepLinkPath3()
+    private val deepLinks = mutableListOf<String>(
+        "Home/Page1",
+        "Orders/Page1",
+        "Settings/Page1",
     )
-
-    private fun getDeepLinkPath1(): Path {
-        return Path("App")
-            .appendSubPath("AdaptableWindow")
-            .appendSubPath("Drawer")
-            .appendSubPath("Orders")
-            .appendSubPath("Past")
-            .appendSubPath("Page3")
-    }
-
-    private fun getDeepLinkPath2(): Path {
-        return Path("App")
-            .appendSubPath("AdaptableWindow")
-            .appendSubPath("Drawer")
-            .appendSubPath("Home")
-            .appendSubPath("Page2")
-    }
-
-    private fun getDeepLinkPath3(): Path {
-        return Path("App")
-            .appendSubPath("AdaptableWindow")
-            .appendSubPath("Drawer")
-            .appendSubPath("Settings")
-            .appendSubPath("Page3")
-    }
 
     @Composable
     override fun WindowContent(modifier: Modifier) {
@@ -70,28 +45,28 @@ class DeepLinkDemoNode(
             }
         ) {
             LazyColumn(
-                modifier = Modifier.fillMaxHeight().wrapContentWidth()
+                modifier = Modifier.fillMaxSize()
             ) {
                 items(
                     items = deepLinks,
-                    itemContent = { path ->
+                    itemContent = { destination ->
                         Card(
                             modifier = Modifier
-                                .wrapContentWidth()
+                                .fillMaxWidth()
                                 .padding(8.dp)
                                 .clickable {
-                                    onDeepLinkClick(path.moveToStart())
+                                    onDeepLinkClick(destination)
                                 },
                             elevation = 8.dp
                         ) {
-                            Column (
+                            Column(
                                 modifier = Modifier
-                                    .wrapContentWidth()
+                                    .fillMaxWidth()
                                     .height(72.dp)
                                     .padding(8.dp)
                             ) {
                                 Text(
-                                    text = path.toString(),
+                                    text = destination,
                                     style = TextStyle(fontSize = 18.sp)
                                 )
                             }
