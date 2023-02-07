@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
-import com.pablichj.incubator.uistate3.node.navigation.Path
 
 /**
  * This node is basically a proxy, it transfer request and events to its active child node

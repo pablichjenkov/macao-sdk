@@ -11,14 +11,12 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import com.pablichj.incubator.uistate3.DesktopNodeRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeTreeBuilder
-import com.pablichj.incubator.uistate3.node.backstack.DefaultBackPressDispatcher
-import com.pablichj.incubator.uistate3.node.JvmWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.node.JvmWindowSizeInfoProvider
+import com.pablichj.incubator.uistate3.node.backstack.DefaultBackPressDispatcher
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
-import com.pablichj.incubator.uistate3.node.navigation.Navigator
-import com.pablichj.incubator.uistate3.node.navigation.Path
-import com.pablichj.incubator.uistate3.node.navigation.SubPath
+import com.pablichj.incubator.uistate3.node.navigation.DefaultNavigator
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -38,24 +36,22 @@ class MainWindowNode(
     private var adaptableSizeComponent: Component
 
     init {
-        //this@MainWindowNode.context.subPath = SubPath("App")
         val subtreeNavItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
 
         adaptableSizeComponent = AdaptableSizeTreeBuilder.build(
             windowSizeInfoProvider
         ).also {
-            it.subPath = SubPath("AdaptableWindow")
             it.setNavItems(subtreeNavItems, 0)
-            it.setCompactContainer(DrawerComponent().apply { subPath = SubPath("Drawer") })
-            it.setMediumContainer(NavBarComponent().apply { subPath = SubPath("Navbar") })
-            it.setExpandedContainer(PanelComponent().apply { subPath = SubPath("Panel") })
+            it.setCompactContainer(DrawerComponent())
+            it.setMediumContainer(NavBarComponent())
+            it.setExpandedContainer(PanelComponent())
         }
     }
 
     // region: DeepLink
 
     fun handleDeepLink(destination: String) {
-        val deepLinkResult = Navigator.handleDeepLink(destination)
+        val deepLinkResult = DefaultNavigator.handleDeepLink(destination)
         println("Pablo::MainWindow deepLinkResult=${deepLinkResult}")
     }
 

@@ -4,14 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.pablichj.incubator.uistate3.node.backstack.BackPressedCallback
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
-import com.pablichj.incubator.uistate3.node.navigation.SubPath
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
 abstract class Component : ComponentLifecycle {
     var parentComponent: Component? = null
     var lifecycleState: LifecycleState = LifecycleState.Created
-    var subPath: SubPath = SubPath.Empty
     internal var rootBackPressedCallbackDelegate: BackPressedCallback? = null
     internal val clazz = this::class.simpleName
 
