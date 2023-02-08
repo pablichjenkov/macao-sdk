@@ -13,7 +13,7 @@ import com.pablichj.incubator.uistate3.node.backstack.LocalBackPressedDispatcher
 import com.pablichj.incubator.uistate3.node.Component
 import platform.UIKit.UIViewController
 
-fun IosNodeRender(
+fun IosComponentRender(
     rootComponent: Component,
     appName: String
 ): UIViewController = Application(appName) {

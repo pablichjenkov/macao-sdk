@@ -16,68 +16,68 @@ The best way to get familiar with the concepts is to check the project wiki [wik
 
 ```kotlin
 // An example of how to make a tree. In this case a DrawerNode that will have a BottomBarNode as one of its child.
-object DrawerTreeBuilder {
+object ComponentTreeBuilder {
 
     private lateinit var DrawerNode: DrawerNode
 
-    fun build(): DrawerNode {
+    fun build(): DrawerComponent {
 
-        if (DrawerTreeBuilder::DrawerNode.isInitialized) {
-            return DrawerNode
+        if (DrawerTreeBuilder::DrawerComponent.isInitialized) {
+            return DrawerComponent
         }
 
-        val DrawerNode = DrawerNode()
+        val DrawerComponent = DrawerComponent()
 
         val drawerNavItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                node = TopBarNode("Home", Icons.Filled.Home) {},
+                component = TopBarComponent("Home", Icons.Filled.Home) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
-                node = buildNavBarNode(),
+                component = buildNavBarComponent(),
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                node = TopBarNode("Settings", Icons.Filled.Email) {},
+                component = TopBarComponent("Settings", Icons.Filled.Email) {},
                 selected = false
             )
         )
 
-        return DrawerNode.also { it.setItems(drawerNavItems, 0) }
+        return DrawerComponent.also { it.setItems(drawerNavItems, 0) }
     }
 
-    private fun buildNavBarNode(): NavBarNode {
+    private fun buildNavBarComponent(): NavBarComponent {
 
-        val NavBarNode = NavBarNode()
+        val NavBarComponent = NavBarComponent()
 
         val navbarNavItems = mutableListOf(
-            NodeItem(
+            NavItem(
                 label = "Active",
                 icon = Icons.Filled.Home,
-                node = TopBarNode("Orders/Active", Icons.Filled.Home) {},
+                component = TopBarComponent("Orders/Active", Icons.Filled.Home) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "Past",
                 icon = Icons.Filled.Settings,
-                node = TopBarNode("Orders/Past", Icons.Filled.Settings) {},
+                component = TopBarComponent("Orders/Past", Icons.Filled.Settings) {},
                 selected = false
             ),
-            NodeItem(
+            NavItem(
                 label = "New Order",
                 icon = Icons.Filled.Add,
-                node = TopBarNode("Orders/New Order", Icons.Filled.Add) {},
+                component = TopBarComponent("Orders/New Order", Icons.Filled.Add) {},
                 selected = false
             )
         )
 
-        return NavBarNode.also { it.setItems(navbarNavItems, 0) }
+        return NavBarComponent.also { it.setItems(navbarNavItems, 0) }
     }
 
 }
@@ -87,11 +87,15 @@ object DrawerTreeBuilder {
 
 fun main() = application {
 
-    val DrawerNode: DrawerNode = remember(key1 = this) {
+    val DrawerComponent: DrawerComponent = remember(key1 = this) {
         DrawerTreeBuilder.build()
     }
 
-    DrawerNode.Content(Modifier)
+   DesktopComponentRender(
+      rootComponent = DrawerComponent,
+      onBackPressEvent = { exitProcess(0) }
+   )
+   
 }
 ```
 

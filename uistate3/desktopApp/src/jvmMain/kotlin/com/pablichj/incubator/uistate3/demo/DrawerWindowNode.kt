@@ -6,7 +6,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import com.pablichj.incubator.uistate3.DesktopNodeRender
+import com.pablichj.incubator.uistate3.DesktopComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.DrawerTreeBuilder
 import com.pablichj.incubator.uistate3.node.Component
 import kotlinx.coroutines.flow.launchIn
@@ -29,7 +29,7 @@ class DrawerWindowNode(
             state = windowState,
             onCloseRequest = { onCloseClick() }
         ) {
-            DesktopNodeRender(
+            DesktopComponentRender(
                 rootComponent = drawerComponent,
                 onBackPressEvent = { exitProcess(0) }
             )
