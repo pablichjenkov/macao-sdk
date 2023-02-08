@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import com.pablichj.incubator.uistate3.DesktopNodeRender
+import com.pablichj.incubator.uistate3.DesktopComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.JvmWindowSizeInfoProvider
@@ -121,7 +121,7 @@ class MainWindowNode(
                 }
             }*/
 
-            DesktopNodeRender(
+            DesktopComponentRender(
                 rootComponent = adaptableSizeComponent,
                 onBackPressEvent = { exitProcess(0) }
             )

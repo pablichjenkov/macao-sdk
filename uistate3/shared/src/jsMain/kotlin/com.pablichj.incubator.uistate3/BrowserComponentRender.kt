@@ -16,25 +16,24 @@ import com.pablichj.incubator.uistate3.node.backstack.LocalBackPressedDispatcher
 import com.pablichj.incubator.uistate3.node.Component
 
 @Composable
-fun DesktopNodeRender(
+fun BrowserComponentRender(
     rootComponent: Component,
     onBackPressEvent: () -> Unit
 ) {
-    val desktopBackPressDispatcher = remember {
+    val webBackPressDispatcher = remember {
         DefaultBackPressDispatcher()
     }
 
     CompositionLocalProvider(
-        LocalBackPressedDispatcher provides desktopBackPressDispatcher
+        LocalBackPressedDispatcher provides webBackPressDispatcher,
     ) {
-        Box {
+        Box(modifier = Modifier.fillMaxSize()) {
             rootComponent.Content(Modifier.fillMaxSize())
             FloatingButton(
                 modifier = Modifier.offset(y = 48.dp),
                 alignment = Alignment.TopStart,
-                onClick = { desktopBackPressDispatcher.dispatchBackPressed() }
+                onClick = { webBackPressDispatcher.dispatchBackPressed() }
             )
-
         }
     }
 

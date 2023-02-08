@@ -10,7 +10,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         let drawerNode = Main_iosKt.buildDrawerNode()
         
-        let mainViewController = Main_iosKt.IosNodeRender(
+        let mainViewController = Main_iosKt.IosComponentRender(
             rootComponent: drawerNode,
             appName: "UiState3 Demo"
         )
