@@ -10,7 +10,7 @@ import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeComponent
 import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.navigation.DefaultNavigator
-import com.pablichj.incubator.uistate3.node.navigation.Destination
+import com.pablichj.incubator.uistate3.node.navigation.DeepLinkDestination
 import com.pablichj.incubator.uistate3.node.setNavItems
 import example.nodes.TopBarComponent
 
@@ -44,11 +44,6 @@ object AdaptableSizeTreeBuilder {
         }
 
         val NavBarComponent = NavBarComponent()
-            .apply {
-                DefaultNavigator.registerDestination(
-                    Destination("Orders/Page1", this)
-                )
-            }
 
         val navbarNavItems = mutableListOf(
             NavItem(
@@ -56,7 +51,7 @@ object AdaptableSizeTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     "Orders / Current", Icons.Filled.Home, {}
-                ),
+                ).apply { deepLinkMatcher = { route -> route == "Orders/Page1" } },
                 selected = false
             ),
             NavItem(
@@ -81,25 +76,11 @@ object AdaptableSizeTreeBuilder {
 
         val SettingsComponent =
             TopBarComponent("Settings", Icons.Filled.Email, {})
-                .apply {
-                    DefaultNavigator.registerDestination(
-                        Destination(
-                            "Settings/Page1",
-                            this
-                        )
-                    )
-                }
+                .apply { deepLinkMatcher = { route -> route == "Settings/Page1" } }
 
         val HomeComponent =
             TopBarComponent("Home", Icons.Filled.Home, {})
-                .apply {
-                    DefaultNavigator.registerDestination(
-                        Destination(
-                            "Home/Page1",
-                            this
-                        )
-                    )
-                }
+                .apply { deepLinkMatcher = { route -> route == "Home/Page1" } }
 
         val navItems = mutableListOf(
             NavItem(

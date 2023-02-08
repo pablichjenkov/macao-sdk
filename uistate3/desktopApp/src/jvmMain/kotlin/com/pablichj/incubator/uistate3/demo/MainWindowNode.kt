@@ -51,8 +51,11 @@ class MainWindowNode(
     // region: DeepLink
 
     fun handleDeepLink(destination: String) {
-        val deepLinkResult = DefaultNavigator.handleDeepLink(destination)
-        println("Pablo::MainWindow deepLinkResult=${deepLinkResult}")
+        val deepLinkResult = adaptableSizeComponent
+            .treeContext
+            ?.navigator
+            ?.handleDeepLink(destination)
+        println("Pablo::MainWindow deepLinkResult = ${deepLinkResult}")
     }
 
     // endregion

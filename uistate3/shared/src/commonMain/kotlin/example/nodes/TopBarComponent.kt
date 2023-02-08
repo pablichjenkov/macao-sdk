@@ -198,8 +198,8 @@ class TopBarComponent(
         return listOf(Step1, Step2, Step3)
     }
 
-    override fun onDeepLinkMatchingNode(matchingComponent: Component): DeepLinkResult {
-        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.clazz}")
+    override fun onDeepLinkMatch(matchingComponent: Component): DeepLinkResult {
+        println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
         backStack.push(matchingComponent as SimpleComponent) //todo: see how get rid of the cast
         return DeepLinkResult.Success
     }

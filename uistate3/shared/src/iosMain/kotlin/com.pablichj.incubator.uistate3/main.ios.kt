@@ -11,6 +11,8 @@ import com.pablichj.incubator.uistate3.node.backstack.DefaultBackPressDispatcher
 import com.pablichj.incubator.uistate3.node.backstack.ForwardBackPressCallback
 import com.pablichj.incubator.uistate3.node.backstack.LocalBackPressedDispatcher
 import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.node.TreeContext
+import com.pablichj.incubator.uistate3.node.dispatchTreeAboutToRender
 import platform.UIKit.UIViewController
 
 fun IosComponentRender(
@@ -20,6 +22,10 @@ fun IosComponentRender(
 
     val backPressDispatcher = remember {
         DefaultBackPressDispatcher()
+    }
+
+    val treeContext = remember(rootComponent) {
+        TreeContext()
     }
 
     CompositionLocalProvider(
@@ -43,6 +49,11 @@ fun IosComponentRender(
             //onBackPressEvent()
             println("back pressed dispatched in root node")
         }
+        // Traverse the whole tree passing the TreeContext living in the root node. Useful to
+        // propagate the the Navigator for example. Where each Component interested in participating
+        // in deep linking will subscribe its instance an a DeepLinkMatcher lambda function.
+        println("IosComponentRender::dispatchTreeAboutToRender")
+        rootComponent.dispatchTreeAboutToRender(treeContext)
         rootComponent.start()
     }
 }

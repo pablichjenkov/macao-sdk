@@ -17,6 +17,14 @@ fun INavComponent.setNavItems(
         childComponents = it.second.toMutableList()
     }
 
+    // Propagate TreeContext down to ensure all children share the same instance of TreeContext
+    // this ParentComponent shares.
+    with(getComponent()) {
+        treeContext?.let { treeContext ->
+            childComponents.forEach { it.dispatchTreeAboutToRender(treeContext) }
+        }
+    }
+
     onSelectNavItem(selectedIndex, navItems)
 }
 

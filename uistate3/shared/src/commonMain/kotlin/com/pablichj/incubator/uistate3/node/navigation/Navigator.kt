@@ -1,7 +1,7 @@
 package com.pablichj.incubator.uistate3.node.navigation
 
 interface Navigator {
-    fun registerDestination(destination: Destination)
-    fun unregisterDestination(destination: Destination)
+    fun registerDestination(destination: DeepLinkDestination)
+    fun unregisterDestination(destination: DeepLinkDestination)
     fun handleDeepLink(destination: String): DeepLinkResult
 }

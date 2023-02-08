@@ -4,11 +4,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
 
-interface INavComponent {
+interface INavComponent : ParentComponent {
     val backStack: BackStack<Component>
     var navItems: MutableList<NavItem>
     var selectedIndex: Int
-    var childComponents: MutableList<Component>
     var activeComponent: MutableState<Component?>
 
     fun getComponent(): Component

@@ -24,7 +24,7 @@ abstract class Component : ComponentLifecycle {
     val componentLifecycleFlow: Flow<LifecycleState>
         get() = _componentLifecycleFlow
 
-    // region: Tree
+    // region: Component Tree
 
     fun attachToParent(parentComponent: Component) {
         if (this == parentComponent) throw IllegalArgumentException("A Node cannot be its parentNode")
@@ -74,11 +74,13 @@ abstract class Component : ComponentLifecycle {
 
     // region: DeepLink
 
-    //todo: Rename to onDeepLinkMatch()
-    protected open fun onDeepLinkMatchingNode(matchingComponent: Component): DeepLinkResult {
+    var treeContext: TreeContext? = null
+    var deepLinkMatcher: ((String) -> Boolean)? = null
+
+    protected open fun onDeepLinkMatch(matchingComponent: Component): DeepLinkResult {
         return DeepLinkResult.Error(
             """
-            $clazz::onDeepLinkMatchingNode has been called but the function is not " +
+            $clazz::onDeepLinkMatch has been called but the function is not " +
                 "override in this class. Default implementation does nothing.
             """
         )
@@ -100,7 +102,7 @@ abstract class Component : ComponentLifecycle {
             """
             )
 
-        val deepLinkResult = onDeepLinkMatchingNode(matchingComponent)
+        val deepLinkResult = onDeepLinkMatch(matchingComponent)
 
         return when (deepLinkResult) {
             is DeepLinkResult.Error -> {

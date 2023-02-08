@@ -102,8 +102,8 @@ class PagerComponent : Component(), INavComponent {
         return childComponents
     }
 
-    override fun onDeepLinkMatchingNode(matchingComponent: Component): DeepLinkResult {
-        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.clazz}")
+    override fun onDeepLinkMatch(matchingComponent: Component): DeepLinkResult {
+        println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
         val matchingNodeIndex = childComponents.indexOf(matchingComponent)
         selectPage(matchingNodeIndex)
         return DeepLinkResult.Success
