@@ -18,8 +18,7 @@ import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
  * */
 class AdaptableSizeComponent(
     var windowSizeInfoProvider: IWindowSizeInfoProvider
-) : Component() {
-
+) : Component(), ParentComponent {
     private var navItems: MutableList<NavItem> = mutableListOf()
     private var startingPosition: Int = 0
     private var CompactNavComponent: INavComponent? = null
@@ -34,21 +33,21 @@ class AdaptableSizeComponent(
         currentNavComponent.value?.setNavItems(navItems, startingPosition)
     }
 
-    fun setCompactContainer(INavComponent: INavComponent) {
-        CompactNavComponent = INavComponent
-        INavComponent.getComponent().attachToParent(this@AdaptableSizeComponent)
+    fun setCompactContainer(navComponent: INavComponent) {
+        CompactNavComponent = navComponent
+        navComponent.getComponent().attachToParent(this@AdaptableSizeComponent)
     }
 
-    fun setMediumContainer(INavComponent: INavComponent) {
-        MediumNavComponent = INavComponent
-        INavComponent.getComponent().attachToParent(this@AdaptableSizeComponent)
+    fun setMediumContainer(navComponent: INavComponent) {
+        MediumNavComponent = navComponent
+        navComponent.getComponent().attachToParent(this@AdaptableSizeComponent)
     }
 
-    fun setExpandedContainer(INavComponent: INavComponent) {
-        ExpandedNavComponent = INavComponent
-        INavComponent.getComponent().attachToParent(this@AdaptableSizeComponent)
+    fun setExpandedContainer(navComponent: INavComponent) {
+        ExpandedNavComponent = navComponent
+        navComponent.getComponent().attachToParent(this@AdaptableSizeComponent)
     }
-
+    
     override fun start() {
         super.start()
         println("$clazz::start()")
@@ -71,8 +70,8 @@ class AdaptableSizeComponent(
         )
     }
 
-    override fun onDeepLinkMatchingNode(matchingComponent: Component): DeepLinkResult {
-        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.clazz}")
+    override fun onDeepLinkMatch(matchingComponent: Component): DeepLinkResult {
+        println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
         return DeepLinkResult.Success
     }
 
@@ -175,5 +174,8 @@ class AdaptableSizeComponent(
             adoptingNavigatorCopy
         }
     }
+
+    override var childComponents: MutableList<Component> = mutableListOf()
+        get() = getDeepLinkSubscribedList().toMutableList()
 
 }

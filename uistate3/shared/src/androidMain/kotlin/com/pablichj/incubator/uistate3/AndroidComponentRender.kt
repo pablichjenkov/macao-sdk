@@ -6,13 +6,16 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import com.pablichj.incubator.uistate3.node.AndroidBackPressDispatcher
 import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.node.TreeContext
 import com.pablichj.incubator.uistate3.node.backstack.ForwardBackPressCallback
 import com.pablichj.incubator.uistate3.node.backstack.LocalBackPressedDispatcher
+import com.pablichj.incubator.uistate3.node.dispatchTreeAboutToRender
 
 @Composable
 fun AndroidComponentRender(
@@ -25,10 +28,19 @@ fun AndroidComponentRender(
         }
     }
 
+    val treeContext = remember(rootComponent) {
+        TreeContext()
+    }
+
     LifecycleEventObserver(
         lifecycleOwner = LocalLifecycleOwner.current,
         onStart = {
             println("Pablo Receiving Activity.onStart() event")
+            // Traverse the whole tree passing the TreeContext living in the root node. Useful to
+            // propagate the the Navigator for example. Where each Component interested in participating
+            // in deep linking will subscribe its instance an a DeepLinkMatcher lambda function.
+            println("AndroidComponentRender::dispatchTreeAboutToRender")
+            rootComponent.dispatchTreeAboutToRender(treeContext)
             rootComponent.start()
         },
         onStop = {

@@ -134,8 +134,8 @@ class DrawerComponent(
         return childComponents
     }
 
-    override fun onDeepLinkMatchingNode(matchingComponent: Component): DeepLinkResult {
-        println("$clazz.onDeepLinkMatchingNode() matchingNode = ${matchingComponent.clazz}")
+    override fun onDeepLinkMatch(matchingComponent: Component): DeepLinkResult {
+        println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
         backStack.push(matchingComponent)
         return DeepLinkResult.Success
     }

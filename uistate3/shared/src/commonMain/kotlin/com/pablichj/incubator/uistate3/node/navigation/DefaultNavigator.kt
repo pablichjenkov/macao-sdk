@@ -2,21 +2,25 @@ package com.pablichj.incubator.uistate3.node.navigation
 
 import com.pablichj.incubator.uistate3.node.Component
 
-object DefaultNavigator : Navigator{//todo: Make it a class and put the instance in the Local provider of the root component
+class DefaultNavigator : Navigator{
 
-    private val destinationRegistry = mutableListOf<Destination>()
+    private val destinationRegistry = mutableListOf<DeepLinkDestination>()
 
-    override fun registerDestination(destination: Destination) {
+    override fun registerDestination(destination: DeepLinkDestination) {
         destinationRegistry.add(destination)
     }
 
-    override fun unregisterDestination(destination: Destination) {
+    override fun unregisterDestination(destination: DeepLinkDestination) {
         destinationRegistry.remove(destination)
     }
 
     override fun handleDeepLink(destination: String): DeepLinkResult {
-        val componentDestination = destinationRegistry.firstOrNull { it.destination == destination }
-            ?: return DeepLinkResult.Error(
+        destinationRegistry.forEach {
+            println("${it.component.clazz}")
+        }
+        val componentDestination = destinationRegistry.firstOrNull {
+            it.deepLinkMatcher(destination)
+        } ?: return DeepLinkResult.Error(
                 """
                 Destination registry has no Component with destination = $destination
             """

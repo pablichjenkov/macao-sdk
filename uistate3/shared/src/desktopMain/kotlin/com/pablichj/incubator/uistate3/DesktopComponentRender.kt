@@ -14,14 +14,20 @@ import com.pablichj.incubator.uistate3.node.backstack.DefaultBackPressDispatcher
 import com.pablichj.incubator.uistate3.node.backstack.ForwardBackPressCallback
 import com.pablichj.incubator.uistate3.node.backstack.LocalBackPressedDispatcher
 import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.node.TreeContext
+import com.pablichj.incubator.uistate3.node.dispatchTreeAboutToRender
 
 @Composable
 fun DesktopComponentRender(
     rootComponent: Component,
     onBackPressEvent: () -> Unit
 ) {
-    val desktopBackPressDispatcher = remember {
+    val desktopBackPressDispatcher = remember(rootComponent) {
         DefaultBackPressDispatcher()
+    }
+
+    val treeContext = remember(rootComponent) {
+        TreeContext()
     }
 
     CompositionLocalProvider(
@@ -42,6 +48,11 @@ fun DesktopComponentRender(
         rootComponent.rootBackPressedCallbackDelegate = ForwardBackPressCallback {
             onBackPressEvent()
         }
+        // Traverse the whole tree passing the TreeContext living in the root node. Useful to
+        // propagate the the Navigator for example. Where each Component interested in participating
+        // in deep linking will subscribe its instance an a DeepLinkMatcher lambda function.
+        println("DesktopComponentRender::dispatchTreeAboutToRender")
+        rootComponent.dispatchTreeAboutToRender(treeContext)
         rootComponent.start()
     }
 }
