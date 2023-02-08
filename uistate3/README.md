@@ -15,14 +15,14 @@ The best way to get familiar with the concepts is to check the project wiki [wik
 <H4>Show me some code</H4>
 
 ```kotlin
-// An example of how to make a tree. In this case a DrawerNode that will have a BottomBarNode as one of its child.
+// An example of how to make a tree. In this case a DrawerComponent that will have a BottomBarComponent as one of its child.
 object ComponentTreeBuilder {
 
-    private lateinit var DrawerNode: DrawerNode
+    private lateinit var DrawerComponent: DrawerComponent
 
     fun build(): DrawerComponent {
 
-        if (DrawerTreeBuilder::DrawerComponent.isInitialized) {
+        if (ComponentTreeBuilder::DrawerComponent.isInitialized) {
             return DrawerComponent
         }
 
