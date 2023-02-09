@@ -75,6 +75,7 @@ class TopBarComponent(
             when (msg) {
                 SimpleComponent.Msg.Next -> {
                     onMessage(Msg.OnboardDone)
+                    treeContext?.navigator?.handleDeepLink("Settings")
                 }
             }
         }.also {

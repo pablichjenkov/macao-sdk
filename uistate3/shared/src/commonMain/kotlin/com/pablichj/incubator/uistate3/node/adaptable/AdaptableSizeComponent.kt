@@ -3,14 +3,12 @@ package com.pablichj.incubator.uistate3.node.adaptable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.*
+import com.pablichj.incubator.uistate3.node.backstack.BackStack
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 
 /**
@@ -18,19 +16,25 @@ import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
  * */
 class AdaptableSizeComponent(
     var windowSizeInfoProvider: IWindowSizeInfoProvider
-) : Component(), ParentComponent {
-    private var navItems: MutableList<NavItem> = mutableListOf()
-    private var startingPosition: Int = 0
-    private var CompactNavComponent: INavComponent? = null
-    private var MediumNavComponent: INavComponent? = null
-    private var ExpandedNavComponent: INavComponent? = null
-    private var currentNavComponent =
-        mutableStateOf<INavComponent?>(null) // todo: This should be a reactive state
+) : Component(), INavComponent {
 
-    fun setNavItems(navItems: MutableList<NavItem>, startingPosition: Int) {
+
+    private var CompactNavComponent: INavComponent = AdaptableSizeStubComponent()
+    private var MediumNavComponent: INavComponent = AdaptableSizeStubComponent()
+    private var ExpandedNavComponent: INavComponent = AdaptableSizeStubComponent()
+    private var currentNavComponent = mutableStateOf(CompactNavComponent)
+
+    override val backStack: BackStack<Component> = currentNavComponent.value.backStack
+    override var navItems: MutableList<NavItem> = currentNavComponent.value.navItems
+    override var childComponents = currentNavComponent.value.childComponents
+    override var selectedIndex: Int = currentNavComponent.value.selectedIndex
+    override var activeComponent: MutableState<Component?> =
+        currentNavComponent.value.activeComponent
+
+    fun setNavItems(navItems: MutableList<NavItem>, selectedIndex: Int) {
         this.navItems = navItems
-        this.startingPosition = startingPosition
-        currentNavComponent.value?.setNavItems(navItems, startingPosition)
+        this.selectedIndex = selectedIndex
+        currentNavComponent.value.setNavItems(navItems, selectedIndex)
     }
 
     fun setCompactContainer(navComponent: INavComponent) {
@@ -47,32 +51,52 @@ class AdaptableSizeComponent(
         ExpandedNavComponent = navComponent
         navComponent.getComponent().attachToParent(this@AdaptableSizeComponent)
     }
-    
+
     override fun start() {
         super.start()
         println("$clazz::start()")
-        currentNavComponent.value?.getComponent()?.start()
+        currentNavComponent.value.getComponent().start()
     }
 
     override fun stop() {
         super.stop()
         println("$clazz::stop()")
-        currentNavComponent.value?.getComponent()?.stop()
+        currentNavComponent.value.getComponent().stop()
     }
 
     // region: DeepLink
 
     override fun getDeepLinkSubscribedList(): List<Component> {
         return listOfNotNull(
-            CompactNavComponent?.getComponent(),
-            MediumNavComponent?.getComponent(),
-            ExpandedNavComponent?.getComponent()
+            CompactNavComponent.getComponent(),
+            MediumNavComponent.getComponent(),
+            ExpandedNavComponent.getComponent()
         )
     }
 
     override fun onDeepLinkMatch(matchingComponent: Component): DeepLinkResult {
         println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
         return DeepLinkResult.Success
+    }
+
+    // endregion
+
+    // region: INavComponent
+
+    override fun getComponent(): Component {
+        return currentNavComponent.value.getComponent()
+    }
+
+    override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
+        currentNavComponent.value.onSelectNavItem(selectedIndex, navItems)
+    }
+
+    override fun updateSelectedNavItem(newTop: Component) {
+        currentNavComponent.value.updateSelectedNavItem(newTop)
+    }
+
+    override fun onDestroyChildComponent(component: Component) {
+        currentNavComponent.value.onDestroyChildComponent(component)
     }
 
     // endregion
@@ -91,7 +115,7 @@ class AdaptableSizeComponent(
 
                 val currentNavComponentCopy = currentNavComponent.value
 
-                if (currentNavComponentCopy == null) {
+                if (currentNavComponentCopy is AdaptableSizeStubComponent) {
                     SetNavComponentContent(windowSizeInfo)
                 } else {
                     TransferNavComponentContent(windowSizeInfo)
@@ -128,13 +152,13 @@ class AdaptableSizeComponent(
     private fun SetNavComponentContent(
         windowSizeInfo: WindowSizeInfo
     ) {
-         val navComponent = when (windowSizeInfo) {
+        val navComponent = when (windowSizeInfo) {
             WindowSizeInfo.Compact -> CompactNavComponent
             WindowSizeInfo.Medium -> MediumNavComponent
             WindowSizeInfo.Expanded -> ExpandedNavComponent
         }
-        navComponent?.setNavItems(navItems, startingPosition)
-        navComponent?.getComponent()?.start()
+        navComponent.setNavItems(navItems, selectedIndex)
+        navComponent.getComponent().start()
         currentNavComponent.value = navComponent
     }
 
@@ -156,9 +180,9 @@ class AdaptableSizeComponent(
     }
 
     private fun transfer(
-        donorNavComponent: INavComponent?,
-        adoptingNavComponent: INavComponent?
-    ): INavComponent? {
+        donorNavComponent: INavComponent,
+        adoptingNavComponent: INavComponent
+    ): INavComponent {
 
         if (adoptingNavComponent == donorNavComponent) {
             return adoptingNavComponent
@@ -166,16 +190,13 @@ class AdaptableSizeComponent(
 
         val adoptingNavigatorCopy = adoptingNavComponent ?: return donorNavComponent
 
-        return if (donorNavComponent == null) { // The first time when no node has been setup yet
-            adoptingNavComponent.setNavItems(navItems, startingPosition)
+        return if (donorNavComponent is AdaptableSizeStubComponent) { // The first time when no node has been setup yet
+            adoptingNavComponent.setNavItems(navItems, selectedIndex)
             adoptingNavComponent
         } else { // do the real transfer here
             adoptingNavigatorCopy.transferFrom(donorNavComponent)
             adoptingNavigatorCopy
         }
     }
-
-    override var childComponents: MutableList<Component> = mutableListOf()
-        get() = getDeepLinkSubscribedList().toMutableList()
 
 }

@@ -176,18 +176,3 @@ class PagerComponent : Component(), INavComponent {
     }
 
 }
-
-private class EmptyComponent : Component() {
-    @Composable
-    override fun Content(modifier: Modifier) {
-        Box {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.Center),
-                text = "Empty Stack, Please add some children",
-                textAlign = TextAlign.Center
-            )
-        }
-    }
-}
