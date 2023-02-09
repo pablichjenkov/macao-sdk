@@ -31,7 +31,7 @@ class DrawerStateTreeHolder : ViewModel() {
         ) {}
 
         val NavBarNode = NavBarComponent()
-        val PagerNode = PagerComponent()
+        val PagerComponent = PagerComponent()
 
         val navbarNavItems = mutableListOf(
             NavItem(
@@ -60,8 +60,9 @@ class DrawerStateTreeHolder : ViewModel() {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     "Settings / Account",
-                    Icons.Filled.Home
-                ) {},
+                    Icons.Filled.Home,
+                    {}
+                ),//.apply{ deepLinkMatcher = { it == "Settings" } }, todo: explore why it crashes
                 selected = false
             ),
             NavItem(
@@ -78,8 +79,9 @@ class DrawerStateTreeHolder : ViewModel() {
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
                     "Settings / About Us",
-                    Icons.Filled.Email
-                ) {},
+                    Icons.Filled.Email,
+                    {}
+                ),
                 selected = false
             )
         )
@@ -100,7 +102,10 @@ class DrawerStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = PagerNode.also { it.setNavItems(pagerNavItems, 0) },
+                component = PagerComponent.apply {
+                    deepLinkMatcher = { route -> route == "Settings" }
+                    setNavItems(pagerNavItems, 0)
+                                           },
                 selected = false
             )
         )
