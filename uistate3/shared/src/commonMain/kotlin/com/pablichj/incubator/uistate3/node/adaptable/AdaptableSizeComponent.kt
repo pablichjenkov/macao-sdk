@@ -16,16 +16,16 @@ import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
  * */
 class AdaptableSizeComponent(
     var windowSizeInfoProvider: IWindowSizeInfoProvider
-) : Component(), INavComponent {
-    private val initialEmptyNavComponent: INavComponent = AdaptableSizeStubNavComponent()
-    private var CompactNavComponent: INavComponent = AdaptableSizeStubNavComponent()
-    private var MediumNavComponent: INavComponent = AdaptableSizeStubNavComponent()
-    private var ExpandedNavComponent: INavComponent = AdaptableSizeStubNavComponent()
+) : Component(), NavComponent {
+    private val initialEmptyNavComponent: NavComponent = AdaptableSizeStubNavComponent()
+    private var CompactNavComponent: NavComponent = AdaptableSizeStubNavComponent()
+    private var MediumNavComponent: NavComponent = AdaptableSizeStubNavComponent()
+    private var ExpandedNavComponent: NavComponent = AdaptableSizeStubNavComponent()
     private var currentNavComponent = mutableStateOf(initialEmptyNavComponent)
 
     override val backStack: BackStack<Component> = currentNavComponent.value.backStack
     override var navItems: MutableList<NavItem> = currentNavComponent.value.navItems
-    override var childComponents = currentNavComponent.value.childComponents
+    override var childComponents: MutableList<Component> = mutableListOf()
     override var selectedIndex: Int = currentNavComponent.value.selectedIndex
     override var activeComponent: MutableState<Component?> =
         currentNavComponent.value.activeComponent
@@ -36,19 +36,24 @@ class AdaptableSizeComponent(
         currentNavComponent.value.setNavItems(navItems, selectedIndex)
     }
 
-    fun setCompactContainer(navComponent: INavComponent) {
+    fun setCompactContainer(navComponent: NavComponent) {
         CompactNavComponent = navComponent
-        navComponent.getComponent().attachToParent(this@AdaptableSizeComponent)
+        attachChildComponent(navComponent)
     }
 
-    fun setMediumContainer(navComponent: INavComponent) {
+    fun setMediumContainer(navComponent: NavComponent) {
         MediumNavComponent = navComponent
-        navComponent.getComponent().attachToParent(this@AdaptableSizeComponent)
+        attachChildComponent(navComponent)
     }
 
-    fun setExpandedContainer(navComponent: INavComponent) {
+    fun setExpandedContainer(navComponent: NavComponent) {
         ExpandedNavComponent = navComponent
-        navComponent.getComponent().attachToParent(this@AdaptableSizeComponent)
+        attachChildComponent(navComponent)
+    }
+
+    private fun attachChildComponent(navComponent: NavComponent) {
+        navComponent.getComponent().setParent(this@AdaptableSizeComponent)
+        childComponents.add(navComponent.getComponent())
     }
 
     override fun start() {
@@ -73,7 +78,7 @@ class AdaptableSizeComponent(
         )
     }
 
-    override fun onDeepLinkMatch(matchingComponent: Component): DeepLinkResult {
+    override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
         println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
         return DeepLinkResult.Success
     }
@@ -128,7 +133,7 @@ class AdaptableSizeComponent(
     }
 
     @Composable
-    private fun StartedContent(modifier: Modifier, currentNavComponent: INavComponent?) {
+    private fun StartedContent(modifier: Modifier, currentNavComponent: NavComponent?) {
         val currentComponent = currentNavComponent?.getComponent()
 
         if (currentComponent != null) {
@@ -147,9 +152,7 @@ class AdaptableSizeComponent(
 
     }
 
-    private fun setAndStartNavComponent(
-        windowSizeInfo: WindowSizeInfo
-    ) {
+    private fun setAndStartNavComponent(windowSizeInfo: WindowSizeInfo) {
         val navComponent = when (windowSizeInfo) {
             WindowSizeInfo.Compact -> CompactNavComponent
             WindowSizeInfo.Medium -> MediumNavComponent
@@ -177,9 +180,9 @@ class AdaptableSizeComponent(
     }
 
     private fun transfer(
-        donorNavComponent: INavComponent,
-        adoptingNavComponent: INavComponent
-    ): INavComponent {
+        donorNavComponent: NavComponent,
+        adoptingNavComponent: NavComponent
+    ): NavComponent {
         if (adoptingNavComponent == donorNavComponent) {
             return adoptingNavComponent
         }

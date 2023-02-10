@@ -124,7 +124,7 @@ class FullAppIntroStateTreeHolder : ViewModel() {
         )
 
         return DrawerNode.apply {
-            attachToParent(parentComponent)
+            setParent(parentComponent)
             setNavItems(drawerNavItems, 0)
         }
     }

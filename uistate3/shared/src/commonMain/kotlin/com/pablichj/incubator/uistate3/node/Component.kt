@@ -26,7 +26,7 @@ abstract class Component : ComponentLifecycle {
 
     // region: Component Tree
 
-    fun attachToParent(parentComponent: Component) {
+    fun setParent(parentComponent: Component) {
         if (this == parentComponent) throw IllegalArgumentException("A Node cannot be its parentNode")
         this.parentComponent = parentComponent
     }
@@ -77,7 +77,7 @@ abstract class Component : ComponentLifecycle {
     var treeContext: TreeContext? = null
     var deepLinkMatcher: ((String) -> Boolean)? = null
 
-    protected open fun onDeepLinkMatch(matchingComponent: Component): DeepLinkResult {
+    protected open fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
         return DeepLinkResult.Error(
             """
             $clazz::onDeepLinkMatch has been called but the function is not " +
@@ -102,7 +102,7 @@ abstract class Component : ComponentLifecycle {
             """
             )
 
-        val deepLinkResult = onDeepLinkMatch(matchingComponent)
+        val deepLinkResult = onDeepLinkNavigation(matchingComponent)
 
         return when (deepLinkResult) {
             is DeepLinkResult.Error -> {

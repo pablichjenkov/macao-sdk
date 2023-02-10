@@ -109,26 +109,10 @@ class MainWindowNode(
                 }
 
             }
-
-            /*CompositionLocalProvider(
-                LocalBackPressedDispatcher provides defaultBackPressDispatcher,
-            ){
-                Box {
-                    AdaptableSizeNode.Content(Modifier)
-                    FloatingButton(
-                        modifier = Modifier.offset(y = 48.dp),
-                        alignment = Alignment.TopStart,
-                        onClick = { defaultBackPressDispatcher.dispatchBackPressed() }
-                    )
-
-                }
-            }*/
-
             DesktopComponentRender(
                 rootComponent = adaptableSizeComponent,
                 onBackPressEvent = { exitProcess(0) }
             )
-
         }
 
         LaunchedEffect(windowState) {

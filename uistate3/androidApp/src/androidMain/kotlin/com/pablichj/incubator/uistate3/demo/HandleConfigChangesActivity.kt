@@ -127,7 +127,7 @@ class HandleConfigChangesActivity : ComponentActivity() {
         )
 
         return DrawerNode.also {
-            it.attachToParent(parentComponent)
+            it.setParent(parentComponent)
             it.setNavItems(drawerNavItems, 0)
         }
     }

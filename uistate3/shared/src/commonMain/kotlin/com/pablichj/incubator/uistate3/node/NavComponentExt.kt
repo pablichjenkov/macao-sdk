@@ -2,7 +2,7 @@ package com.pablichj.incubator.uistate3.node
 
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
 
-fun INavComponent.setNavItems(
+fun NavComponent.setNavItems(
     newNavItems: MutableList<NavItem>,
     newSelectedIndex: Int
 ) {
@@ -10,7 +10,7 @@ fun INavComponent.setNavItems(
     selectedIndex = newSelectedIndex
 
     newNavItems.map { nodeItem ->
-        nodeItem.component.attachToParent(parentComponent = this@setNavItems.getComponent())
+        nodeItem.component.setParent(parentComponent = this@setNavItems.getComponent())
         nodeItem to nodeItem.component
     }.unzip().let {
         navItems = it.first.toMutableList()
@@ -21,14 +21,14 @@ fun INavComponent.setNavItems(
     // this ParentComponent shares.
     with(getComponent()) {
         treeContext?.let { treeContext ->
-            childComponents.forEach { it.dispatchTreeAboutToRender(treeContext) }
+            childComponents.forEach { it.dispatchAttachedToComponentTree(treeContext) }
         }
     }
 
     onSelectNavItem(selectedIndex, navItems)
 }
 
-internal fun INavComponent.addNavItem(newIndex: Int, navItem: NavItem) {
+internal fun NavComponent.addNavItem(newIndex: Int, navItem: NavItem) {
     if (newIndex < selectedIndex) {
         selectedIndex++
     }
@@ -40,7 +40,7 @@ internal fun INavComponent.addNavItem(newIndex: Int, navItem: NavItem) {
 }
 
 
-internal fun INavComponent.removeNavItem(removeIndex: Int) {
+internal fun NavComponent.removeNavItem(removeIndex: Int) {
     if (removeIndex < selectedIndex) {
         selectedIndex--
     }
@@ -52,7 +52,7 @@ internal fun INavComponent.removeNavItem(removeIndex: Int) {
     onSelectNavItem(selectedIndex, navItems)
 }
 
-internal fun INavComponent.clearNavItems() {
+internal fun NavComponent.clearNavItems() {
     println("${getComponent().clazz}.clearNavItems")
     backStack.clear()
     navItems.clear()
@@ -61,7 +61,7 @@ internal fun INavComponent.clearNavItems() {
     activeComponent.value = null
 }
 
-internal fun INavComponent.processBackstackEvent(event: BackStack.Event<Component>) {
+internal fun NavComponent.processBackstackEvent(event: BackStack.Event<Component>) {
     when (event) {
         is BackStack.Event.Push -> {
             val stack = event.stack
@@ -110,7 +110,7 @@ internal fun INavComponent.processBackstackEvent(event: BackStack.Event<Componen
     }
 }
 
-internal fun INavComponent.transferFrom(donorNavComponent: INavComponent) {
+internal fun NavComponent.transferFrom(donorNavComponent: NavComponent) {
     println("${getComponent().clazz}::transferFrom(...), donor stack.size = ${donorNavComponent.backStack.size()}")
 
     // Transfer backstack
@@ -125,7 +125,7 @@ internal fun INavComponent.transferFrom(donorNavComponent: INavComponent) {
 
     // Transfer navItems and childComponents
     donorNavComponent.navItems.map { nodeItem ->
-        nodeItem.component.attachToParent(parentComponent = this@transferFrom.getComponent())
+        nodeItem.component.setParent(parentComponent = this@transferFrom.getComponent())
         nodeItem to nodeItem.component
     }.unzip().let {
         navItems = it.first.toMutableList()
@@ -136,8 +136,9 @@ internal fun INavComponent.transferFrom(donorNavComponent: INavComponent) {
     activeComponent.value = donorNavComponent.activeComponent.value
     onSelectNavItem(selectedIndex, navItems)
 
-    // Transfer lifecycleState
+    // Transfer Component properties
     this.getComponent().lifecycleState = donorNavComponent.getComponent().lifecycleState
+    this.getComponent().treeContext = donorNavComponent.getComponent().treeContext
 
     // Make sure we don't keep references to the navItems in the donor Container
     donorNavComponent.clearNavItems()

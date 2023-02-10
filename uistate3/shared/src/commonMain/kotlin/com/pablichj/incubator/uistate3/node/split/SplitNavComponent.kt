@@ -13,13 +13,13 @@ class SplitNavComponent : Component() {
 
     fun setTopNode(topComponent: Component) {
         this.topComponent=topComponent.apply {
-            attachToParent(this@SplitNavComponent)
+            setParent(this@SplitNavComponent)
         }
     }
 
     fun setBottomNode(bottomComponent: Component) {
         this.bottomComponent=bottomComponent.apply {
-            attachToParent(this@SplitNavComponent)
+            setParent(this@SplitNavComponent)
         }
     }
 
