@@ -3,11 +3,11 @@ package com.pablichj.incubator.uistate3.node.adaptable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.INavComponent
+import com.pablichj.incubator.uistate3.node.NavComponent
 import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
 
-internal class AdaptableSizeStubNavComponent : INavComponent {
+internal class AdaptableSizeStubNavComponent : NavComponent {
     override val backStack: BackStack<Component> = BackStack()
     override var selectedIndex: Int = 0
     override var navItems: MutableList<NavItem> = mutableListOf()

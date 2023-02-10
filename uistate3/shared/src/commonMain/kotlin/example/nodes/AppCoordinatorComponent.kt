@@ -22,14 +22,14 @@ class AppCoordinatorComponent : Component() {
 
     private val SplashNode = SplashComponent {
         backStack.push(topBarComponent)
-    }.also { it.attachToParent(this@AppCoordinatorComponent) }
+    }.also { it.setParent(this@AppCoordinatorComponent) }
 
     private val topBarComponent: Component = TopBarComponent(
         "Onboard",
         Icons.Filled.Home
     ) {
         backStack.push(homeComponent)
-    }.also { it.attachToParent(this@AppCoordinatorComponent) }
+    }.also { it.setParent(this@AppCoordinatorComponent) }
 
     //todo: Use setHomeNode instead, and attach to parent context, see SplitNode class as example
     lateinit var homeComponent: Component

@@ -3,14 +3,11 @@ package com.pablichj.incubator.uistate3.node
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -22,7 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
-class PagerComponent : Component(), INavComponent {
+class PagerComponent : Component(), NavComponent {
     override val backStack = BackStack<Component>()
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
@@ -102,7 +99,7 @@ class PagerComponent : Component(), INavComponent {
         return childComponents
     }
 
-    override fun onDeepLinkMatch(matchingComponent: Component): DeepLinkResult {
+    override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
         println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
         val matchingNodeIndex = childComponents.indexOf(matchingComponent)
         selectPage(matchingNodeIndex)

@@ -32,7 +32,7 @@ class TopBarComponent(
     val screenName: String,
     val screenIcon: ImageVector? = null,
     val onMessage: (Msg) -> Unit
-) : Component(), INavComponent {
+) : Component(), NavComponent {
     override val backStack = BackStack<Component>()
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
@@ -51,7 +51,7 @@ class TopBarComponent(
             }
         }
     }.also {
-        it.attachToParent(this@TopBarComponent)
+        it.setParent(this@TopBarComponent)
     }
 
     val Step2 = SimpleComponent(
@@ -64,7 +64,7 @@ class TopBarComponent(
             }
         }
     }.also {
-        it.attachToParent(this@TopBarComponent)
+        it.setParent(this@TopBarComponent)
     }
 
     val Step3 =
@@ -79,7 +79,7 @@ class TopBarComponent(
                 }
             }
         }.also {
-            it.attachToParent(this@TopBarComponent)
+            it.setParent(this@TopBarComponent)
         }
 
     init {
@@ -199,7 +199,7 @@ class TopBarComponent(
         return listOf(Step1, Step2, Step3)
     }
 
-    override fun onDeepLinkMatch(matchingComponent: Component): DeepLinkResult {
+    override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
         println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
         backStack.push(matchingComponent as SimpleComponent) //todo: see how get rid of the cast
         return DeepLinkResult.Success

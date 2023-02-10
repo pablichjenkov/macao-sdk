@@ -14,7 +14,7 @@ fun Component.findClosestIDrawerNode(): IDrawerNode? {
     return null
 }
 
-fun Component.onTreeAboutToRender(treeContext: TreeContext) {
+fun Component.onAttachedToComponentTree(treeContext: TreeContext) {
     this.treeContext = treeContext
 
     // Register to handle deep links
@@ -29,10 +29,10 @@ fun Component.onTreeAboutToRender(treeContext: TreeContext) {
     }
 }
 
-fun Component.dispatchTreeAboutToRender(treeContext: TreeContext) {
-    println("${clazz}::dispatchTreeAboutToRender()")
+fun Component.dispatchAttachedToComponentTree(treeContext: TreeContext) {
+    println("${clazz}::dispatchAttachedToComponentTree()")
     if (this is ParentComponent) {
-        this.childComponents.forEach { it.dispatchTreeAboutToRender(treeContext) }
+        this.childComponents.forEach { it.dispatchAttachedToComponentTree(treeContext) }
     }
-    this.onTreeAboutToRender(treeContext)
+    this.onAttachedToComponentTree(treeContext)
 }
