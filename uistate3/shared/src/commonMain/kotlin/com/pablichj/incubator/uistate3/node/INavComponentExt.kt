@@ -112,14 +112,18 @@ internal fun INavComponent.processBackstackEvent(event: BackStack.Event<Componen
 
 internal fun INavComponent.transferFrom(donorNavComponent: INavComponent) {
     println("${getComponent().clazz}::transferFrom(...), donor stack.size = ${donorNavComponent.backStack.size()}")
+
+    // Transfer backstack
     val donorStackCopy = donorNavComponent.backStack
     backStack.clear()
     for (idx in 0 until donorStackCopy.deque.size) {
         backStack.deque.add(idx, donorStackCopy.deque[idx])
     }
 
+    // Transfer selectedIndex
     selectedIndex = donorNavComponent.selectedIndex
 
+    // Transfer navItems and childComponents
     donorNavComponent.navItems.map { nodeItem ->
         nodeItem.component.attachToParent(parentComponent = this@transferFrom.getComponent())
         nodeItem to nodeItem.component
@@ -128,8 +132,12 @@ internal fun INavComponent.transferFrom(donorNavComponent: INavComponent) {
         childComponents = it.second.toMutableList()
     }
 
+    // Transfer activeComponent
     activeComponent.value = donorNavComponent.activeComponent.value
     onSelectNavItem(selectedIndex, navItems)
+
+    // Transfer lifecycleState
+    this.getComponent().lifecycleState = donorNavComponent.getComponent().lifecycleState
 
     // Make sure we don't keep references to the navItems in the donor Container
     donorNavComponent.clearNavItems()

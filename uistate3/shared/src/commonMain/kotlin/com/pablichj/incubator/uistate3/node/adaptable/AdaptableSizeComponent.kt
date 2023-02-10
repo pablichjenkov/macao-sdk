@@ -17,12 +17,11 @@ import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 class AdaptableSizeComponent(
     var windowSizeInfoProvider: IWindowSizeInfoProvider
 ) : Component(), INavComponent {
-
-
-    private var CompactNavComponent: INavComponent = AdaptableSizeStubComponent()
-    private var MediumNavComponent: INavComponent = AdaptableSizeStubComponent()
-    private var ExpandedNavComponent: INavComponent = AdaptableSizeStubComponent()
-    private var currentNavComponent = mutableStateOf(CompactNavComponent)
+    private val initialEmptyNavComponent: INavComponent = AdaptableSizeStubNavComponent()
+    private var CompactNavComponent: INavComponent = AdaptableSizeStubNavComponent()
+    private var MediumNavComponent: INavComponent = AdaptableSizeStubNavComponent()
+    private var ExpandedNavComponent: INavComponent = AdaptableSizeStubNavComponent()
+    private var currentNavComponent = mutableStateOf(initialEmptyNavComponent)
 
     override val backStack: BackStack<Component> = currentNavComponent.value.backStack
     override var navItems: MutableList<NavItem> = currentNavComponent.value.navItems
@@ -115,10 +114,10 @@ class AdaptableSizeComponent(
 
                 val currentNavComponentCopy = currentNavComponent.value
 
-                if (currentNavComponentCopy is AdaptableSizeStubComponent) {
-                    SetNavComponentContent(windowSizeInfo)
+                if (currentNavComponentCopy == initialEmptyNavComponent) {
+                    setAndStartNavComponent(windowSizeInfo)
                 } else {
-                    TransferNavComponentContent(windowSizeInfo)
+                    transferNavComponent(windowSizeInfo)
                 }
 
                 StartedContent(modifier, currentNavComponentCopy)
@@ -148,8 +147,7 @@ class AdaptableSizeComponent(
 
     }
 
-    @Composable
-    private fun SetNavComponentContent(
+    private fun setAndStartNavComponent(
         windowSizeInfo: WindowSizeInfo
     ) {
         val navComponent = when (windowSizeInfo) {
@@ -162,8 +160,7 @@ class AdaptableSizeComponent(
         currentNavComponent.value = navComponent
     }
 
-    @Composable
-    private fun TransferNavComponentContent(
+    private fun transferNavComponent(
         windowSizeInfo: WindowSizeInfo
     ) {
         currentNavComponent.value = when (windowSizeInfo) {
@@ -183,20 +180,10 @@ class AdaptableSizeComponent(
         donorNavComponent: INavComponent,
         adoptingNavComponent: INavComponent
     ): INavComponent {
-
         if (adoptingNavComponent == donorNavComponent) {
             return adoptingNavComponent
         }
-
-        val adoptingNavigatorCopy = adoptingNavComponent ?: return donorNavComponent
-
-        return if (donorNavComponent is AdaptableSizeStubComponent) { // The first time when no node has been setup yet
-            adoptingNavComponent.setNavItems(navItems, selectedIndex)
-            adoptingNavComponent
-        } else { // do the real transfer here
-            adoptingNavigatorCopy.transferFrom(donorNavComponent)
-            adoptingNavigatorCopy
-        }
+        return adoptingNavComponent.apply { transferFrom(donorNavComponent) }
     }
 
 }
