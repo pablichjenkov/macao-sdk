@@ -1,10 +1,5 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
-
-//import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
-
 plugins {
     kotlin("multiplatform")
-    //kotlin("native.cocoapods")
     id("com.android.library")
     id("org.jetbrains.compose")
     id("maven-publish")
@@ -75,10 +70,9 @@ kotlin {
     }
 
     // IOS
-    //ios()
+    //iosX64()
+    //iosArm64()
     //iosSimulatorArm64()
-    iosArm64()
-    iosSimulatorArm64()
 
     // Do not include the cocoapod plugin here, it forces all composables to be internal for iOS
     // target to compile.
@@ -94,24 +88,24 @@ kotlin {
 //        extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
 //    }
 
-    //Uncomment if not using cocoapods, and want to use xcframeworks directly
-    /*val xcf = XCFramework()
+    //Comment it out if using cocoapods, and don't want to use xcframeworks directly
     listOf(
+        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
-            xcf.add(this)
         }
-    }*/
+    }
 
     // JS
     js(IR) {
         browser()
     }
 
-    // WASM, once on kotlin 1.8.20
+    // WASM, once kotlin 1.8.20 is out. Although I believe this should go in the jsApp module not
+    // in the library. Perhaps can go here without the binaries.executable() statement
     /*wasm {
         binaries.executable()
         browser {}
@@ -119,22 +113,6 @@ kotlin {
 
     // JVM
     jvm("desktop")
-
-    // MACOS
-    /*macosX64 {
-        binaries {
-            executable {
-                entryPoint = "main"
-            }
-        }
-    }
-    macosArm64 {
-        binaries {
-            executable {
-                entryPoint = "main"
-            }
-        }
-    }*/
 
     sourceSets {
         // COMMON
@@ -170,26 +148,21 @@ kotlin {
         val androidInstrumentedTest by getting
 
         // IOS
-        /*val iosMain by getting
-        val iosTest by getting
-        val iosSimulatorArm64Main by getting {
-            dependsOn(iosMain)
-        }
-        val iosSimulatorArm64Test by getting {
-            dependsOn(iosTest)
-        }*/
-
+        val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependsOn(commonMain)
+            iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
         }
+        val iosX64Test by getting
         val iosArm64Test by getting
         val iosSimulatorArm64Test by getting
         val iosTest by creating {
             dependsOn(commonTest)
+            iosX64Test.dependsOn(this)
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
         }
@@ -201,19 +174,9 @@ kotlin {
         /*val wasmMain by getting
         val wasmTest by getting
         */
+
         // JVM
         val desktopMain by getting
-
-        // MACOS
-        /*val macosMain by creating {
-            dependsOn(commonMain)
-        }
-        val macosX64Main by getting {
-            dependsOn(macosMain)
-        }
-        val macosArm64Main by getting {
-            dependsOn(macosMain)
-        }*/
     }
 
     /*kotlinArtifacts {
