@@ -5,27 +5,26 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.lifecycle.ViewModel
-import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.PagerComponent
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
-import example.nodes.TopBarComponent
+import example.nodes.CustomTopBarComponent
 
 class DrawerStateTreeHolder : ViewModel() {
 
-    private lateinit var DrawerNode: DrawerComponent
+    private lateinit var drawerComponent: DrawerComponent
 
-    fun getOrCreate(): Component {
+    fun getOrCreate(): DrawerComponent {
 
-        if (this@DrawerStateTreeHolder::DrawerNode.isInitialized) {
-            return DrawerNode
+        if (this@DrawerStateTreeHolder::drawerComponent.isInitialized) {
+            return drawerComponent
         }
 
-        DrawerNode = DrawerComponent()
+        drawerComponent = DrawerComponent()
 
-        val TopBarNode = TopBarComponent(
+        val TopBarNode = CustomTopBarComponent(
             "Home",
             Icons.Filled.Home
         ) {}
@@ -37,19 +36,19 @@ class DrawerStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Orders / Current", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                component = TopBarComponent("Orders / Past", Icons.Filled.Edit) {},
+                component = CustomTopBarComponent("Orders / Past", Icons.Filled.Edit) {},
                 selected = false
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                component = TopBarComponent("Orders / Claim", Icons.Filled.Email) {},
+                component = CustomTopBarComponent("Orders / Claim", Icons.Filled.Email) {},
                 selected = false
             )
         )
@@ -58,7 +57,7 @@ class DrawerStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent(
+                component = CustomTopBarComponent(
                     "Settings / Account",
                     Icons.Filled.Home,
                     {}
@@ -68,7 +67,7 @@ class DrawerStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
-                component = TopBarComponent(
+                component = CustomTopBarComponent(
                     "Settings / Profile",
                     Icons.Filled.Edit
                 ) {},
@@ -77,7 +76,7 @@ class DrawerStateTreeHolder : ViewModel() {
             NavItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
-                component = TopBarComponent(
+                component = CustomTopBarComponent(
                     "Settings / About Us",
                     Icons.Filled.Email,
                     {}
@@ -110,7 +109,7 @@ class DrawerStateTreeHolder : ViewModel() {
             )
         )
 
-        return DrawerNode.apply { setNavItems(drawerNavItems, 0) }
+        return drawerComponent.apply { setNavItems(drawerNavItems, 0) }
     }
 
 }

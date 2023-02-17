@@ -6,7 +6,7 @@ import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
-import example.nodes.TopBarComponent
+import example.nodes.CustomTopBarComponent
 
 object DrawerTreeBuilder {
 
@@ -24,7 +24,7 @@ object DrawerTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Home", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Home", Icons.Filled.Home) {},
                 selected = false
             ),
             NavItem(
@@ -36,7 +36,7 @@ object DrawerTreeBuilder {
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = TopBarComponent("Settings", Icons.Filled.Email) {},
+                component = CustomTopBarComponent("Settings", Icons.Filled.Email) {},
                 selected = false
             )
         )
@@ -52,19 +52,19 @@ object DrawerTreeBuilder {
             NavItem(
                 label = "Active",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Orders/Active", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Orders/Active", Icons.Filled.Home) {},
                 selected = false
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Settings,
-                component = TopBarComponent("Orders/Past", Icons.Filled.Settings) {},
+                component = CustomTopBarComponent("Orders/Past", Icons.Filled.Settings) {},
                 selected = false
             ),
             NavItem(
                 label = "New Order",
                 icon = Icons.Filled.Add,
-                component = TopBarComponent("Orders/New Order", Icons.Filled.Add) {},
+                component = CustomTopBarComponent("Orders/New Order", Icons.Filled.Add) {},
                 selected = false
             )
         )

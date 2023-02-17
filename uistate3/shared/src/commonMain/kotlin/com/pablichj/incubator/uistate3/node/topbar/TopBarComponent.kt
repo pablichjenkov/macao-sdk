@@ -1,4 +1,4 @@
-package example.nodes
+package com.pablichj.incubator.uistate3.node.topbar
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -22,16 +22,9 @@ import androidx.compose.ui.unit.dp
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
-import com.pablichj.incubator.uistate3.node.topbar.TitleSectionStateHolder
-import com.pablichj.incubator.uistate3.node.topbar.TopBar
-import com.pablichj.incubator.uistate3.node.topbar.TopBarState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 
-class TopBarComponent(
-    val screenName: String,
+open class TopBarComponent(
     val screenIcon: ImageVector? = null,
-    val onMessage: (Msg) -> Unit
 ) : Component(), NavComponent {
     override val backStack = BackStack<Component>()
     override var navItems: MutableList<NavItem> = mutableListOf()
@@ -39,62 +32,22 @@ class TopBarComponent(
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
     private val topBarState = TopBarState()
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
-
-    val Step1 = SimpleComponent(
-        "$screenName / Page 1",
-        Color.Yellow
-    ) { msg ->
-        when (msg) {
-            SimpleComponent.Msg.Next -> {
-                backStack.push(Step2)
-            }
-        }
-    }.also {
-        it.setParent(this@TopBarComponent)
-    }
-
-    val Step2 = SimpleComponent(
-        "$screenName / Page 1 / Page 2",
-        Color.Green
-    ) { msg ->
-        when (msg) {
-            SimpleComponent.Msg.Next -> {
-                backStack.push(Step3)
-            }
-        }
-    }.also {
-        it.setParent(this@TopBarComponent)
-    }
-
-    val Step3 =
-        SimpleComponent(
-            "$screenName / Page 1 / Page 2 / Page 3",
-            Color.Cyan
-        ) { msg ->
-            when (msg) {
-                SimpleComponent.Msg.Next -> {
-                    onMessage(Msg.OnboardDone)
-                    treeContext?.navigator?.handleDeepLink("Settings")
-                }
-            }
-        }.also {
-            it.setParent(this@TopBarComponent)
-        }
 
     init {
-        childComponents = mutableListOf(Step1, Step2, Step3)
+        this@TopBarComponent.backStack.eventListener = { event ->
+            processBackstackEvent(event)
+        }
     }
 
     override fun start() {
         super.start()
         println("$clazz::start()")
-        backStack.eventListener = { event ->
-            processBackstackEvent(event)
-        }
+        val childNodesCopy = childComponents
         if (activeComponent.value == null) {
-            backStack.push(Step1)
+            println("$clazz::start(). Pushing selectedIndex = $selectedIndex, children.size = ${childNodesCopy.size}")
+            backStack.push(childNodesCopy[selectedIndex])
         } else {
+            println("$clazz::start() with activeNodeState = ${activeComponent.value?.clazz}")
             activeComponent.value?.start()
         }
     }
@@ -124,18 +77,17 @@ class TopBarComponent(
     }
 
     override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
-        //navBarState.navItems = navItems
-        //navBarState.selectNavItem(navItems[selectedIndex])
         if (getComponent().lifecycleState == LifecycleState.Started) {
             backStack.push(childComponents[selectedIndex])
         }
     }
 
     override fun updateSelectedNavItem(newTop: Component) {
+        val selectedNavItem = getNavItemFromNode(newTop)
         if (backStack.size() > 1) {
-            setTitleSectionForBackClick(newTop as SimpleComponent)
+            setTitleSectionForBackClick(selectedNavItem)
         } else {
-            setTitleSectionForHomeClick(newTop as SimpleComponent)
+            setTitleSectionForHomeClick(selectedNavItem)
         }
     }
 
@@ -150,10 +102,10 @@ class TopBarComponent(
 
     // endregion
 
-    private fun setTitleSectionForHomeClick(node: SimpleComponent) {
+    private fun setTitleSectionForHomeClick(navItem: NavItem) {
         topBarState.setTitleSectionState(
             TitleSectionStateHolder(
-                title = node.text,
+                title = navItem.label,
                 icon1 = resolveFirstIcon(),
                 onIcon1Click = {
                     findClosestIDrawerNode()?.open()
@@ -165,10 +117,10 @@ class TopBarComponent(
         )
     }
 
-    private fun setTitleSectionForBackClick(node: SimpleComponent) {
+    private fun setTitleSectionForBackClick(navItem: NavItem) {
         topBarState.setTitleSectionState(
             TitleSectionStateHolder(
-                title = node.text,
+                title = navItem.label,
                 onTitleClick = {
                     handleBackPressed()
                 },
@@ -196,20 +148,16 @@ class TopBarComponent(
     // region: DeepLink
 
     override fun getDeepLinkSubscribedList(): List<Component> {
-        return listOf(Step1, Step2, Step3)
+        return childComponents
     }
 
     override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
         println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
-        backStack.push(matchingComponent as SimpleComponent) //todo: see how get rid of the cast
+        backStack.push(matchingComponent)
         return DeepLinkResult.Success
     }
 
     // endregion
-
-    sealed interface Msg {
-        object OnboardDone : Msg
-    }
 
     @Composable
     override fun Content(modifier: Modifier) {

@@ -9,10 +9,8 @@ import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeComponent
 import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
-import com.pablichj.incubator.uistate3.node.navigation.DefaultNavigator
-import com.pablichj.incubator.uistate3.node.navigation.DeepLinkDestination
 import com.pablichj.incubator.uistate3.node.setNavItems
-import example.nodes.TopBarComponent
+import example.nodes.CustomTopBarComponent
 
 object AdaptableSizeTreeBuilder {
 
@@ -49,7 +47,7 @@ object AdaptableSizeTreeBuilder {
             NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent(
+                component = CustomTopBarComponent(
                     "Orders / Current", Icons.Filled.Home, {}
                 ).apply { deepLinkMatcher = { route -> route == "Orders/Page1" } },
                 selected = false
@@ -57,7 +55,7 @@ object AdaptableSizeTreeBuilder {
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                component = TopBarComponent(
+                component = CustomTopBarComponent(
                     "Orders / Past", Icons.Filled.Edit, {}
                 ),
                 selected = false
@@ -65,7 +63,7 @@ object AdaptableSizeTreeBuilder {
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                component = TopBarComponent(
+                component = CustomTopBarComponent(
                     "Orders / Claim", Icons.Filled.Email, {}
                 ),
                 selected = false
@@ -75,11 +73,11 @@ object AdaptableSizeTreeBuilder {
         NavBarComponent.setNavItems(navbarNavItems, 0)
 
         val SettingsComponent =
-            TopBarComponent("Settings", Icons.Filled.Email, {})
+            CustomTopBarComponent("Settings", Icons.Filled.Email, {})
                 .apply { deepLinkMatcher = { route -> route == "Settings/Page1" } }
 
         val HomeComponent =
-            TopBarComponent("Home", Icons.Filled.Home, {})
+            CustomTopBarComponent("Home", Icons.Filled.Home, {})
                 .apply { deepLinkMatcher = { route -> route == "Home/Page1" } }
 
         val navItems = mutableListOf(

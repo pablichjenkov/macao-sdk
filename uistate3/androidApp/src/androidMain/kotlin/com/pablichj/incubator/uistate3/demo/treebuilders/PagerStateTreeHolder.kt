@@ -7,7 +7,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.lifecycle.ViewModel
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
-import example.nodes.TopBarComponent
+import example.nodes.CustomTopBarComponent
 
 class PagerStateTreeHolder : ViewModel() {
 
@@ -28,19 +28,19 @@ class PagerStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Orders/ Current") {},
+                component = CustomTopBarComponent("Orders/ Current") {},
                 selected = false
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                component = TopBarComponent("Orders / Past") {},
+                component = CustomTopBarComponent("Orders / Past") {},
                 selected = false
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                component = TopBarComponent("Orders / Claim") {},
+                component = CustomTopBarComponent("Orders / Claim") {},
                 selected = false
             )
         )
@@ -49,19 +49,19 @@ class PagerStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Settings / Account") {},
+                component = CustomTopBarComponent("Settings / Account") {},
                 selected = false
             ),
             NavItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
-                component = TopBarComponent("Settings / Profile") {},
+                component = CustomTopBarComponent("Settings / Profile") {},
                 selected = false
             ),
             NavItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
-                component = TopBarComponent("Settings / About Us") {},
+                component = CustomTopBarComponent("Settings / About Us") {},
                 selected = false
             )
         )
@@ -70,7 +70,7 @@ class PagerStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Home") {},
+                component = CustomTopBarComponent("Home") {},
                 selected = false
             ),
             NavItem(

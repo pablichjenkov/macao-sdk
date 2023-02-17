@@ -88,9 +88,9 @@ abstract class Component : ComponentLifecycle {
 
     protected open fun getDeepLinkSubscribedList(): List<Component> = emptyList()
 
-    internal fun navigateToDeepLink(path: ArrayDeque<Component>): DeepLinkResult {
+    internal fun navigateToDeepLink(componentsPath: ArrayDeque<Component>): DeepLinkResult {
 
-        val nextComponent = path.firstOrNull() ?: return DeepLinkResult.Success
+        val nextComponent = componentsPath.firstOrNull() ?: return DeepLinkResult.Success
 
         val matchingComponent = getDeepLinkSubscribedList().firstOrNull {
             it == nextComponent
@@ -109,8 +109,8 @@ abstract class Component : ComponentLifecycle {
                 deepLinkResult
             }
             DeepLinkResult.Success -> {
-                path.removeFirst()
-                matchingComponent.navigateToDeepLink(path)
+                componentsPath.removeFirst()
+                matchingComponent.navigateToDeepLink(componentsPath)
             }
         }
 

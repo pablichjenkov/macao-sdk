@@ -13,7 +13,7 @@ import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
 import com.pablichj.incubator.uistate3.node.split.SplitNavComponent
 import example.nodes.AppCoordinatorComponent
-import example.nodes.TopBarComponent
+import example.nodes.CustomTopBarComponent
 
 class FullAppIntroStateTreeHolder : ViewModel() {
 
@@ -42,26 +42,26 @@ class FullAppIntroStateTreeHolder : ViewModel() {
 
         val SplitNavNode = SplitNavComponent().apply {
             setTopNode(buildNestedDrawer())
-            setBottomNode(TopBarComponent("Orders / Current", Icons.Filled.Edit) {})
+            setBottomNode(CustomTopBarComponent("Orders / Current", Icons.Filled.Edit) {})
         }
 
         val navbarNavItems = mutableListOf(
             NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Orders / Current", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                component = TopBarComponent("Orders / Past", Icons.Filled.Edit) {},
+                component = CustomTopBarComponent("Orders / Past", Icons.Filled.Edit) {},
                 selected = false
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                component = TopBarComponent("Orders / Claim", Icons.Filled.Email) {},
+                component = CustomTopBarComponent("Orders / Claim", Icons.Filled.Email) {},
                 selected = false
             ),
             NavItem(
@@ -76,7 +76,7 @@ class FullAppIntroStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent(
+                component = CustomTopBarComponent(
                     "Settings / Account",
                     Icons.Filled.Home
                 ) {},
@@ -85,7 +85,7 @@ class FullAppIntroStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
-                component = TopBarComponent(
+                component = CustomTopBarComponent(
                     "Settings / Profile",
                     Icons.Filled.Edit
                 ) {},
@@ -94,7 +94,7 @@ class FullAppIntroStateTreeHolder : ViewModel() {
             NavItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
-                component = TopBarComponent(
+                component = CustomTopBarComponent(
                     "Settings / About Us",
                     Icons.Filled.Email
                 ) {},
@@ -106,7 +106,7 @@ class FullAppIntroStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Home", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Home", Icons.Filled.Home) {},
                 selected = false
             ),
             NavItem(
@@ -138,19 +138,19 @@ class FullAppIntroStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Orders / Current", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                component = TopBarComponent("Orders / Past", Icons.Filled.Edit) {},
+                component = CustomTopBarComponent("Orders / Past", Icons.Filled.Edit) {},
                 selected = false
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                component = TopBarComponent("Orders / Claim", Icons.Filled.Email) {},
+                component = CustomTopBarComponent("Orders / Claim", Icons.Filled.Email) {},
                 selected = false
             )
         )
@@ -159,7 +159,7 @@ class FullAppIntroStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Home Nested",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Home", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Home", Icons.Filled.Home) {},
                 selected = false
             ),
             NavItem(

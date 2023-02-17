@@ -18,7 +18,7 @@ import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
 import example.nodes.AppCoordinatorComponent
-import example.nodes.TopBarComponent
+import example.nodes.CustomTopBarComponent
 
 class HandleConfigChangesActivity : ComponentActivity() {
 
@@ -56,7 +56,7 @@ class HandleConfigChangesActivity : ComponentActivity() {
 
         val DrawerNode = DrawerComponent()
 
-        val TopBarNode = TopBarComponent(
+        val TopBarNode = CustomTopBarComponent(
             "Home",
             Icons.Filled.Home
         ) {}
@@ -67,19 +67,19 @@ class HandleConfigChangesActivity : ComponentActivity() {
             NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Orders / Current", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.AccountCircle,
-                component = TopBarComponent("Orders / Past", Icons.Filled.AccountCircle) {},
+                component = CustomTopBarComponent("Orders / Past", Icons.Filled.AccountCircle) {},
                 selected = false
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                component = TopBarComponent("Orders / Claim", Icons.Filled.Email) {},
+                component = CustomTopBarComponent("Orders / Claim", Icons.Filled.Email) {},
                 selected = false
             )
         )
@@ -88,19 +88,19 @@ class HandleConfigChangesActivity : ComponentActivity() {
             NavItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Settings / Account", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Settings / Account", Icons.Filled.Home) {},
                 selected = false
             ),
             NavItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
-                component = TopBarComponent("Settings / Profile", Icons.Filled.Edit) {},
+                component = CustomTopBarComponent("Settings / Profile", Icons.Filled.Edit) {},
                 selected = false
             ),
             NavItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
-                component = TopBarComponent("Settings / About Us", Icons.Filled.Email) {},
+                component = CustomTopBarComponent("Settings / About Us", Icons.Filled.Email) {},
                 selected = false
             )
         )

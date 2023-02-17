@@ -2,8 +2,10 @@ package com.pablichj.incubator.uistate3
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Application
@@ -35,12 +37,12 @@ fun IosComponentRender(
 
             rootComponent.Content(Modifier.fillMaxSize())
 
-            /* todo: Implement it outside this class in swift code*/
-            /*FloatingButton(
-                modifier = Modifier.offset (y = 48.dp),
+            /* todo: Implement it with swipe gesture detector*/
+            FloatingButton(
+                modifier = Modifier.offset (y = (-48).dp),
                 alignment = Alignment.BottomEnd,
                 onClick = { backPressDispatcher.dispatchBackPressed() }
-            )*/
+            )
         }
     }
 

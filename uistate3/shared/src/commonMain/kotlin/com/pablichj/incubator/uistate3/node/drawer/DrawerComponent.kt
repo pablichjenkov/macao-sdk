@@ -10,9 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.NavComponent
-import com.pablichj.incubator.uistate3.node.NavItem
+import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 import com.pablichj.incubator.uistate3.node.processBackstackEvent
@@ -47,12 +45,8 @@ class DrawerComponent(
         super.start()
         val childNodesCopy = childComponents
         if (activeComponent.value == null) {
-            if (childNodesCopy.size > selectedIndex) {
-                println("$clazz::start(). Pushing selectedIndex = $selectedIndex")
-                backStack.push(childNodesCopy[selectedIndex])
-            } else {
-                println("$clazz::start() childSize(${childNodesCopy.size}) < selectedIndex($selectedIndex) BAD!")
-            }
+            println("$clazz::start(). Pushing selectedIndex = $selectedIndex, children.size = ${childNodesCopy.size}")
+            backStack.push(childNodesCopy[selectedIndex])
         } else {
             println("$clazz::start() with activeNodeState = ${activeComponent.value?.clazz}")
             activeComponent.value?.start()
@@ -106,15 +100,11 @@ class DrawerComponent(
     }
 
     override fun updateSelectedNavItem(newTop: Component) {
-        getNavItemFromNode(newTop)?.let {
+        getNavItemFromNode(newTop).let {
             println("DrawerNode::updateSelectedNavItem(), selectedIndex = $it")
             navDrawerState.selectNavItem(it)
             selectedIndex = childComponents.indexOf(newTop)
         }
-    }
-
-    private fun getNavItemFromNode(component: Component): NavItem? {
-        return navDrawerState.navItems.firstOrNull { it.component == component }
     }
 
     override fun onDestroyChildComponent(component: Component) {

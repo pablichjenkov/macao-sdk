@@ -21,10 +21,10 @@ class AppCoordinatorComponent : Component() {
     val backStack = BackStack<Component>()
 
     private val SplashNode = SplashComponent {
-        backStack.push(topBarComponent)
+        backStack.push(customTopBarComponent)
     }.also { it.setParent(this@AppCoordinatorComponent) }
 
-    private val topBarComponent: Component = TopBarComponent(
+    private val customTopBarComponent: Component = CustomTopBarComponent(
         "Onboard",
         Icons.Filled.Home
     ) {
@@ -67,7 +67,7 @@ class AppCoordinatorComponent : Component() {
             is SplashComponent -> {
 
             }
-            is TopBarComponent -> {
+            is CustomTopBarComponent -> {
                 delegateBackPressedToParent()
             }
             else -> {

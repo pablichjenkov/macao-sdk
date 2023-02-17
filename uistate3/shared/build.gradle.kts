@@ -1,15 +1,17 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
+//import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+
 plugins {
     kotlin("multiplatform")
-    kotlin("native.cocoapods")
+    //kotlin("native.cocoapods")
     id("com.android.library")
     id("org.jetbrains.compose")
     id("maven-publish")
 }
 
 group = "com.pablichj"
-version = "0.1.0.3"
+version = "0.1.0.5"
 
 /*
 fun String.dasherize() = fold("") {acc, value ->
@@ -75,19 +77,25 @@ kotlin {
     // IOS
     //ios()
     //iosSimulatorArm64()
-    cocoapods {
-        summary = "Shared code for the UiState3 example"
-        homepage = "https://github.com/pablichjenkov/uistate3"
-        ios.deploymentTarget = "14.1"
-        podfile = project.file("../iosApp/Podfile")
-        framework {
-            baseName = "uistate3"
-            isStatic = true
-        }
-        extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
-    }
+    iosArm64()
+    iosSimulatorArm64()
 
-    val xcf = XCFramework()
+    // Do not include the cocoapod plugin here, it forces all composables to be internal for iOS
+    // target to compile.
+//    cocoapods {
+//        summary = "Shared code for the UiState3 example"
+//        homepage = "https://github.com/pablichjenkov/uistate3"
+//        ios.deploymentTarget = "14.1"
+//        podfile = project.file("../iosApp/Podfile")
+//        framework {
+//            baseName = "uistate3"
+//            isStatic = true
+//        }
+//        extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
+//    }
+
+    //Uncomment if not using cocoapods, and want to use xcframeworks directly
+    /*val xcf = XCFramework()
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -96,12 +104,18 @@ kotlin {
             baseName = "shared"
             xcf.add(this)
         }
-    }
+    }*/
 
     // JS
     js(IR) {
         browser()
     }
+
+    // WASM, once on kotlin 1.8.20
+    /*wasm {
+        binaries.executable()
+        browser {}
+    }*/
 
     // JVM
     jvm("desktop")
@@ -183,6 +197,10 @@ kotlin {
         // JS
         val jsMain by getting
 
+        // WASM
+        /*val wasmMain by getting
+        val wasmTest by getting
+        */
         // JVM
         val desktopMain by getting
 

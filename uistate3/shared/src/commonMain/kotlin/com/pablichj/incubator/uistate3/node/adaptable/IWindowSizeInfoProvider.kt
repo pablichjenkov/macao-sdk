@@ -5,7 +5,7 @@ import androidx.compose.runtime.State
 
 abstract class IWindowSizeInfoProvider {
     @Composable
-    internal abstract fun windowSizeInfo(): State<WindowSizeInfo>
+    abstract fun windowSizeInfo(): State<WindowSizeInfo>
 }
 
 sealed interface WindowSizeInfo {

@@ -1,5 +1,5 @@
 import UIKit
-import uistate3
+import shared_hw
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -8,9 +8,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        let mainViewController = Main_iosKt.IosNodeRender(
-            rootComponent: HelloWorldComponent(),
-            appName: "Hello World"
+        let byteArray = KotlinByteArray.init(size: 10)
+        
+        let mainViewController = Main_iosKt.ComposeAppViewController(
+            appName: "Hello World",
+            byteArray: byteArray
         )
         
         window?.rootViewController = mainViewController
