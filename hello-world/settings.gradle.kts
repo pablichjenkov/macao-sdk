@@ -24,7 +24,7 @@ pluginManagement {
 
 rootProject.name = "hello-world"
 
-include(":shared")
+include(":shared-hw")
 include(":androidApp")
 include(":jsApp")
 include(":desktopApp")

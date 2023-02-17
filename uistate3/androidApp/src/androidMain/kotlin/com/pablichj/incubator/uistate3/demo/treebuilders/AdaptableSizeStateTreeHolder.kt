@@ -11,7 +11,7 @@ import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeComponent
 import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
-import example.nodes.TopBarComponent
+import example.nodes.CustomTopBarComponent
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
 
@@ -56,19 +56,19 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Orders / Current", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Orders / Current", Icons.Filled.Home) {},
                 selected = false
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                component = TopBarComponent("Orders / Past", Icons.Filled.Edit) {},
+                component = CustomTopBarComponent("Orders / Past", Icons.Filled.Edit) {},
                 selected = false
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                component = TopBarComponent("Orders / Claim", Icons.Filled.Email) {},
+                component = CustomTopBarComponent("Orders / Claim", Icons.Filled.Email) {},
                 selected = false
             )
         )
@@ -79,7 +79,7 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent(
+                component = CustomTopBarComponent(
                     "Home",
                     Icons.Filled.Home
                 ) {},
@@ -94,7 +94,7 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = TopBarComponent(
+                component = CustomTopBarComponent(
                     "Settings",
                     Icons.Filled.Email
                 ) {},

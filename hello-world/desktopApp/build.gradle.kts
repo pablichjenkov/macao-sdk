@@ -8,7 +8,7 @@ kotlin {
     sourceSets {
         val jvmMain by getting  {
             dependencies {
-                implementation(project(":shared"))
+                implementation(project(":shared-hw"))
                 implementation(compose.desktop.common)
                 implementation(compose.desktop.currentOs)
                 //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")

@@ -6,7 +6,7 @@ import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
-import example.nodes.TopBarComponent
+import example.nodes.CustomTopBarComponent
 
 object PanelTreeBuilder {
 
@@ -24,7 +24,7 @@ object PanelTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Home", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Home", Icons.Filled.Home) {},
                 selected = false
             ),
             NavItem(
@@ -36,7 +36,7 @@ object PanelTreeBuilder {
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = TopBarComponent("Settings", Icons.Filled.Email) {},
+                component = CustomTopBarComponent("Settings", Icons.Filled.Email) {},
                 selected = false
             )
         )
@@ -52,19 +52,19 @@ object PanelTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Home", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Home", Icons.Filled.Home) {},
                 selected = false
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
-                component = TopBarComponent("Orders", Icons.Filled.Settings) {},
+                component = CustomTopBarComponent("Orders", Icons.Filled.Settings) {},
                 selected = false
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Add,
-                component = TopBarComponent("Settings", Icons.Filled.Add) {},
+                component = CustomTopBarComponent("Settings", Icons.Filled.Add) {},
                 selected = false
             )
         )

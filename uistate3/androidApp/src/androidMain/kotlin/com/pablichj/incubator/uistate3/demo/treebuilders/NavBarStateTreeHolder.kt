@@ -7,7 +7,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.lifecycle.ViewModel
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
-import example.nodes.TopBarComponent
+import example.nodes.CustomTopBarComponent
 
 class NavBarStateTreeHolder : ViewModel() {
 
@@ -26,7 +26,7 @@ class NavBarStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent(
+                component = CustomTopBarComponent(
                     "Settings / Account",
                     Icons.Filled.Home
                 ) {},
@@ -35,7 +35,7 @@ class NavBarStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
-                component = TopBarComponent(
+                component = CustomTopBarComponent(
                     "Settings / Profile",
                     Icons.Filled.Edit
                 ) {},
@@ -44,7 +44,7 @@ class NavBarStateTreeHolder : ViewModel() {
             NavItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
-                component = TopBarComponent(
+                component = CustomTopBarComponent(
                     "Settings / About Us",
                     Icons.Filled.Email
                 ) {},
@@ -56,13 +56,13 @@ class NavBarStateTreeHolder : ViewModel() {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Home", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Home", Icons.Filled.Home) {},
                 selected = false
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
-                component = TopBarComponent("Orders", Icons.Filled.Edit) {},
+                component = CustomTopBarComponent("Orders", Icons.Filled.Edit) {},
                 selected = false
             ),
             NavItem(

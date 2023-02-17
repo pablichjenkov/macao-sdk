@@ -16,20 +16,21 @@ kotlin {
     android()
 
     // IOS
-    //ios()
-    //iosSimulatorArm64()
+    iosArm64()
+    iosSimulatorArm64()
     cocoapods {
-        summary = "Shared code for the UiState3 example"
-        homepage = "https://github.com/pablichjenkov/uistate3"
+        summary = "Shared code for the Hello World example"
+        homepage = "https://github.com/pablichjenkov/templato"
         ios.deploymentTarget = "14.1"
         podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = "shared"
+            baseName = "shared_hw"
             isStatic = true
         }
         extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
     }
 
+    /* Uncomment if not using cocoapods, and want to use xcframeworks directly
     val xcf = XCFramework()
     listOf(
         iosArm64(),
@@ -39,7 +40,7 @@ kotlin {
             baseName = "shared"
             xcf.add(this)
         }
-    }
+    }*/
 
     // JS
     js(IR) {
@@ -53,8 +54,8 @@ kotlin {
         // COMMON
         val commonMain by getting {
             dependencies {
-                //api("com.pablichj:uistate3:0.1.0.2")
-                api(project(":uistate3"))
+                //implementation("com.pablichj:uistate3:0.1.0.5")
+                implementation(project(":uistate3"))
                 implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material)

@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import com.pablichj.incubator.uistate3.node.NavItem
 
 @Composable
-internal fun NavigationBottom(
+fun NavigationBottom(
     modifier: Modifier = Modifier,
     navbarState: INavBarState,
     Content: @Composable () -> Unit

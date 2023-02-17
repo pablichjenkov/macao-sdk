@@ -7,7 +7,7 @@ import androidx.compose.material.icons.filled.Settings
 import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
-import example.nodes.TopBarComponent
+import example.nodes.CustomTopBarComponent
 
 object NavBarTreeBuilder {
 
@@ -25,19 +25,19 @@ object NavBarTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = TopBarComponent("Home", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Home", Icons.Filled.Home) {},
                 selected = false
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
-                component = TopBarComponent("Orders", Icons.Filled.Settings) {},
+                component = CustomTopBarComponent("Orders", Icons.Filled.Settings) {},
                 selected = false
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Add,
-                component = TopBarComponent("Settings", Icons.Filled.Add) {},
+                component = CustomTopBarComponent("Settings", Icons.Filled.Add) {},
                 selected = false
             )
         )

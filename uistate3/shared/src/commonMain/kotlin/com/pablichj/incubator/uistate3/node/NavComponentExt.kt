@@ -61,6 +61,10 @@ internal fun NavComponent.clearNavItems() {
     activeComponent.value = null
 }
 
+fun NavComponent.getNavItemFromNode(component: Component): NavItem {
+    return navItems.first { it.component == component }
+}
+
 internal fun NavComponent.processBackstackEvent(event: BackStack.Event<Component>) {
     when (event) {
         is BackStack.Event.Push -> {
@@ -143,6 +147,3 @@ internal fun NavComponent.transferFrom(donorNavComponent: NavComponent) {
     // Make sure we don't keep references to the navItems in the donor Container
     donorNavComponent.clearNavItems()
 }
-
-
-

@@ -8,17 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		2152FB042600AC8F00CF470E /* iosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iosApp.swift */; };
-		59286A0AA6B600B9AE7F93F6 /* Pods_UiState3Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C1CFD74E97974C1222CFA97 /* Pods_UiState3Demo.framework */; };
+		7983C0853840F3D2669BF4DE /* Pods_HelloWorld.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4FA5E593818CE834475259 /* Pods_HelloWorld.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0667C47DE0A8746C2FAB0BFF /* Pods-UiState3Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UiState3Demo.debug.xcconfig"; path = "Target Support Files/Pods-UiState3Demo/Pods-UiState3Demo.debug.xcconfig"; sourceTree = "<group>"; };
-		1C1CFD74E97974C1222CFA97 /* Pods_UiState3Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UiState3Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		12D42B7EB3F23AE07000B7EE /* Pods-HelloWorld.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloWorld.debug.xcconfig"; path = "Target Support Files/Pods-HelloWorld/Pods-HelloWorld.debug.xcconfig"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosApp.swift; sourceTree = "<group>"; };
-		6380C3F275510D5208FDF1CB /* Pods-UiState3Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UiState3Demo.release.xcconfig"; path = "Target Support Files/Pods-UiState3Demo/Pods-UiState3Demo.release.xcconfig"; sourceTree = "<group>"; };
+		6CFE8BA402939216F586C6C7 /* Pods-HelloWorld.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloWorld.release.xcconfig"; path = "Target Support Files/Pods-HelloWorld/Pods-HelloWorld.release.xcconfig"; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9416FB712977C22A00B53976 /* UiState3Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UiState3Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9416FB712977C22A00B53976 /* HelloWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloWorld.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB3632DC29227652001CCB65 /* TeamId.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = TeamId.xcconfig; sourceTree = "<group>"; };
+		EB4FA5E593818CE834475259 /* Pods_HelloWorld.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HelloWorld.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,27 +26,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				59286A0AA6B600B9AE7F93F6 /* Pods_UiState3Demo.framework in Frameworks */,
+				7983C0853840F3D2669BF4DE /* Pods_HelloWorld.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3EC89B47F3ABC233A430ADE1 /* Pods */ = {
+		0BA79FDDE3ABC8805D88621B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0667C47DE0A8746C2FAB0BFF /* Pods-UiState3Demo.debug.xcconfig */,
-				6380C3F275510D5208FDF1CB /* Pods-UiState3Demo.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		74043C056F8CBC5A10F453CB /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1C1CFD74E97974C1222CFA97 /* Pods_UiState3Demo.framework */,
+				EB4FA5E593818CE834475259 /* Pods_HelloWorld.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -56,9 +46,9 @@
 			children = (
 				AB1DB47929225F7C00F7AF9C /* Configuration */,
 				7555FF7D242A565900829871 /* iosApp */,
-				9416FB712977C22A00B53976 /* UiState3Demo.app */,
-				3EC89B47F3ABC233A430ADE1 /* Pods */,
-				74043C056F8CBC5A10F453CB /* Frameworks */,
+				9416FB712977C22A00B53976 /* HelloWorld.app */,
+				0BA79FDDE3ABC8805D88621B /* Frameworks */,
+				CEC80D54367D29B0C267BA46 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,12 +69,22 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
+		CEC80D54367D29B0C267BA46 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				12D42B7EB3F23AE07000B7EE /* Pods-HelloWorld.debug.xcconfig */,
+				6CFE8BA402939216F586C6C7 /* Pods-HelloWorld.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7555FF7A242A565900829871 /* UiState3Demo */ = {
+		7555FF7A242A565900829871 /* HelloWorld */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "UiState3Demo" */;
+			buildConfigurationList = 7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "HelloWorld" */;
 			buildPhases = (
 				E8D673591E7196AEA2EA10E2 /* [CP] Check Pods Manifest.lock */,
 				7555FF77242A565900829871 /* Sources */,
@@ -95,9 +95,9 @@
 			);
 			dependencies = (
 			);
-			name = UiState3Demo;
+			name = HelloWorld;
 			productName = iosApp;
-			productReference = 9416FB712977C22A00B53976 /* UiState3Demo.app */;
+			productReference = 9416FB712977C22A00B53976 /* HelloWorld.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -115,7 +115,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7555FF76242A565900829871 /* Build configuration list for PBXProject "UiState3Demo" */;
+			buildConfigurationList = 7555FF76242A565900829871 /* Build configuration list for PBXProject "HelloWorld" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -128,7 +128,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7555FF7A242A565900829871 /* UiState3Demo */,
+				7555FF7A242A565900829871 /* HelloWorld */,
 			);
 		};
 /* End PBXProject section */
@@ -159,7 +159,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-UiState3Demo-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-HelloWorld-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -300,7 +300,7 @@
 		};
 		7555FFA6242A565B00829871 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0667C47DE0A8746C2FAB0BFF /* Pods-UiState3Demo.debug.xcconfig */;
+			baseConfigurationReference = 12D42B7EB3F23AE07000B7EE /* Pods-HelloWorld.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -325,7 +325,7 @@
 		};
 		7555FFA7242A565B00829871 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6380C3F275510D5208FDF1CB /* Pods-UiState3Demo.release.xcconfig */;
+			baseConfigurationReference = 6CFE8BA402939216F586C6C7 /* Pods-HelloWorld.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -351,7 +351,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7555FF76242A565900829871 /* Build configuration list for PBXProject "UiState3Demo" */ = {
+		7555FF76242A565900829871 /* Build configuration list for PBXProject "HelloWorld" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7555FFA3242A565B00829871 /* Debug */,
@@ -360,7 +360,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "UiState3Demo" */ = {
+		7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "HelloWorld" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7555FFA6242A565B00829871 /* Debug */,

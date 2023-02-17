@@ -7,11 +7,12 @@ import androidx.activity.viewModels
 import com.pablichj.incubator.uistate3.AndroidComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.DrawerStateTreeHolder
 import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 
 class DrawerActivity : ComponentActivity() {
 
     private val stateTreeHolder by viewModels<DrawerStateTreeHolder>()
-    private lateinit var StateTree: Component
+    private lateinit var StateTree: DrawerComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

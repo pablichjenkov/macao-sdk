@@ -10,7 +10,7 @@ import com.pablichj.incubator.uistate3.node.Component
  *
  */
 @Composable
-internal fun BackPressHandler(
+fun BackPressHandler(
     component: Component,
     onBackPressed: () -> Unit
 ) {
