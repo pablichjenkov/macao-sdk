@@ -1,5 +1,5 @@
 import UIKit
-import shared
+import iosAppKt
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -8,9 +8,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
     
-        let drawerNode = Main_iosKt.buildDrawerNode()
+        let drawerNode = Main_iosKt.buildDrawerComponent()
         
-        let mainViewController = Main_iosKt.IosComponentRender(
+        let windowSizeInfoProvider = IosWindowSizeInfoDispatcher()
+        
+        let drawerNode2 = Main_iosKt.buildAdaptableSizeComponent(
+            iosWindowSizeInfoDispatcher: windowSizeInfoProvider
+        )
+        
+        let mainViewController = Main_iosKt.ComponentRenderer(
             rootComponent: drawerNode,
             appName: "UiState3 Demo"
         )

@@ -12,9 +12,12 @@ interface ITopBarState {
     fun onIcon1Click()
     fun onIcon2Click()
     fun onTitleClick()
+    fun handleBackPress()
 }
 
-class TopBarState : ITopBarState {
+class TopBarState(
+    val onBackPress: () -> Unit
+) : ITopBarState {
 
     private var titleSectionStateHolder: TitleSectionStateHolder? = null
 
@@ -41,6 +44,9 @@ class TopBarState : ITopBarState {
         titleSectionStateHolder?.onTitleClick?.invoke()
     }
 
+    override fun handleBackPress() {
+        onBackPress()
+    }
 }
 
 data class TitleSectionStateHolder(

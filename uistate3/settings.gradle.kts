@@ -28,6 +28,7 @@ include(":shared")
 project(":shared").name = "uistate3"
 
 include(":androidApp")
+include(":iosAppKt")
 include(":jsApp")
 include(":desktopApp")
 

@@ -8,13 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		2152FB042600AC8F00CF470E /* iosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iosApp.swift */; };
+		94F576B929A8917400921436 /* WindowSizeInfoDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F576B829A8917400921436 /* WindowSizeInfoDispatcher.swift */; };
+		C1C2CFAACA7D52CE131F1CBB /* Pods_UiState3Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F646519937C5B23AA9FCA036 /* Pods_UiState3Demo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2152FB032600AC8F00CF470E /* iosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosApp.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9416FB712977C22A00B53976 /* UiState3Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UiState3Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		94F576B829A8917400921436 /* WindowSizeInfoDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowSizeInfoDispatcher.swift; sourceTree = "<group>"; };
 		AB3632DC29227652001CCB65 /* TeamId.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = TeamId.xcconfig; sourceTree = "<group>"; };
+		B5458E9EA071A92143EB607D /* Pods-UiState3Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UiState3Demo.release.xcconfig"; path = "Target Support Files/Pods-UiState3Demo/Pods-UiState3Demo.release.xcconfig"; sourceTree = "<group>"; };
+		E1EDE212608A83833B7B9D9C /* Pods-UiState3Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UiState3Demo.debug.xcconfig"; path = "Target Support Files/Pods-UiState3Demo/Pods-UiState3Demo.debug.xcconfig"; sourceTree = "<group>"; };
+		F646519937C5B23AA9FCA036 /* Pods_UiState3Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UiState3Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -22,17 +28,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1C2CFAACA7D52CE131F1CBB /* Pods_UiState3Demo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		74043C056F8CBC5A10F453CB /* Frameworks */ = {
+		3D8E5FA54660809CCBC5C813 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				E1EDE212608A83833B7B9D9C /* Pods-UiState3Demo.debug.xcconfig */,
+				B5458E9EA071A92143EB607D /* Pods-UiState3Demo.release.xcconfig */,
 			);
-			name = Frameworks;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		7555FF72242A565900829871 = {
@@ -41,7 +50,8 @@
 				AB1DB47929225F7C00F7AF9C /* Configuration */,
 				7555FF7D242A565900829871 /* iosApp */,
 				9416FB712977C22A00B53976 /* UiState3Demo.app */,
-				74043C056F8CBC5A10F453CB /* Frameworks */,
+				3D8E5FA54660809CCBC5C813 /* Pods */,
+				B8D29B04672C10182E5837AD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -50,6 +60,7 @@
 			children = (
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iosApp.swift */,
+				94F576B829A8917400921436 /* WindowSizeInfoDispatcher.swift */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -62,6 +73,14 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
+		B8D29B04672C10182E5837AD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F646519937C5B23AA9FCA036 /* Pods_UiState3Demo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -69,7 +88,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "UiState3Demo" */;
 			buildPhases = (
-				942802AE299F61BA00D56B64 /* ShellScript */,
+				5A2EC6E57C1A40B926485F50 /* [CP] Check Pods Manifest.lock */,
 				7555FF77242A565900829871 /* Sources */,
 				7555FF79242A565900829871 /* Resources */,
 				9964867F0862B4D9FB6ABFC7 /* Frameworks */,
@@ -127,7 +146,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		942802AE299F61BA00D56B64 /* ShellScript */ = {
+		5A2EC6E57C1A40B926485F50 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -135,14 +154,19 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-UiState3Demo-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$SRCROOT/..\"\n./gradlew :uistate3:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -152,6 +176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2152FB042600AC8F00CF470E /* iosApp.swift in Sources */,
+				94F576B929A8917400921436 /* WindowSizeInfoDispatcher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +303,7 @@
 		};
 		7555FFA6242A565B00829871 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EDE212608A83833B7B9D9C /* Pods-UiState3Demo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -285,7 +311,10 @@
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = "${TEAM_ID}";
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/../iosAppKt/build/cocoapods/framework\"",
+				);
 				INFOPLIST_FILE = iosApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -294,8 +323,10 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
 					"-framework",
-					shared,
+					"\"iosAppKt\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.pablichj.incubator.uistate3--TEAM-ID-";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.pablichj.incubator.uistate3;
@@ -308,6 +339,7 @@
 		};
 		7555FFA7242A565B00829871 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B5458E9EA071A92143EB607D /* Pods-UiState3Demo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -315,7 +347,10 @@
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = "${TEAM_ID}";
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/../iosAppKt/build/cocoapods/framework\"",
+				);
 				INFOPLIST_FILE = iosApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -324,8 +359,10 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
 					"-framework",
-					shared,
+					"\"iosAppKt\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.pablichj.incubator.uistate3--TEAM-ID-";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.pablichj.incubator.uistate3;

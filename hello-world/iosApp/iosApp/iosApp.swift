@@ -8,11 +8,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        let byteArray = KotlinByteArray.init(size: 10)
+        let helloWorldComponent = Main_iosKt.buildHelloWorldComponent()
         
-        let mainViewController = Main_iosKt.ComposeAppViewController(
-            appName: "Hello World",
-            byteArray: byteArray
+        let mainViewController = Main_iosKt.ComponentRenderer(
+            rootComponent: helloWorldComponent,
+            appName: "Hello World"
         )
         
         window?.rootViewController = mainViewController

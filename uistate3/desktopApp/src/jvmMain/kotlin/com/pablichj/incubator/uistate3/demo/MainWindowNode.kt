@@ -111,7 +111,9 @@ class MainWindowNode(
             }
             DesktopComponentRender(
                 rootComponent = adaptableSizeComponent,
-                onBackPressEvent = { exitProcess(0) }
+                onBackPressEvent = {
+                    //exitProcess(0)
+                }
             )
         }
 

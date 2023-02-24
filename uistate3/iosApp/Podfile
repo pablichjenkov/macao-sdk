@@ -1,0 +1,5 @@
+target 'UiState3Demo' do
+  use_frameworks!
+  platform :ios, '16.0'
+  pod 'iosAppKt', :path => '../iosAppKt'
+end
