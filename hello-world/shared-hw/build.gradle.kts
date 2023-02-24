@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
-import org.jetbrains.kotlin.serialization.builtins.main
-
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
@@ -29,18 +26,6 @@ kotlin {
         }
         extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
     }
-
-    /* Uncomment if not using cocoapods, and want to use xcframeworks directly
-    val xcf = XCFramework()
-    listOf(
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "shared"
-            xcf.add(this)
-        }
-    }*/
 
     // JS
     js(IR) {

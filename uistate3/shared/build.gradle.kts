@@ -70,9 +70,9 @@ kotlin {
     }
 
     // IOS
-    //iosX64()
-    //iosArm64()
-    //iosSimulatorArm64()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     // Do not include the cocoapod plugin here, it forces all composables to be internal for iOS
     // target to compile.
@@ -89,7 +89,7 @@ kotlin {
 //    }
 
     //Comment it out if using cocoapods, and don't want to use xcframeworks directly
-    listOf(
+    /*listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
@@ -97,7 +97,7 @@ kotlin {
         it.binaries.framework {
             baseName = "shared"
         }
-    }
+    }*/
 
     // JS
     js(IR) {

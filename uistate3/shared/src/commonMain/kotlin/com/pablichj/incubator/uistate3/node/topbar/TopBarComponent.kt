@@ -1,24 +1,13 @@
 package com.pablichj.incubator.uistate3.node.topbar
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
@@ -31,7 +20,9 @@ open class TopBarComponent(
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
-    private val topBarState = TopBarState()
+    private val topBarState = TopBarState {
+        handleBackPressed()
+    }
 
     init {
         this@TopBarComponent.backStack.eventListener = { event ->
@@ -162,31 +153,7 @@ open class TopBarComponent(
     @Composable
     override fun Content(modifier: Modifier) {
         println("$clazz::Composing(), stack.size = ${backStack.size()}")
-
-        Scaffold(
-            modifier = modifier,
-            topBar = { TopBar(topBarState) }
-        ) { paddingValues ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .border(2.dp, Color.Green)
-                    .padding(paddingValues)
-            ) {
-                val activeComponentCopy = activeComponent.value
-                if (activeComponentCopy != null && backStack.size() > 0) {
-                    activeComponentCopy.Content(Modifier)
-                } else {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.Center),
-                        text = "Empty Stack, Please add some children",
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
-        }
+        TopBarRender(modifier, topBarState, activeComponent.value)
     }
 
 }

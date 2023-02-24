@@ -75,7 +75,6 @@
 				12D42B7EB3F23AE07000B7EE /* Pods-HelloWorld.debug.xcconfig */,
 				6CFE8BA402939216F586C6C7 /* Pods-HelloWorld.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

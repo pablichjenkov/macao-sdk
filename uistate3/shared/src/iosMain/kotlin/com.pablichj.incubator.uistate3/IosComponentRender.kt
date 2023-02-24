@@ -31,18 +31,11 @@ fun IosComponentRender(
     }
 
     CompositionLocalProvider(
+        //todo: Use an empty backPressDispatcher or dont crash the App if not present
         LocalBackPressedDispatcher provides backPressDispatcher,
     ) {
         Box(modifier = Modifier.padding(top = 45.dp).fillMaxSize()) {
-
             rootComponent.Content(Modifier.fillMaxSize())
-
-            /* todo: Implement it with swipe gesture detector*/
-            FloatingButton(
-                modifier = Modifier.offset (y = (-48).dp),
-                alignment = Alignment.BottomEnd,
-                onClick = { backPressDispatcher.dispatchBackPressed() }
-            )
         }
     }
 

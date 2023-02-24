@@ -35,7 +35,7 @@ fun BrowserComponentRender(
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             rootComponent.Content(Modifier.fillMaxSize())
-            FloatingButton(
+            FloatingBackButton(
                 modifier = Modifier.offset(y = 48.dp),
                 alignment = Alignment.TopStart,
                 onClick = { webBackPressDispatcher.dispatchBackPressed() }
