@@ -10,15 +10,13 @@ import example.nodes.CustomTopBarComponent
 
 object PanelTreeBuilder {
 
-    private lateinit var PanelNode: PanelComponent
+    private lateinit var PanelComponent: PanelComponent
 
     fun build(): PanelComponent {
 
-        if (PanelTreeBuilder::PanelNode.isInitialized) {
-            return PanelNode
+        if (PanelTreeBuilder::PanelComponent.isInitialized) {
+            return PanelComponent
         }
-
-        val PanelNode = PanelComponent()
 
         val panelNavItems = mutableListOf(
             NavItem(
@@ -41,12 +39,13 @@ object PanelTreeBuilder {
             )
         )
 
-        return PanelNode.also { it.setNavItems(panelNavItems, 0) }
+        return PanelComponent().also {
+            PanelComponent = it
+            it.setNavItems(panelNavItems, 0)
+        }
     }
 
     private fun buildNavBarNode(): NavBarComponent {
-
-        val NavBarNode = NavBarComponent()
 
         val navbarNavItems = mutableListOf(
             NavItem(
@@ -69,7 +68,9 @@ object PanelTreeBuilder {
             )
         )
 
-        return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }
+        return NavBarComponent().also {
+            it.setNavItems(navbarNavItems, 0)
+        }
     }
 
 }
