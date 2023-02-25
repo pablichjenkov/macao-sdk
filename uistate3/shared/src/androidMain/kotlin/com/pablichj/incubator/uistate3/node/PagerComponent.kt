@@ -1,13 +1,11 @@
 package com.pablichj.incubator.uistate3.node
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -147,10 +145,7 @@ class PagerComponent : Component(), NavComponent {
         Box {
             HorizontalPager(
                 count = childComponents.size,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .border(2.dp, Color.Blue)
-                    .padding(4.dp),
+                modifier = Modifier.fillMaxSize(),
                 state = pagerState
             ) { pageIndex ->
                 childComponents[pageIndex].Content(modifier = modifier)
