@@ -15,7 +15,7 @@ import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 open class TopBarComponent(
     val screenIcon: ImageVector? = null,
 ) : Component(), NavComponent {
-    override val backStack = BackStack<Component>()
+    final override val backStack = BackStack<Component>()
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
@@ -24,8 +24,11 @@ open class TopBarComponent(
         handleBackPressed()
     }
 
+    private var lastBackstackEvent: BackStack.Event<Component>? = null
+
     init {
         this@TopBarComponent.backStack.eventListener = { event ->
+            lastBackstackEvent = event
             processBackstackEvent(event)
         }
     }
@@ -153,7 +156,8 @@ open class TopBarComponent(
     @Composable
     override fun Content(modifier: Modifier) {
         println("$clazz::Composing(), stack.size = ${backStack.size()}")
-        TopBarRender(modifier, topBarState, activeComponent.value)
+        val isPush = lastBackstackEvent is BackStack.Event.Push
+        TopBarRender(modifier, topBarState, activeComponent.value, isPush)
     }
 
 }
