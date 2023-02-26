@@ -62,7 +62,7 @@ fun TopBarRender(
                         },
                         onDragEnd = {
                             println("Pablo::onDragEnd")
-                            if (startX <= 50 && deltaX > 250) {
+                            if (startX <= 50 && deltaX > 150) {
                                 startX = Float.MAX_VALUE
                                 deltaX = 0f
                                 topBarState.handleBackPress()
@@ -74,6 +74,7 @@ fun TopBarRender(
                 }
         ) {
             if (childComponent != null) {
+/*
                 AnimatedContent(
                     targetState = childComponent,
                     transitionSpec = {
@@ -89,7 +90,7 @@ fun TopBarRender(
                                 durationMillis = 300,
                                 delayMillis = 0
                             )
-                        ) /*+ fadeIn(animationSpec = tween())*/ with
+                        )  with//+ fadeIn(animationSpec = tween())
                                 slideOutHorizontally(
                                     targetOffsetX = { fullWidth ->
                                         if (isPush) {
@@ -102,10 +103,18 @@ fun TopBarRender(
                                         durationMillis = 300,
                                         delayMillis = 0
                                     )
-                                ) /*+ fadeOut(animationSpec = tween())*/
+                                ) //+ fadeOut(animationSpec = tween())
                     }
                 ) {
                     it.Content(Modifier)
+                }
+*/
+
+                Crossfade(
+                    targetState = childComponent,
+                    animationSpec = tween(durationMillis = 500)
+                ) {
+                    it.Content(modifier)
                 }
 
                 // "Predictive back" bellow
