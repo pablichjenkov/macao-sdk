@@ -13,10 +13,8 @@ import com.pablichj.incubator.uistate3.DesktopComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.JvmWindowSizeInfoProvider
-import com.pablichj.incubator.uistate3.node.backstack.DefaultBackPressDispatcher
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
-import com.pablichj.incubator.uistate3.node.navigation.DefaultNavigator
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -32,7 +30,6 @@ class MainWindowNode(
 
     // todo: get this from a compositionlocalprovider
     private val windowSizeInfoProvider = JvmWindowSizeInfoProvider(windowState)
-    private val defaultBackPressDispatcher = DefaultBackPressDispatcher()
     private var adaptableSizeComponent: Component
 
     init {
@@ -134,6 +131,8 @@ class MainWindowNode(
             activeComponent.stop()
         } else {
             activeComponent.start()
+            //val jsonText = adaptableSizeComponent.jsonify()
+            //println("Pablo::jsonText: $jsonText")
         }
     }
 

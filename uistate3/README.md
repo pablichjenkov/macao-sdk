@@ -1,13 +1,13 @@
 ## UI-State3
-Yet another State Management option in ***Jetpack/Jetbrains Compose***. The original
-concept is based on the **Coordinators Architecture** pattern (popular within iOS folks) and also
-considering the latest trends in Android UI state management(Decompose/Voyager/Appyx). The motive behind the library is to
-create a tool that allows to build Apps quickly, with a variaty of navigation options and seamless
+Yet another State Management alternative in the ***Jetpack/Jetbrains Compose*** world. The concept
+is based on the [Decompose](https://github.com/arkivanov/Decompose) pattern but implementation 
+deviated a bit to fit better other needs. The motive behind the library is to
+create a tool that allows to build Apps quickly, with a variety of navigation options and seamless
 effort to achieve scalability.
 <BR>
 The library separates UI state from any of the underlying platforms, could be Desktop mobile doesn't
 matter. The library itself contain a mechanism for navigation but it can be integrated with other
-navigation solutions out there.
+navigation solutions too.
 
 <H4>Getting Started</H4>
 The best way to get familiar with the concepts is to check the project wiki [wiki](https://github.com/pablichjenkov/uistate3/wiki)
@@ -15,7 +15,8 @@ The best way to get familiar with the concepts is to check the project wiki [wik
 <H4>Show me some code</H4>
 
 ```kotlin
-// An example of how to make a tree. In this case a DrawerComponent that will have a BottomBarComponent as one of its child.
+// An example of how to make a component tree. In this case a DrawerComponent that will have a 
+// BottomBarComponent as one of its children.
 object ComponentTreeBuilder {
 
     private lateinit var DrawerComponent: DrawerComponent

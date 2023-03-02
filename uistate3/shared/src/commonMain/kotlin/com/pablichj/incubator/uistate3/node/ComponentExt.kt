@@ -2,6 +2,7 @@ package com.pablichj.incubator.uistate3.node
 
 import com.pablichj.incubator.uistate3.node.drawer.IDrawerNode
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkDestination
+import kotlinx.serialization.json.*
 
 fun Component.findClosestIDrawerNode(): IDrawerNode? {
     var parentIterator: Component? = this.parentComponent
@@ -36,3 +37,26 @@ fun Component.dispatchAttachedToComponentTree(treeContext: TreeContext) {
     }
     this.onAttachedToComponentTree(treeContext)
 }
+
+/*
+fun Component.jsonify(): JsonObject {
+    val rootJsonObject = buildJsonObject {
+        put("component_type", JsonPrimitive(clazz))
+
+        if (this@jsonify is NavComponent) {
+            val children = mutableListOf<JsonObject>()
+            this@jsonify.childComponents.forEach {
+                val childJson = it.jsonify()
+                children.add(childJson)
+            }
+            putJsonArray("children") {
+                for (child in children) add(child)
+            }
+        }
+
+    }
+
+    return rootJsonObject
+}
+*/
+

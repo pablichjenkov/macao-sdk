@@ -19,10 +19,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 //TODO: Ask for the Header Info to render the Drawer header
-class DrawerComponent(
+open class DrawerComponent(
 
 ) : Component(), NavComponent, IDrawerNode {
-    override val backStack = BackStack<Component>()
+    final override val backStack = BackStack<Component>()
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
