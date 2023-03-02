@@ -17,10 +17,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
-class PagerComponent : Component(), NavComponent {
+open class PagerComponent : Component(), NavComponent {
     override val backStack = BackStack<Component>()
     override var navItems: MutableList<NavItem> = mutableListOf()
-    override var selectedIndex: Int = 0
+    final override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
     private var pagerState = PagerState(selectedIndex)

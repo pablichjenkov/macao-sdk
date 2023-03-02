@@ -14,15 +14,15 @@ import example.nodes.CustomTopBarComponent
 
 object AdaptableSizeTreeBuilder {
 
-    private lateinit var AdaptableSizeNode: AdaptableSizeComponent
+    private lateinit var AdaptableSizeComponent: AdaptableSizeComponent
     private lateinit var subTreeNavItems: MutableList<NavItem>
 
     fun build(
         windowSizeInfoProvider: IWindowSizeInfoProvider
     ): AdaptableSizeComponent {
 
-        if (AdaptableSizeTreeBuilder::AdaptableSizeNode.isInitialized) {
-            return AdaptableSizeNode.apply {
+        if (AdaptableSizeTreeBuilder::AdaptableSizeComponent.isInitialized) {
+            return AdaptableSizeComponent.apply {
                 this.windowSizeInfoProvider = windowSizeInfoProvider
             }
         }
@@ -30,7 +30,7 @@ object AdaptableSizeTreeBuilder {
         return AdaptableSizeComponent(
             windowSizeInfoProvider
         ).also {
-            AdaptableSizeNode = it
+            AdaptableSizeComponent = it
         }
 
     }
@@ -43,42 +43,31 @@ object AdaptableSizeTreeBuilder {
 
         val NavBarComponent = NavBarComponent()
 
-        val navbarNavItems = mutableListOf(
-            NavItem(
-                label = "Current",
-                icon = Icons.Filled.Home,
-                component = CustomTopBarComponent(
-                    "Orders / Current", Icons.Filled.Home, {}
-                ).apply { deepLinkMatcher = { route -> route == "Orders/Page1" } },
-                selected = false
-            ),
-            NavItem(
-                label = "Past",
+        val navbarNavItems = mutableListOf(NavItem(label = "Current",
+            icon = Icons.Filled.Home,
+            component = CustomTopBarComponent("Orders / Current", Icons.Filled.Home, {}).apply {
+                deepLinkMatcher = { route -> route == "Orders/Page1" }
+            },
+            selected = false
+        ),
+            NavItem(label = "Past",
                 icon = Icons.Filled.Edit,
-                component = CustomTopBarComponent(
-                    "Orders / Past", Icons.Filled.Edit, {}
-                ),
-                selected = false
-            ),
-            NavItem(
-                label = "Claim",
+                component = CustomTopBarComponent("Orders / Past", Icons.Filled.Edit, {}),
+                selected = false),
+            NavItem(label = "Claim",
                 icon = Icons.Filled.Email,
-                component = CustomTopBarComponent(
-                    "Orders / Claim", Icons.Filled.Email, {}
-                ),
-                selected = false
-            )
-        )
+                component = CustomTopBarComponent("Orders / Claim", Icons.Filled.Email, {}),
+                selected = false))
 
         NavBarComponent.setNavItems(navbarNavItems, 0)
 
-        val SettingsComponent =
-            CustomTopBarComponent("Settings", Icons.Filled.Email, {})
-                .apply { deepLinkMatcher = { route -> route == "Settings/Page1" } }
+        val SettingsComponent = CustomTopBarComponent("Settings", Icons.Filled.Email, {}).apply {
+                deepLinkMatcher = { route -> route == "Settings/Page1" }
+            }
 
-        val HomeComponent =
-            CustomTopBarComponent("Home", Icons.Filled.Home, {})
-                .apply { deepLinkMatcher = { route -> route == "Home/Page1" } }
+        val HomeComponent = CustomTopBarComponent("Home", Icons.Filled.Home, {}).apply {
+                deepLinkMatcher = { route -> route == "Home/Page1" }
+            }
 
         val navItems = mutableListOf(
             NavItem(
@@ -86,14 +75,12 @@ object AdaptableSizeTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = HomeComponent,
                 selected = false
-            ),
-            NavItem(
+            ), NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
                 component = NavBarComponent,
                 selected = false
-            ),
-            NavItem(
+            ), NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
                 component = SettingsComponent,

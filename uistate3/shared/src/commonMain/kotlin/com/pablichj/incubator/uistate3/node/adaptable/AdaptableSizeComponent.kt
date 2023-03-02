@@ -14,7 +14,7 @@ import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 /**
  * This node is basically a proxy, it transfer request and events to its active child node
  * */
-class AdaptableSizeComponent(
+open class AdaptableSizeComponent(
     var windowSizeInfoProvider: IWindowSizeInfoProvider
 ) : Component(), NavComponent {
     private val initialEmptyNavComponent: NavComponent = AdaptableSizeStubNavComponent()

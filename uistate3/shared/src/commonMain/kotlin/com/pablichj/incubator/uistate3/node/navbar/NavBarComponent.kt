@@ -17,8 +17,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class NavBarComponent : Component(), NavComponent {
-    override val backStack = BackStack<Component>()
+open class NavBarComponent : Component(), NavComponent {
+    final override val backStack = BackStack<Component>()
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
