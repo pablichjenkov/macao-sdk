@@ -1,15 +1,19 @@
 ### Under development 🚧👷
-# Templato
-Templato is a tool to create a kotlin multiplatform App based on a template metadata. For simplicity the templates are made in json format but it could be extended to any other format. Down in this page you can take a look into some of the App templates this engine is ready to build up. The generated App only provides navigation and UI, business logic has to be implemented according to the business needs.
+## Templato
+Templato is a set of compose multiplatforms templates. The templates all target the 4 most popular application platforms, Browser, iOS, Android and the JVM(Mac, Window and Linux). The templates cover the UI and navigation flows, abstracting the data layer, so a variety of APIs can integrate with it.
+<BR>
+For instance, the Hotel Booking template provides the screens and navigation flows that a typical Hotel Booking App has. But, it depends on a data abstraction layer that a Hotel Booking API will provide implementation for. Once the specific data contracts implementations are provided, it is a matter of injecting it in the template and watch the App runs everywhere.
+<BR>
+There are also a couple of simple templates to help any person interested in this project to understand the internal design. The templates build on top of the [Components](https://github.com/pablichjenkov/templato/wiki) tree design concept. Which implementation lives in the **component-tree** module, check thayt module out to better understand how to create new components or extend current components functionality.
 
 ### Running the templates
 To run the projects you need to have the kotlin multiplatform environment setup in your working computer. For this matter visit the following link [Setup Environment](https://kotlinlang.org/docs/multiplatform-mobile-setup.html#install-the-necessary-tools). The page makes reference to an important cli tool called **kdoctor**. This tool will allow you to check if the environment is ready to build multiplatform Apps in kotlin. I recommend installing it.
 
 ---
 
-### UiState3
+### Component-tree
 
-UiState3 is the core library where the Node logic resides. Bellow are some screenshots of the demo App used to test the diferrent library features, as it gets developed.
+Component-tree is the core library where the Components logic resides. Bellow are some screenshots of the demo App used to test the diferrent features in the component library .
 
 <table border="0">
  <tr>
