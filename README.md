@@ -1,6 +1,6 @@
 ### Under development 🚧👷
 ## Templato
-Templato is a set of compose multiplatforms templates. The templates all target the 4 most popular application platforms, Browser, iOS, Android and the JVM(Mac, Window and Linux). The templates cover the UI and navigation flows, abstracting the data layer, so a variety of APIs can integrate with it.
+Templato is a set of compose multiplatforms templates. The templates all target the 4 most popular user interfaced platforms, Browser, iOS, Android and the JVM(Mac, Window and Linux). The templates cover the UI for a certain business type of App, abstracting the data layer, so a variety of APIs for that specific business type can integrate.
 <BR>
 For instance, the Hotel Booking template provides the screens and navigation flows that a typical Hotel Booking App has. But, it depends on a data abstraction layer that a Hotel Booking API will provide implementation for. Once the specific data contracts implementations are provided, it is a matter of injecting it in the template and watch the App runs everywhere.
 <BR>
