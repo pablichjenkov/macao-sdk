@@ -18,7 +18,7 @@ class AndroidWindowSizeInfoProvider(
     @Composable
     override fun windowSizeInfo(): State<WindowSizeInfo> {
         val windowSize = calculateWindowSizeClass(activity)
-        Log.d("Pablo", "windowSizeInfo: windowSize = $windowSize")
+        Log.d("AndroidWindowSizeInfoProvider", "windowSizeInfo: windowSize = $windowSize")
         return remember(windowSize) {
             derivedStateOf {
                 when (windowSize.widthSizeClass) {

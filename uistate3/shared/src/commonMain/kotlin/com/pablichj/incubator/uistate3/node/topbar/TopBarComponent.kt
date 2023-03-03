@@ -50,6 +50,7 @@ open class TopBarComponent(
         println("$clazz::stop()")
         super.stop()
         activeComponent.value?.stop()
+        lastBackstackEvent = null
     }
 
     override fun handleBackPressed() {
@@ -155,9 +156,37 @@ open class TopBarComponent(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("$clazz::Composing(), stack.size = ${backStack.size()}")
-        val isPush = lastBackstackEvent is BackStack.Event.Push
-        TopBarRender(modifier, topBarState, activeComponent.value, isPush)
+        println("""
+          $clazz::Composing(), backStack.size = ${backStack.size()}
+          lastBackstackEvent = $lastBackstackEvent
+        """)
+
+        val animationType = when (lastBackstackEvent) {
+            is BackStack.Event.Pop -> {
+                if (backStack.size() > 0)
+                    AnimationType.Reverse
+                else AnimationType.Exit
+            }
+            is BackStack.Event.PopEmptyStack -> {
+                AnimationType.Enter
+            }
+            is BackStack.Event.Push -> {
+                if (backStack.size() > 1)
+                    AnimationType.Direct
+                else AnimationType.Enter
+            }
+            is BackStack.Event.PushEqualTop -> {
+                AnimationType.Enter
+            }
+            null -> AnimationType.Enter
+        }
+
+        TopBarScaffold(
+            modifier,
+            topBarState,
+            activeComponent.value,
+            animationType
+        )
     }
 
 }

@@ -115,7 +115,7 @@ open class AdaptableSizeComponent(
             }
             LifecycleState.Started -> {
                 val windowSizeInfo by windowSizeInfoProvider.windowSizeInfo()
-                println("Pablo $clazz.Composing.Started() windowSizeInfo = $windowSizeInfo")
+                println("$clazz.Composing.Started() windowSizeInfo = $windowSizeInfo")
 
                 val currentNavComponentCopy = currentNavComponent.value
 
