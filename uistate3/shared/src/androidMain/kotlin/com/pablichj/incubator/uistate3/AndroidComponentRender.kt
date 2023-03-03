@@ -33,7 +33,7 @@ fun AndroidComponentRender(
     LifecycleEventObserver(
         lifecycleOwner = LocalLifecycleOwner.current,
         onStart = {
-            println("Pablo Receiving Activity.onStart() event")
+            println("Receiving Activity.onStart() event")
             // Traverse the whole tree passing the TreeContext living in the root node. Useful to
             // propagate the the Navigator for example. Where each Component interested in participating
             // in deep linking will subscribe its instance an a DeepLinkMatcher lambda function.
@@ -42,7 +42,7 @@ fun AndroidComponentRender(
             rootComponent.start()
         },
         onStop = {
-            println("Pablo Receiving Activity.onStop() event")
+            println("Receiving Activity.onStop() event")
             rootComponent.stop()
         }
     )

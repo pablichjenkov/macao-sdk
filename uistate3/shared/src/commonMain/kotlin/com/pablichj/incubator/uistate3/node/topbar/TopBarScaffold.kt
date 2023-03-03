@@ -1,5 +1,6 @@
 package com.pablichj.incubator.uistate3.node.topbar
 
+import TopBar
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.border
@@ -29,13 +30,13 @@ import androidx.compose.ui.unit.dp
 import com.pablichj.incubator.uistate3.FloatingBackButton
 import com.pablichj.incubator.uistate3.node.Component
 
-//@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun TopBarRender(
+fun TopBarScaffold(
     modifier: Modifier,
     topBarState: ITopBarState,
     childComponent: Component?,
-    isPush: Boolean
+    animationType: AnimationType
 ) {
 //    var pointerEnabled by remember(topBarState) { mutableStateOf(true) }
 //    var startX = remember(topBarState) { mutableStateOf(Float.MAX_VALUE) }
@@ -78,19 +79,20 @@ fun TopBarRender(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+//                .pointerInteropFilter()
 //                .nestedScroll(nestedScrollConnection, nestedScrollDispatcher)
-                /*.swipeable(
-                    state = swipeableState,
-                    orientation = Orientation.Horizontal,
-                    anchors = mapOf(
-                        0f to 100f,
-                        maxHeight to States.COLLAPSED,
-                    )
-                )*/
-                /*.scrollable(
-                    state = scrollableState,
-                    orientation = Orientation.Horizontal,
-                )*/
+            /*.swipeable(
+                state = swipeableState,
+                orientation = Orientation.Horizontal,
+                anchors = mapOf(
+                    0f to 100f,
+                    maxHeight to States.COLLAPSED,
+                )
+            )*/
+            /*.scrollable(
+                state = scrollableState,
+                orientation = Orientation.Horizontal,
+            )*/
 /*
                 .draggable(
                     state = rememberDraggableState {
@@ -164,47 +166,11 @@ fun TopBarRender(
  */
         ) {
             if (childComponent != null) {
-/*
                 AnimatedContent(
                     targetState = childComponent,
-                    transitionSpec = {
-                        slideInHorizontally(
-                            initialOffsetX = { fullWidth ->
-                                if (isPush) {
-                                    fullWidth
-                                } else {
-                                    -fullWidth
-                                }
-                            },
-                            animationSpec = tween(
-                                durationMillis = 300,
-                                delayMillis = 0
-                            )
-                        )  with//+ fadeIn(animationSpec = tween())
-                                slideOutHorizontally(
-                                    targetOffsetX = { fullWidth ->
-                                        if (isPush) {
-                                            -fullWidth
-                                        } else {
-                                            fullWidth
-                                        }
-                                    },
-                                    animationSpec = tween(
-                                        durationMillis = 300,
-                                        delayMillis = 0
-                                    )
-                                ) //+ fadeOut(animationSpec = tween())
-                    }
+                    transitionSpec = { getTransitionByAnimationType(animationType) }
                 ) {
                     it.Content(Modifier)
-                }
-*/
-
-                Crossfade(
-                    targetState = childComponent,
-                    animationSpec = tween(durationMillis = 500)
-                ) {
-                    it.Content(modifier)
                 }
 
                 // "Predictive back" bellow
@@ -229,6 +195,61 @@ fun TopBarRender(
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
+private fun getTransitionByAnimationType(animationType: AnimationType): ContentTransform {
+    return when (animationType) {
+        AnimationType.Direct -> {
+            slideInHorizontally(
+                initialOffsetX = { fullWidth ->
+                    fullWidth
+                },
+                animationSpec = tween(
+                    durationMillis = 300,
+                    delayMillis = 0
+                )
+            ) with//+ fadeIn(animationSpec = tween())
+                    slideOutHorizontally(
+                        targetOffsetX = { fullWidth ->
+                            -fullWidth
+                        },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            delayMillis = 0
+                        )
+                    ) //+ fadeOut(animationSpec = tween())
+        }
+        AnimationType.Reverse -> {
+            slideInHorizontally(
+                initialOffsetX = { fullWidth ->
+                    -fullWidth
+                },
+                animationSpec = tween()
+            ) with//+ fadeIn(animationSpec = tween())
+                    slideOutHorizontally(
+                        targetOffsetX = { fullWidth ->
+                            fullWidth
+                        },
+                        animationSpec = tween()
+                    ) //+ fadeOut(animationSpec = tween())
+        }
+        AnimationType.Exit,
+        AnimationType.Enter -> {
+            fadeIn(
+                animationSpec = tween()
+            ) with fadeOut(
+                animationSpec = tween()
+            )
+        }
+    }
+}
+
+sealed class AnimationType {
+    object Direct : AnimationType()
+    object Reverse : AnimationType()
+    object Enter : AnimationType()
+    object Exit : AnimationType()
+}
+
 /*fun Modifier.pointerInputEnabler(
     enable: Boolean,
     key1: Any?,
@@ -240,72 +261,6 @@ fun TopBarRender(
         this
     }
 }*/
-
-@Composable
-fun TopBar(
-    topBarState: ITopBarState
-) {
-
-    val topBarIcon1: ImageVector? by remember(key1 = topBarState) {
-        topBarState.icon1
-    }
-
-    val topBarIcon2: ImageVector? by remember(key1 = topBarState) {
-        topBarState.icon2
-    }
-
-    val topBarTitle: String? by remember(key1 = topBarState) {
-        topBarState.title
-    }
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(48.dp)
-            .border(2.dp, Color.Blue)
-            .padding(4.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
-    ) {
-
-        topBarIcon1?.let {
-            Icon(
-                modifier = Modifier
-                    .padding(start = 8.dp)
-                    .clickable {
-                        topBarState.onIcon1Click()
-                    },
-                imageVector = it,
-                contentDescription = "TopBar icon"
-            )
-        }
-
-        topBarIcon2?.let {
-            Icon(
-                modifier = Modifier
-                    .padding(start = 8.dp)
-                    .clickable {
-                        topBarState.onIcon2Click()
-                    },
-                imageVector = it,
-                contentDescription = "TopBar icon"
-            )
-        }
-
-        topBarTitle?.let {
-            Text(
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .padding(start = 8.dp)
-                    .clickable {
-                        topBarState.onTitleClick()
-                    },
-                text = it,
-            )
-        }
-
-    }
-}
 
 /*
 @Composable

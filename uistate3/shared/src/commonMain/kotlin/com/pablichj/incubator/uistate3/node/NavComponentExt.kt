@@ -68,38 +68,28 @@ fun NavComponent.getNavItemFromNode(component: Component): NavItem {
 internal fun NavComponent.processBackstackEvent(event: BackStack.Event<Component>) {
     when (event) {
         is BackStack.Event.Push -> {
+            println("${getComponent().clazz}::Event.Push")
             val stack = event.stack
-            val newTop = stack[stack.lastIndex]
-            val oldTop = stack.getOrNull(stack.lastIndex - 1)
-
-            println(
-                "${getComponent().clazz}::Event.StackPush()," +
-                        " oldTop: ${oldTop?.let { it::class.simpleName }}," +
-                        " newTop: ${newTop::class.simpleName}"
-            )
-
-            // By convention always stop the previous top before starting the new one. TODO: Tests
-            oldTop?.stop()
-            newTop.start()
-            updateSelectedNavItem(newTop)
-            activeComponent.value = newTop
+            if (stack.size > 1) {
+                val newTop = stack[stack.lastIndex]
+                val oldTop = stack[stack.lastIndex - 1]
+                transitionInOut(newTop, oldTop)
+            } else {
+                transitionIn(stack[0]) // There is only one item in the stack so lastIndex == 0
+            }
         }
         is BackStack.Event.Pop -> {
+            println("${getComponent().clazz}::Event.Pop")
             val stack = event.stack
-            val newTop = stack.getOrNull(stack.lastIndex)
             val oldTop = event.oldTop
 
-            println(
-                "$${getComponent().clazz}::Event.StackPop(), " +
-                        "oldTop: ${oldTop::class.simpleName}," +
-                        " newTop: ${newTop?.let { it::class.simpleName }}"
-            )
+            if (stack.isNotEmpty()) {
+                val newTop = stack[stack.lastIndex]
+                transitionInOut(newTop, oldTop)
+            } else {
+                transitionOut(oldTop) // There is no items in the stack, lets just
+            }
 
-            // By convention always stop the previous top before starting the new one. TODO: Tests
-            oldTop.stop()
-            newTop?.start()
-            newTop?.let { updateSelectedNavItem(it) }
-            activeComponent.value = newTop
         }
         is BackStack.Event.PushEqualTop -> {
             println(
@@ -112,6 +102,32 @@ internal fun NavComponent.processBackstackEvent(event: BackStack.Event<Component
             activeComponent.value = null
         }
     }
+}
+
+private fun NavComponent.transitionIn(newTop: Component) {
+    println("${getComponent().clazz}::transitionIn(), newTop: ${newTop::class.simpleName}")
+    newTop.start()
+    updateSelectedNavItem(newTop)
+    activeComponent.value = newTop
+}
+
+private fun NavComponent.transitionInOut(newTop: Component, oldTop: Component) {
+    println(
+        "${getComponent().clazz}::transitionInOut()," +
+                " oldTop: ${oldTop::class.simpleName}, newTop: ${newTop::class.simpleName}"
+    )
+
+    // By convention always stop the previous top before starting the new one. TODO: Tests
+    oldTop.stop()
+    newTop.start()
+    updateSelectedNavItem(newTop)
+    activeComponent.value = newTop
+}
+
+private fun NavComponent.transitionOut(oldTop: Component) {
+    println("${getComponent().clazz}::transitionOut(), oldTop: ${oldTop::class.simpleName}")
+    oldTop.stop()
+    activeComponent.value = null
 }
 
 internal fun NavComponent.transferFrom(donorNavComponent: NavComponent) {

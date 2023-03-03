@@ -52,7 +52,7 @@ class MainWindowNode(
             .treeContext
             ?.navigator
             ?.handleDeepLink(destination)
-        println("Pablo::MainWindow deepLinkResult = ${deepLinkResult}")
+        println("MainWindowNode::deepLinkResult = ${deepLinkResult}")
     }
 
     // endregion
@@ -132,7 +132,7 @@ class MainWindowNode(
         } else {
             activeComponent.start()
             //val jsonText = adaptableSizeComponent.jsonify()
-            //println("Pablo::jsonText: $jsonText")
+            //println("MainWindowNode::jsonText: $jsonText")
         }
     }
 

@@ -46,7 +46,7 @@ configure<PublishingExtension> {
 
 /*publishing {
     publications {
-        println("Pablo: publication = $name")
+        println("publication = $name")
         withType<MavenPublication> {
             //groupId = "com.meowbox.fourpillars"
             artifactId = makeArtifactId(name)

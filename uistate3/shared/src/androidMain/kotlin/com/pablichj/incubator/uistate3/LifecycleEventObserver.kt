@@ -40,7 +40,7 @@ fun LifecycleEventObserver(
             lifecycleOwner.lifecycle.removeObserver(observer)
             Log.d(
                 "LifecycleEventObserver",
-                "Pablo Disposing LifecycleEventObserver"
+                "Disposing LifecycleEventObserver"
             )
         }
     }
