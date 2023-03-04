@@ -78,7 +78,7 @@ open class PanelComponent : Component(), NavComponent {
     override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
         panelState.navItems = navItems
         panelState.selectNavItem(navItems[selectedIndex])
-        if (getComponent().lifecycleState == LifecycleState.Started) {
+        if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
             backStack.push(childComponents[selectedIndex])
         }
     }
@@ -95,7 +95,7 @@ open class PanelComponent : Component(), NavComponent {
     }
 
     override fun onDestroyChildComponent(component: Component) {
-        if (component.lifecycleState == LifecycleState.Started) {
+        if (component.lifecycleState == ComponentLifecycleState.Started) {
             component.stop()
             component.destroy()
         } else {

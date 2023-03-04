@@ -8,7 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.pablichj.incubator.uistate3.AndroidComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeStateTreeHolder
-import com.pablichj.incubator.uistate3.node.AndroidWindowSizeInfoProvider
+import com.pablichj.incubator.uistate3.node.adaptable.AndroidWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.Component
 
 class AdaptableSizeNodeActivity : ComponentActivity() {

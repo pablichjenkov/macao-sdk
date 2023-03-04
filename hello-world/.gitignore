@@ -3,7 +3,6 @@
 local.properties
 build/
 **/build
-kotlin-js-store
 
 ### IntelliJ IDEA ###
 .idea

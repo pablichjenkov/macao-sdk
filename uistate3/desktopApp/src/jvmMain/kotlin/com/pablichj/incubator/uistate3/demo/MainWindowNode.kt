@@ -12,14 +12,13 @@ import androidx.compose.ui.window.WindowState
 import com.pablichj.incubator.uistate3.DesktopComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.JvmWindowSizeInfoProvider
+import com.pablichj.incubator.uistate3.node.adaptable.JvmWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlin.system.exitProcess
 
 class MainWindowNode(
     val onOpenDeepLinkClick: () -> Unit,
