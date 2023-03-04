@@ -108,12 +108,12 @@ open class AdaptableSizeComponent(
     @Composable
     override fun Content(modifier: Modifier) {
         println("$clazz.Composing() lifecycleState = $lifecycleState")
-        val componentLifecycleState by componentLifecycleFlow.collectAsState(LifecycleState.Created)
+        val componentLifecycleState by componentLifecycleFlow.collectAsState(ComponentLifecycleState.Created)
         when (componentLifecycleState) {
-            LifecycleState.Created,
-            LifecycleState.Destroyed -> {
+            ComponentLifecycleState.Created,
+            ComponentLifecycleState.Destroyed -> {
             }
-            LifecycleState.Started -> {
+            ComponentLifecycleState.Started -> {
                 val windowSizeInfo by windowSizeInfoProvider.windowSizeInfo()
                 println("$clazz.Composing.Started() windowSizeInfo = $windowSizeInfo")
 
@@ -127,7 +127,7 @@ open class AdaptableSizeComponent(
 
                 StartedContent(modifier, currentNavComponentCopy)
             }
-            LifecycleState.Stopped -> {
+            ComponentLifecycleState.Stopped -> {
             }
         }
     }

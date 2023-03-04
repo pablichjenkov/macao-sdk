@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.*
  * */
 class BackStack<T : Component> {
     internal val deque: ArrayDeque<T> = ArrayDeque()
+    var eventListener: (event: Event<T>) -> Unit = {}
 
     /**
      * Push a Node to the top of the stack.
@@ -108,26 +109,13 @@ class BackStack<T : Component> {
         deque.clear()
     }
 
-    var eventListener: (event: Event<T>) -> Unit = {}
-
-    /**
-     * The reason oldTop is null is because the first time a node is pushed, there is no previous
-     * element in the stack.
-     **/
-    //abstract fun onStackPush(oldTop: T?, newTop: T)
-
-    /**
-     * The reason newTop is null is because the last time a node is popped, there is no previous
-     * top element in the stack.
-     **/
-    //abstract fun onStackPop(oldTop: T, newTop: T?)
-
-    //abstract fun onStackPopManySuccess()
 
     sealed class Event<T> {
         class Push<T>(val stack: List<T>) : Event<T>()
         class Pop<T>(val stack: List<T>, val oldTop: T) : Event<T>()
+        //class PopMany<T>(val stack: List<T>, val oldTop: T) : Event<T>()
         class PushEqualTop<T>(val stack: List<T>) : Event<T>()
         class PopEmptyStack<T> : Event<T>()
     }
+
 }

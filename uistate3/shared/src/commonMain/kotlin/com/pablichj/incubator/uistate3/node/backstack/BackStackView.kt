@@ -2,6 +2,7 @@ package com.pablichj.incubator.uistate3.node.backstack
 
 import androidx.compose.runtime.*
 import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.node.ComponentLifecycleState
 
 /**
  * This [Composable] can be used with a [LocalBackPressedDispatcher] to intercept a back press.
@@ -31,21 +32,21 @@ fun BackPressHandler(
     }
 
     val backPressDispatcher = LocalBackPressedDispatcher.current
-    val componentLifecycleState by component.componentLifecycleFlow.collectAsState(Component.LifecycleState.Created)
+    val componentLifecycleState by component.componentLifecycleFlow.collectAsState(ComponentLifecycleState.Created)
 
     when (componentLifecycleState) {
-        Component.LifecycleState.Created -> {
+        ComponentLifecycleState.Created -> {
             // Ignore
         }
-        Component.LifecycleState.Started -> {
+        ComponentLifecycleState.Started -> {
             println("${component.clazz}::Lifecycle Flow = Started, BackPressHandler Subscribing")
             backPressDispatcher.subscribe(backPressCallback)
         }
-        Component.LifecycleState.Stopped -> {
+        ComponentLifecycleState.Stopped -> {
             println("${component.clazz}::onStop BackPressHandler Unsubscribing")
             backPressDispatcher.unsubscribe(backPressCallback)
         }
-        Component.LifecycleState.Destroyed -> {
+        ComponentLifecycleState.Destroyed -> {
 
         }
     }

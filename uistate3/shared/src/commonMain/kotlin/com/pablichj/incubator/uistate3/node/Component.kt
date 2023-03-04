@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 abstract class Component : ComponentLifecycle {
     var parentComponent: Component? = null
-    var lifecycleState: LifecycleState = LifecycleState.Created
+    var lifecycleState: ComponentLifecycleState = ComponentLifecycleState.Created
     internal var rootBackPressedCallbackDelegate: BackPressedCallback? = null
     internal val clazz = this::class.simpleName
 
@@ -20,8 +20,8 @@ abstract class Component : ComponentLifecycle {
         }
     }
 
-    private val _componentLifecycleFlow = MutableStateFlow<LifecycleState>(LifecycleState.Created)
-    val componentLifecycleFlow: Flow<LifecycleState>
+    private val _componentLifecycleFlow = MutableStateFlow<ComponentLifecycleState>(ComponentLifecycleState.Created)
+    val componentLifecycleFlow: Flow<ComponentLifecycleState>
         get() = _componentLifecycleFlow
 
     // region: Component Tree
@@ -36,18 +36,18 @@ abstract class Component : ComponentLifecycle {
     // endregion
 
     override fun start() {
-        lifecycleState = LifecycleState.Started
-        _componentLifecycleFlow.value = LifecycleState.Started
+        lifecycleState = ComponentLifecycleState.Started
+        _componentLifecycleFlow.value = ComponentLifecycleState.Started
     }
 
     override fun stop() {
-        lifecycleState = LifecycleState.Stopped
-        _componentLifecycleFlow.value = LifecycleState.Stopped
+        lifecycleState = ComponentLifecycleState.Stopped
+        _componentLifecycleFlow.value = ComponentLifecycleState.Stopped
     }
 
     override fun destroy() {
-        lifecycleState = LifecycleState.Destroyed
-        _componentLifecycleFlow.value = LifecycleState.Destroyed
+        lifecycleState = ComponentLifecycleState.Destroyed
+        _componentLifecycleFlow.value = ComponentLifecycleState.Destroyed
     }
 
     /**
@@ -118,16 +118,22 @@ abstract class Component : ComponentLifecycle {
 
     // endregion
 
+    //TODO: Remove below internal once iOS internal issue got solved
+    // Put it in the documentation somewhere
+    /**
+     * To be able to link in iOS, uncomment internal bellow, all composables have to be internal
+     * in iOS
+     * */
     @Composable
-    internal abstract fun Content(modifier: Modifier)
+    /*internal*/ abstract fun Content(modifier: Modifier)
 
-    sealed interface LifecycleState {
-        object Created : LifecycleState
-        object Started : LifecycleState
-        object Stopped : LifecycleState
-        object Destroyed : LifecycleState
-    }
+}
 
+sealed interface ComponentLifecycleState {
+    object Created : ComponentLifecycleState
+    object Started : ComponentLifecycleState
+    object Stopped : ComponentLifecycleState
+    object Destroyed : ComponentLifecycleState
 }
 
 interface ComponentLifecycle {

@@ -1,5 +1,5 @@
 import UIKit
-import shared_hw
+import HelloWorldKt
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

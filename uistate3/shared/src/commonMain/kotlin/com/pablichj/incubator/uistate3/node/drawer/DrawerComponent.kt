@@ -94,7 +94,7 @@ open class DrawerComponent(
     override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
         navDrawerState.navItems = navItems
         navDrawerState.selectNavItem(navItems[selectedIndex])
-        if (getComponent().lifecycleState == LifecycleState.Started) {
+        if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
             backStack.push(childComponents[selectedIndex])
         }
     }
@@ -108,7 +108,7 @@ open class DrawerComponent(
     }
 
     override fun onDestroyChildComponent(component: Component) {
-        if (component.lifecycleState == LifecycleState.Started) {
+        if (component.lifecycleState == ComponentLifecycleState.Started) {
             component.stop()
             component.destroy()
         } else {

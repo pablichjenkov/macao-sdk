@@ -8,7 +8,7 @@ kotlin {
     sourceSets {
         val jvmMain by getting  {
             dependencies {
-                implementation(project(":shared-hw"))
+                implementation(project(":shared-hello-world"))
                 implementation(compose.desktop.common)
                 implementation(compose.desktop.currentOs)
                 //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
@@ -19,7 +19,7 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "MainKt"
+        mainClass = "com.pablichj.incubator.uistate3.example.helloWorld.MainKt"
     }
 }
 
