@@ -22,13 +22,16 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollDispatcher
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.input.pointer.PointerInputScope
-import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import com.pablichj.incubator.uistate3.FloatingBackButton
 import com.pablichj.incubator.uistate3.node.Component
+
+private val PredictiveBackAreaWidth = 100
+private val PredictiveBackDragWidth = 100
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -36,41 +39,12 @@ fun TopBarScaffold(
     modifier: Modifier,
     topBarState: ITopBarState,
     childComponent: Component?,
+    prevChildComponent: Component?,
     animationType: AnimationType
 ) {
-//    var pointerEnabled by remember(topBarState) { mutableStateOf(true) }
-//    var startX = remember(topBarState) { mutableStateOf(Float.MAX_VALUE) }
-//    var deltaX by remember(topBarState) { mutableStateOf(0f) }
-//    var showBackNavigation = derivedStateOf { deltaX > 100 && startX.value <= 50 }
-
-//    val nestedScrollDispatcher = remember { NestedScrollDispatcher() }
-
-    /*val nestedScrollConnection = rememberNestedScrollConnection(
-        onOffsetChanged = {
-            println("Pablo:: nestedScrollConnection.onOffsetChanged{$it}")
-            nestedScrollDispatcher.dispatchPreScroll(
-                available = Offset(it, 0f),
-                source = NestedScrollSource.Drag
-            )
-        },
-        startX
-    )*/
-
-    /*val scrollableState = rememberScrollableState (
-        consumeScrollDelta = { delta ->
-            println("Pablo:: rememberScrollableState:scrolled{$delta}")
-            val consumed = nestedScrollDispatcher.dispatchPreScroll(
-                available = Offset(delta, 0f),
-                source = NestedScrollSource.Drag
-            )
-            nestedScrollDispatcher.dispatchPostScroll(
-                consumed = Offset(0f, 0f),
-                available = Offset(delta *//*- consumed.x*//*, y = 0f),
-                source = NestedScrollSource.Drag
-            )
-            delta
-        }
-    )*/
+    var deltaX by remember(topBarState) { mutableStateOf(0f) }
+    var deltaXMax by remember(topBarState) { mutableStateOf(0f) }
+    var dragState by remember(topBarState) { mutableStateOf<DragState>(DragState.None) }
 
     Scaffold(
         modifier = modifier,
@@ -79,109 +53,96 @@ fun TopBarScaffold(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-//                .pointerInteropFilter()
-//                .nestedScroll(nestedScrollConnection, nestedScrollDispatcher)
-            /*.swipeable(
-                state = swipeableState,
-                orientation = Orientation.Horizontal,
-                anchors = mapOf(
-                    0f to 100f,
-                    maxHeight to States.COLLAPSED,
-                )
-            )*/
-            /*.scrollable(
-                state = scrollableState,
-                orientation = Orientation.Horizontal,
-            )*/
-/*
-                .draggable(
-                    state = rememberDraggableState {
-                        println("Pablo:: rememberDraggableState.{$it}")
-                        val consumed = nestedScrollDispatcher.dispatchPreScroll(
-                            available = Offset(it, 0f),
-                            source = NestedScrollSource.Drag
-                        )
+                .pointerInput(topBarState) {
+                    forEachGesture {
+                        awaitPointerEventScope {
+                            val eventDown = awaitFirstDown(requireUnconsumed = true)
+                            println("TopBarScaffold::awaitFirstDown position: ${eventDown.position}, delta: ${eventDown.scrollDelta}")
 
-                        nestedScrollDispatcher.dispatchPostScroll(
-                            consumed = Offset(it - consumed.x, 0f),
-                            available = Offset(x = it, y = 0f),
-                            source = NestedScrollSource.Drag
-                        )
-                    },
-                    orientation = Orientation.Horizontal,
-                )
-*/
-/*
-                .pointerInputEnabler(pointerEnabled, topBarState) {
-                    detectDragGestures(
-                        onDragStart = { offset ->
-                            println("Pablo::onDragStart offset = $offset")
-                            if (offset.x > 50) {
-                                //pointerEnabled = false
-                                val parentsConsumed = nestedScrollDispatcher.dispatchPreScroll(
-                                    available = Offset(offset.x, 0f),
-                                    source = NestedScrollSource.Drag
-                                )
-                                nestedScrollDispatcher.dispatchPostScroll(
-                                    consumed = Offset(0f, 0f),
-                                    available = Offset(0f, 0f),//Offset(offset.x - parentsConsumed.x, y = 0f),
-                                    source = NestedScrollSource.Drag
-                                )
+                            if (eventDown.position.x < PredictiveBackAreaWidth) {
+                                eventDown.consume()
+                                val startX = eventDown.position.x
+
+                                do {
+                                    val event: PointerEvent = awaitPointerEvent(PointerEventPass.Main)
+                                    // ACTION_MOVE loop
+                                    event.changes.forEach {
+                                        println("TopBarScaffold::awaitPointerEvent position: ${it.position}, delta: ${deltaX}, dragState=$dragState")
+                                        // Consuming event prevents other gestures or scroll to intercept
+                                        it.consume()
+                                    }
+
+                                    event.changes.lastOrNull()?.let {
+                                        deltaX = it.position.x - startX
+                                    }
+
+                                    if (deltaX > PredictiveBackDragWidth) {
+                                        dragState = DragState.PredictiveBack
+                                        if (deltaXMax < deltaX) {
+                                            deltaXMax = deltaX
+                                        } else {
+                                            // Cancel predictive back if the user reverse the move
+                                            // by two times the predictive back width
+                                            if (deltaXMax > deltaX + PredictiveBackDragWidth*2) {
+                                                dragState = DragState.None
+                                                deltaX = 0.0f
+                                                deltaXMax = 0.0f
+                                                return@awaitPointerEventScope
+                                            }
+                                        }
+                                    }
+
+                                } while (event.changes.any { it.pressed })
+
+                                println("TopBarScaffold::onDragEnd")
+                                if (dragState == DragState.PredictiveBack) {
+                                    topBarState.handleBackPress()
+                                }
+
+                                deltaX = 0.0f
+                                deltaXMax = 0.0f
+                                dragState = DragState.None
                             }
-                            startX.value = offset.x
-                        },
-                        onDrag = { inputChange, offset ->
-                            println("Pablo::onDrag deltaX = $deltaX, offset = $offset")
-                            //inputChange.consume()
-                            deltaX += offset.x
-                            if (startX.value > 50) {
-                                val parentsConsumed = nestedScrollDispatcher.dispatchPreScroll(
-                                    available = inputChange.scrollDelta,
-                                    source = NestedScrollSource.Drag
-                                )
-                                nestedScrollDispatcher.dispatchPostScroll(
-                                    consumed = parentsConsumed,//Offset(0f, 0f),
-                                    available = inputChange.scrollDelta,//Offset(, y = 0f),
-                                    source = NestedScrollSource.Drag
-                                )
-                            }
-                        },
-                        onDragCancel = {
-                            println("Pablo::onDragCancel")
-                            startX.value = Float.MAX_VALUE
-                            deltaX = 0f
-                        },
-                        onDragEnd = {
-                            println("Pablo::onDragEnd")
-                            if (startX.value <= 50 && deltaX > 150) {
-                                startX.value = Float.MAX_VALUE
-                                deltaX = 0f
-                                topBarState.handleBackPress()
-                            }
-                            startX.value = Float.MAX_VALUE
-                            deltaX = 0f
                         }
-                    )
+                    }
                 }
- */
         ) {
             if (childComponent != null) {
-                AnimatedContent(
+                /*AnimatedContent(
                     targetState = childComponent,
                     transitionSpec = { getTransitionByAnimationType(animationType) }
                 ) {
                     it.Content(Modifier)
-                }
+                }*/
+                when (dragState) {
+                    DragState.None -> {
+                        AnimatedContent(
+                            targetState = childComponent,
+                            transitionSpec = { getTransitionByAnimationType(animationType) }
+                        ) {
+                            it.Content(Modifier)
+                        }
+                    }
+                    DragState.PredictiveBack -> {
+                        prevChildComponent?.Content(Modifier)
 
-                // "Predictive back" bellow
-/*
-                if (showBackNavigation.value) {
-                    FloatingBackButton(
-                        modifier = Modifier.align(Alignment.CenterStart),
-                        onClick = {}
-                    )
+                        val xOffset = deltaX.toInt() - PredictiveBackDragWidth
+
+                        Box(Modifier.offset {
+                            IntOffset(xOffset,0)
+                        }) {
+                            childComponent.Content(Modifier)
+                        }
+
+                        // "Predictive back" Indicator
+                        FloatingBackButton(
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .offset { IntOffset(xOffset, 0) },
+                            onClick = {}
+                        )
+                    }
                 }
-*/
             } else {
                 Text(
                     modifier = Modifier
@@ -250,49 +211,7 @@ sealed class AnimationType {
     object Exit : AnimationType()
 }
 
-/*fun Modifier.pointerInputEnabler(
-    enable: Boolean,
-    key1: Any?,
-    block: suspend PointerInputScope.() -> Unit
-): Modifier {
-    return if (enable) {
-        this.pointerInput(key1, block)
-    } else {
-        this
-    }
-}*/
-
-/*
-@Composable
-fun rememberNestedScrollConnection() = remember {
-
-    object : NestedScrollConnection {
-        override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-            println("Pablo::onPreScroll() available.x = ${available.x}")
-            return super.onPreScroll(available, source)
-
-        }
-
-        override fun onPostScroll(
-            consumed: Offset,
-            available: Offset,
-            source: NestedScrollSource
-        ): Offset {
-            println("Pablo::onPostScroll()")
-            return super.onPostScroll(consumed, available, source)
-        }
-
-        override suspend fun onPreFling(available: Velocity): Velocity {
-            println("Pablo::onPreFling()")
-            return super.onPreFling(available)
-        }
-
-        override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
-            println("Pablo::onPostFling()")
-            return super.onPostFling(consumed, available)
-        }
-
-    }
-
+sealed class DragState {
+    object None : DragState()
+    object PredictiveBack : DragState()
 }
-*/
