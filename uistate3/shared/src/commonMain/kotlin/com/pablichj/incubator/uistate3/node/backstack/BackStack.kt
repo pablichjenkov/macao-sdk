@@ -19,7 +19,7 @@ class BackStack<T : Component> {
      * Push a Node to the top of the stack.
      * When a Node is push successfully, a Push event will be delivered.
      * */
-    internal fun push(node: T) {
+    fun push(node: T) {
         val currentTopNode = deque.lastOrNull()
 
         // If the same node on top is pushed again, a PushEqualTop event will be delivered.
@@ -36,7 +36,7 @@ class BackStack<T : Component> {
      * Remove the top most Node from the stack.
      * When a Node is pop successfully, a Pop event will be delivered.
      * */
-    internal fun pop() {
+    fun pop() {
         if (deque.size == 0) {
             eventListener(Event.PopEmptyStack())
             return
@@ -45,7 +45,7 @@ class BackStack<T : Component> {
         onStackPop(oldTop)
     }
 
-    internal fun popTo(node: T, inclusive: Boolean): Boolean {
+    fun popTo(node: T, inclusive: Boolean): Boolean {
 
         val shouldPop: Boolean = deque.lastIndexOf(node) != -1
         if (!shouldPop) {
@@ -101,11 +101,11 @@ class BackStack<T : Component> {
         eventListener(Event.Pop(deque, oldTop))
     }
 
-    internal fun size(): Int {
+    fun size(): Int {
         return deque.size
     }
 
-    internal fun clear() {
+    fun clear() {
         deque.clear()
     }
 

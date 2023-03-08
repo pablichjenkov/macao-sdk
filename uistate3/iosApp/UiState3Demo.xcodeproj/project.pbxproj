@@ -326,7 +326,7 @@
 					"-ObjC",
 					"-l\"c++\"",
 					"-framework",
-					"\"iosAppKt\"",
+					"\"UiState3Kt\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.pablichj.incubator.uistate3--TEAM-ID-";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.pablichj.incubator.uistate3;
@@ -362,7 +362,7 @@
 					"-ObjC",
 					"-l\"c++\"",
 					"-framework",
-					"\"iosAppKt\"",
+					"\"UiState3Kt\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.pablichj.incubator.uistate3--TEAM-ID-";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.pablichj.incubator.uistate3;

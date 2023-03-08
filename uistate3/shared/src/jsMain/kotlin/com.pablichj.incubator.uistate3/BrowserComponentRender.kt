@@ -35,11 +35,12 @@ fun BrowserComponentRender(
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             rootComponent.Content(Modifier.fillMaxSize())
+            /* Should listen for keyboard back instead
             FloatingBackButton(
                 modifier = Modifier.offset(y = 48.dp),
                 alignment = Alignment.TopStart,
                 onClick = { webBackPressDispatcher.dispatchBackPressed() }
-            )
+            )*/
         }
     }
 

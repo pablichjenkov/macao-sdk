@@ -6,7 +6,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.singleWindowApplication
 import com.pablichj.incubator.uistate3.DesktopComponentRender
-import com.pablichj.incubator.uistate3.example.helloWorld.HelloWorldComponent
 import kotlin.system.exitProcess
 
 fun main() =

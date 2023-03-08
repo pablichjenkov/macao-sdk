@@ -6,14 +6,14 @@ Pod::Spec.new do |spec|
     spec.authors                  = ''
     spec.license                  = ''
     spec.summary                  = 'UiState3Demo umbrella module'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/iosAppKt.framework'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/UiState3Kt.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '16.0'
                 
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':iosAppKt',
-        'PRODUCT_MODULE_NAME' => 'iosAppKt',
+        'PRODUCT_MODULE_NAME' => 'UiState3Kt',
     }
                 
     spec.script_phases = [

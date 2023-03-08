@@ -181,10 +181,17 @@ open class TopBarComponent(
             null -> AnimationType.Enter
         }
 
+        val prevComponent = if (backStack.size() > 1){
+            backStack.deque[backStack.size()-2]
+        } else {
+            null
+        }
+
         TopBarScaffold(
             modifier,
             topBarState,
             activeComponent.value,
+            prevComponent,
             animationType
         )
     }
