@@ -68,19 +68,16 @@ class HandleConfigChangesActivity : ComponentActivity() {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Orders / Current", Icons.Filled.Home) {},
-                selected = false
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.AccountCircle,
                 component = CustomTopBarComponent("Orders / Past", Icons.Filled.AccountCircle) {},
-                selected = false
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent("Orders / Claim", Icons.Filled.Email) {},
-                selected = false
             )
         )
 
@@ -89,19 +86,16 @@ class HandleConfigChangesActivity : ComponentActivity() {
                 label = "Account",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Settings / Account", Icons.Filled.Home) {},
-                selected = false
             ),
             NavItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent("Settings / Profile", Icons.Filled.Edit) {},
-                selected = false
             ),
             NavItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent("Settings / About Us", Icons.Filled.Email) {},
-                selected = false
             )
         )
 
@@ -110,19 +104,16 @@ class HandleConfigChangesActivity : ComponentActivity() {
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarNode,
-                selected = false
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
                 component = NavBarNode.also { it.setNavItems(navbarNavItems, 0) },
-                selected = false
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
                 component = PagerNode.also { it.setNavItems(pagerNavItems, 0) },
-                selected = false
             )
         )
 

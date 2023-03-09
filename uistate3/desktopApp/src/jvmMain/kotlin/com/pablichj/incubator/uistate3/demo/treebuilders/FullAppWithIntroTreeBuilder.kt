@@ -43,13 +43,13 @@ object FullAppWithIntroTreeBuilder {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Orders / Current", Icons.Filled.Home) {},
-                selected = false
+
             ),
             NavItem(
                 label = "Nested Node",
                 icon = Icons.Filled.Email,
                 component = SplitNavNode,
-                selected = false
+
             )
         )
 
@@ -58,13 +58,13 @@ object FullAppWithIntroTreeBuilder {
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Home", Icons.Filled.Home) {},
-                selected = false
+
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
                 component = NavBarNode.also { it.setNavItems(navbarNavItems, 0) },
-                selected = false
+
             )
         )
 
@@ -83,19 +83,19 @@ object FullAppWithIntroTreeBuilder {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Orders / Current", Icons.Filled.Home) {},
-                selected = false
+
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent("Orders / Past", Icons.Filled.Edit) {},
-                selected = false
+
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent("Orders / Claim", Icons.Filled.Email) {},
-                selected = false
+
             )
         )
 
@@ -104,13 +104,13 @@ object FullAppWithIntroTreeBuilder {
                 label = "Home Nested",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Home", Icons.Filled.Home) {},
-                selected = false
+
             ),
             NavItem(
                 label = "Orders Nested",
                 icon = Icons.Filled.Edit,
                 component = NavBarNode.also { it.setNavItems(navbarNavItems, 0) },
-                selected = false
+
             )
         )
 

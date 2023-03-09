@@ -1,7 +1,7 @@
 package com.pablichj.incubator.uistate3.node.drawer
 
 import androidx.compose.material.DrawerValue
-import com.pablichj.incubator.uistate3.node.NavItem
+import com.pablichj.incubator.uistate3.node.NavItemDeco
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +13,7 @@ interface INavigationDrawerState {
     /**
      * Intended for the Composable NavigationDrawer to render the List if NavDrawer items
      * */
-    val navItemsFlow: Flow<List<NavItem>>
+    val navItemsFlow: Flow<List<NavItemDeco>>
 
     /**
      * Intended for the Composable NavigationDrawer to close open/close the Drawer pane
@@ -23,17 +23,17 @@ interface INavigationDrawerState {
     /**
      * Intended for a client class to listen for navItem click events
      * */
-    val navItemClickFlow: Flow<NavItem>
+    val navItemClickFlow: Flow<NavItemDeco>
 
     /**
      * Intended to be called from the Composable NavigationDrawer item click events
      * */
-    fun navItemClick(drawerNavItem: NavItem)
+    fun navItemClick(drawerNavItem: NavItemDeco)
 
     /**
      * Intended to be called from a client class to select a navItem in the drawer
      * */
-    fun selectNavItem(drawerNavItem: NavItem)
+    fun selectNavItemDeco(drawerNavItem: NavItemDeco)
 
     /**
      * Intended to be called from a client class to toggle the drawer visibility
@@ -43,29 +43,29 @@ interface INavigationDrawerState {
 
 class NavigationDrawerState /*@Inject */ constructor(
     //val dispatchersBin: DispatchersBin
-    var navItems: List<NavItem>
+    var navItemsDeco: List<NavItemDeco>
 ) : INavigationDrawerState {
 
     // TODO: Use DispatchersBin
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
-    private val _navItemsFlow = MutableStateFlow<List<NavItem>>(emptyList())
-    override val navItemsFlow: Flow<List<NavItem>>
+    private val _navItemsFlow = MutableStateFlow<List<NavItemDeco>>(emptyList())
+    override val navItemsFlow: Flow<List<NavItemDeco>>
         get() = _navItemsFlow
 
     private val _drawerOpenFlow = MutableSharedFlow<DrawerValue>()
     override val drawerOpenFlow: Flow<DrawerValue>
         get() = _drawerOpenFlow
 
-    private val _navItemClickFlow = MutableSharedFlow<NavItem>()
-    override val navItemClickFlow: Flow<NavItem>
+    private val _navItemClickFlow = MutableSharedFlow<NavItemDeco>()
+    override val navItemClickFlow: Flow<NavItemDeco>
         get() = _navItemClickFlow
 
     init {
-        _navItemsFlow.value = navItems
+        _navItemsFlow.value = navItemsDeco
     }
 
-    override fun navItemClick(drawerNavItem: NavItem) {
+    override fun navItemClick(drawerNavItem: NavItemDeco) {
         coroutineScope.launch {
             _drawerOpenFlow.emit(DrawerValue.Closed)
             _navItemClickFlow.emit(drawerNavItem)
@@ -75,7 +75,7 @@ class NavigationDrawerState /*@Inject */ constructor(
     /**
      * To be called by a client class when the Drawer selected item needs to be updated.
      * */
-    override fun selectNavItem(drawerNavItem: NavItem) {
+    override fun selectNavItemDeco(drawerNavItem: NavItemDeco) {
         coroutineScope.launch {
             updateDrawerSelectedItem(drawerNavItem)
         }
@@ -87,11 +87,11 @@ class NavigationDrawerState /*@Inject */ constructor(
         }
     }
 
-    private suspend fun updateDrawerSelectedItem(drawerNavItem: NavItem) {
-        navItems = navItems.map {
+    private suspend fun updateDrawerSelectedItem(drawerNavItem: NavItemDeco) {
+        navItemsDeco = navItemsDeco.map {
             it.copy().apply { selected = drawerNavItem.component == it.component }
         }
-        _navItemsFlow.emit(navItems)
+        _navItemsFlow.emit(navItemsDeco)
     }
 
 }

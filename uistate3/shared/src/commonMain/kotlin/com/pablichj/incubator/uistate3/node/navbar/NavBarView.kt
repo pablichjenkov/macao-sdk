@@ -10,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.pablichj.incubator.uistate3.node.NavItem
+import com.pablichj.incubator.uistate3.node.NavItemDeco
 
 @Composable
 fun NavigationBottom(
@@ -36,8 +37,8 @@ fun NavigationBottom(
 
 @Composable
 private fun BottomBar(
-    navItems: List<NavItem>,
-    onNavItemClick: (NavItem) -> Unit
+    navItems: List<NavItemDeco>,
+    onNavItemClick: (NavItemDeco) -> Unit
 ) {
     BottomNavigation(
         modifier = Modifier.fillMaxWidth()
