@@ -57,19 +57,16 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Orders / Current", Icons.Filled.Home) {},
-                selected = false
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent("Orders / Past", Icons.Filled.Edit) {},
-                selected = false
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent("Orders / Claim", Icons.Filled.Email) {},
-                selected = false
             )
         )
 
@@ -83,13 +80,11 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
                     "Home",
                     Icons.Filled.Home
                 ) {},
-                selected = false
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
                 component = NavBarNode,
-                selected = false
             ),
             NavItem(
                 label = "Settings",
@@ -98,7 +93,6 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
                     "Settings",
                     Icons.Filled.Email
                 ) {},
-                selected = false
             )
         )
 

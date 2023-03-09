@@ -26,19 +26,19 @@ object NavBarTreeBuilder {
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Home", Icons.Filled.Home) {},
-                selected = false
+
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
                 component = CustomTopBarComponent("Orders", Icons.Filled.Settings) {},
-                selected = false
+
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Add,
                 component = CustomTopBarComponent("Settings", Icons.Filled.Add) {},
-                selected = false
+
             )
         )
 

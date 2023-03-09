@@ -22,8 +22,6 @@ class DrawerStateTreeHolder : ViewModel() {
             return drawerComponent
         }
 
-        drawerComponent = DrawerComponent()
-
         val TopBarNode = CustomTopBarComponent(
             "Home",
             Icons.Filled.Home
@@ -37,19 +35,16 @@ class DrawerStateTreeHolder : ViewModel() {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Orders / Current", Icons.Filled.Home) {},
-                selected = false
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent("Orders / Past", Icons.Filled.Edit) {},
-                selected = false
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent("Orders / Claim", Icons.Filled.Email) {},
-                selected = false
             )
         )
 
@@ -62,7 +57,6 @@ class DrawerStateTreeHolder : ViewModel() {
                     Icons.Filled.Home,
                     {}
                 ),//.apply{ deepLinkMatcher = { it == "Settings" } }, todo: explore why it crashes
-                selected = false
             ),
             NavItem(
                 label = "Profile",
@@ -71,7 +65,6 @@ class DrawerStateTreeHolder : ViewModel() {
                     "Settings / Profile",
                     Icons.Filled.Edit
                 ) {},
-                selected = false
             ),
             NavItem(
                 label = "About Us",
@@ -81,7 +74,6 @@ class DrawerStateTreeHolder : ViewModel() {
                     Icons.Filled.Email,
                     {}
                 ),
-                selected = false
             )
         )
 
@@ -90,13 +82,11 @@ class DrawerStateTreeHolder : ViewModel() {
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarNode,
-                selected = false
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
                 component = NavBarNode.also { it.setNavItems(navbarNavItems, 0) },
-                selected = false
             ),
             NavItem(
                 label = "Settings",
@@ -104,12 +94,17 @@ class DrawerStateTreeHolder : ViewModel() {
                 component = PagerComponent.apply {
                     deepLinkMatcher = { route -> route == "Settings" }
                     setNavItems(pagerNavItems, 0)
-                                           },
-                selected = false
+                },
             )
         )
 
-        return drawerComponent.apply { setNavItems(drawerNavItems, 0) }
+        return DrawerComponent().apply {
+            drawerComponent = this
+            setNavItems(
+                drawerNavItems, 0
+            )
+        }
+
     }
 
 }

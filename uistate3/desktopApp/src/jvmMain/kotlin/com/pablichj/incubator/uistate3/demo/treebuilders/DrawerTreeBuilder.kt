@@ -25,19 +25,19 @@ object DrawerTreeBuilder {
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Home", Icons.Filled.Home) {},
-                selected = false
+
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
                 component = buildNavBarNode(),
-                selected = false
+
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent("Settings", Icons.Filled.Email) {},
-                selected = false
+
             )
         )
 
@@ -53,19 +53,19 @@ object DrawerTreeBuilder {
                 label = "Active",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Orders/Active", Icons.Filled.Home) {},
-                selected = false
+
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Settings,
                 component = CustomTopBarComponent("Orders/Past", Icons.Filled.Settings) {},
-                selected = false
+
             ),
             NavItem(
                 label = "New Order",
                 icon = Icons.Filled.Add,
                 component = CustomTopBarComponent("Orders/New Order", Icons.Filled.Add) {},
-                selected = false
+
             )
         )
 

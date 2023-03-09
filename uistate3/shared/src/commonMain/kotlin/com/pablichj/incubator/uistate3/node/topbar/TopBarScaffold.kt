@@ -82,7 +82,7 @@ fun TopBarScaffold(
                                             deltaXMax = deltaX
                                         } else {
                                             // Cancel predictive back if the user reverse the move
-                                            // by the same predictive back width amount
+                                            // by a fifth(1/5) of the maximum amount dragged.
                                             if (deltaXMax > deltaX + deltaXMax*0.2) {
                                                 dragState = DragState.None
                                                 deltaX = 0.0f

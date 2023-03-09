@@ -64,20 +64,17 @@ class CustomTopBarComponent(
             NavItem(
                 Step1.text,
                 Icons.Filled.Star,
-                Step1,
-                false
+                Step1
             ),
             NavItem(
                 Step2.text,
                 Icons.Filled.Star,
-                Step2,
-                false
+                Step2
             ),
             NavItem(
                 Step3.text,
                 Icons.Filled.Star,
-                Step3,
-                false
+                Step3
             ),
         )
     }

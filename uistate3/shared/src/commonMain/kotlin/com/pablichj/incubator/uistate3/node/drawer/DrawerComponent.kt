@@ -37,7 +37,8 @@ open class DrawerComponent(
             }
         }
         backStack.eventListener = { event ->
-            processBackstackEvent(event)
+            val stackTransition = processBackstackEvent(event)
+            processBackstackTransition(stackTransition)
         }
     }
 
@@ -92,8 +93,9 @@ open class DrawerComponent(
     }
 
     override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
-        navDrawerState.navItems = navItems
-        navDrawerState.selectNavItem(navItems[selectedIndex])
+        val navItemsDeco = navItems.map { it.toNavItemDeco() }
+        navDrawerState.navItemsDeco = navItemsDeco
+        navDrawerState.selectNavItemDeco(navItemsDeco[selectedIndex])
         if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
             backStack.push(childComponents[selectedIndex])
         }
@@ -102,7 +104,7 @@ open class DrawerComponent(
     override fun updateSelectedNavItem(newTop: Component) {
         getNavItemFromNode(newTop).let {
             println("DrawerNode::updateSelectedNavItem(), selectedIndex = $it")
-            navDrawerState.selectNavItem(it)
+            navDrawerState.selectNavItemDeco(it.toNavItemDeco())
             selectedIndex = childComponents.indexOf(newTop)
         }
     }

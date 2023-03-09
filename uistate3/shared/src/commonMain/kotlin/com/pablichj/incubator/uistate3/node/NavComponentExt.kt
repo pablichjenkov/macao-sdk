@@ -1,6 +1,6 @@
 package com.pablichj.incubator.uistate3.node
 
-import com.pablichj.incubator.uistate3.node.backstack.BackStack
+import com.pablichj.incubator.uistate3.node.topbar.StackTransition
 
 fun NavComponent.setNavItems(
     newNavItems: MutableList<NavItem>,
@@ -65,69 +65,26 @@ fun NavComponent.getNavItemFromNode(component: Component): NavItem {
     return navItems.first { it.component == component }
 }
 
-internal fun NavComponent.processBackstackEvent(event: BackStack.Event<Component>) {
-    when (event) {
-        is BackStack.Event.Push -> {
-            println("${getComponent().clazz}::Event.Push")
-            val stack = event.stack
-            if (stack.size > 1) {
-                val newTop = stack[stack.lastIndex]
-                val oldTop = stack[stack.lastIndex - 1]
-                transitionInOut(newTop, oldTop)
-            } else {
-                transitionIn(stack[0]) // There is only one item in the stack so lastIndex == 0
-            }
+internal fun NavComponent.processBackstackTransition(
+    stackTransition: StackTransition<Component>
+) {
+    when (stackTransition) {
+        is StackTransition.In -> {
+            updateSelectedNavItem(stackTransition.newTop)
+            activeComponent.value = stackTransition.newTop
         }
-        is BackStack.Event.Pop -> {
-            println("${getComponent().clazz}::Event.Pop")
-            val stack = event.stack
-            val oldTop = event.oldTop
-
-            if (stack.isNotEmpty()) {
-                val newTop = stack[stack.lastIndex]
-                transitionInOut(newTop, oldTop)
-            } else {
-                transitionOut(oldTop) // There is no items in the stack, lets just
-            }
-
+        is StackTransition.InOut -> {
+            updateSelectedNavItem(stackTransition.newTop)
+            activeComponent.value = stackTransition.newTop
         }
-        is BackStack.Event.PushEqualTop -> {
-            println(
-                "${getComponent().clazz}::Event.PushEqualTop()," +
-                        " backStack.size = ${backStack.size()}"
-            )
+        is StackTransition.InvalidPushEqualTop -> {}
+        is StackTransition.InvalidPopEmptyStack -> {
+            activeComponent.value = null
         }
-        is BackStack.Event.PopEmptyStack -> {
-            println("${getComponent().clazz}::Event.PopEmptyStack(), backStack.size = 0")
+        is StackTransition.Out -> {
             activeComponent.value = null
         }
     }
-}
-
-private fun NavComponent.transitionIn(newTop: Component) {
-    println("${getComponent().clazz}::transitionIn(), newTop: ${newTop::class.simpleName}")
-    newTop.start()
-    updateSelectedNavItem(newTop)
-    activeComponent.value = newTop
-}
-
-private fun NavComponent.transitionInOut(newTop: Component, oldTop: Component) {
-    println(
-        "${getComponent().clazz}::transitionInOut()," +
-                " oldTop: ${oldTop::class.simpleName}, newTop: ${newTop::class.simpleName}"
-    )
-
-    // By convention always stop the previous top before starting the new one. TODO: Tests
-    oldTop.stop()
-    newTop.start()
-    updateSelectedNavItem(newTop)
-    activeComponent.value = newTop
-}
-
-private fun NavComponent.transitionOut(oldTop: Component) {
-    println("${getComponent().clazz}::transitionOut(), oldTop: ${oldTop::class.simpleName}")
-    oldTop.stop()
-    activeComponent.value = null
 }
 
 internal fun NavComponent.transferFrom(donorNavComponent: NavComponent) {

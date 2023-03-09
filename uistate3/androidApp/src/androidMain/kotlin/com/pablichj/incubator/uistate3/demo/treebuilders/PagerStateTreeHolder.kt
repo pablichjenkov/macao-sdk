@@ -29,19 +29,16 @@ class PagerStateTreeHolder : ViewModel() {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Orders/ Current") {},
-                selected = false
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent("Orders / Past") {},
-                selected = false
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent("Orders / Claim") {},
-                selected = false
             )
         )
 
@@ -50,19 +47,16 @@ class PagerStateTreeHolder : ViewModel() {
                 label = "Account",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Settings / Account") {},
-                selected = false
             ),
             NavItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent("Settings / Profile") {},
-                selected = false
             ),
             NavItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent("Settings / About Us") {},
-                selected = false
             )
         )
 
@@ -71,19 +65,16 @@ class PagerStateTreeHolder : ViewModel() {
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Home") {},
-                selected = false
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
                 component = NavBarNode1.also { it.setNavItems(navbarNavItems1, 0) },
-                selected = false
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
                 component = NavBarNode2.also { it.setNavItems(navbarNavItems2, 0) },
-                selected = false
             )
         )
 

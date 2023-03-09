@@ -8,8 +8,9 @@ class SignInComponentComponent : Component() {
 
 
     @Composable
-    internal fun Content(modifier: Modifier) {
-
+    override fun Content(modifier: Modifier) {
+        TODO("Not yet implemented")
     }
+
 
 }

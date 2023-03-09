@@ -30,7 +30,6 @@ class NavBarStateTreeHolder : ViewModel() {
                     "Settings / Account",
                     Icons.Filled.Home
                 ) {},
-                selected = false
             ),
             NavItem(
                 label = "Profile",
@@ -39,7 +38,6 @@ class NavBarStateTreeHolder : ViewModel() {
                     "Settings / Profile",
                     Icons.Filled.Edit
                 ) {},
-                selected = false
             ),
             NavItem(
                 label = "About Us",
@@ -48,7 +46,6 @@ class NavBarStateTreeHolder : ViewModel() {
                     "Settings / About Us",
                     Icons.Filled.Email
                 ) {},
-                selected = false
             )
         )
 
@@ -57,19 +54,16 @@ class NavBarStateTreeHolder : ViewModel() {
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Home", Icons.Filled.Home) {},
-                selected = false
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent("Orders", Icons.Filled.Edit) {},
-                selected = false
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
                 component = PagerNode.also { it.setNavItems(pagerNavItems, 0) },
-                selected = false
             )
         )
 

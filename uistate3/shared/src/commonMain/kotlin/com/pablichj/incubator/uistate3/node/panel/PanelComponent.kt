@@ -33,7 +33,8 @@ open class PanelComponent : Component(), NavComponent {
             }
         }
         backStack.eventListener = { event ->
-            processBackstackEvent(event)
+            val stackTransition = processBackstackEvent(event)
+            processBackstackTransition(stackTransition)
         }
     }
 
@@ -76,8 +77,9 @@ open class PanelComponent : Component(), NavComponent {
     }
 
     override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
-        panelState.navItems = navItems
-        panelState.selectNavItem(navItems[selectedIndex])
+        val navItemsDeco = navItems.map { it.toNavItemDeco() }
+        panelState.navItemsDeco = navItemsDeco
+        panelState.selectNavItemDeco(navItemsDeco[selectedIndex])
         if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
             backStack.push(childComponents[selectedIndex])
         }
@@ -89,7 +91,7 @@ open class PanelComponent : Component(), NavComponent {
     override fun updateSelectedNavItem(newTop: Component) {
         getNavItemFromNode(newTop).let {
             println("$clazz::updateSelectedNavItem(), selectedIndex = $it")
-            panelState.selectNavItem(it)
+            panelState.selectNavItemDeco(it.toNavItemDeco())
             selectedIndex = childComponents.indexOf(newTop)
         }
     }

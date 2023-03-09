@@ -66,8 +66,6 @@ open class PagerComponent : Component(), NavComponent {
     }
 
     override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
-        //navBarState.navItems = navItems
-        //navBarState.selectNavItem(navItems[selectedIndex])
         if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
             backStack.push(childComponents[selectedIndex])
         }
@@ -77,7 +75,6 @@ open class PagerComponent : Component(), NavComponent {
      * TODO: Try to update the navitem instead, using a Backstack<NavItem>, sounds more efficient
      * */
     override fun updateSelectedNavItem(newTop: Component) {
-
     }
 
     override fun onDestroyChildComponent(component: Component) {
