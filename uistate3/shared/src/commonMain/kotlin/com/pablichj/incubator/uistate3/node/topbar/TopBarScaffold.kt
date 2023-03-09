@@ -31,7 +31,7 @@ import com.pablichj.incubator.uistate3.FloatingBackButton
 import com.pablichj.incubator.uistate3.node.Component
 
 private val PredictiveBackAreaWidth = 100
-private val PredictiveBackDragWidth = 100
+private val PredictiveBackDragWidth = 50
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -82,8 +82,8 @@ fun TopBarScaffold(
                                             deltaXMax = deltaX
                                         } else {
                                             // Cancel predictive back if the user reverse the move
-                                            // by two times the predictive back width
-                                            if (deltaXMax > deltaX + PredictiveBackDragWidth*2) {
+                                            // by the same predictive back width amount
+                                            if (deltaXMax > deltaX + deltaXMax*0.2) {
                                                 dragState = DragState.None
                                                 deltaX = 0.0f
                                                 deltaXMax = 0.0f
