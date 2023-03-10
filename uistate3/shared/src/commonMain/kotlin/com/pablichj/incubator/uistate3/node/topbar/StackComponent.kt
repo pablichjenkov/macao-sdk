@@ -9,7 +9,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.incubator.uistate3.node.*
-import com.pablichj.incubator.uistate3.node.IStackComponent
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 
@@ -20,7 +19,7 @@ abstract class StackComponent(
     override var childComponents: MutableList<Component> = mutableListOf()
     var activeComponent: MutableState<Component?> = mutableStateOf(null)
 
-    private val topBarState = TopBarState {
+    private var topBarState = TopBarState {
         handleBackPressed()
     }
 
@@ -115,37 +114,45 @@ abstract class StackComponent(
     // endregion
 
     protected fun setTitleSectionForHomeClick(navItem: NavItem) {
-        topBarState.setTitleSectionState(
-            TitleSectionStateHolder(
-                title = navItem.label,
-                icon1 = resolveFirstIcon(),
-                onIcon1Click = {
-                    findClosestIDrawerNode()?.open()
-                },
-                onTitleClick = {
-                    findClosestIDrawerNode()?.open()
-                }
+        topBarState = TopBarState(
+            onBackPress = { handleBackPressed() }
+        ).apply {
+            setTitleSectionState(
+                TitleSectionStateHolder(
+                    title = navItem.label,
+                    icon1 = resolveFirstIcon(),
+                    onIcon1Click = {
+                        findClosestIDrawerNode()?.open()
+                    },
+                    onTitleClick = {
+                        findClosestIDrawerNode()?.open()
+                    }
+                )
             )
-        )
+        }
     }
 
     protected fun setTitleSectionForBackClick(navItem: NavItem) {
-        topBarState.setTitleSectionState(
-            TitleSectionStateHolder(
-                title = navItem.label,
-                onTitleClick = {
-                    handleBackPressed()
-                },
-                icon1 = resolveFirstIcon(),
-                onIcon1Click = {
-                    findClosestIDrawerNode()?.open()
-                },
-                icon2 = Icons.Filled.ArrowBack,
-                onIcon2Click = {
-                    handleBackPressed()
-                }
+        topBarState = TopBarState {
+            handleBackPressed()
+        }.apply {
+            setTitleSectionState(
+                TitleSectionStateHolder(
+                    title = navItem.label,
+                    onTitleClick = {
+                        handleBackPressed()
+                    },
+                    icon1 = resolveFirstIcon(),
+                    onIcon1Click = {
+                        findClosestIDrawerNode()?.open()
+                    },
+                    icon2 = Icons.Filled.ArrowBack,
+                    onIcon2Click = {
+                        handleBackPressed()
+                    }
+                )
             )
-        )
+        }
     }
 
     private fun resolveFirstIcon(): ImageVector? {
@@ -173,10 +180,12 @@ abstract class StackComponent(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("""
+        println(
+            """
           $clazz::Composing(), backStack.size = ${backStack.size()}
           lastBackstackEvent = $lastBackstackEvent
-        """)
+        """
+        )
 
         val animationType = when (lastBackstackEvent) {
             is BackStack.Event.Pop -> {
@@ -198,8 +207,8 @@ abstract class StackComponent(
             null -> AnimationType.Enter
         }
 
-        val prevComponent = if (backStack.size() > 1){
-            backStack.deque[backStack.size()-2]
+        val prevComponent = if (backStack.size() > 1) {
+            backStack.deque[backStack.size() - 2]
         } else {
             null
         }
