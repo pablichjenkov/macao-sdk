@@ -30,10 +30,10 @@ fun TopBarScaffold(
     prevChildComponent: Component?,
     animationType: AnimationType
 ) {
-    var deltaX by remember(topBarState) { mutableStateOf(0f) }
-    var deltaXMax by remember(topBarState) { mutableStateOf(0f) }
-    var dragState by remember(topBarState) { mutableStateOf<DragState>(DragState.None) }
-    var wasCancelled by remember(topBarState) { mutableStateOf(false) }
+    var deltaX by remember(childComponent) { mutableStateOf(0f) }
+    var deltaXMax by remember(childComponent) { mutableStateOf(0f) }
+    var dragState by remember(childComponent) { mutableStateOf<DragState>(DragState.None) }
+    var wasCancelled by remember(childComponent) { mutableStateOf(false) }
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -48,7 +48,8 @@ fun TopBarScaffold(
                 .onSizeChanged {
                     println("TopBarScaffold::Box.onSizeChanged Width of Text in pixels: ${it.width}")
                     println("TopBarScaffold::Box.onSizeChanged Height of Text in pixels: ${it.height}")
-                }.pointerInput(topBarState) {
+                }.pointerInput(childComponent) {
+                    if (prevChildComponent == null) return@pointerInput
                     forEachGesture {
                         awaitPointerEventScope {
                             val eventDown = awaitFirstDown(requireUnconsumed = true)
