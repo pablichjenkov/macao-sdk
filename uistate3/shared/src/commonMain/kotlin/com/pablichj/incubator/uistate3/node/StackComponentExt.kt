@@ -3,7 +3,7 @@ package com.pablichj.incubator.uistate3.node
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
 import com.pablichj.incubator.uistate3.node.topbar.StackTransition
 
-internal fun StackComponent.processBackstackEvent(
+internal fun IStackComponent.processBackstackEvent(
     event: BackStack.Event<Component>
 ): StackTransition<Component> {
     return when (event) {
@@ -43,13 +43,13 @@ internal fun StackComponent.processBackstackEvent(
     }
 }
 
-private fun StackComponent.transitionIn(newTop: Component) : StackTransition.In<Component>{
+private fun IStackComponent.transitionIn(newTop: Component) : StackTransition.In<Component>{
     println("${getComponent().clazz}::transitionIn(), newTop: ${newTop::class.simpleName}")
     newTop.start()
     return StackTransition.In(newTop)
 }
 
-private fun StackComponent.transitionInOut(
+private fun IStackComponent.transitionInOut(
     newTop: Component,
     oldTop: Component
 ) : StackTransition.InOut<Component>{
@@ -63,7 +63,7 @@ private fun StackComponent.transitionInOut(
     return StackTransition.InOut(newTop, oldTop)
 }
 
-private fun StackComponent.transitionOut(oldTop: Component): StackTransition.Out<Component> {
+private fun IStackComponent.transitionOut(oldTop: Component): StackTransition.Out<Component> {
     println("${getComponent().clazz}::transitionOut(), oldTop: ${oldTop::class.simpleName}")
     oldTop.stop()
     return StackTransition.Out(oldTop)

@@ -3,7 +3,7 @@ package com.pablichj.incubator.uistate3.node
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.vector.ImageVector
 
-interface NavComponent : StackComponent {
+interface NavComponent : IStackComponent {
     var navItems: MutableList<NavItem>
     var selectedIndex: Int
     var activeComponent: MutableState<Component?>

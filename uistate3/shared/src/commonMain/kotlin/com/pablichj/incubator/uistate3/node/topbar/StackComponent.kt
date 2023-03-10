@@ -9,15 +9,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.incubator.uistate3.node.*
-import com.pablichj.incubator.uistate3.node.StackComponent
+import com.pablichj.incubator.uistate3.node.IStackComponent
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 
 abstract class StackComponent(
     val screenIcon: ImageVector? = null,
-) : Component(), StackComponent {
+) : Component(), IStackComponent {
     final override val backStack = BackStack<Component>()
+    override var childComponents: MutableList<Component> = mutableListOf()
     var activeComponent: MutableState<Component?> = mutableStateOf(null)
+
     private val topBarState = TopBarState {
         handleBackPressed()
     }
@@ -65,25 +67,16 @@ abstract class StackComponent(
         return this
     }
 
-    /*override fun updateSelectedNavItem(newTop: Component) {
-        val selectedNavItem = getNavItemFromNode(newTop)
-        if (backStack.size() > 1) {
-            setTitleSectionForBackClick(selectedNavItem)
-        } else {
-            setTitleSectionForHomeClick(selectedNavItem)
-        }
-    }*/
-
     internal fun processBackstackTransition(
         stackTransition: StackTransition<Component>
     ) {
         when (stackTransition) {
             is StackTransition.In -> {
-                //updateSelectedNavItem(stackTransition.newTop)
+                updateSelectedComponent(stackTransition.newTop)
                 activeComponent.value = stackTransition.newTop
             }
             is StackTransition.InOut -> {
-                //updateSelectedNavItem(stackTransition.newTop)
+                updateSelectedComponent(stackTransition.newTop)
                 activeComponent.value = stackTransition.newTop
             }
             is StackTransition.InvalidPushEqualTop -> {}
@@ -96,6 +89,20 @@ abstract class StackComponent(
         }
     }
 
+    protected abstract fun updateSelectedComponent(newTop: Component)
+    /*protected fun updateSelectedComponent(newTop: Component) {
+        //val selectedNavItem = getNavItemFromNode(newTop)
+        val selectedNavItem = when(newTop) {
+            is
+        }
+
+        if (backStack.size() > 1) {
+            setTitleSectionForBackClick(selectedNavItem)
+        } else {
+            setTitleSectionForHomeClick(selectedNavItem)
+        }
+    }*/
+
     override fun onDestroyChildComponent(component: Component) {
         if (component.lifecycleState == ComponentLifecycleState.Started) {
             component.stop()
@@ -107,7 +114,7 @@ abstract class StackComponent(
 
     // endregion
 
-    private fun setTitleSectionForHomeClick(navItem: NavItem) {
+    protected fun setTitleSectionForHomeClick(navItem: NavItem) {
         topBarState.setTitleSectionState(
             TitleSectionStateHolder(
                 title = navItem.label,
@@ -122,7 +129,7 @@ abstract class StackComponent(
         )
     }
 
-    private fun setTitleSectionForBackClick(navItem: NavItem) {
+    protected fun setTitleSectionForBackClick(navItem: NavItem) {
         topBarState.setTitleSectionState(
             TitleSectionStateHolder(
                 title = navItem.label,

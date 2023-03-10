@@ -36,30 +36,22 @@ object AppBuilder {
         )
 
         val homeTopBarComponent = HomeComponent()
-        val homeComponent = SimpleComponent(
-            "Home Page",
-            Color.Cyan
-        ){}
-
 
         val navbarItems = mutableListOf(
             NavItem(
                 label = "Home",
                 icon = Icons.Default.Home,
-                component = homeComponent,//homeTopBarComponent,
-                selected = false
+                component = homeTopBarComponent,
             ),
             NavItem(
                 label = "Favorites",
                 icon = Icons.Default.Favorite,
                 component = favoriteComponent,//TopBarComponent(screenIcon = Icons.Default.Favorite),
-                selected = false
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Default.Settings,
                 component = settingsComponent,//TopBarComponent(screenIcon = Icons.Default.Settings),
-                selected = false
             )
         )
 

@@ -2,7 +2,6 @@ package com.pablichj.incubator.uistate3.node
 
 import com.pablichj.incubator.uistate3.node.drawer.IDrawerNode
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkDestination
-import kotlinx.serialization.json.*
 
 fun Component.findClosestIDrawerNode(): IDrawerNode? {
     var parentIterator: Component? = this.parentComponent
@@ -32,7 +31,7 @@ fun Component.onAttachedToComponentTree(treeContext: TreeContext) {
 
 fun Component.dispatchAttachedToComponentTree(treeContext: TreeContext) {
     println("${clazz}::dispatchAttachedToComponentTree()")
-    if (this is ParentComponent) {
+    if (this is IParentComponent) {
         this.childComponents.forEach { it.dispatchAttachedToComponentTree(treeContext) }
     }
     this.onAttachedToComponentTree(treeContext)
