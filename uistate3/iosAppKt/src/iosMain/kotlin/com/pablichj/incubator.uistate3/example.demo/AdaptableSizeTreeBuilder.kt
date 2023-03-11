@@ -50,7 +50,6 @@ object AdaptableSizeTreeBuilder {
                 component = CustomTopBarComponent(
                     "Orders / Current", Icons.Filled.Home, {}
                 ).apply { deepLinkMatcher = { route -> route == "Orders/Page1" } },
-                selected = false
             ),
             NavItem(
                 label = "Past",
@@ -58,7 +57,6 @@ object AdaptableSizeTreeBuilder {
                 component = CustomTopBarComponent(
                     "Orders / Past", Icons.Filled.Edit, {}
                 ),
-                selected = false
             ),
             NavItem(
                 label = "Claim",
@@ -66,7 +64,6 @@ object AdaptableSizeTreeBuilder {
                 component = CustomTopBarComponent(
                     "Orders / Claim", Icons.Filled.Email, {}
                 ),
-                selected = false
             )
         )
 
@@ -85,19 +82,16 @@ object AdaptableSizeTreeBuilder {
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = HomeComponent,
-                selected = false
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
                 component = NavBarComponent,
-                selected = false
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
                 component = SettingsComponent,
-                selected = false
             )
         )
 

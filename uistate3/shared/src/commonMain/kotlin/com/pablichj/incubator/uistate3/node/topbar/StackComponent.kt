@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
+import com.pablichj.incubator.uistate3.node.backstack.LocalBackPressedDispatcher
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 
 abstract class StackComponent(
@@ -213,13 +214,29 @@ abstract class StackComponent(
             null
         }
 
-        TopBarScaffold(
-            modifier,
-            topBarState,
-            activeComponent.value,
-            prevComponent,
-            animationType
-        )
+        when (LocalBackPressedDispatcher.current.isSystemBackButtonEnabled()) {
+            true -> {
+                // If the traditional back button is enabled then we use our custom predictive back
+                TopBarCustomPredictiveBack(
+                    modifier,
+                    topBarState,
+                    activeComponent.value,
+                    prevComponent,
+                    animationType
+                )
+            }
+            false -> {
+                // Except Android, (and when the traditional 3 button navigation is enabled),
+                // all the platforms will fall in to this case.
+                TopBarSystemPredictiveBack(
+                    modifier,
+                    topBarState,
+                    activeComponent.value,
+                    animationType
+                )
+            }
+        }
+
     }
 
 }

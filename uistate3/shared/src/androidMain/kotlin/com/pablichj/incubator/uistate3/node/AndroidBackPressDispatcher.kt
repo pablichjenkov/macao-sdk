@@ -20,6 +20,11 @@ class AndroidBackPressDispatcher(
         backPressedCallback.onEnableChanged?.invoke(false)
     }
 
+    override fun isSystemBackButtonEnabled(): Boolean {
+        val navigationMode = SystemNavigationUtil.getNavigationBarInteractionMode(componentActivity)
+        return navigationMode != SystemNavigationUtil.NAVIGATION_BAR_INTERACTION_MODE_GESTURE
+    }
+
 }
 
 internal class AndroidBackPressedCallbackProxy(

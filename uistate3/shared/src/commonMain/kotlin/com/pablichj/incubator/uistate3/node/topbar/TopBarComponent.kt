@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.backstack.BackStack
+import com.pablichj.incubator.uistate3.node.backstack.LocalBackPressedDispatcher
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 
 open class TopBarComponent(
@@ -157,10 +158,12 @@ open class TopBarComponent(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("""
+        println(
+            """
           $clazz::Composing(), backStack.size = ${backStack.size()}
           lastBackstackEvent = $lastBackstackEvent
-        """)
+        """
+        )
 
         val animationType = when (lastBackstackEvent) {
             is BackStack.Event.Pop -> {
@@ -182,19 +185,35 @@ open class TopBarComponent(
             null -> AnimationType.Enter
         }
 
-        val prevComponent = if (backStack.size() > 1){
-            backStack.deque[backStack.size()-2]
+        val prevComponent = if (backStack.size() > 1) {
+            backStack.deque[backStack.size() - 2]
         } else {
             null
         }
 
-        TopBarScaffold(
-            modifier,
-            topBarState,
-            activeComponent.value,
-            prevComponent,
-            animationType
-        )
+        when (LocalBackPressedDispatcher.current.isSystemBackButtonEnabled()) {
+            true -> {
+                // If the traditional back button is enabled then we use our custom predictive back
+                TopBarCustomPredictiveBack(
+                    modifier,
+                    topBarState,
+                    activeComponent.value,
+                    prevComponent,
+                    animationType
+                )
+            }
+            false -> {
+                // Except Android, (and when the traditional 3 button navigation is enabled),
+                // all the platforms will fall in to this case.
+                TopBarSystemPredictiveBack(
+                    modifier,
+                    topBarState,
+                    activeComponent.value,
+                    animationType
+                )
+            }
+        }
+
     }
 
 }
