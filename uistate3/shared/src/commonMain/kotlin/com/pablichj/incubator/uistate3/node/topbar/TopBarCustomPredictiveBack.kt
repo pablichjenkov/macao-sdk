@@ -23,7 +23,7 @@ private val PredictiveBackDragWidth = 50
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun TopBarScaffold(
+fun TopBarCustomPredictiveBack(
     modifier: Modifier,
     topBarState: ITopBarState,
     childComponent: Component?,
@@ -183,12 +183,6 @@ fun TopBarScaffold(
                 }
         ) {
             if (childComponent != null) {
-                /*AnimatedContent(
-                    targetState = childComponent,
-                    transitionSpec = { getTransitionByAnimationType(animationType) }
-                ) {
-                    it.Content(Modifier)
-                }*/
                 when (dragState) {
                     DragState.None -> {
                         AnimatedContent(
@@ -201,6 +195,11 @@ fun TopBarScaffold(
                     DragState.PredictiveBackLeft -> {
                         prevChildComponent?.Content(Modifier)
 
+                        //TODO: Do not calculate this here because it triggers recomposition
+                        // Computed in the producer coroutine end.
+                        // Also, create a separate offset field for the FloatingBackButton, to
+                        // animate it with different values and not trigger recomposition because
+                        // it will be inside the lambda.
                         val xOffset = deltaX.toInt() - PredictiveBackDragWidth
 
                         Box(Modifier.offset {
@@ -299,14 +298,7 @@ private fun getTransitionByAnimationType(animationType: AnimationType): ContentT
     }
 }
 
-sealed class AnimationType {
-    object Direct : AnimationType()
-    object Reverse : AnimationType()
-    object Enter : AnimationType()
-    object Exit : AnimationType()
-}
-
-sealed class DragState {
+private sealed class DragState {
     object None : DragState()
     object PredictiveBackLeft : DragState()
     object PredictiveBackRight : DragState()

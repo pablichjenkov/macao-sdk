@@ -3,6 +3,7 @@ package com.pablichj.incubator.uistate3.node.backstack
 interface IBackPressDispatcher {
     fun subscribe(backPressedCallback: BackPressedCallback)
     fun unsubscribe(backPressedCallback: BackPressedCallback)
+    fun isSystemBackButtonEnabled(): Boolean
 }
 
 class DefaultBackPressDispatcher : IBackPressDispatcher {
@@ -20,6 +21,10 @@ class DefaultBackPressDispatcher : IBackPressDispatcher {
         onBackPressedCallbacks.remove(
             DefaultBackPressedCallbackProxy(backPressedCallback, true)
         )
+    }
+
+    override fun isSystemBackButtonEnabled(): Boolean {
+        return true
     }
 
     fun dispatchBackPressed() {

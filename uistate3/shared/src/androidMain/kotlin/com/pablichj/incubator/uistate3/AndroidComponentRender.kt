@@ -10,10 +10,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import com.pablichj.incubator.uistate3.node.*
+import com.pablichj.incubator.uistate3.node.AndroidBackPressDispatcher
+import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.node.TreeContext
 import com.pablichj.incubator.uistate3.node.backstack.ForwardBackPressCallback
 import com.pablichj.incubator.uistate3.node.backstack.LocalBackPressedDispatcher
-import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
+import com.pablichj.incubator.uistate3.node.dispatchAttachedToComponentTree
 
 @Composable
 fun AndroidComponentRender(
@@ -53,10 +55,7 @@ fun AndroidComponentRender(
         CompositionLocalProvider(
             LocalBackPressedDispatcher provides AndroidBackPressDispatcher(activity)
         ) {
-            with(rootComponent) {
-                this.Content(Modifier.fillMaxSize())
-            }
-            //(rootComponent as DrawerComponent).Content(Modifier.fillMaxSize())
+            rootComponent.Content(Modifier.fillMaxSize())
         }
     }
 
