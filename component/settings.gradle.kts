@@ -22,20 +22,12 @@ pluginManagement {
     }
 }
 
-rootProject.name = "uistate3"
+rootProject.name = "component"
 
-include(":shared")
-project(":shared").name = "uistate3"
+include(":component")
+//project(":component").name = "component"
 
 include(":androidApp")
 include(":iosAppKt")
 include(":jsApp")
 include(":desktopApp")
-
-/*include(":Narengi")
-project(":Narengi").name = "Bunny"
-
-// OR
-
-include(":Bunny")
-project(":Bunny").projectDir = file("Narengi/")*/

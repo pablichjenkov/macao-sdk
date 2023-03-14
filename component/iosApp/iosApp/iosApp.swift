@@ -1,5 +1,5 @@
 import UIKit
-import UiState3Kt
+import ComponentKt
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

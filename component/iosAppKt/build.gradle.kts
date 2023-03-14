@@ -12,12 +12,12 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     cocoapods {
-        summary = "UiState3Demo umbrella module"
+        summary = "ComponentKt umbrella module"
         homepage = "https://github.com/pablichjenkov/templato"
         ios.deploymentTarget = "16.0"
         podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = "UiState3Kt"
+            baseName = "ComponentKt"
             isStatic = true
         }
         extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
@@ -30,8 +30,8 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
-                implementation("org.jetbrains.compose.components:components-resources:1.3.0-beta04-dev879")
-                implementation(project(":uistate3"))
+                implementation("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
+                implementation(project(":component"))
             }
         }
 
