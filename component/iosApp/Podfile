@@ -1,4 +1,4 @@
-target 'UiState3Demo' do
+target 'ComponentDemo' do
   use_frameworks!
   platform :ios, '16.0'
   pod 'iosAppKt', :path => '../iosAppKt'

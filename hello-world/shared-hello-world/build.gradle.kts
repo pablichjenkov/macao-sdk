@@ -40,7 +40,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 //api("com.pablichj:uistate3:0.1.0.5")
-                api(project(":uistate3"))
+                api(project(":component"))
                 implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material)
