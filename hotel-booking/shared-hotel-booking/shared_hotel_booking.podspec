@@ -5,7 +5,7 @@ Pod::Spec.new do |spec|
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'Shared code for the Hello World example'
+    spec.summary                  = 'Shared code for the Hotel Booking template'
     spec.vendored_frameworks      = 'build/cocoapods/framework/HotelBookingKt.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '14.1'

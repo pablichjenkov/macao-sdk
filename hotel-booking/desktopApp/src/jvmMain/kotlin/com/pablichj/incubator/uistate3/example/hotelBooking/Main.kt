@@ -16,6 +16,7 @@ fun main() =
         state = WindowState(size = DpSize(500.dp, 800.dp))
     ) {
 
+        //todo: Use the adaptable node in this case
         val rootComponent = AppBuilder.buildGraph()
 
         DesktopComponentRender(
