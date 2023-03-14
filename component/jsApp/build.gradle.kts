@@ -11,7 +11,7 @@ kotlin {
     sourceSets {
         val jsMain by getting  {
             dependencies {
-                implementation(project(":uistate3"))
+                implementation(project(":component"))
                 implementation(compose.web.core)
             }
         }
