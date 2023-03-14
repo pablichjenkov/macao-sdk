@@ -11,20 +11,18 @@ To run the projects you need to have the kotlin multiplatform environment setup 
 
 ---
 
-### Component-tree
+### Components
 
-[Component-tree](https://github.com/pablichjenkov/templato/tree/master/uistate3) is the core library where the Components logic resides. Bellow are some screenshots of the demo App used to test the diferrent features in the component library .
+[Component](https://github.com/pablichjenkov/templato/tree/master/uistate3) is the core module where the Components logic resides. Bellow are some screenshots of the demo App used to test the diferrent features available in the component library .
 
 <table border="0">
  <tr>
     <td><b style="font-size:30px">Android</b></td>
     <td><b style="font-size:30px">iOS</b></td>
-    <td><b style="font-size:30px">Predictive Back</b></td>
  </tr>
  <tr>
-    <td><img title="UiState 3 Android" src="https://user-images.githubusercontent.com/5303301/214517170-80037e52-ff5f-49b4-9e3c-2423d565d48e.jpg" alt="uistate3-android" width="300"></td>
-    <td><img title="UiState 3 iOS" src="https://user-images.githubusercontent.com/5303301/214517783-4b71c5af-cd25-4c90-8f02-9859e2fb5cd7.jpg" alt="uistate3-ios" width="300"></td>
-    <td><video title="UiState Predictive Back" src="https://user-images.githubusercontent.com/5303301/223599287-55933333-16d6-4351-a716-54e733f3a529.mp4" alt="uistate3-predictive-back" width="300"></td>
+    <td><img title="Android components demo" src="https://user-images.githubusercontent.com/5303301/214517170-80037e52-ff5f-49b4-9e3c-2423d565d48e.jpg" alt="android-component-demo" width="300"></td>
+    <td><img title="iOS components demo" src="https://user-images.githubusercontent.com/5303301/224896785-3100a9df-148d-40e2-b902-27eb15b3cbf0.gif" alt="ios-component-demo" width="500"></td>
  </tr>
 </table>
 <table border="0">
@@ -32,7 +30,7 @@ To run the projects you need to have the kotlin multiplatform environment setup 
     <td><b style="font-size:30px">Web</b></td>
  </tr>
  <tr>
-    <td><img title="UiState 3 Web" src="https://user-images.githubusercontent.com/5303301/214518301-88398770-a508-45f2-b411-520155f4f7e9.jpg" alt="uistate3-web" width="800"></td>
+    <td><img title="Web components demo" src="https://user-images.githubusercontent.com/5303301/214518301-88398770-a508-45f2-b411-520155f4f7e9.jpg" alt="web-component-demo" width="800"></td>
  </tr>
 </table>
 <table border="0">
@@ -40,7 +38,7 @@ To run the projects you need to have the kotlin multiplatform environment setup 
     <td><b style="font-size:30px">Desktop</b></td>
  </tr>
  <tr>
-    <td><img title="UiState 3 Desktop" src="https://user-images.githubusercontent.com/5303301/223601639-e99d503d-bb52-466f-a278-5ee824cac6ed.gif" alt="uistate3-desktop" width="800"></td>
+    <td><img title="Desktop components demo" src="https://user-images.githubusercontent.com/5303301/223601639-e99d503d-bb52-466f-a278-5ee824cac6ed.gif" alt="desktop-component-demo" width="800"></td>
  </tr>
 </table>
 
