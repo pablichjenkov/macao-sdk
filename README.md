@@ -38,7 +38,7 @@ To run the projects you need to have the kotlin multiplatform environment setup 
     <td><b style="font-size:30px">Desktop</b></td>
  </tr>
  <tr>
-    <td><img title="Desktop components demo" src="https://user-images.githubusercontent.com/5303301/223601639-e99d503d-bb52-466f-a278-5ee824cac6ed.gif" alt="desktop-component-demo" width="800"></td>
+    <td><img title="Desktop components demo" src="https://user-images.githubusercontent.com/5303301/225287289-d1870ba7-1a09-4570-a041-934746a35c11.gif" alt="desktop-component-demo" width="800"></td>
  </tr>
 </table>
 
