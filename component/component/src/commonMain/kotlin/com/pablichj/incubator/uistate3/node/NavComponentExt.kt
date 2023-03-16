@@ -61,7 +61,7 @@ internal fun NavComponent.clearNavItems() {
     activeComponent.value = null
 }
 
-fun NavComponent.getNavItemFromNode(component: Component): NavItem {
+fun NavComponent.getNavItemFromComponent(component: Component): NavItem {
     return navItems.first { it.component == component }
 }
 

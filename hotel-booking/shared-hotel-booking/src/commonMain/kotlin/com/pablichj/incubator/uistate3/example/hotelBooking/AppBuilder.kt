@@ -1,16 +1,15 @@
 package com.pablichj.incubator.uistate3.example.hotelBooking
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.Color
+import com.pablichj.incubator.uistate3.example.hotelBooking.account.AccountComponent
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
-import com.pablichj.incubator.uistate3.node.topbar.TopBarComponent
 import example.nodes.SimpleComponent
 
 object AppBuilder {
@@ -23,19 +22,13 @@ object AppBuilder {
             return navBarComponent
         }
 
+        val homeTopBarComponent = HomeComponent()
         val favoriteComponent = SimpleComponent(
             "Favorite Page",
-            Color.Blue,
+            Color.LightGray,
             {}
         )
-
-        val settingsComponent = SimpleComponent(
-            "Settings Page",
-            Color.Blue,
-            {}
-        )
-
-        val homeTopBarComponent = HomeComponent()
+        val accountComponent = AccountComponent()
 
         val navbarItems = mutableListOf(
             NavItem(
@@ -49,9 +42,9 @@ object AppBuilder {
                 component = favoriteComponent,//TopBarComponent(screenIcon = Icons.Default.Favorite),
             ),
             NavItem(
-                label = "Settings",
-                icon = Icons.Default.Settings,
-                component = settingsComponent,//TopBarComponent(screenIcon = Icons.Default.Settings),
+                label = "Account",
+                icon = Icons.Default.AccountCircle,
+                component = accountComponent
             )
         )
 

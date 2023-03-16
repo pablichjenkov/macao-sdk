@@ -102,7 +102,7 @@ open class DrawerComponent(
     }
 
     override fun updateSelectedNavItem(newTop: Component) {
-        getNavItemFromNode(newTop).let {
+        getNavItemFromComponent(newTop).let {
             println("DrawerNode::updateSelectedNavItem(), selectedIndex = $it")
             navDrawerState.selectNavItemDeco(it.toNavItemDeco())
             selectedIndex = childComponents.indexOf(newTop)
