@@ -87,7 +87,7 @@ open class NavBarComponent : Component(), NavComponent {
      * TODO: Try to update the navitem instead, using a Backstack<NavItem>, sounds more efficient.
      * */
     override fun updateSelectedNavItem(newTop: Component) {
-        getNavItemFromNode(newTop).let {
+        getNavItemFromComponent(newTop).let {
             println("$clazz::updateSelectedNavItem(), selectedIndex = $it")
             navBarState.selectNavItemDeco(it.toNavItemDeco())
             selectedIndex = childComponents.indexOf(newTop)

@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.Color
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.NavItem
+import com.pablichj.incubator.uistate3.node.topbar.StackBarItem
 import com.pablichj.incubator.uistate3.node.topbar.StackComponent
 import example.nodes.SimpleComponent
 
@@ -23,6 +24,10 @@ class HomeComponent : StackComponent() {
         Color.Yellow
     ) {}
 
+    init {
+        homeComponent.setParent(this)
+        searchComponent.setParent(this)
+    }
 
     override fun start() {
         super.start()
@@ -34,31 +39,20 @@ class HomeComponent : StackComponent() {
         }
     }
 
-    protected override fun updateSelectedComponent(newTop: Component) {
-        //val selectedNavItem = getNavItemFromNode(newTop)
-        val selectedNavItem = if (newTop == homeComponent) {
-            NavItem(
+    override fun getStackBarItemFromComponent(component: Component): StackBarItem {
+        val selectedStackBarItem = if (component == homeComponent) {
+            StackBarItem(
                 label = "Home",
                 icon = Icons.Default.Home,
-                homeComponent
             )
         } else {
-            NavItem(
+            StackBarItem(
                 label = "Search",
                 icon = Icons.Default.Search,
-                searchComponent
             )
         }
-
-        if (backStack.size() > 1) {
-            setTitleSectionForBackClick(selectedNavItem)
-        } else {
-            setTitleSectionForHomeClick(selectedNavItem)
-        }
+        return selectedStackBarItem
     }
 
-    override fun onDestroyChildComponent(component: Component) {
-
-    }
-
+    override fun onDestroyChildComponent(component: Component) {}
 }

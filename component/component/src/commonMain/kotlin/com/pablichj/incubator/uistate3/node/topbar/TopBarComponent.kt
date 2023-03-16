@@ -80,7 +80,7 @@ open class TopBarComponent(
     }
 
     override fun updateSelectedNavItem(newTop: Component) {
-        val selectedNavItem = getNavItemFromNode(newTop)
+        val selectedNavItem = getNavItemFromComponent(newTop)
         if (backStack.size() > 1) {
             setTitleSectionForBackClick(selectedNavItem)
         } else {

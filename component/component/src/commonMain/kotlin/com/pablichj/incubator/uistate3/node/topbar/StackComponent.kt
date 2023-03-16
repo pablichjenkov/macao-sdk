@@ -89,19 +89,16 @@ abstract class StackComponent(
         }
     }
 
-    protected abstract fun updateSelectedComponent(newTop: Component)
-    /*protected fun updateSelectedComponent(newTop: Component) {
-        //val selectedNavItem = getNavItemFromNode(newTop)
-        val selectedNavItem = when(newTop) {
-            is
-        }
-
+    protected open fun updateSelectedComponent(newTop: Component) {
+        val selectedStackBarItem = getStackBarItemFromComponent(newTop)
         if (backStack.size() > 1) {
-            setTitleSectionForBackClick(selectedNavItem)
+            setTitleSectionForBackClick(selectedStackBarItem)
         } else {
-            setTitleSectionForHomeClick(selectedNavItem)
+            setTitleSectionForHomeClick(selectedStackBarItem)
         }
-    }*/
+    }
+
+    abstract fun getStackBarItemFromComponent(component: Component): StackBarItem
 
     override fun onDestroyChildComponent(component: Component) {
         if (component.lifecycleState == ComponentLifecycleState.Started) {
@@ -114,13 +111,13 @@ abstract class StackComponent(
 
     // endregion
 
-    protected fun setTitleSectionForHomeClick(navItem: NavItem) {
+    protected fun setTitleSectionForHomeClick(stackBarItem: StackBarItem) {
         topBarState = TopBarState(
             onBackPress = { handleBackPressed() }
         ).apply {
             setTitleSectionState(
                 TitleSectionStateHolder(
-                    title = navItem.label,
+                    title = stackBarItem.label,
                     icon1 = resolveFirstIcon(),
                     onIcon1Click = {
                         findClosestIDrawerNode()?.open()
@@ -133,13 +130,13 @@ abstract class StackComponent(
         }
     }
 
-    protected fun setTitleSectionForBackClick(navItem: NavItem) {
+    protected fun setTitleSectionForBackClick(stackBarItem: StackBarItem) {
         topBarState = TopBarState {
             handleBackPressed()
         }.apply {
             setTitleSectionState(
                 TitleSectionStateHolder(
-                    title = navItem.label,
+                    title = stackBarItem.label,
                     onTitleClick = {
                         handleBackPressed()
                     },
@@ -240,3 +237,8 @@ abstract class StackComponent(
     }
 
 }
+
+data class StackBarItem(
+    val label: String,
+    val icon: ImageVector,
+)
