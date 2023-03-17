@@ -5,6 +5,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
@@ -27,7 +28,7 @@ import com.pablichj.incubator.uistate3.node.backstack.BackPressHandler
 @Composable
 fun SignInView2(
     signUpClick: () -> Unit,
-    logInClick: () -> Unit,
+    logInClick: (user: String, password: String) -> Unit,
     forgotPasswordClick: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -51,19 +52,19 @@ fun SignInView2(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        val username = remember { mutableStateOf(TextFieldValue()) }
+        val email = remember { mutableStateOf(TextFieldValue()) }
         val password = remember { mutableStateOf(TextFieldValue()) }
 
         Text(text = "Login", style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.Cursive))
 
         Spacer(modifier = Modifier.height(20.dp))
-        TextField(
+        OutlinedTextField(
             label = { Text(text = "Username") },
-            value = username.value,
-            onValueChange = { username.value = it })
+            value = email.value,
+            onValueChange = { email.value = it })
 
         Spacer(modifier = Modifier.height(20.dp))
-        TextField(
+        OutlinedTextField(
             label = { Text(text = "Password") },
             value = password.value,
             visualTransformation = PasswordVisualTransformation(),
@@ -73,7 +74,7 @@ fun SignInView2(
         Spacer(modifier = Modifier.height(20.dp))
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
-                onClick = { logInClick() },
+                onClick = { logInClick(email.value.text, password.value.text) },
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
                     .fillMaxWidth()
