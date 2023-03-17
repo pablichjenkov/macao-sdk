@@ -21,7 +21,7 @@ To run the projects you need to have the kotlin multiplatform environment setup 
     <td><b style="font-size:30px">iOS</b></td>
  </tr>
  <tr>
-    <td><img title="Android components demo" src="https://user-images.githubusercontent.com/5303301/214517170-80037e52-ff5f-49b4-9e3c-2423d565d48e.jpg" alt="android-component-demo" width="300"></td>
+    <td><img title="Android components demo" src="https://user-images.githubusercontent.com/5303301/225816832-682d3620-6218-4d60-b742-4a692761abee.gif" alt="android-component-demo" width="300"></td>
     <td><img title="iOS components demo" src="https://user-images.githubusercontent.com/5303301/225282413-fb433cc2-416f-4d98-ad29-cb676030a0ec.gif" alt="ios-component-demo" width="300"></td>
  </tr>
 </table>
