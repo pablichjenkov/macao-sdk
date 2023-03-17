@@ -6,20 +6,19 @@ import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.backstack.BackPressHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class SignUpComponent(private val authManager: AuthManager) : Component() {
+class ForgotPasswordComponent(private val authManager: AuthManager) : Component() {
 
     private var coroutineScope = CoroutineScope(Dispatchers.Main)
 
-    private fun requestSignUp(email: String, password: String) {
+    private fun requestRecoverPassword(email: String, phone: String) {
         coroutineScope.launch {
-            authManager.requestSignUp(email, password, password).collect {
-                when (val signUpReqStatus = it) {
-                    is SignUpRequestStatus.SignUpFail -> TODO()
-                    SignUpRequestStatus.SignUpInProgress -> TODO()
-                    is SignUpRequestStatus.SignUpSuccess -> TODO()
+            authManager.requestRecoverPassword(email).collect {
+                when (val recoverPassReqStatus = it) {
+                    is RecoverPasswordRequestStatus.RecoverPasswordFail -> TODO()
+                    RecoverPasswordRequestStatus.RecoverPasswordInProgress -> TODO()
+                    is RecoverPasswordRequestStatus.RecoverPasswordSuccess -> TODO()
                 }
             }
         }
@@ -27,12 +26,14 @@ class SignUpComponent(private val authManager: AuthManager) : Component() {
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("SignUpComponent::Composing()")
+        println("ForgotPasswordComponent::Composing()")
         BackPressHandler(
             component = this,
             onBackPressed = { this.handleBackPressed() }
         )
-        SignUpView()
+        ForgotPasswordView { email ->
+            authManager.requestRecoverPassword(email)
+        }
     }
 
 }

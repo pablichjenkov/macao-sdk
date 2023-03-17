@@ -11,14 +11,18 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AuthenticationComponent : StackComponent() {
+class AuthComponent : StackComponent() {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
-    private val authenticationManager = AuthenticationManager(AuthorizeAPI())
-    private val signInComponent = SignInComponent(authenticationManager)
-    private val signUpComponent = SignUpComponent(authenticationManager)
+    private val authManager: AuthManager = DefaultAuthManager(AuthorizeAPI())
+    private val signInComponent = SignInComponent(authManager)
+    private val signUpComponent = SignUpComponent(authManager)
+    private val forgotPasswordComponent = ForgotPasswordComponent(authManager)
 
     init {
+        signUpComponent.setParent(this)
         signInComponent.setParent(this)
+        forgotPasswordComponent.setParent(this)
+
         coroutineScope.launch {
             signInComponent.outFlow.collect {
                 when (it) {
@@ -26,7 +30,7 @@ class AuthenticationComponent : StackComponent() {
                         backStack.push(signUpComponent)
                     }
                     SignInComponent.Out.ForgotPasswordClick -> {
-                        //todo: push password component
+                        backStack.push(forgotPasswordComponent)
                     }
                     SignInComponent.Out.LoginFail -> {
                         println("Pablo:: Login Fail")
@@ -38,19 +42,27 @@ class AuthenticationComponent : StackComponent() {
             }
         }.invokeOnCompletion {
             if (it != null) {
-                println("Pablo:: Coroutine has been cancelled")
+                println("Pablo:: AuthComponent_Coroutine has been cancelled")
             }
         }
-
-        signUpComponent.setParent(this)
 
         if (isUserLogin().not()) {
             backStack.push(signInComponent)
         }
     }
 
+    override fun start() {
+        super.start()
+        activeComponent.value?.start()
+    }
+
+    override fun stop() {
+        super.stop()
+        activeComponent.value?.stop()
+    }
+
     fun isUserLogin(): Boolean {
-        return authenticationManager.getCurrentToken().isNullOrEmpty().not()
+        return authManager.getCurrentToken().isNullOrEmpty().not()
     }
 
     override fun getStackBarItemFromComponent(component: Component): StackBarItem {
