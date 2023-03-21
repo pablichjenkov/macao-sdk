@@ -27,7 +27,9 @@ rootProject.name = "component"
 include(":component")
 //project(":component").name = "component"
 
-include(":androidApp")
+include(":shared-component")
 include(":iosAppKt")
+include(":androidApp")
 include(":jsApp")
 include(":desktopApp")
+

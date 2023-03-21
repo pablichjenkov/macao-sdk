@@ -5,6 +5,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.lifecycle.ViewModel
+import com.pablichj.incubator.uistate3.demo.AppCoordinatorComponent
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.PagerComponent
@@ -12,8 +13,7 @@ import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
 import com.pablichj.incubator.uistate3.node.split.SplitNavComponent
-import example.nodes.AppCoordinatorComponent
-import example.nodes.CustomTopBarComponent
+import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
 
 class FullAppIntroStateTreeHolder : ViewModel() {
 

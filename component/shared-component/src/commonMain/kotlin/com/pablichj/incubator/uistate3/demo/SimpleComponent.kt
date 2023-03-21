@@ -1,4 +1,4 @@
-package example.nodes
+package com.pablichj.incubator.uistate3.demo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,7 +11,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pablichj.incubator.uistate3.node.backstack.BackPressHandler
 import com.pablichj.incubator.uistate3.node.Component
 
 class SimpleComponent(
@@ -22,12 +21,12 @@ class SimpleComponent(
 
     override fun start() {
         super.start()
-        println("${clazz}::start()")
+        println("CustomTopBarComponent::start()")
     }
 
     override fun stop() {
         super.stop()
-        println("${clazz}::stop()")
+        println("CustomTopBarComponent::stop()")
     }
 
     sealed interface Msg {
@@ -36,11 +35,8 @@ class SimpleComponent(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("$clazz::Composing()")
-        BackPressHandler(
-            component = this,
-            onBackPressed = { this.backPressedCallbackDelegate.onBackPressed() }
-        )
+        println("CustomTopBarComponent::Composing()")
+        consumeBackPressDispatcher()
         Box(modifier = modifier.fillMaxSize().background(bgColor)) {
             Text(
                 modifier = Modifier

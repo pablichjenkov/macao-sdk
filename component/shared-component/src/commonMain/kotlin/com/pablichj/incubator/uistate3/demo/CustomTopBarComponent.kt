@@ -1,4 +1,4 @@
-package example.nodes
+package com.pablichj.incubator.uistate3.demo
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -81,7 +81,7 @@ class CustomTopBarComponent(
 
     override fun start() {
         //super.start() We override the default NavComponent behavior in purpose
-        println("$clazz::start()")
+        println("CustomTopBarComponent::start()")
         if (activeComponent.value == null) {
             backStack.push(Step1)
         } else {

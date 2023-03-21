@@ -17,8 +17,6 @@ import com.pablichj.incubator.uistate3.node.PagerComponent
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
-import example.nodes.AppCoordinatorComponent
-import example.nodes.CustomTopBarComponent
 
 class HandleConfigChangesActivity : ComponentActivity() {
 
