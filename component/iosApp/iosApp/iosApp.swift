@@ -17,8 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         )
         
         let mainViewController = BindingsKt.ComponentRenderer(
-            rootComponent: drawerNode,
-            appName: "Components Demo"
+            rootComponent: drawerNode
         )
     
         window?.rootViewController = mainViewController

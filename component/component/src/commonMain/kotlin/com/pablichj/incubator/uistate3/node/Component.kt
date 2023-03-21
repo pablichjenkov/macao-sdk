@@ -126,15 +126,15 @@ abstract class Component : ComponentLifecycle {
      * in iOS
      * */
     @Composable
-    /*internal*/ abstract fun Content(modifier: Modifier)
+    internal abstract fun Content(modifier: Modifier)
 
-    @Composable
+    /*@Composable
     protected fun consumeBackPressDispatcher() {
         BackPressHandler(
             component = this,
             onBackPressed = { this.backPressedCallbackDelegate.onBackPressed() }
         )
-    }
+    }*/
 
 }
 
