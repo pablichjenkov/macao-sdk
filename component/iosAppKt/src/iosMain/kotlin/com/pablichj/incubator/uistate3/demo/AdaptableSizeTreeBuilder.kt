@@ -1,10 +1,11 @@
-package com.pablichj.incubator.uistate3.example.demo
+package com.pablichj.incubator.uistate3.demo
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
+import com.pablichj.incubator.uistate3.example.demo.CustomTopBarComponent
 import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeComponent
 import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
