@@ -6,7 +6,7 @@ import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
-import example.nodes.CustomTopBarComponent
+import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
 
 object PanelTreeBuilder {
 

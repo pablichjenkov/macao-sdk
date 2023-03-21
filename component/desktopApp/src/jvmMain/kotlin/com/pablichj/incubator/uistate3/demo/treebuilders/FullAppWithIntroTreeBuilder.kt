@@ -4,12 +4,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
+import com.pablichj.incubator.uistate3.demo.AppCoordinatorComponent
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.split.SplitNavComponent
-import example.nodes.AppCoordinatorComponent
-import example.nodes.CustomTopBarComponent
+import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
 
 object FullAppWithIntroTreeBuilder {
 

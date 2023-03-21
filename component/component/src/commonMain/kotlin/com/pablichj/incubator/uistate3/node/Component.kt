@@ -2,6 +2,7 @@ package com.pablichj.incubator.uistate3.node
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.pablichj.incubator.uistate3.node.backstack.BackPressHandler
 import com.pablichj.incubator.uistate3.node.backstack.BackPressedCallback
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 import kotlinx.coroutines.flow.Flow
@@ -126,6 +127,14 @@ abstract class Component : ComponentLifecycle {
      * */
     @Composable
     /*internal*/ abstract fun Content(modifier: Modifier)
+
+    @Composable
+    protected fun consumeBackPressDispatcher() {
+        BackPressHandler(
+            component = this,
+            onBackPressed = { this.backPressedCallbackDelegate.onBackPressed() }
+        )
+    }
 
 }
 

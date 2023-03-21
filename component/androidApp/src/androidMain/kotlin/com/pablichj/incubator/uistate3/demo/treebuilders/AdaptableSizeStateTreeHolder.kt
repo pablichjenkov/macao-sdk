@@ -11,7 +11,7 @@ import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeComponent
 import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
-import example.nodes.CustomTopBarComponent
+import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
 

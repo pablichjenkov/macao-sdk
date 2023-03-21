@@ -7,7 +7,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.lifecycle.ViewModel
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
-import example.nodes.CustomTopBarComponent
+import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
 
 class PagerStateTreeHolder : ViewModel() {
 

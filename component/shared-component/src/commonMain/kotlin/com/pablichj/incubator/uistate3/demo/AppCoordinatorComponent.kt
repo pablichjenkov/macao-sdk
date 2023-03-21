@@ -1,4 +1,4 @@
-package example.nodes
+package com.pablichj.incubator.uistate3.demo
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,7 +39,7 @@ class AppCoordinatorComponent : Component() {
 
     override fun start() {
         super.start()
-        println("$clazz::start()")
+        println("AppCoordinatorComponent::start()")
         backStack.eventListener = { event ->
             processBackstackEvent(event)
         }
@@ -52,7 +52,7 @@ class AppCoordinatorComponent : Component() {
 
     override fun stop() {
         super.stop()
-        println("$clazz::stop()")
+        println("AppCoordinatorComponent::stop()")
         backStack.eventListener = { }
         activeComponent.value?.stop()
     }
@@ -83,7 +83,7 @@ class AppCoordinatorComponent : Component() {
                 val newTop = stack[stack.lastIndex]
                 val oldTop = stack.getOrNull(stack.lastIndex - 1)
                 println(
-                    "${clazz}::Event.StackPush()," +
+                    "AppCoordinatorComponent::Event.StackPush()," +
                             " oldTop: ${oldTop?.let { it::class.simpleName }}," +
                             " newTop: ${newTop::class.simpleName}"
                 )
@@ -98,7 +98,7 @@ class AppCoordinatorComponent : Component() {
                 val newTop = stack.getOrNull(stack.lastIndex)
                 val oldTop = event.oldTop
                 println(
-                    "$${clazz}::Event.StackPop(), " +
+                    "AppCoordinatorComponent::Event.StackPop(), " +
                             "oldTop: ${oldTop::class.simpleName}," +
                             " newTop: ${newTop?.let { it::class.simpleName }}"
                 )
@@ -110,12 +110,12 @@ class AppCoordinatorComponent : Component() {
             }
             is BackStack.Event.PushEqualTop -> {
                 println(
-                    "${clazz}::Event.PushEqualTop()," +
+                    "AppCoordinatorComponent::Event.PushEqualTop()," +
                             " backStack.size = ${backStack.size()}"
                 )
             }
             is BackStack.Event.PopEmptyStack -> {
-                println("${clazz}::Event.PopEmptyStack(), backStack.size = 0")
+                println("AppCoordinatorComponent::Event.PopEmptyStack(), backStack.size = 0")
             }
         }
     }
