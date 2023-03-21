@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.node.topbar
+package com.pablichj.incubator.uistate3.node.stack
 
 sealed class AnimationType {
     object Direct : AnimationType()

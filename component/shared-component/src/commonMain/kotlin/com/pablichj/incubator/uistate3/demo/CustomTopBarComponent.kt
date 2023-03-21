@@ -5,8 +5,8 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.NavItem
-import com.pablichj.incubator.uistate3.node.topbar.TopBarComponent
+import com.pablichj.incubator.uistate3.node.stack.StackBarItem
+import com.pablichj.incubator.uistate3.node.stack.StackComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
@@ -14,7 +14,7 @@ class CustomTopBarComponent(
     val screenName: String,
     screenIcon: ImageVector? = null,
     val onMessage: (Msg) -> Unit
-) : TopBarComponent(screenIcon) {
+) : StackComponent(screenIcon) {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
 
     val Step1 = SimpleComponent(
@@ -58,27 +58,6 @@ class CustomTopBarComponent(
             it.setParent(this@CustomTopBarComponent)
         }
 
-    init {
-        childComponents = mutableListOf(Step1, Step2, Step3)
-        navItems = mutableListOf(
-            NavItem(
-                Step1.text,
-                Icons.Filled.Star,
-                Step1
-            ),
-            NavItem(
-                Step2.text,
-                Icons.Filled.Star,
-                Step2
-            ),
-            NavItem(
-                Step3.text,
-                Icons.Filled.Star,
-                Step3
-            ),
-        )
-    }
-
     override fun start() {
         //super.start() We override the default NavComponent behavior in purpose
         println("CustomTopBarComponent::start()")
@@ -86,6 +65,32 @@ class CustomTopBarComponent(
             backStack.push(Step1)
         } else {
             activeComponent.value?.start()
+        }
+    }
+
+    override fun getStackBarItemFromComponent(component: Component): StackBarItem {
+        return when (component) {
+            Step1 -> {
+                StackBarItem(
+                    Step1.text,
+                    Icons.Filled.Star,
+                )
+            }
+            Step2 -> {
+                StackBarItem(
+                    Step2.text,
+                    Icons.Filled.Star,
+                )
+            }
+            Step3 -> {
+                StackBarItem(
+                    Step3.text,
+                    Icons.Filled.Star,
+                )
+            }
+            else -> {
+                throw IllegalStateException()
+            }
         }
     }
 

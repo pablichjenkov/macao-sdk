@@ -1,6 +1,6 @@
 package com.pablichj.incubator.uistate3.node
 
-import com.pablichj.incubator.uistate3.node.topbar.StackTransition
+import com.pablichj.incubator.uistate3.node.stack.StackTransition
 
 fun NavComponent.setNavItems(
     newNavItems: MutableList<NavItem>,

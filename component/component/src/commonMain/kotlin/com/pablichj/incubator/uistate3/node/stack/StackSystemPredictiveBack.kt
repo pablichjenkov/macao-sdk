@@ -1,6 +1,5 @@
-package com.pablichj.incubator.uistate3.node.topbar
+package com.pablichj.incubator.uistate3.node.stack
 
-import TopBar
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.*
@@ -15,7 +14,7 @@ import com.pablichj.incubator.uistate3.node.Component
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun TopBarSystemPredictiveBack(
+fun StackSystemPredictiveBack(
     modifier: Modifier,
     topBarState: ITopBarState,
     childComponent: Component?,

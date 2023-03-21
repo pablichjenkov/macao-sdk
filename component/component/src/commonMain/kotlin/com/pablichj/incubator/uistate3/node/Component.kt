@@ -2,8 +2,7 @@ package com.pablichj.incubator.uistate3.node
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.pablichj.incubator.uistate3.node.backstack.BackPressHandler
-import com.pablichj.incubator.uistate3.node.backstack.BackPressedCallback
+import com.pablichj.incubator.uistate3.node.backpress.BackPressedCallback
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

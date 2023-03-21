@@ -11,9 +11,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeUIViewController
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.TreeContext
-import com.pablichj.incubator.uistate3.node.backstack.DefaultBackPressDispatcher
-import com.pablichj.incubator.uistate3.node.backstack.ForwardBackPressCallback
-import com.pablichj.incubator.uistate3.node.backstack.LocalBackPressedDispatcher
+import com.pablichj.incubator.uistate3.node.backpress.DefaultBackPressDispatcher
+import com.pablichj.incubator.uistate3.node.backpress.ForwardBackPressCallback
+import com.pablichj.incubator.uistate3.node.backpress.LocalBackPressedDispatcher
 import com.pablichj.incubator.uistate3.node.dispatchAttachedToComponentTree
 import platform.UIKit.UIViewController
 

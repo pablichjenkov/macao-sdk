@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.node.backstack
+package com.pablichj.incubator.uistate3.node.backpress
 
 interface IBackPressDispatcher {
     fun subscribe(backPressedCallback: BackPressedCallback)

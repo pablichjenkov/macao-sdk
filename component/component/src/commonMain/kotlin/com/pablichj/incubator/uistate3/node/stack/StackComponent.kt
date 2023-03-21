@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.node.topbar
+package com.pablichj.incubator.uistate3.node.stack
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -9,26 +9,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.incubator.uistate3.node.*
-import com.pablichj.incubator.uistate3.node.backstack.BackStack
-import com.pablichj.incubator.uistate3.node.backstack.LocalBackPressedDispatcher
+import com.pablichj.incubator.uistate3.node.backpress.BackStack
+import com.pablichj.incubator.uistate3.node.backpress.LocalBackPressedDispatcher
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 
-open class TopBarComponent(
+abstract class StackComponent(
     val screenIcon: ImageVector? = null,
-) : Component(), NavComponent {
+) : Component(), IStackComponent {
     final override val backStack = BackStack<Component>()
-    override var navItems: MutableList<NavItem> = mutableListOf()
-    override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
-    override var activeComponent: MutableState<Component?> = mutableStateOf(null)
-    private val topBarState = TopBarState {
+    var activeComponent: MutableState<Component?> = mutableStateOf(null)
+
+    private var topBarState = TopBarState {
         handleBackPressed()
     }
 
     private var lastBackstackEvent: BackStack.Event<Component>? = null
 
     init {
-        this@TopBarComponent.backStack.eventListener = { event ->
+        this@StackComponent.backStack.eventListener = { event ->
             lastBackstackEvent = event
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
@@ -37,12 +36,7 @@ open class TopBarComponent(
 
     override fun start() {
         super.start()
-        println("$clazz::start()")
-        val childNodesCopy = childComponents
-        if (activeComponent.value == null) {
-            println("$clazz::start(). Pushing selectedIndex = $selectedIndex, children.size = ${childNodesCopy.size}")
-            backStack.push(childNodesCopy[selectedIndex])
-        } else {
+        if (activeComponent.value != null) {
             println("$clazz::start() with activeNodeState = ${activeComponent.value?.clazz}")
             activeComponent.value?.start()
         }
@@ -73,20 +67,38 @@ open class TopBarComponent(
         return this
     }
 
-    override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
-        if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
-            backStack.push(childComponents[selectedIndex])
+    internal fun processBackstackTransition(
+        stackTransition: StackTransition<Component>
+    ) {
+        when (stackTransition) {
+            is StackTransition.In -> {
+                updateSelectedComponent(stackTransition.newTop)
+                activeComponent.value = stackTransition.newTop
+            }
+            is StackTransition.InOut -> {
+                updateSelectedComponent(stackTransition.newTop)
+                activeComponent.value = stackTransition.newTop
+            }
+            is StackTransition.InvalidPushEqualTop -> {}
+            is StackTransition.InvalidPopEmptyStack -> {
+                activeComponent.value = null
+            }
+            is StackTransition.Out -> {
+                activeComponent.value = null
+            }
         }
     }
 
-    override fun updateSelectedNavItem(newTop: Component) {
-        val selectedNavItem = getNavItemFromComponent(newTop)
+    protected open fun updateSelectedComponent(newTop: Component) {
+        val selectedStackBarItem = getStackBarItemFromComponent(newTop)
         if (backStack.size() > 1) {
-            setTitleSectionForBackClick(selectedNavItem)
+            setTitleSectionForBackClick(selectedStackBarItem)
         } else {
-            setTitleSectionForHomeClick(selectedNavItem)
+            setTitleSectionForHomeClick(selectedStackBarItem)
         }
     }
+
+    abstract fun getStackBarItemFromComponent(component: Component): StackBarItem
 
     override fun onDestroyChildComponent(component: Component) {
         if (component.lifecycleState == ComponentLifecycleState.Started) {
@@ -99,38 +111,46 @@ open class TopBarComponent(
 
     // endregion
 
-    private fun setTitleSectionForHomeClick(navItem: NavItem) {
-        topBarState.setTitleSectionState(
-            TitleSectionStateHolder(
-                title = navItem.label,
-                icon1 = resolveFirstIcon(),
-                onIcon1Click = {
-                    findClosestIDrawerNode()?.open()
-                },
-                onTitleClick = {
-                    findClosestIDrawerNode()?.open()
-                }
+    protected fun setTitleSectionForHomeClick(stackBarItem: StackBarItem) {
+        topBarState = TopBarState(
+            onBackPress = { handleBackPressed() }
+        ).apply {
+            setTitleSectionState(
+                TitleSectionStateHolder(
+                    title = stackBarItem.label,
+                    icon1 = resolveFirstIcon(),
+                    onIcon1Click = {
+                        findClosestIDrawerNode()?.open()
+                    },
+                    onTitleClick = {
+                        findClosestIDrawerNode()?.open()
+                    }
+                )
             )
-        )
+        }
     }
 
-    private fun setTitleSectionForBackClick(navItem: NavItem) {
-        topBarState.setTitleSectionState(
-            TitleSectionStateHolder(
-                title = navItem.label,
-                onTitleClick = {
-                    handleBackPressed()
-                },
-                icon1 = resolveFirstIcon(),
-                onIcon1Click = {
-                    findClosestIDrawerNode()?.open()
-                },
-                icon2 = Icons.Filled.ArrowBack,
-                onIcon2Click = {
-                    handleBackPressed()
-                }
+    protected fun setTitleSectionForBackClick(stackBarItem: StackBarItem) {
+        topBarState = TopBarState {
+            handleBackPressed()
+        }.apply {
+            setTitleSectionState(
+                TitleSectionStateHolder(
+                    title = stackBarItem.label,
+                    onTitleClick = {
+                        handleBackPressed()
+                    },
+                    icon1 = resolveFirstIcon(),
+                    onIcon1Click = {
+                        findClosestIDrawerNode()?.open()
+                    },
+                    icon2 = Icons.Filled.ArrowBack,
+                    onIcon2Click = {
+                        handleBackPressed()
+                    }
+                )
             )
-        )
+        }
     }
 
     private fun resolveFirstIcon(): ImageVector? {
@@ -194,7 +214,7 @@ open class TopBarComponent(
         when (LocalBackPressedDispatcher.current.isSystemBackButtonEnabled()) {
             true -> {
                 // If the traditional back button is enabled then we use our custom predictive back
-                TopBarCustomPredictiveBack(
+                StackCustomPredictiveBack(
                     modifier,
                     topBarState,
                     activeComponent.value,
@@ -205,7 +225,7 @@ open class TopBarComponent(
             false -> {
                 // Except Android, (and when the traditional 3 button navigation is enabled),
                 // all the platforms will fall in to this case.
-                TopBarSystemPredictiveBack(
+                StackSystemPredictiveBack(
                     modifier,
                     topBarState,
                     activeComponent.value,
@@ -217,3 +237,8 @@ open class TopBarComponent(
     }
 
 }
+
+data class StackBarItem(
+    val label: String,
+    val icon: ImageVector,
+)
