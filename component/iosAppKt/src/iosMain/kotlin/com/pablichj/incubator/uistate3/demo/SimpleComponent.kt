@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.example.demo
+package com.pablichj.incubator.uistate3.demo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -12,7 +12,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.backstack.BackPressHandler
+import com.pablichj.incubator.uistate3.node.consumeBackPressEvent
 
 class SimpleComponent(
     val text: String,
@@ -37,11 +37,7 @@ class SimpleComponent(
     @Composable
     /*override */ internal fun Content(modifier: Modifier) {
         println("CustomTopBarComponent::Composing()")
-        //consumeBackPressDispatcher()
-        /*BackPressHandler(
-            component = this,
-            onBackPressed = { this.handleBackPressed() }
-        )*/
+        consumeBackPressEvent()
         Box(modifier = modifier.fillMaxSize().background(bgColor)) {
             Text(
                 modifier = Modifier

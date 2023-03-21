@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.example.demo
+package com.pablichj.incubator.uistate3.demo
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
