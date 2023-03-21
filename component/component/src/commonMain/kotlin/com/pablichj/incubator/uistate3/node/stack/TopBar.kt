@@ -1,3 +1,5 @@
+package com.pablichj.incubator.uistate3.node.stack
+
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.pablichj.incubator.uistate3.node.topbar.ITopBarState
 
 @Composable
 fun TopBar(
@@ -48,7 +49,7 @@ fun TopBar(
                         topBarState.onIcon1Click()
                     },
                 imageVector = it,
-                contentDescription = "TopBar icon"
+                contentDescription = "com.pablichj.incubator.uistate3.node.stack.TopBar icon"
             )
         }
 
@@ -60,7 +61,7 @@ fun TopBar(
                         topBarState.onIcon2Click()
                     },
                 imageVector = it,
-                contentDescription = "TopBar icon"
+                contentDescription = "com.pablichj.incubator.uistate3.node.stack.TopBar icon"
             )
         }
 

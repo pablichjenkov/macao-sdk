@@ -11,7 +11,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
-import com.pablichj.incubator.uistate3.node.backstack.BackStack
+import com.pablichj.incubator.uistate3.node.backpress.BackStack
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

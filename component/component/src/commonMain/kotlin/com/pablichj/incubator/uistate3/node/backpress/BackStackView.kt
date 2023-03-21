@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.node.backstack
+package com.pablichj.incubator.uistate3.node.backpress
 
 import androidx.compose.runtime.*
 import com.pablichj.incubator.uistate3.node.Component

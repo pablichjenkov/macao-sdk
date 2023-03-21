@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.node.topbar
+package com.pablichj.incubator.uistate3.node.stack
 
 import com.pablichj.incubator.uistate3.node.Component
 

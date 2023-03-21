@@ -9,9 +9,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.TreeContext
-import com.pablichj.incubator.uistate3.node.backstack.DefaultBackPressDispatcher
-import com.pablichj.incubator.uistate3.node.backstack.ForwardBackPressCallback
-import com.pablichj.incubator.uistate3.node.backstack.LocalBackPressedDispatcher
+import com.pablichj.incubator.uistate3.node.backpress.DefaultBackPressDispatcher
+import com.pablichj.incubator.uistate3.node.backpress.ForwardBackPressCallback
+import com.pablichj.incubator.uistate3.node.backpress.LocalBackPressedDispatcher
 import com.pablichj.incubator.uistate3.node.dispatchAttachedToComponentTree
 
 @Composable

@@ -2,8 +2,8 @@ package com.pablichj.incubator.uistate3.node
 
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
-import com.pablichj.incubator.uistate3.node.backstack.BackPressedCallback
-import com.pablichj.incubator.uistate3.node.backstack.IBackPressDispatcher
+import com.pablichj.incubator.uistate3.node.backpress.BackPressedCallback
+import com.pablichj.incubator.uistate3.node.backpress.IBackPressDispatcher
 
 class AndroidBackPressDispatcher(
     private val componentActivity: ComponentActivity,

@@ -1,6 +1,5 @@
-package com.pablichj.incubator.uistate3.node.topbar
+package com.pablichj.incubator.uistate3.node.stack
 
-import TopBar
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.tween
@@ -23,7 +22,7 @@ private val PredictiveBackDragWidth = 50
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun TopBarCustomPredictiveBack(
+fun StackCustomPredictiveBack(
     modifier: Modifier,
     topBarState: ITopBarState,
     childComponent: Component?,
