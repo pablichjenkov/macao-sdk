@@ -3,27 +3,23 @@ package com.pablichj.incubator.uistate3.example.demo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import com.pablichj.incubator.uistate3.DrawerTreeBuilder
+import com.pablichj.incubator.uistate3.IosComponentRender
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.adaptable.WindowSizeInfo
 import platform.UIKit.UIViewController
 
 fun ComponentRenderer(
-    rootComponent: Component,
-    appName: String
-): UIViewController = com.pablichj.incubator.uistate3.IosComponentRender(
-    rootComponent,
-    appName
-)
+    rootComponent: Component
+): UIViewController = IosComponentRender(rootComponent)
 
-fun buildDrawerComponent() : Component{
+fun buildDrawerComponent(): Component {
     return DrawerTreeBuilder.build()
 }
 
 fun buildAdaptableSizeComponent(
     iosWindowSizeInfoDispatcher: IosWindowSizeInfoDispatcher
-) : Component {
+): Component {
     return AdaptableSizeTreeBuilder.build(
         EmptyWindowSizeInfoProvider(IosWindowSizeInfoDispatcher())
     )
@@ -31,7 +27,7 @@ fun buildAdaptableSizeComponent(
 
 class EmptyWindowSizeInfoProvider(
     private val iosWindowSizeInfoDispatcher: IosWindowSizeInfoDispatcher
-) : IWindowSizeInfoProvider(),  WindowSizeIndoObserver {
+) : IWindowSizeInfoProvider(), WindowSizeIndoObserver {
 
     private val windowSizeState = mutableStateOf<WindowSizeInfo>(WindowSizeInfo.Compact)
 

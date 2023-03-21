@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3
+package com.pablichj.incubator.uistate3.example.demo
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -6,7 +6,6 @@ import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
-import example.nodes.CustomTopBarComponent
 
 object DrawerTreeBuilder {
 
