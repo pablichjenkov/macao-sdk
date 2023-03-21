@@ -1,5 +1,7 @@
 package com.pablichj.incubator.uistate3.node
 
+import androidx.compose.runtime.Composable
+import com.pablichj.incubator.uistate3.node.backstack.BackPressHandler
 import com.pablichj.incubator.uistate3.node.drawer.IDrawerNode
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkDestination
 
@@ -35,6 +37,14 @@ fun Component.dispatchAttachedToComponentTree(treeContext: TreeContext) {
         this.childComponents.forEach { it.dispatchAttachedToComponentTree(treeContext) }
     }
     this.onAttachedToComponentTree(treeContext)
+}
+
+@Composable
+fun Component.consumeBackPressEvent() {
+    BackPressHandler(
+        component = this,
+        onBackPressed = { this.backPressedCallbackDelegate.onBackPressed() }
+    )
 }
 
 /*

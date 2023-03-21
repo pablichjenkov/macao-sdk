@@ -1,7 +1,10 @@
 package com.pablichj.incubator.uistate3.demo
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -12,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.node.consumeBackPressEvent
 
 class SimpleComponent(
     val text: String,
@@ -21,12 +25,12 @@ class SimpleComponent(
 
     override fun start() {
         super.start()
-        println("CustomTopBarComponent::start()")
+        println("SimpleComponent::start()")
     }
 
     override fun stop() {
         super.stop()
-        println("CustomTopBarComponent::stop()")
+        println("SimpleComponent::stop()")
     }
 
     sealed interface Msg {
@@ -35,8 +39,8 @@ class SimpleComponent(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("CustomTopBarComponent::Composing()")
-        consumeBackPressDispatcher()
+        println("SimpleComponent::Composing()")
+        consumeBackPressEvent()
         Box(modifier = modifier.fillMaxSize().background(bgColor)) {
             Text(
                 modifier = Modifier
