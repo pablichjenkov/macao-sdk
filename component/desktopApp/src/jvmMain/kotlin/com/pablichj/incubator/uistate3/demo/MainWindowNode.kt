@@ -12,7 +12,6 @@ import androidx.compose.ui.window.WindowState
 import com.pablichj.incubator.uistate3.DesktopComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.adaptable.JvmWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
@@ -26,17 +25,12 @@ class MainWindowNode(
     val onExitClick: () -> Unit
 ) : WindowNode {
     private val windowState = WindowState(size = DpSize(800.dp, 900.dp))
-
-    // todo: get this from a compositionlocalprovider
-    private val windowSizeInfoProvider = JvmWindowSizeInfoProvider(windowState)
     private var adaptableSizeComponent: Component
 
     init {
         val subtreeNavItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
 
-        adaptableSizeComponent = AdaptableSizeTreeBuilder.build(
-            windowSizeInfoProvider
-        ).also {
+        adaptableSizeComponent = AdaptableSizeTreeBuilder.build().also {
             it.setNavItems(subtreeNavItems, 0)
             it.setCompactContainer(DrawerComponent())
             it.setMediumContainer(NavBarComponent())

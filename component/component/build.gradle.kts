@@ -137,8 +137,6 @@ kotlin {
                 implementation("androidx.activity:activity-compose:1.6.1")
                 implementation ("com.google.accompanist:accompanist-pager:0.28.0")
                 implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
-                implementation ("androidx.window:window:1.0.0")
-                implementation( "androidx.compose.material3:material3-window-size-class:1.0.1")
             }
         }
         val androidUnitTest by getting {

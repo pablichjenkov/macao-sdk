@@ -4,9 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.pablichj.incubator.uistate3.IosComponentRender
-import com.pablichj.incubator.uistate3.demo.AdaptableSizeTreeBuilder
 import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.adaptable.WindowSizeInfo
 import platform.UIKit.UIViewController
 

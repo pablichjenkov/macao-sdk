@@ -8,7 +8,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.pablichj.incubator.uistate3.AndroidComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeStateTreeHolder
-import com.pablichj.incubator.uistate3.node.adaptable.AndroidWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.Component
 
 class AdaptableSizeNodeActivity : ComponentActivity() {
@@ -19,10 +18,7 @@ class AdaptableSizeNodeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // It creates a state tree where the root node is an AdaptableWindow
-        StateTree = stateTreeHolder.getOrCreate(
-            //todo: provide this with a CompositionLocalProvider
-            windowSizeInfoProvider = AndroidWindowSizeInfoProvider(this),
-        )
+        StateTree = stateTreeHolder.getOrCreate()
 
         setContent {
             AndroidComponentRender(
