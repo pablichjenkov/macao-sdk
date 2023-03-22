@@ -10,7 +10,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.*
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import com.pablichj.incubator.uistate3.FloatingBackButton
@@ -44,10 +43,7 @@ fun StackCustomPredictiveBack(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .onSizeChanged {
-                    println("TopBarScaffold::Box.onSizeChanged Width of Text in pixels: ${it.width}")
-                    println("TopBarScaffold::Box.onSizeChanged Height of Text in pixels: ${it.height}")
-                }.pointerInput(childComponent) {
+                .pointerInput(childComponent) {
                     if (prevChildComponent == null) return@pointerInput
                     forEachGesture {
                         awaitPointerEventScope {

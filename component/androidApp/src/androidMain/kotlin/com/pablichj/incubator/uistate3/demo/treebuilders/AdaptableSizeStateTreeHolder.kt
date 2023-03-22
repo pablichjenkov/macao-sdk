@@ -8,7 +8,6 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.lifecycle.ViewModel
 import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeComponent
-import com.pablichj.incubator.uistate3.node.adaptable.IWindowSizeInfoProvider
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
@@ -20,19 +19,13 @@ class AdaptableSizeStateTreeHolder : ViewModel() {
     private lateinit var AdaptableSizeNode: AdaptableSizeComponent
     private lateinit var subTreeNavItems: MutableList<NavItem>
 
-    fun getOrCreate(
-        windowSizeInfoProvider: IWindowSizeInfoProvider,
-    ): AdaptableSizeComponent {
+    fun getOrCreate(): AdaptableSizeComponent {
 
         if (this::AdaptableSizeNode.isInitialized) {
-            return AdaptableSizeNode.apply {
-                this.windowSizeInfoProvider = windowSizeInfoProvider
-            }
+            return AdaptableSizeNode
         }
 
-        return AdaptableSizeComponent(
-            windowSizeInfoProvider
-        ).also {
+        return AdaptableSizeComponent().also {
             it.setNavItems(
                 getOrCreateDetachedNavItems(), 0
             )

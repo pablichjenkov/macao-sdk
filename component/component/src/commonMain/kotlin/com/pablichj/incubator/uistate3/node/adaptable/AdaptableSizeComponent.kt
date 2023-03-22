@@ -1,11 +1,14 @@
 package com.pablichj.incubator.uistate3.node.adaptable
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.backpress.BackStack
@@ -14,9 +17,7 @@ import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 /**
  * This node is basically a proxy, it transfer request and events to its active child node
  * */
-open class AdaptableSizeComponent(
-    var windowSizeInfoProvider: IWindowSizeInfoProvider
-) : Component(), NavComponent {
+open class AdaptableSizeComponent() : Component(), NavComponent {
     private val initialEmptyNavComponent: NavComponent = AdaptableSizeStubNavComponent()
     private var CompactNavComponent: NavComponent = AdaptableSizeStubNavComponent()
     private var MediumNavComponent: NavComponent = AdaptableSizeStubNavComponent()
@@ -108,24 +109,33 @@ open class AdaptableSizeComponent(
     @Composable
     override fun Content(modifier: Modifier) {
         println("$clazz.Composing() lifecycleState = $lifecycleState")
+        val density = LocalDensity.current
         val componentLifecycleState by componentLifecycleFlow.collectAsState(ComponentLifecycleState.Created)
         when (componentLifecycleState) {
             ComponentLifecycleState.Created,
             ComponentLifecycleState.Destroyed -> {
             }
             ComponentLifecycleState.Started -> {
-                val windowSizeInfo by windowSizeInfoProvider.windowSizeInfo()
-                println("$clazz.Composing.Started() windowSizeInfo = $windowSizeInfo")
-
-                val currentNavComponentCopy = currentNavComponent.value
-
-                if (currentNavComponentCopy == initialEmptyNavComponent) {
-                    setAndStartNavComponent(windowSizeInfo)
-                } else {
-                    transferNavComponent(windowSizeInfo)
+                val windowSizeInfo = remember {
+                    mutableStateOf<WindowSizeInfo>(WindowSizeInfo.Compact)
                 }
+                Box(Modifier.fillMaxSize().onSizeChanged { size ->
+                    val widthDp = with(density) { size.width.toDp() }
+                    println("$clazz::Box.onSizeChanged Width of Text in Pixels: ${size.width}")
+                    println("$clazz::Box.onSizeChanged Width of Text in DP: $widthDp")
+                    windowSizeInfo.value = WindowSizeInfo.fromWidthDp(widthDp)
+                }) {
+                    println("$clazz.Composing.Started() windowSizeInfo = $windowSizeInfo")
+                    val currentNavComponentCopy = currentNavComponent.value
 
-                StartedContent(modifier, currentNavComponentCopy)
+                    if (currentNavComponentCopy == initialEmptyNavComponent) {
+                        setAndStartNavComponent(windowSizeInfo.value)
+                    } else {
+                        transferNavComponent(windowSizeInfo.value)
+                    }
+
+                    StartedContent(modifier, currentNavComponentCopy)
+                }
             }
             ComponentLifecycleState.Stopped -> {
             }
