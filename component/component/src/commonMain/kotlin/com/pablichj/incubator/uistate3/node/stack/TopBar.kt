@@ -35,7 +35,7 @@ fun TopBar(
         modifier = Modifier
             .fillMaxWidth()
             .height(48.dp)
-            .border(2.dp, Color.Blue)
+            .border(1.dp, Color.Blue)
             .padding(4.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
