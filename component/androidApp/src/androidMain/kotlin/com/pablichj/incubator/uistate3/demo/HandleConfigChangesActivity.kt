@@ -55,8 +55,7 @@ class HandleConfigChangesActivity : ComponentActivity() {
         val DrawerNode = DrawerComponent()
 
         val TopBarNode = CustomTopBarComponent(
-            "Home",
-            Icons.Filled.Home
+            "Home"
         ) {}
         val NavBarNode = NavBarComponent()
         val PagerNode = PagerComponent()
@@ -65,17 +64,17 @@ class HandleConfigChangesActivity : ComponentActivity() {
             NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Orders / Current", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Orders / Current") {},
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.AccountCircle,
-                component = CustomTopBarComponent("Orders / Past", Icons.Filled.AccountCircle) {},
+                component = CustomTopBarComponent("Orders / Past") {},
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                component = CustomTopBarComponent("Orders / Claim", Icons.Filled.Email) {},
+                component = CustomTopBarComponent("Orders / Claim") {},
             )
         )
 
@@ -83,17 +82,17 @@ class HandleConfigChangesActivity : ComponentActivity() {
             NavItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Settings / Account", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Settings / Account") {},
             ),
             NavItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
-                component = CustomTopBarComponent("Settings / Profile", Icons.Filled.Edit) {},
+                component = CustomTopBarComponent("Settings / Profile") {},
             ),
             NavItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
-                component = CustomTopBarComponent("Settings / About Us", Icons.Filled.Email) {},
+                component = CustomTopBarComponent("Settings / About Us") {},
             )
         )
 

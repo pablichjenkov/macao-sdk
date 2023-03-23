@@ -12,9 +12,8 @@ import kotlinx.coroutines.Dispatchers
 
 class CustomTopBarComponent(
     val screenName: String,
-    screenIcon: ImageVector? = null,
     val onMessage: (Msg) -> Unit
-) : StackComponent(screenIcon) {
+) : StackComponent() {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
 
     val Step1 = SimpleComponent(

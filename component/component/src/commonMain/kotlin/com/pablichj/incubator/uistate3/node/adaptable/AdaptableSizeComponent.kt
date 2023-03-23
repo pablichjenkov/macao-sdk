@@ -149,12 +149,13 @@ open class AdaptableSizeComponent() : Component(), NavComponent {
         if (currentComponent != null) {
             currentComponent.Content(modifier)
         } else {
-            Box {
+            Box(modifier = Modifier.fillMaxSize()) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.Center),
-                    text = "Empty Stack, Please add some children",
+                    text = "AdaptableSizeComponent currentNavComponent is empty. " +
+                            "Please add some children NavComponent",
                     textAlign = TextAlign.Center
                 )
             }

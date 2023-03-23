@@ -3,22 +3,24 @@ package com.pablichj.incubator.uistate3.demo.treebuilders
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import com.pablichj.incubator.uistate3.node.NavItem
+import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
-import com.pablichj.incubator.uistate3.node.panel.PanelComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
 import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
 
-object PanelTreeBuilder {
+object DrawerTreeBuilder {
 
-    private lateinit var panelComponent: PanelComponent
+    private lateinit var DrawerNode: DrawerComponent
 
-    fun build(): PanelComponent {
+    fun build(): DrawerComponent {
 
-        if (PanelTreeBuilder::panelComponent.isInitialized) {
-            return panelComponent
+        if (DrawerTreeBuilder::DrawerNode.isInitialized) {
+            return DrawerNode
         }
 
-        val panelNavItems = mutableListOf(
+        val DrawerNode = DrawerComponent()
+
+        val drawerNavItems = mutableListOf(
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
@@ -39,10 +41,7 @@ object PanelTreeBuilder {
             )
         )
 
-        return PanelComponent().also {
-            it.setNavItems(panelNavItems, 0)
-            panelComponent = it
-        }
+        return DrawerNode.also { it.setNavItems(drawerNavItems, 0) }
     }
 
     private fun buildNavBarNode(): NavBarComponent {
@@ -51,21 +50,21 @@ object PanelTreeBuilder {
 
         val navbarNavItems = mutableListOf(
             NavItem(
-                label = "Home",
+                label = "Active",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Home") {},
+                component = CustomTopBarComponent("Orders/Active") {},
 
             ),
             NavItem(
-                label = "Orders",
+                label = "Past",
                 icon = Icons.Filled.Settings,
-                component = CustomTopBarComponent("Orders") {},
+                component = CustomTopBarComponent("Orders/Past") {},
 
             ),
             NavItem(
-                label = "Settings",
+                label = "New Order",
                 icon = Icons.Filled.Add,
-                component = CustomTopBarComponent("Settings") {},
+                component = CustomTopBarComponent("Orders/New Order") {},
 
             )
         )
