@@ -10,21 +10,19 @@ import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
 
 object DrawerTreeBuilder {
 
-    private lateinit var DrawerNode: DrawerComponent
+    private lateinit var drawerComponent: DrawerComponent
 
     fun build(): DrawerComponent {
 
-        if (DrawerTreeBuilder::DrawerNode.isInitialized) {
-            return DrawerNode
+        if (DrawerTreeBuilder::drawerComponent.isInitialized) {
+            return drawerComponent
         }
-
-        val DrawerNode = DrawerComponent()
 
         val drawerNavItems = mutableListOf(
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Home", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Home") {},
 
             ),
             NavItem(
@@ -36,12 +34,15 @@ object DrawerTreeBuilder {
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = CustomTopBarComponent("Settings", Icons.Filled.Email) {},
+                component = CustomTopBarComponent("Settings") {},
 
             )
         )
 
-        return DrawerNode.also { it.setNavItems(drawerNavItems, 0) }
+        return DrawerComponent().also {
+            it.setNavItems(drawerNavItems, 0)
+            drawerComponent = it
+        }
     }
 
     private fun buildNavBarNode(): NavBarComponent {
@@ -52,19 +53,19 @@ object DrawerTreeBuilder {
             NavItem(
                 label = "Active",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Orders/Active", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Orders/Active") {},
 
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Settings,
-                component = CustomTopBarComponent("Orders/Past", Icons.Filled.Settings) {},
+                component = CustomTopBarComponent("Orders/Past") {},
 
             ),
             NavItem(
                 label = "New Order",
                 icon = Icons.Filled.Add,
-                component = CustomTopBarComponent("Orders/New Order", Icons.Filled.Add) {},
+                component = CustomTopBarComponent("Orders/New Order") {},
 
             )
         )

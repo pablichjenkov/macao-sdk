@@ -13,9 +13,7 @@ import com.pablichj.incubator.uistate3.node.backpress.BackStack
 import com.pablichj.incubator.uistate3.node.backpress.LocalBackPressedDispatcher
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 
-abstract class StackComponent(
-    val screenIcon: ImageVector? = null,
-) : Component(), IStackComponent {
+abstract class StackComponent : Component(), IStackComponent {
     final override val backStack = BackStack<Component>()
     override var childComponents: MutableList<Component> = mutableListOf()
     var activeComponent: MutableState<Component?> = mutableStateOf(null)
@@ -90,7 +88,7 @@ abstract class StackComponent(
     }
 
     protected open fun updateSelectedComponent(newTop: Component) {
-        val selectedStackBarItem = getStackBarItemFromComponent(newTop)
+        val selectedStackBarItem = getStackBarItemFromComponent(newTop) ?: return
         if (backStack.size() > 1) {
             setTitleSectionForBackClick(selectedStackBarItem)
         } else {
@@ -98,7 +96,7 @@ abstract class StackComponent(
         }
     }
 
-    abstract fun getStackBarItemFromComponent(component: Component): StackBarItem
+    abstract fun getStackBarItemFromComponent(component: Component): StackBarItem?
 
     override fun onDestroyChildComponent(component: Component) {
         if (component.lifecycleState == ComponentLifecycleState.Started) {
@@ -158,7 +156,7 @@ abstract class StackComponent(
         return if (canProvideGlobalNavigation) {
             Icons.Filled.Menu
         } else {
-            screenIcon
+            null
         }
     }
 

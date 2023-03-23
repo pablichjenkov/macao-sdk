@@ -9,15 +9,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
     
         let drawerNode = BindingsKt.buildDrawerComponent()
-        
-        let windowSizeInfoProvider = IosWindowSizeInfoDispatcher()
-        
-        let drawerNode2 = BindingsKt.buildAdaptableSizeComponent(
-            iosWindowSizeInfoDispatcher: windowSizeInfoProvider
-        )
+        let drawerNode2 = BindingsKt.buildAdaptableSizeComponent()
         
         let mainViewController = BindingsKt.ComponentRenderer(
-            rootComponent: drawerNode
+            rootComponent: drawerNode2
         )
     
         window?.rootViewController = mainViewController

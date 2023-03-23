@@ -29,7 +29,6 @@ class MainWindowNode(
 
     init {
         val subtreeNavItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
-
         adaptableSizeComponent = AdaptableSizeTreeBuilder.build().also {
             it.setNavItems(subtreeNavItems, 0)
             it.setCompactContainer(DrawerComponent())

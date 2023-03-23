@@ -4,22 +4,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
-import androidx.lifecycle.ViewModel
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
 
-class PagerStateTreeHolder : ViewModel() {
+object PagerTreeBuilder {
 
-    private lateinit var PagerNode: PagerComponent
+    private lateinit var pagerComponent: PagerComponent
 
-    fun getOrCreate(): Component {
+    fun build(): Component {
 
-        if (this@PagerStateTreeHolder::PagerNode.isInitialized) {
-            return PagerNode
+        if (this@PagerTreeBuilder::pagerComponent.isInitialized) {
+            return pagerComponent
         }
 
-        PagerNode = PagerComponent()
+        pagerComponent = PagerComponent()
 
         val NavBarNode1 = NavBarComponent()
         val NavBarNode2 = NavBarComponent()
@@ -78,7 +77,7 @@ class PagerStateTreeHolder : ViewModel() {
             )
         )
 
-        return PagerNode.also { it.setNavItems(pagerNavItems, 0) }
+        return pagerComponent.also { it.setNavItems(pagerNavItems, 0) }
     }
 
 }

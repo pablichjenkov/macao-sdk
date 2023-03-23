@@ -1,43 +1,47 @@
-package com.pablichj.incubator.uistate3.demo
+package com.pablichj.incubator.uistate3.demo.treebuilders
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import com.pablichj.incubator.uistate3.node.NavItem
-import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
+import com.pablichj.incubator.uistate3.node.panel.PanelComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
+import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
 
-object DrawerTreeBuilder {
+object PanelTreeBuilder {
 
-    private lateinit var DrawerNode: DrawerComponent
+    private lateinit var PanelNode: PanelComponent
 
-    fun build(): DrawerComponent {
+    fun build(): PanelComponent {
 
-        if (DrawerTreeBuilder::DrawerNode.isInitialized) {
-            return DrawerNode
+        if (PanelTreeBuilder::PanelNode.isInitialized) {
+            return PanelNode
         }
 
-        val DrawerNode = DrawerComponent()
+        val PanelNode = PanelComponent()
 
-        val drawerNavItems = mutableListOf(
+        val panelNavItems = mutableListOf(
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Home", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Home") {},
+
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
                 component = buildNavBarNode(),
+
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = CustomTopBarComponent("Settings", Icons.Filled.Email) {},
+                component = CustomTopBarComponent("Settings") {},
+
             )
         )
 
-        return DrawerNode.also { it.setNavItems(drawerNavItems, 0) }
+        return PanelNode.also { it.setNavItems(panelNavItems, 0) }
     }
 
     private fun buildNavBarNode(): NavBarComponent {
@@ -46,19 +50,22 @@ object DrawerTreeBuilder {
 
         val navbarNavItems = mutableListOf(
             NavItem(
-                label = "Active",
+                label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Orders/Active", Icons.Filled.Home) {},
+                component = CustomTopBarComponent("Home") {},
+
             ),
             NavItem(
-                label = "Past",
+                label = "Orders",
                 icon = Icons.Filled.Settings,
-                component = CustomTopBarComponent("Orders/Past", Icons.Filled.Settings) {},
+                component = CustomTopBarComponent("Orders") {},
+
             ),
             NavItem(
-                label = "New Order",
+                label = "Settings",
                 icon = Icons.Filled.Add,
-                component = CustomTopBarComponent("Orders/New Order", Icons.Filled.Add) {},
+                component = CustomTopBarComponent("Settings") {},
+
             )
         )
 

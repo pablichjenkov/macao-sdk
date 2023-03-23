@@ -13,15 +13,15 @@ import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
 
 object AdaptableSizeTreeBuilder {
 
-    private lateinit var adaptableSizeComponent: AdaptableSizeComponent
+    private lateinit var AdaptableSizeComponent: AdaptableSizeComponent
     private lateinit var subTreeNavItems: MutableList<NavItem>
 
     fun build(): AdaptableSizeComponent {
-        if (AdaptableSizeTreeBuilder::adaptableSizeComponent.isInitialized) {
-            return adaptableSizeComponent
+        if (AdaptableSizeTreeBuilder::AdaptableSizeComponent.isInitialized) {
+            return AdaptableSizeComponent
         }
         return AdaptableSizeComponent().also {
-            adaptableSizeComponent = it
+            AdaptableSizeComponent = it
         }
     }
 

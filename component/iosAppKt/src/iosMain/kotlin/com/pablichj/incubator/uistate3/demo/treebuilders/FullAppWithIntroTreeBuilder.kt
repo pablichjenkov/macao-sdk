@@ -5,25 +5,27 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import com.pablichj.incubator.uistate3.demo.AppCoordinatorComponent
-import com.pablichj.incubator.uistate3.node.*
+import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
+import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
+import com.pablichj.incubator.uistate3.node.setNavItems
 import com.pablichj.incubator.uistate3.node.split.SplitNavComponent
-import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
 
 object FullAppWithIntroTreeBuilder {
 
-    private lateinit var appCoordinatorComponent: Component
+    private lateinit var AppCoordinatorComponent: Component
 
     fun build(): Component {
 
-        if (FullAppWithIntroTreeBuilder::appCoordinatorComponent.isInitialized) {
-            return appCoordinatorComponent
+        if (FullAppWithIntroTreeBuilder::AppCoordinatorComponent.isInitialized) {
+            return AppCoordinatorComponent
         }
 
         return AppCoordinatorComponent().also {
             it.homeComponent = buildDrawerStateTree(it)
-            appCoordinatorComponent = it
+            AppCoordinatorComponent = it
         }
     }
 
@@ -44,13 +46,13 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Orders / Current") {},
 
-            ),
+                ),
             NavItem(
                 label = "Nested Node",
                 icon = Icons.Filled.Email,
                 component = SplitNavNode,
 
-            )
+                )
         )
 
         val drawerNavItems = mutableListOf(
@@ -59,13 +61,13 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Home") {},
 
-            ),
+                ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
                 component = NavBarNode.also { it.setNavItems(navbarNavItems, 0) },
 
-            )
+                )
         )
 
         return DrawerNode.apply {
@@ -84,19 +86,19 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Orders / Current") {},
 
-            ),
+                ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent("Orders / Past") {},
 
-            ),
+                ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent("Orders / Claim") {},
 
-            )
+                )
         )
 
         val drawerNavItems = mutableListOf(
@@ -105,13 +107,13 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Home") {},
 
-            ),
+                ),
             NavItem(
                 label = "Orders Nested",
                 icon = Icons.Filled.Edit,
                 component = NavBarNode.also { it.setNavItems(navbarNavItems, 0) },
 
-            )
+                )
         )
 
         return DrawerNode.also { it.setNavItems(drawerNavItems, 0) }

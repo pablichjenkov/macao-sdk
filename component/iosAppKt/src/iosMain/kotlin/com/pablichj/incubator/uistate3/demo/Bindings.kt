@@ -1,11 +1,13 @@
 package com.pablichj.incubator.uistate3.demo
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import com.pablichj.incubator.uistate3.IosComponentRender
+import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeTreeBuilder
+import com.pablichj.incubator.uistate3.demo.treebuilders.DrawerTreeBuilder
+import com.pablichj.incubator.uistate3.demo.treebuilders.FullAppWithIntroTreeBuilder
 import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.adaptable.WindowSizeInfo
+import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
+import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
+import com.pablichj.incubator.uistate3.node.panel.PanelComponent
 import platform.UIKit.UIViewController
 
 fun ComponentRenderer(
@@ -16,39 +18,16 @@ fun buildDrawerComponent(): Component {
     return DrawerTreeBuilder.build()
 }
 
-fun buildAdaptableSizeComponent(
-    iosWindowSizeInfoDispatcher: IosWindowSizeInfoDispatcher
-): Component {
-    return AdaptableSizeTreeBuilder.build(
-        EmptyWindowSizeInfoProvider(IosWindowSizeInfoDispatcher())
-    )
-}
-
-class EmptyWindowSizeInfoProvider(
-    private val iosWindowSizeInfoDispatcher: IosWindowSizeInfoDispatcher
-) : IWindowSizeInfoProvider(), WindowSizeIndoObserver {
-
-    private val windowSizeState = mutableStateOf<WindowSizeInfo>(WindowSizeInfo.Compact)
-
-    init {
-        iosWindowSizeInfoDispatcher.subscribe(this)
-    }
-
-    @Composable
-    internal fun windowSizeInfo(): State<WindowSizeInfo> {
-        return windowSizeState
-    }
-
-    override fun onWindowSizeChange() {
-        windowSizeState.value = WindowSizeInfo.Compact
+fun buildAdaptableSizeComponent(): Component {
+    val subtreeNavItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
+    return AdaptableSizeTreeBuilder.build().also {
+        it.setNavItems(subtreeNavItems, 0)
+        it.setCompactContainer(DrawerComponent())
+        it.setMediumContainer(NavBarComponent())
+        it.setExpandedContainer(PanelComponent())
     }
 }
 
-class IosWindowSizeInfoDispatcher {
-    fun subscribe(observer: WindowSizeIndoObserver) {}
+fun buildAppWithIntroComponent(): Component {
+    return FullAppWithIntroTreeBuilder.build()
 }
-
-interface WindowSizeIndoObserver {
-    fun onWindowSizeChange()
-}
-

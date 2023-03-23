@@ -25,8 +25,7 @@ class AppCoordinatorComponent : Component() {
     }.also { it.setParent(this@AppCoordinatorComponent) }
 
     private val customTopBarComponent: Component = CustomTopBarComponent(
-        "Onboard",
-        Icons.Filled.Home
+        "Onboard"
     ) {
         backStack.push(homeComponent)
     }.also { it.setParent(this@AppCoordinatorComponent) }

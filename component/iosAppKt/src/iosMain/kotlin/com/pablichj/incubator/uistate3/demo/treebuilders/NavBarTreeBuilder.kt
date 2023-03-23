@@ -4,20 +4,22 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
-import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
 import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
+import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
 
 object NavBarTreeBuilder {
 
-    private lateinit var navBarComponent: NavBarComponent
+    private lateinit var NavBarNode: NavBarComponent
 
     fun build(): NavBarComponent {
 
-        if (NavBarTreeBuilder::navBarComponent.isInitialized) {
-            return navBarComponent
+        if (NavBarTreeBuilder::NavBarNode.isInitialized) {
+            return NavBarNode
         }
+
+        val NavBarNode = NavBarComponent()
 
         val navbarNavItems = mutableListOf(
             NavItem(
@@ -25,25 +27,22 @@ object NavBarTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent("Home") {},
 
-                ),
+            ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
                 component = CustomTopBarComponent("Orders") {},
 
-                ),
+            ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Add,
                 component = CustomTopBarComponent("Settings") {},
 
-                )
+            )
         )
 
-        return NavBarComponent().also {
-            it.setNavItems(navbarNavItems, 0)
-            navBarComponent = it
-        }
+        return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }
     }
 
 }
