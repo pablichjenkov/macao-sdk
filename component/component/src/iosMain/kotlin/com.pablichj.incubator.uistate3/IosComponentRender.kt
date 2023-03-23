@@ -15,10 +15,12 @@ import com.pablichj.incubator.uistate3.node.backpress.DefaultBackPressDispatcher
 import com.pablichj.incubator.uistate3.node.backpress.ForwardBackPressCallback
 import com.pablichj.incubator.uistate3.node.backpress.LocalBackPressedDispatcher
 import com.pablichj.incubator.uistate3.node.dispatchAttachedToComponentTree
+import com.pablichj.incubator.uistate3.platform.PlatformDelegate
 import platform.UIKit.UIViewController
 
 fun IosComponentRender(
-    rootComponent: Component
+    rootComponent: Component,
+    platformDelegate: PlatformDelegate
 ): UIViewController = ComposeUIViewController {
 
     val backPressDispatcher = remember {
@@ -33,7 +35,16 @@ fun IosComponentRender(
         //todo: Use an empty backPressDispatcher or dont crash the App if not present
         LocalBackPressedDispatcher provides backPressDispatcher,
     ) {
-        Box(modifier = Modifier.padding(top = 45.dp).fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    start = platformDelegate.safeAreaInsets.start.dp,
+                    top = platformDelegate.safeAreaInsets.top.dp,
+                    end = platformDelegate.safeAreaInsets.end.dp,
+                    bottom = platformDelegate.safeAreaInsets.bottom.dp,
+                )
+        ) {
             rootComponent.Content(Modifier.fillMaxSize())
         }
     }
