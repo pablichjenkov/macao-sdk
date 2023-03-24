@@ -13,13 +13,15 @@ import com.pablichj.incubator.uistate3.node.backpress.DefaultBackPressDispatcher
 import com.pablichj.incubator.uistate3.node.backpress.ForwardBackPressCallback
 import com.pablichj.incubator.uistate3.node.backpress.LocalBackPressedDispatcher
 import com.pablichj.incubator.uistate3.node.dispatchAttachedToComponentTree
+import com.pablichj.incubator.uistate3.platform.AppLifecycleCallback
+import com.pablichj.incubator.uistate3.platform.AppLifecycleEvent
+import com.pablichj.incubator.uistate3.platform.ForwardAppLifecycleCallback
 import com.pablichj.incubator.uistate3.platform.LocalSafeAreaInsets
-import com.pablichj.incubator.uistate3.platform.PlatformDelegate
 import platform.UIKit.UIViewController
 
 fun IosComponentRender(
     rootComponent: Component,
-    platformDelegate: PlatformDelegate
+    iosBridge: IosBridge
 ): UIViewController = ComposeUIViewController {
 
     val backPressDispatcher = remember {
@@ -32,7 +34,7 @@ fun IosComponentRender(
 
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides backPressDispatcher,
-        LocalSafeAreaInsets provides platformDelegate.safeAreaInsets
+        LocalSafeAreaInsets provides iosBridge.safeAreaInsets
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             rootComponent.Content(Modifier.fillMaxSize())
@@ -49,6 +51,16 @@ fun IosComponentRender(
         // in deep linking will subscribe its instance an a DeepLinkMatcher lambda function.
         println("IosComponentRender::dispatchAttachedToComponentTree")
         rootComponent.dispatchAttachedToComponentTree(treeContext)
-        rootComponent.start()
+
+        iosBridge.appLifecycleDispatcher.subscribe(
+            ForwardAppLifecycleCallback {
+                println("IosComponentRender::onEvent(${it}) does nothing")
+                when (it) {
+                    AppLifecycleEvent.Start -> rootComponent.start()
+                    AppLifecycleEvent.Stop -> rootComponent.stop()
+                }
+            }
+        )
     }
+
 }

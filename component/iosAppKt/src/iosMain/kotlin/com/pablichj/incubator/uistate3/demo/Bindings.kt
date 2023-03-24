@@ -1,5 +1,6 @@
 package com.pablichj.incubator.uistate3.demo
 
+import com.pablichj.incubator.uistate3.IosBridge
 import com.pablichj.incubator.uistate3.IosComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.incubator.uistate3.demo.treebuilders.DrawerTreeBuilder
@@ -8,13 +9,14 @@ import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
-import com.pablichj.incubator.uistate3.platform.PlatformDelegate
+import com.pablichj.incubator.uistate3.platform.DefaultAppLifecycleDispatcher
+import com.pablichj.incubator.uistate3.platform.SafeAreaInsets
 import platform.UIKit.UIViewController
 
 fun ComponentRenderer(
     rootComponent: Component,
-    platformDelegate: PlatformDelegate
-): UIViewController = IosComponentRender(rootComponent, platformDelegate)
+    iosBridge: IosBridge
+): UIViewController = IosComponentRender(rootComponent, iosBridge)
 
 fun buildDrawerComponent(): Component {
     return DrawerTreeBuilder.build()
@@ -34,6 +36,9 @@ fun buildAppWithIntroComponent(): Component {
     return FullAppWithIntroTreeBuilder.build()
 }
 
-fun createPlatformDelegate(): PlatformDelegate {
-    return PlatformDelegate()
+fun createPlatformBridge(): IosBridge {
+    return IosBridge(
+        appLifecycleDispatcher = DefaultAppLifecycleDispatcher(),
+        safeAreaInsets = SafeAreaInsets()
+    )
 }
