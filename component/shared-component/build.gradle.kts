@@ -29,6 +29,7 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.material)
                 implementation(project(":component"))
+                implementation("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
             }
         }
         val commonTest by getting {

@@ -5,7 +5,9 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.singleWindowApplication
+import com.pablichj.incubator.uistate3.DesktopBridge
 import com.pablichj.incubator.uistate3.DesktopComponentRender
+import com.pablichj.incubator.uistate3.platform.DefaultAppLifecycleDispatcher
 import kotlin.system.exitProcess
 
 fun main() =
@@ -16,9 +18,10 @@ fun main() =
         MaterialTheme {
             DesktopComponentRender(
                 rootComponent = HelloWorldComponent(),
-                onBackPressEvent = {
-                    exitProcess(0)
-                }
+                desktopBridge = DesktopBridge(
+                    appLifecycleDispatcher = DefaultAppLifecycleDispatcher(),
+                    onBackPressEvent = { exitProcess(0) }
+                ),
             )
         }
     }

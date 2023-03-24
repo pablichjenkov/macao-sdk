@@ -9,5 +9,5 @@ class SafeAreaInsets {
     var bottom: Int = 0
 }
 
-internal val LocalSafeAreaInsets =
+val LocalSafeAreaInsets =
     staticCompositionLocalOf<SafeAreaInsets> { SafeAreaInsets() }

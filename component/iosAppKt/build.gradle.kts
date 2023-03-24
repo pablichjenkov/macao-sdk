@@ -5,7 +5,6 @@ plugins {
 }
 
 version = "1.0-SNAPSHOT"
-//val ktorVersion = extra["ktor.version"]
 
 kotlin {
     // IOS
@@ -26,7 +25,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                //implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)

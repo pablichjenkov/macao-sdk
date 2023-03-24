@@ -78,5 +78,5 @@ fun BackPressHandler(
  *
  * and setting up the callbacks with [BackPressHandler].
  */
-internal val LocalBackPressedDispatcher =
+val LocalBackPressedDispatcher =
     staticCompositionLocalOf<IBackPressDispatcher> { DefaultBackPressDispatcher() }
