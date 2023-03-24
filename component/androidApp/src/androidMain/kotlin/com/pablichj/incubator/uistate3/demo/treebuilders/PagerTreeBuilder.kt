@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Home
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
+import com.pablichj.incubator.uistate3.node.pager.PagerComponent
 
 object PagerTreeBuilder {
 

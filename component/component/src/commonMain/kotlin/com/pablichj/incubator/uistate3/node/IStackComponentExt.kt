@@ -1,6 +1,6 @@
 package com.pablichj.incubator.uistate3.node
 
-import com.pablichj.incubator.uistate3.node.backpress.BackStack
+import com.pablichj.incubator.uistate3.node.stack.BackStack
 import com.pablichj.incubator.uistate3.node.stack.StackTransition
 
 internal fun IStackComponent.processBackstackEvent(

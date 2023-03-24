@@ -198,6 +198,7 @@ fun StackCustomPredictiveBack(
                         val xOffset = deltaX.toInt() - PredictiveBackDragWidth
 
                         Box(Modifier.offset {
+                            println("Dragged Component xOffset = $xOffset")
                             IntOffset(xOffset, 0)
                         }) {
                             childComponent.Content(Modifier)

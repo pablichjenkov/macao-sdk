@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.node
+package com.pablichj.incubator.uistate3.node.pager
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,13 +11,19 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
-import com.pablichj.incubator.uistate3.node.backpress.BackStack
+import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.node.ComponentLifecycleState
+import com.pablichj.incubator.uistate3.node.NavComponent
+import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
+import com.pablichj.incubator.uistate3.node.stack.BackStack
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
-open class PagerComponent : Component(), NavComponent {
+open class PagerComponent(
+    private val config: Config = Config()
+) : Component(), NavComponent {
     override val backStack = BackStack<Component>()
     override var navItems: MutableList<NavItem> = mutableListOf()
     final override var selectedIndex: Int = 0
@@ -163,5 +169,9 @@ open class PagerComponent : Component(), NavComponent {
         }
 
     }
+
+    class Config(
+        var pagerStyle: PagerStyle = PagerStyle()
+    )
 
 }

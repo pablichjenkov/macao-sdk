@@ -11,7 +11,7 @@ import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
-import com.pablichj.incubator.uistate3.node.split.SplitNavComponent
+import com.pablichj.incubator.uistate3.node.split.SplitComponent
 
 object FullAppWithIntroTreeBuilder {
 
@@ -33,7 +33,7 @@ object FullAppWithIntroTreeBuilder {
         val DrawerNode = DrawerComponent()
         val NavBarNode = NavBarComponent()
 
-        val SplitNavNode = SplitNavComponent().apply {
+        val SplitNavNode = SplitComponent().apply {
             setTopNode(buildNestedDrawer())
             setBottomNode(
                 CustomTopBarComponent("Orders / Current") {}

@@ -11,16 +11,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.*
-import com.pablichj.incubator.uistate3.node.backpress.BackStack
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
-import com.pablichj.incubator.uistate3.node.processBackstackEvent
+import com.pablichj.incubator.uistate3.node.stack.BackStack
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-//TODO: Ask for the Header Info to render the Drawer header
 open class DrawerComponent(
-
+    private val config: Config = Config()
 ) : Component(), NavComponent, IDrawerNode {
     final override val backStack = BackStack<Component>()
     override var navItems: MutableList<NavItem> = mutableListOf()
@@ -162,5 +160,9 @@ open class DrawerComponent(
             }
         }
     }
+
+    class Config(
+        var drawerHeaderStyle: DrawerHeaderStyle = DrawerHeaderStyle()
+    )
 
 }

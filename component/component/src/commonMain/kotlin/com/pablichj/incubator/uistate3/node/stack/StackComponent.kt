@@ -9,11 +9,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.incubator.uistate3.node.*
-import com.pablichj.incubator.uistate3.node.backpress.BackStack
 import com.pablichj.incubator.uistate3.node.backpress.LocalBackPressedDispatcher
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 
-abstract class StackComponent : Component(), IStackComponent {
+abstract class StackComponent(
+    private val config: Config = Config()
+) : Component(), IStackComponent {
     final override val backStack = BackStack<Component>()
     override var childComponents: MutableList<Component> = mutableListOf()
     var activeComponent: MutableState<Component?> = mutableStateOf(null)
@@ -233,6 +234,10 @@ abstract class StackComponent : Component(), IStackComponent {
         }
 
     }
+
+    class Config(
+        stackStyle: StackStyle = StackStyle()
+    )
 
 }
 

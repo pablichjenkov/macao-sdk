@@ -1,17 +1,6 @@
 package com.pablichj.incubator.uistate3.demo
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.backpress.BackStack
 import com.pablichj.incubator.uistate3.node.stack.StackBarItem
 import com.pablichj.incubator.uistate3.node.stack.StackComponent
 import kotlinx.coroutines.CoroutineScope

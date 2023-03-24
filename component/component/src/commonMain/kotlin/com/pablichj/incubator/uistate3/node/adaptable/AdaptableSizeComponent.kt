@@ -11,13 +11,13 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.*
-import com.pablichj.incubator.uistate3.node.backpress.BackStack
+import com.pablichj.incubator.uistate3.node.stack.BackStack
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 
 /**
  * This node is basically a proxy, it transfer request and events to its active child node
  * */
-open class AdaptableSizeComponent() : Component(), NavComponent {
+open class AdaptableSizeComponent : Component(), NavComponent {
     private val initialEmptyNavComponent: NavComponent = AdaptableSizeStubNavComponent()
     private var CompactNavComponent: NavComponent = AdaptableSizeStubNavComponent()
     private var MediumNavComponent: NavComponent = AdaptableSizeStubNavComponent()
