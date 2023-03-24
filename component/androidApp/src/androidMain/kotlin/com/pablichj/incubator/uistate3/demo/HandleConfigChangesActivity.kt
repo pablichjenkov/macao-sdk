@@ -13,7 +13,7 @@ import androidx.compose.material.icons.filled.Home
 import com.pablichj.incubator.uistate3.AndroidComponentRender
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.NavItem
-import com.pablichj.incubator.uistate3.node.PagerComponent
+import com.pablichj.incubator.uistate3.node.pager.PagerComponent
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems

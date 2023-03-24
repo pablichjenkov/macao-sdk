@@ -10,14 +10,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.*
-import com.pablichj.incubator.uistate3.node.backpress.BackStack
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
-import com.pablichj.incubator.uistate3.node.processBackstackEvent
+import com.pablichj.incubator.uistate3.node.stack.BackStack
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-open class NavBarComponent : Component(), NavComponent {
+open class NavBarComponent(
+    private val config: Config = Config()
+) : Component(), NavComponent {
     final override val backStack = BackStack<Component>()
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
@@ -148,5 +149,9 @@ open class NavBarComponent : Component(), NavComponent {
         }
 
     }
+
+    class Config(
+        var navBarStyle: NavBarStyle = NavBarStyle()
+    )
 
 }

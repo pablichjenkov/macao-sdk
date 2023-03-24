@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.NavComponent
 import com.pablichj.incubator.uistate3.node.NavItem
-import com.pablichj.incubator.uistate3.node.backpress.BackStack
+import com.pablichj.incubator.uistate3.node.stack.BackStack
 
 internal class AdaptableSizeStubNavComponent : Component(), NavComponent {
     override val backStack: BackStack<Component> = BackStack()

@@ -6,20 +6,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.pablichj.incubator.uistate3.node.Component
 
-class SplitNavComponent : Component() {
+open class SplitComponent(
+    private val config: Config = Config()
+) : Component() {
 
     private var topComponent: Component? = null
     private var bottomComponent: Component? = null
 
     fun setTopNode(topComponent: Component) {
-        this.topComponent=topComponent.apply {
-            setParent(this@SplitNavComponent)
+        this.topComponent = topComponent.apply {
+            setParent(this@SplitComponent)
         }
     }
 
     fun setBottomNode(bottomComponent: Component) {
-        this.bottomComponent=bottomComponent.apply {
-            setParent(this@SplitNavComponent)
+        this.bottomComponent = bottomComponent.apply {
+            setParent(this@SplitComponent)
         }
     }
 
@@ -66,4 +68,9 @@ class SplitNavComponent : Component() {
             }
         }
     }
+
+    class Config(
+        var splitStyle: SplitStyle = SplitStyle()
+    )
+
 }

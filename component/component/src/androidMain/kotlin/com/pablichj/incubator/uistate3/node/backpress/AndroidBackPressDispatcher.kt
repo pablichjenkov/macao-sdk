@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import com.pablichj.incubator.uistate3.node.backpress.BackPressedCallback
 import com.pablichj.incubator.uistate3.node.backpress.IBackPressDispatcher
+import com.pablichj.incubator.uistate3.node.backpress.SystemNavigationUtil
 
 class AndroidBackPressDispatcher(
     private val componentActivity: ComponentActivity,
