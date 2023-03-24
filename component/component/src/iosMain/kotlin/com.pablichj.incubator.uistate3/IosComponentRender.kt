@@ -43,9 +43,10 @@ fun IosComponentRender(
 
     LaunchedEffect(key1 = rootComponent/*, key2 = onBackPressEvent*/) {
         rootComponent.rootBackPressedCallbackDelegate = ForwardBackPressCallback {
-            //onBackPressEvent()
+            //onBackPressEvent()//todo: Place it in the platform bridge
             println("back pressed dispatched in root node")
         }
+
         // Traverse the whole tree passing the TreeContext living in the root node. Useful to
         // propagate the the Navigator for example. Where each Component interested in participating
         // in deep linking will subscribe its instance an a DeepLinkMatcher lambda function.
@@ -54,7 +55,6 @@ fun IosComponentRender(
 
         iosBridge.appLifecycleDispatcher.subscribe(
             ForwardAppLifecycleCallback {
-                println("IosComponentRender::onEvent(${it}) does nothing")
                 when (it) {
                     AppLifecycleEvent.Start -> rootComponent.start()
                     AppLifecycleEvent.Stop -> rootComponent.stop()

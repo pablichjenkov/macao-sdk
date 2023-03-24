@@ -27,7 +27,6 @@ class DefaultAppLifecycleDispatcher : IAppLifecycleDispatcher {
     private var lastEvent: AppLifecycleEvent? = null
 
     override fun subscribe(appLifecycleCallback: AppLifecycleCallback) {
-        println("DefaultAppLifecycleDispatcher::subscribe()")
         if (!appLifecycleCallbacks.contains(appLifecycleCallback)) {
             appLifecycleCallbacks.add(appLifecycleCallback)
         }
@@ -39,7 +38,6 @@ class DefaultAppLifecycleDispatcher : IAppLifecycleDispatcher {
     }
 
     fun dispatchAppLifecycleEvent(appLifecycleEvent: AppLifecycleEvent) {
-        println("DefaultAppLifecycleDispatcher::dispatchAppLifecycleEvent(${appLifecycleEvent})")
         lastEvent = appLifecycleEvent
         appLifecycleCallbacks.forEach { it.onEvent(appLifecycleEvent) }
     }
@@ -56,7 +54,6 @@ class ForwardAppLifecycleCallback(
     private val onAppLifecycleEvent: (appLifecycleEvent: AppLifecycleEvent) -> Unit
 ): AppLifecycleCallback() {
     override fun onEvent(appLifecycleEvent: AppLifecycleEvent) {
-        println("ForwardAppLifecycleCallback::onEvent(${appLifecycleEvent}) does nothing")
         onAppLifecycleEvent(appLifecycleEvent)
     }
 }
