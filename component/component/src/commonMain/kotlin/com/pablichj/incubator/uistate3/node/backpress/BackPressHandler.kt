@@ -32,7 +32,9 @@ fun BackPressHandler(
     }
 
     val backPressDispatcher = LocalBackPressedDispatcher.current
-    val componentLifecycleState by component.componentLifecycleFlow.collectAsState(ComponentLifecycleState.Created)
+    val componentLifecycleState by component.componentLifecycleFlow.collectAsState(
+        ComponentLifecycleState.Created
+    )
 
     when (componentLifecycleState) {
         ComponentLifecycleState.Created -> {
@@ -77,4 +79,4 @@ fun BackPressHandler(
  * and setting up the callbacks with [BackPressHandler].
  */
 internal val LocalBackPressedDispatcher =
-    staticCompositionLocalOf<IBackPressDispatcher> { error("No Back Dispatcher provided") }
+    staticCompositionLocalOf<IBackPressDispatcher> { DefaultBackPressDispatcher() }

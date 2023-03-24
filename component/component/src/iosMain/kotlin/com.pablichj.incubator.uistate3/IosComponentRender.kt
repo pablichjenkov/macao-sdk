@@ -2,12 +2,10 @@ package com.pablichj.incubator.uistate3
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeUIViewController
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.TreeContext
@@ -15,6 +13,7 @@ import com.pablichj.incubator.uistate3.node.backpress.DefaultBackPressDispatcher
 import com.pablichj.incubator.uistate3.node.backpress.ForwardBackPressCallback
 import com.pablichj.incubator.uistate3.node.backpress.LocalBackPressedDispatcher
 import com.pablichj.incubator.uistate3.node.dispatchAttachedToComponentTree
+import com.pablichj.incubator.uistate3.platform.LocalSafeAreaInsets
 import com.pablichj.incubator.uistate3.platform.PlatformDelegate
 import platform.UIKit.UIViewController
 
@@ -32,19 +31,10 @@ fun IosComponentRender(
     }
 
     CompositionLocalProvider(
-        //todo: Use an empty backPressDispatcher or dont crash the App if not present
         LocalBackPressedDispatcher provides backPressDispatcher,
+        LocalSafeAreaInsets provides platformDelegate.safeAreaInsets
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    start = platformDelegate.safeAreaInsets.start.dp,
-                    top = platformDelegate.safeAreaInsets.top.dp,
-                    end = platformDelegate.safeAreaInsets.end.dp,
-                    bottom = platformDelegate.safeAreaInsets.bottom.dp,
-                )
-        ) {
+        Box(modifier = Modifier.fillMaxSize()) {
             rootComponent.Content(Modifier.fillMaxSize())
         }
     }
