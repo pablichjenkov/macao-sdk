@@ -6,9 +6,12 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
+import com.pablichj.incubator.uistate3.DesktopBridge
 import com.pablichj.incubator.uistate3.DesktopComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.DrawerTreeBuilder
 import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.platform.AppLifecycleEvent
+import com.pablichj.incubator.uistate3.platform.DefaultAppLifecycleDispatcher
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -18,10 +21,12 @@ class DrawerWindowNode(
     val onCloseClick: () -> Unit
 ) : WindowNode {
     private val windowState = WindowState()
-
-    private var drawerComponent: Component = DrawerTreeBuilder.build()/*.apply {
-        context.rootNodeBackPressedDelegate = ForwardBackPressCallback { exitProcess(0) }
-    }*/
+    private var drawerComponent: Component = DrawerTreeBuilder.build()
+    private val appLifecycleDispatcher = DefaultAppLifecycleDispatcher()
+    private val desktopBridge = DesktopBridge(
+        appLifecycleDispatcher = appLifecycleDispatcher,
+        onBackPressEvent = { exitProcess(0) }
+    )
 
     @Composable
     override fun WindowContent(modifier: Modifier) {
@@ -31,7 +36,7 @@ class DrawerWindowNode(
         ) {
             DesktopComponentRender(
                 rootComponent = drawerComponent,
-                onBackPressEvent = { exitProcess(0) }
+                desktopBridge = desktopBridge
             )
         }
 
@@ -39,18 +44,21 @@ class DrawerWindowNode(
             launch {
                 snapshotFlow { windowState.isMinimized }
                     .onEach {
-                        onWindowMinimized(drawerComponent, it)
+                        onWindowMinimized(appLifecycleDispatcher, it)
                     }
                     .launchIn(this)
             }
         }
     }
 
-    private fun onWindowMinimized(rootComponent: Component, minimized: Boolean) {
+    private fun onWindowMinimized(
+        appLifecycleDispatcher: DefaultAppLifecycleDispatcher,
+        minimized: Boolean
+    ) {
         if (minimized) {
-            rootComponent.stop()
+            appLifecycleDispatcher.dispatchAppLifecycleEvent(AppLifecycleEvent.Stop)
         } else {
-            rootComponent.start()
+            appLifecycleDispatcher.dispatchAppLifecycleEvent(AppLifecycleEvent.Start)
         }
     }
 

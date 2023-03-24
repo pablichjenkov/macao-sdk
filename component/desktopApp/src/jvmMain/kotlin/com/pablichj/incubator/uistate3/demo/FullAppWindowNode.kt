@@ -8,9 +8,12 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
+import com.pablichj.incubator.uistate3.DesktopBridge
 import com.pablichj.incubator.uistate3.DesktopComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.FullAppWithIntroTreeBuilder
 import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.platform.AppLifecycleEvent
+import com.pablichj.incubator.uistate3.platform.DefaultAppLifecycleDispatcher
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -19,8 +22,12 @@ class FullAppWindowNode(
     val onCloseClick: () -> Unit
 ) : WindowNode {
     private val windowState = WindowState(size = DpSize(800.dp, 900.dp))
-
     private var activeComponent: Component = FullAppWithIntroTreeBuilder.build()
+    private val appLifecycleDispatcher = DefaultAppLifecycleDispatcher()
+    private val desktopBridge = DesktopBridge(
+        appLifecycleDispatcher = appLifecycleDispatcher,
+        onBackPressEvent = onCloseClick
+    )
 
     @Composable
     override fun WindowContent(modifier: Modifier) {
@@ -30,7 +37,7 @@ class FullAppWindowNode(
         ) {
             DesktopComponentRender(
                 rootComponent = activeComponent,
-                onBackPressEvent = { onCloseClick }
+                desktopBridge = desktopBridge
             )
         }
 
@@ -38,18 +45,21 @@ class FullAppWindowNode(
             launch {
                 snapshotFlow { windowState.isMinimized }
                     .onEach {
-                        onWindowMinimized(activeComponent, it)
+                        onWindowMinimized(appLifecycleDispatcher, it)
                     }
                     .launchIn(this)
             }
         }
     }
 
-    private fun onWindowMinimized(rootComponent: Component, minimized: Boolean) {
+    private fun onWindowMinimized(
+        appLifecycleDispatcher: DefaultAppLifecycleDispatcher,
+        minimized: Boolean
+    ) {
         if (minimized) {
-            rootComponent.stop()
+            appLifecycleDispatcher.dispatchAppLifecycleEvent(AppLifecycleEvent.Stop)
         } else {
-            rootComponent.start()
+            appLifecycleDispatcher.dispatchAppLifecycleEvent(AppLifecycleEvent.Start)
         }
     }
 
