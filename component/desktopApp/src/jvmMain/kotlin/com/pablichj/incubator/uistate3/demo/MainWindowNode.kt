@@ -9,12 +9,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
+import com.pablichj.incubator.uistate3.DesktopBridge
 import com.pablichj.incubator.uistate3.DesktopComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
+import com.pablichj.incubator.uistate3.platform.AppLifecycleEvent
+import com.pablichj.incubator.uistate3.platform.DefaultAppLifecycleDispatcher
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -26,6 +29,11 @@ class MainWindowNode(
 ) : WindowNode {
     private val windowState = WindowState(size = DpSize(800.dp, 900.dp))
     private var adaptableSizeComponent: Component
+    private val appLifecycleDispatcher = DefaultAppLifecycleDispatcher()
+    private val desktopBridge = DesktopBridge(
+        appLifecycleDispatcher = appLifecycleDispatcher,
+        onBackPressEvent = onExitClick
+    )
 
     init {
         val subtreeNavItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
@@ -100,9 +108,7 @@ class MainWindowNode(
             }
             DesktopComponentRender(
                 rootComponent = adaptableSizeComponent,
-                onBackPressEvent = {
-                    //exitProcess(0)
-                }
+                desktopBridge = desktopBridge
             )
         }
 
@@ -110,7 +116,7 @@ class MainWindowNode(
             launch {
                 snapshotFlow { windowState.isMinimized }
                     .onEach {
-                        onWindowMinimized(adaptableSizeComponent, it)
+                        onWindowMinimized(appLifecycleDispatcher, it)
                     }
                     .launchIn(this)
             }
@@ -118,13 +124,14 @@ class MainWindowNode(
 
     }
 
-    private fun onWindowMinimized(activeComponent: Component, minimized: Boolean) {
+    private fun onWindowMinimized(
+        appLifecycleDispatcher: DefaultAppLifecycleDispatcher,
+        minimized: Boolean
+    ) {
         if (minimized) {
-            activeComponent.stop()
+            appLifecycleDispatcher.dispatchAppLifecycleEvent(AppLifecycleEvent.Stop)
         } else {
-            activeComponent.start()
-            //val jsonText = adaptableSizeComponent.jsonify()
-            //println("MainWindowNode::jsonText: $jsonText")
+            appLifecycleDispatcher.dispatchAppLifecycleEvent(AppLifecycleEvent.Start)
         }
     }
 

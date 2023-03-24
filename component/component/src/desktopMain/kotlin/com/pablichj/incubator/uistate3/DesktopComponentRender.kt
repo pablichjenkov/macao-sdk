@@ -7,33 +7,36 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.node.TreeContext
 import com.pablichj.incubator.uistate3.node.backpress.DefaultBackPressDispatcher
 import com.pablichj.incubator.uistate3.node.backpress.ForwardBackPressCallback
 import com.pablichj.incubator.uistate3.node.backpress.LocalBackPressedDispatcher
-import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.TreeContext
 import com.pablichj.incubator.uistate3.node.dispatchAttachedToComponentTree
+import com.pablichj.incubator.uistate3.platform.AppLifecycleEvent
+import com.pablichj.incubator.uistate3.platform.ForwardAppLifecycleCallback
 
 @Composable
 fun DesktopComponentRender(
     rootComponent: Component,
-    onBackPressEvent: () -> Unit
+    desktopBridge: DesktopBridge
 ) {
     val desktopBackPressDispatcher = remember(rootComponent) {
         DefaultBackPressDispatcher()
     }
-
     val treeContext = remember(rootComponent) {
         TreeContext()
     }
+    val onBackPressEventHandler = desktopBridge.onBackPressEvent
 
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides desktopBackPressDispatcher
     ) {
         Box {
             rootComponent.Content(Modifier.fillMaxSize())
-            /* Should listen for Keyboard back events instead
-            FloatingBackButton(
+            // TODO: Add back button in the TopBar like Chrome Apps. For that need to create in
+            // DesktopBridge a undecorated Window flag.
+            /*FloatingBackButton(
                 modifier = Modifier.offset(y = 48.dp),
                 alignment = Alignment.TopStart,
                 onClick = { desktopBackPressDispatcher.dispatchBackPressed() }
@@ -41,15 +44,23 @@ fun DesktopComponentRender(
         }
     }
 
-    LaunchedEffect(key1 = rootComponent, key2 = onBackPressEvent) {
+    LaunchedEffect(key1 = rootComponent, key2 = onBackPressEventHandler) {
         rootComponent.rootBackPressedCallbackDelegate = ForwardBackPressCallback {
-            onBackPressEvent()
+            onBackPressEventHandler()
         }
         // Traverse the whole tree passing the TreeContext living in the root node. Useful to
         // propagate the the Navigator for example. Where each Component interested in participating
         // in deep linking will subscribe its instance an a DeepLinkMatcher lambda function.
         println("DesktopComponentRender::dispatchAttachedToComponentTree")
         rootComponent.dispatchAttachedToComponentTree(treeContext)
-        rootComponent.start()
+
+        desktopBridge.appLifecycleDispatcher.subscribe(
+            ForwardAppLifecycleCallback {
+                when (it) {
+                    AppLifecycleEvent.Start -> rootComponent.start()
+                    AppLifecycleEvent.Stop -> rootComponent.stop()
+                }
+            }
+        )
     }
 }

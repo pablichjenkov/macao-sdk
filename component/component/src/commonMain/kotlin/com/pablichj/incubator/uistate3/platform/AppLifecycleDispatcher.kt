@@ -38,6 +38,7 @@ class DefaultAppLifecycleDispatcher : IAppLifecycleDispatcher {
     }
 
     fun dispatchAppLifecycleEvent(appLifecycleEvent: AppLifecycleEvent) {
+        println("DefaultAppLifecycleDispatcher::dispatchAppLifecycleEvent(${appLifecycleEvent})")
         lastEvent = appLifecycleEvent
         appLifecycleCallbacks.forEach { it.onEvent(appLifecycleEvent) }
     }

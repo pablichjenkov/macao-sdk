@@ -6,9 +6,12 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
+import com.pablichj.incubator.uistate3.DesktopBridge
 import com.pablichj.incubator.uistate3.DesktopComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.PanelTreeBuilder
 import com.pablichj.incubator.uistate3.node.*
+import com.pablichj.incubator.uistate3.platform.AppLifecycleEvent
+import com.pablichj.incubator.uistate3.platform.DefaultAppLifecycleDispatcher
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -17,8 +20,12 @@ class PanelWindowNode(
     val onCloseClick: () -> Unit
 ) : WindowNode {
     private val windowState = WindowState()
-
     private var panelComponent: Component = PanelTreeBuilder.build()
+    private val appLifecycleDispatcher = DefaultAppLifecycleDispatcher()
+    private val desktopBridge = DesktopBridge(
+        appLifecycleDispatcher = appLifecycleDispatcher,
+        onBackPressEvent = onCloseClick
+    )
 
     @Composable
     override fun WindowContent(modifier: Modifier) {
@@ -28,7 +35,7 @@ class PanelWindowNode(
         ) {
             DesktopComponentRender(
                 rootComponent = panelComponent,
-                onBackPressEvent = { onCloseClick }
+                desktopBridge = desktopBridge
             )
         }
 
@@ -36,18 +43,21 @@ class PanelWindowNode(
             launch {
                 snapshotFlow { windowState.isMinimized }
                     .onEach {
-                        onWindowMinimized(panelComponent, it)
+                        onWindowMinimized(appLifecycleDispatcher, it)
                     }
                     .launchIn(this)
             }
         }
     }
 
-    private fun onWindowMinimized(rootComponent: Component, minimized: Boolean) {
+    private fun onWindowMinimized(
+        appLifecycleDispatcher: DefaultAppLifecycleDispatcher,
+        minimized: Boolean
+    ) {
         if (minimized) {
-            rootComponent.stop()
+            appLifecycleDispatcher.dispatchAppLifecycleEvent(AppLifecycleEvent.Stop)
         } else {
-            rootComponent.start()
+            appLifecycleDispatcher.dispatchAppLifecycleEvent(AppLifecycleEvent.Start)
         }
     }
 
