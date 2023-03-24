@@ -13,7 +13,6 @@ import com.pablichj.incubator.uistate3.node.backpress.DefaultBackPressDispatcher
 import com.pablichj.incubator.uistate3.node.backpress.ForwardBackPressCallback
 import com.pablichj.incubator.uistate3.node.backpress.LocalBackPressedDispatcher
 import com.pablichj.incubator.uistate3.node.dispatchAttachedToComponentTree
-import com.pablichj.incubator.uistate3.platform.AppLifecycleCallback
 import com.pablichj.incubator.uistate3.platform.AppLifecycleEvent
 import com.pablichj.incubator.uistate3.platform.ForwardAppLifecycleCallback
 import com.pablichj.incubator.uistate3.platform.LocalSafeAreaInsets
