@@ -125,7 +125,7 @@ abstract class Component : ComponentLifecycle {
      * in iOS
      * */
     @Composable
-    /*internal*/ abstract fun Content(modifier: Modifier)
+    internal abstract fun Content(modifier: Modifier)
 }
 
 sealed interface ComponentLifecycleState {

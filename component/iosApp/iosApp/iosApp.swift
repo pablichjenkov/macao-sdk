@@ -14,28 +14,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
               "end:\(safeAreaInsets.right)," +
               "bottom:\(safeAreaInsets.bottom)"
         )
-        let platformDelegate = BindingsKt.createPlatformDelegate()
+        let iosBridge = BindingsKt.createPlatformBridge()
         
         let left = Int32(safeAreaInsets.left.rounded())
         let top = Int32(safeAreaInsets.top.rounded())
         let right = Int32(safeAreaInsets.right.rounded())
         let bottom = Int32(safeAreaInsets.bottom.rounded())
         
-        platformDelegate.safeAreaInsets.start = left
-        platformDelegate.safeAreaInsets.top = top
-        platformDelegate.safeAreaInsets.end = right
-        platformDelegate.safeAreaInsets.bottom = bottom
+        iosBridge.safeAreaInsets.start = left
+        iosBridge.safeAreaInsets.top = top
+        iosBridge.safeAreaInsets.end = right
+        iosBridge.safeAreaInsets.bottom = bottom
         
         let drawerNode = BindingsKt.buildDrawerComponent()
         let drawerNode2 = BindingsKt.buildAdaptableSizeComponent()
         
         let mainViewController = BindingsKt.ComponentRenderer(
             rootComponent: drawerNode2,
-            platformDelegate: platformDelegate
+            iosBridge: iosBridge
         )
         
         window?.rootViewController = mainViewController
         window?.makeKeyAndVisible()
+    
+        iosBridge.appLifecycleDispatcher.dispatchAppLifecycleEvent(
+            appLifecycleEvent: .Start
+        )
+        
         return true
     }
 }

@@ -8,10 +8,10 @@ interface IBackPressDispatcher {
 
 class DefaultBackPressDispatcher : IBackPressDispatcher {
 
-    private val onBackPressedCallbacks: ArrayDeque<DefaultBackPressedCallbackProxy> = ArrayDeque()
+    private val onBackPressedCallbacks: ArrayDeque<BackPressedCallbackProxy> = ArrayDeque()
 
     override fun subscribe(backPressedCallback: BackPressedCallback) {
-        val backPressCBProxy = DefaultBackPressedCallbackProxy(backPressedCallback, true)
+        val backPressCBProxy = BackPressedCallbackProxy(backPressedCallback, true)
         if (!onBackPressedCallbacks.contains(backPressCBProxy)) {
             onBackPressedCallbacks.add(backPressCBProxy)
         }
@@ -19,7 +19,7 @@ class DefaultBackPressDispatcher : IBackPressDispatcher {
 
     override fun unsubscribe(backPressedCallback: BackPressedCallback) {
         onBackPressedCallbacks.remove(
-            DefaultBackPressedCallbackProxy(backPressedCallback, true)
+            BackPressedCallbackProxy(backPressedCallback, true)
         )
     }
 
@@ -38,7 +38,7 @@ abstract class BackPressedCallback {
     abstract fun onBackPressed()
 }
 
-private class DefaultBackPressedCallbackProxy(
+private class BackPressedCallbackProxy(
     private val backPressedCallback: BackPressedCallback,
     var isEnabled: Boolean
 ) {
@@ -54,9 +54,9 @@ private class DefaultBackPressedCallbackProxy(
     }
 
     override fun equals(other: Any?): Boolean {
-        val otherDefaultBackPressedCallbackProxy =
-            other as? DefaultBackPressedCallbackProxy ?: return false
-        return this.backPressedCallback == otherDefaultBackPressedCallbackProxy.backPressedCallback
+        val otherBackPressedCallbackProxy =
+            other as? BackPressedCallbackProxy ?: return false
+        return this.backPressedCallback == otherBackPressedCallbackProxy.backPressedCallback
     }
 
     override fun hashCode(): Int {
