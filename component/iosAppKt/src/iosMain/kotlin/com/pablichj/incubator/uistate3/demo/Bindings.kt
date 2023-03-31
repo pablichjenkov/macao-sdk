@@ -5,6 +5,7 @@ import com.pablichj.incubator.uistate3.IosComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.incubator.uistate3.demo.treebuilders.DrawerTreeBuilder
 import com.pablichj.incubator.uistate3.demo.treebuilders.FullAppWithIntroTreeBuilder
+import com.pablichj.incubator.uistate3.demo.treebuilders.PagerTreeBuilder
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
@@ -20,6 +21,10 @@ fun ComponentRenderer(
 
 fun buildDrawerComponent(): Component {
     return DrawerTreeBuilder.build()
+}
+
+fun buildPagerComponent(): Component {
+    return PagerTreeBuilder.build()
 }
 
 fun buildAdaptableSizeComponent(): Component {

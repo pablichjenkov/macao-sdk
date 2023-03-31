@@ -6,14 +6,14 @@ Pod::Spec.new do |spec|
     spec.authors                  = ''
     spec.license                  = ''
     spec.summary                  = 'ComponentKt umbrella module'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/ComponentKt.framework'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/ComponentDemoKt.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '16.0'
                 
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':iosAppKt',
-        'PRODUCT_MODULE_NAME' => 'ComponentKt',
+        'PRODUCT_MODULE_NAME' => 'ComponentDemoKt',
     }
                 
     spec.script_phases = [

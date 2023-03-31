@@ -1,5 +1,5 @@
 import UIKit
-import ComponentKt
+import ComponentDemoKt
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

@@ -14,6 +14,8 @@ kotlin {
                 implementation(project(":shared-component"))
                 implementation(project(":component"))
                 implementation(compose.web.core)
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.6.4")
             }
         }
     }
