@@ -238,7 +238,7 @@ fun StackCustomPredictiveBack(
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.Center),
-                    text = "Empty Stack, Please add some children",
+                    text = "StackCustomPredictiveBack Empty Stack, Please add some children",
                     textAlign = TextAlign.Center
                 )
             }

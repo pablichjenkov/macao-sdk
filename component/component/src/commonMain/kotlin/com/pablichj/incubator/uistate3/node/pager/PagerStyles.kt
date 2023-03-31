@@ -9,3 +9,7 @@ enum class IndicatorType {
 class PagerStyle(
     val indicatorType: IndicatorType = IndicatorType.Dot
 )
+
+enum class IndicatorOrientation {
+    Horizontal, Vertical
+}

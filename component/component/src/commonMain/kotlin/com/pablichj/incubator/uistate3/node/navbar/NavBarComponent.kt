@@ -41,10 +41,13 @@ open class NavBarComponent(
 
     override fun start() {
         super.start()
-        val childComponentsCopy = childComponents
         if (activeComponent.value == null) {
-            println("$clazz::start(). Pushing selectedIndex = $selectedIndex, children.size = ${childComponentsCopy.size}")
-            backStack.push(childComponentsCopy[selectedIndex])
+            println("$clazz::start(). Pushing selectedIndex = $selectedIndex, children.size = ${childComponents.size}")
+            if (childComponents.isNotEmpty()) {
+                backStack.push(childComponents[selectedIndex])
+            } else {
+                println("$clazz::start() with childComponents empty")
+            }
         } else {
             println("$clazz::start() with activeNodeState = ${activeComponent.value?.clazz}")
             activeComponent.value?.start()
@@ -141,7 +144,7 @@ open class NavBarComponent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .align(Alignment.Center),
-                        text = "Empty Stack, Please add some children",
+                        text = "$clazz Empty Stack, Please add some children",
                         textAlign = TextAlign.Center
                     )
                 }
