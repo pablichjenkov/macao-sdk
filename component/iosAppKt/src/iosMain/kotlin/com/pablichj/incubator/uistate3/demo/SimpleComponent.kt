@@ -22,12 +22,12 @@ class SimpleComponent(
 
     override fun start() {
         super.start()
-        println("CustomTopBarComponent::start()")
+        println("SimpleComponent::start()")
     }
 
     override fun stop() {
         super.stop()
-        println("CustomTopBarComponent::stop()")
+        println("SimpleComponent::stop()")
     }
 
     sealed interface Msg {

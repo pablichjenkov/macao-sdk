@@ -29,10 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         iosBridge.safeAreaInsets.bottom = bottom
         
         let drawerNode = BindingsKt.buildDrawerComponent()
-        let drawerNode2 = BindingsKt.buildAdaptableSizeComponent()
+        let adaptableNode = BindingsKt.buildAdaptableSizeComponent()
+        let pagerNode = BindingsKt.buildPagerComponent()
         
         let mainViewController = BindingsKt.ComponentRenderer(
-            rootComponent: drawerNode2,
+            rootComponent: pagerNode,
             iosBridge: iosBridge
         )
         

@@ -106,7 +106,9 @@ open class PagerComponent(
     }
 
     private fun onPageChanged(pageIndex: Int) {
-        println("PagerNode::onPageChanged newPage = $pageIndex")
+        println("PagerComponent::onPageChanged newPage = $pageIndex")
+
+        if (pageIndex >= childComponents.size) return
 
         val nextStartedIndexList = mutableListOf<Int>()
         if (pageIndex - 1 >= 0) {
@@ -144,9 +146,8 @@ open class PagerComponent(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("PagerNode::Composing() currentPage = ${pagerState.currentPage}")
         println(
-            """PagerNode.Composing() stack.size = ${backStack.size()}
+            """PagerComponent.Composing() stack.size = ${backStack.size()}
                 |currentPage = ${pagerState.currentPage}
                 |lifecycleState = ${lifecycleState}
             """.trimMargin()
@@ -157,11 +158,10 @@ open class PagerComponent(
         Box {
             HorizontalPager(
                 pageCount = childComponents.size,
-                beyondBoundsPageCount = 1,
                 modifier = Modifier.fillMaxSize(),
                 state = pagerState
             ) { pageIndex ->
-                println("PagerNode::pageIndex = ${pageIndex}")
+                println("HorizontalPager::pageIndex = $pageIndex")
                 childComponents[pageIndex].Content(modifier = modifier)
             }
             /*HorizontalPagerIndicator(

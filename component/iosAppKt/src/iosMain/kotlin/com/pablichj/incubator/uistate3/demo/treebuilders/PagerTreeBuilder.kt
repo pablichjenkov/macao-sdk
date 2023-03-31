@@ -19,10 +19,8 @@ object PagerTreeBuilder {
             return pagerComponent
         }
 
-        pagerComponent = PagerComponent()
-
-        val NavBarNode1 = NavBarComponent()
-        val NavBarNode2 = NavBarComponent()
+        val navBarComponent1 = NavBarComponent()
+        val navBarComponent2 = NavBarComponent()
 
         val navbarNavItems1 = mutableListOf(
             NavItem(
@@ -69,16 +67,19 @@ object PagerTreeBuilder {
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
-                component = NavBarNode1.also { it.setNavItems(navbarNavItems1, 0) },
+                component = navBarComponent1.also { it.setNavItems(navbarNavItems1, 0) },
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = NavBarNode2.also { it.setNavItems(navbarNavItems2, 0) },
+                component = navBarComponent2.also { it.setNavItems(navbarNavItems2, 0) },
             )
         )
 
-        return pagerComponent.also { it.setNavItems(pagerNavItems, 0) }
+        return PagerComponent().also {
+            pagerComponent = it
+            it.setNavItems(pagerNavItems, 0)
+        }
     }
 
 }
