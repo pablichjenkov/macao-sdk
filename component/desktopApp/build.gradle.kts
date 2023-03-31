@@ -3,11 +3,6 @@ plugins {
     id("org.jetbrains.compose")
 }
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
-
 kotlin {
     jvm {}
     sourceSets {

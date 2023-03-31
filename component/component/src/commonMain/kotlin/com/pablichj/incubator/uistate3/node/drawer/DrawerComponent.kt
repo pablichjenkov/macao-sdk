@@ -42,10 +42,10 @@ open class DrawerComponent(
 
     override fun start() {
         super.start()
-        val childNodesCopy = childComponents
+        val childComponentsCopy = childComponents
         if (activeComponent.value == null) {
-            println("$clazz::start(). Pushing selectedIndex = $selectedIndex, children.size = ${childNodesCopy.size}")
-            backStack.push(childNodesCopy[selectedIndex])
+            println("$clazz::start(). Pushing selectedIndex = $selectedIndex, children.size = ${childComponentsCopy.size}")
+            backStack.push(childComponentsCopy[selectedIndex])
         } else {
             println("$clazz::start() with activeNodeState = ${activeComponent.value?.clazz}")
             activeComponent.value?.start()

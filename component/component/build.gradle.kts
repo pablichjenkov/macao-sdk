@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.pablichj"
-version = "0.1.0.5"
+version = "0.1.5"
 
 /*
 fun String.dasherize() = fold("") {acc, value ->
@@ -134,9 +134,7 @@ kotlin {
         // ANDROID
         val androidMain by getting {
             dependencies {
-                implementation("androidx.activity:activity-compose:1.6.1")
-                implementation ("com.google.accompanist:accompanist-pager:0.28.0")
-                implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
+                implementation("androidx.activity:activity-compose:1.7.0")
             }
         }
         val androidUnitTest by getting {

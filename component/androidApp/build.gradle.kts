@@ -12,7 +12,7 @@ kotlin {
                 implementation(project(":shared-component"))
                 implementation(project(":component"))
                 implementation(compose.material)
-                implementation("androidx.activity:activity-compose:1.6.1")
+                implementation("androidx.activity:activity-compose:1.7.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
             }
