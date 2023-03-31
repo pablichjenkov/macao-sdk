@@ -4,10 +4,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
-import com.pablichj.incubator.uistate3.node.*
-import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
+import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.incubator.uistate3.node.NavItem
+import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.pager.PagerComponent
+import com.pablichj.incubator.uistate3.node.setNavItems
 
 object PagerTreeBuilder {
 
@@ -19,10 +21,8 @@ object PagerTreeBuilder {
             return pagerComponent
         }
 
-        pagerComponent = PagerComponent()
-
-        val NavBarNode1 = NavBarComponent()
-        val NavBarNode2 = NavBarComponent()
+        val navBarComponent1 = NavBarComponent()
+        val navBarComponent2 = NavBarComponent()
 
         val navbarNavItems1 = mutableListOf(
             NavItem(
@@ -69,16 +69,19 @@ object PagerTreeBuilder {
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
-                component = NavBarNode1.also { it.setNavItems(navbarNavItems1, 0) },
+                component = navBarComponent1.also { it.setNavItems(navbarNavItems1, 0) },
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = NavBarNode2.also { it.setNavItems(navbarNavItems2, 0) },
+                component = navBarComponent2.also { it.setNavItems(navbarNavItems2, 0) },
             )
         )
 
-        return pagerComponent.also { it.setNavItems(pagerNavItems, 0) }
+        return PagerComponent().also {
+            pagerComponent = it
+            it.setNavItems(pagerNavItems, 0)
+        }
     }
 
 }

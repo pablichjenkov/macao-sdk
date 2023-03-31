@@ -3,7 +3,6 @@ package com.pablichj.incubator.uistate3.demo
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.stack.StackBarItem
 import com.pablichj.incubator.uistate3.node.stack.StackComponent
