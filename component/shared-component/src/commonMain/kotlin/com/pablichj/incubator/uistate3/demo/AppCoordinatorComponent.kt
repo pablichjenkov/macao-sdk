@@ -132,7 +132,7 @@ class AppCoordinatorComponent : Component() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.Center),
-                    text = "Empty Stack, Please add some children",
+                    text = "AppCoordinatorComponent Empty Stack, Please add some children",
                     textAlign = TextAlign.Center
                 )
             }

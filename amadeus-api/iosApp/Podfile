@@ -1,0 +1,5 @@
+target 'AmadeusApi' do
+  use_frameworks!
+  platform :ios, '16.0'
+  pod 'iosAppKt', :path => '../iosAppKt'
+end

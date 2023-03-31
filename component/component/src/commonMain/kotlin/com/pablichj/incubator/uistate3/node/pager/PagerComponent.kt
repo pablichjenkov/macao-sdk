@@ -3,15 +3,19 @@ package com.pablichj.incubator.uistate3.node.pager
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.ComponentLifecycleState
-import com.pablichj.incubator.uistate3.node.NavComponent
-import com.pablichj.incubator.uistate3.node.NavItem
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
+import com.pablichj.incubator.uistate3.node.pager.indicator.DefaultPagerIndicator
 import com.pablichj.incubator.uistate3.node.stack.BackStack
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -29,24 +33,37 @@ open class PagerComponent(
     final override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
+    private var currentActiveIndexSet = mutableSetOf<Int>()
     private var pagerState = PagerState(selectedIndex)
-    private var currentStartedIndexList = mutableListOf<Int>()
 
     // Used to call functions in specific Composable's States that need a monotonic clock
     private lateinit var composableCoroutineScope: CoroutineScope
 
     override fun start() {
         super.start()
-        if (activeComponent.value != null) {
-            println("$clazz::start() with activeNodeState = ${activeComponent.value?.clazz}")
-            activeComponent.value?.start()
+        println("$clazz::start()")
+        if (currentActiveIndexSet.isEmpty()) {
+            if (childComponents.isNotEmpty()) {
+                activeComponent.value = childComponents[selectedIndex].also {
+                    it.start()
+                    currentActiveIndexSet.add(selectedIndex)
+                }
+            } else {
+                println("$clazz::start() with childComponents empty")
+            }
+        } else {
+            currentActiveIndexSet.forEach { activeChildIndex ->
+                childComponents[activeChildIndex].start()
+            }
         }
     }
 
     override fun stop() {
         super.stop()
         println("$clazz::stop()")
-        activeComponent.value?.stop()
+        currentActiveIndexSet.forEach { activeChildIndex ->
+            childComponents[activeChildIndex].stop()
+        }
     }
 
     override fun handleBackPressed() {
@@ -64,7 +81,8 @@ open class PagerComponent(
     }
 
     override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
-        this.selectedIndex = selectedIndex
+        activeComponent.value = childComponents[selectedIndex]
+        currentActiveIndexSet.add(selectedIndex)
     }
 
     /**
@@ -108,38 +126,38 @@ open class PagerComponent(
     private fun onPageChanged(pageIndex: Int) {
         println("PagerComponent::onPageChanged newPage = $pageIndex")
 
-        if (pageIndex >= childComponents.size) return
+        //if (pageIndex >= childComponents.size) return
 
-        val nextStartedIndexList = mutableListOf<Int>()
+        val nextStartedIndexSet = mutableSetOf<Int>()
         if (pageIndex - 1 >= 0) {
-            nextStartedIndexList.add(pageIndex - 1)
+            nextStartedIndexSet.add(pageIndex - 1)
         }
-        nextStartedIndexList.add(pageIndex)
+        nextStartedIndexSet.add(pageIndex)
         if (pageIndex + 1 < childComponents.size) {
-            nextStartedIndexList.add(pageIndex + 1)
+            nextStartedIndexSet.add(pageIndex + 1)
         }
 
         // TODO: Extract this to a helper class and Unit test it
-        println("onPageChanged::currentStartedList = $currentStartedIndexList")
-        println("onPageChanged::nextStartedList = $nextStartedIndexList")
-        val repeatedIndexList = mutableListOf<Int>()
-        currentStartedIndexList.forEach { index ->
-            if (nextStartedIndexList.contains(index)) {
-                repeatedIndexList.add(index)
+        println("onPageChanged::currentStartedSet = $currentActiveIndexSet")
+        println("onPageChanged::nextStartedSet = $nextStartedIndexSet")
+        val keepStartedIndexSet = mutableSetOf<Int>()
+        currentActiveIndexSet.forEach { index ->
+            if (nextStartedIndexSet.contains(index)) {
+                keepStartedIndexSet.add(index)
             } else {
                 println("onPageChanged::stopping old index = $index")
                 childComponents[index].stop()
             }
         }
 
-        println("onPageChanged::repeatedIndexList = $repeatedIndexList")
-        val newStartingList = nextStartedIndexList.subtract(repeatedIndexList)
-        println("onPageChanged::newStartingList = $newStartingList")
-        newStartingList.forEach { index ->
+        println("onPageChanged::keepStartedIndexSet = $keepStartedIndexSet")
+        val newStartingSet = nextStartedIndexSet.subtract(keepStartedIndexSet)
+        println("onPageChanged::newStartingSet = $newStartingSet")
+        newStartingSet.forEach { index ->
             childComponents[index].start()
         }
 
-        currentStartedIndexList = nextStartedIndexList
+        currentActiveIndexSet = nextStartedIndexSet
         selectedIndex = pageIndex
         activeComponent.value = childComponents[pageIndex]
     }
@@ -153,23 +171,36 @@ open class PagerComponent(
             """.trimMargin()
         )
 
+        val pagerItemsSize = childComponents.size
         composableCoroutineScope = rememberCoroutineScope()
 
         Box {
-            HorizontalPager(
-                pageCount = childComponents.size,
-                modifier = Modifier.fillMaxSize(),
-                state = pagerState
-            ) { pageIndex ->
-                println("HorizontalPager::pageIndex = $pageIndex")
-                childComponents[pageIndex].Content(modifier = modifier)
+            if(activeComponent.value != null) {
+                HorizontalPager(
+                    pageCount = pagerItemsSize,
+                    modifier = Modifier.fillMaxSize(),
+                    state = pagerState
+                ) { pageIndex ->
+                    println("HorizontalPager::pageIndex = $pageIndex")
+                    childComponents[pageIndex].Content(modifier = modifier)
+                }
+                DefaultPagerIndicator(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .padding(top = 56.dp),
+                    pagerState = pagerState,
+                    itemCount = pagerItemsSize,
+                    indicatorCount = pagerItemsSize
+                )
+            } else {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.Center),
+                    text = "$clazz Empty Stack, Please add some children",
+                    textAlign = TextAlign.Center
+                )
             }
-            /*HorizontalPagerIndicator(
-                pagerState = pagerState,
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .padding(top = 56.dp),
-            )*/
         }
 
         LaunchedEffect(pagerState) {
