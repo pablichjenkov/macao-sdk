@@ -44,10 +44,7 @@ open class PagerComponent(
         println("$clazz::start()")
         if (currentActiveIndexSet.isEmpty()) {
             if (childComponents.isNotEmpty()) {
-                activeComponent.value = childComponents[selectedIndex].also {
-                    it.start()
-                    currentActiveIndexSet.add(selectedIndex)
-                }
+                activeComponent.value = childComponents[selectedIndex]
             } else {
                 println("$clazz::start() with childComponents empty")
             }
