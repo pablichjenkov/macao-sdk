@@ -35,7 +35,6 @@ fun StackCustomPredictiveBack(
 
     val coroutineScope = rememberCoroutineScope()
 
-
     Scaffold(
         modifier = modifier,
         topBar = { TopBar(topBarState) }
@@ -45,7 +44,7 @@ fun StackCustomPredictiveBack(
                 .fillMaxSize()
                 .pointerInput(childComponent) {
                     if (prevChildComponent == null) return@pointerInput
-                    forEachGesture {
+                    forEachGesture {// todo: Replace with awaitEachGesture then remove awaitPointerEventScope
                         awaitPointerEventScope {
                             val eventDown = awaitFirstDown(requireUnconsumed = true)
                             println("TopBarScaffold::awaitFirstDown position: ${eventDown.position}, delta: ${eventDown.scrollDelta}")

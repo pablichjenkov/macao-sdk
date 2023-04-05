@@ -19,7 +19,7 @@ fun BrowserComponentRender(
     rootComponent: Component,
     onBackPressEvent: () -> Unit
 ) {
-    val webBackPressDispatcher = remember {
+    val webBackPressDispatcher = remember(rootComponent) {
         DefaultBackPressDispatcher()
     }
 

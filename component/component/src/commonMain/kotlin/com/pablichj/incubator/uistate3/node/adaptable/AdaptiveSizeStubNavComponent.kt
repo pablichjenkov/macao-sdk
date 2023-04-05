@@ -9,7 +9,7 @@ import com.pablichj.incubator.uistate3.node.NavComponent
 import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.stack.BackStack
 
-internal class AdaptableSizeStubNavComponent : Component(), NavComponent {
+internal class AdaptiveSizeStubNavComponent : Component(), NavComponent {
     override val backStack: BackStack<Component> = BackStack()
     override var selectedIndex: Int = 0
     override var navItems: MutableList<NavItem> = mutableListOf()

@@ -7,7 +7,7 @@ import androidx.compose.ui.window.application
 
 fun main() = application {
 
-    val DesktopAppNode: DesktopAppNode = remember {
+    val DesktopAppNode: DesktopAppNode = remember(key1 = this) {
         DesktopAppNode()
     }
 

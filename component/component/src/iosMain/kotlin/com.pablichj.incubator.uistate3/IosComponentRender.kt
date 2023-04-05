@@ -23,7 +23,7 @@ fun IosComponentRender(
     iosBridge: IosBridge
 ): UIViewController = ComposeUIViewController {
 
-    val backPressDispatcher = remember {
+    val backPressDispatcher = remember(rootComponent) {
         DefaultBackPressDispatcher()
     }
 

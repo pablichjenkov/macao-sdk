@@ -6,22 +6,22 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
 import com.pablichj.incubator.uistate3.node.NavItem
-import com.pablichj.incubator.uistate3.node.adaptable.AdaptableSizeComponent
+import com.pablichj.incubator.uistate3.node.adaptable.AdaptiveSizeComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
 import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
 
 object AdaptableSizeTreeBuilder {
 
-    private lateinit var adaptableSizeComponent: AdaptableSizeComponent
+    private lateinit var adaptiveSizeComponent: AdaptiveSizeComponent
     private lateinit var subTreeNavItems: MutableList<NavItem>
 
-    fun build(): AdaptableSizeComponent {
-        if (AdaptableSizeTreeBuilder::adaptableSizeComponent.isInitialized) {
-            return adaptableSizeComponent
+    fun build(): AdaptiveSizeComponent {
+        if (AdaptableSizeTreeBuilder::adaptiveSizeComponent.isInitialized) {
+            return adaptiveSizeComponent
         }
-        return AdaptableSizeComponent().also {
-            adaptableSizeComponent = it
+        return AdaptiveSizeComponent().also {
+            adaptiveSizeComponent = it
         }
     }
 
@@ -31,7 +31,7 @@ object AdaptableSizeTreeBuilder {
             return subTreeNavItems
         }
 
-        val NavBarComponent = NavBarComponent()
+        val navBarComponent = NavBarComponent()
 
         val navbarNavItems = mutableListOf(NavItem(label = "Current",
             icon = Icons.Filled.Home,
@@ -49,13 +49,13 @@ object AdaptableSizeTreeBuilder {
                 component = CustomTopBarComponent("Orders / Claim", {}),
                 ))
 
-        NavBarComponent.setNavItems(navbarNavItems, 0)
+        navBarComponent.setNavItems(navbarNavItems, 0)
 
-        val SettingsComponent = CustomTopBarComponent("Settings", {}).apply {
+        val settingsComponent = CustomTopBarComponent("Settings", {}).apply {
                 deepLinkMatcher = { route -> route == "Settings/Page1" }
             }
 
-        val HomeComponent = CustomTopBarComponent("Home", {}).apply {
+        val homeComponent = CustomTopBarComponent("Home", {}).apply {
                 deepLinkMatcher = { route -> route == "Home/Page1" }
             }
 
@@ -63,18 +63,15 @@ object AdaptableSizeTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = HomeComponent,
-
+                component = homeComponent,
             ), NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
-                component = NavBarComponent,
-
+                component = navBarComponent,
             ), NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = SettingsComponent,
-
+                component = settingsComponent,
             )
         )
 

@@ -1,26 +1,55 @@
 package com.pablichj.incubator.uistate3.example.hotelBooking
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.ui.res.painterResource
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.singleWindowApplication
+import com.pablichj.incubator.uistate3.DesktopBridge
 import com.pablichj.incubator.uistate3.DesktopComponentRender
-import example.nodes.AppCoordinatorComponent
+import com.pablichj.incubator.uistate3.platform.AppLifecycleEvent
+import com.pablichj.incubator.uistate3.platform.DefaultAppLifecycleDispatcher
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlin.system.exitProcess
 
-fun main() =
+fun main() {
+    //todo: Use the adaptable node in this case
+    val windowState = WindowState(size = DpSize(500.dp, 800.dp))
+    val rootComponent = AppBuilder.buildGraph()
+    val desktopBridge = DesktopBridge(
+        appLifecycleDispatcher = DefaultAppLifecycleDispatcher(),
+        onBackPressEvent = { exitProcess(0) }
+    )
     singleWindowApplication(
         title = "Hotel Booking",
-        state = WindowState(size = DpSize(500.dp, 800.dp))
+        state = windowState
     ) {
-
-        //todo: Use the adaptable node in this case
-        val rootComponent = AppBuilder.buildGraph()
-
         DesktopComponentRender(
-            rootComponent,
-            {}
+            rootComponent = rootComponent,
+            desktopBridge = desktopBridge
         )
+        LaunchedEffect(window.state) {
+            launch {
+                snapshotFlow { windowState.isMinimized }
+                    .onEach {
+                        onWindowMinimized(desktopBridge.appLifecycleDispatcher, it)
+                    }
+                    .launchIn(this)
+            }
+        }
     }
+}
+
+private fun onWindowMinimized(
+    appLifecycleDispatcher: DefaultAppLifecycleDispatcher,
+    minimized: Boolean
+) {
+    if (minimized) {
+        appLifecycleDispatcher.dispatchAppLifecycleEvent(AppLifecycleEvent.Stop)
+    } else {
+        appLifecycleDispatcher.dispatchAppLifecycleEvent(AppLifecycleEvent.Start)
+    }
+}

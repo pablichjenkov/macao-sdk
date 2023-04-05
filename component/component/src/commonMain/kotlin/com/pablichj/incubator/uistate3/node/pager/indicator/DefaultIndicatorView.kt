@@ -57,7 +57,7 @@ fun DefaultPagerIndicator(
     val totalWidth: Dp = indicatorSize * indicatorCount + space * (indicatorCount - 1)
     val widthInPx = LocalDensity.current.run { indicatorSize.toPx() }
 
-    val currentItem by remember {
+    val currentItem by remember(pagerState) {
         derivedStateOf {
             pagerState.currentPage
         }

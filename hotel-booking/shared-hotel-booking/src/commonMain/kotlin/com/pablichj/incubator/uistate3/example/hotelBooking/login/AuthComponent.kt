@@ -5,8 +5,8 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import com.pablichj.incubator.uistate3.example.hotelBooking.AuthorizeAPI
 import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.topbar.StackBarItem
-import com.pablichj.incubator.uistate3.node.topbar.StackComponent
+import com.pablichj.incubator.uistate3.node.stack.StackBarItem
+import com.pablichj.incubator.uistate3.node.stack.StackComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

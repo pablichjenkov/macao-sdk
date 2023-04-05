@@ -15,6 +15,7 @@ import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeTreeBuilde
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
+import com.pablichj.incubator.uistate3.node.pager.PagerComponent
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
 import com.pablichj.incubator.uistate3.platform.AppLifecycleEvent
 import com.pablichj.incubator.uistate3.platform.DefaultAppLifecycleDispatcher
@@ -39,7 +40,8 @@ class MainWindowNode(
         val subtreeNavItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
         adaptableSizeComponent = AdaptableSizeTreeBuilder.build().also {
             it.setNavItems(subtreeNavItems, 0)
-            it.setCompactContainer(DrawerComponent())
+            //it.setCompactContainer(DrawerComponent())
+            it.setCompactContainer(PagerComponent())
             it.setMediumContainer(NavBarComponent())
             it.setExpandedContainer(PanelComponent())
         }
@@ -104,7 +106,6 @@ class MainWindowNode(
                         }
                     )
                 }
-
             }
             DesktopComponentRender(
                 rootComponent = adaptableSizeComponent,
