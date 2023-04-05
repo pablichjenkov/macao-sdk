@@ -36,7 +36,7 @@ fun main() {
         }*/
         BrowserViewportWindow("Component Demo") {
             BrowserComponentRender(
-                rootComponent = panelComponent,
+                rootComponent = adaptiveSizeComponent,
                 onBackPressEvent = {
                     println("Back press dispatched in root node")
                 }
