@@ -3,6 +3,7 @@ package com.pablichj.incubator.uistate3.demo
 import com.pablichj.incubator.uistate3.BrowserComponentRender
 import com.pablichj.incubator.uistate3.BrowserViewportWindow
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeTreeBuilder
+import com.pablichj.incubator.uistate3.demo.treebuilders.PanelTreeBuilder
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
@@ -13,26 +14,29 @@ fun main() {
 
         val subtreeNavItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
 
-        val adaptableSizeComponent = AdaptableSizeTreeBuilder.build().also {
+        val adaptiveSizeComponent = AdaptableSizeTreeBuilder.build().also {
             it.setNavItems(subtreeNavItems, 0)
             it.setCompactContainer(DrawerComponent())
+            //it.setCompactContainer(PagerComponent())
             it.setMediumContainer(NavBarComponent())
             it.setExpandedContainer(PanelComponent())
         }
 
-        /*Window("State 3 Demo") {
+        val panelComponent = PanelTreeBuilder.build()
+
+        /*Window("Component Demo") {
             Column(modifier = Modifier.fillMaxSize()) {
-                BrowserNodeRender(
-                    rootNode = PanelNode,
+                BrowserComponentRender(
+                    rootComponent = panelComponent,
                     onBackPressEvent = {
                         println("Back press dispatched in root node")
                     }
                 )
             }
         }*/
-        BrowserViewportWindow("Hello World") {
+        BrowserViewportWindow("Component Demo") {
             BrowserComponentRender(
-                rootComponent = adaptableSizeComponent,
+                rootComponent = panelComponent,
                 onBackPressEvent = {
                     println("Back press dispatched in root node")
                 }

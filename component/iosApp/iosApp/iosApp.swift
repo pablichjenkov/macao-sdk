@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let pagerNode = BindingsKt.buildPagerComponent()
         
         let mainViewController = BindingsKt.ComponentRenderer(
-            rootComponent: pagerNode,
+            rootComponent: adaptableNode,
             iosBridge: iosBridge
         )
         

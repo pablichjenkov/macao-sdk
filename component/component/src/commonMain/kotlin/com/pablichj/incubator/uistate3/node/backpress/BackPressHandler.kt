@@ -19,7 +19,7 @@ fun BackPressHandler(
     val currentOnBackPressed by rememberUpdatedState(onBackPressed)
 
     // Remember in Composition a back callback that calls the `onBackPressed` lambda
-    val backPressCallback = remember {
+    val backPressCallback = remember(component) {
         ForwardBackPressCallback {
             currentOnBackPressed()
         }

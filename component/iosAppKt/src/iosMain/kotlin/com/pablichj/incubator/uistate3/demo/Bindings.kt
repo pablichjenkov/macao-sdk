@@ -9,6 +9,7 @@ import com.pablichj.incubator.uistate3.demo.treebuilders.PagerTreeBuilder
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
+import com.pablichj.incubator.uistate3.node.pager.PagerComponent
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
 import com.pablichj.incubator.uistate3.platform.DefaultAppLifecycleDispatcher
 import com.pablichj.incubator.uistate3.platform.SafeAreaInsets
@@ -31,7 +32,8 @@ fun buildAdaptableSizeComponent(): Component {
     val subtreeNavItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
     return AdaptableSizeTreeBuilder.build().also {
         it.setNavItems(subtreeNavItems, 0)
-        it.setCompactContainer(DrawerComponent())
+        //it.setCompactContainer(DrawerComponent())
+        it.setCompactContainer(PagerComponent())
         it.setMediumContainer(NavBarComponent())
         it.setExpandedContainer(PanelComponent())
     }

@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.backstack.BackPressHandler
+import com.pablichj.incubator.uistate3.node.backpress.BackPressHandler
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 

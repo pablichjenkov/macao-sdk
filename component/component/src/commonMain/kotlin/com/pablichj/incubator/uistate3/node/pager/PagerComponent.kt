@@ -17,6 +17,7 @@ import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 import com.pablichj.incubator.uistate3.node.pager.indicator.DefaultPagerIndicator
 import com.pablichj.incubator.uistate3.node.stack.BackStack
+import com.pablichj.incubator.uistate3.platform.LocalSafeAreaInsets
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -79,7 +80,6 @@ open class PagerComponent(
 
     override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
         activeComponent.value = childComponents[selectedIndex]
-        currentActiveIndexSet.add(selectedIndex)
     }
 
     /**
@@ -122,9 +122,6 @@ open class PagerComponent(
 
     private fun onPageChanged(pageIndex: Int) {
         println("PagerComponent::onPageChanged newPage = $pageIndex")
-
-        //if (pageIndex >= childComponents.size) return
-
         val nextStartedIndexSet = mutableSetOf<Int>()
         if (pageIndex - 1 >= 0) {
             nextStartedIndexSet.add(pageIndex - 1)
@@ -157,6 +154,12 @@ open class PagerComponent(
         currentActiveIndexSet = nextStartedIndexSet
         selectedIndex = pageIndex
         activeComponent.value = childComponents[pageIndex]
+        updateBackstack(pageIndex)
+    }
+
+    private fun updateBackstack(selectedIndex: Int) {
+        backStack.deque.clear()
+        backStack.deque.add(childComponents[selectedIndex])
     }
 
     @Composable
@@ -170,6 +173,7 @@ open class PagerComponent(
 
         val pagerItemsSize = childComponents.size
         composableCoroutineScope = rememberCoroutineScope()
+        val safeAreaInsets = LocalSafeAreaInsets.current
 
         Box {
             if(activeComponent.value != null) {
@@ -184,7 +188,7 @@ open class PagerComponent(
                 DefaultPagerIndicator(
                     modifier = Modifier
                         .align(Alignment.TopCenter)
-                        .padding(top = 56.dp),
+                        .padding(top = safeAreaInsets.top.dp.plus(56.dp)),
                     pagerState = pagerState,
                     itemCount = pagerItemsSize,
                     indicatorCount = pagerItemsSize

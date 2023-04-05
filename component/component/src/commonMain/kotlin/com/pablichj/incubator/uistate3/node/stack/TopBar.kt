@@ -22,15 +22,15 @@ fun TopBar(
 
     val safeAreaInsets = LocalSafeAreaInsets.current
 
-    val topBarIcon1: ImageVector? by remember(key1 = topBarState) {
+    val topBarIcon1: ImageVector? by remember(topBarState) {
         topBarState.icon1
     }
 
-    val topBarIcon2: ImageVector? by remember(key1 = topBarState) {
+    val topBarIcon2: ImageVector? by remember(topBarState) {
         topBarState.icon2
     }
 
-    val topBarTitle: String? by remember(key1 = topBarState) {
+    val topBarTitle: String? by remember(topBarState) {
         topBarState.title
     }
 

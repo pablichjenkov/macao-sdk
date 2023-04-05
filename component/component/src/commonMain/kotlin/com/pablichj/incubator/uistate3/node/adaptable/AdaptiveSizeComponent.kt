@@ -17,11 +17,11 @@ import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 /**
  * This node is basically a proxy, it transfer request and events to its active child node
  * */
-open class AdaptableSizeComponent : Component(), NavComponent {
-    private val initialEmptyNavComponent: NavComponent = AdaptableSizeStubNavComponent()
-    private var CompactNavComponent: NavComponent = AdaptableSizeStubNavComponent()
-    private var MediumNavComponent: NavComponent = AdaptableSizeStubNavComponent()
-    private var ExpandedNavComponent: NavComponent = AdaptableSizeStubNavComponent()
+open class AdaptiveSizeComponent : Component(), NavComponent {
+    private val initialEmptyNavComponent: NavComponent = AdaptiveSizeStubNavComponent()
+    private var CompactNavComponent: NavComponent = AdaptiveSizeStubNavComponent()
+    private var MediumNavComponent: NavComponent = AdaptiveSizeStubNavComponent()
+    private var ExpandedNavComponent: NavComponent = AdaptiveSizeStubNavComponent()
     private var currentNavComponent = mutableStateOf(initialEmptyNavComponent)
 
     override val backStack: BackStack<Component> = currentNavComponent.value.backStack
@@ -53,7 +53,7 @@ open class AdaptableSizeComponent : Component(), NavComponent {
     }
 
     private fun attachChildComponent(navComponent: NavComponent) {
-        navComponent.getComponent().setParent(this@AdaptableSizeComponent)
+        navComponent.getComponent().setParent(this@AdaptiveSizeComponent)
         childComponents.add(navComponent.getComponent())
     }
 
@@ -116,25 +116,24 @@ open class AdaptableSizeComponent : Component(), NavComponent {
             ComponentLifecycleState.Destroyed -> {
             }
             ComponentLifecycleState.Started -> {
-                val windowSizeInfo = remember {
-                    mutableStateOf<WindowSizeInfo>(WindowSizeInfo.Compact)
-                }
+                val windowSizeInfo = remember(key1 = this) { mutableStateOf<WindowSizeInfo?>(null) }
                 Box(Modifier.fillMaxSize().onSizeChanged { size ->
                     val widthDp = with(density) { size.width.toDp() }
                     println("$clazz::Box.onSizeChanged Width of Text in Pixels: ${size.width}")
                     println("$clazz::Box.onSizeChanged Width of Text in DP: $widthDp")
                     windowSizeInfo.value = WindowSizeInfo.fromWidthDp(widthDp)
                 }) {
-                    println("$clazz.Composing.Started() windowSizeInfo = $windowSizeInfo")
+                    val windowSizeInfoCopy = windowSizeInfo.value
+                    println("$clazz.Composing.Started() windowSizeInfo = $windowSizeInfoCopy")
                     val currentNavComponentCopy = currentNavComponent.value
-
-                    if (currentNavComponentCopy == initialEmptyNavComponent) {
-                        setAndStartNavComponent(windowSizeInfo.value)
-                    } else {
-                        transferNavComponent(windowSizeInfo.value)
+                    if (windowSizeInfoCopy != null) {
+                        if (currentNavComponentCopy == initialEmptyNavComponent) {
+                            setAndStartNavComponent(windowSizeInfoCopy)
+                        } else {
+                            transferNavComponent(windowSizeInfoCopy)
+                        }
+                        StartedContent(modifier, currentNavComponentCopy)
                     }
-
-                    StartedContent(modifier, currentNavComponentCopy)
                 }
             }
             ComponentLifecycleState.Stopped -> {

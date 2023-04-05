@@ -110,7 +110,6 @@ fun main() {
     }
 }
 
-
 private fun onWindowMinimized(
     appLifecycleDispatcher: DefaultAppLifecycleDispatcher,
     minimized: Boolean
