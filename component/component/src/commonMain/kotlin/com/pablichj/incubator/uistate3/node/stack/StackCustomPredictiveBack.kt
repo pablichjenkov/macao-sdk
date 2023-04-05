@@ -44,134 +44,132 @@ fun StackCustomPredictiveBack(
                 .fillMaxSize()
                 .pointerInput(childComponent) {
                     if (prevChildComponent == null) return@pointerInput
-                    forEachGesture {// todo: Replace with awaitEachGesture then remove awaitPointerEventScope
-                        awaitPointerEventScope {
-                            val eventDown = awaitFirstDown(requireUnconsumed = true)
-                            println("TopBarScaffold::awaitFirstDown position: ${eventDown.position}, delta: ${eventDown.scrollDelta}")
+                    awaitEachGesture {
+                        val eventDown = awaitFirstDown(requireUnconsumed = true)
+                        println("TopBarScaffold::awaitFirstDown position: ${eventDown.position}, delta: ${eventDown.scrollDelta}")
 
-                            if (eventDown.position.x < PredictiveBackAreaWidth) {
-                                eventDown.consume()
-                                val startX = eventDown.position.x
-                                wasCancelled = false
+                        if (eventDown.position.x < PredictiveBackAreaWidth) {
+                            eventDown.consume()
+                            val startX = eventDown.position.x
+                            wasCancelled = false
 
-                                do {
-                                    val event: PointerEvent =
-                                        awaitPointerEvent(PointerEventPass.Main)
-                                    // ACTION_MOVE loop
-                                    event.changes.forEach {
-                                        println("TopBarScaffold::awaitPointerEvent position: ${it.position}, delta: ${deltaX}, dragState=$dragState")
-                                        // Consuming event prevents other gestures or scroll to intercept
-                                        it.consume()
-                                    }
-
-                                    event.changes.lastOrNull()?.let {
-                                        deltaX = it.position.x - startX
-                                    }
-
-                                    if (deltaX > PredictiveBackDragWidth) {
-                                        dragState = DragState.PredictiveBackLeft
-                                        if (deltaXMax < deltaX) {
-                                            deltaXMax = deltaX
-                                        } else {
-                                            // Cancel predictive back if the user reverse the move
-                                            // by a fifth(1/5) of the maximum amount dragged.
-                                            if (deltaXMax > deltaX + deltaXMax * 0.2) {
-                                                wasCancelled = true
-                                                break
-                                            }
-                                        }
-                                    }
-
-                                } while (event.changes.any { it.pressed })
-
-                                coroutineScope.launch {
-
-                                    val targetValue = if (wasCancelled) {
-                                        PredictiveBackDragWidth
-                                    } else {
-                                        size.width + PredictiveBackDragWidth
-                                    }
-
-                                    animate(
-                                        initialValue = deltaX,
-                                        targetValue = targetValue.toFloat(),
-                                    ) { value, /* velocity */ _ ->
-                                        // Update alpha mutable state with the current animation value
-                                        deltaX = value
-                                    }
-                                    println("TopBarScaffold::onDragEnd wasCancelled = $wasCancelled")
-                                    if (!wasCancelled) {
-                                        topBarState.handleBackPress()
-                                    }
-
-                                    deltaX = 0.0f
-                                    deltaXMax = 0.0f
-                                    dragState = DragState.None
+                            do {
+                                val event: PointerEvent =
+                                    awaitPointerEvent(PointerEventPass.Main)
+                                // ACTION_MOVE loop
+                                event.changes.forEach {
+                                    println("TopBarScaffold::awaitPointerEvent position: ${it.position}, delta: ${deltaX}, dragState=$dragState")
+                                    // Consuming event prevents other gestures or scroll to intercept
+                                    it.consume()
                                 }
 
-                            } else if (
-                                eventDown.position.x.toInt() > (size.width - PredictiveBackAreaWidth)
-                            ) {
-                                eventDown.consume()
-                                val startX = eventDown.position.x
-                                wasCancelled = false
-
-                                do {
-                                    val event: PointerEvent =
-                                        awaitPointerEvent(PointerEventPass.Main)
-                                    // ACTION_MOVE loop
-                                    event.changes.forEach {
-                                        println("TopBarScaffold::awaitPointerEvent position: ${it.position}, delta: ${deltaX}, dragState=$dragState")
-                                        // Consuming event prevents other gestures or scroll to intercept
-                                        it.consume()
-                                    }
-
-                                    event.changes.lastOrNull()?.let {
-                                        deltaX = startX - it.position.x
-                                    }
-
-                                    if (deltaX > PredictiveBackDragWidth) {
-                                        dragState = DragState.PredictiveBackRight
-                                        if (deltaXMax < deltaX) {
-                                            deltaXMax = deltaX
-                                        } else {
-                                            // Cancel predictive back if the user reverse the move
-                                            // by a fifth(1/5) of the maximum amount dragged.
-                                            if (deltaXMax > deltaX + deltaXMax * 0.2) {
-                                                wasCancelled = true
-                                                break
-                                            }
-                                        }
-                                    }
-
-                                } while (event.changes.any { it.pressed })
-
-                                coroutineScope.launch {
-
-                                    val targetValue = if (wasCancelled) {
-                                        PredictiveBackDragWidth
-                                    } else {
-                                        size.width + PredictiveBackDragWidth
-                                    }
-
-                                    animate(
-                                        initialValue = deltaX,
-                                        targetValue = targetValue.toFloat(),
-                                    ) { value, /* velocity */ _ ->
-                                        // Update alpha mutable state with the current animation value
-                                        deltaX = value
-                                    }
-                                    println("TopBarScaffold::onDragEnd wasCancelled = $wasCancelled")
-                                    if (!wasCancelled) {
-                                        topBarState.handleBackPress()
-                                    }
-
-                                    deltaX = 0.0f
-                                    deltaXMax = 0.0f
-                                    dragState = DragState.None
+                                event.changes.lastOrNull()?.let {
+                                    deltaX = it.position.x - startX
                                 }
 
+                                if (deltaX > PredictiveBackDragWidth) {
+                                    dragState = DragState.PredictiveBackLeft
+                                    if (deltaXMax < deltaX) {
+                                        deltaXMax = deltaX
+                                    } else {
+                                        // Cancel predictive back if the user reverse the move
+                                        // by a fifth(1/5) of the maximum amount dragged.
+                                        if (deltaXMax > deltaX + deltaXMax * 0.2) {
+                                            wasCancelled = true
+                                            break
+                                        }
+                                    }
+                                }
+
+                            } while (event.changes.any { it.pressed })
+
+                            coroutineScope.launch {
+
+                                val targetValue = if (wasCancelled) {
+                                    PredictiveBackDragWidth
+                                } else {
+                                    size.width + PredictiveBackDragWidth
+                                }
+
+                                animate(
+                                    initialValue = deltaX,
+                                    targetValue = targetValue.toFloat(),
+                                ) { value, /* velocity */ _ ->
+                                    // Update alpha mutable state with the current animation value
+                                    deltaX = value
+                                }
+                                println("TopBarScaffold::onDragEnd wasCancelled = $wasCancelled")
+                                if (!wasCancelled) {
+                                    topBarState.handleBackPress()
+                                }
+
+                                deltaX = 0.0f
+                                deltaXMax = 0.0f
+                                dragState = DragState.None
                             }
+
+                        } else if (
+                            eventDown.position.x.toInt() > (size.width - PredictiveBackAreaWidth)
+                        ) {
+                            eventDown.consume()
+                            val startX = eventDown.position.x
+                            wasCancelled = false
+
+                            do {
+                                val event: PointerEvent =
+                                    awaitPointerEvent(PointerEventPass.Main)
+                                // ACTION_MOVE loop
+                                event.changes.forEach {
+                                    println("TopBarScaffold::awaitPointerEvent position: ${it.position}, delta: ${deltaX}, dragState=$dragState")
+                                    // Consuming event prevents other gestures or scroll to intercept
+                                    it.consume()
+                                }
+
+                                event.changes.lastOrNull()?.let {
+                                    deltaX = startX - it.position.x
+                                }
+
+                                if (deltaX > PredictiveBackDragWidth) {
+                                    dragState = DragState.PredictiveBackRight
+                                    if (deltaXMax < deltaX) {
+                                        deltaXMax = deltaX
+                                    } else {
+                                        // Cancel predictive back if the user reverse the move
+                                        // by a fifth(1/5) of the maximum amount dragged.
+                                        if (deltaXMax > deltaX + deltaXMax * 0.2) {
+                                            wasCancelled = true
+                                            break
+                                        }
+                                    }
+                                }
+
+                            } while (event.changes.any { it.pressed })
+
+                            coroutineScope.launch {
+
+                                val targetValue = if (wasCancelled) {
+                                    PredictiveBackDragWidth
+                                } else {
+                                    size.width + PredictiveBackDragWidth
+                                }
+
+                                animate(
+                                    initialValue = deltaX,
+                                    targetValue = targetValue.toFloat(),
+                                ) { value, /* velocity */ _ ->
+                                    // Update alpha mutable state with the current animation value
+                                    deltaX = value
+                                }
+                                println("TopBarScaffold::onDragEnd wasCancelled = $wasCancelled")
+                                if (!wasCancelled) {
+                                    topBarState.handleBackPress()
+                                }
+
+                                deltaX = 0.0f
+                                deltaXMax = 0.0f
+                                dragState = DragState.None
+                            }
+
                         }
                     }
                 }
