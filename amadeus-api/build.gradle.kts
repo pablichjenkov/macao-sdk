@@ -9,6 +9,7 @@ plugins {
     id("com.android.library") apply false
     id("org.jetbrains.compose") apply false
     id("com.codingfeline.buildkonfig") apply false
+    id("app.cash.sqldelight").version("2.0.0-alpha05").apply(false)
 }
 
 allprojects {

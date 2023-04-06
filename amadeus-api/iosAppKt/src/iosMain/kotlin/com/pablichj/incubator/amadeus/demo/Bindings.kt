@@ -1,5 +1,7 @@
 package com.pablichj.incubator.amadeus.demo
 
+import com.pablichj.incubator.amadeus.storage.DriverFactory
+import com.pablichj.incubator.amadeus.storage.createDatabase
 import com.pablichj.incubator.uistate3.IosBridge
 import com.pablichj.incubator.uistate3.IosComponentRender
 import com.pablichj.incubator.uistate3.node.Component
@@ -13,7 +15,8 @@ fun ComponentRenderer(
 ): UIViewController = IosComponentRender(rootComponent, iosBridge)
 
 fun buildAmadeusDemoComponent(): Component {
-    return AmadeusDemoComponent()
+    val db = createDatabase(DriverFactory())
+    return AmadeusDemoComponent(db)
 }
 
 fun createPlatformBridge(): IosBridge {

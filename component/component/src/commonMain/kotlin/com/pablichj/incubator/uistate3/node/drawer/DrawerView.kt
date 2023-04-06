@@ -26,7 +26,7 @@ fun NavigationDrawer(
 
     ModalDrawer(
         drawerContent = {
-            DrawerContentModal(modifier, navDrawerState)
+            DrawerContent(modifier, navDrawerState)
         },
         modifier = modifier,
         drawerState = drawerState,
@@ -53,14 +53,16 @@ fun NavigationDrawer(
 
 
 @Composable
-fun DrawerContentModal(
+private fun DrawerContent(
     modifier: Modifier = Modifier,
     navDrawerState: INavigationDrawerState
 ) {
     val navItems by navDrawerState.navItemsFlow.collectAsState(emptyList())
 
     Column(modifier = modifier) {
-        DrawerLogo()
+        DrawerHeader(
+            drawerHeaderState = navDrawerState.drawerHeaderState
+        )
         DrawerContentList(
             navItems = navItems,
             onNavItemClick = { navItem -> navDrawerState.navItemClick(navItem) }
@@ -69,25 +71,32 @@ fun DrawerContentModal(
 }
 
 @Composable
-fun DrawerLogo(
-    // TODO: Create the Header State in INavigationDrawerState and use it here
-    modifier: Modifier = Modifier
+private fun DrawerHeader(
+    modifier: Modifier = Modifier,
+    drawerHeaderState: DrawerHeaderState
 ) {
     Box(
         modifier
             .fillMaxWidth()
             .height(120.dp)
-            .background(Color.LightGray),
-        contentAlignment = Alignment.Center,
+            .background(drawerHeaderState.style.bgColor)
+            .padding(all = 16.dp),
     ) {
-        Row(modifier = modifier) {
-            Text(text = "Drawer Header")
+        Column(modifier = modifier) {
+            Text(
+                text = drawerHeaderState.title,
+                fontSize = drawerHeaderState.style.titleTextSize
+            )
+            Text(
+                text = drawerHeaderState.description,
+                fontSize = drawerHeaderState.style.descriptionTextSize
+            )
         }
     }
 }
 
 @Composable
-fun DrawerContentList(
+private fun DrawerContentList(
     modifier: Modifier = Modifier,
     navItems: List<NavItemDeco>,
     onNavItemClick: (NavItemDeco) -> Unit
@@ -111,10 +120,10 @@ fun DrawerContentList(
 
 @Composable
 fun NavigationDrawerItem(
-    label : @Composable () -> Unit,
-    icon : @Composable () -> Unit,
-    selected : Boolean,
-    onClick : () -> Unit
+    label: @Composable () -> Unit,
+    icon: @Composable () -> Unit,
+    selected: Boolean,
+    onClick: () -> Unit
 ) {
     val modifier = if (selected) {
         Modifier

@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.pablichj.amadeus.Database
 import com.pablichj.incubator.amadeus.Amadeus
 import com.pablichj.incubator.amadeus.model.AccessToken
 import com.pablichj.incubator.uistate3.node.Component
@@ -15,7 +16,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AmadeusDemoComponent : Component() {
+class AmadeusDemoComponent(
+    private val database: Database
+) : Component() {
 
     val coroutineScope = CoroutineScope(Dispatchers.Main)
     var token: AccessToken? = null
@@ -24,6 +27,12 @@ class AmadeusDemoComponent : Component() {
         ApiCredentials.apiKey,
         ApiCredentials.apiSecret
     ).build()
+
+    override fun start() {
+        super.start()
+        val result = database.playerQueries.selectAll().executeAsOneOrNull()
+        println("AmadeusDemoComponent::start-database.playerQueries = $result")
+    }
 
     private fun getAccessToken() {
         coroutineScope.launch {

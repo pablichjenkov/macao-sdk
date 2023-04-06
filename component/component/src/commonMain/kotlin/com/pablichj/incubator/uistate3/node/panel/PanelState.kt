@@ -1,6 +1,7 @@
 package com.pablichj.incubator.uistate3.node.panel
 
 import com.pablichj.incubator.uistate3.node.NavItemDeco
+import com.pablichj.incubator.uistate3.node.drawer.DrawerHeaderState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -19,6 +20,8 @@ interface IPanelState {
      * */
     val navItemClickFlow: Flow<NavItemDeco>
 
+    var panelHeaderState: PanelHeaderState
+
     /**
      * Intended to be called from the Composable NavBar item click events
      * */
@@ -30,13 +33,11 @@ interface IPanelState {
     fun selectNavItemDeco(navbarItem: NavItemDeco)
 }
 
-class PanelState /*@Inject */ constructor(
-    //val dispatchersBin: DispatchersBin
+class PanelState(
+    private val coroutineScope: CoroutineScope,
+    override var panelHeaderState: PanelHeaderState,
     var navItemsDeco: List<NavItemDeco>
 ) : IPanelState {
-
-    // TODO: Use DispatchersBin
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     private val _navItemsFlow = MutableStateFlow<List<NavItemDeco>>(emptyList())
     override val navItemsFlow: Flow<List<NavItemDeco>>

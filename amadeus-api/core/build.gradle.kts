@@ -2,6 +2,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
     id("com.android.library")
+    id("app.cash.sqldelight")
 }
 
 group = "com.pablichj"
@@ -78,6 +79,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-android")
+                implementation("app.cash.sqldelight:android-driver:2.0.0-alpha05")
             }
         }
         val androidUnitTest by getting {
@@ -96,6 +98,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation("io.ktor:ktor-client-ios")
+                implementation("app.cash.sqldelight:native-driver:2.0.0-alpha05")
             }
         }
         val iosArm64Test by getting
@@ -110,6 +113,9 @@ kotlin {
         val jsMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-js")
+                implementation("app.cash.sqldelight:sqljs-driver:2.0.0-alpha05")
+                implementation(npm("sql.js", "1.6.2"))
+                implementation(devNpm("copy-webpack-plugin", "9.1.0"))
             }
         }
 
@@ -118,6 +124,7 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-jvm")
                 implementation("io.ktor:ktor-client-java")
+                implementation("app.cash.sqldelight:sqlite-driver:2.0.0-alpha05")
             }
         }
     }
@@ -140,5 +147,13 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+}
+
+sqldelight {
+    databases {
+        create("Database") {
+            packageName.set("com.pablichj.amadeus")
+        }
     }
 }

@@ -82,10 +82,8 @@ open class PagerComponent(
         activeComponent.value = childComponents[selectedIndex]
     }
 
-    /**
-     * TODO: Try to update the navitem instead, using a Backstack<NavItem>, sounds more efficient
-     * */
     override fun updateSelectedNavItem(newTop: Component) {
+        // The ViewPager updates the indicator automatically, no need to do anything here.
     }
 
     override fun onDestroyChildComponent(component: Component) {
