@@ -7,18 +7,18 @@ import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
 import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
+import com.pablichj.incubator.uistate3.platform.DiContainer
+import com.pablichj.incubator.uistate3.platform.DispatchersProxy
 
 object DrawerTreeBuilder {
-
-    private lateinit var DrawerNode: DrawerComponent
+    private val diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
+    private lateinit var drawerComponent: DrawerComponent
 
     fun build(): DrawerComponent {
 
-        if (DrawerTreeBuilder::DrawerNode.isInitialized) {
-            return DrawerNode
+        if (DrawerTreeBuilder::drawerComponent.isInitialized) {
+            return drawerComponent
         }
-
-        val DrawerNode = DrawerComponent()
 
         val drawerNavItems = mutableListOf(
             NavItem(
@@ -41,7 +41,13 @@ object DrawerTreeBuilder {
             )
         )
 
-        return DrawerNode.also { it.setNavItems(drawerNavItems, 0) }
+        return DrawerComponent(
+            config = DrawerComponent.DefaultConfig,
+            diContainer = diContainer
+        ).also {
+            drawerComponent = it
+            it.setNavItems(drawerNavItems, 0)
+        }
     }
 
     private fun buildNavBarNode(): NavBarComponent {

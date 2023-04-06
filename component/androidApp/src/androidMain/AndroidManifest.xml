@@ -25,22 +25,23 @@
         </activity>
         <activity
             android:name=".DrawerActivity"
+            android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true"/>
         <activity
             android:name=".PagerActivity"
+            android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true" />
         <activity
             android:name=".NavBarActivity"
+            android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true" />
         <activity
             android:name=".FullAppIntroActivity"
-            android:exported="true" />
-        <activity
-            android:name=".HandleConfigChangesActivity"
             android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true" />
         <activity
             android:name=".AdaptableSizeNodeActivity"
+            android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true" />
     </application>
 </manifest>
