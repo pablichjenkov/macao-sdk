@@ -19,14 +19,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 open class DrawerComponent(
-    private val config: Config = DefaultConfig
+    private val config: Config,
+    private var diContainer: DiContainer
 ) : Component(), NavComponent, IDrawerNode {
     final override val backStack = BackStack<Component>()
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
-    private val coroutineScope = CoroutineScope(config.diContainer.dispatchers.main)
+    private val coroutineScope = CoroutineScope(diContainer.dispatchers.main)
     private val navDrawerState = NavigationDrawerState(
         coroutineScope,
         DrawerHeaderState(
@@ -179,14 +180,12 @@ open class DrawerComponent(
     }
 
     class Config(
-        var drawerHeaderStyle: DrawerHeaderStyle,
-        var diContainer: DiContainer
+        var drawerHeaderStyle: DrawerHeaderStyle
     )
 
     companion object {
         val DefaultConfig = Config(
-            DrawerHeaderStyle(),
-            DiContainer(DefaultDispatchers)
+            DrawerHeaderStyle()
         )
     }
 

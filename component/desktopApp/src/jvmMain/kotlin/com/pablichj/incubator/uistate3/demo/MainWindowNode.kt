@@ -12,6 +12,7 @@ import androidx.compose.ui.window.WindowState
 import com.pablichj.incubator.uistate3.DesktopBridge
 import com.pablichj.incubator.uistate3.DesktopComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeTreeBuilder
+import com.pablichj.incubator.uistate3.demo.treebuilders.DrawerTreeBuilder
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
@@ -19,6 +20,8 @@ import com.pablichj.incubator.uistate3.node.pager.PagerComponent
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
 import com.pablichj.incubator.uistate3.platform.AppLifecycleEvent
 import com.pablichj.incubator.uistate3.platform.DefaultAppLifecycleDispatcher
+import com.pablichj.incubator.uistate3.platform.DiContainer
+import com.pablichj.incubator.uistate3.platform.DispatchersProxy
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -31,6 +34,7 @@ class MainWindowNode(
     private val windowState = WindowState(size = DpSize(800.dp, 900.dp))
     private var adaptableSizeComponent: Component
     private val appLifecycleDispatcher = DefaultAppLifecycleDispatcher()
+    private val diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
     private val desktopBridge = DesktopBridge(
         appLifecycleDispatcher = appLifecycleDispatcher,
         onBackPressEvent = onExitClick
@@ -40,8 +44,13 @@ class MainWindowNode(
         val subtreeNavItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
         adaptableSizeComponent = AdaptableSizeTreeBuilder.build().also {
             it.setNavItems(subtreeNavItems, 0)
-            //it.setCompactContainer(DrawerComponent())
-            it.setCompactContainer(PagerComponent())
+            it.setCompactContainer(
+                DrawerComponent(
+                    config = DrawerComponent.DefaultConfig,
+                    diContainer = diContainer
+                )
+            )
+            //it.setCompactContainer(PagerComponent())
             it.setMediumContainer(NavBarComponent())
             it.setExpandedContainer(PanelComponent())
         }
