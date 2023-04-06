@@ -153,7 +153,7 @@ android {
 sqldelight {
     databases {
         create("Database") {
-            packageName.set("com.pablichj.amadeus")
+            packageName.set("com.pablichj.incubator.amadeus")
         }
     }
 }

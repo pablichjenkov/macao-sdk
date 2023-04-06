@@ -1,7 +1,7 @@
 package com.pablichj.incubator.amadeus.storage
 
 import app.cash.sqldelight.db.SqlDriver
-import com.pablichj.amadeus.Database
+import com.pablichj.incubator.amadeus.Database
 
 expect class DriverFactory {
   fun createDriver(): SqlDriver
