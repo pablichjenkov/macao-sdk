@@ -3,7 +3,6 @@ package com.pablichj.incubator.uistate3.node.drawer
 import androidx.compose.material.DrawerValue
 import com.pablichj.incubator.uistate3.node.NavItemDeco
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +24,8 @@ interface INavigationDrawerState {
      * */
     val navItemClickFlow: Flow<NavItemDeco>
 
+    var drawerHeaderState: DrawerHeaderState
+
     /**
      * Intended to be called from the Composable NavigationDrawer item click events
      * */
@@ -41,13 +42,11 @@ interface INavigationDrawerState {
     fun setDrawerState(drawerValue: DrawerValue)
 }
 
-class NavigationDrawerState /*@Inject */ constructor(
-    //val dispatchersBin: DispatchersBin
+class NavigationDrawerState(
+    private val coroutineScope: CoroutineScope,
+    override var drawerHeaderState: DrawerHeaderState,
     var navItemsDeco: List<NavItemDeco>
 ) : INavigationDrawerState {
-
-    // TODO: Use DispatchersBin
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     private val _navItemsFlow = MutableStateFlow<List<NavItemDeco>>(emptyList())
     override val navItemsFlow: Flow<List<NavItemDeco>>

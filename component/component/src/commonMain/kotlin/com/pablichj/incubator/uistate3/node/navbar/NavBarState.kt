@@ -2,7 +2,6 @@ package com.pablichj.incubator.uistate3.node.navbar
 
 import com.pablichj.incubator.uistate3.node.NavItemDeco
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,13 +29,10 @@ interface INavBarState {
     fun selectNavItemDeco(navbarItem: NavItemDeco)
 }
 
-class NavBarState /*@Inject */ constructor(
-    //val dispatchersBin: DispatchersBin
+class NavBarState(
+    private val coroutineScope: CoroutineScope,
     var navItemsDeco: List<NavItemDeco>
 ) : INavBarState {
-
-    // TODO: Use DispatchersBin
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     private val _navItemsFlow = MutableStateFlow<List<NavItemDeco>>(emptyList())
     override val navItemsFlow: Flow<List<NavItemDeco>>

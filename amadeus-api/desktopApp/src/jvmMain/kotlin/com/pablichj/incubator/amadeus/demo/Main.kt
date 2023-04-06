@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.singleWindowApplication
+import com.pablichj.incubator.amadeus.storage.DriverFactory
+import com.pablichj.incubator.amadeus.storage.createDatabase
 import com.pablichj.incubator.uistate3.DesktopBridge
 import com.pablichj.incubator.uistate3.DesktopComponentRender
 import com.pablichj.incubator.uistate3.platform.AppLifecycleEvent
@@ -29,7 +31,9 @@ import kotlin.system.exitProcess
 
 fun main() {
     val windowState = WindowState(size = DpSize(500.dp, 800.dp))
-    val amadeusDemoComponent = AmadeusDemoComponent()
+
+    val database = createDatabase(DriverFactory())
+    val amadeusDemoComponent = AmadeusDemoComponent(database)
     val desktopBridge = DesktopBridge(
         appLifecycleDispatcher = DefaultAppLifecycleDispatcher(),
         onBackPressEvent = { }

@@ -12,20 +12,30 @@ import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 import com.pablichj.incubator.uistate3.node.stack.BackStack
+import com.pablichj.incubator.uistate3.platform.DiContainer
+import com.pablichj.incubator.uistate3.platform.DispatchersProxy
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 open class PanelComponent(
-    private val config: Config = Config()
+    private val config: Config = DefaultConfig
 ) : Component(), NavComponent {
     final override val backStack = BackStack<Component>()
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
-    private val panelState = PanelState(emptyList())
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
+    private val coroutineScope = CoroutineScope(config.diContainer.dispatchers.main)
+    private val panelState = PanelState(
+        coroutineScope,
+        PanelHeaderState(
+            title = "A Panel Header Title",
+            description = "Some description or leave it blank",
+            imageUri = "",
+            style = config.panelHeaderStyle
+        ),
+        emptyList()
+    )
 
     init {
         coroutineScope.launch {
@@ -156,7 +166,15 @@ open class PanelComponent(
     }
 
     class Config(
-        var panelStyle: PanelStyle = PanelStyle()
+        var panelHeaderStyle: PanelHeaderStyle,
+        var diContainer: DiContainer
     )
+
+    companion object {
+        val DefaultConfig = Config(
+            PanelHeaderStyle(),
+            DiContainer(DispatchersProxy.DefaultDispatchers)
+        )
+    }
 
 }

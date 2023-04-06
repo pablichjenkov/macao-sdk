@@ -12,20 +12,21 @@ import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 import com.pablichj.incubator.uistate3.node.stack.BackStack
+import com.pablichj.incubator.uistate3.platform.DiContainer
+import com.pablichj.incubator.uistate3.platform.DispatchersProxy
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 open class NavBarComponent(
-    private val config: Config = Config()
+    private val config: Config = DefaultConfig
 ) : Component(), NavComponent {
     final override val backStack = BackStack<Component>()
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
-    private val navBarState = NavBarState(emptyList())
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
+    private val coroutineScope = CoroutineScope(config.diContainer.dispatchers.main)
+    private val navBarState = NavBarState(coroutineScope, emptyList())
 
     init {
         coroutineScope.launch {
@@ -154,7 +155,15 @@ open class NavBarComponent(
     }
 
     class Config(
-        var navBarStyle: NavBarStyle = NavBarStyle()
+        var navBarStyle: NavBarStyle,
+        var diContainer: DiContainer
     )
+
+    companion object {
+        val DefaultConfig = Config(
+            navBarStyle = NavBarStyle(),
+            DiContainer(DispatchersProxy.DefaultDispatchers)
+        )
+    }
 
 }

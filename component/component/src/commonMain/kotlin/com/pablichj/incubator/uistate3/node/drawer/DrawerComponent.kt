@@ -13,23 +13,33 @@ import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
 import com.pablichj.incubator.uistate3.node.stack.BackStack
+import com.pablichj.incubator.uistate3.platform.DiContainer
+import com.pablichj.incubator.uistate3.platform.DispatchersProxy.Companion.DefaultDispatchers
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 open class DrawerComponent(
-    private val config: Config = Config()
+    private val config: Config = DefaultConfig
 ) : Component(), NavComponent, IDrawerNode {
     final override val backStack = BackStack<Component>()
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
-    private val navDrawerState = NavigationDrawerState(emptyList())
-    private val nodeCoroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
+    private val coroutineScope = CoroutineScope(config.diContainer.dispatchers.main)
+    private val navDrawerState = NavigationDrawerState(
+        coroutineScope,
+        DrawerHeaderState(
+            title = "A Drawer Header Title",
+            description = "Some description or leave it blank",
+            imageUri = "",
+            style = config.drawerHeaderStyle
+        ),
+        emptyList()
+    )
 
     init {
-        nodeCoroutineScope.launch {
+        coroutineScope.launch {
             navDrawerState.navItemClickFlow.collect { navItemClick ->
                 backStack.push(navItemClick.component)
             }
@@ -39,6 +49,8 @@ open class DrawerComponent(
             processBackstackTransition(stackTransition)
         }
     }
+
+    // region: ComponentLifecycle
 
     override fun start() {
         super.start()
@@ -73,15 +85,17 @@ open class DrawerComponent(
         }
     }
 
+    // endregion
+
     // region: IDrawerComponent
 
     override fun open() {
-        println("DrawerNode::open")
+        println("$clazz::open")
         navDrawerState.setDrawerState(DrawerValue.Open)
     }
 
     override fun close() {
-        println("DrawerNode::close")
+        println("$clazz::close")
         navDrawerState.setDrawerState(DrawerValue.Closed)
     }
 
@@ -104,7 +118,7 @@ open class DrawerComponent(
 
     override fun updateSelectedNavItem(newTop: Component) {
         getNavItemFromComponent(newTop).let {
-            println("DrawerNode::updateSelectedNavItem(), selectedIndex = $it")
+            println("$clazz::updateSelectedNavItem(), selectedIndex = $it")
             navDrawerState.selectNavItemDeco(it.toNavItemDeco())
             selectedIndex = childComponents.indexOf(newTop)
         }
@@ -165,7 +179,15 @@ open class DrawerComponent(
     }
 
     class Config(
-        var drawerHeaderStyle: DrawerHeaderStyle = DrawerHeaderStyle()
+        var drawerHeaderStyle: DrawerHeaderStyle,
+        var diContainer: DiContainer
     )
+
+    companion object {
+        val DefaultConfig = Config(
+            DrawerHeaderStyle(),
+            DiContainer(DefaultDispatchers)
+        )
+    }
 
 }
