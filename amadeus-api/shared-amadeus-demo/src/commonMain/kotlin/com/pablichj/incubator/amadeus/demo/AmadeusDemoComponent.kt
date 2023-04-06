@@ -8,11 +8,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.pablichj.amadeus.Database
 import com.pablichj.incubator.amadeus.Amadeus
+import com.pablichj.incubator.amadeus.Database
+import com.pablichj.incubator.amadeus.endpoint.accesstoken.AccessTokenManager
+import com.pablichj.incubator.amadeus.endpoint.accesstoken.IAccessTokenManager
 import com.pablichj.incubator.amadeus.model.AccessToken
-import com.pablichj.incubator.amadeus.storage.DriverFactory
-import com.pablichj.incubator.amadeus.storage.createDatabase
 import com.pablichj.incubator.uistate3.node.Component
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +23,7 @@ class AmadeusDemoComponent(
 ) : Component() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private val accessTokenManager: IAccessTokenManager = AccessTokenManager.create(database)
     private var token: AccessToken? = null
 
     private val amadeusApi = Amadeus.Builder(
@@ -32,23 +33,37 @@ class AmadeusDemoComponent(
 
     override fun start() {
         super.start()
-        val result = database.playerQueries.selectAll().executeAsOneOrNull()
-        println("AmadeusDemoComponent::start-database.playerQueries = $result")
+        println("AmadeusDemoComponent::start()")
+    }
+
+    override fun stop() {
+        super.start()
+        println("AmadeusDemoComponent::stop()")
     }
 
     private fun getAccessToken() {
         coroutineScope.launch {
-            token = amadeusApi.getRemoteAccessToken()
+            token = amadeusApi.getRemoteAccessToken()?.also {
+                accessTokenManager.insert(it)
+            }
             println("AmadeusDemoComponent::token = $token")
         }
     }
 
     private fun getHotelOffers() {
         coroutineScope.launch {
-            val tokenCopy = token
-            if (tokenCopy != null) {
+            var tokenCopy = token
+            /*if (tokenCopy != null) {
                 val hotelOffers = amadeusApi.getMultiHotelOffers(tokenCopy)
-                println("AmadeusDemoComponent::hotelOffers = ${hotelOffers}")
+                println("AmadeusDemoComponent::hotelOffers::ram-token = ${hotelOffers}")
+            }*/
+            /*tokenCopy = accessTokenManager.lastOrNull()
+            if (tokenCopy != null) {
+                //val hotelOffers = amadeusApi.getMultiHotelOffers(tokenCopy)
+                println("AmadeusDemoComponent::hotelOffers::stored-token = ${tokenCopy}")
+            }*/
+            accessTokenManager.all().forEach {
+                println("AmadeusDemoComponent::hotelOffers::all-stored-token = ${it}")
             }
         }
     }

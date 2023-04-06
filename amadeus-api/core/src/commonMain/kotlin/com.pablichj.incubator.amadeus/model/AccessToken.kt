@@ -1,5 +1,6 @@
 package com.pablichj.incubator.amadeus.model
 
+import com.pablichj.incubator.amadeus.AccessTokenTb
 import kotlinx.serialization.SerialName
 
 @kotlinx.serialization.Serializable
@@ -14,5 +15,37 @@ data class AccessToken internal constructor(
     val type: String = "",
     val username: String = "",
     val authorization: String = "$tokenType $accessToken"
-)
+) {
+    fun toDb(): AccessTokenTb {
+        return AccessTokenTb(
+            access_token = this.accessToken,
+            application_name = this.applicationName,
+            client_id = this.clientId,
+            expires_in = this.expiresIn.toLong(),
+            scope = this.scope,
+            state = this.state,
+            token_type = this.tokenType,
+            type = this.type,
+            username = this.username,
+            authorization = this.authorization,
+            createdAt = 1000L,
+            updateAt = 1000L
+        )
+    }
+}
+
+internal fun AccessTokenTb.toModel(): AccessToken {
+    return AccessToken(
+        access_token,
+        application_name,
+        client_id,
+        expires_in?.toInt() ?: 0,
+        scope,
+        state,
+        token_type,
+        type,
+        username,
+        authorization
+    )
+}
 
