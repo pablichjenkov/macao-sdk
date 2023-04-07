@@ -6,7 +6,7 @@ import com.pablichj.incubator.amadeus.Database
 
 actual class DriverFactory {
     actual fun createDriver(): SqlDriver {
-        val driver: SqlDriver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
+        val driver: SqlDriver = JdbcSqliteDriver("jdbc:sqlite:amadeus_api.db")
         Database.Schema.create(driver)
         return driver
     }

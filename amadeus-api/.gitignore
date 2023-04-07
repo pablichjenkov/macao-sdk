@@ -3,6 +3,7 @@
 local.properties
 build/
 **/build
+**/*.db
 
 ### IntelliJ IDEA ###
 .idea
