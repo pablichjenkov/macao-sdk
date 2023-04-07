@@ -7,6 +7,11 @@ version = "1.0-SNAPSHOT"
 
 kotlin {
 
+    // IOS
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
     // JS
     js(IR) {
         browser()

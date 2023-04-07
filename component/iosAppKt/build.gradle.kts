@@ -29,6 +29,7 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
+                implementation(project(":shared-component"))
                 implementation(project(":component"))
             }
         }
