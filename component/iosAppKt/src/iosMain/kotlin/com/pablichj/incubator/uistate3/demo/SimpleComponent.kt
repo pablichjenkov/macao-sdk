@@ -35,7 +35,7 @@ class SimpleComponent(
     }
 
     @Composable
-    internal fun Content(modifier: Modifier) {
+    override fun Content(modifier: Modifier) {
         println("CustomTopBarComponent::Composing()")
         consumeBackPressEvent()
         Box(modifier = modifier.fillMaxSize().background(bgColor)) {

@@ -9,6 +9,7 @@ import com.pablichj.incubator.uistate3.demo.treebuilders.PagerTreeBuilder
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
+import com.pablichj.incubator.uistate3.node.pager.PagerComponent
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
 import com.pablichj.incubator.uistate3.platform.DefaultAppLifecycleDispatcher
 import com.pablichj.incubator.uistate3.platform.DiContainer

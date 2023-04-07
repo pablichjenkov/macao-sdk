@@ -316,6 +316,9 @@ Then choose **iosApp** configuration in IDE and run it
 
 `./gradlew jsApp:jsBrowserDevelopmentRun`
 
+Sometimes is useful to run the kotlinUpgradeYarnLock task to update the yarn file
+`:kotlinUpgradeYarnLock`
+
 ### Prepare Xcode to launch on iOS device
 
 1) **Add your Apple ID.**  
