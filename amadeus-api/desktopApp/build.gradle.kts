@@ -11,8 +11,8 @@ kotlin {
         val jvmMain by getting  {
             dependencies {
                 implementation("com.pablichj:component:0.1.5")
-                implementation(project(":core"))
-                implementation(project(":shared-amadeus-demo"))
+                implementation(project(":amadeus-api"))
+                implementation(project(":shared"))
                 implementation(compose.desktop.common)
                 implementation(compose.desktop.currentOs)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
