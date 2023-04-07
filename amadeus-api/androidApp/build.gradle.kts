@@ -10,8 +10,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("com.pablichj:component:0.1.5")
-                implementation(project(":core"))
-                implementation(project(":shared-amadeus-demo"))
+                implementation(project(":amadeus-api"))
+                implementation(project(":shared"))
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.ui)

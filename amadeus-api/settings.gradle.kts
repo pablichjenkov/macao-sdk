@@ -25,9 +25,8 @@ pluginManagement {
 
 }
 
-include(":core")
-include(":shared-amadeus-demo")
-include(":iosAppKt")
+include(":amadeus-api")
+include(":shared")
 include(":androidApp")
 include(":jsApp")
 include(":desktopApp")
