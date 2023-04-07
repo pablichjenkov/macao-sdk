@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.demo
+package demo
 
 import com.pablichj.incubator.uistate3.IosBridge
 import com.pablichj.incubator.uistate3.IosComponentRender
