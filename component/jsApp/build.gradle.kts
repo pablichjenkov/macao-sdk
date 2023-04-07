@@ -11,7 +11,7 @@ kotlin {
     sourceSets {
         val jsMain by getting  {
             dependencies {
-                implementation(project(":shared-component"))
+                implementation(project(":shared"))
                 implementation(project(":component"))
                 implementation(compose.web.core)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
