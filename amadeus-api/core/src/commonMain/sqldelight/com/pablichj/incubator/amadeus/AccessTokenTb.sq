@@ -1,4 +1,4 @@
-CREATE TABLE AccessTokenTb (
+CREATE TABLE IF NOT EXISTS AccessTokenTb (
   access_token TEXT NOT NULL,
   application_name TEXT NOT NULL,
   client_id TEXT NOT NULL,
