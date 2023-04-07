@@ -1,6 +1,6 @@
 package com.pablichj.incubator.amadeus
 
-import com.pablichj.incubator.amadeus.model.AccessToken
+import com.pablichj.incubator.amadeus.endpoint.accesstoken.model.AccessToken
 
 internal interface AmadeusService {
 

@@ -67,6 +67,7 @@ kotlin {
                 implementation ("ch.qos.logback:logback-classic:1.3.0")
                 implementation("io.ktor:ktor-client-content-negotiation")
                 implementation("io.ktor:ktor-serialization-kotlinx-json")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
             }
         }
         val commonTest by getting {
@@ -116,6 +117,7 @@ kotlin {
                 implementation("app.cash.sqldelight:sqljs-driver:2.0.0-alpha05")
                 implementation(npm("sql.js", "1.6.2"))
                 implementation(devNpm("copy-webpack-plugin", "9.1.0"))
+                // implementation(npm("@js-joda/timezone", "2.3.0"))
             }
         }
 

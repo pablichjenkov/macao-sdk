@@ -9,8 +9,7 @@ CREATE TABLE IF NOT EXISTS AccessTokenTb (
   type TEXT NOT NULL,
   username TEXT NOT NULL,
   authorization TEXT NOT NULL,
-  createdAt INTEGER,
-  updateAt INTEGER,
+  created_timestamp INTEGER NOT NULL,
   PRIMARY KEY (access_token)
 );
 
@@ -31,8 +30,7 @@ INSERT INTO AccessTokenTb(
   type,
   username,
   authorization,
-  createdAt,
-  updateAt
+  created_timestamp
 )
 VALUES ?;
 
@@ -43,5 +41,5 @@ FROM AccessTokenTb;
 selectLast:
 SELECT *
 FROM AccessTokenTb
-ORDER BY expires_in
+ORDER BY created_timestamp
 DESC LIMIT 1;

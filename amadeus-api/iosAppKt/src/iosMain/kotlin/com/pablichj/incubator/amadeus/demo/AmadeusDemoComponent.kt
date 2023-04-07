@@ -12,7 +12,7 @@ import com.pablichj.incubator.amadeus.Amadeus
 import com.pablichj.incubator.amadeus.Database
 import com.pablichj.incubator.amadeus.endpoint.accesstoken.AccessTokenManager
 import com.pablichj.incubator.amadeus.endpoint.accesstoken.IAccessTokenManager
-import com.pablichj.incubator.amadeus.model.AccessToken
+import com.pablichj.incubator.amadeus.endpoint.accesstoken.model.AccessToken
 import com.pablichj.incubator.uistate3.node.Component
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

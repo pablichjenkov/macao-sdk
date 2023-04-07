@@ -1,6 +1,6 @@
 package com.pablichj.incubator.amadeus
 
-import com.pablichj.incubator.amadeus.model.AccessToken
+import com.pablichj.incubator.amadeus.endpoint.accesstoken.model.AccessToken
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -20,58 +20,7 @@ class Amadeus private constructor(
     private val customAppVersion: String?,
     private val dispatcher: CoroutineDispatcher
 ) {
-    private val apiHost = "https://test.api.amadeus.com"
-    private val tokenUrl = "https://test.api.amadeus.com/v1/security/oauth2/token"
-    private val accessTokenGrantType = "client_credentials"
 
-    suspend fun getRemoteAccessToken(): AccessToken? {
-
-        val resp = withContext(dispatcher) {
-            /*client.post(tokenUrl) {
-                contentType(ContentType.Application.FormUrlEncoded)
-                setBody(
-                    "grant_type=${accessTokenGrantType}&client_id=${clientId}&client_secret=${clientSecret}"
-                )
-            }*/
-            httpClient.submitForm(
-                url = tokenUrl,
-                formParameters = Parameters.build {
-                    append("grant_type", accessTokenGrantType)
-                    append("client_id", clientId)
-                    append("client_secret", clientSecret)
-                }
-            )
-        }
-
-        return if (resp.status.isSuccess()) {
-            resp.body<AccessToken>()
-        } else {
-            null
-        }
-
-    }
-
-    private val hotelOffersUrl = "$apiHost/v1/reference-data/locations/hotels/by-city"
-    //cityCode=PAR&radius=5&radiusUnit=KM&hotelSource=ALL
-    suspend fun getMultiHotelOffers(accessToken: AccessToken): String {
-        val resp = withContext(dispatcher) {
-            httpClient.get(hotelOffersUrl) {
-                url {
-                    parameters.append("cityCode", "PAR")
-                    //parameters.append("adults", "1")
-                    parameters.append("radius", "20")
-                    parameters.append("radiusUnit", "KM")
-                    parameters.append("hotelSource", "ALL")
-                    //parameters.append("checkInDate", "2023-07-10")
-                    //parameters.append("checkOutDate", "2023-07-17")
-                    //parameters.append("roomQuantity", "1")
-                }
-                header(HttpHeaders.Authorization, accessToken.authorization)
-            }
-        }
-
-        return resp.bodyAsText()
-    }
 
     private val flightOfferUrl = "https://test.api.amadeus.com/v1/shopping/flight-destinations"
 

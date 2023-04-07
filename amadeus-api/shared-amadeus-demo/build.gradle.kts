@@ -28,6 +28,7 @@ kotlin {
                 implementation(project(":core"))
                 implementation("com.pablichj:component:0.1.5")
                 implementation("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
             }
         }
         val commonTest by getting {
