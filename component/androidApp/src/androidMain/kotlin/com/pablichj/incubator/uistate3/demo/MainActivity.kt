@@ -36,15 +36,15 @@ class MainActivity : ComponentActivity() {
                     )
                     LaunchButton(
                         NavBarActivity::class.java,
-                        "Bottom Bar Example"
-                    )
-                    LaunchButton(
-                        FullAppIntroActivity::class.java,
-                        "Full App Example"
+                        "BottomBar Example"
                     )
                     LaunchButton(
                         AdaptableSizeNodeActivity::class.java,
-                        "Swap Root Navigation Example"
+                        "Adaptive Navigation Example"
+                    )
+                    LaunchButton(
+                        FullAppIntroActivity::class.java,
+                        "Full App Navigation Example"
                     )
                 }
             }

@@ -44,7 +44,7 @@ class SplashComponent(
     }
 
     @Composable
-    internal fun Content(modifier: Modifier) {
+    override fun Content(modifier: Modifier) {
 
         val timeLeft by splashTimeFlow.collectAsState()
 

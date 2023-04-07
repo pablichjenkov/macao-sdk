@@ -12,9 +12,11 @@ import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
 import com.pablichj.incubator.uistate3.node.split.SplitComponent
+import com.pablichj.incubator.uistate3.platform.DiContainer
+import com.pablichj.incubator.uistate3.platform.DispatchersProxy
 
 object FullAppWithIntroTreeBuilder {
-
+    private val diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
     private lateinit var AppCoordinatorComponent: Component
 
     fun build(): Component {
@@ -30,7 +32,10 @@ object FullAppWithIntroTreeBuilder {
     }
 
     private fun buildDrawerStateTree(parentComponent: Component): Component {
-        val DrawerNode = DrawerComponent()
+        val DrawerNode = DrawerComponent(
+            config = DrawerComponent.DefaultConfig,
+            diContainer = diContainer
+        )
         val NavBarNode = NavBarComponent()
 
         val SplitNavNode = SplitComponent().apply {
@@ -77,7 +82,10 @@ object FullAppWithIntroTreeBuilder {
     }
 
     private fun buildNestedDrawer(): DrawerComponent {
-        val DrawerNode = DrawerComponent()
+        val DrawerNode = DrawerComponent(
+            config = DrawerComponent.DefaultConfig,
+            diContainer = diContainer
+        )
         val NavBarNode = NavBarComponent()
 
         val navbarNavItems = mutableListOf(
