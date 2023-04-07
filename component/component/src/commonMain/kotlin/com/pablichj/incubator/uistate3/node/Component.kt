@@ -20,7 +20,8 @@ abstract class Component : ComponentLifecycle {
         }
     }
 
-    private val _componentLifecycleFlow = MutableStateFlow<ComponentLifecycleState>(ComponentLifecycleState.Created)
+    private val _componentLifecycleFlow =
+        MutableStateFlow<ComponentLifecycleState>(ComponentLifecycleState.Created)
     val componentLifecycleFlow: Flow<ComponentLifecycleState>
         get() = _componentLifecycleFlow
 
@@ -118,14 +119,8 @@ abstract class Component : ComponentLifecycle {
 
     // endregion
 
-    //TODO: Remove below internal once iOS internal issue got solved
-    // Put it in the documentation somewhere
-    /**
-     * To be able to link in iOS, uncomment internal bellow, all composables have to be internal
-     * in iOS
-     * */
     @Composable
-    /*internal*/ abstract fun Content(modifier: Modifier)
+    abstract fun Content(modifier: Modifier)
 }
 
 sealed interface ComponentLifecycleState {
