@@ -155,9 +155,8 @@ open class DrawerComponent(
         println(
             """$clazz.Composing() stack.size = ${backStack.size()}
                 |lifecycleState = ${lifecycleState}
-            """.trimMargin()
+            """
         )
-
         NavigationDrawer(
             modifier = modifier,
             navDrawerState = navDrawerState

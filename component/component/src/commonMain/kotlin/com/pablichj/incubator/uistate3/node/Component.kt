@@ -119,8 +119,12 @@ abstract class Component : ComponentLifecycle {
 
     // endregion
 
+    // region: Composable Content
+
     @Composable
     abstract fun Content(modifier: Modifier)
+
+    // endregion
 }
 
 sealed interface ComponentLifecycleState {

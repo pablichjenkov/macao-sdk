@@ -9,6 +9,7 @@ sealed class QueryParam(
     class Radius(val radius: String) : QueryParam("radius", radius)
     class RadiusUnit(val radiusUnit: String) : QueryParam("radiusUnit", radiusUnit)
     class HotelSource(val hotelSource: String) : QueryParam("hotelSource", hotelSource)
+    class HotelIds(val hotelIds: String) : QueryParam("hotelIds", hotelIds)
 }
 
 
