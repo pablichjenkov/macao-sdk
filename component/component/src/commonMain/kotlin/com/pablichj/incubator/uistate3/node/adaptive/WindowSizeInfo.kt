@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.node.adaptable
+package com.pablichj.incubator.uistate3.node.adaptive
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp

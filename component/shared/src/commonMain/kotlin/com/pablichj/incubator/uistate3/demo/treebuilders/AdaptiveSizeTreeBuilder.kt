@@ -6,7 +6,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
 import com.pablichj.incubator.uistate3.node.NavItem
-import com.pablichj.incubator.uistate3.node.adaptable.AdaptiveSizeComponent
+import com.pablichj.incubator.uistate3.node.adaptive.AdaptiveSizeComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
 import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent

@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.node.adaptable
+package com.pablichj.incubator.uistate3.node.adaptive
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -117,13 +117,14 @@ open class AdaptiveSizeComponent : Component(), NavComponent {
             }
             ComponentLifecycleState.Started -> {
                 val windowSizeInfo = remember(key1 = this) { mutableStateOf<WindowSizeInfo?>(null) }
+                val windowSizeInfoDiff = derivedStateOf { windowSizeInfo.value }
                 Box(Modifier.fillMaxSize().onSizeChanged { size ->
                     val widthDp = with(density) { size.width.toDp() }
                     println("$clazz::Box.onSizeChanged Width of Text in Pixels: ${size.width}")
                     println("$clazz::Box.onSizeChanged Width of Text in DP: $widthDp")
                     windowSizeInfo.value = WindowSizeInfo.fromWidthDp(widthDp)
                 }) {
-                    val windowSizeInfoCopy = windowSizeInfo.value
+                    val windowSizeInfoCopy = windowSizeInfoDiff.value
                     println("$clazz.Composing.Started() windowSizeInfo = $windowSizeInfoCopy")
                     val currentNavComponentCopy = currentNavComponent.value
                     if (windowSizeInfoCopy != null) {
