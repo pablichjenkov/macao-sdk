@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.node.adaptable
+package com.pablichj.incubator.uistate3.node.adaptive
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -15,6 +15,16 @@ internal class AdaptiveSizeStubNavComponent : Component(), NavComponent {
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(this)
+
+    override fun start() {
+        super.start()
+        println("$clazz.start()")
+    }
+
+    override fun stop() {
+        super.stop()
+        println("$clazz.stop()")
+    }
 
     override fun getComponent(): Component {
         return activeComponent.value ?: this
