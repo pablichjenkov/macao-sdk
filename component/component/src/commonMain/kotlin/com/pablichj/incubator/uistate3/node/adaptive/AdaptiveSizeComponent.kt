@@ -11,8 +11,8 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.*
-import com.pablichj.incubator.uistate3.node.stack.BackStack
 import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
+import com.pablichj.incubator.uistate3.node.stack.BackStack
 
 /**
  * This node is basically a proxy, it transfer request and events to its active child node
@@ -69,8 +69,6 @@ open class AdaptiveSizeComponent : Component(), NavComponent {
         currentNavComponent.value.getComponent().stop()
     }
 
-    // region: DeepLink
-
     override fun getDeepLinkSubscribedList(): List<Component> {
         return listOfNotNull(
             CompactNavComponent.getComponent(),
@@ -83,10 +81,6 @@ open class AdaptiveSizeComponent : Component(), NavComponent {
         println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
         return DeepLinkResult.Success
     }
-
-    // endregion
-
-    // region: INavComponent
 
     override fun getComponent(): Component {
         return currentNavComponent.value.getComponent()
@@ -103,8 +97,6 @@ open class AdaptiveSizeComponent : Component(), NavComponent {
     override fun onDestroyChildComponent(component: Component) {
         currentNavComponent.value.onDestroyChildComponent(component)
     }
-
-    // endregion
 
     @Composable
     override fun Content(modifier: Modifier) {

@@ -24,6 +24,9 @@ import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDest
 import com.pablichj.incubator.amadeus.endpoint.hotellist.ListHotelByCityResponse
 import com.pablichj.incubator.amadeus.endpoint.hotellist.ListHotelsByCityRequest
 import com.pablichj.incubator.amadeus.endpoint.hotellist.ListHotelsByCityUseCase
+import com.pablichj.incubator.amadeus.endpoint.hotelsearch.ManyHotelOffersRequest
+import com.pablichj.incubator.amadeus.endpoint.hotelsearch.ManyHotelOffersResponse
+import com.pablichj.incubator.amadeus.endpoint.hotelsearch.ManyHotelOffersUseCase
 import com.pablichj.incubator.uistate3.node.Component
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -44,11 +47,13 @@ class AmadeusDemoComponent(
     override fun start() {
         super.start()
         println("AmadeusDemoComponent::start()")
+        output("AmadeusDemoComponent::start()")
     }
 
     override fun stop() {
         super.start()
         println("AmadeusDemoComponent::stop()")
+        output("AmadeusDemoComponent::stop()")
     }
 
     private fun getAccessToken() {
@@ -73,7 +78,7 @@ class AmadeusDemoComponent(
         }
     }
 
-    private fun getHotelOffers() {
+    private fun getHotelsByCity() {
         coroutineScope.launch {
             val accessToken = ResolveAccessTokenUseCase(
                 Dispatchers,
@@ -90,7 +95,7 @@ class AmadeusDemoComponent(
             val hotelListResult = ListHotelsByCityUseCase(
                 Dispatchers
             ).doWork(
-                //cityCode=PAR&radius=1&radiusUnit=KM&hotelSource=ALL
+                //?cityCode=PAR&radius=1&radiusUnit=KM&hotelSource=ALL
                 ListHotelsByCityRequest(
                     accessToken,
                     listOf(
@@ -108,6 +113,45 @@ class AmadeusDemoComponent(
                 }
                 is ListHotelByCityResponse.Success -> {
                     output("Success fetching hotel list: ${hotelListResult.hotelList}")
+                }
+            }
+
+        }
+    }
+
+    private fun getManyHotelsOffers() {
+        coroutineScope.launch {
+            val accessToken = ResolveAccessTokenUseCase(
+                Dispatchers,
+                accessTokenDao
+            ).doWork()
+
+            if (accessToken == null) {
+                output("No saved token")
+                return@launch
+            } else {
+                output("Using saved token: ${accessToken.accessToken}")
+            }
+
+            val manyHotelOffersResult = ManyHotelOffersUseCase(
+                Dispatchers
+            ).doWork(
+                //?hotelIds=MCLONGHM&adults=1&checkInDate=2023-11-22&roomQuantity=1&paymentPolicy=NONE&bestRateOnly=true
+                ManyHotelOffersRequest(
+                    accessToken,
+                    listOf(
+                        QueryParam.HotelIds("MCLONGHM"),
+                        QueryParam.Adults("1"),
+                    )
+                )
+            )
+
+            when (manyHotelOffersResult) {
+                is ManyHotelOffersResponse.Error -> {
+                    output("Error fetching hotel list: ${manyHotelOffersResult.error}")
+                }
+                is ManyHotelOffersResponse.Success -> {
+                    output("Success fetching hotel list: ${manyHotelOffersResult.manyHotelOffers}")
                 }
             }
 
@@ -168,10 +212,9 @@ class AmadeusDemoComponent(
                 textAlign = TextAlign.Center
             )
             FlowRow(
-                modifier = Modifier.fillMaxWidth().wrapContentHeight(),
-                horizontalArrangement = Arrangement.Start,
+                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.Top,
-                //maxItemsInEachRow = 3
             ) {
                 Button(
                     onClick = {
@@ -182,10 +225,17 @@ class AmadeusDemoComponent(
                 }
                 Button(
                     onClick = {
-                        getHotelOffers()
+                        getHotelsByCity()
                     }
                 ) {
                     Text("Get Hotels By City")
+                }
+                Button(
+                    onClick = {
+                        getManyHotelsOffers()
+                    }
+                ) {
+                    Text("Get Many Hotel Offers")
                 }
                 Button(
                     onClick = {
