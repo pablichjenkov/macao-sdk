@@ -13,7 +13,18 @@ To run the projects you need to have the kotlin multiplatform environment setup 
 
 ### Components
 
-[Component](https://github.com/pablichjenkov/templato/tree/master/uistate3) is the core module where the Components logic resides. Bellow are some screenshots of the demo App used to test the diferrent features available in the component library .
+[Component](https://github.com/pablichjenkov/templato/tree/master/uistate3) is the core module where the Components logic resides. Bellow are some screenshots of the demo App used to test the diferrent features available in the component library. 
+<BR>
+If you want to try it out, good news! - It is in mavenCentral. Just add bellow dependency in your project **shared** module. You only need to add the dependency to the **commonMain** sourceSet.
+
+`your-project-root/shared/build.gradle`
+```
+val commonMain by getting {
+    dependencies {
+        api("io.github.pablichjenkov:component:0.1.11")
+    }
+}
+```
 
 <table border="0">
  <tr>
