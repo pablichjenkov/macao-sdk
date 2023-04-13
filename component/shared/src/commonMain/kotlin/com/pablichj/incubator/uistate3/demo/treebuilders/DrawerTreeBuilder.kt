@@ -1,10 +1,18 @@
 package com.pablichj.incubator.uistate3.demo.treebuilders
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.pablichj.incubator.uistate3.demo.CustomTopBarComponent
+import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.NavItem
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
+import com.pablichj.incubator.uistate3.node.drawer.NavigationDrawerState
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
 import com.pablichj.incubator.uistate3.node.setNavItems
 import com.pablichj.incubator.uistate3.platform.DiContainer
@@ -44,6 +52,15 @@ object DrawerTreeBuilder {
         ).also {
             drawerComponent = it
             it.setNavItems(drawerNavItems, 0)
+            /*it.setDrawerComponentView { modifier: Modifier, childComponent: Component, navigationDrawerState: NavigationDrawerState ->
+                Box(Modifier.fillMaxSize()) {
+                    childComponent.Content(Modifier)
+                    Text(modifier = Modifier.align(Alignment.Center),
+                        text = "You should provide a Composable that encloses the render of childComponent.Content(Modifier)",
+                        color = Color.Black
+                    )
+                }
+            }*/
         }
     }
 

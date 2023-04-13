@@ -41,7 +41,7 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.material)
                 implementation(project(":amadeus-api"))
-                implementation("com.pablichj:component:0.1.5")
+                api("io.github.pablichjenkov:component:0.1.11")
                 implementation("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
             }

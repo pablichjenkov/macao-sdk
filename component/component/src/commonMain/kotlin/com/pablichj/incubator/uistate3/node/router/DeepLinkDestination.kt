@@ -1,4 +1,4 @@
-package com.pablichj.incubator.uistate3.node.navigation
+package com.pablichj.incubator.uistate3.node.router
 
 import com.pablichj.incubator.uistate3.node.Component
 

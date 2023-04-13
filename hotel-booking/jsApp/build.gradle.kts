@@ -11,8 +11,8 @@ kotlin {
     sourceSets {
         val jsMain by getting  {
             dependencies {
-                implementation(project(":shared-hotel-booking"))
-                implementation(compose.web.core)
+                implementation(project(":shared"))
+                implementation(compose.html.core)
             }
         }
     }

@@ -10,7 +10,6 @@ kotlin {
     sourceSets {
         val jvmMain by getting  {
             dependencies {
-                implementation("com.pablichj:component:0.1.5")
                 implementation(project(":amadeus-api"))
                 implementation(project(":shared"))
                 implementation(compose.desktop.common)

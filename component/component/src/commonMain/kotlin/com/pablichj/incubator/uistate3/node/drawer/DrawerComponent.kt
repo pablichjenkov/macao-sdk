@@ -11,10 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.*
-import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
+import com.pablichj.incubator.uistate3.node.router.DeepLinkResult
 import com.pablichj.incubator.uistate3.node.stack.BackStack
 import com.pablichj.incubator.uistate3.platform.DiContainer
-import com.pablichj.incubator.uistate3.platform.DispatchersProxy.Companion.DefaultDispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -150,6 +149,24 @@ open class DrawerComponent(
 
     // endregion
 
+    // region Drawer rendering
+
+    fun setDrawerComponentView(
+        drawerComponentView: @Composable (
+            modifier: Modifier,
+            childComponent: Component,
+            navigationDrawerState: NavigationDrawerState
+        ) -> Unit
+    ) {
+        this.drawerComponentView = drawerComponentView
+    }
+
+    private var drawerComponentView: @Composable (
+        modifier: Modifier,
+        childComponent: Component,
+        navigationDrawerState: NavigationDrawerState
+    ) -> Unit = DefaultDrawerComponentView
+
     @Composable
     override fun Content(modifier: Modifier) {
         println(
@@ -157,26 +174,23 @@ open class DrawerComponent(
                 |lifecycleState = ${lifecycleState}
             """
         )
-        NavigationDrawer(
-            modifier = modifier,
-            navDrawerState = navDrawerState
-        ) {
-            Box {
-                val activeComponentCopy = activeComponent.value
-                if (activeComponentCopy != null && backStack.size() > 0) {
-                    activeComponentCopy.Content(Modifier)
-                } else {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.Center),
-                        text = "$clazz Empty Stack, Please add some children",
-                        textAlign = TextAlign.Center
-                    )
-                }
+        Box {
+            val activeComponentCopy = activeComponent.value
+            if (activeComponentCopy != null && backStack.size() > 0) {
+                drawerComponentView(modifier, activeComponentCopy, navDrawerState)
+            } else {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.Center),
+                    text = "$clazz Empty Stack, Please add some children",
+                    textAlign = TextAlign.Center
+                )
             }
         }
     }
+
+    // endregion
 
     class Config(
         var drawerHeaderStyle: DrawerHeaderStyle
@@ -186,6 +200,18 @@ open class DrawerComponent(
         val DefaultConfig = Config(
             DrawerHeaderStyle()
         )
+        val DefaultDrawerComponentView: @Composable (
+            modifier: Modifier,
+            childComponent: Component,
+            navigationDrawerState: NavigationDrawerState
+        ) -> Unit = { modifier, childComponent, navigationDrawerState ->
+            NavigationDrawer(
+                modifier = modifier,
+                navDrawerState = navigationDrawerState
+            ) {
+                childComponent.Content(Modifier)
+            }
+        }
     }
 
 }

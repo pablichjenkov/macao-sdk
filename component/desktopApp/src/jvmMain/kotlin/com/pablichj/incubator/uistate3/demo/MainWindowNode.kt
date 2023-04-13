@@ -12,11 +12,9 @@ import androidx.compose.ui.window.WindowState
 import com.pablichj.incubator.uistate3.DesktopBridge
 import com.pablichj.incubator.uistate3.DesktopComponentRender
 import com.pablichj.incubator.uistate3.demo.treebuilders.AdaptableSizeTreeBuilder
-import com.pablichj.incubator.uistate3.demo.treebuilders.DrawerTreeBuilder
 import com.pablichj.incubator.uistate3.node.Component
 import com.pablichj.incubator.uistate3.node.drawer.DrawerComponent
 import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
-import com.pablichj.incubator.uistate3.node.pager.PagerComponent
 import com.pablichj.incubator.uistate3.node.panel.PanelComponent
 import com.pablichj.incubator.uistate3.platform.AppLifecycleEvent
 import com.pablichj.incubator.uistate3.platform.DefaultAppLifecycleDispatcher
@@ -61,7 +59,7 @@ class MainWindowNode(
     fun handleDeepLink(destination: String) {
         val deepLinkResult = adaptableSizeComponent
             .treeContext
-            ?.navigator
+            ?.router
             ?.handleDeepLink(destination)
         println("MainWindowNode::deepLinkResult = ${deepLinkResult}")
     }

@@ -3,7 +3,7 @@ package com.pablichj.incubator.uistate3.node
 import androidx.compose.runtime.Composable
 import com.pablichj.incubator.uistate3.node.backpress.BackPressHandler
 import com.pablichj.incubator.uistate3.node.drawer.IDrawerNode
-import com.pablichj.incubator.uistate3.node.navigation.DeepLinkDestination
+import com.pablichj.incubator.uistate3.node.router.DeepLinkDestination
 
 fun Component.findClosestIDrawerNode(): IDrawerNode? {
     var parentIterator: Component? = this.parentComponent
@@ -22,7 +22,7 @@ fun Component.onAttachedToComponentTree(treeContext: TreeContext) {
     // Register to handle deep links
     val deepLinkMatcherCopy = deepLinkMatcher
     if (deepLinkMatcherCopy != null) {
-        treeContext.navigator.registerDestination(
+        treeContext.router.registerRoute(
             DeepLinkDestination(
                 deepLinkMatcher = deepLinkMatcherCopy,
                 component = this

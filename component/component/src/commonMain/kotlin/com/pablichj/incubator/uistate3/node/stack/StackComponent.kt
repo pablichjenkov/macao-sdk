@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.incubator.uistate3.node.*
 import com.pablichj.incubator.uistate3.node.backpress.LocalBackPressedDispatcher
-import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
+import com.pablichj.incubator.uistate3.node.router.DeepLinkResult
 
 abstract class StackComponent(
     private val config: Config = Config()

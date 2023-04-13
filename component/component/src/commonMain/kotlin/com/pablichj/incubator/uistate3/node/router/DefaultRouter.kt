@@ -1,16 +1,16 @@
-package com.pablichj.incubator.uistate3.node.navigation
+package com.pablichj.incubator.uistate3.node.router
 
 import com.pablichj.incubator.uistate3.node.Component
 
-class DefaultNavigator : Navigator{
+class DefaultRouter : Router {
 
     private val destinationRegistry = mutableListOf<DeepLinkDestination>()
 
-    override fun registerDestination(destination: DeepLinkDestination) {
+    override fun registerRoute(destination: DeepLinkDestination) {
         destinationRegistry.add(destination)
     }
 
-    override fun unregisterDestination(destination: DeepLinkDestination) {
+    override fun unregisterRoute(destination: DeepLinkDestination) {
         destinationRegistry.remove(destination)
     }
 
@@ -21,10 +21,10 @@ class DefaultNavigator : Navigator{
         val componentDestination = destinationRegistry.firstOrNull {
             it.deepLinkMatcher(destination)
         } ?: return DeepLinkResult.Error(
-                """
+            """
                 Destination registry has no Component with destination = $destination
             """
-            )
+        )
 
         val path = buildComponentPathFromRoot(componentDestination.component)
 

@@ -24,10 +24,11 @@ pluginManagement {
 
 rootProject.name = "hotel-booking"
 
-include(":shared-hotel-booking")
+include(":shared")
 include(":androidApp")
 include(":jsApp")
 include(":desktopApp")
 
-include(":component")
-project(":component").projectDir = File("../component/component")
+// If you want to work live with both project uncomment bellow
+//include(":component")
+//project(":component").projectDir = File("../component/component")
