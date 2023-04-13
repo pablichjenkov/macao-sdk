@@ -11,7 +11,7 @@ kotlin {
     sourceSets {
         val jsMain by getting  {
             dependencies {
-                implementation(project(":shared-hello-world"))
+                implementation(project(":shared"))
                 implementation(compose.web.core)
             }
         }

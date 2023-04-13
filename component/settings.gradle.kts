@@ -15,6 +15,7 @@ pluginManagement {
         kotlin("jvm").version(kotlinVersion)
         kotlin("multiplatform").version(kotlinVersion)
         kotlin("android").version(kotlinVersion)
+        id("org.jetbrains.dokka").version("1.8.10")
         id("com.android.base").version(agpVersion)
         id("com.android.application").version(agpVersion)
         id("com.android.library").version(agpVersion)
@@ -25,7 +26,7 @@ pluginManagement {
 rootProject.name = "component"
 
 include(":component")
-//project(":component").name = "component"
+//project(":component").name = "component3"
 
 include(":shared")
 include(":androidApp")

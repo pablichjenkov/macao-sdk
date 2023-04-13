@@ -11,7 +11,6 @@ kotlin {
     sourceSets {
         val jsMain by getting  {
             dependencies {
-                implementation("com.pablichj:component:0.1.5")
                 implementation(project(":shared"))
                 implementation(project(":amadeus-api"))
                 implementation(compose.web.core)

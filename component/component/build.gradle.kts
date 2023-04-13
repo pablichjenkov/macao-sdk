@@ -2,11 +2,15 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
+    id("org.jetbrains.dokka")
     id("maven-publish")
+    signing
 }
 
-group = "com.pablichj"
-version = "0.1.5"
+group = "io.github.pablichjenkov"
+version = "0.1.13"// in stage
+val mavenCentralUser = extra["mavenCentral.user"] as String
+val mavenCentralPass = extra["mavenCentral.pass"] as String
 
 /*
 fun String.dasherize() = fold("") {acc, value ->
@@ -44,23 +48,108 @@ configure<PublishingExtension> {
 }
 */
 
-/*publishing {
+/*tasks.dokkaHtml.configure {
+    outputDirectory.set(buildDir.resolve("dokka"))
+    moduleName.set("component")
+    cacheRoot.set(file("default"))
+    suppressObviousFunctions.set(false)
+    offlineMode.set(true)
+}*/
+
+// Configure Dokka
+tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
+    // custom output directory
+    outputDirectory.set(buildDir.resolve("dokka"))
+    moduleName.set("component")
+    suppressObviousFunctions.set(false)
+    offlineMode.set(true)
+    /*dokkaSourceSets {
+        named("customNameMain") { // The same name as in Kotlin Multiplatform plugin, so the sources are fetched automatically
+            includes.from("packages.md", "extra.md")
+            samples.from("samples/basic.kt", "samples/advanced.kt")
+        }
+
+        register("differentName") { // Different name, so source roots must be passed explicitly
+            displayName.set("JVM")
+            platform.set(org.jetbrains.dokka.Platform.jvm)
+            sourceRoots.from(kotlin.sourceSets.getByName("jvmMain").kotlin.srcDirs)
+            sourceRoots.from(kotlin.sourceSets.getByName("commonMain").kotlin.srcDirs)
+        }
+    }*/
+}
+
+val dokkaHtml by tasks.getting(org.jetbrains.dokka.gradle.DokkaTask::class)
+
+val javadocJar: TaskProvider<Jar> by tasks.registering(Jar::class) {
+    dependsOn(dokkaHtml)
+    archiveClassifier.set("javadoc")
+    from(dokkaHtml.outputDirectory)
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "Central"
+            //setUrl("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            //setUrl("https://s01.oss.sonatype.org/content/repositories/releases/")
+            credentials {
+                username = mavenCentralUser
+                password = mavenCentralPass
+            }
+        }
+    }
     publications {
         println("publication = $name")
         withType<MavenPublication> {
-            //groupId = "com.meowbox.fourpillars"
-            artifactId = makeArtifactId(name)
-            //version
+            groupId = group as String
+            artifactId = "component"//makeArtifactId(name)
+            version
+            artifact(javadocJar)
+            pom {
+                val projectGitUrl =
+                    "https://github.com/pablichjenkov/templato/tree/master/component"
+                name.set(rootProject.name)
+                description.set(
+                    "Reusable components to be used in compose multiplatform."
+                )
+                url.set(projectGitUrl)
+                inceptionYear.set("2023")
+                licenses {
+                    license {
+                        name.set("MIT")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("pablichjenkov")
+                    }
+                }
+                issueManagement {
+                    system.set("GitHub")
+                    url.set("$projectGitUrl/issues")
+                }
+                scm {
+                    connection.set("scm:git:$projectGitUrl")
+                    developerConnection.set("scm:git:$projectGitUrl")
+                    url.set(projectGitUrl)
+                }
+            }
         }
-        *//*create<MavenPublication>("state3x") {
+        /*create<MavenPublication>("state3x") {
             groupId = "org.gradle.sample"
             artifactId = "state3-desktop"
             version = "1.1"
 
             from(components["java"])
-        }*//*
+        }*/
     }
-}*/
+}
+
+signing {
+    sign(publishing.publications)
+}
 
 kotlin {
     // ANDROID
@@ -72,31 +161,6 @@ kotlin {
     // IOS
     iosArm64()
     iosSimulatorArm64()
-
-    // Do not include the cocoapod plugin here, it forces all composables to be internal for iOS
-    // target to compile.
-//    cocoapods {
-//        summary = "Shared code for the UiState3 example"
-//        homepage = "https://github.com/pablichjenkov/uistate3"
-//        ios.deploymentTarget = "14.1"
-//        podfile = project.file("../iosApp/Podfile")
-//        framework {
-//            baseName = "uistate3"
-//            isStatic = true
-//        }
-//        extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
-//    }
-
-    //Comment it out if using cocoapods, and don't want to use xcframeworks directly
-    /*listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "shared"
-        }
-    }*/
 
     // JS
     js(IR) {
@@ -170,14 +234,6 @@ kotlin {
         // JVM
         val desktopMain by getting
     }
-
-    /*kotlinArtifacts {
-        Native.Library("state3") {
-            target = iosArm64 // Define your target instead
-            modes(DEBUG, RELEASE)
-            // Binary configuration
-        }
-    }*/
 
 }
 

@@ -1,8 +1,8 @@
 package com.pablichj.incubator.uistate3.node
 
-import com.pablichj.incubator.uistate3.node.navigation.DefaultNavigator
-import com.pablichj.incubator.uistate3.node.navigation.Navigator
+import com.pablichj.incubator.uistate3.node.router.DefaultRouter
+import com.pablichj.incubator.uistate3.node.router.Router
 
 class TreeContext {
-    val navigator : Navigator = DefaultNavigator()
+    val router : Router = DefaultRouter()
 }

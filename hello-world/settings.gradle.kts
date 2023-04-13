@@ -24,10 +24,11 @@ pluginManagement {
 
 rootProject.name = "hello-world"
 
-include(":shared-hello-world")
+include(":shared")
 include(":androidApp")
 include(":jsApp")
 include(":desktopApp")
 
-include(":component")
-project(":component").projectDir = File("../component/component")
+// Uncomment to work with both projects hello-world + component live
+// include(":component")
+// project(":component").projectDir = File("../component/component")

@@ -16,12 +16,12 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     cocoapods {
-        summary = "Shared code for the Hello World example"
+        summary = "Shared code for the Hotel Booking template"
         homepage = "https://github.com/pablichjenkov/templato"
         ios.deploymentTarget = "14.1"
         podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = "HelloWorldKt"
+            baseName = "HotelBookingKt"
             isStatic = true
         }
         extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
@@ -39,8 +39,7 @@ kotlin {
         // COMMON
         val commonMain by getting {
             dependencies {
-                //api("com.pablichj:uistate3:0.1.0.5")
-                api(project(":component"))
+                api("io.github.pablichjenkov:component:0.1.11")
                 implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material)
@@ -56,7 +55,7 @@ kotlin {
         // ANDROID
         val androidMain by getting {
             dependencies {
-                implementation("androidx.activity:activity-compose:1.6.1")
+                implementation("androidx.activity:activity-compose:1.7.0")
                 implementation ("com.google.accompanist:accompanist-pager:0.28.0")
                 implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
                 implementation ("androidx.window:window:1.0.0")
@@ -96,7 +95,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.pablichj.incubator.uistate3.example.helloWorld"
+    namespace = "com.pablichj.incubator.uistate3.example.hotelBooking"
     compileSdk = 33
     sourceSets {
         named("main") {

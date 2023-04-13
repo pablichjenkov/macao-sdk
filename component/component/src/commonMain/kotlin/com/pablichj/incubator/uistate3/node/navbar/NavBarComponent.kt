@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.incubator.uistate3.node.*
-import com.pablichj.incubator.uistate3.node.navigation.DeepLinkResult
+import com.pablichj.incubator.uistate3.node.router.DeepLinkResult
 import com.pablichj.incubator.uistate3.node.stack.BackStack
 import com.pablichj.incubator.uistate3.platform.DiContainer
 import com.pablichj.incubator.uistate3.platform.DispatchersProxy

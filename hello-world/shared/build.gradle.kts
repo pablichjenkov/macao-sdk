@@ -5,9 +5,6 @@ plugins {
     id("org.jetbrains.compose")
 }
 
-group = "com.pablichj"
-version = "0.1.0"
-
 kotlin {
     // ANDROID
     android()
@@ -16,12 +13,13 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     cocoapods {
-        summary = "Shared code for the Hotel Booking template"
+        summary = "Shared code for the Hello World example"
         homepage = "https://github.com/pablichjenkov/templato"
         ios.deploymentTarget = "14.1"
         podfile = project.file("../iosApp/Podfile")
+        version = "1.0.0"
         framework {
-            baseName = "HotelBookingKt"
+            baseName = "HelloWorldKt"
             isStatic = true
         }
         extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
@@ -39,8 +37,8 @@ kotlin {
         // COMMON
         val commonMain by getting {
             dependencies {
-                //api("com.pablichj:uistate3:0.1.0.5")
-                api(project(":component"))
+                // api("com.pablichj:component:0.1.10") Cloud Repo coordinates
+                api("io.github.pablichjenkov:component:0.1.11")
                 implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material)
@@ -96,7 +94,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.pablichj.incubator.uistate3.example.hotelBooking"
+    namespace = "com.pablichj.incubator.uistate3.example.helloWorld"
     compileSdk = 33
     sourceSets {
         named("main") {
