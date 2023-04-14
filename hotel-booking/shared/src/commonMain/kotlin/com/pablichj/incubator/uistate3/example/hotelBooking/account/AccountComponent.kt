@@ -4,7 +4,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.pablichj.incubator.uistate3.example.hotelBooking.login.AuthComponent
-import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.templato.component.core.Component
 
 class AccountComponent : Component() {
 

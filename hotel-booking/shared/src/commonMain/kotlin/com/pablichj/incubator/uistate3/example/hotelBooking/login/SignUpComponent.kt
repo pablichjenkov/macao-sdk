@@ -2,11 +2,10 @@ package com.pablichj.incubator.uistate3.example.hotelBooking.login
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.backpress.BackPressHandler
+import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.consumeBackPressEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class SignUpComponent(private val authManager: AuthManager) : Component() {
@@ -28,10 +27,7 @@ class SignUpComponent(private val authManager: AuthManager) : Component() {
     @Composable
     override fun Content(modifier: Modifier) {
         println("SignUpComponent::Composing()")
-        BackPressHandler(
-            component = this,
-            onBackPressed = { this.handleBackPressed() }
-        )
+        consumeBackPressEvent()
         SignUpView()
     }
 

@@ -27,7 +27,7 @@ import com.pablichj.incubator.amadeus.endpoint.hotellist.ListHotelsByCityUseCase
 import com.pablichj.incubator.amadeus.endpoint.hotelsearch.ManyHotelOffersRequest
 import com.pablichj.incubator.amadeus.endpoint.hotelsearch.ManyHotelOffersResponse
 import com.pablichj.incubator.amadeus.endpoint.hotelsearch.ManyHotelOffersUseCase
-import com.pablichj.incubator.uistate3.node.Component
+import com.pablichj.templato.component.core.Component
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

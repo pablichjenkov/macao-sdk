@@ -6,10 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.backpress.BackPressHandler
-import kotlinx.coroutines.*
+import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.consumeBackPressEvent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
 
 class SignInComponent(private val authManager: AuthManager) : Component() {
     val outFlow = MutableSharedFlow<Out>()
@@ -52,10 +55,7 @@ class SignInComponent(private val authManager: AuthManager) : Component() {
     override fun Content(modifier: Modifier) {
         println("SignInComponent::Composing()")
         Box {
-            BackPressHandler(
-                component = this@SignInComponent,
-                onBackPressed = { this@SignInComponent.handleBackPressed() }
-            )
+            consumeBackPressEvent()
             //SignInView({},{},{})
             SignInView2(
                 { coroutineScope.launch { outFlow.emit(Out.SignUpClick) } },

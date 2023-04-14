@@ -4,14 +4,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import com.pablichj.incubator.uistate3.example.hotelBooking.AuthorizeAPI
-import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.stack.StackBarItem
-import com.pablichj.incubator.uistate3.node.stack.StackComponent
+import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.stack.StackBarItem
+import com.pablichj.templato.component.core.stack.StackComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AuthComponent : StackComponent() {
+class AuthComponent : StackComponent(DefaultConfig) {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
     private val authManager: AuthManager = DefaultAuthManager(AuthorizeAPI())
     private val signInComponent = SignInComponent(authManager)

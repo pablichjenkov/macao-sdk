@@ -7,10 +7,10 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.ui.graphics.Color
 import com.pablichj.incubator.uistate3.example.hotelBooking.account.AccountComponent
 import com.pablichj.incubator.uistate3.example.hotelBooking.extra.SimpleComponent
-import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.NavItem
-import com.pablichj.incubator.uistate3.node.navbar.NavBarComponent
-import com.pablichj.incubator.uistate3.node.setNavItems
+import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.NavItem
+import com.pablichj.templato.component.core.navbar.NavBarComponent
+import com.pablichj.templato.component.core.setNavItems
 
 object AppBuilder {
 
