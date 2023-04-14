@@ -37,8 +37,7 @@ kotlin {
         // COMMON
         val commonMain by getting {
             dependencies {
-                // api("com.pablichj:component:0.1.10") Cloud Repo coordinates
-                api("io.github.pablichjenkov:component:0.1.11")
+                api("io.github.pablichjenkov:templato-components:0.1.13")
                 implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material)

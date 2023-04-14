@@ -17,11 +17,5 @@ allprojects {
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         mavenLocal()
-        /** This is your CloudRepo Repository connection information
-         * - for READing/DOWNLOADing purposes */
-        maven {
-            name = "pablichj"
-            url = URI.create("https://pablichjenkov.mycloudrepo.io/public/repositories/pablichj")
-        }
     }
 }
