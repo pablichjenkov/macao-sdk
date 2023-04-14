@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "io.github.pablichjenkov"
-version = "0.1.14"// in stage
+version = "0.1.15"// "0.1.14" in stage
 val mavenCentralUser = extra["mavenCentral.user"] as String
 val mavenCentralPass = extra["mavenCentral.pass"] as String
 
@@ -91,8 +91,8 @@ publishing {
         maven {
             name = "Central"
             //setUrl("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-            setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            // setUrl("https://s01.oss.sonatype.org/content/repositories/releases/")
+            // setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            setUrl("https://s01.oss.sonatype.org/content/repositories/releases/")
             credentials {
                 username = mavenCentralUser
                 password = mavenCentralPass

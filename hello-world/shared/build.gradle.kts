@@ -37,7 +37,7 @@ kotlin {
         // COMMON
         val commonMain by getting {
             dependencies {
-                api("io.github.pablichjenkov:templato-components:0.1.13")
+                api("io.github.pablichjenkov:templato-components:0.1.15")
                 implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material)

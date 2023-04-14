@@ -6,10 +6,10 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.singleWindowApplication
-import com.pablichj.incubator.uistate3.DesktopBridge
-import com.pablichj.incubator.uistate3.DesktopComponentRender
-import com.pablichj.incubator.uistate3.platform.AppLifecycleEvent
-import com.pablichj.incubator.uistate3.platform.DefaultAppLifecycleDispatcher
+import com.pablichj.templato.component.core.DesktopComponentRender
+import com.pablichj.templato.component.platform.AppLifecycleEvent
+import com.pablichj.templato.component.platform.DefaultAppLifecycleDispatcher
+import com.pablichj.templato.component.platform.DesktopBridge
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch

@@ -14,8 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.consumeBackPressEvent
+import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.consumeBackPressEvent
 
 class SimpleComponent(
     val text: String,

@@ -5,11 +5,11 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.Color
 import com.pablichj.incubator.uistate3.example.hotelBooking.extra.SimpleComponent
-import com.pablichj.incubator.uistate3.node.Component
-import com.pablichj.incubator.uistate3.node.stack.StackBarItem
-import com.pablichj.incubator.uistate3.node.stack.StackComponent
+import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.stack.StackBarItem
+import com.pablichj.templato.component.core.stack.StackComponent
 
-class HomeComponent : StackComponent() {
+class HomeComponent : StackComponent(DefaultConfig) {
 
     val homeComponent = SimpleComponent(
         "Home Page",
