@@ -18,15 +18,16 @@ import com.pablichj.incubator.amadeus.Database
 import com.pablichj.incubator.amadeus.common.DefaultTimeProvider
 import com.pablichj.incubator.amadeus.common.ITimeProvider
 import com.pablichj.incubator.amadeus.endpoint.accesstoken.*
+import com.pablichj.incubator.amadeus.endpoint.city.CitySearchRequest
+import com.pablichj.incubator.amadeus.endpoint.city.CitySearchResponse
+import com.pablichj.incubator.amadeus.endpoint.city.CitySearchUseCase
 import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsRequest
 import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsResponse
 import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinatiosUseCase
-import com.pablichj.incubator.amadeus.endpoint.hotellist.ListHotelByCityResponse
-import com.pablichj.incubator.amadeus.endpoint.hotellist.ListHotelsByCityRequest
-import com.pablichj.incubator.amadeus.endpoint.hotellist.ListHotelsByCityUseCase
-import com.pablichj.incubator.amadeus.endpoint.hotelsearch.ManyHotelOffersRequest
-import com.pablichj.incubator.amadeus.endpoint.hotelsearch.ManyHotelOffersResponse
-import com.pablichj.incubator.amadeus.endpoint.hotelsearch.ManyHotelOffersUseCase
+import com.pablichj.incubator.amadeus.endpoint.hotels.HotelByCityResponse
+import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityRequest
+import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityUseCase
+import com.pablichj.incubator.amadeus.endpoint.offers.*
 import com.pablichj.templato.component.core.Component
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -78,9 +79,9 @@ class AmadeusDemoComponent(
         }
     }
 
-    private fun getHotelsByCity() {
+    private fun getCitiesByKeyword() {
         coroutineScope.launch {
-            val accessToken = ResolveAccessTokenUseCase(
+            val accessToken = ResolveAccessTokenUseCaseSource(
                 Dispatchers,
                 accessTokenDao
             ).doWork()
@@ -92,14 +93,54 @@ class AmadeusDemoComponent(
                 output("Using saved token: ${accessToken.accessToken}")
             }
 
-            val hotelListResult = ListHotelsByCityUseCase(
+            val citySearchResult = CitySearchUseCase(
+                Dispatchers
+            ).doWork(
+                //?countryCode=FR&keyword=PARIS&max=10
+                CitySearchRequest(
+                    accessToken,
+                    listOf(
+                        QueryParam.CountryCode("US"),// todo remove hardcoded values
+                        QueryParam.Max("5"),
+                        QueryParam.Keyword("Miami")
+                    )
+                )
+            )
+
+            when (citySearchResult) {
+                is CitySearchResponse.Error -> {
+                    output("Error fetching hotel list: ${citySearchResult.error}")
+                }
+                is CitySearchResponse.Success -> {
+                    output(citySearchResult.citySearchBody)
+                }
+            }
+
+        }
+    }
+
+    private fun getHotelsByCity() {
+        coroutineScope.launch {
+            val accessToken = ResolveAccessTokenUseCaseSource(
+                Dispatchers,
+                accessTokenDao
+            ).doWork()
+
+            if (accessToken == null) {
+                output("No saved token")
+                return@launch
+            } else {
+                output("Using saved token: ${accessToken.accessToken}")
+            }
+
+            val hotelListResult = HotelsByCityUseCase(
                 Dispatchers
             ).doWork(
                 //?cityCode=PAR&radius=1&radiusUnit=KM&hotelSource=ALL
-                ListHotelsByCityRequest(
+                HotelsByCityRequest(
                     accessToken,
                     listOf(
-                        QueryParam.CityCode("PAR"),
+                        QueryParam.CityCode("PAR"),// todo remove hardcoded values
                         QueryParam.Radius("1"),
                         QueryParam.RadiusUnit("KM"),
                         QueryParam.HotelSource("ALL")
@@ -108,20 +149,28 @@ class AmadeusDemoComponent(
             )
 
             when (hotelListResult) {
-                is ListHotelByCityResponse.Error -> {
+                is HotelByCityResponse.Error -> {
                     output("Error fetching hotel list: ${hotelListResult.error}")
                 }
-                is ListHotelByCityResponse.Success -> {
-                    output("Success fetching hotel list: ${hotelListResult.hotelList}")
+                is HotelByCityResponse.Success -> {
+                    hotelListResult.hotelListingBody.data.forEach {
+                        output(
+                            """Hotel ID: ${it.hotelId}
+                               |Geocode: ${it.geoCode}
+                               |Dupe ID: ${it.dupeId}
+                               -----
+                            """.trimMargin()
+                        )
+                    }
                 }
             }
 
         }
     }
 
-    private fun getManyHotelsOffers() {
+    private fun getMultiHotelsOffers() {
         coroutineScope.launch {
-            val accessToken = ResolveAccessTokenUseCase(
+            val accessToken = ResolveAccessTokenUseCaseSource(
                 Dispatchers,
                 accessTokenDao
             ).doWork()
@@ -133,25 +182,76 @@ class AmadeusDemoComponent(
                 output("Using saved token: ${accessToken.accessToken}")
             }
 
-            val manyHotelOffersResult = ManyHotelOffersUseCase(
+            val multiHotelOffersResult = MultiHotelOffersUseCase(
                 Dispatchers
             ).doWork(
                 //?hotelIds=MCLONGHM&adults=1&checkInDate=2023-11-22&roomQuantity=1&paymentPolicy=NONE&bestRateOnly=true
-                ManyHotelOffersRequest(
+                MultiHotelOffersRequest(
                     accessToken,
                     listOf(
-                        QueryParam.HotelIds("MCLONGHM"),
+                        QueryParam.HotelIds("MCLONGHM"),// ACPAR243 todo remove hardcoded values
                         QueryParam.Adults("1"),
                     )
                 )
             )
 
-            when (manyHotelOffersResult) {
-                is ManyHotelOffersResponse.Error -> {
-                    output("Error fetching hotel list: ${manyHotelOffersResult.error}")
+            when (multiHotelOffersResult) {
+                is MultiHotelOffersResponse.Error -> {
+                    output("Error fetching hotel list: ${multiHotelOffersResult.error}")
                 }
-                is ManyHotelOffersResponse.Success -> {
-                    output("Success fetching hotel list: ${manyHotelOffersResult.manyHotelOffers}")
+                is MultiHotelOffersResponse.Success -> {
+                    multiHotelOffersResult.manyHotelOffers.data.forEach {
+                        output(
+                            """Hotel ID: ${it.hotel.hotelId}
+                               |Available: ${it.available}
+                               |Type: ${it.type}
+                            """.trimMargin()
+                        )
+                        output("Offers: ")
+                        it.offers.forEach {
+                            output(
+                                """Offer ID: ${it.id}
+                                   |Base Price: ${it.price.base}
+                                   |Checkin: ${it.checkInDate}
+                            """.trimMargin()
+                            )
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    private fun getOffer() {
+        coroutineScope.launch {
+            val accessToken = ResolveAccessTokenUseCaseSource(
+                Dispatchers,
+                accessTokenDao
+            ).doWork()
+
+            if (accessToken == null) {
+                output("No saved token")
+                return@launch
+            } else {
+                output("Using saved token: ${accessToken.accessToken}")
+            }
+
+            val getOfferResult = GetOfferUseCase(
+                Dispatchers
+            ).doWork(
+                GetOfferRequest(
+                    accessToken,
+                    "TSXOJ6LFQ2"
+                )
+            )
+
+            when (getOfferResult) {
+                is GetOfferResponse.Error -> {
+                    output("Error fetching hotel list: ${getOfferResult.error}")
+                }
+                is GetOfferResponse.Success -> {
+                    output(getOfferResult.offer)
                 }
             }
 
@@ -160,7 +260,7 @@ class AmadeusDemoComponent(
 
     private fun getFlightDestinations() {
         coroutineScope.launch {
-            val accessToken = ResolveAccessTokenUseCase(
+            val accessToken = ResolveAccessTokenUseCaseSource(
                 Dispatchers,
                 accessTokenDao
             ).doWork()
@@ -225,6 +325,13 @@ class AmadeusDemoComponent(
                 }
                 Button(
                     onClick = {
+                        getCitiesByKeyword()
+                    }
+                ) {
+                    Text("City Search")
+                }
+                Button(
+                    onClick = {
                         getHotelsByCity()
                     }
                 ) {
@@ -232,18 +339,32 @@ class AmadeusDemoComponent(
                 }
                 Button(
                     onClick = {
-                        getManyHotelsOffers()
+                        getMultiHotelsOffers()
                     }
                 ) {
-                    Text("Get Many Hotel Offers")
+                    Text("Get Multi Hotel Offers")
                 }
                 Button(
                     onClick = {
-                        // getFlightDestinations()
+                        getMultiHotelsOffers()
+                    }
+                ) {
+                    Text("Get Multi Hotel Offers")
+                }
+                Button(
+                    onClick = {
+                        getOffer()
+                    }
+                ) {
+                    Text("Get Offer")
+                }
+                /*Button(
+                    onClick = {
+                        getFlightDestinations()
                     }
                 ) {
                     Text("Get Flight Destinations")
-                }
+                }*/
                 Button(
                     onClick = {
                         console.value = ""

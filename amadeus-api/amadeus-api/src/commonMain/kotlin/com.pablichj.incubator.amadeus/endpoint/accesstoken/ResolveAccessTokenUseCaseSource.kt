@@ -1,14 +1,14 @@
 package com.pablichj.incubator.amadeus.endpoint.accesstoken
 
-import com.pablichj.incubator.amadeus.common.SingleUseCaseNoParam
+import com.pablichj.incubator.amadeus.common.SingleUseCaseSource
 import com.pablichj.incubator.amadeus.endpoint.accesstoken.model.AccessToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class ResolveAccessTokenUseCase(
+class ResolveAccessTokenUseCaseSource(
     private val dispatcher: Dispatchers,
     private val accessTokenDao: IAccessTokenDao
-) : SingleUseCaseNoParam<AccessToken?> {
+) : SingleUseCaseSource<AccessToken?> {
 
     override suspend fun doWork(): AccessToken? {
         return withContext(dispatcher.Unconfined) {

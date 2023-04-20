@@ -1,4 +1,4 @@
-package com.pablichj.incubator.amadeus.endpoint.hotelsearch
+package com.pablichj.incubator.amadeus.endpoint.offers
 
 import AmadeusError
 import Envs
@@ -6,16 +6,15 @@ import com.pablichj.incubator.amadeus.common.SingleUseCase
 import com.pablichj.incubator.amadeus.httpClient
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class ManyHotelOffersUseCase(
+class MultiHotelOffersUseCase(
     private val dispatcher: Dispatchers
-) : SingleUseCase<ManyHotelOffersRequest, ManyHotelOffersResponse> {
+) : SingleUseCase<MultiHotelOffersRequest, MultiHotelOffersResponse> {
 
-    override suspend fun doWork(params: ManyHotelOffersRequest): ManyHotelOffersResponse {
+    override suspend fun doWork(params: MultiHotelOffersRequest): MultiHotelOffersResponse {
         val resp = withContext(dispatcher.Unconfined) {
             httpClient.get(hotelsByCityUrl) {
                 url {
@@ -28,9 +27,9 @@ class ManyHotelOffersUseCase(
         }
 
         return if (resp.status.isSuccess()) {
-            ManyHotelOffersResponse.Success(resp.bodyAsText())
+            MultiHotelOffersResponse.Success(resp.body())
         } else {
-            ManyHotelOffersResponse.Error(resp.body<AmadeusError>())
+            MultiHotelOffersResponse.Error(resp.body<AmadeusError>()) // todo Do propers error parsing
         }
 
     }

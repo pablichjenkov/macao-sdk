@@ -1,9 +1,9 @@
-package com.pablichj.incubator.amadeus.endpoint.hotelsearch
+package com.pablichj.incubator.amadeus.endpoint.offers
 
 import QueryParam
 import com.pablichj.incubator.amadeus.endpoint.accesstoken.model.AccessToken
 
-data class ManyHotelOffersRequest(
+data class GetOfferRequest(
     val accessToken: AccessToken,
-    val queryParams: List<QueryParam>
+    val offerId: String
 )
