@@ -71,9 +71,8 @@ class AmadeusDemoComponent(
                     output("Error fetching access token: ${tokenResponse.error}")
                 }
                 is GetAccessTokenResponse.Success -> {
-                    output("Get Token Success: ${tokenResponse.accessToken.accessToken}")
                     accessTokenDao.insert(tokenResponse.accessToken)
-                    output("Insert Token Success: ${tokenResponse.accessToken.accessToken}")
+                    output("SQDelight Insert Token Success: ${tokenResponse.accessToken.accessToken}")
                 }
             }
         }
@@ -109,7 +108,7 @@ class AmadeusDemoComponent(
 
             when (citySearchResult) {
                 is CitySearchResponse.Error -> {
-                    output("Error fetching hotel list: ${citySearchResult.error}")
+                    output("Error in city search: ${citySearchResult.error}")
                 }
                 is CitySearchResponse.Success -> {
                     citySearchResult.citySearchBody.data.forEach {
@@ -157,7 +156,7 @@ class AmadeusDemoComponent(
 
             when (hotelListResult) {
                 is HotelByCityResponse.Error -> {
-                    output("Error fetching hotel list: ${hotelListResult.error}")
+                    output("Error in hotels by city: ${hotelListResult.error}")
                 }
                 is HotelByCityResponse.Success -> {
                     hotelListResult.hotelsByCityBody.data.forEach {
@@ -204,7 +203,7 @@ class AmadeusDemoComponent(
 
             when (multiHotelOffersResult) {
                 is MultiHotelOffersResponse.Error -> {
-                    output("Error fetching hotel list: ${multiHotelOffersResult.error}")
+                    output("Error in multi hotel offers: ${multiHotelOffersResult.error}")
                 }
                 is MultiHotelOffersResponse.Success -> {
                     multiHotelOffersResult.multiHotelOffers.data.forEach {
@@ -255,7 +254,7 @@ class AmadeusDemoComponent(
 
             when (getOfferResult) {
                 is GetOfferResponse.Error -> {
-                    output("Error fetching hotel list: ${getOfferResult.error}")
+                    output("Error in get offer by id: ${getOfferResult.error}")
                 }
                 is GetOfferResponse.Success -> {
                     output("Offer in Hotel: ${getOfferResult.offerBody.data.hotel.name}")
