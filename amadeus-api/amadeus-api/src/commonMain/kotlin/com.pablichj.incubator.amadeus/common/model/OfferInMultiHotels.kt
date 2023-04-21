@@ -3,7 +3,7 @@ package com.pablichj.incubator.amadeus.common.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Offer (
+data class OfferInMultiHotels (
     val id: String,
     val checkInDate: String,
     val checkOutDate: String,
@@ -11,7 +11,7 @@ data class Offer (
     val rateFamilyEstimated: RateFamilyEstimated,
     val room: Room,
     val guests: Guests,
-    val price: Price,
-    val policies: Policies,
+    val price: PriceInMultiHotel,
+    val policies: OfferPoliciesInHotels,
     val self: String
 )
