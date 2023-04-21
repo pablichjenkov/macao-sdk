@@ -1,11 +1,12 @@
 package com.pablichj.incubator.amadeus.endpoint.offers
 
 import AmadeusError
-import Envs
+import com.pablichj.incubator.amadeus.common.Envs
 import com.pablichj.incubator.amadeus.common.SingleUseCase
 import com.pablichj.incubator.amadeus.httpClient
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,23 +16,28 @@ class MultiHotelOffersUseCase(
 ) : SingleUseCase<MultiHotelOffersRequest, MultiHotelOffersResponse> {
 
     override suspend fun doWork(params: MultiHotelOffersRequest): MultiHotelOffersResponse {
-        val resp = withContext(dispatcher.Unconfined) {
-            httpClient.get(hotelsByCityUrl) {
-                url {
-                    params.queryParams.forEach {
-                        parameters.append(it.key, it.value)
+        val result = withContext(dispatcher.Unconfined) {
+            runCatching {
+                httpClient.get(hotelsByCityUrl) {
+                    url {
+                        params.queryParams.forEach {
+                            parameters.append(it.key, it.value)
+                        }
                     }
+                    header(HttpHeaders.Authorization, params.accessToken.authorization)
                 }
-                header(HttpHeaders.Authorization, params.accessToken.authorization)
             }
         }
 
-        return if (resp.status.isSuccess()) {
-            MultiHotelOffersResponse.Success(resp.body())
-        } else {
-            MultiHotelOffersResponse.Error(resp.body<AmadeusError>()) // todo Do propers error parsing
+        val response = result.getOrElse {
+            return MultiHotelOffersResponse.Error(AmadeusError.fromException(it))
         }
 
+        return if (response.status.isSuccess()) {
+            MultiHotelOffersResponse.Success(response.body())
+        } else {
+            MultiHotelOffersResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
+        }
     }
 
     companion object {

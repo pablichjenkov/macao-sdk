@@ -1,7 +1,7 @@
 package com.pablichj.incubator.amadeus.endpoint.fligths.destination
 
 import AmadeusError
-import Envs
+import com.pablichj.incubator.amadeus.common.Envs
 import com.pablichj.incubator.amadeus.common.SingleUseCase
 import com.pablichj.incubator.amadeus.httpClient
 import io.ktor.client.call.*
