@@ -1,15 +1,14 @@
-package com.pablichj.incubator.amadeus.endpoint.offers.model
+package com.pablichj.incubator.amadeus.common.model
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class HotelSearchInfo (
+data class HotelInGetOffer (
     val type: String,
     val hotelId: String,
     val chainCode: String,
-    val dupeId: String,
     val name: String,
     val cityCode: String,
-    val latitude: Double,
-    val longitude: Double
+    val address: AddressCountry,
+    val amenities: List<String>
 )

@@ -11,7 +11,7 @@ import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class GetFlightDestinatiosUseCase(
+class GetFlightDestinationsUseCase(
     private val dispatcher: Dispatchers
 ) : SingleUseCase<GetFlightDestinationsRequest, GetFlightDestinationsResponse> {
 

@@ -23,7 +23,7 @@ import com.pablichj.incubator.amadeus.endpoint.city.CitySearchResponse
 import com.pablichj.incubator.amadeus.endpoint.city.CitySearchUseCase
 import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsRequest
 import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsResponse
-import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinatiosUseCase
+import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsUseCase
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelByCityResponse
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityRequest
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityUseCase
@@ -112,7 +112,14 @@ class AmadeusDemoComponent(
                     output("Error fetching hotel list: ${citySearchResult.error}")
                 }
                 is CitySearchResponse.Success -> {
-                    output(citySearchResult.citySearchBody)
+                    citySearchResult.citySearchBody.data.forEach {
+                        output("""
+                            City Name = ${it.name}
+                            City Address = ${it.address}
+                            City Type = ${it.type}
+                            City Subtype = ${it.subType}
+                        """.trimIndent())
+                    }
                 }
             }
 
@@ -153,7 +160,7 @@ class AmadeusDemoComponent(
                     output("Error fetching hotel list: ${hotelListResult.error}")
                 }
                 is HotelByCityResponse.Success -> {
-                    hotelListResult.hotelListingBody.data.forEach {
+                    hotelListResult.hotelsByCityBody.data.forEach {
                         output(
                             """Hotel ID: ${it.hotelId}
                                |Geocode: ${it.geoCode}
@@ -200,19 +207,19 @@ class AmadeusDemoComponent(
                     output("Error fetching hotel list: ${multiHotelOffersResult.error}")
                 }
                 is MultiHotelOffersResponse.Success -> {
-                    multiHotelOffersResult.manyHotelOffers.data.forEach {
+                    multiHotelOffersResult.multiHotelOffers.data.forEach {
                         output(
                             """Hotel ID: ${it.hotel.hotelId}
-                               |Available: ${it.available}
-                               |Type: ${it.type}
+                               Available: ${it.available}
+                               Type: ${it.type}
                             """.trimMargin()
                         )
                         output("Offers: ")
                         it.offers.forEach {
                             output(
                                 """Offer ID: ${it.id}
-                                   |Base Price: ${it.price.base}
-                                   |Checkin: ${it.checkInDate}
+                                   Base Price: ${it.price.base}
+                                   Checkin: ${it.checkInDate}
                             """.trimMargin()
                             )
                         }
@@ -251,7 +258,17 @@ class AmadeusDemoComponent(
                     output("Error fetching hotel list: ${getOfferResult.error}")
                 }
                 is GetOfferResponse.Success -> {
-                    output(getOfferResult.offer)
+                    output("Offer in Hotel: ${getOfferResult.offerBody.data.hotel.name}")
+                    getOfferResult.offerBody.data.offers.forEach {
+                        output("""
+                            Offer Id: ${it.id}
+                            CheckInDate: ${it.checkInDate}
+                            CheckOutDate: ${it.checkOutDate}
+                            Guests: ${it.guests}
+                            Base Price: ${it.price.base}
+                        """.trimIndent()
+                        )
+                    }
                 }
             }
 
@@ -272,7 +289,7 @@ class AmadeusDemoComponent(
                 output("Using saved token: ${accessToken.accessToken}")
             }
 
-            val flightsDestinationsResult = GetFlightDestinatiosUseCase(
+            val flightsDestinationsResult = GetFlightDestinationsUseCase(
                 Dispatchers
             ).doWork(
                 // origin=PAR&maxPrice=200
@@ -290,7 +307,7 @@ class AmadeusDemoComponent(
                     output("Error fetching flights: ${flightsDestinationsResult.error}")
                 }
                 is GetFlightDestinationsResponse.Success -> {
-                    output("Success fetching flights: ${flightsDestinationsResult.hotelList}")
+                    output("Success fetching flights: ${flightsDestinationsResult.flightDestinationsBody}")
                 }
             }
 
@@ -336,13 +353,6 @@ class AmadeusDemoComponent(
                     }
                 ) {
                     Text("Get Hotels By City")
-                }
-                Button(
-                    onClick = {
-                        getMultiHotelsOffers()
-                    }
-                ) {
-                    Text("Get Multi Hotel Offers")
                 }
                 Button(
                     onClick = {

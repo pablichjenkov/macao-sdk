@@ -1,9 +1,9 @@
 package com.pablichj.incubator.amadeus.endpoint.offers
 
 import AmadeusError
-import com.pablichj.incubator.amadeus.endpoint.offers.model.HotelOffersBody
+import com.pablichj.incubator.amadeus.endpoint.offers.model.GetOfferBody
 
-sealed class GetOfferResponse() {
+sealed class GetOfferResponse {
     class Error(val error: AmadeusError) : GetOfferResponse()
-    class Success(val offer: String) : GetOfferResponse()
+    class Success(val offerBody: GetOfferBody) : GetOfferResponse()
 }

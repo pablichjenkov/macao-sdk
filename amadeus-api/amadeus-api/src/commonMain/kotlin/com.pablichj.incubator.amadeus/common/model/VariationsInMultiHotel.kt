@@ -3,7 +3,7 @@ package com.pablichj.incubator.amadeus.common.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class VariationsInGetOffer (
+data class VariationsInMultiHotel (
     val average: Average = Average("0"),
-    val changes: List<ChangeInOfferInGetOffer>
+    val changes: List<ChangeInOfferInHotel>
 )

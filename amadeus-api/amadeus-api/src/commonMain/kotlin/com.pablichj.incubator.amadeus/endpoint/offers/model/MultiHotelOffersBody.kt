@@ -6,7 +6,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 @Serializable
-data class HotelOffersBody(
+data class MultiHotelOffersBody(
     val data: List<HotelWithOffers>
 ) {
     fun toJson(): String = Json.encodeToString(this)
@@ -14,6 +14,6 @@ data class HotelOffersBody(
     companion object {
         fun fromJson(
             json: String
-        ): HotelOffersBody = Json.decodeFromString(json)
+        ): MultiHotelOffersBody = Json.decodeFromString(json)
     }
 }

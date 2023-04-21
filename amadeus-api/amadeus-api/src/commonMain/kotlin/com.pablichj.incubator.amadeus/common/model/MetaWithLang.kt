@@ -3,8 +3,6 @@ package com.pablichj.incubator.amadeus.common.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Change (
-    val startDate: String,
-    val endDate: String,
-    val total: String
+data class MetaWithLang (
+    val lang: String = "en"
 )
