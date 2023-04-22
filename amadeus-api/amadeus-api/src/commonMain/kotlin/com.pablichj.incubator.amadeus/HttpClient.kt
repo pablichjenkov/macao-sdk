@@ -8,7 +8,7 @@ import io.ktor.serialization.kotlinx.json.*
 import io.ktor.util.debug.*
 import kotlinx.serialization.json.Json
 
-private const val RequestTimeoutMillis = 30_000L
+private const val RequestTimeoutMillis = 15_000L
 
 internal val httpClient = HttpClient {
     install(HttpTimeout) {

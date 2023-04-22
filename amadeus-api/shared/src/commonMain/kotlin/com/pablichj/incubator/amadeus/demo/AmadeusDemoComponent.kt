@@ -18,6 +18,11 @@ import com.pablichj.incubator.amadeus.Database
 import com.pablichj.incubator.amadeus.common.DefaultTimeProvider
 import com.pablichj.incubator.amadeus.common.ITimeProvider
 import com.pablichj.incubator.amadeus.endpoint.accesstoken.*
+import com.pablichj.incubator.amadeus.endpoint.booking.hotel.HotelBookingRequest
+import com.pablichj.incubator.amadeus.endpoint.booking.hotel.HotelBookingResponse
+import com.pablichj.incubator.amadeus.endpoint.booking.hotel.HotelBookingUseCase
+import com.pablichj.incubator.amadeus.endpoint.booking.hotel.model.HotelBookingRequestBody
+import com.pablichj.incubator.amadeus.endpoint.booking.hotel.model.HotelBookingRequestData
 import com.pablichj.incubator.amadeus.endpoint.city.CitySearchRequest
 import com.pablichj.incubator.amadeus.endpoint.city.CitySearchResponse
 import com.pablichj.incubator.amadeus.endpoint.city.CitySearchUseCase
@@ -274,6 +279,56 @@ class AmadeusDemoComponent(
         }
     }
 
+    private fun hotelBook() {
+        coroutineScope.launch {
+            val accessToken = ResolveAccessTokenUseCaseSource(
+                Dispatchers,
+                accessTokenDao
+            ).doWork()
+
+            if (accessToken == null) {
+                output("No saved token")
+                return@launch
+            } else {
+                output("Using saved token: ${accessToken.accessToken}")
+            }
+
+            val hotelBookingResult = HotelBookingUseCase(
+                Dispatchers
+            ).doWork(
+                HotelBookingRequest(
+                    accessToken,
+                    HotelBookingRequestBody(
+                        data = HotelBookingRequestData(
+                            offerId = "",
+                            guests = emptyList(),
+                            payments = emptyList()
+                        ),
+                    )
+                )
+            )
+
+            when (hotelBookingResult) {
+                is HotelBookingResponse.Error -> {
+                    output("Error in hotel booking: ${hotelBookingResult.error}")
+                }
+                is HotelBookingResponse.Success -> {
+                    //output("Offer in Hotel: ${hotelBookingResult.offerBody.data.hotel.name}")
+                    /*hotelBookingResult.offerBody.data.offers.forEach {
+                        output("""
+                            Offer Id: ${it.id}
+                            CheckInDate: ${it.checkInDate}
+                            CheckOutDate: ${it.checkOutDate}
+                            Guests: ${it.guests}
+                            Base Price: ${it.price.base}
+                        """.trimIndent()
+                        )
+                    }*/
+                }
+            }
+        }
+    }
+
     private fun getFlightDestinations() {
         coroutineScope.launch {
             val accessToken = ResolveAccessTokenUseCaseSource(
@@ -366,6 +421,13 @@ class AmadeusDemoComponent(
                     }
                 ) {
                     Text("Get Offer")
+                }
+                Button(
+                    onClick = {
+                        hotelBook()
+                    }
+                ) {
+                    Text("Book a Hotel")
                 }
                 /*Button(
                     onClick = {
