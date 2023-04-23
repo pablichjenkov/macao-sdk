@@ -18,7 +18,7 @@ class GetAccessTokenUseCase(
     override suspend fun doWork(params: GetAccessTokenRequest): GetAccessTokenResponse {
         val result = withContext(dispatcher.Unconfined) {
             runCatching {
-                httpClient.submitForm(
+                val response = httpClient.submitForm(
                     url = tokenUrl,
                     formParameters = Parameters.build {
                         append(
@@ -29,17 +29,15 @@ class GetAccessTokenUseCase(
                         append("client_secret", params.clientSecret)
                     }
                 )
+                if (response.status.isSuccess()) {
+                    GetAccessTokenResponse.Success(response.body())
+                } else {
+                    GetAccessTokenResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
+                }
             }
         }
-
-        val response = result.getOrElse {
+        return result.getOrElse {
             return GetAccessTokenResponse.Error(AmadeusError.fromException(it))
-        }
-
-        return if (response.status.isSuccess()) {
-            GetAccessTokenResponse.Success(response.body())
-        } else {
-            GetAccessTokenResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
         }
     }
 

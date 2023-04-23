@@ -18,7 +18,7 @@ class CitySearchUseCase(
     override suspend fun doWork(params: CitySearchRequest): CitySearchResponse {
         val result = withContext(dispatcher.Unconfined) {
             runCatching {
-                httpClient.get(hotelsByCityUrl) {
+                val response = httpClient.get(hotelsByCityUrl) {
                     url {
                         params.queryParams.forEach {
                             parameters.append(it.key, it.value)
@@ -26,17 +26,15 @@ class CitySearchUseCase(
                     }
                     header(HttpHeaders.Authorization, params.accessToken.authorization)
                 }
+                if (response.status.isSuccess()) {
+                    CitySearchResponse.Success(response.body())
+                } else {
+                    CitySearchResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
+                }
             }
         }
-
-        val response = result.getOrElse {
+        return result.getOrElse {
             return CitySearchResponse.Error(AmadeusError.fromException(it))
-        }
-
-        return if (response.status.isSuccess()) {
-            CitySearchResponse.Success(response.body())
-        } else {
-            CitySearchResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
         }
     }
 

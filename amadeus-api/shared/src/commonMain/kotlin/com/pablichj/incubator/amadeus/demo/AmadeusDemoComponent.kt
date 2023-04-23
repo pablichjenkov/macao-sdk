@@ -21,8 +21,6 @@ import com.pablichj.incubator.amadeus.endpoint.accesstoken.*
 import com.pablichj.incubator.amadeus.endpoint.booking.hotel.HotelBookingRequest
 import com.pablichj.incubator.amadeus.endpoint.booking.hotel.HotelBookingResponse
 import com.pablichj.incubator.amadeus.endpoint.booking.hotel.HotelBookingUseCase
-import com.pablichj.incubator.amadeus.endpoint.booking.hotel.model.HotelBookingRequestBody
-import com.pablichj.incubator.amadeus.endpoint.booking.hotel.model.HotelBookingRequestData
 import com.pablichj.incubator.amadeus.endpoint.city.CitySearchRequest
 import com.pablichj.incubator.amadeus.endpoint.city.CitySearchResponse
 import com.pablichj.incubator.amadeus.endpoint.city.CitySearchUseCase
@@ -33,6 +31,7 @@ import com.pablichj.incubator.amadeus.endpoint.hotels.HotelByCityResponse
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityRequest
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityUseCase
 import com.pablichj.incubator.amadeus.endpoint.offers.*
+import com.pablichj.incubator.amadeus.testdata.TestData
 import com.pablichj.templato.component.core.Component
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -116,7 +115,7 @@ class AmadeusDemoComponent(
                     output("Error in city search: ${citySearchResult.error}")
                 }
                 is CitySearchResponse.Success -> {
-                    citySearchResult.citySearchBody.data.forEach {
+                    citySearchResult.citySearchResponseBody.data.forEach {
                         output("""
                             City Name = ${it.name}
                             City Address = ${it.address}
@@ -298,13 +297,7 @@ class AmadeusDemoComponent(
             ).doWork(
                 HotelBookingRequest(
                     accessToken,
-                    HotelBookingRequestBody(
-                        data = HotelBookingRequestData(
-                            offerId = "",
-                            guests = emptyList(),
-                            payments = emptyList()
-                        ),
-                    )
+                    TestData.HotelBookingBody
                 )
             )
 
