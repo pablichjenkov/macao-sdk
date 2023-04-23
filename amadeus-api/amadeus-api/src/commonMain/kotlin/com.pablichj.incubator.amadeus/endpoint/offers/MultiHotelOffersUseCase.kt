@@ -18,7 +18,7 @@ class MultiHotelOffersUseCase(
     override suspend fun doWork(params: MultiHotelOffersRequest): MultiHotelOffersResponse {
         val result = withContext(dispatcher.Unconfined) {
             runCatching {
-                httpClient.get(hotelsByCityUrl) {
+                val response = httpClient.get(hotelsByCityUrl) {
                     url {
                         params.queryParams.forEach {
                             parameters.append(it.key, it.value)
@@ -26,17 +26,15 @@ class MultiHotelOffersUseCase(
                     }
                     header(HttpHeaders.Authorization, params.accessToken.authorization)
                 }
+                if (response.status.isSuccess()) {
+                    MultiHotelOffersResponse.Success(response.body())
+                } else {
+                    MultiHotelOffersResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
+                }
             }
         }
-
-        val response = result.getOrElse {
+        return result.getOrElse {
             return MultiHotelOffersResponse.Error(AmadeusError.fromException(it))
-        }
-
-        return if (response.status.isSuccess()) {
-            MultiHotelOffersResponse.Success(response.body())
-        } else {
-            MultiHotelOffersResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
         }
     }
 

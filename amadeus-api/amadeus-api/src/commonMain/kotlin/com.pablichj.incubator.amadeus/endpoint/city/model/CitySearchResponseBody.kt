@@ -8,13 +8,13 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 @Serializable
-data class CitySearchBody(
+data class CitySearchResponseBody(
     val meta: MetaWithCount,
     val data: List<City>
 ) {
     fun toJson(): String = Json.encodeToString(this)
 
     companion object {
-        fun fromJson(json: String): CitySearchBody = Json.decodeFromString(json)
+        fun fromJson(json: String): CitySearchResponseBody = Json.decodeFromString(json)
     }
 }

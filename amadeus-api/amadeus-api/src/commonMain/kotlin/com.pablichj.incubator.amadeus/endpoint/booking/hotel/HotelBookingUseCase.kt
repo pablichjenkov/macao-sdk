@@ -18,22 +18,20 @@ class HotelBookingUseCase(
     override suspend fun doWork(params: HotelBookingRequest): HotelBookingResponse {
         val result = withContext(dispatcher.Unconfined) {
             runCatching {
-                httpClient.post(hotelBookingUrl) {
+                val response = httpClient.post(hotelBookingUrl) {
                     contentType(ContentType.Application.Json)
                     header(HttpHeaders.Authorization, params.accessToken.authorization)
                     setBody(params.body)
                 }
+                if (response.status.isSuccess()) {
+                    HotelBookingResponse.Success(response.body())
+                } else {
+                    HotelBookingResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
+                }
             }
         }
-
-        val response = result.getOrElse {
+        return result.getOrElse {
             return HotelBookingResponse.Error(AmadeusError.fromException(it))
-        }
-
-        return if (response.status.isSuccess()) {
-            HotelBookingResponse.Success(response.body())
-        } else {
-            HotelBookingResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
         }
     }
 

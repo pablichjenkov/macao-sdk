@@ -18,23 +18,21 @@ class GetOfferUseCase(
     override suspend fun doWork(params: GetOfferRequest): GetOfferResponse {
         val result = withContext(dispatcher.Unconfined) {
             runCatching {
-                httpClient.get(getOfferUrl) {
+                val response = httpClient.get(getOfferUrl) {
                     url {
                         appendEncodedPathSegments("/hotel-offers/${params.offerId}")
                     }
                     header(HttpHeaders.Authorization, params.accessToken.authorization)
                 }
+                if (response.status.isSuccess()) {
+                    GetOfferResponse.Success(response.body())
+                } else {
+                    GetOfferResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
+                }
             }
         }
-
-        val response = result.getOrElse {
+        return result.getOrElse {
             return GetOfferResponse.Error(AmadeusError.fromException(it))
-        }
-
-        return if (response.status.isSuccess()) {
-            GetOfferResponse.Success(response.body())
-        } else {
-            GetOfferResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
         }
     }
 
