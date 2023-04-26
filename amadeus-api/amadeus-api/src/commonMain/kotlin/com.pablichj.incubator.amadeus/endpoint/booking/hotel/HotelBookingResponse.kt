@@ -5,5 +5,5 @@ import com.pablichj.incubator.amadeus.endpoint.booking.hotel.model.HotelBookingR
 
 sealed class HotelBookingResponse {
     class Error(val error: AmadeusError) : HotelBookingResponse()
-    class Success(val hotelBookingResponseBody: HotelBookingResponseBody) : HotelBookingResponse()
+    class Success(val responseBody: HotelBookingResponseBody) : HotelBookingResponse()
 }

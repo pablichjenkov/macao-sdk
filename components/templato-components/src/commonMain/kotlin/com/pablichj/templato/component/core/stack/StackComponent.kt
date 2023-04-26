@@ -120,10 +120,10 @@ abstract class StackComponent(
                     title = stackBarItem.label,
                     icon1 = resolveFirstIcon(),
                     onIcon1Click = {
-                        findClosestIDrawerNode()?.open()
+                        findClosestDrawerNavigationComponent()?.open()
                     },
                     onTitleClick = {
-                        findClosestIDrawerNode()?.open()
+                        findClosestDrawerNavigationComponent()?.open()
                     }
                 )
             )
@@ -142,7 +142,7 @@ abstract class StackComponent(
                     },
                     icon1 = resolveFirstIcon(),
                     onIcon1Click = {
-                        findClosestIDrawerNode()?.open()
+                        findClosestDrawerNavigationComponent()?.open()
                     },
                     icon2 = Icons.Filled.ArrowBack,
                     onIcon2Click = {
@@ -154,7 +154,7 @@ abstract class StackComponent(
     }
 
     private fun resolveFirstIcon(): ImageVector? {
-        val canProvideGlobalNavigation = findClosestIDrawerNode() != null
+        val canProvideGlobalNavigation = findClosestDrawerNavigationComponent() != null
         return if (canProvideGlobalNavigation) {
             Icons.Filled.Menu
         } else {

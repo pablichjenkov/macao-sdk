@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class OfferPoliciesInHotels (
     val paymentType: String,
-    val cancellation: Cancellation
+    val cancellation: OfferCancellation
 )

@@ -5,7 +5,7 @@ import com.pablichj.templato.component.core.backpress.BackPressHandler
 import com.pablichj.templato.component.core.drawer.DrawerNavigationComponent
 import com.pablichj.templato.component.core.router.DeepLinkDestination
 
-fun Component.findClosestIDrawerNode(): DrawerNavigationComponent? {
+fun Component.findClosestDrawerNavigationComponent(): DrawerNavigationComponent? {
     var parentIterator: Component? = this.parentComponent
     while (parentIterator != null) {
         if (parentIterator is DrawerNavigationComponent) {

@@ -170,15 +170,15 @@ open class PagerComponent(
         backStack.deque.add(childComponents[selectedIndex])
     }
 
-    // region Drawer rendering
+    // region Pager rendering
 
     fun setPagerComponentView(
-        drawerComponentView: @Composable PagerComponent.(
+        pagerComponentView: @Composable PagerComponent.(
             modifier: Modifier,
             childComponents: List<Component>
         ) -> Unit
     ) {
-        this.pagerComponentView = drawerComponentView
+        this.pagerComponentView = pagerComponentView
     }
 
     private var pagerComponentView: @Composable PagerComponent.(

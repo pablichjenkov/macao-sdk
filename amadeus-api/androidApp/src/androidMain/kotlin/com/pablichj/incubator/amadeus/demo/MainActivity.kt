@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AndroidComponentRender(
-                rootComponent = AmadeusDemoComponent(database),
+                rootComponent = TreeBuilder.getRootComponent(database),
                 onBackPressEvent = { finishAffinity() }
             )
         }

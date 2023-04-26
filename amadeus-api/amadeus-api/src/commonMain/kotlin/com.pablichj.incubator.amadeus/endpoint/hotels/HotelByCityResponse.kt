@@ -5,5 +5,5 @@ import com.pablichj.incubator.amadeus.endpoint.hotels.model.HotelsByCityBody
 
 sealed class HotelByCityResponse {
     class Error(val error: AmadeusError) : HotelByCityResponse()
-    class Success(val hotelsByCityBody: HotelsByCityBody) : HotelByCityResponse()
+    class Success(val responseBody: HotelsByCityBody) : HotelByCityResponse()
 }
