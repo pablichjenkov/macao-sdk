@@ -1,4 +1,4 @@
-package com.pablichj.incubator.amadeus.endpoint.offers
+package com.pablichj.incubator.amadeus.endpoint.locations
 
 import AmadeusError
 import com.pablichj.incubator.amadeus.common.Envs
@@ -11,11 +11,11 @@ import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class MultiHotelOffersUseCase(
+class AirportAndCitySearchUseCase(
     private val dispatcher: Dispatchers
-) : SingleUseCase<MultiHotelOffersRequest, MultiHotelOffersResponse> {
+) : SingleUseCase<AirportAndCitySearchRequest, AirportAndCitySearchResponse> {
 
-    override suspend fun doWork(params: MultiHotelOffersRequest): MultiHotelOffersResponse {
+    override suspend fun doWork(params: AirportAndCitySearchRequest): AirportAndCitySearchResponse {
         val result = withContext(dispatcher.Unconfined) {
             runCatching {
                 val response = httpClient.get(hotelsByCityUrl) {
@@ -27,21 +27,18 @@ class MultiHotelOffersUseCase(
                     header(HttpHeaders.Authorization, params.accessToken.authorization)
                 }
                 if (response.status.isSuccess()) {
-                    println(response.bodyAsText())
-                    MultiHotelOffersResponse.Success(response.body())
+                    AirportAndCitySearchResponse.Success(response.body())
                 } else {
-                    MultiHotelOffersResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
+                    AirportAndCitySearchResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
                 }
             }
         }
         return result.getOrElse {
-            it.printStackTrace()
-            return MultiHotelOffersResponse.Error(AmadeusError.fromException(it))
+            return AirportAndCitySearchResponse.Error(AmadeusError.fromException(it))
         }
     }
 
     companion object {
-        private val hotelsByCityUrl = "${Envs.TEST.hostUrl}/v3/shopping/hotel-offers"
+        private val hotelsByCityUrl = "${Envs.TEST.hostUrl}/v1/reference-data/locations"
     }
-
 }

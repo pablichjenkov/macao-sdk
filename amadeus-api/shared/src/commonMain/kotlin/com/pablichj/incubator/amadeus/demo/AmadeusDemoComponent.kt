@@ -30,6 +30,9 @@ import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDest
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelByCityResponse
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityRequest
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityUseCase
+import com.pablichj.incubator.amadeus.endpoint.locations.AirportAndCitySearchRequest
+import com.pablichj.incubator.amadeus.endpoint.locations.AirportAndCitySearchResponse
+import com.pablichj.incubator.amadeus.endpoint.locations.AirportAndCitySearchUseCase
 import com.pablichj.incubator.amadeus.endpoint.offers.*
 import com.pablichj.incubator.amadeus.testdata.TestData
 import com.pablichj.templato.component.core.Component
@@ -115,13 +118,15 @@ class AmadeusDemoComponent(
                     output("Error in city search: ${citySearchResult.error}")
                 }
                 is CitySearchResponse.Success -> {
-                    citySearchResult.citySearchResponseBody.data.forEach {
-                        output("""
+                    citySearchResult.responseBody.data.forEach {
+                        output(
+                            """
                             City Name = ${it.name}
                             City Address = ${it.address}
                             City Type = ${it.type}
                             City Subtype = ${it.subType}
-                        """.trimIndent())
+                        """.trimIndent()
+                        )
                     }
                 }
             }
@@ -163,12 +168,13 @@ class AmadeusDemoComponent(
                     output("Error in hotels by city: ${hotelListResult.error}")
                 }
                 is HotelByCityResponse.Success -> {
-                    hotelListResult.hotelsByCityBody.data.forEach {
+                    hotelListResult.responseBody.data.forEach {
                         output(
-                            """Hotel ID: ${it.hotelId}
-                               |Geocode: ${it.geoCode}
-                               |Dupe ID: ${it.dupeId}
-                               -----
+                            """
+                                Hotel ID: ${it.hotelId}
+                                Geocode: ${it.geoCode}
+                                Dupe ID: ${it.dupeId}
+                                -----
                             """.trimMargin()
                         )
                     }
@@ -201,6 +207,10 @@ class AmadeusDemoComponent(
                     listOf(
                         QueryParam.HotelIds("MCLONGHM"),// ACPAR243 todo remove hardcoded values
                         QueryParam.Adults("1"),
+                        QueryParam.CheckInDate("2023-11-22"),
+                        QueryParam.RoomQuantity("1"),
+                        QueryParam.PaymentPolicy("NONE"),
+                        QueryParam.BestRateOnly("false")
                     )
                 )
             )
@@ -210,11 +220,12 @@ class AmadeusDemoComponent(
                     output("Error in multi hotel offers: ${multiHotelOffersResult.error}")
                 }
                 is MultiHotelOffersResponse.Success -> {
-                    multiHotelOffersResult.multiHotelOffers.data.forEach {
+                    multiHotelOffersResult.responseBody.data.forEach {
                         output(
-                            """Hotel ID: ${it.hotel.hotelId}
-                               Available: ${it.available}
-                               Type: ${it.type}
+                            """
+                                Hotel ID: ${it.hotel.hotelId}
+                                Available: ${it.available}
+                                Type: ${it.type}
                             """.trimMargin()
                         )
                         output("Offers: ")
@@ -261,9 +272,10 @@ class AmadeusDemoComponent(
                     output("Error in get offer by id: ${getOfferResult.error}")
                 }
                 is GetOfferResponse.Success -> {
-                    output("Offer in Hotel: ${getOfferResult.offerBody.data.hotel.name}")
-                    getOfferResult.offerBody.data.offers.forEach {
-                        output("""
+                    output("Offer in Hotel: ${getOfferResult.responseBody.data.hotel.name}")
+                    getOfferResult.responseBody.data.offers.forEach {
+                        output(
+                            """
                             Offer Id: ${it.id}
                             CheckInDate: ${it.checkInDate}
                             CheckOutDate: ${it.checkOutDate}
@@ -306,27 +318,70 @@ class AmadeusDemoComponent(
                     output("Error in hotel booking: ${hotelBookingResult.error}")
                 }
                 is HotelBookingResponse.Success -> {
-                    //output("Offer in Hotel: ${hotelBookingResult.offerBody.data.hotel.name}")
-                    /*hotelBookingResult.offerBody.data.offers.forEach {
-                        output("""
-                            Offer Id: ${it.id}
-                            CheckInDate: ${it.checkInDate}
-                            CheckOutDate: ${it.checkOutDate}
-                            Guests: ${it.guests}
-                            Base Price: ${it.price.base}
+                    hotelBookingResult.responseBody.data.forEach {
+                        output(
+                            """
+                            Booking Confirmation Id: ${it.id}
+                            Provider Confirmation Id: ${it.providerConfirmationId}
+                            Booking Confirmation Type: ${it.type}
+                            Booking Associated Records:
                         """.trimIndent()
                         )
-                    }*/
+                        it.associatedRecords.forEach {
+                            output(
+                                """
+                                Record Reference: ${it.reference}
+                                Record Origin System Code: ${it.originSystemCode}
+                            """.trimIndent()
+                            )
+                        }
+                    }
                 }
             }
+        }
+    }
+
+    private fun searchAirportByKeyword() {
+        coroutineScope.launch {
+            val accessToken = ResolveAccessTokenUseCaseSource(
+                Dispatchers, accessTokenDao
+            ).doWork()
+
+            if (accessToken == null) {
+                output("No saved token")
+                return@launch
+            } else {
+                output("Using saved token: ${accessToken.accessToken}")
+            }
+
+            val airportByKeywordResult = AirportAndCitySearchUseCase(
+                Dispatchers
+            ).doWork(
+                // ?subType=CITY&keyword=MUC&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=analytics.travelers.score&view=FULL
+                AirportAndCitySearchRequest(
+                    accessToken, listOf(
+                        QueryParam.Keyword("New Orleans"),
+                        QueryParam.SubType("AIRPORT")
+                    )
+                )
+            )
+
+            when (airportByKeywordResult) {
+                is AirportAndCitySearchResponse.Error -> {
+                    output("Error fetching Airports: ${airportByKeywordResult.error}")
+                }
+                is AirportAndCitySearchResponse.Success -> {
+                    output("Success fetching Airports: ${airportByKeywordResult.responseBody}")
+                }
+            }
+
         }
     }
 
     private fun getFlightDestinations() {
         coroutineScope.launch {
             val accessToken = ResolveAccessTokenUseCaseSource(
-                Dispatchers,
-                accessTokenDao
+                Dispatchers, accessTokenDao
             ).doWork()
 
             if (accessToken == null) {
@@ -380,46 +435,34 @@ class AmadeusDemoComponent(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.Top,
             ) {
-                Button(
-                    onClick = {
-                        getAccessToken()
-                    }
-                ) {
+                Button(onClick = {
+                    getAccessToken()
+                }) {
                     Text("Get Access Token")
                 }
-                Button(
-                    onClick = {
-                        getCitiesByKeyword()
-                    }
-                ) {
+                Button(onClick = {
+                    getCitiesByKeyword()
+                }) {
                     Text("City Search")
                 }
-                Button(
-                    onClick = {
-                        getHotelsByCity()
-                    }
-                ) {
+                Button(onClick = {
+                    getHotelsByCity()
+                }) {
                     Text("Get Hotels By City")
                 }
-                Button(
-                    onClick = {
-                        getMultiHotelsOffers()
-                    }
-                ) {
+                Button(onClick = {
+                    getMultiHotelsOffers()
+                }) {
                     Text("Get Multi Hotel Offers")
                 }
-                Button(
-                    onClick = {
-                        getOffer()
-                    }
-                ) {
+                Button(onClick = {
+                    getOffer()
+                }) {
                     Text("Get Offer")
                 }
-                Button(
-                    onClick = {
-                        hotelBook()
-                    }
-                ) {
+                Button(onClick = {
+                    hotelBook()
+                }) {
                     Text("Book a Hotel")
                 }
                 /*Button(
@@ -429,20 +472,20 @@ class AmadeusDemoComponent(
                 ) {
                     Text("Get Flight Destinations")
                 }*/
-                Button(
-                    onClick = {
-                        console.value = ""
-                    }
-                ) {
+                Button(onClick = {
+                    searchAirportByKeyword()
+                }) {
+                    Text("Search Airport")
+                }
+                Button(onClick = {
+                    console.value = ""
+                }) {
                     Text("Clear")
                 }
             }
             Text(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(8.dp)
-                    .verticalScroll(rememberScrollState())
-                    .background(Color.White),
+                modifier = Modifier.fillMaxSize().padding(8.dp)
+                    .verticalScroll(rememberScrollState()).background(Color.White),
                 text = console.value
             )
         }

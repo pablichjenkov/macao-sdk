@@ -1,9 +1,0 @@
-package com.pablichj.incubator.amadeus.common.model
-
-import kotlinx.serialization.Serializable
-
-@Serializable
-data class Cancellation (
-    val amount: String,
-    val deadline: String
-)

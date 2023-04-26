@@ -33,7 +33,7 @@ fun main() {
     val windowState = WindowState(size = DpSize(500.dp, 800.dp))
 
     val database = createDatabase(DriverFactory())
-    val amadeusDemoComponent = AmadeusDemoComponent(database)
+    val rootComponent = TreeBuilder.getRootComponent(database)
     val desktopBridge = DesktopBridge(
         appLifecycleDispatcher = DefaultAppLifecycleDispatcher(),
         onBackPressEvent = { }
@@ -106,7 +106,7 @@ fun main() {
                     }
                 }
                 DesktopComponentRender(
-                    rootComponent = amadeusDemoComponent,
+                    rootComponent = rootComponent,
                     desktopBridge = desktopBridge
                 )
             }

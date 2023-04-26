@@ -32,6 +32,7 @@ class GetOfferUseCase(
             }
         }
         return result.getOrElse {
+            it.printStackTrace()
             return GetOfferResponse.Error(AmadeusError.fromException(it))
         }
     }

@@ -126,12 +126,12 @@ open class NavBarComponent(
     // region NavBar rendering
 
     fun setNavBarComponentView(
-        drawerComponentView: @Composable NavBarComponent.(
+        navBarComponentView: @Composable NavBarComponent.(
             modifier: Modifier,
             childComponent: Component
         ) -> Unit
     ) {
-        this.navBarComponentView = drawerComponentView
+        this.navBarComponentView = navBarComponentView
     }
 
     private var navBarComponentView: @Composable NavBarComponent.(

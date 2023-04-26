@@ -5,5 +5,5 @@ import com.pablichj.incubator.amadeus.endpoint.offers.model.GetOfferBody
 
 sealed class GetOfferResponse {
     class Error(val error: AmadeusError) : GetOfferResponse()
-    class Success(val offerBody: GetOfferBody) : GetOfferResponse()
+    class Success(val responseBody: GetOfferBody) : GetOfferResponse()
 }
