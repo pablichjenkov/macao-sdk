@@ -1,6 +1,6 @@
 ### Under development 🚧👷
 ## Templato
-Templato is a set of compose multiplatforms templates. The templates all target the 4 most popular user interfaced platforms, Browser, iOS, Android and the JVM(Mac, Window and Linux). The templates cover the UI for a certain business type of App, abstracting the data layer, so a variety of APIs for that specific business type can integrate.
+Templato is a set of compose multiplatforms templates to help build an App oriented to a specific business. The templates all target the 4 most popular user interfaced platforms, Browser, iOS, Android and the JVM(Mac, Window and Linux). The templates cover the UI for a certain business type of App, abstracting the data layer, so a variety of APIs for that specific business type can integrate.
 <BR>
 For instance, the Hotel Booking template provides the screens and navigation flows that a typical Hotel Booking App has. But, it depends on a data abstraction layer that a Hotel Booking company, will provide the implementation for. Once the specific data contracts implementations are provided, it is a matter of injecting it in the template and watch the App runs everywhere.
 <BR>
@@ -13,7 +13,7 @@ To run the projects you need to have the kotlin multiplatform environment setup 
 
 ### Components
 
-[Component](https://github.com/pablichjenkov/templato/tree/master/uistate3) is the core module where the Components logic resides. Bellow are some screenshots of the demo App used to test the diferrent features available in the component library. 
+[Templato Components](https://github.com/pablichjenkov/templato/tree/master/components) are the core module where the navigation components and other util components reside. Bellow are some demos of the different features available in the templato-components library. 
 <H4>You want to try it out? - It is in mavenCentral !!!</H4>
 
 Just add bellow dependency in your project **shared** module. You only need to add the dependency to the **commonMain** sourceSet.
