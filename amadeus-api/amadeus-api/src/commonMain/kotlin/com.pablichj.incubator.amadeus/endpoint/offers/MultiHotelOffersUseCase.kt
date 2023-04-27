@@ -27,7 +27,6 @@ class MultiHotelOffersUseCase(
                     header(HttpHeaders.Authorization, params.accessToken.authorization)
                 }
                 if (response.status.isSuccess()) {
-                    println(response.bodyAsText())
                     MultiHotelOffersResponse.Success(response.body())
                 } else {
                     MultiHotelOffersResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))

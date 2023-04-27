@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TypeEstimated (
     val category: String = "",
-    val beds: Long,
-    val bedType: String
+    val beds: Long? = -1,
+    val bedType: String? = ""
 )

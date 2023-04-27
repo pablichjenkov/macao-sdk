@@ -11,26 +11,32 @@ import com.pablichj.templato.component.core.setNavItems
 
 object TreeBuilder {
 
+    private var navBarComponent: NavBarComponent? = null
+
     fun getRootComponent(database: Database): Component {
 
+        navBarComponent?.let {
+            return it
+        }
+
         return NavBarComponent().apply {
+            navBarComponent = this
             setNavItems(
                 mutableListOf(
                     NavItem(
                         label = "Hotel",
-                        component = AmadeusDemoComponent(database),
+                        component = HotelDemoComponent(database),
                         icon = Icons.Default.Home
                     ),
                     NavItem(
                         label = "Air",
-                        component = AmadeusDemoComponent(database),
+                        component = AirportDemoComponent(database),
                         icon = Icons.Default.Search
                     ),
 
                     ), 0
             )
         }
-
     }
 
 }
