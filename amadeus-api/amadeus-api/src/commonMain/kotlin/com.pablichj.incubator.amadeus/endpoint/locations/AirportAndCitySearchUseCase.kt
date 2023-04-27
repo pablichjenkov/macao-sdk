@@ -34,6 +34,7 @@ class AirportAndCitySearchUseCase(
             }
         }
         return result.getOrElse {
+            it.printStackTrace()
             return AirportAndCitySearchResponse.Error(AmadeusError.fromException(it))
         }
     }

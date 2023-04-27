@@ -8,7 +8,7 @@ data class OfferInMultiHotels (
     val checkInDate: String,
     val checkOutDate: String,
     val rateCode: String,
-    val rateFamilyEstimated: RateFamilyEstimated,
+    val rateFamilyEstimated: RateFamilyEstimated? = null,
     val room: Room,
     val guests: Guests,
     val price: PriceInMultiHotel,

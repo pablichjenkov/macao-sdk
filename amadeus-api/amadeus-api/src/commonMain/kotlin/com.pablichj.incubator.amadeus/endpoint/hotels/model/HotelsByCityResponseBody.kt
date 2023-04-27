@@ -7,13 +7,13 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 @Serializable
-class HotelsByCityBody(
+class HotelsByCityResponseBody(
     val data: List<HotelListing>,
     val meta: MetaWithCount
 ) {
     fun toJson(): String = Json.encodeToString(this)
 
     companion object {
-        fun fromJson(json: String): HotelsByCityBody = Json.decodeFromString(json)
+        fun fromJson(json: String): HotelsByCityResponseBody = Json.decodeFromString(json)
     }
 }

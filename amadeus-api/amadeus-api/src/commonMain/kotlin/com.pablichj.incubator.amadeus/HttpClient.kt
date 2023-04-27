@@ -5,7 +5,6 @@ import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.serialization.kotlinx.json.*
-import io.ktor.util.debug.*
 import kotlinx.serialization.json.Json
 
 private const val RequestTimeoutMillis = 15_000L
@@ -23,7 +22,7 @@ internal val httpClient = HttpClient {
     }
     install(ContentNegotiation) {
         json(Json {
-            //prettyPrint = true
+            prettyPrint = true
             isLenient = true
         })
     }

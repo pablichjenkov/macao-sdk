@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.pablichj.incubator.amadeus.Database
 import com.pablichj.incubator.amadeus.common.DefaultTimeProvider
 import com.pablichj.incubator.amadeus.common.ITimeProvider
@@ -24,15 +25,9 @@ import com.pablichj.incubator.amadeus.endpoint.booking.hotel.HotelBookingUseCase
 import com.pablichj.incubator.amadeus.endpoint.city.CitySearchRequest
 import com.pablichj.incubator.amadeus.endpoint.city.CitySearchResponse
 import com.pablichj.incubator.amadeus.endpoint.city.CitySearchUseCase
-import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsRequest
-import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsResponse
-import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsUseCase
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelByCityResponse
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityRequest
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityUseCase
-import com.pablichj.incubator.amadeus.endpoint.locations.AirportAndCitySearchRequest
-import com.pablichj.incubator.amadeus.endpoint.locations.AirportAndCitySearchResponse
-import com.pablichj.incubator.amadeus.endpoint.locations.AirportAndCitySearchUseCase
 import com.pablichj.incubator.amadeus.endpoint.offers.*
 import com.pablichj.incubator.amadeus.testdata.TestData
 import com.pablichj.templato.component.core.Component
@@ -40,8 +35,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AmadeusDemoComponent(
-    private val database: Database
+class HotelDemoComponent(
+    database: Database
 ) : Component() {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
     private val timeProvider: ITimeProvider = DefaultTimeProvider()
@@ -341,81 +336,6 @@ class AmadeusDemoComponent(
         }
     }
 
-    private fun searchAirportByKeyword() {
-        coroutineScope.launch {
-            val accessToken = ResolveAccessTokenUseCaseSource(
-                Dispatchers, accessTokenDao
-            ).doWork()
-
-            if (accessToken == null) {
-                output("No saved token")
-                return@launch
-            } else {
-                output("Using saved token: ${accessToken.accessToken}")
-            }
-
-            val airportByKeywordResult = AirportAndCitySearchUseCase(
-                Dispatchers
-            ).doWork(
-                // ?subType=CITY&keyword=MUC&page%5Blimit%5D=10&page%5Boffset%5D=0&sort=analytics.travelers.score&view=FULL
-                AirportAndCitySearchRequest(
-                    accessToken, listOf(
-                        QueryParam.Keyword("New Orleans"),
-                        QueryParam.SubType("AIRPORT")
-                    )
-                )
-            )
-
-            when (airportByKeywordResult) {
-                is AirportAndCitySearchResponse.Error -> {
-                    output("Error fetching Airports: ${airportByKeywordResult.error}")
-                }
-                is AirportAndCitySearchResponse.Success -> {
-                    output("Success fetching Airports: ${airportByKeywordResult.responseBody}")
-                }
-            }
-
-        }
-    }
-
-    private fun getFlightDestinations() {
-        coroutineScope.launch {
-            val accessToken = ResolveAccessTokenUseCaseSource(
-                Dispatchers, accessTokenDao
-            ).doWork()
-
-            if (accessToken == null) {
-                output("No saved token")
-                return@launch
-            } else {
-                output("Using saved token: ${accessToken.accessToken}")
-            }
-
-            val flightsDestinationsResult = GetFlightDestinationsUseCase(
-                Dispatchers
-            ).doWork(
-                // origin=PAR&maxPrice=200
-                GetFlightDestinationsRequest(
-                    accessToken,
-                    listOf(
-                        QueryParam.Origin("PAR"),
-                        QueryParam.MaxPrice("600")
-                    )
-                )
-            )
-
-            when (flightsDestinationsResult) {
-                is GetFlightDestinationsResponse.Error -> {
-                    output("Error fetching flights: ${flightsDestinationsResult.error}")
-                }
-                is GetFlightDestinationsResponse.Success -> {
-                    output("Success fetching flights: ${flightsDestinationsResult.flightDestinationsBody}")
-                }
-            }
-
-        }
-    }
-
     private fun output(text: String) {
         console.value += "\n$text"
     }
@@ -427,8 +347,9 @@ class AmadeusDemoComponent(
             Spacer(Modifier.fillMaxWidth().height(24.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Welcome to Amadeus API",
-                textAlign = TextAlign.Center
+                text = "Welcome to Amadeus Hotel Booking API",
+                textAlign = TextAlign.Center,
+                fontSize = 20.sp
             )
             FlowRow(
                 modifier = Modifier.fillMaxWidth().padding(8.dp),
@@ -464,18 +385,6 @@ class AmadeusDemoComponent(
                     hotelBook()
                 }) {
                     Text("Book a Hotel")
-                }
-                /*Button(
-                    onClick = {
-                        getFlightDestinations()
-                    }
-                ) {
-                    Text("Get Flight Destinations")
-                }*/
-                Button(onClick = {
-                    searchAirportByKeyword()
-                }) {
-                    Text("Search Airport")
                 }
                 Button(onClick = {
                     console.value = ""

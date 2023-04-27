@@ -16,7 +16,7 @@ fun ComponentRenderer(
 
 fun buildAmadeusDemoComponent(): Component {
     val db = createDatabase(DriverFactory())
-    return AmadeusDemoComponent(db)
+    return HotelDemoComponent(db)
 }
 
 fun createPlatformBridge(): IosBridge {

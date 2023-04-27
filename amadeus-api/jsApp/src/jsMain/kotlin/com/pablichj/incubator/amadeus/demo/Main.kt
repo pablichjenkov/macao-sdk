@@ -6,10 +6,10 @@ import org.jetbrains.skiko.wasm.onWasmReady
 
 fun main() {
     onWasmReady {
-        val amadeusDemoComponent = AmadeusDemoComponent()
+        val hotelDemoComponent = HotelDemoComponent()
         BrowserViewportWindow("Amadeus API Demo") {
             BrowserComponentRender(
-                rootComponent = amadeusDemoComponent,
+                rootComponent = hotelDemoComponent,
                 onBackPressEvent = {
                     println("Back press dispatched in root node")
                 }
