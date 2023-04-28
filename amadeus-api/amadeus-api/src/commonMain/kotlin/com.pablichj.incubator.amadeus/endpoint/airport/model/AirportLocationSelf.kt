@@ -1,4 +1,4 @@
-package com.pablichj.incubator.amadeus.endpoint.locations.model
+package com.pablichj.incubator.amadeus.endpoint.airport.model
 
 @kotlinx.serialization.Serializable
 data class AirportLocationSelf (

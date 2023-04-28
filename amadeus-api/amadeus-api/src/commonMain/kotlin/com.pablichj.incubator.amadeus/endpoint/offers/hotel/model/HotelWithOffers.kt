@@ -1,4 +1,4 @@
-package com.pablichj.incubator.amadeus.endpoint.offers.model
+package com.pablichj.incubator.amadeus.endpoint.offers.hotel.model
 
 import com.pablichj.incubator.amadeus.common.model.HotelInMultiHotelSearch
 import com.pablichj.incubator.amadeus.common.model.OfferInMultiHotels

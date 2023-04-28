@@ -1,4 +1,4 @@
-package com.pablichj.incubator.amadeus.endpoint.offers
+package com.pablichj.incubator.amadeus.endpoint.offers.hotel
 
 import AmadeusError
 import com.pablichj.incubator.amadeus.common.Envs
@@ -11,34 +11,36 @@ import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class GetOfferUseCase(
+class MultiHotelOffersUseCase(
     private val dispatcher: Dispatchers
-) : SingleUseCase<GetOfferRequest, GetOfferResponse> {
+) : SingleUseCase<MultiHotelOffersRequest, MultiHotelOffersResponse> {
 
-    override suspend fun doWork(params: GetOfferRequest): GetOfferResponse {
+    override suspend fun doWork(params: MultiHotelOffersRequest): MultiHotelOffersResponse {
         val result = withContext(dispatcher.Unconfined) {
             runCatching {
-                val response = httpClient.get(getOfferUrl) {
+                val response = httpClient.get(hotelsByCityUrl) {
                     url {
-                        appendEncodedPathSegments("/hotel-offers/${params.offerId}")
+                        params.queryParams.forEach {
+                            parameters.append(it.key, it.value)
+                        }
                     }
                     header(HttpHeaders.Authorization, params.accessToken.authorization)
                 }
                 if (response.status.isSuccess()) {
-                    GetOfferResponse.Success(response.body())
+                    MultiHotelOffersResponse.Success(response.body())
                 } else {
-                    GetOfferResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
+                    MultiHotelOffersResponse.Error(AmadeusError.fromErrorJsonString(response.bodyAsText()))
                 }
             }
         }
         return result.getOrElse {
             it.printStackTrace()
-            return GetOfferResponse.Error(AmadeusError.fromException(it))
+            return MultiHotelOffersResponse.Error(AmadeusError.fromException(it))
         }
     }
 
     companion object {
-        private val getOfferUrl = "${Envs.TEST.hostUrl}/v3/shopping"
+        private val hotelsByCityUrl = "${Envs.TEST.hostUrl}/v3/shopping/hotel-offers"
     }
 
 }

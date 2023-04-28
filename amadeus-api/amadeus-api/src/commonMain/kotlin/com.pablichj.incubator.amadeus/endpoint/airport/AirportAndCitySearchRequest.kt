@@ -1,4 +1,4 @@
-package com.pablichj.incubator.amadeus.endpoint.locations
+package com.pablichj.incubator.amadeus.endpoint.airport
 
 import QueryParam
 import com.pablichj.incubator.amadeus.endpoint.accesstoken.model.AccessToken
