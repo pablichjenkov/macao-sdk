@@ -12,7 +12,7 @@ class AccessTokenDaoDelight(
 
     override fun insert(accessToken: AccessToken) {
         database.accessTokenTbQueries.insert(
-            accessToken.toTable(timeProvider.now().inWholeSeconds)
+            accessToken.toTable(timeProvider.epochSeconds().inWholeSeconds)
         )
     }
 

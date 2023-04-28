@@ -16,26 +16,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pablichj.incubator.amadeus.Database
+import com.pablichj.incubator.amadeus.common.CallResult
 import com.pablichj.incubator.amadeus.common.DefaultTimeProvider
 import com.pablichj.incubator.amadeus.common.ITimeProvider
 import com.pablichj.incubator.amadeus.endpoint.accesstoken.*
-import com.pablichj.incubator.amadeus.endpoint.booking.hotel.HotelBookingRequest
-import com.pablichj.incubator.amadeus.endpoint.booking.hotel.HotelBookingResponse
-import com.pablichj.incubator.amadeus.endpoint.booking.hotel.HotelBookingUseCase
-import com.pablichj.incubator.amadeus.endpoint.city.CitySearchRequest
-import com.pablichj.incubator.amadeus.endpoint.city.CitySearchResponse
-import com.pablichj.incubator.amadeus.endpoint.city.CitySearchUseCase
 import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsRequest
 import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsResponse
 import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsUseCase
-import com.pablichj.incubator.amadeus.endpoint.hotels.HotelByCityResponse
-import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityRequest
-import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityUseCase
-import com.pablichj.incubator.amadeus.endpoint.locations.AirportAndCitySearchRequest
-import com.pablichj.incubator.amadeus.endpoint.locations.AirportAndCitySearchResponse
-import com.pablichj.incubator.amadeus.endpoint.locations.AirportAndCitySearchUseCase
+import com.pablichj.incubator.amadeus.endpoint.airport.AirportAndCitySearchRequest
+import com.pablichj.incubator.amadeus.endpoint.airport.AirportAndCitySearchResponse
+import com.pablichj.incubator.amadeus.endpoint.airport.AirportAndCitySearchUseCase
 import com.pablichj.incubator.amadeus.endpoint.offers.*
-import com.pablichj.incubator.amadeus.testdata.TestData
+import com.pablichj.incubator.amadeus.endpoint.offers.flight.FlightOffersRequest
+import com.pablichj.incubator.amadeus.endpoint.offers.flight.FlightOffersResponse
+import com.pablichj.incubator.amadeus.endpoint.offers.flight.FlightOffersUseCase
 import com.pablichj.templato.component.core.Component
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -135,6 +129,53 @@ class AirportDemoComponent(
         }
     }
 
+    private fun searchFlightOffersGet() {
+        coroutineScope.launch {
+            val accessToken = ResolveAccessTokenUseCaseSource(
+                Dispatchers, accessTokenDao
+            ).doWork()
+
+            if (accessToken == null) {
+                output("No saved token")
+                return@launch
+            } else {
+                output("Using saved token: ${accessToken.accessToken}")
+            }
+
+            val flightOffersResult = FlightOffersUseCase(
+                Dispatchers
+            ).doWork(
+                FlightOffersRequest(
+                    accessToken,
+                    TestData.flightOffersRequestBody
+                )
+            )
+
+            when (flightOffersResult) {
+                is CallResult.Error -> {
+                    output("Error fetching Airports: ${flightOffersResult.error}")
+                }
+                is CallResult.Success<FlightOffersResponse> -> {
+                    /*flightOffersResult.responseBody.data.forEach {
+                        output(
+                            """
+                            Airport Name: ${it.name}
+                            Airport Detailed Name: ${it.detailedName}
+                            Airport Id: ${it.id}
+                            Location Subtype: ${it.subType}
+                            Airport Country: ${it.address.countryName}
+                            Airport State: ${it.address.stateCode}
+                            Airport City: ${it.address.cityName}
+                        """.trimIndent()
+                        )
+                    }*/
+                    output(flightOffersResult.responseBody.toJson())
+                }
+            }
+
+        }
+    }
+
     private fun getFlightDestinations() {
         coroutineScope.launch {
             val accessToken = ResolveAccessTokenUseCaseSource(
@@ -202,6 +243,11 @@ class AirportDemoComponent(
                     searchAirportByKeyword()
                 }) {
                     Text("Search Airport")
+                }
+                Button(onClick = {
+                    searchFlightOffersGet()
+                }) {
+                    Text("Search Flight Offers")
                 }
                 /*Button(
                     onClick = {

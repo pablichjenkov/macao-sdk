@@ -1,4 +1,4 @@
-package com.pablichj.incubator.amadeus.endpoint.locations.model
+package com.pablichj.incubator.amadeus.endpoint.airport.model
 
 import com.pablichj.incubator.amadeus.common.model.GeoCode
 

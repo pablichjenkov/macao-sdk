@@ -29,7 +29,7 @@ import com.pablichj.incubator.amadeus.endpoint.hotels.HotelByCityResponse
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityRequest
 import com.pablichj.incubator.amadeus.endpoint.hotels.HotelsByCityUseCase
 import com.pablichj.incubator.amadeus.endpoint.offers.*
-import com.pablichj.incubator.amadeus.testdata.TestData
+import com.pablichj.incubator.amadeus.endpoint.offers.hotel.*
 import com.pablichj.templato.component.core.Component
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -304,7 +304,7 @@ class HotelDemoComponent(
             ).doWork(
                 HotelBookingRequest(
                     accessToken,
-                    TestData.HotelBookingBody
+                    TestData.hotelBookingRequestBody
                 )
             )
 
