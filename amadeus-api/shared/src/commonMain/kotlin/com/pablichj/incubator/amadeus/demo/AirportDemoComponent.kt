@@ -27,9 +27,10 @@ import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDest
 import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsResponse
 import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsUseCase
 import com.pablichj.incubator.amadeus.endpoint.offers.*
-import com.pablichj.incubator.amadeus.endpoint.offers.flight.FlightOffersRequest
-import com.pablichj.incubator.amadeus.endpoint.offers.flight.FlightOffersResponse
-import com.pablichj.incubator.amadeus.endpoint.offers.flight.FlightOffersUseCase
+import com.pablichj.incubator.amadeus.endpoint.offers.flight.*
+import com.pablichj.incubator.amadeus.endpoint.offers.flight.model.FlightOffer
+import com.pablichj.incubator.amadeus.endpoint.offers.flight.model.FlightOffersConfirmationRequestBody
+import com.pablichj.incubator.amadeus.endpoint.offers.flight.model.FlightOffersConfirmationRequestBodyBoxing
 import com.pablichj.templato.component.core.Component
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -45,6 +46,7 @@ class AirportDemoComponent(
         timeProvider
     )
 
+    private var flightOffers: List<FlightOffer>? = null
     private val console = mutableStateOf("")
 
     override fun start() {
@@ -156,6 +158,7 @@ class AirportDemoComponent(
                     output("Error fetching flight offers: ${flightOffersResult.error}")
                 }
                 is CallResult.Success<FlightOffersResponse> -> {
+                    flightOffers = flightOffersResult.responseBody.data
                     flightOffersResult.responseBody.data.forEach {
                         output(
                             """
@@ -195,6 +198,89 @@ class AirportDemoComponent(
                         }
                     }
                     output(flightOffersResult.responseBody.toJson())
+                }
+            }
+
+        }
+    }
+
+    private fun confirmFlightOffersGet() {
+        coroutineScope.launch {
+
+            val offerToVerify = flightOffers?.firstOrNull() ?: run {
+                output("No Offer selected to confirm")
+                return@launch
+            }
+
+            val accessToken = ResolveAccessTokenUseCaseSource(
+                Dispatchers, accessTokenDao
+            ).doWork()
+
+            if (accessToken == null) {
+                output("No saved token")
+                return@launch
+            } else {
+                output("Using saved token: ${accessToken.accessToken}")
+            }
+
+            val flightOffersConfirmationResult = FlightOffersConfirmationUseCase(
+                Dispatchers
+            ).doWork(
+                FlightOffersConfirmationRequest(
+                    accessToken,
+                    FlightOffersConfirmationRequestBodyBoxing(
+                        data = FlightOffersConfirmationRequestBody(
+                            type = "flight-offers-pricing",
+                            flightOffers = listOf(offerToVerify)
+                        )
+                    )
+                )
+            )
+
+            when (flightOffersConfirmationResult) {
+                is CallResult.Error -> {
+                    output("Error fetching flight offers: ${flightOffersConfirmationResult.error}")
+                }
+                is CallResult.Success<FlightOffersConfirmationResponse> -> {
+                    flightOffersConfirmationResult.responseBody.data.forEach {
+                        output(
+                            """
+                            Offer Id: ${it.id}
+                            Offer type: ${it.type}
+                            Offer itineraries: ${it.itineraries}
+                            Offer lastTicketingDate: ${it.lastTicketingDate}
+                            Offer instantTicketingRequired: ${it.instantTicketingRequired}
+                            Offer is oneWay: ${it.oneWay}
+                            Offer source: ${it.source}
+                            Offer nonHomogeneous: ${it.nonHomogeneous}
+                            Offer nonHomogeneous: ${it.nonHomogeneous}
+                        """.trimIndent()
+                        )
+                        output("Itineraries:")
+                        it.itineraries.forEach {
+                            output(
+                                """ 
+                                Itinerary duration: ${it.duration}
+                                Itinerary segments: ${it.segments}
+                            """.trimIndent()
+                            )
+                        }
+                        output("Pricing:")
+                        output("Price currency: ${it.price.currency}")
+                        output("Price base: ${it.price.base}")
+                        output("Price total: ${it.price.total}")
+                        output("Price grandTotal: ${it.price.grandTotal}")
+                        output("Price Fees:")
+                        it.price.fees.forEach {
+                            output(
+                                """ 
+                                Fee amount: ${it.amount}
+                                Fee type: ${it.type}
+                            """.trimIndent()
+                            )
+                        }
+                    }
+                    output(flightOffersConfirmationResult.responseBody.toJson())
                 }
             }
 
@@ -273,6 +359,11 @@ class AirportDemoComponent(
                     searchFlightOffersGet()
                 }) {
                     Text("Search Flight Offers")
+                }
+                Button(onClick = {
+                    confirmFlightOffersGet()
+                }) {
+                    Text("Confirm Flight Offers")
                 }
                 /*Button(
                     onClick = {
