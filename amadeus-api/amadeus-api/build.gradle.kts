@@ -41,39 +41,21 @@ kotlin {
         // COMMON
         val commonMain by getting {
             dependencies {
-//                [libraries]
-//                kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
-//                kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
-//                kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-//                kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-//
-//                ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-//                ktor-json = { module = "io.ktor:ktor-client-json", version.ref = "ktor" }
-//                ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
-//                ktor-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
-//                ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-//                ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
-//                ktor-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
-//                ktor-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
-
-                //implementation("io.ktor:ktor-client-core:2.2.4")
-                //implementation("io.ktor:ktor-client-json:2.2.4")
-                //implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.4")
-                //implementation("io.ktor:ktor-client-content-negotiation:2.2.4")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json")
                 implementation("io.ktor:ktor-client-core")
-                implementation("io.ktor:ktor-client-logging")
-                implementation ("ch.qos.logback:logback-classic:1.3.0")
                 implementation("io.ktor:ktor-client-content-negotiation")
                 implementation("io.ktor:ktor-serialization-kotlinx-json")
+                implementation("io.ktor:ktor-client-logging")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+                implementation ("ch.qos.logback:logback-classic:1.3.0")
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
             }
+            // kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
         }
 
         // ANDROID

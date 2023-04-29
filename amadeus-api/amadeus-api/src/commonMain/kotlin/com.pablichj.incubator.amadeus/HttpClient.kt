@@ -1,7 +1,5 @@
 package com.pablichj.incubator.amadeus
 
-import com.pablichj.incubator.amadeus.endpoint.offers.flight.model.Carriers
-import com.pablichj.incubator.amadeus.endpoint.offers.flight.model.Dictionaries
 import io.ktor.client.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -24,7 +22,6 @@ internal val httpClient = HttpClient {
     }
     install(ContentNegotiation) {
         json(Json {
-            ignoreUnknownKeys = true
             prettyPrint = true
             isLenient = true
         })

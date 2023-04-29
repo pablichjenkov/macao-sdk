@@ -54,7 +54,7 @@ object TestData {
         ),
         sources = listOf("GDS"),
         searchCriteria = SearchCriteria(
-            maxFlightOffers = 10,
+            maxFlightOffers = 3,
             flightFilters = FlightFilters(
                 cabinRestrictions = listOf(
                     CabinRestriction(
