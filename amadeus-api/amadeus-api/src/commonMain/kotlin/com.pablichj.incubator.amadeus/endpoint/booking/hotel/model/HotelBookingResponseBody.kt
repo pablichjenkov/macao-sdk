@@ -13,7 +13,7 @@ data class HotelBookingResponseBody (
     fun toJson(): String = Json.encodeToString(this)
 
     companion object {
-        fun fromJson(json: String): CitySearchResponseBody = Json.decodeFromString(json)
+        fun fromJson(json: String): HotelBookingResponseBody = Json.decodeFromString(json)
     }
 }
 

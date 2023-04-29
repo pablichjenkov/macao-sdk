@@ -8,7 +8,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 @kotlinx.serialization.Serializable
-data class FlightOffersResponse(
+data class FlightOffersConfirmationResponse(
     val meta: MetaWithCount,
     val data: List<FlightOffer>,
     val dictionaries: FlightOffersDictionaries
@@ -16,6 +16,6 @@ data class FlightOffersResponse(
     fun toJson(): String = Json.encodeToString(this)
 
     companion object {
-        fun fromJson(json: String): FlightOffersResponse = Json.decodeFromString(json)
+        fun fromJson(json: String): FlightOffersConfirmationResponse = Json.decodeFromString(json)
     }
 }

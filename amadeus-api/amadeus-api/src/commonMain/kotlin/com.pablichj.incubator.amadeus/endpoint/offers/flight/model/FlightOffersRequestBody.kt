@@ -1,9 +1,5 @@
 package com.pablichj.incubator.amadeus.endpoint.offers.flight.model
 
-import com.pablichj.incubator.amadeus.endpoint.offers.flight.model.OriginDestination
-import com.pablichj.incubator.amadeus.endpoint.offers.flight.model.SearchCriteria
-import com.pablichj.incubator.amadeus.endpoint.offers.flight.model.Traveler
-
 @kotlinx.serialization.Serializable
 data class FlightOffersRequestBody(
     val currencyCode: String,

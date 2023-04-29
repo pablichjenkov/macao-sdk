@@ -16,6 +16,6 @@ class GetOfferResponseBody(
     fun toJson(): String = Json.encodeToString(this)
 
     companion object {
-        fun fromJson(json: String): CitySearchResponseBody = Json.decodeFromString(json)
+        fun fromJson(json: String): GetOfferResponseBody = Json.decodeFromString(json)
     }
 }
