@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class MetaWithCount (
     val count: Long,
-    val links: Links
+    val links: Links? = null
 )

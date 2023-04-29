@@ -20,12 +20,12 @@ import com.pablichj.incubator.amadeus.common.CallResult
 import com.pablichj.incubator.amadeus.common.DefaultTimeProvider
 import com.pablichj.incubator.amadeus.common.ITimeProvider
 import com.pablichj.incubator.amadeus.endpoint.accesstoken.*
-import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsRequest
-import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsResponse
-import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsUseCase
 import com.pablichj.incubator.amadeus.endpoint.airport.AirportAndCitySearchRequest
 import com.pablichj.incubator.amadeus.endpoint.airport.AirportAndCitySearchResponse
 import com.pablichj.incubator.amadeus.endpoint.airport.AirportAndCitySearchUseCase
+import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsRequest
+import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsResponse
+import com.pablichj.incubator.amadeus.endpoint.fligths.destination.GetFlightDestinationsUseCase
 import com.pablichj.incubator.amadeus.endpoint.offers.*
 import com.pablichj.incubator.amadeus.endpoint.offers.flight.FlightOffersRequest
 import com.pablichj.incubator.amadeus.endpoint.offers.flight.FlightOffersResponse
@@ -153,22 +153,47 @@ class AirportDemoComponent(
 
             when (flightOffersResult) {
                 is CallResult.Error -> {
-                    output("Error fetching Airports: ${flightOffersResult.error}")
+                    output("Error fetching flight offers: ${flightOffersResult.error}")
                 }
                 is CallResult.Success<FlightOffersResponse> -> {
-                    /*flightOffersResult.responseBody.data.forEach {
+                    flightOffersResult.responseBody.data.forEach {
                         output(
                             """
-                            Airport Name: ${it.name}
-                            Airport Detailed Name: ${it.detailedName}
-                            Airport Id: ${it.id}
-                            Location Subtype: ${it.subType}
-                            Airport Country: ${it.address.countryName}
-                            Airport State: ${it.address.stateCode}
-                            Airport City: ${it.address.cityName}
+                            Offer Id: ${it.id}
+                            Offer type: ${it.type}
+                            Offer itineraries: ${it.itineraries}
+                            Offer lastTicketingDate: ${it.lastTicketingDate}
+                            Offer instantTicketingRequired: ${it.instantTicketingRequired}
+                            Offer is oneWay: ${it.oneWay}
+                            Offer source: ${it.source}
+                            Offer nonHomogeneous: ${it.nonHomogeneous}
+                            Offer nonHomogeneous: ${it.nonHomogeneous}
                         """.trimIndent()
                         )
-                    }*/
+                        output("Itineraries:")
+                        it.itineraries.forEach {
+                            output(
+                                """ 
+                                Itinerary duration: ${it.duration}
+                                Itinerary segments: ${it.segments}
+                            """.trimIndent()
+                            )
+                        }
+                        output("Pricing:")
+                        output("Price currency: ${it.price.currency}")
+                        output("Price base: ${it.price.base}")
+                        output("Price total: ${it.price.total}")
+                        output("Price grandTotal: ${it.price.grandTotal}")
+                        output("Price Fees:")
+                        it.price.fees.forEach {
+                            output(
+                                """ 
+                                Fee amount: ${it.amount}
+                                Fee type: ${it.type}
+                            """.trimIndent()
+                            )
+                        }
+                    }
                     output(flightOffersResult.responseBody.toJson())
                 }
             }
