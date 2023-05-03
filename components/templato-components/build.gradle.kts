@@ -155,7 +155,7 @@ kotlin {
     // ANDROID
     android()
     android {
-        publishLibraryVariants("release", "debug")
+        publishLibraryVariants("release"/*, "debug"*/)
     }
 
     // IOS
@@ -185,7 +185,9 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.ui)
                 implementation(compose.material)
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+                implementation(compose.animation)
+                implementation("org.jetbrains.compose.ui:ui-util:1.4.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
             }
         }
         val commonTest by getting {
@@ -197,7 +199,7 @@ kotlin {
         // ANDROID
         val androidMain by getting {
             dependencies {
-                implementation("androidx.activity:activity-compose:1.7.0")
+                implementation("androidx.activity:activity-compose:1.7.1")
             }
         }
         val androidUnitTest by getting {
