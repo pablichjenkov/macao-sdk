@@ -13,6 +13,7 @@ import com.pablichj.templato.component.core.ComponentLifecycleState
 @Composable
 fun BackPressHandler(
     component: Component,
+    enabled: Boolean = true,
     onBackPressed: () -> Unit
 ) {
     // Safely update the current `onBack` lambda when a new one is provided
@@ -49,7 +50,7 @@ fun BackPressHandler(
             backPressDispatcher.unsubscribe(backPressCallback)
         }
         ComponentLifecycleState.Destroyed -> {
-
+            // Ignore it did unsubscribe in Stopped already.
         }
     }
 

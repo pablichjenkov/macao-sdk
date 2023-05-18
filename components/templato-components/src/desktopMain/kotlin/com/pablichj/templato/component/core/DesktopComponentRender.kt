@@ -7,12 +7,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.TreeContext
 import com.pablichj.templato.component.core.backpress.DefaultBackPressDispatcher
 import com.pablichj.templato.component.core.backpress.ForwardBackPressCallback
 import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
-import com.pablichj.templato.component.core.dispatchAttachedToComponentTree
 import com.pablichj.templato.component.platform.AppLifecycleEvent
 import com.pablichj.templato.component.platform.DesktopBridge
 import com.pablichj.templato.component.platform.ForwardAppLifecycleCallback
@@ -46,7 +43,7 @@ fun DesktopComponentRender(
     }
 
     LaunchedEffect(key1 = rootComponent, key2 = onBackPressEventHandler) {
-        rootComponent.rootBackPressedCallbackDelegate = ForwardBackPressCallback {
+        rootComponent.customBackPressedCallback = ForwardBackPressCallback {
             onBackPressEventHandler()
         }
         // Traverse the whole tree passing the TreeContext living in the root node. Useful to

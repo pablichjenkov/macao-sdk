@@ -20,7 +20,7 @@ fun AndroidComponentRender(
     onBackPressEvent: () -> Unit = {}
 ) {
     LaunchedEffect(key1 = rootComponent, key2 = onBackPressEvent) {
-        rootComponent.rootBackPressedCallbackDelegate = ForwardBackPressCallback {
+        rootComponent.customBackPressedCallback = ForwardBackPressCallback {
             onBackPressEvent()
         }
     }

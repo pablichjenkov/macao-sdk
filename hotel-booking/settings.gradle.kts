@@ -19,6 +19,7 @@ pluginManagement {
         id("com.android.application").version(agpVersion)
         id("com.android.library").version(agpVersion)
         id("org.jetbrains.compose").version(composeVersion)
+        id("com.github.gmazzo.buildconfig").version("4.0.4")
     }
 }
 

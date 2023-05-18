@@ -1,52 +1,51 @@
-package com.pablichj.incubator.uistate3.example.hotelBooking
+package com.pablichj.incubator.uistate3.example.hotelBooking.home
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.Color
 import com.pablichj.incubator.uistate3.example.hotelBooking.extra.SimpleComponent
+import com.pablichj.incubator.uistate3.example.hotelBooking.hoteloffers.HotelOffersComponent
+import com.pablichj.incubator.uistate3.example.hotelBooking.hotelsearch.HotelSearchComponent
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.stack.StackComponent
 
 class HomeComponent : StackComponent(DefaultConfig) {
 
-    val homeComponent = SimpleComponent(
-        "Home Page",
-        Color.Cyan
-    ) {
-        backStack.push(searchComponent)
+    private var hotelOffersComponent: HotelOffersComponent? = null
+
+    private val hotelSearchComponent = HotelSearchComponent { hotelListing ->
+        HotelOffersComponent(hotelListing).also {
+            hotelOffersComponent = it
+            it.setParent(this@HomeComponent)
+            backStack.push(it)
+        }
     }
 
-    val searchComponent = SimpleComponent(
-        "Search Page",
-        Color.Yellow
-    ) {}
-
     init {
-        homeComponent.setParent(this)
-        searchComponent.setParent(this)
+        hotelSearchComponent.setParent(this)
     }
 
     override fun start() {
         super.start()
+        println("HomeComponent::start()")
         if (activeComponent.value != null) {
-            println("HomeComponent::start()")
             activeComponent.value?.start()
         } else {
-            backStack.push(homeComponent)
+            backStack.push(hotelSearchComponent)
         }
     }
 
     override fun getStackBarItemFromComponent(component: Component): StackBarItem {
-        val selectedStackBarItem = if (component == homeComponent) {
+        val selectedStackBarItem = if (component == hotelSearchComponent) {
             StackBarItem(
-                label = "Home",
+                label = "Hotel Search",
                 icon = Icons.Default.Home,
             )
         } else {
             StackBarItem(
-                label = "Search",
+                label = "Hotel Offers",
                 icon = Icons.Default.Search,
             )
         }

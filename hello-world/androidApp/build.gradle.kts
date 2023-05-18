@@ -10,8 +10,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(project(":shared"))
-                //implementation("androidx.appcompat:appcompat:1.5.1")
-                implementation("androidx.activity:activity-compose:1.7.0")
+                implementation("androidx.activity:activity-compose:1.7.1")
                 //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
             }
         }

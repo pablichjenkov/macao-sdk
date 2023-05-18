@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 abstract class Component : ComponentLifecycle {
     var parentComponent: Component? = null
     var lifecycleState: ComponentLifecycleState = ComponentLifecycleState.Created
-    internal var rootBackPressedCallbackDelegate: BackPressedCallback? = null
+    internal var customBackPressedCallback: BackPressedCallback? = null
     internal val clazz = this::class.simpleName
 
-    internal val backPressedCallbackDelegate = object : BackPressedCallback() {
+    internal val backPressedCallback = object : BackPressedCallback() {
         override fun onBackPressed() {
             println("$clazz::onBackPressed() handling")
             handleBackPressed()
@@ -61,16 +61,18 @@ abstract class Component : ComponentLifecycle {
     }
 
     protected fun delegateBackPressedToParent() {
-        val parentNodeLocal = parentComponent
-        if (parentNodeLocal != null) {
+        if (customBackPressedCallback != null) {
+            customBackPressedCallback?.onBackPressed()
+            return
+        }
+        val parentComponentCopy = parentComponent
+        if (parentComponentCopy != null) {
             println("$clazz::delegateBackPressedToParent()")
-            parentNodeLocal.backPressedCallbackDelegate.onBackPressed()
+            parentComponentCopy.backPressedCallback.onBackPressed()
         } else {
             // We have reached the root Component
-            println("$clazz::delegateBackPressedInRootComponent()")
-            rootBackPressedCallbackDelegate?.onBackPressed()
+            println("$clazz::BackPressed event has been delegated up to the RootComponent")
         }
-
     }
 
     // region: DeepLink
