@@ -1,6 +1,6 @@
 package com.pablichj.templato.component.demo
 
-import com.pablichj.incubator.uistate3.BrowserComponentRender
+import com.pablichj.templato.component.core.BrowserComponentRender
 import com.pablichj.incubator.uistate3.BrowserViewportWindow
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.templato.component.demo.treebuilders.PanelTreeBuilder

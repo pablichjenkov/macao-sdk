@@ -181,7 +181,7 @@
 /* Begin XCBuildConfiguration section */
 		7555FFA3242A565B00829871 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AB3632DC29227652001CCB65 /* TeamId.xcconfig */;
+			baseConfigurationReference = DA1843CF4445C43A50937470 /* Pods-ComponentDemo.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -243,7 +243,7 @@
 		};
 		7555FFA4242A565B00829871 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AB3632DC29227652001CCB65 /* TeamId.xcconfig */;
+			baseConfigurationReference = DA1843CF4445C43A50937470 /* Pods-ComponentDemo.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -324,8 +324,7 @@
 					"-framework",
 					"\"ComponentDemoKt\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.pablichj.incubator.uistate3--TEAM-ID-";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.pablichj.incubator.uistate3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pablichj.incubator.uistate3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

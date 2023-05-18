@@ -37,7 +37,7 @@ kotlin {
         // COMMON
         val commonMain by getting {
             dependencies {
-                api("io.github.pablichjenkov:templato-components:0.1.15")
+                api("io.github.pablichjenkov:templato-components:0.1.21")
                 implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material)
@@ -51,15 +51,7 @@ kotlin {
         }
 
         // ANDROID
-        val androidMain by getting {
-            dependencies {
-                implementation("androidx.activity:activity-compose:1.7.0")
-                implementation ("com.google.accompanist:accompanist-pager:0.28.0")
-                implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
-                implementation ("androidx.window:window:1.0.0")
-                implementation( "androidx.compose.material3:material3-window-size-class:1.0.1")
-            }
-        }
+        val androidMain by getting
         val androidUnitTest by getting {
             dependencies {
                 implementation("junit:junit:4.13.2")
