@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 
 class HotelOffersComponent(
     private val hotelListing: HotelListing,
-    //private val onHotelOffersRequest: (HotelOffersRequestData) -> Unit
+    private val onOfferSelected: (HotelOfferSearch.Offer) -> Unit
 ) : Component() {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
     private val accessTokenDao = InMemoryAccessTokenDao()
@@ -105,143 +105,12 @@ class HotelOffersComponent(
     override fun Content(modifier: Modifier) {
         println("HotelOffersComponent::Composing()")
         consumeBackPressEvent()
-        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-            HotelOffersSearchForm(
-                hotelListing = hotelListing,
-                onHotelOffersRequest = {
-                    doHotelOffersSearch(it)
-                }
-            )
-            if (hotelOffers.isNotEmpty()) {
-                Text(
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                    text = "Results:",
-                    style = MaterialTheme.typography.subtitle1
-                )
-                hotelOffers.forEach { hotelOffer ->
-                    Text(hotelOffer.hotel.name!!)
-                    hotelOffer.offers.forEach { offer ->
-                        Text(offer.id)
-                        Text(offer.price.base ?: "Error getting price")
-                        Text(offer.price.total ?: "Error getting total")
-                        Text("================")
-                    }
-                }
-            }
-        }
+        HotelOffersSearchView(
+            hotelListing = hotelListing,
+            hotelOffers = hotelOffers,
+            onHotelOffersRequest = { doHotelOffersSearch(it) },
+            onOfferSelected = { onOfferSelected(it) }
+        )
     }
 
-}
-
-@OptIn(ExperimentalComposeUiApi::class)
-@Composable
-fun HotelOffersSearchForm(
-    hotelListing: HotelListing,
-    onHotelOffersRequest: (HotelOffersRequestData) -> Unit
-) {
-    val focus = LocalFocusManager.current
-    val keyboardController = LocalSoftwareKeyboardController.current
-    var checkingDate by remember { mutableStateOf("2023-12-31") }
-    var numberOfAdultGuests by remember { mutableStateOf("1") }
-    var numberOfRooms by remember { mutableStateOf("1") }
-    var errorMessage by remember { mutableStateOf("") }
-    var acceptedTerms by remember { mutableStateOf(true) }
-
-    Column(
-        Modifier
-            .padding(horizontal = 16.dp)
-            .padding(top = 32.dp)
-    ) {
-        Text(
-            text = "Fill reservation details",
-            style = MaterialTheme.typography.h4
-        )
-        Spacer(Modifier.height(12.dp))
-        Text(
-            text = "Offers availability will be based on the data you input",
-            style = MaterialTheme.typography.body1
-        )
-        Spacer(Modifier.height(24.dp))
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = hotelListing.name ?: "No Name Provided"
-        )
-        Spacer(Modifier.height(8.dp))
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = checkingDate,
-            label = { Text("CheckingDate") },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
-            keyboardActions = KeyboardActions(
-                onNext = {
-                    //focus.moveFocus(FocusDirection.Next)
-                }
-            ),
-            onValueChange = { checkingDate = it },
-            singleLine = true
-        )
-        Spacer(Modifier.height(8.dp))
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = numberOfAdultGuests,
-            label = { Text("How Many Adult Guest") },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Next
-            ),
-            keyboardActions = KeyboardActions(
-                onNext = {
-                    focus.clearFocus()
-                    keyboardController?.hide()
-                    //onSubmit()
-                }
-            ),
-            onValueChange = { numberOfAdultGuests = it },
-            singleLine = true
-        )
-        Spacer(Modifier.height(8.dp))
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = numberOfRooms,
-            label = { Text("How Many Rooms") },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done
-            ),
-            keyboardActions = KeyboardActions(
-                onNext = {
-                    focus.clearFocus()
-                    keyboardController?.hide()
-                    onHotelOffersRequest(
-                        HotelOffersRequestData(
-                            hotelListing.hotelId!!,
-                            checkingDate,
-                            numberOfAdultGuests,
-                            numberOfRooms
-                        )
-                    )
-                }
-            ),
-            onValueChange = { numberOfRooms = it },
-            singleLine = true
-        )
-        Button(
-            onClick = {
-                onHotelOffersRequest(
-                    HotelOffersRequestData(
-                        hotelListing.hotelId!!,
-                        checkingDate,
-                        numberOfAdultGuests,
-                        numberOfRooms
-                    )
-                )
-            },
-            modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp)
-        ) {
-            Text("Search")
-        }
-    }
 }
