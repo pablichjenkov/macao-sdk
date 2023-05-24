@@ -32,9 +32,6 @@ internal fun HotelListingView(
         .shadow(4.dp)
         .clickable { onHotelSelected() }
     ) {
-        /*Card(
-            backgroundColor = Color.LightGray
-        ) {*/
         Row(
             Modifier.fillMaxWidth().padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -75,5 +72,4 @@ internal fun HotelListingView(
             }
         }
     }
-    //}
 }
