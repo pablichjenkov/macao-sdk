@@ -25,7 +25,7 @@ pluginManagement {
 
 rootProject.name = "components"
 
-include(":templato-components")
+include(":component-toolkit")
 //project(":component").name = "component3"
 
 include(":shared")

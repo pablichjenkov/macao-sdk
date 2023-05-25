@@ -38,7 +38,7 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.ui)
                 implementation(compose.material)
-                implementation(project(":templato-components"))
+                implementation(project(":component-toolkit"))
                 implementation("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
             }
         }
