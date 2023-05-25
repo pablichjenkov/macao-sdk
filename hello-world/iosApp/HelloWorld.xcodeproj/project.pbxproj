@@ -313,6 +313,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pablichj.incubator.uistate3--TEAM-ID-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
