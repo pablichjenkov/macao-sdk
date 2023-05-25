@@ -10,7 +10,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(project(":shared"))
-                implementation(project(":templato-components"))
+                implementation(project(":component-toolkit"))
                 implementation(compose.material)
                 implementation("androidx.activity:activity-compose:1.7.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")

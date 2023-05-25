@@ -9,7 +9,7 @@ kotlin {
         val jvmMain by getting  {
             dependencies {
                 implementation(project(":shared"))
-                implementation(project(":templato-components"))
+                implementation(project(":component-toolkit"))
                 implementation(compose.desktop.common)
                 implementation(compose.desktop.currentOs)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
