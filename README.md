@@ -28,7 +28,7 @@ val commonMain by getting {
 }
 ```
 
-<table border="0">
+<table border="1">
  <tr>
     <td><b style="font-size:30px">Android</b></td>
     <td><b style="font-size:30px">iOS</b></td>
@@ -38,7 +38,7 @@ val commonMain by getting {
     <td><img title="iOS components demo" src="https://user-images.githubusercontent.com/5303301/225282413-fb433cc2-416f-4d98-ad29-cb676030a0ec.gif" alt="ios-component-demo" width="300"></td>
  </tr>
 </table>
-<table border="0">
+<table border="1">
  <tr>
     <td><b style="font-size:30px">Web</b></td>
  </tr>
@@ -46,7 +46,7 @@ val commonMain by getting {
     <td><img title="Web components demo" src="https://user-images.githubusercontent.com/5303301/214518301-88398770-a508-45f2-b411-520155f4f7e9.jpg" alt="web-component-demo" width="800"></td>
  </tr>
 </table>
-<table border="0">
+<table border="1">
 <tr>
     <td><b style="font-size:30px">Desktop</b></td>
  </tr>
@@ -61,21 +61,36 @@ val commonMain by getting {
 
 [Hello World](https://github.com/pablichjenkov/templato/tree/master/hello-world) is a simple example to get started with a components creation and configuration.
 
-<table border="0">
+<table style="border:1px solid black;">
  <tr>
-    <td><b style="font-size:30px">Android</b></td>
-    <td><b style="font-size:30px">iOS</b></td>
+    <td style="border:1px solid black;"><b style="font-size:30px">Android</b></td>
+    <td style="border:1px solid black;"><b style="font-size:30px">iOS</b></td>
  </tr>
  <tr>
-    <td><img title="Hello World Android" src="https://user-images.githubusercontent.com/5303301/215320502-0c771b1c-b5df-4181-aba0-7476d22e5995.jpg" alt="hello-world-android" width="300"></td>
-    <td><img title="Hello World iOS" src="https://user-images.githubusercontent.com/5303301/214742102-878b386e-e324-433f-aee9-9c5629500ccc.jpg" alt="hello-world-ios" width="300"></td>
+    <td style="border:1px solid black;"><img title="Hello World Android" src="https://user-images.githubusercontent.com/5303301/215320502-0c771b1c-b5df-4181-aba0-7476d22e5995.jpg" alt="hello-world-android" width="300"></td>
+    <td style="border:1px solid black;"><img title="Hello World iOS" src="https://user-images.githubusercontent.com/5303301/214742102-878b386e-e324-433f-aee9-9c5629500ccc.jpg" alt="hello-world-ios" width="300"></td>
  </tr>
 </table>
-<table border="0">
+<table style="border:1px solid black;">
  <tr>
-    <td><b style="font-size:30px">Web</b></td>
+    <td style="border:1px solid black;"><b style="font-size:30px">Web</b></td>
  </tr>
  <tr>
-    <td><img title="Hello World Web" src="https://user-images.githubusercontent.com/5303301/214742259-f912843a-cf85-4ce7-b69d-74b301eca6e5.jpg" alt="hello-world-web" width="800"></td>
+    <td style="border:1px solid black;"><img title="Hello World Web" src="https://user-images.githubusercontent.com/5303301/214742259-f912843a-cf85-4ce7-b69d-74b301eca6e5.jpg" alt="hello-world-web" width="800"></td>
+ </tr>
+</table>
+
+### Hello World
+
+[Hotel Booking](https://github.com/pablichjenkov/amadeus-hotel-app) An App that consumes Amadeus hotel bookking public API.
+
+<table style="border:1px solid black;">
+ <tr>
+    <td style="border:1px solid black;"><b style="font-size:30px">Android</b></td>
+    <td style="border:1px solid black;"><b style="font-size:30px">iOS</b></td>
+ </tr>
+ <tr>
+    <td style="border:1px solid black;"><img title="Hotel Booking Android" src="https://github.com/pablichjenkov/amadeus-hotel-app/assets/5303301/d795c512-a15d-4d92-81cb-f1452eace104"></td>
+    <td style="border:1px solid black;"><img title="Hotel Booking iOS" src="https://github.com/pablichjenkov/amadeus-hotel-app/assets/5303301/97eeb489-8f92-401a-aadf-e6ec068668f8"></td>
  </tr>
 </table>
