@@ -24,8 +24,7 @@ class DrawerWindowNode(
     private var drawerComponent: Component = DrawerTreeBuilder.build()
     private val appLifecycleDispatcher = DefaultAppLifecycleDispatcher()
     private val desktopBridge = DesktopBridge(
-        appLifecycleDispatcher = appLifecycleDispatcher,
-        onBackPressEvent = { exitProcess(0) }
+        appLifecycleDispatcher = appLifecycleDispatcher
     )
 
     @Composable
@@ -36,6 +35,7 @@ class DrawerWindowNode(
         ) {
             DesktopComponentRender(
                 rootComponent = drawerComponent,
+                onBackPressEvent = { exitProcess(0) },
                 desktopBridge = desktopBridge
             )
         }

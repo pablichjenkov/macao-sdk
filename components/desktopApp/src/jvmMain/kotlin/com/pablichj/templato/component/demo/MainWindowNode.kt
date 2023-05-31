@@ -34,8 +34,7 @@ class MainWindowNode(
     private val appLifecycleDispatcher = DefaultAppLifecycleDispatcher()
     private val diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
     private val desktopBridge = DesktopBridge(
-        appLifecycleDispatcher = appLifecycleDispatcher,
-        onBackPressEvent = onExitClick
+        appLifecycleDispatcher = appLifecycleDispatcher
     )
 
     init {
@@ -116,6 +115,7 @@ class MainWindowNode(
             }
             DesktopComponentRender(
                 rootComponent = adaptableSizeComponent,
+                onBackPressEvent = onExitClick,
                 desktopBridge = desktopBridge
             )
         }

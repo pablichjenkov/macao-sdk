@@ -1,16 +1,20 @@
 package com.pablichj.templato.component.core
 
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import com.pablichj.templato.component.core.backpress.AndroidBackPressDispatcher
+import com.pablichj.templato.component.core.backpress.BackPressHandler
 import com.pablichj.templato.component.core.backpress.ForwardBackPressCallback
 import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
 
@@ -19,14 +23,13 @@ fun AndroidComponentRender(
     rootComponent: Component,
     onBackPressEvent: () -> Unit = {}
 ) {
-    LaunchedEffect(key1 = rootComponent, key2 = onBackPressEvent) {
-        rootComponent.customBackPressedCallback = ForwardBackPressCallback {
-            onBackPressEvent()
-        }
-    }
-
     val treeContext = remember(rootComponent) {
         TreeContext()
+    }
+    val updatedOnBackPressed by rememberUpdatedState(onBackPressEvent)
+
+    LaunchedEffect(key1 = rootComponent) {
+        rootComponent.onBackPressDelegationReachRoot = updatedOnBackPressed
     }
 
     LifecycleEventObserver(
@@ -55,5 +58,4 @@ fun AndroidComponentRender(
             rootComponent.Content(Modifier.fillMaxSize())
         }
     }
-
 }
