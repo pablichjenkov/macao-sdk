@@ -1,20 +1,8 @@
 ### Under development 🚧👷
-## Templato
-Templato is a set of compose multiplatforms templates to help build an App oriented to a specific business. The templates all target the 4 most popular user interfaced platforms, Browser, iOS, Android and the JVM(Mac, Window and Linux). The templates cover the UI for a certain business type of App, abstracting the data layer, so a variety of APIs for that specific business type can integrate.
-<BR>
-For instance, the Hotel Booking template provides the screens and navigation flows that a typical Hotel Booking App has. But, it depends on a data abstraction layer that a Hotel Booking company, will provide the implementation for. Once the specific data contracts implementations are provided, it is a matter of injecting it in the template and watch the App runs everywhere.
-<BR>
-There are also a couple of simple templates like [Hello World](https://github.com/pablichjenkov/templato/tree/master/hello-world), to help a person interested in this project, to understand how the components based design works. The templates build on top of the [Components](https://github.com/pablichjenkov/templato/wiki) tree design concept, which implementation lives in the **component-tree** module, check that module out for a better understanding of how to create new components or extend current components functionality.
+## Component Toolkit
+A set of components to speedup App development. It has navigation components as drawer, tab bars, bottom bars, pagers, stack and such. Code is 99% the same in each platform. Check demos bellow.
 
-### Running the templates
-To run the projects you need to have the kotlin multiplatform environment setup in your working computer. For this matter visit the following link [Setup Environment](https://kotlinlang.org/docs/multiplatform-mobile-setup.html#install-the-necessary-tools). The page makes reference to an important cli tool called **kdoctor**. This tool will allow you to check if the environment is ready to build multiplatform Apps in kotlin. I recommend installing it.
-
----
-
-### Components
-
-[Templato Components](https://github.com/pablichjenkov/templato/tree/master/components) are the core module where the navigation components and other util components reside. Bellow are some demos of the different features available in the templato-components library. 
-<H4>You want to try it out? - It is in mavenCentral !!!</H4>
+<H4>How to use it?</H4>
 
 Just add bellow dependency in your project **shared** module. You only need to add the dependency to the **commonMain** sourceSet.
 
@@ -27,6 +15,12 @@ val commonMain by getting {
     }
 }
 ```
+
+---
+
+### Component Toolkit Demo App
+
+This is the App I use to test while developing the components.
 
 <table border="1">
  <tr>
@@ -94,5 +88,13 @@ val commonMain by getting {
  <tr>
     <td style="border:1px solid black;"><img title="Hotel Booking Android" src="https://github.com/pablichjenkov/amadeus-hotel-app/assets/5303301/d795c512-a15d-4d92-81cb-f1452eace104"></td>
     <td style="border:1px solid black;"><img title="Hotel Booking iOS" src="https://github.com/pablichjenkov/amadeus-hotel-app/assets/5303301/97eeb489-8f92-401a-aadf-e6ec068668f8"></td>
+ </tr>
+</table>
+    <table style="border:1px solid black;">
+ <tr>
+    <td style="border:1px solid black;"><b style="font-size:30px">Web</b></td>
+ </tr>
+ <tr>
+    <td style="border:1px solid black;"><img title="Hotel Booking Web" src="https://github.com/pablichjenkov/amadeus-hotel-app/assets/5303301/77412db5-4030-4a41-b51f-07dd0a60e3c1"></td>
  </tr>
 </table>
