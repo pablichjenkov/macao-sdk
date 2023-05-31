@@ -1,6 +1,6 @@
 ### Under development 🚧👷
 ## Component Toolkit
-A set of components to speedup App development. It has navigation components as drawer, tab bars, bottom bars, pagers, stack and such. Code is 99% the same in each platform. Check demos bellow.
+A set of components to speedup App development. It has navigation components as drawer, tab bars, bottom bars, pagers, stack and many more. Code is 99% the same in each platform. Check demos bellow.
 
 <H4>How to use it?</H4>
 
