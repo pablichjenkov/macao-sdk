@@ -25,8 +25,7 @@ class FullAppWindowNode(
     private var activeComponent: Component = FullAppWithIntroTreeBuilder.build()
     private val appLifecycleDispatcher = DefaultAppLifecycleDispatcher()
     private val desktopBridge = DesktopBridge(
-        appLifecycleDispatcher = appLifecycleDispatcher,
-        onBackPressEvent = onCloseClick
+        appLifecycleDispatcher = appLifecycleDispatcher
     )
 
     @Composable
@@ -37,6 +36,7 @@ class FullAppWindowNode(
         ) {
             DesktopComponentRender(
                 rootComponent = activeComponent,
+                onBackPressEvent = onCloseClick,
                 desktopBridge = desktopBridge
             )
         }

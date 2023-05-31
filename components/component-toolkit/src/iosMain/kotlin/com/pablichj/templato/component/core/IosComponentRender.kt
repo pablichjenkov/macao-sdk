@@ -39,7 +39,7 @@ fun IosComponentRender(
     }
 
     LaunchedEffect(key1 = rootComponent/*, key2 = onBackPressEvent*/) {
-        rootComponent.customBackPressedCallback = ForwardBackPressCallback {
+        rootComponent.onBackPressDelegationReachRoot = {
             //onBackPressEvent()//todo: Place it in the platform bridge
             println("back pressed dispatched in root node")
         }

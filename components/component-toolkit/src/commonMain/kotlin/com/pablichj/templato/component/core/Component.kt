@@ -8,24 +8,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
 abstract class Component : ComponentLifecycle {
-    var parentComponent: Component? = null
-    var lifecycleState: ComponentLifecycleState = ComponentLifecycleState.Created
-    internal var customBackPressedCallback: BackPressedCallback? = null
+
     internal val clazz = this::class.simpleName
 
-    internal val backPressedCallback = object : BackPressedCallback() {
-        override fun onBackPressed() {
-            println("$clazz::onBackPressed() handling")
-            handleBackPressed()
-        }
-    }
-
-    private val _componentLifecycleFlow =
-        MutableStateFlow<ComponentLifecycleState>(ComponentLifecycleState.Created)
-    val componentLifecycleFlow: Flow<ComponentLifecycleState>
-        get() = _componentLifecycleFlow
-
     // region: Component Tree
+
+    var parentComponent: Component? = null
 
     fun setParent(parentComponent: Component) {
         if (this == parentComponent) throw IllegalArgumentException("A Node cannot be its parentNode")
@@ -36,20 +24,42 @@ abstract class Component : ComponentLifecycle {
 
     // endregion
 
+    // region: Lifecycle
+
+    var lifecycleState: ComponentLifecycleState = ComponentLifecycleState.Created
+
+    private val _lifecycleStateFlow =
+        MutableStateFlow<ComponentLifecycleState>(ComponentLifecycleState.Created)
+    val lifecycleStateFlow: Flow<ComponentLifecycleState>
+        get() = _lifecycleStateFlow
+
     override fun start() {
         lifecycleState = ComponentLifecycleState.Started
-        _componentLifecycleFlow.value = ComponentLifecycleState.Started
+        _lifecycleStateFlow.value = ComponentLifecycleState.Started
     }
 
     override fun stop() {
         lifecycleState = ComponentLifecycleState.Stopped
-        _componentLifecycleFlow.value = ComponentLifecycleState.Stopped
+        _lifecycleStateFlow.value = ComponentLifecycleState.Stopped
     }
 
     override fun destroy() {
         lifecycleState = ComponentLifecycleState.Destroyed
-        _componentLifecycleFlow.value = ComponentLifecycleState.Destroyed
+        _lifecycleStateFlow.value = ComponentLifecycleState.Destroyed
     }
+
+    // endregion
+
+    // region: BackPress
+
+    internal val backPressedCallback = object : BackPressedCallback() {
+        override fun onBackPressed() {
+            println("$clazz::onBackPressed() handling")
+            handleBackPressed()
+        }
+    }
+
+    var onBackPressDelegationReachRoot: (() -> Unit)? = null
 
     /**
      * If a Component does not override handleBackPressed() function, the default behavior is to
@@ -61,19 +71,18 @@ abstract class Component : ComponentLifecycle {
     }
 
     protected fun delegateBackPressedToParent() {
-        if (customBackPressedCallback != null) {
-            customBackPressedCallback?.onBackPressed()
-            return
-        }
         val parentComponentCopy = parentComponent
         if (parentComponentCopy != null) {
             println("$clazz::delegateBackPressedToParent()")
             parentComponentCopy.backPressedCallback.onBackPressed()
         } else {
             // We have reached the root Component
-            println("$clazz::BackPressed event has been delegated up to the RootComponent")
+            println("$clazz::BackPressed event delegation reached the RootComponent")
+            onBackPressDelegationReachRoot?.invoke()
         }
     }
+
+    // endregion
 
     // region: DeepLink
 

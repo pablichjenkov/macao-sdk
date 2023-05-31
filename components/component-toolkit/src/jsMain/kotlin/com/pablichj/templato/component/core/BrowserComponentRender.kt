@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import com.pablichj.templato.component.core.backpress.DefaultBackPressDispatcher
 import com.pablichj.templato.component.core.backpress.ForwardBackPressCallback
@@ -19,9 +21,19 @@ fun BrowserComponentRender(
     val webBackPressDispatcher = remember(rootComponent) {
         DefaultBackPressDispatcher()
     }
-
     val treeContext = remember(rootComponent) {
         TreeContext()
+    }
+    val updatedOnBackPressed by rememberUpdatedState(onBackPressEvent)
+
+    LaunchedEffect(key1 = rootComponent) {
+        rootComponent.onBackPressDelegationReachRoot = updatedOnBackPressed
+        // Traverse the whole tree passing the TreeContext living in the root node. Useful to
+        // propagate the the Navigator for example. Where each Component interested in participating
+        // in deep linking will subscribe its instance an a DeepLinkMatcher lambda function.
+        println("BrowserComponentRender::dispatchAttachedToComponentTree")
+        rootComponent.dispatchAttachedToComponentTree(treeContext)
+        rootComponent.start()
     }
 
     CompositionLocalProvider(
@@ -36,17 +48,5 @@ fun BrowserComponentRender(
                 onClick = { webBackPressDispatcher.dispatchBackPressed() }
             )*/
         }
-    }
-
-    LaunchedEffect(key1 = rootComponent, key2 = onBackPressEvent) {
-        rootComponent.customBackPressedCallback = ForwardBackPressCallback {
-            onBackPressEvent()
-        }
-        // Traverse the whole tree passing the TreeContext living in the root node. Useful to
-        // propagate the the Navigator for example. Where each Component interested in participating
-        // in deep linking will subscribe its instance an a DeepLinkMatcher lambda function.
-        println("BrowserComponentRender::dispatchAttachedToComponentTree")
-        rootComponent.dispatchAttachedToComponentTree(treeContext)
-        rootComponent.start()
     }
 }

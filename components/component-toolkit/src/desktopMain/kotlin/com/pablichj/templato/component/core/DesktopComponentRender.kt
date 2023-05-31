@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import com.pablichj.templato.component.core.backpress.DefaultBackPressDispatcher
 import com.pablichj.templato.component.core.backpress.ForwardBackPressCallback
@@ -17,6 +19,7 @@ import com.pablichj.templato.component.platform.ForwardAppLifecycleCallback
 @Composable
 fun DesktopComponentRender(
     rootComponent: Component,
+    onBackPressEvent: () -> Unit = {},
     desktopBridge: DesktopBridge
 ) {
     val desktopBackPressDispatcher = remember(rootComponent) {
@@ -25,7 +28,7 @@ fun DesktopComponentRender(
     val treeContext = remember(rootComponent) {
         TreeContext()
     }
-    val onBackPressEventHandler = desktopBridge.onBackPressEvent
+    val updatedOnBackPressed by rememberUpdatedState(onBackPressEvent)
 
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides desktopBackPressDispatcher
@@ -42,10 +45,9 @@ fun DesktopComponentRender(
         }
     }
 
-    LaunchedEffect(key1 = rootComponent, key2 = onBackPressEventHandler) {
-        rootComponent.customBackPressedCallback = ForwardBackPressCallback {
-            onBackPressEventHandler()
-        }
+    LaunchedEffect(key1 = rootComponent) {
+        rootComponent.onBackPressDelegationReachRoot = updatedOnBackPressed
+
         // Traverse the whole tree passing the TreeContext living in the root node. Useful to
         // propagate the the Navigator for example. Where each Component interested in participating
         // in deep linking will subscribe its instance an a DeepLinkMatcher lambda function.

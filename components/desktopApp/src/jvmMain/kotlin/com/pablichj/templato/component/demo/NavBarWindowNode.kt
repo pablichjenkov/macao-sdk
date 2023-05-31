@@ -23,8 +23,7 @@ class NavBarWindowNode(
     private var navBarComponent: Component = NavBarTreeBuilder.build()
     private val appLifecycleDispatcher = DefaultAppLifecycleDispatcher()
     private val desktopBridge = DesktopBridge(
-        appLifecycleDispatcher = appLifecycleDispatcher,
-        onBackPressEvent = onCloseClick
+        appLifecycleDispatcher = appLifecycleDispatcher
     )
 
     @Composable
@@ -35,6 +34,7 @@ class NavBarWindowNode(
         ) {
             DesktopComponentRender(
                 rootComponent = navBarComponent,
+                onBackPressEvent = onCloseClick,
                 desktopBridge = desktopBridge
             )
         }

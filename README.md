@@ -80,7 +80,7 @@ val commonMain by getting {
  </tr>
 </table>
 
-### Hello World
+### Hotel Booking
 
 [Hotel Booking](https://github.com/pablichjenkov/amadeus-hotel-app) An App that consumes Amadeus hotel bookking public API.
 

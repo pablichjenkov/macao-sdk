@@ -102,7 +102,7 @@ open class AdaptiveSizeComponent : Component(), NavigationComponent {
     override fun Content(modifier: Modifier) {
         println("$clazz.Composing() lifecycleState = $lifecycleState")
         val density = LocalDensity.current
-        val componentLifecycleState by componentLifecycleFlow.collectAsState(ComponentLifecycleState.Created)
+        val componentLifecycleState by lifecycleStateFlow.collectAsState(ComponentLifecycleState.Created)
         when (componentLifecycleState) {
             ComponentLifecycleState.Created,
             ComponentLifecycleState.Destroyed -> {

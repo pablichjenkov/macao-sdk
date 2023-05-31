@@ -23,8 +23,7 @@ class PanelWindowNode(
     private var panelComponent: Component = PanelTreeBuilder.build()
     private val appLifecycleDispatcher = DefaultAppLifecycleDispatcher()
     private val desktopBridge = DesktopBridge(
-        appLifecycleDispatcher = appLifecycleDispatcher,
-        onBackPressEvent = onCloseClick
+        appLifecycleDispatcher = appLifecycleDispatcher
     )
 
     @Composable
@@ -35,6 +34,7 @@ class PanelWindowNode(
         ) {
             DesktopComponentRender(
                 rootComponent = panelComponent,
+                onBackPressEvent = onCloseClick,
                 desktopBridge = desktopBridge
             )
         }
