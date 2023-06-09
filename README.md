@@ -11,7 +11,7 @@ Just add bellow dependency in your project **shared** module. You only need to a
 
 val commonMain by getting {
     dependencies {
-        implementation("io.github.pablichjenkov:templato-components:0.1.22")
+        implementation("io.github.pablichjenkov:component-toolkit:0.1.30")
     }
 }
 ```
