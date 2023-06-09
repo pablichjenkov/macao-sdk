@@ -50,31 +50,6 @@ This is the App I use to test while developing the components.
 </table>
 
 ---
-
-### Hello World
-
-[Hello World](https://github.com/pablichjenkov/templato/tree/master/hello-world) is a simple example to get started with a components creation and configuration.
-
-<table style="border:1px solid black;">
- <tr>
-    <td style="border:1px solid black;"><b style="font-size:30px">Android</b></td>
-    <td style="border:1px solid black;"><b style="font-size:30px">iOS</b></td>
- </tr>
- <tr>
-    <td style="border:1px solid black;"><img title="Hello World Android" src="https://user-images.githubusercontent.com/5303301/215320502-0c771b1c-b5df-4181-aba0-7476d22e5995.jpg" alt="hello-world-android" width="300"></td>
-    <td style="border:1px solid black;"><img title="Hello World iOS" src="https://user-images.githubusercontent.com/5303301/214742102-878b386e-e324-433f-aee9-9c5629500ccc.jpg" alt="hello-world-ios" width="300"></td>
- </tr>
-</table>
-<table style="border:1px solid black;">
- <tr>
-    <td style="border:1px solid black;"><b style="font-size:30px">Web</b></td>
- </tr>
- <tr>
-    <td style="border:1px solid black;"><img title="Hello World Web" src="https://user-images.githubusercontent.com/5303301/214742259-f912843a-cf85-4ce7-b69d-74b301eca6e5.jpg" alt="hello-world-web" width="800"></td>
- </tr>
-</table>
-
----
     
 ### Hotel Booking
 
