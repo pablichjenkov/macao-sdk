@@ -1,3 +1,10 @@
+rootProject.name = "component-toolkit"
+include(":component-toolkit")
+include(":shared")
+include(":androidApp")
+include(":jsApp")
+include(":desktopApp")
+
 pluginManagement {
     repositories {
         mavenLocal()
@@ -23,13 +30,11 @@ pluginManagement {
     }
 }
 
-rootProject.name = "component-toolkit"
-
-include(":component-toolkit")
-//project(":component").name = "component3"
-
-include(":shared")
-include(":androidApp")
-include(":jsApp")
-include(":desktopApp")
-
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        mavenLocal()
+    }
+}

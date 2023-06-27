@@ -43,7 +43,7 @@ fun Component.dispatchAttachedToComponentTree(treeContext: TreeContext) {
 fun Component.consumeBackPressEvent() {
     BackPressHandler(
         component = this,
-        onBackPressed = { this.backPressedCallback.onBackPressed() }
+        onBackPressed = { this.handleBackPressed() }
     )
 }
 

@@ -52,13 +52,6 @@ abstract class Component : ComponentLifecycle {
 
     // region: BackPress
 
-    internal val backPressedCallback = object : BackPressedCallback() {
-        override fun onBackPressed() {
-            println("$clazz::onBackPressed() handling")
-            handleBackPressed()
-        }
-    }
-
     var onBackPressDelegationReachRoot: (() -> Unit)? = null
 
     /**
@@ -66,7 +59,8 @@ abstract class Component : ComponentLifecycle {
      * delegate/forward the back press event upstream, for its parent Component to handle it.
      * All the way up to the root Component.
      * */
-    protected open fun handleBackPressed() {
+    open fun handleBackPressed() {
+        println("$clazz::onBackPressed() handling")
         delegateBackPressedToParent()
     }
 
@@ -74,7 +68,7 @@ abstract class Component : ComponentLifecycle {
         val parentComponentCopy = parentComponent
         if (parentComponentCopy != null) {
             println("$clazz::delegateBackPressedToParent()")
-            parentComponentCopy.backPressedCallback.onBackPressed()
+            parentComponentCopy.handleBackPressed()
         } else {
             // We have reached the root Component
             println("$clazz::BackPressed event delegation reached the RootComponent")
