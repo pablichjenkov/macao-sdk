@@ -1,9 +1,14 @@
 package com.pablichj.templato.component.core
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import com.pablichj.templato.component.core.backpress.BackPressHandler
+import com.pablichj.templato.component.core.backpress.DefaultBackPressDispatcher
+import com.pablichj.templato.component.core.backpress.IBackPressDispatcher
 import com.pablichj.templato.component.core.drawer.DrawerNavigationComponent
 import com.pablichj.templato.component.core.router.DeepLinkDestination
+import com.pablichj.templato.component.core.router.DefaultRouter
+import com.pablichj.templato.component.core.router.Router
 
 fun Component.findClosestDrawerNavigationComponent(): DrawerNavigationComponent? {
     var parentIterator: Component? = this.parentComponent
@@ -16,7 +21,7 @@ fun Component.findClosestDrawerNavigationComponent(): DrawerNavigationComponent?
     return null
 }
 
-fun Component.onAttachedToComponentTree(treeContext: TreeContext) {
+/*internal fun Component.onAttachedToComponentTree(treeContext: TreeContext) {
     this.treeContext = treeContext
 
     // Register to handle deep links
@@ -29,15 +34,17 @@ fun Component.onAttachedToComponentTree(treeContext: TreeContext) {
             )
         )
     }
-}
+}*/
 
-fun Component.dispatchAttachedToComponentTree(treeContext: TreeContext) {
+/*fun Component.dispatchAttachedToComponentTree(treeContext: TreeContext) {
     println("${clazz}::dispatchAttachedToComponentTree()")
     if (this is ComponentWithChildren) {
         this.childComponents.forEach { it.dispatchAttachedToComponentTree(treeContext) }
     }
     this.onAttachedToComponentTree(treeContext)
-}
+}*/
+val LocalRouter =
+    staticCompositionLocalOf<Router> { DefaultRouter() }
 
 @Composable
 fun Component.consumeBackPressEvent() {

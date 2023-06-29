@@ -27,7 +27,7 @@ class DeepLinkDemoNode(
         width = 300.dp, height = 800.dp
     )
 
-    private val deepLinks = mutableListOf<String>(
+    private val deepLinks = mutableListOf(
         "Home/Page1",
         "Orders/Page1",
         "Settings/Page1",

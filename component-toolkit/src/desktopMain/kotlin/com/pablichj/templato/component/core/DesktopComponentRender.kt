@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import com.pablichj.templato.component.core.backpress.DefaultBackPressDispatcher
 import com.pablichj.templato.component.core.backpress.ForwardBackPressCallback
 import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
+import com.pablichj.templato.component.core.router.DefaultRouter
 import com.pablichj.templato.component.platform.AppLifecycleEvent
 import com.pablichj.templato.component.platform.DesktopBridge
 import com.pablichj.templato.component.platform.ForwardAppLifecycleCallback
@@ -19,19 +20,20 @@ import com.pablichj.templato.component.platform.ForwardAppLifecycleCallback
 @Composable
 fun DesktopComponentRender(
     rootComponent: Component,
-    onBackPressEvent: () -> Unit = {},
+    onBackPress: () -> Unit = {},
     desktopBridge: DesktopBridge
 ) {
     val desktopBackPressDispatcher = remember(rootComponent) {
         DefaultBackPressDispatcher()
     }
-    val treeContext = remember(rootComponent) {
-        TreeContext()
+    val router = remember(rootComponent) {
+        DefaultRouter()
     }
-    val updatedOnBackPressed by rememberUpdatedState(onBackPressEvent)
+    val updatedOnBackPressed by rememberUpdatedState(onBackPress)
 
     CompositionLocalProvider(
-        LocalBackPressedDispatcher provides desktopBackPressDispatcher
+        LocalBackPressedDispatcher provides desktopBackPressDispatcher,
+        LocalRouter provides router
     ) {
         Box {
             rootComponent.Content(Modifier.fillMaxSize())
@@ -47,18 +49,11 @@ fun DesktopComponentRender(
 
     LaunchedEffect(key1 = rootComponent) {
         rootComponent.onBackPressDelegationReachRoot = updatedOnBackPressed
-
-        // Traverse the whole tree passing the TreeContext living in the root node. Useful to
-        // propagate the the Navigator for example. Where each Component interested in participating
-        // in deep linking will subscribe its instance an a DeepLinkMatcher lambda function.
-        println("DesktopComponentRender::dispatchAttachedToComponentTree")
-        rootComponent.dispatchAttachedToComponentTree(treeContext)
-
         desktopBridge.appLifecycleDispatcher.subscribe(
             ForwardAppLifecycleCallback {
                 when (it) {
-                    AppLifecycleEvent.Start -> rootComponent.start()
-                    AppLifecycleEvent.Stop -> rootComponent.stop()
+                    AppLifecycleEvent.Start -> rootComponent.dispatchStart()
+                    AppLifecycleEvent.Stop -> rootComponent.dispatchStop()
                 }
             }
         )

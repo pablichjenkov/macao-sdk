@@ -56,11 +56,9 @@ class MainWindowNode(
     // region: DeepLink
 
     fun handleDeepLink(destination: String) {
-        val deepLinkResult = adaptableSizeComponent
-            .treeContext
-            ?.router
-            ?.handleDeepLink(destination)
-        println("MainWindowNode::deepLinkResult = ${deepLinkResult}")
+        //val deepLinkResult = adaptableSizeComponent
+        //    .router?.handleDeepLink(destination)
+        //println("MainWindowNode::deepLinkResult = $deepLinkResult")
     }
 
     // endregion
@@ -115,7 +113,7 @@ class MainWindowNode(
             }
             DesktopComponentRender(
                 rootComponent = adaptableSizeComponent,
-                onBackPressEvent = onExitClick,
+                onBackPress = onExitClick,
                 desktopBridge = desktopBridge
             )
         }

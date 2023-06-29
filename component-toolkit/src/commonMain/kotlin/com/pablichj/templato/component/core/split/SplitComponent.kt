@@ -6,10 +6,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.pablichj.templato.component.core.Component
 
-open class SplitComponent(
+class SplitComponent(
     private val config: Config
 ) : Component() {
-
     private var topComponent: Component? = null
     private var bottomComponent: Component? = null
 
@@ -25,18 +24,16 @@ open class SplitComponent(
         }
     }
 
-    override fun start() {
-        super.start()
+    override fun onStart() {
         println("$clazz::start")
-        topComponent?.start()
-        bottomComponent?.start()
+        topComponent?.dispatchStart()
+        bottomComponent?.dispatchStart()
     }
 
-    override fun stop() {
-        super.stop()
+    override fun onStop() {
         println("$clazz::stop")
-        topComponent?.stop()
-        bottomComponent?.stop()
+        topComponent?.dispatchStop()
+        bottomComponent?.dispatchStop()
     }
 
     @Composable

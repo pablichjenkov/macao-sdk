@@ -16,10 +16,10 @@ import com.pablichj.templato.component.core.processBackstackEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-open class PanelComponent(
+class PanelComponent(
     private val config: Config = DefaultConfig
 ) : Component(), NavigationComponent {
-    final override val backStack = BackStack<Component>()
+    override val backStack = BackStack<Component>()
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
@@ -48,8 +48,7 @@ open class PanelComponent(
         }
     }
 
-    override fun start() {
-        super.start()
+    override fun onStart() {
         if (activeComponent.value == null) {
             println("$clazz::start(). Pushing selectedIndex = $selectedIndex, children.size = ${childComponents.size}")
             if (childComponents.isNotEmpty()) {
@@ -59,14 +58,13 @@ open class PanelComponent(
             }
         } else {
             println("$clazz::start() with activeNodeState = ${activeComponent.value?.clazz}")
-            activeComponent.value?.start()
+            activeComponent.value?.dispatchStart()
         }
     }
 
-    override fun stop() {
+    override fun onStop() {
         println("$clazz::stop()")
-        super.stop()
-        activeComponent.value?.stop()
+        activeComponent.value?.dispatchStop()
     }
 
     override fun handleBackPressed() {
@@ -111,10 +109,10 @@ open class PanelComponent(
 
     override fun onDestroyChildComponent(component: Component) {
         if (component.lifecycleState == ComponentLifecycleState.Started) {
-            component.stop()
-            component.destroy()
+            component.dispatchStop()
+            component.dispatchDestroy()
         } else {
-            component.destroy()
+            component.dispatchDestroy()
         }
     }
 

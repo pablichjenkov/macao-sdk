@@ -36,7 +36,7 @@ class FullAppWindowNode(
         ) {
             DesktopComponentRender(
                 rootComponent = activeComponent,
-                onBackPressEvent = onCloseClick,
+                onBackPress = onCloseClick,
                 desktopBridge = desktopBridge
             )
         }

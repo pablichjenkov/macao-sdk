@@ -3,6 +3,20 @@ plugins {
     id("org.jetbrains.compose")
 }
 
+compose {
+    // Sets a specific JetBrains Compose Compiler version
+/*
+    kotlinCompilerPlugin.set("1.4.7")
+    // Sets a specific Google Compose Compiler version
+    // kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:1.4.2")
+    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.8.21")
+*/
+
+    experimental {
+        web.application {}
+    }
+}
+
 kotlin {
     js(IR) {
         browser()
@@ -20,8 +34,3 @@ kotlin {
         }
     }
 }
-
-compose.experimental {
-    web.application {}
-}
-

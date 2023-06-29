@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "io.github.pablichjenkov"
-version = "0.1.30"
+version = extra["component-toolkit.version"] as String
 val mavenCentralUser = extra["mavenCentral.user"] as String
 val mavenCentralPass = extra["mavenCentral.pass"] as String
 
@@ -150,6 +150,14 @@ publishing {
 signing {
     sign(publishing.publications)
 }
+
+/*compose {
+    // Sets a specific JetBrains Compose Compiler version
+    kotlinCompilerPlugin.set("1.4.7")
+    // Sets a specific Google Compose Compiler version
+    // kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:1.4.2")
+    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.8.21")
+}*/
 
 kotlin {
     // ANDROID

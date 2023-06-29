@@ -35,7 +35,7 @@ class DrawerWindowNode(
         ) {
             DesktopComponentRender(
                 rootComponent = drawerComponent,
-                onBackPressEvent = { exitProcess(0) },
+                onBackPress = { exitProcess(0) },
                 desktopBridge = desktopBridge
             )
         }

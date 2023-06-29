@@ -34,7 +34,7 @@ class NavBarWindowNode(
         ) {
             DesktopComponentRender(
                 rootComponent = navBarComponent,
-                onBackPressEvent = onCloseClick,
+                onBackPress = onCloseClick,
                 desktopBridge = desktopBridge
             )
         }

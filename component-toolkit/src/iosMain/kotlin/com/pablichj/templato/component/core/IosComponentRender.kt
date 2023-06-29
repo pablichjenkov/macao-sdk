@@ -25,10 +25,6 @@ fun IosComponentRender(
         DefaultBackPressDispatcher()
     }
 
-    val treeContext = remember(rootComponent) {
-        TreeContext()
-    }
-
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides backPressDispatcher,
         LocalSafeAreaInsets provides iosBridge.safeAreaInsets
@@ -43,18 +39,11 @@ fun IosComponentRender(
             //onBackPressEvent()//todo: Place it in the platform bridge
             println("back pressed dispatched in root node")
         }
-
-        // Traverse the whole tree passing the TreeContext living in the root node. Useful to
-        // propagate the the Navigator for example. Where each Component interested in participating
-        // in deep linking will subscribe its instance an a DeepLinkMatcher lambda function.
-        println("IosComponentRender::dispatchAttachedToComponentTree")
-        rootComponent.dispatchAttachedToComponentTree(treeContext)
-
         iosBridge.appLifecycleDispatcher.subscribe(
             ForwardAppLifecycleCallback {
                 when (it) {
-                    AppLifecycleEvent.Start -> rootComponent.start()
-                    AppLifecycleEvent.Stop -> rootComponent.stop()
+                    AppLifecycleEvent.Start -> rootComponent.dispatchStart()
+                    AppLifecycleEvent.Stop -> rootComponent.dispatchStop()
                 }
             }
         )

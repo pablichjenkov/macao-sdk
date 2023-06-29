@@ -2,7 +2,6 @@ package com.pablichj.templato.component.core
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.pablichj.templato.component.core.backpress.BackPressedCallback
 import com.pablichj.templato.component.core.router.DeepLinkResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +15,7 @@ abstract class Component : ComponentLifecycle {
     var parentComponent: Component? = null
 
     fun setParent(parentComponent: Component) {
-        if (this == parentComponent) throw IllegalArgumentException("A Node cannot be its parentNode")
+        if (this == parentComponent) throw IllegalArgumentException("A Component cannot be its own parent Component")
         this.parentComponent = parentComponent
     }
 
@@ -33,26 +32,38 @@ abstract class Component : ComponentLifecycle {
     val lifecycleStateFlow: Flow<ComponentLifecycleState>
         get() = _lifecycleStateFlow
 
-    override fun start() {
+    fun dispatchStart() {
         lifecycleState = ComponentLifecycleState.Started
+        onStart()
         _lifecycleStateFlow.value = ComponentLifecycleState.Started
     }
 
-    override fun stop() {
+    fun dispatchStop() {
         lifecycleState = ComponentLifecycleState.Stopped
+        onStop()
         _lifecycleStateFlow.value = ComponentLifecycleState.Stopped
     }
 
-    override fun destroy() {
+    fun dispatchDestroy() {
         lifecycleState = ComponentLifecycleState.Destroyed
+        onDestroy()
         _lifecycleStateFlow.value = ComponentLifecycleState.Destroyed
+    }
+
+    override fun onStart() {
+    }
+
+    override fun onStop() {
+    }
+
+    override fun onDestroy() {
     }
 
     // endregion
 
     // region: BackPress
 
-    var onBackPressDelegationReachRoot: (() -> Unit)? = null
+    internal var onBackPressDelegationReachRoot: (() -> Unit)? = null
 
     /**
      * If a Component does not override handleBackPressed() function, the default behavior is to
@@ -80,7 +91,7 @@ abstract class Component : ComponentLifecycle {
 
     // region: DeepLink
 
-    var treeContext: TreeContext? = null
+    //var router: Router? = null
     var deepLinkMatcher: ((String) -> Boolean)? = null
 
     protected open fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
@@ -140,7 +151,7 @@ sealed interface ComponentLifecycleState {
 }
 
 interface ComponentLifecycle {
-    fun start()
-    fun stop()
-    fun destroy()
+    fun onStart()
+    fun onStop()
+    fun onDestroy()
 }

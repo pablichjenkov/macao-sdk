@@ -17,7 +17,7 @@ import com.pablichj.templato.component.core.*
 /**
  * This node is basically a proxy, it transfer request and events to its active child node
  * */
-open class AdaptiveSizeComponent : Component(), NavigationComponent {
+class AdaptiveSizeComponent : Component(), NavigationComponent {
     private val initialEmptyNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
     private var CompactNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
     private var MediumNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
@@ -57,16 +57,14 @@ open class AdaptiveSizeComponent : Component(), NavigationComponent {
         childComponents.add(navComponent.getComponent())
     }
 
-    override fun start() {
-        super.start()
-        println("$clazz::start()")
-        currentNavComponent.value.getComponent().start()
+    override fun onStart() {
+        println("$clazz::onStart()")
+        currentNavComponent.value.getComponent().dispatchStart()
     }
 
-    override fun stop() {
-        super.stop()
-        println("$clazz::stop()")
-        currentNavComponent.value.getComponent().stop()
+    override fun onStop() {
+        println("$clazz::onStop()")
+        currentNavComponent.value.getComponent().dispatchStop()
     }
 
     override fun getDeepLinkSubscribedList(): List<Component> {
@@ -162,7 +160,7 @@ open class AdaptiveSizeComponent : Component(), NavigationComponent {
             WindowSizeInfo.Expanded -> ExpandedNavComponent
         }
         navComponent.setNavItems(navItems, selectedIndex)
-        navComponent.getComponent().start()
+        navComponent.getComponent().dispatchStart()
         currentNavComponent.value = navComponent
     }
 

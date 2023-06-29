@@ -23,9 +23,6 @@ fun AndroidComponentRender(
     rootComponent: Component,
     onBackPressEvent: () -> Unit = {}
 ) {
-    val treeContext = remember(rootComponent) {
-        TreeContext()
-    }
     val updatedOnBackPressed by rememberUpdatedState(onBackPressEvent)
 
     LaunchedEffect(key1 = rootComponent) {
@@ -36,16 +33,11 @@ fun AndroidComponentRender(
         lifecycleOwner = LocalLifecycleOwner.current,
         onStart = {
             println("Receiving Activity.onStart() event")
-            // Traverse the whole tree passing the TreeContext living in the root node. Useful to
-            // propagate the the Navigator for example. Where each Component interested in participating
-            // in deep linking will subscribe its instance an a DeepLinkMatcher lambda function.
-            println("AndroidComponentRender::dispatchAttachedToComponentTree")
-            rootComponent.dispatchAttachedToComponentTree(treeContext)
-            rootComponent.start()
+            rootComponent.dispatchStart()
         },
         onStop = {
             println("Receiving Activity.onStop() event")
-            rootComponent.stop()
+            rootComponent.dispatchStop()
         }
     )
 

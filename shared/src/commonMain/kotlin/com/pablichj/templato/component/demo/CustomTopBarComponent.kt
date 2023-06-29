@@ -2,8 +2,11 @@ package com.pablichj.templato.component.demo
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.LocalRouter
 import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.stack.StackComponent
 import kotlinx.coroutines.CoroutineScope
@@ -50,20 +53,19 @@ class CustomTopBarComponent(
             when (msg) {
                 SimpleComponent.Msg.Next -> {
                     onMessage(Msg.OnboardDone)
-                    treeContext?.router?.handleDeepLink("Settings")
+                    //router?.handleDeepLink("Settings")
                 }
             }
         }.also {
             it.setParent(this@CustomTopBarComponent)
         }
 
-    override fun start() {
-        //super.start() We override the default NavComponent behavior in purpose
+    override fun onStart() {
         println("CustomTopBarComponent::start()")
         if (activeComponent.value == null) {
             backStack.push(Step1)
         } else {
-            activeComponent.value?.start()
+            activeComponent.value?.dispatchStart()
         }
     }
 

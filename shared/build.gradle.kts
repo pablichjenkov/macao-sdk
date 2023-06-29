@@ -4,7 +4,15 @@ plugins {
     kotlin("native.cocoapods")
 }
 
-version = "1.0-SNAPSHOT"
+version = extra["component-toolkit.version"] as String
+
+/*compose {
+    // Sets a specific JetBrains Compose Compiler version
+    kotlinCompilerPlugin.set("1.4.7")
+    // Sets a specific Google Compose Compiler version
+    // kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:1.4.2")
+    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.8.21")
+}*/
 
 kotlin {
 
@@ -29,7 +37,7 @@ kotlin {
     }
 
     // JVM
-    jvm("desktop")
+    jvm()
 
     sourceSets {
         val commonMain by getting {

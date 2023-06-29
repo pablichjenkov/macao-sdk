@@ -24,8 +24,7 @@ class SplashComponent(
     private val SplashDelaySeconds = 3
     private val splashTimeFlow = MutableStateFlow(SplashDelaySeconds)
 
-    override fun start() {
-        super.start()
+    override fun onStart() {
         splashJob = coroutineScope.launch {
             var timeLeft = SplashDelaySeconds
             while (timeLeft > 0) {
@@ -38,8 +37,7 @@ class SplashComponent(
         }
     }
 
-    override fun stop() {
-        super.stop()
+    override fun onStop() {
         splashJob?.cancel()
     }
 
