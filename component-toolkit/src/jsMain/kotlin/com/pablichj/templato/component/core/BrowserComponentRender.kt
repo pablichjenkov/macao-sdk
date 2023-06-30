@@ -21,26 +21,24 @@ fun BrowserComponentRender(
     val webBackPressDispatcher = remember(rootComponent) {
         DefaultBackPressDispatcher()
     }
-    val treeContext = remember(rootComponent) {
-        TreeContext()
-    }
     val updatedOnBackPressed by rememberUpdatedState(onBackPressEvent)
 
+    val internalRootComponent = remember(key1 = rootComponent) {
+        InternalRootComponent(
+            platformRootComponent = rootComponent,
+            onBackPressEvent = { updatedOnBackPressed.invoke() }
+        )
+    }
+
     LaunchedEffect(key1 = rootComponent) {
-        rootComponent.onBackPressDelegationReachRoot = updatedOnBackPressed
-        // Traverse the whole tree passing the TreeContext living in the root node. Useful to
-        // propagate the the Navigator for example. Where each Component interested in participating
-        // in deep linking will subscribe its instance an a DeepLinkMatcher lambda function.
-        println("BrowserComponentRender::dispatchAttachedToComponentTree")
-        rootComponent.dispatchAttachedToComponentTree(treeContext)
-        rootComponent.start()
+        internalRootComponent.dispatchStart()
     }
 
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides webBackPressDispatcher,
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            rootComponent.Content(Modifier.fillMaxSize())
+            internalRootComponent.Content(Modifier.fillMaxSize())
             /* Should listen for keyboard back instead
             FloatingBackButton(
                 modifier = Modifier.offset(y = 48.dp),

@@ -23,13 +23,11 @@ class SimpleComponent(
     val onMessage: (Msg) -> Unit
 ) : Component() {
 
-    override fun start() {
-        super.start()
+    override fun onStart() {
         println("SimpleComponent::start()")
     }
 
-    override fun stop() {
-        super.stop()
+    override fun onStop() {
         println("SimpleComponent::stop()")
     }
 

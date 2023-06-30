@@ -35,32 +35,36 @@ object AdaptableSizeTreeBuilder {
         val navBarComponent = NavBarComponent()
 
         val navbarNavItems = mutableListOf(
-            NavItem(label = "Current",
-            icon = Icons.Filled.Home,
-            component = CustomTopBarComponent("Orders / Current", StackComponent.DefaultConfig, {}).apply {
-                deepLinkMatcher = { route -> route == "Orders/Page1" }
-            },
-
-        ),
-            NavItem(label = "Past",
-                icon = Icons.Filled.Edit,
-                component = CustomTopBarComponent("Orders / Past", StackComponent.DefaultConfig, {}),
-                ),
-            NavItem(label = "Claim",
-                icon = Icons.Filled.Email,
-                component = CustomTopBarComponent("Orders / Claim", StackComponent.DefaultConfig, {}),
+            NavItem(
+                label = "Current",
+                icon = Icons.Filled.Home,
+                component = CustomTopBarComponent(
+                    "Orders",// / Current
+                    StackComponent.DefaultConfig,
+                    {}
                 )
+            ),
+            NavItem(
+                label = "Past",
+                icon = Icons.Filled.Edit,
+                component = CustomTopBarComponent("Orders / Past", StackComponent.DefaultConfig, {})
+            ),
+            NavItem(
+                label = "Claim",
+                icon = Icons.Filled.Email,
+                component = CustomTopBarComponent(
+                    "Orders / Claim",
+                    StackComponent.DefaultConfig,
+                    {}
+                )
+            )
         )
 
         navBarComponent.setNavItems(navbarNavItems, 0)
 
-        val settingsComponent = CustomTopBarComponent("Settings", StackComponent.DefaultConfig, {}).apply {
-                deepLinkMatcher = { route -> route == "Settings/Page1" }
-            }
+        val settingsComponent = CustomTopBarComponent("Settings", StackComponent.DefaultConfig, {})
 
-        val homeComponent = CustomTopBarComponent("Home", StackComponent.DefaultConfig, {}).apply {
-                deepLinkMatcher = { route -> route == "Home/Page1" }
-            }
+        val homeComponent = CustomTopBarComponent("Home", StackComponent.DefaultConfig, {})
 
         val navItems = mutableListOf(
             NavItem(

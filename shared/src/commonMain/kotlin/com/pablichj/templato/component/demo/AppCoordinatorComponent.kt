@@ -32,11 +32,9 @@ class AppCoordinatorComponent : Component() {
     //todo: Use setHomeNode instead, and attach to parent context, see SplitNode class as example
     lateinit var homeComponent: Component
 
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
     private var activeComponent: MutableState<Component?> = mutableStateOf(null)
 
-    override fun start() {
-        super.start()
+    override fun onStart() {
         println("AppCoordinatorComponent::start()")
         backStack.eventListener = { event ->
             processBackstackEvent(event)
@@ -44,15 +42,14 @@ class AppCoordinatorComponent : Component() {
         if (activeComponent.value == null) {
             backStack.push(SplashNode)
         } else {
-            activeComponent.value?.start()
+            activeComponent.value?.dispatchStart()
         }
     }
 
-    override fun stop() {
-        super.stop()
+    override fun onStop() {
         println("AppCoordinatorComponent::stop()")
         backStack.eventListener = { }
-        activeComponent.value?.stop()
+        activeComponent.value?.dispatchStop()
     }
 
     /**
@@ -86,8 +83,8 @@ class AppCoordinatorComponent : Component() {
                             " newTop: ${newTop::class.simpleName}"
                 )
 
-                newTop.start()
-                oldTop?.stop()
+                newTop.dispatchStart()
+                oldTop?.dispatchStop()
                 activeComponent.value = newTop
                 //updateSelectedNavItem(newTop)
             }
@@ -102,8 +99,8 @@ class AppCoordinatorComponent : Component() {
                 )
 
                 activeComponent.value = newTop
-                newTop?.start()
-                oldTop.stop()
+                newTop?.dispatchStart()
+                oldTop.dispatchStop()
                 //newTop?.let { updateSelectedNavItem(it) }
             }
             is BackStack.Event.PushEqualTop -> {

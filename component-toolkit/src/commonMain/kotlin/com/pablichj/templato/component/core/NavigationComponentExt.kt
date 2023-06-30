@@ -17,14 +17,6 @@ fun NavigationComponent.setNavItems(
         childComponents = it.second.toMutableList()
     }
 
-    // Propagate TreeContext down to ensure all children share the same instance of TreeContext
-    // this ParentComponent shares.
-    with(getComponent()) {
-        treeContext?.let { treeContext ->
-            childComponents.forEach { it.dispatchAttachedToComponentTree(treeContext) }
-        }
-    }
-
     onSelectNavItem(selectedIndex, navItems)
 }
 
@@ -115,7 +107,6 @@ internal fun NavigationComponent.transferFrom(donorNavComponent: NavigationCompo
 
     // Transfer Component properties
     this.getComponent().lifecycleState = donorNavComponent.getComponent().lifecycleState
-    this.getComponent().treeContext = donorNavComponent.getComponent().treeContext
 
     // Make sure we don't keep references to the navItems in the donor Container
     donorNavComponent.clearNavItems()

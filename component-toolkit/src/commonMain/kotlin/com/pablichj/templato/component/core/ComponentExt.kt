@@ -1,14 +1,19 @@
 package com.pablichj.templato.component.core
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import com.pablichj.templato.component.core.backpress.BackPressHandler
 import com.pablichj.templato.component.core.drawer.DrawerNavigationComponent
-import com.pablichj.templato.component.core.router.DeepLinkDestination
+import com.pablichj.templato.component.core.router.DefaultRouter
+import com.pablichj.templato.component.core.router.Router
 
-fun Component.findClosestDrawerNavigationComponent(): DrawerNavigationComponent? {
+fun Component.getFirstParentMatching(
+    condition: (Component) -> Boolean
+): Component? {
     var parentIterator: Component? = this.parentComponent
     while (parentIterator != null) {
-        if (parentIterator is DrawerNavigationComponent) {
+        val match = condition(parentIterator)
+        if (match) {
             return parentIterator
         }
         parentIterator = parentIterator.parentComponent
@@ -16,7 +21,21 @@ fun Component.findClosestDrawerNavigationComponent(): DrawerNavigationComponent?
     return null
 }
 
-fun Component.onAttachedToComponentTree(treeContext: TreeContext) {
+fun Component.getRouter(): Router? {
+    val treeContext = getFirstParentMatching {
+        it is ComponentTreeContext
+    } as? ComponentTreeContext ?: return null
+
+    return treeContext.router
+}
+
+fun Component.findClosestDrawerNavigationComponent(): DrawerNavigationComponent? {
+    return getFirstParentMatching {
+        it is DrawerNavigationComponent
+    } as? DrawerNavigationComponent
+}
+
+/*internal fun Component.onAttachedToComponentTree(treeContext: TreeContext) {
     this.treeContext = treeContext
 
     // Register to handle deep links
@@ -29,15 +48,15 @@ fun Component.onAttachedToComponentTree(treeContext: TreeContext) {
             )
         )
     }
-}
+}*/
 
-fun Component.dispatchAttachedToComponentTree(treeContext: TreeContext) {
+/*fun Component.dispatchAttachedToComponentTree(treeContext: TreeContext) {
     println("${clazz}::dispatchAttachedToComponentTree()")
     if (this is ComponentWithChildren) {
         this.childComponents.forEach { it.dispatchAttachedToComponentTree(treeContext) }
     }
     this.onAttachedToComponentTree(treeContext)
-}
+}*/
 
 @Composable
 fun Component.consumeBackPressEvent() {
@@ -68,4 +87,3 @@ fun Component.jsonify(): JsonObject {
     return rootJsonObject
 }
 */
-

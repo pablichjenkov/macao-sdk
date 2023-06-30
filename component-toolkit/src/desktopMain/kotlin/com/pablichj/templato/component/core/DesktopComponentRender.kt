@@ -19,22 +19,26 @@ import com.pablichj.templato.component.platform.ForwardAppLifecycleCallback
 @Composable
 fun DesktopComponentRender(
     rootComponent: Component,
-    onBackPressEvent: () -> Unit = {},
+    onBackPress: () -> Unit = {},
     desktopBridge: DesktopBridge
 ) {
     val desktopBackPressDispatcher = remember(rootComponent) {
         DefaultBackPressDispatcher()
     }
-    val treeContext = remember(rootComponent) {
-        TreeContext()
+    val updatedOnBackPressed by rememberUpdatedState(onBackPress)
+
+    val internalRootComponent = remember (key1 = rootComponent) {
+        InternalRootComponent(
+            platformRootComponent = rootComponent,
+            onBackPressEvent = { updatedOnBackPressed.invoke() }
+        )
     }
-    val updatedOnBackPressed by rememberUpdatedState(onBackPressEvent)
 
     CompositionLocalProvider(
-        LocalBackPressedDispatcher provides desktopBackPressDispatcher
+        LocalBackPressedDispatcher provides desktopBackPressDispatcher,
     ) {
         Box {
-            rootComponent.Content(Modifier.fillMaxSize())
+            internalRootComponent.Content(Modifier.fillMaxSize())
             // TODO: Add back button in the TopBar like Chrome Apps. For that need to create in
             // DesktopBridge a undecorated Window flag.
             /*FloatingBackButton(
@@ -46,19 +50,11 @@ fun DesktopComponentRender(
     }
 
     LaunchedEffect(key1 = rootComponent) {
-        rootComponent.onBackPressDelegationReachRoot = updatedOnBackPressed
-
-        // Traverse the whole tree passing the TreeContext living in the root node. Useful to
-        // propagate the the Navigator for example. Where each Component interested in participating
-        // in deep linking will subscribe its instance an a DeepLinkMatcher lambda function.
-        println("DesktopComponentRender::dispatchAttachedToComponentTree")
-        rootComponent.dispatchAttachedToComponentTree(treeContext)
-
         desktopBridge.appLifecycleDispatcher.subscribe(
             ForwardAppLifecycleCallback {
                 when (it) {
-                    AppLifecycleEvent.Start -> rootComponent.start()
-                    AppLifecycleEvent.Stop -> rootComponent.stop()
+                    AppLifecycleEvent.Start -> internalRootComponent.dispatchStart()
+                    AppLifecycleEvent.Stop -> internalRootComponent.dispatchStop()
                 }
             }
         )

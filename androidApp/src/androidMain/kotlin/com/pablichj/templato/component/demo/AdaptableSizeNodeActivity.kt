@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.MaterialTheme
 import com.pablichj.templato.component.core.AndroidComponentRender
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.templato.component.core.drawer.DrawerComponent
@@ -32,10 +33,12 @@ class AdaptableSizeNodeActivity : ComponentActivity() {
             it.setExpandedContainer(PanelComponent())
         }
         setContent {
-            AndroidComponentRender(
-                rootComponent = rootComponent,
-                onBackPressEvent = { finish() }
-            )
+            MaterialTheme {
+                AndroidComponentRender(
+                    rootComponent = rootComponent,
+                    onBackPressEvent = { finish() }
+                )
+            }
         }
     }
 

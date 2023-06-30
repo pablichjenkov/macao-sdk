@@ -13,11 +13,13 @@ import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.templato.component.core.router.DeepLinkResult
 import com.pablichj.templato.component.core.stack.BackStack
 import com.pablichj.templato.component.core.*
+import com.pablichj.templato.component.core.router.DeepLinkMatchData
+import com.pablichj.templato.component.core.router.DeepLinkMatchType
 
 /**
  * This node is basically a proxy, it transfer request and events to its active child node
  * */
-open class AdaptiveSizeComponent : Component(), NavigationComponent {
+class AdaptiveSizeComponent : Component(), NavigationComponent {
     private val initialEmptyNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
     private var CompactNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
     private var MediumNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
@@ -28,8 +30,7 @@ open class AdaptiveSizeComponent : Component(), NavigationComponent {
     override var navItems: MutableList<NavItem> = currentNavComponent.value.navItems
     override var childComponents: MutableList<Component> = mutableListOf()
     override var selectedIndex: Int = currentNavComponent.value.selectedIndex
-    override var activeComponent: MutableState<Component?> =
-        currentNavComponent.value.activeComponent
+    override var activeComponent: MutableState<Component?> = mutableStateOf(null) // Do not use, use currentNavComponent instead
 
     fun setNavItems(navItems: MutableList<NavItem>, selectedIndex: Int) {
         this.navItems = navItems
@@ -57,24 +58,25 @@ open class AdaptiveSizeComponent : Component(), NavigationComponent {
         childComponents.add(navComponent.getComponent())
     }
 
-    override fun start() {
-        super.start()
-        println("$clazz::start()")
-        currentNavComponent.value.getComponent().start()
+    override fun onStart() {
+        println("$clazz::onStart()")
+        currentNavComponent.value.getComponent().dispatchStart()
     }
 
-    override fun stop() {
-        super.stop()
-        println("$clazz::stop()")
-        currentNavComponent.value.getComponent().stop()
+    override fun onStop() {
+        println("$clazz::onStop()")
+        currentNavComponent.value.getComponent().dispatchStop()
     }
 
-    override fun getDeepLinkSubscribedList(): List<Component> {
-        return listOfNotNull(
-            CompactNavComponent.getComponent(),
-            MediumNavComponent.getComponent(),
-            ExpandedNavComponent.getComponent()
+    override fun getDeepLinkHandler(): DeepLinkMatchData {
+        return DeepLinkMatchData(
+            null,
+            DeepLinkMatchType.MatchAny
         )
+    }
+
+    override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
+        return currentNavComponent.value.getComponent()
     }
 
     override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
@@ -162,7 +164,7 @@ open class AdaptiveSizeComponent : Component(), NavigationComponent {
             WindowSizeInfo.Expanded -> ExpandedNavComponent
         }
         navComponent.setNavItems(navItems, selectedIndex)
-        navComponent.getComponent().start()
+        navComponent.getComponent().dispatchStart()
         currentNavComponent.value = navComponent
     }
 

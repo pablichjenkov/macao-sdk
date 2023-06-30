@@ -21,6 +21,8 @@ import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
+import com.pablichj.templato.component.core.router.DeepLinkMatchData
+import com.pablichj.templato.component.core.router.DeepLinkMatchType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -32,13 +34,13 @@ import kotlinx.coroutines.launch
  * as a warmup so the next Component.Content is started already when the user swipe.
  * */
 @OptIn(ExperimentalFoundationApi::class)
-open class PagerComponent(
+class PagerComponent(
     private val config: Config,
     private var diContainer: DiContainer
 ) : Component(), NavigationComponent {
     override val backStack = BackStack<Component>()
     override var navItems: MutableList<NavItem> = mutableListOf()
-    final override var selectedIndex: Int = 0
+    override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
     private var currentActiveIndexSet = mutableSetOf<Int>()
@@ -49,27 +51,25 @@ open class PagerComponent(
     val pagerComponentViewFlow: SharedFlow<PagerComponentOutEvent?>
         get() = _componentOutFlow
 
-    override fun start() {
-        super.start()
-        println("$clazz::start()")
+    override fun onStart() {
+        println("$clazz::onStart()")
         if (currentActiveIndexSet.isEmpty()) {
             if (childComponents.isNotEmpty()) {
                 activeComponent.value = childComponents[selectedIndex]
             } else {
-                println("$clazz::start() with childComponents empty")
+                println("$clazz::onStart() with childComponents empty")
             }
         } else {
             currentActiveIndexSet.forEach { activeChildIndex ->
-                childComponents[activeChildIndex].start()
+                childComponents[activeChildIndex].dispatchStart()
             }
         }
     }
 
-    override fun stop() {
-        super.stop()
-        println("$clazz::stop()")
+    override fun onStop() {
+        println("$clazz::onStop()")
         currentActiveIndexSet.forEach { activeChildIndex ->
-            childComponents[activeChildIndex].stop()
+            childComponents[activeChildIndex].dispatchStop()
         }
         coroutineScope.coroutineContext.cancelChildren()
     }
@@ -98,10 +98,10 @@ open class PagerComponent(
 
     override fun onDestroyChildComponent(component: Component) {
         if (component.lifecycleState == ComponentLifecycleState.Started) {
-            component.stop()
-            component.destroy()
+            component.dispatchStop()
+            component.dispatchDestroy()
         } else {
-            component.destroy()
+            component.dispatchDestroy()
         }
     }
 
@@ -109,15 +109,35 @@ open class PagerComponent(
 
     // region: DeepLink
 
-    override fun getDeepLinkSubscribedList(): List<Component> {
-        return childComponents
-    }
-
     override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
         println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
         val matchingNodeIndex = childComponents.indexOf(matchingComponent)
         selectPage(matchingNodeIndex)
         return DeepLinkResult.Success
+    }
+
+    override fun getDeepLinkHandler(): DeepLinkMatchData {
+        return DeepLinkMatchData(
+            null,
+            DeepLinkMatchType.MatchAny
+        )
+    }
+
+    override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
+        childComponents.forEach {
+            val linkHandler = it.getDeepLinkHandler()
+            println("NavBar::child.uriFragment = ${linkHandler.uriFragment}")
+            if (linkHandler.uriFragment == nextUriFragment) {
+                return it
+            }
+            if (linkHandler.matchType == DeepLinkMatchType.MatchAny) {
+                val childMatching = it.getChildForNextUriFragment(nextUriFragment)
+                if (childMatching != null) {
+                    return it
+                }
+            }
+        }
+        return null
     }
 
     // endregion
@@ -148,7 +168,7 @@ open class PagerComponent(
                 keepStartedIndexSet.add(index)
             } else {
                 println("onPageChanged::stopping old index = $index")
-                childComponents[index].stop()
+                childComponents[index].dispatchStop()
             }
         }
 
@@ -156,7 +176,7 @@ open class PagerComponent(
         val newStartingSet = nextStartedIndexSet.subtract(keepStartedIndexSet)
         println("onPageChanged::newStartingSet = $newStartingSet")
         newStartingSet.forEach { index ->
-            childComponents[index].start()
+            childComponents[index].dispatchStart()
         }
 
         currentActiveIndexSet = nextStartedIndexSet

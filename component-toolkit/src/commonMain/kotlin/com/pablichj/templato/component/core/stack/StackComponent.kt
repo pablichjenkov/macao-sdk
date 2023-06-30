@@ -12,6 +12,8 @@ import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
 import com.pablichj.templato.component.core.router.DeepLinkResult
 import com.pablichj.templato.component.core.*
 import com.pablichj.templato.component.core.processBackstackEvent
+import com.pablichj.templato.component.core.router.DeepLinkMatchData
+import com.pablichj.templato.component.core.router.DeepLinkMatchType
 
 abstract class StackComponent(
     private val config: Config
@@ -34,18 +36,16 @@ abstract class StackComponent(
         }
     }
 
-    override fun start() {
-        super.start()
+    override fun onStart() {
         if (activeComponent.value != null) {
             println("$clazz::start() with activeNodeState = ${activeComponent.value?.clazz}")
-            activeComponent.value?.start()
+            activeComponent.value?.dispatchStart()
         }
     }
 
-    override fun stop() {
+    override fun onStop() {
         println("$clazz::stop()")
-        super.stop()
-        activeComponent.value?.stop()
+        activeComponent.value?.dispatchStop()
         lastBackstackEvent = null
     }
 
@@ -102,10 +102,10 @@ abstract class StackComponent(
 
     override fun onDestroyChildComponent(component: Component) {
         if (component.lifecycleState == ComponentLifecycleState.Started) {
-            component.stop()
-            component.destroy()
+            component.dispatchStop()
+            component.dispatchDestroy()
         } else {
-            component.destroy()
+            component.dispatchDestroy()
         }
     }
 
@@ -164,14 +164,34 @@ abstract class StackComponent(
 
     // region: DeepLink
 
-    override fun getDeepLinkSubscribedList(): List<Component> {
-        return childComponents
-    }
-
     override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
         println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
         backStack.push(matchingComponent)
         return DeepLinkResult.Success
+    }
+
+    override fun getDeepLinkHandler(): DeepLinkMatchData {
+        return DeepLinkMatchData(
+            null,
+            DeepLinkMatchType.MatchAny
+        )
+    }
+
+    override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
+        childComponents.forEach {
+            val linkHandler = it.getDeepLinkHandler()
+            println("NavBar::child.uriFragment = ${linkHandler.uriFragment}")
+            if (linkHandler.uriFragment == nextUriFragment) {
+                return it
+            }
+            if (linkHandler.matchType == DeepLinkMatchType.MatchAny) {
+                val childMatching = it.getChildForNextUriFragment(nextUriFragment)
+                if (childMatching != null) {
+                    return childMatching
+                }
+            }
+        }
+        return null
     }
 
     // endregion

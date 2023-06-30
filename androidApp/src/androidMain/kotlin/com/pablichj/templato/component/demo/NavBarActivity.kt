@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.MaterialTheme
 import com.pablichj.templato.component.core.AndroidComponentRender
 import com.pablichj.templato.component.demo.treebuilders.NavBarTreeBuilder
 
@@ -14,10 +15,12 @@ class NavBarActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val rootComponent = NavBarTreeBuilder.build()
         setContent {
-            AndroidComponentRender(
-                rootComponent = rootComponent,
-                onBackPressEvent = { finish() }
-            )
+            MaterialTheme {
+                AndroidComponentRender(
+                    rootComponent = rootComponent,
+                    onBackPressEvent = { finish() }
+                )
+            }
         }
     }
 

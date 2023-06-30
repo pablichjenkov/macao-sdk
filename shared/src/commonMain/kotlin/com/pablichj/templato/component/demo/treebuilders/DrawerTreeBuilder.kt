@@ -1,10 +1,20 @@
 package com.pablichj.templato.component.demo.treebuilders
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.demo.CustomTopBarComponent
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.drawer.DrawerComponent
+import com.pablichj.templato.component.core.drawer.NavigationDrawerState
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.stack.StackComponent
@@ -15,6 +25,7 @@ object DrawerTreeBuilder {
     private val diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
     private lateinit var drawerComponent: DrawerComponent
 
+    @OptIn(ExperimentalLayoutApi::class)
     fun build(): DrawerComponent {
 
         if (DrawerTreeBuilder::drawerComponent.isInitialized) {
@@ -45,9 +56,15 @@ object DrawerTreeBuilder {
         ).also {
             drawerComponent = it
             it.setNavItems(drawerNavItems, 0)
-            /*it.setDrawerComponentView { modifier: Modifier, childComponent: Component, navigationDrawerState: NavigationDrawerState ->
+            /*it.setDrawerComponentView { modifier: Modifier, childComponent: Component ->
                 Box(Modifier.fillMaxSize()) {
                     childComponent.Content(Modifier)
+                    FlowRow {
+                        navigationDrawerState.navItemsDeco.forEach {
+                            Text(it.label)
+                        }
+                    }
+
                     Text(modifier = Modifier.align(Alignment.Center),
                         text = "You should provide a Composable that encloses the render of childComponent.Content(Modifier)",
                         color = Color.Black

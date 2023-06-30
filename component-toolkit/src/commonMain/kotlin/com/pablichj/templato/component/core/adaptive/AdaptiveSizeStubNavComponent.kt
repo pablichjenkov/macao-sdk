@@ -16,13 +16,11 @@ internal class AdaptiveSizeStubNavComponent : Component(), NavigationComponent {
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(this)
 
-    override fun start() {
-        super.start()
+    override fun onStart() {
         println("$clazz.start()")
     }
 
-    override fun stop() {
-        super.stop()
+    override fun onStop() {
         println("$clazz.stop()")
     }
 
@@ -38,7 +36,7 @@ internal class AdaptiveSizeStubNavComponent : Component(), NavigationComponent {
     }
 
     override fun onDestroyChildComponent(component: Component) {
-        component.destroy()
+        component.dispatchDestroy()
     }
 
     @Composable

@@ -34,7 +34,7 @@ class PanelWindowNode(
         ) {
             DesktopComponentRender(
                 rootComponent = panelComponent,
-                onBackPressEvent = onCloseClick,
+                onBackPress = onCloseClick,
                 desktopBridge = desktopBridge
             )
         }
