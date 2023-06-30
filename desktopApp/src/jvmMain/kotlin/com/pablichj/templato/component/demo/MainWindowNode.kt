@@ -9,15 +9,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import com.pablichj.templato.component.platform.DesktopBridge
-import com.pablichj.templato.component.core.DesktopComponentRender
-import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.DesktopComponentRender
 import com.pablichj.templato.component.core.drawer.DrawerComponent
+import com.pablichj.templato.component.core.getRouter
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.panel.PanelComponent
+import com.pablichj.templato.component.core.router.DeepLinkMsg
+import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.templato.component.platform.AppLifecycleEvent
 import com.pablichj.templato.component.platform.DefaultAppLifecycleDispatcher
+import com.pablichj.templato.component.platform.DesktopBridge
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.DispatchersProxy
 import kotlinx.coroutines.flow.launchIn
@@ -55,10 +57,13 @@ class MainWindowNode(
 
     // region: DeepLink
 
-    fun handleDeepLink(destination: String) {
-        //val deepLinkResult = adaptableSizeComponent
-        //    .router?.handleDeepLink(destination)
-        //println("MainWindowNode::deepLinkResult = $deepLinkResult")
+    fun handleDeepLink(destination: List<String>) {
+        val deepLinkMsg = DeepLinkMsg(
+            destination
+        ) {
+            println("MainWindowNode::deepLinkResult = $it")
+        }
+        adaptableSizeComponent.getRouter()?.handleDeepLink(deepLinkMsg)
     }
 
     // endregion

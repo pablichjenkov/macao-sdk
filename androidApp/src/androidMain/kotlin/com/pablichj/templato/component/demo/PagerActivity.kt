@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.MaterialTheme
 import com.pablichj.templato.component.core.AndroidComponentRender
 import com.pablichj.templato.component.demo.treebuilders.PagerTreeBuilder
 
@@ -15,10 +16,12 @@ class PagerActivity : ComponentActivity() {
         // It creates a state tree where the root node is a Pager
         val rootComponent = PagerTreeBuilder.build()
         setContent {
-            AndroidComponentRender(
-                rootComponent = rootComponent,
-                onBackPressEvent = { finish() }
-            )
+            MaterialTheme {
+                AndroidComponentRender(
+                    rootComponent = rootComponent,
+                    onBackPressEvent = { finish() }
+                )
+            }
         }
     }
 

@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class DeepLinkDemoNode(
-    val onDeepLinkClick: (destination: String) -> Unit,
+    val onDeepLinkClick: (destination: List<String>) -> Unit,
     val onCloseClick: () -> Unit
 ) : WindowNode {
     private val windowState = WindowState(
@@ -28,9 +28,10 @@ class DeepLinkDemoNode(
     )
 
     private val deepLinks = mutableListOf(
-        "Home/Page1",
-        "Orders/Page1",
-        "Settings/Page1",
+        listOf("Home","Page1"),
+        listOf("Orders", "Page2"),
+        listOf("Settings", "Page3"),
+        listOf("Settings")
     )
 
     @Composable
@@ -64,7 +65,7 @@ class DeepLinkDemoNode(
                                     .padding(8.dp)
                             ) {
                                 Text(
-                                    text = destination,
+                                    text = destination.joinToString("/"),
                                     style = TextStyle(fontSize = 18.sp)
                                 )
                             }

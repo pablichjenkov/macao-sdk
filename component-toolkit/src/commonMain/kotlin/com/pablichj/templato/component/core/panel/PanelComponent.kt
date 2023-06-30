@@ -13,6 +13,8 @@ import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.DispatchersProxy
 import com.pablichj.templato.component.core.*
 import com.pablichj.templato.component.core.processBackstackEvent
+import com.pablichj.templato.component.core.router.DeepLinkMatchData
+import com.pablichj.templato.component.core.router.DeepLinkMatchType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -96,9 +98,6 @@ class PanelComponent(
         }
     }
 
-    /**
-     * TODO: Try to update the navitem instead, using a Backstack<NavItem>, sounds more efficient
-     * */
     override fun updateSelectedNavItem(newTop: Component) {
         getNavItemFromComponent(newTop).let {
             println("$clazz::updateSelectedNavItem(), selectedIndex = $it")
@@ -120,14 +119,34 @@ class PanelComponent(
 
     // region: DeepLink
 
-    override fun getDeepLinkSubscribedList(): List<Component> {
-        return childComponents
-    }
-
     override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
         println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
         backStack.push(matchingComponent)
         return DeepLinkResult.Success
+    }
+
+    override fun getDeepLinkHandler(): DeepLinkMatchData {
+        return DeepLinkMatchData(
+            null,
+            DeepLinkMatchType.MatchAny
+        )
+    }
+
+    override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
+        childComponents.forEach {
+            val linkHandler = it.getDeepLinkHandler()
+            println("NavBar::child.uriFragment = ${linkHandler.uriFragment}")
+            if (linkHandler.uriFragment == nextUriFragment) {
+                return it
+            }
+            if (linkHandler.matchType == DeepLinkMatchType.MatchAny) {
+                val childMatching = it.getChildForNextUriFragment(nextUriFragment)
+                if (childMatching != null) {
+                    return it
+                }
+            }
+        }
+        return null
     }
 
     // endregion

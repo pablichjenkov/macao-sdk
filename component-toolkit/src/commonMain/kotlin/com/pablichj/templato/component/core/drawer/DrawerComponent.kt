@@ -13,6 +13,8 @@ import com.pablichj.templato.component.core.stack.BackStack
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.core.*
 import com.pablichj.templato.component.core.processBackstackEvent
+import com.pablichj.templato.component.core.router.DeepLinkMatchData
+import com.pablichj.templato.component.core.router.DeepLinkMatchType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -134,14 +136,34 @@ class DrawerComponent(
 
     // region: DeepLink
 
-    override fun getDeepLinkSubscribedList(): List<Component> {
-        return childComponents
-    }
-
     override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
         println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
         backStack.push(matchingComponent)
         return DeepLinkResult.Success
+    }
+
+    override fun getDeepLinkHandler(): DeepLinkMatchData {
+        return DeepLinkMatchData(
+            null,
+            DeepLinkMatchType.MatchAny
+        )
+    }
+
+    override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
+        childComponents.forEach {
+            val linkHandler = it.getDeepLinkHandler()
+            println("NavBar::child.uriFragment = ${linkHandler.uriFragment}")
+            if (linkHandler.uriFragment == nextUriFragment) {
+                return it
+            }
+            if (linkHandler.matchType == DeepLinkMatchType.MatchAny) {
+                val childMatching = it.getChildForNextUriFragment(nextUriFragment)
+                if (childMatching != null) {
+                    return it
+                }
+            }
+        }
+        return null
     }
 
     // endregion

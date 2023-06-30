@@ -2,11 +2,15 @@ package com.pablichj.templato.component.core
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.pablichj.templato.component.core.router.DeepLinkMatchData
+import com.pablichj.templato.component.core.router.DeepLinkMatchType
+import com.pablichj.templato.component.core.router.DeepLinkMsg
 import com.pablichj.templato.component.core.router.DeepLinkResult
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
-abstract class Component : ComponentLifecycle {
+abstract class Component : ComponentLifecycle() {
 
     internal val clazz = this::class.simpleName
 
@@ -29,11 +33,16 @@ abstract class Component : ComponentLifecycle {
 
     private val _lifecycleStateFlow =
         MutableStateFlow<ComponentLifecycleState>(ComponentLifecycleState.Created)
-    val lifecycleStateFlow: Flow<ComponentLifecycleState>
-        get() = _lifecycleStateFlow
+    val lifecycleStateFlow: StateFlow<ComponentLifecycleState>
+        get() = _lifecycleStateFlow.asStateFlow()
 
     fun dispatchStart() {
-        lifecycleState = ComponentLifecycleState.Started
+        lifecycleState =
+            ComponentLifecycleState.Started // It has to be the first line of this block
+        if (deepLinkNavigationAwaitsStartedState) {
+            deepLinkNavigationAwaitsStartedState = false
+            awaitingDeepLinkMsg?.let { navigateToDeepLink(it) }
+        }
         onStart()
         _lifecycleStateFlow.value = ComponentLifecycleState.Started
     }
@@ -63,8 +72,6 @@ abstract class Component : ComponentLifecycle {
 
     // region: BackPress
 
-    internal var onBackPressDelegationReachRoot: (() -> Unit)? = null
-
     /**
      * If a Component does not override handleBackPressed() function, the default behavior is to
      * delegate/forward the back press event upstream, for its parent Component to handle it.
@@ -80,10 +87,6 @@ abstract class Component : ComponentLifecycle {
         if (parentComponentCopy != null) {
             println("$clazz::delegateBackPressedToParent()")
             parentComponentCopy.handleBackPressed()
-        } else {
-            // We have reached the root Component
-            println("$clazz::BackPressed event delegation reached the RootComponent")
-            onBackPressDelegationReachRoot?.invoke()
         }
     }
 
@@ -91,8 +94,81 @@ abstract class Component : ComponentLifecycle {
 
     // region: DeepLink
 
-    //var router: Router? = null
-    var deepLinkMatcher: ((String) -> Boolean)? = null
+    private var deepLinkNavigationAwaitsStartedState = false
+    private var awaitingDeepLinkMsg: DeepLinkMsg? = null
+
+    open fun getDeepLinkHandler(): DeepLinkMatchData = DeepLinkMatchData(
+        null,
+        DeepLinkMatchType.MatchOne
+    )
+
+    internal fun navigateToDeepLink(
+        deepLinkMsg: DeepLinkMsg
+    ) {
+        println("$clazz::navigateToDeepLink(), path = ${deepLinkMsg.path.joinToString("/")}")
+
+        if (lifecycleState != ComponentLifecycleState.Started) {
+            println("$clazz::navigateToDeepLink(), Waiting to be Started ")
+            deepLinkNavigationAwaitsStartedState = true
+            awaitingDeepLinkMsg = deepLinkMsg
+            return
+        }
+
+        val uriFragment = deepLinkMsg.path[0]
+
+        if (getDeepLinkHandler().matchType == DeepLinkMatchType.MatchAny) {
+            val nextComponent = getChildForNextUriFragment(uriFragment)
+            if (nextComponent == null) {
+                deepLinkMsg.resultListener.invoke(
+                    DeepLinkResult.Error("Component: $clazz does not have any child that handle uri fragment = $uriFragment")
+                )
+            } else {
+                onDeepLinkNavigation(nextComponent)
+                nextComponent.navigateToDeepLink(deepLinkMsg)
+            }
+            return
+        }
+
+        val match = getDeepLinkHandler().uriFragment == uriFragment
+
+        if (match) {
+            if (deepLinkMsg.path.size == 1) {
+                deepLinkMsg.resultListener.invoke(DeepLinkResult.Success)
+                return
+            }
+
+            val nextUriFragment = deepLinkMsg.path[1]
+            val nextComponent = getChildForNextUriFragment(nextUriFragment)
+            if (nextComponent == null) {
+                deepLinkMsg.resultListener.invoke(
+                    DeepLinkResult.Error("Component: $clazz does not have any child that handle uri fragment = $nextUriFragment")
+                )
+                return
+            }
+
+            if (deepLinkMsg.path.size > 2) {
+                val nextDeepLinkMsg = deepLinkMsg.copy(
+                    path = deepLinkMsg.path.subList(1, deepLinkMsg.path.lastIndex)
+                )
+                onDeepLinkNavigation(nextComponent)
+                nextComponent.navigateToDeepLink(nextDeepLinkMsg)
+            } else {
+                onDeepLinkNavigation(nextComponent)
+                deepLinkMsg.resultListener.invoke(DeepLinkResult.Success)
+            }
+        } else {
+            deepLinkMsg.resultListener.invoke(
+                DeepLinkResult.Error("Component: $clazz does not handle DeepLink fragment = $uriFragment. Shouldn't get this point")
+            )
+        }
+    }
+
+    open fun getChildForNextUriFragment(
+        nextUriFragment: String
+    ): Component? {
+        println("$clazz::getChildForNextUriFragment() has been called but the function is not override in this class")
+        return null
+    }
 
     protected open fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
         return DeepLinkResult.Error(
@@ -101,36 +177,6 @@ abstract class Component : ComponentLifecycle {
                 "override in this class. Default implementation does nothing.
             """
         )
-    }
-
-    protected open fun getDeepLinkSubscribedList(): List<Component> = emptyList()
-
-    internal fun navigateToDeepLink(componentsPath: ArrayDeque<Component>): DeepLinkResult {
-
-        val nextComponent = componentsPath.firstOrNull() ?: return DeepLinkResult.Success
-
-        val matchingComponent = getDeepLinkSubscribedList().firstOrNull {
-            it == nextComponent
-        }
-            ?: return DeepLinkResult.Error(
-                """
-                In the path, Component with clazz = $clazz could not find the required child
-                Component with clazz = ${nextComponent.clazz} in the DeepLinkSubscribedList.
-            """
-            )
-
-        val deepLinkResult = onDeepLinkNavigation(matchingComponent)
-
-        return when (deepLinkResult) {
-            is DeepLinkResult.Error -> {
-                deepLinkResult
-            }
-            DeepLinkResult.Success -> {
-                componentsPath.removeFirst()
-                matchingComponent.navigateToDeepLink(componentsPath)
-            }
-        }
-
     }
 
     // endregion
@@ -150,8 +196,8 @@ sealed interface ComponentLifecycleState {
     object Destroyed : ComponentLifecycleState
 }
 
-interface ComponentLifecycle {
-    fun onStart()
-    fun onStop()
-    fun onDestroy()
+abstract class ComponentLifecycle {
+    protected abstract fun onStart()
+    protected abstract fun onStop()
+    protected abstract fun onDestroy()
 }

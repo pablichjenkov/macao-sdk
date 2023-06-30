@@ -32,7 +32,6 @@ class AppCoordinatorComponent : Component() {
     //todo: Use setHomeNode instead, and attach to parent context, see SplitNode class as example
     lateinit var homeComponent: Component
 
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
     private var activeComponent: MutableState<Component?> = mutableStateOf(null)
 
     override fun onStart() {

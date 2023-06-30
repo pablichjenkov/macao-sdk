@@ -23,16 +23,22 @@ fun BrowserComponentRender(
     }
     val updatedOnBackPressed by rememberUpdatedState(onBackPressEvent)
 
+    val internalRootComponent = remember(key1 = rootComponent) {
+        InternalRootComponent(
+            platformRootComponent = rootComponent,
+            onBackPressEvent = { updatedOnBackPressed.invoke() }
+        )
+    }
+
     LaunchedEffect(key1 = rootComponent) {
-        rootComponent.onBackPressDelegationReachRoot = updatedOnBackPressed
-        rootComponent.dispatchStart()
+        internalRootComponent.dispatchStart()
     }
 
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides webBackPressDispatcher,
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            rootComponent.Content(Modifier.fillMaxSize())
+            internalRootComponent.Content(Modifier.fillMaxSize())
             /* Should listen for keyboard back instead
             FloatingBackButton(
                 modifier = Modifier.offset(y = 48.dp),

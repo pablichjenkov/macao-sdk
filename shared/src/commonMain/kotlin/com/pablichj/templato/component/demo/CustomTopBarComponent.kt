@@ -2,22 +2,18 @@ package com.pablichj.templato.component.demo
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.LocalRouter
+import com.pablichj.templato.component.core.router.DeepLinkMatchData
+import com.pablichj.templato.component.core.router.DeepLinkMatchType
 import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.stack.StackComponent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 
 class CustomTopBarComponent(
     val screenName: String,
     config: Config,
     val onMessage: (Msg) -> Unit
 ) : StackComponent(config) {
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
 
     val Step1 = SimpleComponent(
         "$screenName / Page 1",
@@ -33,7 +29,7 @@ class CustomTopBarComponent(
     }
 
     val Step2 = SimpleComponent(
-        "$screenName / Page 1 / Page 2",
+        "$screenName / Page 2",
         Color.Green
     ) { msg ->
         when (msg) {
@@ -47,7 +43,7 @@ class CustomTopBarComponent(
 
     val Step3 =
         SimpleComponent(
-            "$screenName / Page 1 / Page 2 / Page 3",
+            "$screenName / Page 3",
             Color.Cyan
         ) { msg ->
             when (msg) {
@@ -77,18 +73,21 @@ class CustomTopBarComponent(
                     Icons.Filled.Star,
                 )
             }
+
             Step2 -> {
                 StackBarItem(
                     Step2.text,
                     Icons.Filled.Star,
                 )
             }
+
             Step3 -> {
                 StackBarItem(
                     Step3.text,
                     Icons.Filled.Star,
                 )
             }
+
             else -> {
                 throw IllegalStateException()
             }
@@ -97,8 +96,20 @@ class CustomTopBarComponent(
 
     // region: DeepLink
 
-    override fun getDeepLinkSubscribedList(): List<Component> {
-        return listOf(Step1, Step2, Step3)
+    override fun getDeepLinkHandler(): DeepLinkMatchData {
+        return DeepLinkMatchData(
+            screenName,
+            DeepLinkMatchType.MatchOne
+        )
+    }
+
+    override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
+        return when (nextUriFragment) {
+            "Page1" -> Step1
+            "Page2" -> Step2
+            "Page3" -> Step3
+            else -> null
+        }
     }
 
     // endregion

@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.router.DeepLinkMatchData
+import com.pablichj.templato.component.core.router.DeepLinkMatchType
 
 class SplitComponent(
     private val config: Config
@@ -34,6 +36,21 @@ class SplitComponent(
         println("$clazz::stop")
         topComponent?.dispatchStop()
         bottomComponent?.dispatchStop()
+    }
+
+    override fun getDeepLinkHandler(): DeepLinkMatchData {
+        return DeepLinkMatchData(
+            null,
+            DeepLinkMatchType.MatchAny
+        )
+    }
+
+    override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
+        return if (topComponent?.getDeepLinkHandler()?.uriFragment == nextUriFragment) {
+            topComponent
+        } else if (bottomComponent?.getDeepLinkHandler()?.uriFragment == nextUriFragment) {
+            bottomComponent
+        } else null
     }
 
     @Composable

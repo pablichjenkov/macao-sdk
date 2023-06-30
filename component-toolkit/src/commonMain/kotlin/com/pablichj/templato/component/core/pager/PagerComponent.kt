@@ -21,6 +21,8 @@ import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
+import com.pablichj.templato.component.core.router.DeepLinkMatchData
+import com.pablichj.templato.component.core.router.DeepLinkMatchType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -107,15 +109,35 @@ class PagerComponent(
 
     // region: DeepLink
 
-    override fun getDeepLinkSubscribedList(): List<Component> {
-        return childComponents
-    }
-
     override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
         println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
         val matchingNodeIndex = childComponents.indexOf(matchingComponent)
         selectPage(matchingNodeIndex)
         return DeepLinkResult.Success
+    }
+
+    override fun getDeepLinkHandler(): DeepLinkMatchData {
+        return DeepLinkMatchData(
+            null,
+            DeepLinkMatchType.MatchAny
+        )
+    }
+
+    override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
+        childComponents.forEach {
+            val linkHandler = it.getDeepLinkHandler()
+            println("NavBar::child.uriFragment = ${linkHandler.uriFragment}")
+            if (linkHandler.uriFragment == nextUriFragment) {
+                return it
+            }
+            if (linkHandler.matchType == DeepLinkMatchType.MatchAny) {
+                val childMatching = it.getChildForNextUriFragment(nextUriFragment)
+                if (childMatching != null) {
+                    return it
+                }
+            }
+        }
+        return null
     }
 
     // endregion
