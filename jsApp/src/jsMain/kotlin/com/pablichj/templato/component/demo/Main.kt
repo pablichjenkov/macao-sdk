@@ -1,7 +1,7 @@
 package com.pablichj.templato.component.demo
 
 import com.pablichj.templato.component.core.BrowserComponentRender
-import com.pablichj.incubator.uistate3.BrowserViewportWindow
+import com.pablichj.templato.component.core.BrowserViewportWindow
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.templato.component.demo.treebuilders.PanelTreeBuilder
 import com.pablichj.templato.component.core.drawer.DrawerComponent
@@ -29,19 +29,17 @@ fun main() {
             it.setExpandedContainer(PanelComponent())
         }
 
-        val panelComponent = PanelTreeBuilder.build()
+        // val panelComponent = PanelTreeBuilder.build()
 
         /*Window("Component Demo") {
-            Column(modifier = Modifier.fillMaxSize()) {
-                BrowserComponentRender(
-                    rootComponent = panelComponent,
-                    onBackPressEvent = {
-                        println("Back press dispatched in root node")
-                    }
-                )
-            }
+            BrowserComponentRender(
+                rootComponent = panelComponent,
+                onBackPressEvent = {
+                    println("Back press dispatched in root node")
+                }
+            )
         }*/
-        BrowserViewportWindow("Component Demo") {
+        BrowserViewportWindow ("Component Demo") {
             BrowserComponentRender(
                 rootComponent = adaptiveSizeComponent,
                 onBackPressEvent = {
@@ -51,4 +49,3 @@ fun main() {
         }
     }
 }
-
