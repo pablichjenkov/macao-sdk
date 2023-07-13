@@ -13,7 +13,7 @@ val commonMain by getting {
 ```
 
 ### Built with component-toolkit
-##### Component Toolkit Demo App
+#### Component Toolkit Demo App
 
 This is the App I use to test while developing the components.
 
@@ -44,7 +44,7 @@ This is the App I use to test while developing the components.
  </tr>
 </table>
 
-##### Hotel Booking
+#### Hotel Booking
 
 [Hotel Booking](https://github.com/pablichjenkov/amadeus-hotel-app) An App that consumes Amadeus hotel bookking public API.
 
