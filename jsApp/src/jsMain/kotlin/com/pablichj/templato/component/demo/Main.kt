@@ -35,7 +35,7 @@ fun main() {
             BrowserComponentRender(
                 rootComponent = panelComponent,
                 onBackPressEvent = {
-                    println("Back press dispatched in root node")
+                    println("Back press dispatched in root component")
                 }
             )
         }*/
@@ -43,7 +43,7 @@ fun main() {
             BrowserComponentRender(
                 rootComponent = adaptiveSizeComponent,
                 onBackPressEvent = {
-                    println("Back press dispatched in root node")
+                    println("Back press dispatched in root component")
                 }
             )
         }

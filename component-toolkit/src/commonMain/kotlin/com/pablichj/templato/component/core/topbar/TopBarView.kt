@@ -1,4 +1,4 @@
-package com.pablichj.templato.component.core.stack
+package com.pablichj.templato.component.core.topbar
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable

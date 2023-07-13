@@ -40,8 +40,8 @@ object FullAppWithIntroTreeBuilder {
         val NavBarNode = NavBarComponent()
 
         val SplitNavNode = SplitComponent(SplitComponent.DefaultConfig).apply {
-            setTopNode(buildNestedDrawer())
-            setBottomNode(
+            setTopComponent(buildNestedDrawer())
+            setBottomComponent(
                 CustomTopBarComponent(
                     "Orders / Current",
                     StackComponent.DefaultConfig

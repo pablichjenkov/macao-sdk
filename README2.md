@@ -83,8 +83,8 @@ object ComponentTreeBuilder {
 
 }
 
-// Once you have a tree, then just call Content(Modifier) on the root Node. The compose 
-// machinery will traverse the tree painting on the screen each active Node.Content(Modifier).
+// Once you have a tree, then just call Content(Modifier) on the root component. The compose 
+// machinery will traverse the tree painting on the screen each active component.Content(Modifier).
 
 fun main() = application {
 
@@ -100,15 +100,15 @@ fun main() = application {
 }
 ```
 
-Above code will produce the desktop application shown in the video below. The **DesktopAppNode** is
-a demo node that consists of, an **AdaptableSizeNode** as a parent of 3 **NavigatorNodes**(Drawer,
-BottomBar, Panel) that share children of type **BackStackNodes** which contain single page Nodes(
-Page1, Page2, Page3). When the window size changes, the **DesktopAppNode** sets the corresponding **
-NavigatorNode** as active, and the children nodes are tranfered from one navigator parent to the new
+Above code will produce the desktop application shown in the video below. The **DesktopAppComponent** is
+a demo component that consists of, an **AdaptiveSizeComponent** as a parent of 3 **NavigatorComponents**(Drawer,
+BottomBar, Panel) that share children of type **BackStackComponents** which contain single page Components(
+Page1, Page2, Page3). When the window size changes, the **DesktopAppComponent** sets the corresponding **
+NavigatorComponent** as active, and the children Components are tranfered from one navigator parent to the new
 active navigator parent. In the video there is also a demonstration of how deep links work. Deep
-links are represented as a path in the state tree, each subpath represents a node. When a deep link
-path is traversed, each node represented in a subpath is activated, all the way upto the last node.
-The node path can be mapped to a web url.
+links are represented as a path in the state tree, each subpath represents a Component. When a deep link
+path is traversed, each Component represented in a subpath is activated, all the way upto the last Component.
+The Component path can be mapped to a web url.
 
 https://user-images.githubusercontent.com/5303301/209282619-06748ddc-3fb1-4a74-8849-0c2215bbafc4.mp4
 
@@ -118,13 +118,13 @@ Lets see how the Android code will look like for the same NavigatonDrawer type o
 class DrawerActivity : ComponentActivity() {
 
     private val stateTreeHolder by viewModels<DrawerStateTreeHolder>()
-    private lateinit var StateTree: Node
+    private lateinit var StateTree: Component
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // It creates a state tree where the root node is a NavigationDrawer
+        // It creates a state tree where the root Component is a NavigationDrawer
         StateTree = stateTreeHolder.getOrCreate().apply {
-            context.rootNodeBackPressedDelegate = ForwardBackPressCallback { finish() }
+            context.rootComponentBackPressedDelegate = ForwardBackPressCallback { finish() }
         }
 
         setContent {
@@ -149,14 +149,14 @@ Notice how **Navigation State** is preserved in each screen as the user move thr
 of the App. They can also have a **Back Button Press** party and the original navigation path is
 preserved. No forced jumps to graph startDestinations or sort of things.
 
-<H4>Navigation Nodes Nesting</H4>
+<H4>Navigation Components Nesting</H4>
 
-In the case of large screens you can have multiple Navigation nodes in a split screen or you could
-nest them within another Navigation node. In the next video, one of the screens is splitted in two
+In the case of large screens you can have multiple Navigation components in a split screen or you could
+nest them within another Navigation component. In the next video, one of the screens is splitted in two
 sections each with a navivation drawer on its own. Observe than switching pages in the outer
 NavigationDrawer doesn't affect the state of those inner NavigationDrawers. This is possible because
-each parent node contains its own navigation state and is not affected by being switched/swapped by
-a sibling node.
+each parent component contains its own navigation state and is not affected by being switched/swapped by
+a sibling component.
 
 https://user-images.githubusercontent.com/5303301/208034085-7a8cf47c-3339-45b0-b411-b94be1f5f974.mov
 
@@ -166,10 +166,10 @@ https://user-images.githubusercontent.com/5303301/205610976-ce7e3006-bbdf-4f42-9
 
 <H4>Adaptable UI</H4>
 
-A NavigatorNode can be replaced with another NavigatorNode at any point in time while the App is
-running. All you have to do is transfer children nodes from one NavigatorNode to the other and
-attach the NavigatorNode to the parent Node. Automatically the tree will refresh its content. See
-AdaptableWindowNode for an example.
+A NavigatorComponent can be replaced with another NavigatorComponent at any point in time while the App is
+running. All you have to do is transfer children components from one NavigatorComponent to the other and
+attach the NavigatorComponent to the parent Component. Automatically the tree will refresh its content. See
+AdaptableWindowComponent for an example.
 
 https://user-images.githubusercontent.com/5303301/206708221-a8d13577-f38d-4b07-bcbf-f66cbca26d46.mov
 
@@ -177,34 +177,34 @@ The corresponding scenario in a phone
 
 https://user-images.githubusercontent.com/5303301/206601512-84ff3d70-28e8-4cb3-bbf6-67f134f6fe08.mov
 
-Above videos show how the App switches between a **DrawerNode** and a **PanelNode**, but it could be
-any Node that implements NavigatorNode interface. Eg: NavBarNode, PagerNode, YourCustomNavigatorNode
+Above videos show how the App switches between a **DrawerComponent** and a **PanelComponent**, but it could be
+any Component that implements NavigatorComponent interface. Eg: NavBarComponent, PagerComponent, YourCustomNavigatorComponent
 etc
 
 <H3>Library Concepts</H3>
 
 The pattern consists of designing your App navigation as if it was a Tree data structure. Users can
-visit the different nodes of the tree at any desired time. When the user modifies a node and visit a
-different node, the node state remains as the user left it. The next time the user comes back to
-that node, it will have the same state when it was last visited.
+visit the different components of the tree at any desired time. When the user modifies a component and visit a
+different component, the component state remains as the user left it. The next time the user comes back to
+that component, it will have the same state when it was last visited.
 
-<H4>Node</H4>
+<H4>Component</H4>
 
-A **Node** is the class used to build the State Tree.
+A **Component** is the class used to build the State Tree.
 
-Each ***Node*** is in charge of hadling **back press** events as well as Activity Lifecycle events
-like start and stop. Also each ***Node*** is responsible for propagating Start/Stop events to its
-children nodes. In the case of a back pressed events, the top most node will have the opportunity to
+Each ***Component*** is in charge of hadling **back press** events as well as Activity Lifecycle events
+like start and stop. Also each ***Component*** is responsible for propagating Start/Stop events to its
+children components. In the case of a back pressed events, the top most component will have the opportunity to
 first process the event. In case no processing is needed, it has the responsability to pass the
-event up to its parent node. Then the parent do the same until the event reaches the root node.
+event up to its parent component. Then the parent do the same until the event reaches the root component.
 
-An example of a ***Node*** implementation that handles its children as a back stack is the ***
-BackStackNode***. It will have only one Active child at any time and this child will ocuppy the
-entire Viewport assigned to the ***BackStackNode***. The pattern allows to build any type of nested
-navigation within the tree. It is a matter of just placing a ***Node***
-implementation in the tree and handle the children nodes whatever the way you want.
+An example of a ***Component*** implementation that handles its children as a back stack is the ***
+BackStackComponent***. It will have only one Active child at any time and this child will ocuppy the
+entire Viewport assigned to the ***BackStackComponent***. The pattern allows to build any type of nested
+navigation within the tree. It is a matter of just placing a ***Component***
+implementation in the tree and handle the children components whatever the way you want.
 
-The ***Node*** abstract class produces a Composable content representing its State every time
+The ***Component*** abstract class produces a Composable content representing its State every time
 recomposition happens.
 
 ```kotlin
@@ -218,70 +218,70 @@ to the user of the State Tree where to scope it. When the root Composable is rec
 screen size, layout or rotation changes. The Tree will traverse all the children and will recreate
 the previous Composable output before the configuration changes.
 
-<H4>NodeContext</H4>
+<H4>ComponentContext</H4>
 
-**NodeContext** is used to share fundamental elements within the nodes in the state tree, similar
-to **CompositionLocal** in the Composable tree. The NodeContext is used to dispatch the BackPressed
-event from child node to parent node. It also can be queried to fetch the closest parent node
+**ComponentContext** is used to share fundamental elements within the components in the state tree, similar
+to **CompositionLocal** in the Composable tree. The ComponentContext is used to dispatch the BackPressed
+event from child component to parent component. It also can be queried to fetch the closest parent component
 handling navigation, things of that nature. This class should not be used to share data between the
-nodes, passing data implicitly within the tree is discouraged. Implicit data passing decreases
-portability of the node, it limits to use the **Node** in another application that might not provide
-the implicit state it depends on. To pass data to *Nodes* use the constructor, is the better option
+components, passing data implicitly within the tree is discouraged. Implicit data passing decreases
+portability of the component, it limits to use the **Component** in another application that might not provide
+the implicit state it depends on. To pass data to *Components* use the constructor, is the better option
 for testability as well.
 
 <H3>Build the Tree</H3>
-Creating a tree of nodes is simple. Start by the root node and append child nodes to it. Some nodes
+Creating a tree of components is simple. Start by the root component and append child components to it. Some components
 may have already a predifined child types that it knows how to handle. Bellow is an example of how
-to build a bottom bar navigator node. Check the other examples.
+to build a bottom bar navigator component. Check the other examples.
 
 ```kotlin
-        val NavBarNode = NavBarNode(rootParentNodeContext)
+        val NavBarComponent = NavBarComponent(rootParentComponentContext)
 
-val PagerNode = PagerNode(NavBarNode.context)
+val PagerComponent = PagerComponent(NavBarComponent.context)
 
 val pagerNavItems = mutableListOf(
-    NavigationNodeItem(
+    NavigationComponentItem(
         label = "Account",
         icon = Icons.Filled.Home,
-        node = TopBarNode(PagerNode.context, "Settings / Account", Icons.Filled.Home) {},
+        component = TopBarComponent(PagerComponent.context, "Settings / Account", Icons.Filled.Home) {},
         selected = false
     ),
-    NavigationNodeItem(
+    NavigationComponentItem(
         label = "Profile",
         icon = Icons.Filled.Edit,
-        node = TopBarNode(PagerNode.context, "Settings / Profile", Icons.Filled.Edit) {},
+        component = TopBarComponent(PagerComponent.context, "Settings / Profile", Icons.Filled.Edit) {},
         selected = false
     ),
-    NavigationNodeItem(
+    NavigationComponentItem(
         label = "About Us",
         icon = Icons.Filled.Email,
-        node = TopBarNode(PagerNode.context, "Settings / About Us", Icons.Filled.Email) {},
+        component = TopBarComponent(PagerComponent.context, "Settings / About Us", Icons.Filled.Email) {},
         selected = false
     )
 )
 
 val navbarNavItems = mutableListOf(
-    NavigationNodeItem(
+    NavigationComponentItem(
         label = "Home",
         icon = Icons.Filled.Home,
-        node = TopBarNode(NavBarNode.context, "Home", Icons.Filled.Home) {},
+        component = TopBarComponent(NavBarComponent.context, "Home", Icons.Filled.Home) {},
         selected = false
     ),
-    NavigationNodeItem(
+    NavigationComponentItem(
         label = "Orders",
         icon = Icons.Filled.Edit,
-        node = TopBarNode(NavBarNode.context, "Orders", Icons.Filled.Edit) {},
+        component = TopBarComponent(NavBarComponent.context, "Orders", Icons.Filled.Edit) {},
         selected = false
     ),
-    NavigationNodeItem(
+    NavigationComponentItem(
         label = "Settings",
         icon = Icons.Filled.Email,
-        node = PagerNode.also { it.setNavItems(pagerNavItems, 0) },
+        component = PagerComponent.also { it.setNavItems(pagerNavItems, 0) },
         selected = false
     )
 )
 
-return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }
+return NavBarComponent.also { it.setNavItems(navbarNavItems, 0) }
 ```
 
 <H3>Contribute</H3>

@@ -9,9 +9,9 @@ fun NavigationComponent.setNavItems(
     println("${getComponent().clazz}.setItems()")
     selectedIndex = newSelectedIndex
 
-    newNavItems.map { nodeItem ->
-        nodeItem.component.setParent(parentComponent = this@setNavItems.getComponent())
-        nodeItem to nodeItem.component
+    newNavItems.map { navItem ->
+        navItem.component.setParent(parentComponent = this@setNavItems.getComponent())
+        navItem to navItem.component
     }.unzip().let {
         navItems = it.first.toMutableList()
         childComponents = it.second.toMutableList()
@@ -93,9 +93,9 @@ internal fun NavigationComponent.transferFrom(donorNavComponent: NavigationCompo
     selectedIndex = donorNavComponent.selectedIndex
 
     // Transfer navItems and childComponents
-    donorNavComponent.navItems.map { nodeItem ->
-        nodeItem.component.setParent(parentComponent = this@transferFrom.getComponent())
-        nodeItem to nodeItem.component
+    donorNavComponent.navItems.map { navItem ->
+        navItem.component.setParent(parentComponent = this@transferFrom.getComponent())
+        navItem to navItem.component
     }.unzip().let {
         navItems = it.first.toMutableList()
         childComponents = it.second.toMutableList()

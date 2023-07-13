@@ -82,7 +82,7 @@ class PagerComponent(
         }
     }
 
-    // region: NavigatorItemsManagerNode
+    // region: NavigatorItems
 
     override fun getComponent(): Component {
         return this
@@ -110,9 +110,9 @@ class PagerComponent(
     // region: DeepLink
 
     override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
-        println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
-        val matchingNodeIndex = childComponents.indexOf(matchingComponent)
-        selectPage(matchingNodeIndex)
+        println("$clazz.onDeepLinkMatch() matchingComponent = ${matchingComponent.clazz}")
+        val matchingChildIndex = childComponents.indexOf(matchingComponent)
+        selectPage(matchingChildIndex)
         return DeepLinkResult.Success
     }
 

@@ -7,13 +7,13 @@ import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.router.DeepLinkMatchData
 import com.pablichj.templato.component.core.router.DeepLinkMatchType
 import com.pablichj.templato.component.core.stack.StackBarItem
-import com.pablichj.templato.component.core.stack.StackComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponent
 
 class CustomTopBarComponent(
     val screenName: String,
     config: Config,
     val onMessage: (Msg) -> Unit
-) : StackComponent(config) {
+) : TopBarComponent(config) {
 
     val Step1 = SimpleComponent(
         "$screenName / Page 1",
@@ -65,8 +65,8 @@ class CustomTopBarComponent(
         }
     }
 
-    override fun getStackBarItemFromComponent(component: Component): StackBarItem {
-        return when (component) {
+    override fun getStackBarItemForComponent(topComponent: Component): StackBarItem {
+        return when (topComponent) {
             Step1 -> {
                 StackBarItem(
                     Step1.text,

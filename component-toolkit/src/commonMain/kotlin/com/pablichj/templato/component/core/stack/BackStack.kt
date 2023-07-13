@@ -3,7 +3,7 @@ package com.pablichj.templato.component.core.stack
 import com.pablichj.templato.component.core.Component
 
 /**
- * A stack of references to Node instances. Can be inherited by a Child class
+ * A stack of references to Component instances. Can be inherited by a Child class
  * that wants to manage children navigation.
  * */
 class BackStack<T : Component> {
@@ -11,25 +11,25 @@ class BackStack<T : Component> {
     var eventListener: (event: Event<T>) -> Unit = {}
 
     /**
-     * Push a Node to the top of the stack.
-     * When a Node is push successfully, a Push event will be delivered.
+     * Push a Component to the top of the stack.
+     * When a Component is push successfully, a Push event will be delivered.
      * */
-    fun push(node: T) {
-        val currentTopNode = deque.lastOrNull()
+    fun push(component: T) {
+        val currentTopComponent = deque.lastOrNull()
 
-        // If the same node on top is pushed again, a PushEqualTop event will be delivered.
-        if (currentTopNode == node) {
+        // If the same component on top is pushed again, a PushEqualTop event will be delivered.
+        if (currentTopComponent == component) {
             onStackPushEqualTop()
             return
         }
 
-        deque.addLast(node)
+        deque.addLast(component)
         onStackPush()
     }
 
     /**
-     * Remove the top most Node from the stack.
-     * When a Node is pop successfully, a Pop event will be delivered.
+     * Remove the top most Component from the stack.
+     * When a Component is pop successfully, a Pop event will be delivered.
      * */
     fun pop() {
         if (deque.size == 0) {
@@ -40,22 +40,22 @@ class BackStack<T : Component> {
         onStackPop(oldTop)
     }
 
-    fun popTo(node: T, inclusive: Boolean): Boolean {
+    fun popTo(component: T, inclusive: Boolean): Boolean {
 
-        val shouldPop: Boolean = deque.lastIndexOf(node) != -1
+        val shouldPop: Boolean = deque.lastIndexOf(component) != -1
         if (!shouldPop) {
             return false
         }
 
         val oldTop = deque.last()
-        if (oldTop == node && !inclusive) {
+        if (oldTop == component && !inclusive) {
             return false
         }
 
-        var popping = oldTop != node
+        var popping = oldTop != component
         while (popping) {
             deque.removeLast()
-            popping = deque.lastOrNull() != node
+            popping = deque.lastOrNull() != component
         }
 
         if (inclusive) {
@@ -108,6 +108,7 @@ class BackStack<T : Component> {
     sealed class Event<T> {
         class Push<T>(val stack: List<T>) : Event<T>()
         class Pop<T>(val stack: List<T>, val oldTop: T) : Event<T>()
+
         //class PopMany<T>(val stack: List<T>, val oldTop: T) : Event<T>()
         class PushEqualTop<T>(val stack: List<T>) : Event<T>()
         class PopEmptyStack<T> : Event<T>()

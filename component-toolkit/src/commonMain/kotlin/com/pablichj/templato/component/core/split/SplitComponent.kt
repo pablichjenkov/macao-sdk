@@ -14,13 +14,13 @@ class SplitComponent(
     private var topComponent: Component? = null
     private var bottomComponent: Component? = null
 
-    fun setTopNode(topComponent: Component) {
+    fun setTopComponent(topComponent: Component) {
         this.topComponent = topComponent.apply {
             setParent(this@SplitComponent)
         }
     }
 
-    fun setBottomNode(bottomComponent: Component) {
+    fun setBottomComponent(bottomComponent: Component) {
         this.bottomComponent = bottomComponent.apply {
             setParent(this@SplitComponent)
         }
@@ -55,29 +55,29 @@ class SplitComponent(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("SplitNavNode::Composing()")
+        println("$clazz::Composing()")
         Column(modifier = Modifier.fillMaxSize()) {
-            val TopNodeCopy = topComponent
-            if (TopNodeCopy != null) {
+            val topComponentCopy = topComponent
+            if (topComponentCopy != null) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight(0.5F)
                         .padding(start = 40.dp, top = 40.dp, end = 40.dp, bottom = 20.dp)
                 ) {
-                    TopNodeCopy.Content(Modifier)
+                    topComponentCopy.Content(Modifier)
                 }
             }
 
-            val BottomNodeCopy = bottomComponent
-            if (BottomNodeCopy != null) {
+            val bottomComponentCopy = bottomComponent
+            if (bottomComponentCopy != null) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
                         .padding(start = 40.dp, top = 20.dp, end = 40.dp, bottom = 40.dp)
                 ) {
-                    BottomNodeCopy.Content(Modifier)
+                    bottomComponentCopy.Content(Modifier)
                 }
             }
         }

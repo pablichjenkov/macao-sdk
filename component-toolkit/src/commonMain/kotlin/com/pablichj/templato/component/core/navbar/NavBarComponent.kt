@@ -50,7 +50,7 @@ class NavBarComponent(
                 println("$clazz::start() with childComponents empty")
             }
         } else {
-            println("$clazz::start() with activeNodeState = ${activeComponent.value?.clazz}")
+            println("$clazz::start() with activeChild = ${activeComponent.value?.clazz}")
             activeComponent.value?.dispatchStart()
         }
     }
@@ -109,7 +109,7 @@ class NavBarComponent(
     // region: DeepLink
 
     override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
-        println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
+        println("$clazz.onDeepLinkMatch() matchingChild = ${matchingComponent.clazz}")
         backStack.push(matchingComponent)
         return DeepLinkResult.Success
     }

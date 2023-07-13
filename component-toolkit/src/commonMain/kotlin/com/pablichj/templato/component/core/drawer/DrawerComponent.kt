@@ -62,7 +62,7 @@ class DrawerComponent(
                 println("$clazz::onStart() with childComponents empty")
             }
         } else {
-            println("$clazz::onStart() with activeNodeState = ${activeComponent.value?.clazz}")
+            println("$clazz::onStart() with activeChild = ${activeComponent.value?.clazz}")
             activeComponent.value?.dispatchStart()
         }
     }
@@ -137,7 +137,7 @@ class DrawerComponent(
     // region: DeepLink
 
     override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
-        println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
+        println("$clazz.onDeepLinkMatch() matchingChild = ${matchingComponent.clazz}")
         backStack.push(matchingComponent)
         return DeepLinkResult.Success
     }

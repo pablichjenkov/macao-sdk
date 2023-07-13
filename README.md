@@ -1,14 +1,10 @@
-### Under development 🚧👷
-## Component Toolkit
-A set of components to speedup App development. It has navigation components as drawer, tab bars, bottom bars, pagers, stack and many more. Code is 99% the same in each platform. Check demos bellow.
+### Component Toolkit <under development 🚧👷>
+A set of prefabricated compose-multiplatform components to speedup the App development process. The module contains a variety of navigation components as drawer, tabbar, topbar, bottombar, pager, stack, panel and many more. Code is 99% reusable in each platform. Check demos bellow.
 
-<H4>How to use it?</H4>
+##### How to use it?
+Just add bellow dependency in the **commonMain** target of the module that plans to consume the toolkit. For sample usage code, check the `shared` module in this same project, or check the links to the Apps in the next session.
 
-Just add bellow dependency in your project **shared** module. You only need to add the dependency to the **commonMain** sourceSet.
-
-```
-// your-project-root-path/shared/build.gradle
-
+```kotlin
 val commonMain by getting {
     dependencies {
         implementation("io.github.pablichjenkov:component-toolkit:0.2.0")
@@ -16,9 +12,8 @@ val commonMain by getting {
 }
 ```
 
----
-
-### Component Toolkit Demo App
+### Built with component-toolkit
+##### Component Toolkit Demo App
 
 This is the App I use to test while developing the components.
 
@@ -49,9 +44,7 @@ This is the App I use to test while developing the components.
  </tr>
 </table>
 
----
-    
-### Hotel Booking
+##### Hotel Booking
 
 [Hotel Booking](https://github.com/pablichjenkov/amadeus-hotel-app) An App that consumes Amadeus hotel bookking public API.
 
