@@ -1,31 +1,25 @@
 package com.pablichj.templato.component.core.stack
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.ComponentLifecycleState
+import com.pablichj.templato.component.core.ComponentWithBackStack
 import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
-import com.pablichj.templato.component.core.router.DeepLinkResult
-import com.pablichj.templato.component.core.*
 import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.router.DeepLinkMatchData
 import com.pablichj.templato.component.core.router.DeepLinkMatchType
+import com.pablichj.templato.component.core.router.DeepLinkResult
 
 abstract class StackComponent(
-    private val config: Config
+    protected val config: Config
 ) : Component(), ComponentWithBackStack {
     final override val backStack = BackStack<Component>()
     override var childComponents: MutableList<Component> = mutableListOf()
     var activeComponent: MutableState<Component?> = mutableStateOf(null)
-
-    private var topBarState = TopBarState {
-        handleBackPressed()
-    }
-
     private var lastBackstackEvent: BackStack.Event<Component>? = null
 
     init {
@@ -37,14 +31,14 @@ abstract class StackComponent(
     }
 
     override fun onStart() {
+        println("$clazz::onStart()")
         if (activeComponent.value != null) {
-            println("$clazz::start() with activeNodeState = ${activeComponent.value?.clazz}")
             activeComponent.value?.dispatchStart()
         }
     }
 
     override fun onStop() {
-        println("$clazz::stop()")
+        println("$clazz::onStop()")
         activeComponent.value?.dispatchStop()
         lastBackstackEvent = null
     }
@@ -72,33 +66,27 @@ abstract class StackComponent(
     ) {
         when (stackTransition) {
             is StackTransition.In -> {
-                updateSelectedComponent(stackTransition.newTop)
+                onStackTopUpdate(stackTransition.newTop)
                 activeComponent.value = stackTransition.newTop
             }
+
             is StackTransition.InOut -> {
-                updateSelectedComponent(stackTransition.newTop)
+                onStackTopUpdate(stackTransition.newTop)
                 activeComponent.value = stackTransition.newTop
             }
+
             is StackTransition.InvalidPushEqualTop -> {}
             is StackTransition.InvalidPopEmptyStack -> {
                 activeComponent.value = null
             }
+
             is StackTransition.Out -> {
                 activeComponent.value = null
             }
         }
     }
 
-    protected open fun updateSelectedComponent(newTop: Component) {
-        val selectedStackBarItem = getStackBarItemFromComponent(newTop) ?: return
-        if (backStack.size() > 1) {
-            setTitleSectionForBackClick(selectedStackBarItem)
-        } else {
-            setTitleSectionForHomeClick(selectedStackBarItem)
-        }
-    }
-
-    abstract fun getStackBarItemFromComponent(component: Component): StackBarItem?
+    protected abstract fun onStackTopUpdate(topComponent: Component)
 
     override fun onDestroyChildComponent(component: Component) {
         if (component.lifecycleState == ComponentLifecycleState.Started) {
@@ -110,57 +98,6 @@ abstract class StackComponent(
     }
 
     // endregion
-
-    protected fun setTitleSectionForHomeClick(stackBarItem: StackBarItem) {
-        topBarState = TopBarState(
-            onBackPress = { handleBackPressed() }
-        ).apply {
-            setTitleSectionState(
-                TitleSectionStateHolder(
-                    title = stackBarItem.label,
-                    icon1 = resolveFirstIcon(),
-                    onIcon1Click = {
-                        findClosestDrawerNavigationComponent()?.open()
-                    },
-                    onTitleClick = {
-                        findClosestDrawerNavigationComponent()?.open()
-                    }
-                )
-            )
-        }
-    }
-
-    protected fun setTitleSectionForBackClick(stackBarItem: StackBarItem) {
-        topBarState = TopBarState {
-            handleBackPressed()
-        }.apply {
-            setTitleSectionState(
-                TitleSectionStateHolder(
-                    title = stackBarItem.label,
-                    onTitleClick = {
-                        handleBackPressed()
-                    },
-                    icon1 = resolveFirstIcon(),
-                    onIcon1Click = {
-                        findClosestDrawerNavigationComponent()?.open()
-                    },
-                    icon2 = Icons.Filled.ArrowBack,
-                    onIcon2Click = {
-                        handleBackPressed()
-                    }
-                )
-            )
-        }
-    }
-
-    private fun resolveFirstIcon(): ImageVector? {
-        val canProvideGlobalNavigation = findClosestDrawerNavigationComponent() != null
-        return if (canProvideGlobalNavigation) {
-            Icons.Filled.Menu
-        } else {
-            null
-        }
-    }
 
     // region: DeepLink
 
@@ -180,7 +117,7 @@ abstract class StackComponent(
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
         childComponents.forEach {
             val linkHandler = it.getDeepLinkHandler()
-            println("NavBar::child.uriFragment = ${linkHandler.uriFragment}")
+            println("$clazz::child.uriFragment = ${linkHandler.uriFragment}")
             if (linkHandler.uriFragment == nextUriFragment) {
                 return it
             }
@@ -197,7 +134,10 @@ abstract class StackComponent(
     // endregion
 
     @Composable
-    override fun Content(modifier: Modifier) {
+    fun DefaultStackComponentView(
+        modifier: Modifier,
+        onComponentSwipedOut: () -> Unit
+    ) {
         println(
             """
           $clazz::Composing(), backStack.size = ${backStack.size()}
@@ -211,17 +151,21 @@ abstract class StackComponent(
                     AnimationType.Reverse
                 else AnimationType.Exit
             }
+
             is BackStack.Event.PopEmptyStack -> {
                 AnimationType.Enter
             }
+
             is BackStack.Event.Push -> {
                 if (backStack.size() > 1)
                     AnimationType.Direct
                 else AnimationType.Enter
             }
+
             is BackStack.Event.PushEqualTop -> {
                 AnimationType.Enter
             }
+
             null -> AnimationType.Enter
         }
 
@@ -235,21 +179,21 @@ abstract class StackComponent(
             true -> {
                 // If the traditional back button is enabled then we use our custom predictive back
                 StackCustomPredictiveBack(
-                    modifier,
-                    topBarState,
-                    activeComponent.value,
-                    prevComponent,
-                    animationType
+                    modifier = modifier,
+                    childComponent = activeComponent.value,
+                    prevChildComponent = prevComponent,
+                    animationType = animationType,
+                    onComponentSwipedOut = onComponentSwipedOut
                 )
             }
+
             false -> {
                 // Except Android, (and when the traditional 3 button navigation is enabled),
                 // all the platforms will fall in to this case.
                 StackSystemPredictiveBack(
-                    modifier,
-                    topBarState,
-                    activeComponent.value,
-                    animationType
+                    modifier = modifier,
+                    childComponent = activeComponent.value,
+                    animationType = animationType
                 )
             }
         }
@@ -257,7 +201,8 @@ abstract class StackComponent(
     }
 
     class Config(
-        stackStyle: StackStyle = StackStyle()
+        val stackStyle: StackStyle = StackStyle(),
+        val showBackArrowAlways: Boolean = true
     )
 
     companion object {

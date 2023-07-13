@@ -107,18 +107,17 @@ publishing {
             version
             artifact(javadocJar)
             pom {
-                val projectGitUrl =
-                    "https://github.com/pablichjenkov/templato/tree/master/component"
+                val projectGitUrl = "https://github.com/pablichjenkov/component-toolkit"
                 name.set(rootProject.name)
                 description.set(
-                    "Reusable components to be used in compose multiplatform."
+                    "Compose multiplatform reusable components."
                 )
                 url.set(projectGitUrl)
                 inceptionYear.set("2023")
                 licenses {
                     license {
-                        name.set("MIT")
-                        url.set("https://opensource.org/licenses/MIT")
+                        name.set("The Unlicense")
+                        url.set("https://unlicense.org")
                     }
                 }
                 developers {
@@ -163,7 +162,7 @@ kotlin {
     // ANDROID
     android()
     android {
-        publishLibraryVariants("release"/*, "debug"*/)
+        publishLibraryVariants("release")
     }
 
     // IOS
@@ -194,8 +193,8 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.material)
                 implementation(compose.animation)
-                implementation("org.jetbrains.compose.ui:ui-util:1.4.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+                implementation("org.jetbrains.compose.ui:ui-util:1.4.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
             }
         }
         val commonTest by getting {
@@ -207,7 +206,7 @@ kotlin {
         // ANDROID
         val androidMain by getting {
             dependencies {
-                implementation("androidx.activity:activity-compose:1.7.1")
+                implementation("androidx.activity:activity-compose:1.7.2")
             }
         }
         val androidUnitTest by getting {
@@ -258,7 +257,6 @@ android {
     }
     defaultConfig {
         minSdk = 26
-        targetSdk = 33
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

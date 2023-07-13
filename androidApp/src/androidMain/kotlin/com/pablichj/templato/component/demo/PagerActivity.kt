@@ -13,7 +13,7 @@ class PagerActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // It creates a state tree where the root node is a Pager
+        // It creates a state tree where the root component is a Pager
         val rootComponent = PagerTreeBuilder.build()
         setContent {
             MaterialTheme {

@@ -1,4 +1,4 @@
-package com.pablichj.templato.component.core.stack
+package com.pablichj.templato.component.core.topbar
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf

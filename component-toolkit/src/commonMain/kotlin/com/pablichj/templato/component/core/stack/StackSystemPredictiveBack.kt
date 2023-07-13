@@ -16,35 +16,28 @@ import com.pablichj.templato.component.core.Component
 @Composable
 fun StackSystemPredictiveBack(
     modifier: Modifier,
-    topBarState: ITopBarState,
     childComponent: Component?,
     animationType: AnimationType
 ) {
-    Scaffold(
-        modifier = modifier,
-        topBar = { TopBar(topBarState) }
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            if (childComponent != null) {
-                AnimatedContent(
-                    targetState = childComponent,
-                    transitionSpec = { getTransitionByAnimationType(animationType) }
-                ) {
-                    it.Content(Modifier)
-                }
-            } else {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.Center),
-                    text = "StackSystemPredictiveBack Empty Stack, Please add some children",
-                    textAlign = TextAlign.Center
-                )
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        if (childComponent != null) {
+            AnimatedContent(
+                targetState = childComponent,
+                transitionSpec = { getTransitionByAnimationType(animationType) }
+            ) {
+                it.Content(Modifier)
             }
+        } else {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.Center),
+                text = "StackSystemPredictiveBack Empty Stack, Please add some children",
+                textAlign = TextAlign.Center
+            )
         }
     }
 }
@@ -72,6 +65,7 @@ private fun getTransitionByAnimationType(animationType: AnimationType): ContentT
                         )
                     ) //+ fadeOut(animationSpec = tween())
         }
+
         AnimationType.Reverse -> {
             slideInHorizontally(
                 initialOffsetX = { fullWidth ->
@@ -86,6 +80,7 @@ private fun getTransitionByAnimationType(animationType: AnimationType): ContentT
                         animationSpec = tween()
                     ) //+ fadeOut(animationSpec = tween())
         }
+
         AnimationType.Exit,
         AnimationType.Enter -> {
             fadeIn(
