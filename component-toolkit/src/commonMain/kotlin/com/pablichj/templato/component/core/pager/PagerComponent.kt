@@ -12,17 +12,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.ComponentLifecycleState
+import com.pablichj.templato.component.core.ComponentWithBackStack
+import com.pablichj.templato.component.core.NavItem
+import com.pablichj.templato.component.core.NavigationComponent
+import com.pablichj.templato.component.core.getChildForNextUriFragment
+import com.pablichj.templato.component.core.getDeepLinkHandler
+import com.pablichj.templato.component.core.onDeepLinkNavigation
 import com.pablichj.templato.component.core.pager.indicator.DefaultPagerIndicator
+import com.pablichj.templato.component.core.router.DeepLinkMatchData
 import com.pablichj.templato.component.core.router.DeepLinkResult
 import com.pablichj.templato.component.core.stack.BackStack
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.LocalSafeAreaInsets
-import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.ComponentLifecycleState
-import com.pablichj.templato.component.core.NavItem
-import com.pablichj.templato.component.core.NavigationComponent
-import com.pablichj.templato.component.core.router.DeepLinkMatchData
-import com.pablichj.templato.component.core.router.DeepLinkMatchType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -110,34 +113,15 @@ class PagerComponent(
     // region: DeepLink
 
     override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
-        println("$clazz.onDeepLinkMatch() matchingComponent = ${matchingComponent.clazz}")
-        val matchingChildIndex = childComponents.indexOf(matchingComponent)
-        selectPage(matchingChildIndex)
-        return DeepLinkResult.Success
+        return (this as ComponentWithBackStack).onDeepLinkNavigation(matchingComponent)
     }
 
     override fun getDeepLinkHandler(): DeepLinkMatchData {
-        return DeepLinkMatchData(
-            null,
-            DeepLinkMatchType.MatchAny
-        )
+        return (this as ComponentWithBackStack).getDeepLinkHandler()
     }
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
-        childComponents.forEach {
-            val linkHandler = it.getDeepLinkHandler()
-            println("NavBar::child.uriFragment = ${linkHandler.uriFragment}")
-            if (linkHandler.uriFragment == nextUriFragment) {
-                return it
-            }
-            if (linkHandler.matchType == DeepLinkMatchType.MatchAny) {
-                val childMatching = it.getChildForNextUriFragment(nextUriFragment)
-                if (childMatching != null) {
-                    return it
-                }
-            }
-        }
-        return null
+        return (this as ComponentWithBackStack).getChildForNextUriFragment(nextUriFragment)
     }
 
     // endregion
@@ -273,7 +257,9 @@ class PagerComponent(
                             is PagerComponentOutEvent.SelectPage -> {
                                 pagerState.animateScrollToPage(componentEvent.page)
                             }
-                            null -> { /* NoOp */ }
+
+                            null -> { /* NoOp */
+                            }
                         }
                     }
                 }

@@ -158,7 +158,7 @@ abstract class Component : ComponentLifecycle() {
             }
         } else {
             deepLinkMsg.resultListener.invoke(
-                DeepLinkResult.Error("Component: $clazz does not handle DeepLink fragment = $uriFragment. Shouldn't get this point")
+                DeepLinkResult.Error("Component: $clazz does not handle DeepLink fragment = $uriFragment.")
             )
         }
     }
