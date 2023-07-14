@@ -7,14 +7,23 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.ComponentLifecycleState
+import com.pablichj.templato.component.core.ComponentWithBackStack
+import com.pablichj.templato.component.core.NavItem
+import com.pablichj.templato.component.core.NavigationComponent
+import com.pablichj.templato.component.core.getChildForNextUriFragment
+import com.pablichj.templato.component.core.getDeepLinkHandler
+import com.pablichj.templato.component.core.getNavItemFromComponent
+import com.pablichj.templato.component.core.onDeepLinkNavigation
+import com.pablichj.templato.component.core.processBackstackEvent
+import com.pablichj.templato.component.core.processBackstackTransition
+import com.pablichj.templato.component.core.router.DeepLinkMatchData
 import com.pablichj.templato.component.core.router.DeepLinkResult
 import com.pablichj.templato.component.core.stack.BackStack
+import com.pablichj.templato.component.core.toNavItemDeco
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.DispatchersProxy
-import com.pablichj.templato.component.core.*
-import com.pablichj.templato.component.core.processBackstackEvent
-import com.pablichj.templato.component.core.router.DeepLinkMatchData
-import com.pablichj.templato.component.core.router.DeepLinkMatchType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -120,33 +129,15 @@ class PanelComponent(
     // region: DeepLink
 
     override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
-        println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
-        backStack.push(matchingComponent)
-        return DeepLinkResult.Success
+        return (this as ComponentWithBackStack).onDeepLinkNavigation(matchingComponent)
     }
 
     override fun getDeepLinkHandler(): DeepLinkMatchData {
-        return DeepLinkMatchData(
-            null,
-            DeepLinkMatchType.MatchAny
-        )
+        return (this as ComponentWithBackStack).getDeepLinkHandler()
     }
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
-        childComponents.forEach {
-            val linkHandler = it.getDeepLinkHandler()
-            println("NavBar::child.uriFragment = ${linkHandler.uriFragment}")
-            if (linkHandler.uriFragment == nextUriFragment) {
-                return it
-            }
-            if (linkHandler.matchType == DeepLinkMatchType.MatchAny) {
-                val childMatching = it.getChildForNextUriFragment(nextUriFragment)
-                if (childMatching != null) {
-                    return it
-                }
-            }
-        }
-        return null
+        return (this as ComponentWithBackStack).getChildForNextUriFragment(nextUriFragment)
     }
 
     // endregion
