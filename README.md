@@ -7,7 +7,7 @@ Just add bellow dependency in the **commonMain** target of the module that plans
 ```kotlin
 val commonMain by getting {
     dependencies {
-        implementation("io.github.pablichjenkov:component-toolkit:0.3.0")
+        implementation("io.github.pablichjenkov:component-toolkit:0.3.1")
     }
 }
 ```
