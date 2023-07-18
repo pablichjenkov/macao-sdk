@@ -4,11 +4,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
-import com.pablichj.templato.component.demo.CustomTopBarComponent
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.navbar.NavBarComponent
+import com.pablichj.templato.component.core.navbar.NavBarStyle
 import com.pablichj.templato.component.core.setNavItems
+import com.pablichj.templato.component.core.stack.FixSizedPushStrategy
 import com.pablichj.templato.component.core.stack.StackComponent
+import com.pablichj.templato.component.demo.CustomTopBarComponent
+import com.pablichj.templato.component.platform.DiContainer
+import com.pablichj.templato.component.platform.DispatchersProxy
 
 object NavBarTreeBuilder {
 
@@ -41,7 +45,9 @@ object NavBarTreeBuilder {
                 )
         )
 
-        return NavBarComponent().also {
+        return NavBarComponent(
+            // createNavBarConfig()
+        ).also {
             it.setNavItems(navbarNavItems, 0)
             navBarComponent = it
             /*it.setNavBarComponentView { modifier: Modifier, childComponent: Component, navBarState: NavBarState ->
@@ -54,6 +60,14 @@ object NavBarTreeBuilder {
                 }
             }*/
         }
+    }
+
+    private fun createNavBarConfig(): NavBarComponent.Config {
+        return NavBarComponent.Config(
+            pushStrategy = FixSizedPushStrategy(1),
+            navBarStyle = NavBarStyle(),
+            diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
+        )
     }
 
 }

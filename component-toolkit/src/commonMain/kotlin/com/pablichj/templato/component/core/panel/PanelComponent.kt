@@ -20,7 +20,9 @@ import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.processBackstackTransition
 import com.pablichj.templato.component.core.router.DeepLinkMatchData
 import com.pablichj.templato.component.core.router.DeepLinkResult
+import com.pablichj.templato.component.core.stack.AddAllPushStrategy
 import com.pablichj.templato.component.core.stack.BackStack
+import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.core.toNavItemDeco
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.DispatchersProxy
@@ -30,7 +32,7 @@ import kotlinx.coroutines.launch
 class PanelComponent(
     private val config: Config = DefaultConfig
 ) : Component(), NavigationComponent {
-    override val backStack = BackStack<Component>()
+    override val backStack = createBackStack(config.pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
@@ -182,15 +184,18 @@ class PanelComponent(
     // endregion
 
     class Config(
-        var panelHeaderStyle: PanelHeaderStyle,
-        var diContainer: DiContainer
+        val pushStrategy: PushStrategy<Component>,
+        val panelHeaderStyle: PanelHeaderStyle,
+        val diContainer: DiContainer
     )
 
     companion object {
         val DefaultConfig = Config(
-            PanelHeaderStyle(),
-            DiContainer(DispatchersProxy.DefaultDispatchers)
+            pushStrategy = AddAllPushStrategy(),
+            panelHeaderStyle = PanelHeaderStyle(),
+            diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
         )
+
         val DefaultPanelComponentView: @Composable PanelComponent.(
             modifier: Modifier,
             childComponent: Component
