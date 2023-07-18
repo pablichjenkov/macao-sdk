@@ -23,7 +23,9 @@ import com.pablichj.templato.component.core.onDeepLinkNavigation
 import com.pablichj.templato.component.core.pager.indicator.DefaultPagerIndicator
 import com.pablichj.templato.component.core.router.DeepLinkMatchData
 import com.pablichj.templato.component.core.router.DeepLinkResult
+import com.pablichj.templato.component.core.stack.AddAllPushStrategy
 import com.pablichj.templato.component.core.stack.BackStack
+import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.LocalSafeAreaInsets
 import kotlinx.coroutines.CoroutineScope
@@ -41,7 +43,7 @@ class PagerComponent(
     private val config: Config,
     private var diContainer: DiContainer
 ) : Component(), NavigationComponent {
-    override val backStack = BackStack<Component>()
+    override val backStack = createBackStack(config.pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
@@ -219,13 +221,16 @@ class PagerComponent(
     }
 
     class Config(
-        var pagerStyle: PagerStyle = PagerStyle()
+        val pushStrategy: PushStrategy<Component>,
+        val pagerStyle: PagerStyle = PagerStyle()
     )
 
     companion object {
         val DefaultConfig = Config(
-            PagerStyle()
+            pushStrategy = AddAllPushStrategy(),
+            pagerStyle = PagerStyle()
         )
+
         val DefaultPagerComponentView: @Composable PagerComponent.(
             modifier: Modifier,
             childComponents: List<Component>

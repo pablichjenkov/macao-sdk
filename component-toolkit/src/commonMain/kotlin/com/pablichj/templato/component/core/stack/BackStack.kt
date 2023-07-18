@@ -6,7 +6,9 @@ import com.pablichj.templato.component.core.Component
  * A stack of references to Component instances. Can be inherited by a Child class
  * that wants to manage children navigation.
  * */
-class BackStack<T : Component> {
+class BackStack<T : Component>(
+    private val pushStrategy: PushStrategy<T> = AddAllPushStrategy<T>()
+) {
     internal val deque: ArrayDeque<T> = ArrayDeque()
     var eventListener: (event: Event<T>) -> Unit = {}
 
@@ -15,16 +17,7 @@ class BackStack<T : Component> {
      * When a Component is push successfully, a Push event will be delivered.
      * */
     fun push(component: T) {
-        val currentTopComponent = deque.lastOrNull()
-
-        // If the same component on top is pushed again, a PushEqualTop event will be delivered.
-        if (currentTopComponent == component) {
-            onStackPushEqualTop()
-            return
-        }
-
-        deque.addLast(component)
-        onStackPush()
+        pushStrategy.onPush(component, this)
     }
 
     /**
@@ -84,15 +77,15 @@ class BackStack<T : Component> {
         return true
     }
 
-    private fun onStackPush() {
+    internal fun onStackPush() {
         eventListener(Event.Push(deque))
     }
 
-    private fun onStackPushEqualTop() {
+    internal fun onStackPushEqualTop() {
         eventListener(Event.PushEqualTop(deque))
     }
 
-    private fun onStackPop(oldTop: T) {
+    internal fun onStackPop(oldTop: T) {
         eventListener(Event.Pop(deque, oldTop))
     }
 
