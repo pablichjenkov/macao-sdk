@@ -24,7 +24,6 @@ import com.pablichj.templato.component.core.pager.indicator.DefaultPagerIndicato
 import com.pablichj.templato.component.core.router.DeepLinkMatchData
 import com.pablichj.templato.component.core.router.DeepLinkResult
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
-import com.pablichj.templato.component.core.stack.BackStack
 import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.LocalSafeAreaInsets

@@ -6,6 +6,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 interface INavigationDrawerState {
@@ -31,6 +36,8 @@ interface INavigationDrawerState {
      * */
     fun navItemClick(drawerNavItem: NavItemDeco)
 
+    fun setNavItemsDeco(navItemsDeco: List<NavItemDeco>)
+
     /**
      * Intended to be called from a client class to select a navItem in the drawer
      * */
@@ -45,38 +52,22 @@ interface INavigationDrawerState {
 class NavigationDrawerState(
     private val coroutineScope: CoroutineScope,
     override var drawerHeaderState: DrawerHeaderState,
-    var navItemsDeco: List<NavItemDeco>
+    private var navItemsDeco: List<NavItemDeco>
 ) : INavigationDrawerState {
 
-    private val _navItemsFlow = MutableStateFlow<List<NavItemDeco>>(emptyList())
-    override val navItemsFlow: Flow<List<NavItemDeco>>
-        get() = _navItemsFlow
+    private val _navItemsFlow = MutableStateFlow(navItemsDeco)
+    override val navItemsFlow: StateFlow<List<NavItemDeco>> = _navItemsFlow.asStateFlow()
 
     private val _drawerOpenFlow = MutableSharedFlow<DrawerValue>()
-    override val drawerOpenFlow: Flow<DrawerValue>
-        get() = _drawerOpenFlow
+    override val drawerOpenFlow: SharedFlow<DrawerValue> = _drawerOpenFlow.asSharedFlow()
 
     private val _navItemClickFlow = MutableSharedFlow<NavItemDeco>()
-    override val navItemClickFlow: Flow<NavItemDeco>
-        get() = _navItemClickFlow
-
-    init {
-        _navItemsFlow.value = navItemsDeco
-    }
+    override val navItemClickFlow: SharedFlow<NavItemDeco> = _navItemClickFlow.asSharedFlow()
 
     override fun navItemClick(drawerNavItem: NavItemDeco) {
         coroutineScope.launch {
             _drawerOpenFlow.emit(DrawerValue.Closed)
             _navItemClickFlow.emit(drawerNavItem)
-        }
-    }
-
-    /**
-     * To be called by a client class when the Drawer selected item needs to be updated.
-     * */
-    override fun selectNavItemDeco(drawerNavItem: NavItemDeco) {
-        coroutineScope.launch {
-            updateDrawerSelectedItem(drawerNavItem)
         }
     }
 
@@ -86,11 +77,25 @@ class NavigationDrawerState(
         }
     }
 
-    private suspend fun updateDrawerSelectedItem(drawerNavItem: NavItemDeco) {
-        navItemsDeco = navItemsDeco.map {
-            it.copy().apply { selected = drawerNavItem.component == it.component }
+    override fun setNavItemsDeco(navItemsDeco: List<NavItemDeco>) {
+        this.navItemsDeco = navItemsDeco
+    }
+
+    /**
+     * To be called by a client class when the Drawer selected item needs to be updated.
+     * */
+    override fun selectNavItemDeco(drawerNavItem: NavItemDeco) {
+        updateDrawerSelectedItem(drawerNavItem)
+    }
+
+    private fun updateDrawerSelectedItem(drawerNavItem: NavItemDeco) {
+        _navItemsFlow.update {
+            navItemsDeco.map { navItemDeco ->
+                navItemDeco.copy(
+                    selected = drawerNavItem == navItemDeco
+                )
+            }
         }
-        _navItemsFlow.emit(navItemsDeco)
     }
 
 }
