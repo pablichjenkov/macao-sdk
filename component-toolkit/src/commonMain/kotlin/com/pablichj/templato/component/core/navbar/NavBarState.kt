@@ -5,6 +5,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 interface INavBarState {
@@ -23,6 +28,8 @@ interface INavBarState {
      * */
     fun navItemClick(navbarItem: NavItemDeco)
 
+    fun setNavItemsDeco(navItemsDeco: List<NavItemDeco>)
+
     /**
      * Intended to be called from a client class to select a navItem in the NavBar
      * */
@@ -31,20 +38,14 @@ interface INavBarState {
 
 class NavBarState(
     private val coroutineScope: CoroutineScope,
-    var navItemsDeco: List<NavItemDeco>
+    private var navItemsDeco: List<NavItemDeco>
 ) : INavBarState {
 
-    private val _navItemsFlow = MutableStateFlow<List<NavItemDeco>>(emptyList())
-    override val navItemsFlow: Flow<List<NavItemDeco>>
-        get() = _navItemsFlow
+    private val _navItemsFlow = MutableStateFlow(navItemsDeco)
+    override val navItemsFlow: StateFlow<List<NavItemDeco>> = _navItemsFlow.asStateFlow()
 
     private val _navItemClickFlow = MutableSharedFlow<NavItemDeco>()
-    override val navItemClickFlow: Flow<NavItemDeco>
-        get() = _navItemClickFlow
-
-    init {
-        _navItemsFlow.value = navItemsDeco
-    }
+    override val navItemClickFlow: SharedFlow<NavItemDeco> = _navItemClickFlow.asSharedFlow()
 
     override fun navItemClick(navbarItem: NavItemDeco) {
         coroutineScope.launch {
@@ -52,20 +53,25 @@ class NavBarState(
         }
     }
 
+    override fun setNavItemsDeco(navItemsDeco: List<NavItemDeco>) {
+        this.navItemsDeco = navItemsDeco
+    }
+
     /**
      * To be called by a client class when the Drawer selected item needs to be updated.
      * */
     override fun selectNavItemDeco(navbarItem: NavItemDeco) {
-        coroutineScope.launch {
-            updateNavBarSelectedItem(navbarItem)
-        }
+        updateNavBarSelectedItem(navbarItem)
     }
 
-    private suspend fun updateNavBarSelectedItem(navbarItem: NavItemDeco) {
-        navItemsDeco = navItemsDeco.map {
-            it.copy().apply { selected = navbarItem.component == it.component }
+    private fun updateNavBarSelectedItem(navbarItem: NavItemDeco) {
+        _navItemsFlow.update {
+            navItemsDeco.map { navItemDeco ->
+                navItemDeco.copy(
+                    selected = navbarItem == navItemDeco
+                )
+            }
         }
-        _navItemsFlow.emit(navItemsDeco)
     }
 
 }

@@ -21,7 +21,6 @@ import com.pablichj.templato.component.core.processBackstackTransition
 import com.pablichj.templato.component.core.router.DeepLinkMatchData
 import com.pablichj.templato.component.core.router.DeepLinkResult
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
-import com.pablichj.templato.component.core.stack.BackStack
 import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.core.toNavItemDeco
 import com.pablichj.templato.component.platform.DiContainer
@@ -90,9 +89,9 @@ class NavBarComponent(
     }
 
     override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
-        val navItemsDeco = navItems.map { it.toNavItemDeco() }
-        navBarState.navItemsDeco = navItemsDeco
-        navBarState.selectNavItemDeco(navItemsDeco[selectedIndex])
+        val navItemDecoNewList = navItems.map { it.toNavItemDeco() }
+        navBarState.setNavItemsDeco(navItemDecoNewList)
+        navBarState.selectNavItemDeco(navItemDecoNewList[selectedIndex])
         if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
             backStack.push(childComponents[selectedIndex])
         }
