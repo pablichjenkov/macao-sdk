@@ -26,12 +26,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class MainWindowNode(
+class MainWindowComponent(
     val onOpenDeepLinkClick: () -> Unit,
-    val onRootNodeSelection: (WindowNodeSample) -> Unit,
+    val onRootNodeSelection: (WindowSample) -> Unit,
     val onExitClick: () -> Unit
-) : WindowNode {
-    private val windowState = WindowState(size = DpSize(800.dp, 900.dp))
+) : Component() {
+    private val windowState = WindowState(size = DpSize(400.dp, 900.dp))
     private var adaptableSizeComponent: Component
     private val appLifecycleDispatcher = DefaultAppLifecycleDispatcher()
     private val diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
@@ -45,13 +45,14 @@ class MainWindowNode(
             it.setNavItems(subtreeNavItems, 0)
             it.setCompactContainer(
                 DrawerComponent(
+                    navigationDrawerState = DrawerComponent.createDefaultState(),
                     config = DrawerComponent.DefaultConfig,
                     diContainer = diContainer
                 )
             )
             //it.setCompactContainer(PagerComponent())
             it.setMediumContainer(NavBarComponent())
-            it.setExpandedContainer(PanelComponent())
+            it.setExpandedContainer(PanelComponent(PanelComponent.createDefaultState()))
         }
     }
 
@@ -69,7 +70,7 @@ class MainWindowNode(
     // endregion
 
     @Composable
-    override fun WindowContent(modifier: Modifier) {
+    override fun Content(modifier: Modifier) {
         Window(
             state = windowState,
             onCloseRequest = { onExitClick() }
@@ -93,25 +94,25 @@ class MainWindowNode(
                     Item(
                         "Slide Drawer",
                         onClick = {
-                            onRootNodeSelection(WindowNodeSample.Drawer)
+                            onRootNodeSelection(WindowSample.Drawer)
                         }
                     )
                     Item(
                         "Nav Bottom Bar",
                         onClick = {
-                            onRootNodeSelection(WindowNodeSample.Navbar)
+                            onRootNodeSelection(WindowSample.Navbar)
                         }
                     )
                     Item(
                         "Left Panel",
                         onClick = {
-                            onRootNodeSelection(WindowNodeSample.Panel)
+                            onRootNodeSelection(WindowSample.Panel)
                         }
                     )
                     Item(
                         "Full App Sample",
                         onClick = {
-                            onRootNodeSelection(WindowNodeSample.FullApp)
+                            onRootNodeSelection(WindowSample.FullApp)
                         }
                     )
                 }

@@ -29,7 +29,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class NavBarComponent(
-    private val config: Config = DefaultConfig
+    config: Config = DefaultConfig
 ) : Component(), NavigationComponent {
     override val backStack = createBackStack(config.pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
@@ -37,7 +37,7 @@ class NavBarComponent(
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
     private val coroutineScope = CoroutineScope(config.diContainer.dispatchers.main)
-    val navBarState = NavBarState(coroutineScope, emptyList())
+    val navBarState = NavBarStateDefault(config.diContainer.dispatchers.main, emptyList())
 
     init {
         coroutineScope.launch {

@@ -10,8 +10,9 @@ class DrawerHeaderStyle(
     var descriptionTextSize: TextUnit = 16.sp
 )
 
-class DrawerItemStyle(
+class DrawerBodyStyle(
+    var bgColor: Color = Color.LightGray,
     var unselectedColor: Color = Color.LightGray,
     var selectedColor: Color = Color.Gray,
-    var textSize: TextUnit = 14.sp
+    var itemTextSize: TextUnit = 14.sp
 )

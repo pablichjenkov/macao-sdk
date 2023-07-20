@@ -34,6 +34,7 @@ object FullAppWithIntroTreeBuilder {
 
     private fun buildDrawerStateTree(parentComponent: Component): Component {
         val drawerComponent = DrawerComponent(
+            navigationDrawerState = DrawerComponent.createDefaultState(),
             config = DrawerComponent.DefaultConfig,
             diContainer = diContainer
         )
@@ -91,6 +92,7 @@ object FullAppWithIntroTreeBuilder {
 
     private fun buildNestedDrawer(): DrawerComponent {
         val drawerComponent = DrawerComponent(
+            navigationDrawerState = DrawerComponent.createDefaultState(),
             config = DrawerComponent.DefaultConfig,
             diContainer = diContainer
         )

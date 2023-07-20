@@ -18,7 +18,7 @@ import com.pablichj.templato.component.core.NavItemDeco
 @Composable
 fun NavigationDrawer(
     modifier: Modifier = Modifier,
-    navigationDrawerState: INavigationDrawerState,
+    navigationDrawerState: NavigationDrawerState,
     content: @Composable () -> Unit
 ) {
 
@@ -54,43 +54,17 @@ fun NavigationDrawer(
 @Composable
 private fun DrawerContent(
     modifier: Modifier = Modifier,
-    navDrawerState: INavigationDrawerState
+    navigationDrawerState: NavigationDrawerState
 ) {
-    val navItems by navDrawerState.navItemsFlow.collectAsState(emptyList())
+    val navItems by navigationDrawerState.navItemsFlow.collectAsState()
+    val drawerHeaderState by navigationDrawerState.drawerHeaderState
 
     Column(modifier = modifier) {
-        DrawerHeader(
-            drawerHeaderState = navDrawerState.drawerHeaderState
-        )
+        DrawerHeader(drawerHeaderState = drawerHeaderState)
         DrawerContentList(
             navItems = navItems,
-            onNavItemClick = { navItem -> navDrawerState.navItemClick(navItem) }
+            onNavItemClick = { navItem -> navigationDrawerState.navItemClick(navItem) }
         )
-    }
-}
-
-@Composable
-private fun DrawerHeader(
-    modifier: Modifier = Modifier,
-    drawerHeaderState: DrawerHeaderState
-) {
-    Box(
-        modifier
-            .fillMaxWidth()
-            .height(120.dp)
-            .background(drawerHeaderState.style.bgColor)
-            .padding(all = 16.dp),
-    ) {
-        Column(modifier = modifier) {
-            Text(
-                text = drawerHeaderState.title,
-                fontSize = drawerHeaderState.style.titleTextSize
-            )
-            Text(
-                text = drawerHeaderState.description,
-                fontSize = drawerHeaderState.style.descriptionTextSize
-            )
-        }
     }
 }
 

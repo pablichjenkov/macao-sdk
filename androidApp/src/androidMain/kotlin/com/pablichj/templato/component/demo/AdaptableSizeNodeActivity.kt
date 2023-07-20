@@ -7,10 +7,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import com.pablichj.templato.component.core.AndroidComponentRender
-import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.templato.component.core.drawer.DrawerComponent
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.panel.PanelComponent
+import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.DispatchersProxy
 
@@ -25,12 +25,13 @@ class AdaptableSizeNodeActivity : ComponentActivity() {
             it.setNavItems(subtreeNavItems, 0)
             it.setCompactContainer(
                 DrawerComponent(
+                    navigationDrawerState = DrawerComponent.createDefaultState(),
                     config = DrawerComponent.DefaultConfig,
                     diContainer = diContainer
                 )
             )
             it.setMediumContainer(NavBarComponent())
-            it.setExpandedContainer(PanelComponent())
+            it.setExpandedContainer(PanelComponent(PanelComponent.createDefaultState()))
         }
         setContent {
             MaterialTheme {

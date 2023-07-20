@@ -1,8 +1,8 @@
 package com.pablichj.templato.component.core.navbar
 
 import com.pablichj.templato.component.core.NavItemDeco
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -12,16 +12,16 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-interface INavBarState {
+interface NavBarState {
     /**
      * Intended for the Composable NavBar to render the List if NavBarItems items
      * */
-    val navItemsFlow: Flow<List<NavItemDeco>>
+    val navItemsFlow: StateFlow<List<NavItemDeco>>
 
     /**
      * Intended for a client class to listen for navItem click events
      * */
-    val navItemClickFlow: Flow<NavItemDeco>
+    val navItemClickFlow: SharedFlow<NavItemDeco>
 
     /**
      * Intended to be called from the Composable NavBar item click events
@@ -36,12 +36,14 @@ interface INavBarState {
     fun selectNavItemDeco(navbarItem: NavItemDeco)
 }
 
-class NavBarState(
-    private val coroutineScope: CoroutineScope,
-    private var navItemsDeco: List<NavItemDeco>
-) : INavBarState {
+class NavBarStateDefault(
+    dispatcher: CoroutineDispatcher,
+    private var navItemDecoList: List<NavItemDeco> = emptyList()
+) : NavBarState {
 
-    private val _navItemsFlow = MutableStateFlow(navItemsDeco)
+    private val coroutineScope = CoroutineScope(dispatcher)
+
+    private val _navItemsFlow = MutableStateFlow(navItemDecoList)
     override val navItemsFlow: StateFlow<List<NavItemDeco>> = _navItemsFlow.asStateFlow()
 
     private val _navItemClickFlow = MutableSharedFlow<NavItemDeco>()
@@ -54,7 +56,7 @@ class NavBarState(
     }
 
     override fun setNavItemsDeco(navItemsDeco: List<NavItemDeco>) {
-        this.navItemsDeco = navItemsDeco
+        this.navItemDecoList = navItemsDeco
     }
 
     /**
@@ -66,7 +68,7 @@ class NavBarState(
 
     private fun updateNavBarSelectedItem(navbarItem: NavItemDeco) {
         _navItemsFlow.update {
-            navItemsDeco.map { navItemDeco ->
+            navItemDecoList.map { navItemDeco ->
                 navItemDeco.copy(
                     selected = navbarItem == navItemDeco
                 )
