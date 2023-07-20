@@ -6,14 +6,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.application
 
 fun main() = application {
-
-    val DesktopAppNode: DesktopAppNode = remember(key1 = this) {
-        DesktopAppNode()
+    val desktopAppComponent = remember(key1 = this) {
+        DesktopAppComponent()
     }
-
     MaterialTheme {
-        DesktopAppNode.WindowContent(Modifier)
+        desktopAppComponent.Content(Modifier)
     }
-
 }
-

@@ -15,14 +15,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
+import com.pablichj.templato.component.core.Component
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class DeepLinkDemoNode(
+class DeepLinkDemoComponent(
     val onDeepLinkClick: (destination: List<String>) -> Unit,
     val onCloseClick: () -> Unit
-) : WindowNode {
+) : Component() {
     private val windowState = WindowState(
         width = 300.dp, height = 800.dp
     )
@@ -35,7 +36,7 @@ class DeepLinkDemoNode(
     )
 
     @Composable
-    override fun WindowContent(modifier: Modifier) {
+    override fun Content(modifier: Modifier) {
 
         Window(
             state = windowState,

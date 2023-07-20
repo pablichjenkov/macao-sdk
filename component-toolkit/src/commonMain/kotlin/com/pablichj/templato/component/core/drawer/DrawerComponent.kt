@@ -25,12 +25,15 @@ import com.pablichj.templato.component.core.stack.AddAllPushStrategy
 import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.core.toNavItemDeco
 import com.pablichj.templato.component.platform.DiContainer
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DrawerComponent(
-    private val config: Config,
-    private val diContainer: DiContainer
+    private val navigationDrawerState: NavigationDrawerState,
+    config: Config,
+    diContainer: DiContainer
 ) : Component(), NavigationComponent, DrawerNavigationComponent {
     override val backStack = createBackStack(config.pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
@@ -38,16 +41,6 @@ class DrawerComponent(
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
     private val coroutineScope = CoroutineScope(diContainer.dispatchers.main)
-    val navigationDrawerState = NavigationDrawerState(
-        coroutineScope,
-        DrawerHeaderState(
-            title = "A Drawer Header Title",
-            description = "Some description or leave it blank",
-            imageUri = "",
-            style = config.drawerHeaderStyle
-        ),
-        emptyList()
-    )
 
     init {
         coroutineScope.launch {
@@ -203,14 +196,32 @@ class DrawerComponent(
 
     class Config(
         val pushStrategy: PushStrategy<Component>,
-        val drawerHeaderStyle: DrawerHeaderStyle
+        val drawerHeaderStyle: DrawerHeaderStyle,
+        val drawerBodyStyle: DrawerBodyStyle
     )
 
     companion object {
         val DefaultConfig = Config(
             pushStrategy = AddAllPushStrategy(),
-            drawerHeaderStyle = DrawerHeaderStyle()
+            drawerHeaderStyle = DrawerHeaderStyle(),
+            drawerBodyStyle = DrawerBodyStyle()
         )
+
+        fun createDefaultState(
+            dispatcher: CoroutineDispatcher = Dispatchers.Main,
+            drawerHeaderStyle: DrawerHeaderStyle = DrawerHeaderStyle()
+        ): NavigationDrawerState {
+            return NavigationDrawerStateDefault(
+                dispatcher,
+                DrawerHeaderDefaultState(
+                    title = "Header Title",
+                    description = "This is the default text. Provide your own text for your App",
+                    imageUri = "",
+                    style = drawerHeaderStyle
+                ),
+                emptyList()
+            )
+        }
 
         val DefaultDrawerComponentView: @Composable DrawerComponent.(
             modifier: Modifier,

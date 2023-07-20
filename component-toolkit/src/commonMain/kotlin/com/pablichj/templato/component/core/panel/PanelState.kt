@@ -1,8 +1,11 @@
 package com.pablichj.templato.component.core.panel
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import com.pablichj.templato.component.core.NavItemDeco
+import com.pablichj.templato.component.core.drawer.DrawerHeaderState
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -12,25 +15,25 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-interface IPanelState {
+interface PanelState {
     /**
      * Intended for the Composable NavBar to render the List if NavBarItems items
      * */
-    val navItemsFlow: Flow<List<NavItemDeco>>
+    val navItemsFlow: StateFlow<List<NavItemDeco>>
 
     /**
      * Intended for a client class to listen for navItem click events
      * */
-    val navItemClickFlow: Flow<NavItemDeco>
+    val navItemClickFlow: SharedFlow<NavItemDeco>
 
-    var panelHeaderState: PanelHeaderState
+    val panelHeaderState: State<PanelHeaderState>
 
     /**
      * Intended to be called from the Composable NavBar item click events
      * */
     fun navItemClick(navbarItem: NavItemDeco)
 
-    fun setNavItemsDeco(navItemsDeco: List<NavItemDeco>)
+    fun setNavItemsDeco(navItemDecoList: List<NavItemDeco>)
 
     /**
      * Intended to be called from a client class to select a navItem in the NavBar
@@ -38,14 +41,18 @@ interface IPanelState {
     fun selectNavItemDeco(navbarItem: NavItemDeco)
 }
 
-class PanelState(
-    private val coroutineScope: CoroutineScope,
-    override var panelHeaderState: PanelHeaderState,
-    private var navItemsDeco: List<NavItemDeco>
-) : IPanelState {
+class PanelStateDefault(
+    dispatcher: CoroutineDispatcher,
+    panelHeaderState: PanelHeaderState,
+    var navItemDecoList: List<NavItemDeco> = emptyList()
+) : PanelState {
 
-    private val _navItemsFlow = MutableStateFlow(navItemsDeco)
+    private val coroutineScope = CoroutineScope(dispatcher)
+
+    private val _navItemsFlow = MutableStateFlow(navItemDecoList)
     override val navItemsFlow: StateFlow<List<NavItemDeco>> = _navItemsFlow.asStateFlow()
+
+    override val panelHeaderState: State<PanelHeaderState> = mutableStateOf(panelHeaderState)
 
     private val _navItemClickFlow = MutableSharedFlow<NavItemDeco>()
     override val navItemClickFlow: SharedFlow<NavItemDeco> = _navItemClickFlow.asSharedFlow()
@@ -56,8 +63,10 @@ class PanelState(
         }
     }
 
-    override fun setNavItemsDeco(navItemsDeco: List<NavItemDeco>) {
-        this.navItemsDeco = navItemsDeco
+    override fun setNavItemsDeco(navItemDecoList: List<NavItemDeco>) {
+        // _navItemsFlow.update { navItemDecoList }
+        // todo: investigate bug not selecting/selected the first time is opened
+        this.navItemDecoList = navItemDecoList
     }
 
     /**
@@ -68,8 +77,8 @@ class PanelState(
     }
 
     private fun updateNavBarSelectedItem(panelNavItem: NavItemDeco) {
-        _navItemsFlow.update {
-            navItemsDeco.map { navItemDeco ->
+        _navItemsFlow.update {// navItemDecoList -> bug the first time is opened
+            navItemDecoList.map { navItemDeco ->
                 navItemDeco.copy(
                     selected = panelNavItem == navItemDeco
                 )

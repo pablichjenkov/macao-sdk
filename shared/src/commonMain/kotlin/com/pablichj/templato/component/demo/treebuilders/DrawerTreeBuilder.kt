@@ -1,20 +1,11 @@
 package com.pablichj.templato.component.demo.treebuilders
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.demo.CustomTopBarComponent
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.drawer.DrawerComponent
-import com.pablichj.templato.component.core.drawer.NavigationDrawerState
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.stack.StackComponent
@@ -51,6 +42,7 @@ object DrawerTreeBuilder {
         )
 
         return DrawerComponent(
+            navigationDrawerState = DrawerComponent.createDefaultState(),
             config = DrawerComponent.DefaultConfig,
             diContainer = diContainer
         ).also {

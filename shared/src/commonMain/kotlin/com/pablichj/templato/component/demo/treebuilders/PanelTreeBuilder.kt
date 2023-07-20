@@ -40,7 +40,7 @@ object PanelTreeBuilder {
             )
         )
 
-        return PanelComponent().also {
+        return PanelComponent(PanelComponent.createDefaultState()).also {
             it.setNavItems(panelNavItems, 0)
             panelComponent = it
         }

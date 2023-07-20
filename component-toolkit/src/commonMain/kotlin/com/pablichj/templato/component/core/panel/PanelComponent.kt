@@ -25,11 +25,14 @@ import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.core.toNavItemDeco
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.DispatchersProxy
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PanelComponent(
-    private val config: Config = DefaultConfig
+    private val panelState: PanelState,
+    config: Config = DefaultConfig
 ) : Component(), NavigationComponent {
     override val backStack = createBackStack(config.pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
@@ -37,16 +40,6 @@ class PanelComponent(
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
     private val coroutineScope = CoroutineScope(config.diContainer.dispatchers.main)
-    private val panelState = PanelState(
-        coroutineScope,
-        PanelHeaderState(
-            title = "A Panel Header Title",
-            description = "Some description or leave it blank",
-            imageUri = "",
-            style = config.panelHeaderStyle
-        ),
-        emptyList()
-    )
 
     init {
         coroutineScope.launch {
@@ -194,6 +187,22 @@ class PanelComponent(
             panelHeaderStyle = PanelHeaderStyle(),
             diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
         )
+
+        fun createDefaultState(
+            dispatcher: CoroutineDispatcher = Dispatchers.Main,
+            panelHeaderStyle: PanelHeaderStyle = PanelHeaderStyle()
+        ): PanelState {
+            return PanelStateDefault(
+                dispatcher,
+                PanelHeaderStateDefault(
+                    title = "A Panel Header Title",
+                    description = "Some description or leave it blank",
+                    imageUri = "",
+                    style = panelHeaderStyle
+                ),
+                emptyList()
+            )
+        }
 
         val DefaultPanelComponentView: @Composable PanelComponent.(
             modifier: Modifier,

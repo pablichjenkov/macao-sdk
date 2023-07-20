@@ -20,13 +20,14 @@ fun main() {
             it.setNavItems(subtreeNavItems, 0)
             it.setCompactContainer(
                 DrawerComponent(
+                    navigationDrawerState = DrawerComponent.createDefaultState(),
                     config = DrawerComponent.DefaultConfig,
                     diContainer = diContainer
                 )
             )
             //it.setCompactContainer(PagerComponent())
             it.setMediumContainer(NavBarComponent())
-            it.setExpandedContainer(PanelComponent())
+            it.setExpandedContainer(PanelComponent(PanelComponent.createDefaultState()))
         }
 
         // val panelComponent = PanelTreeBuilder.build()
