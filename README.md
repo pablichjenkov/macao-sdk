@@ -7,7 +7,7 @@ Just add bellow dependency in the **commonMain** target of the module that plans
 ```kotlin
 val commonMain by getting {
     dependencies {
-        implementation("io.github.pablichjenkov:component-toolkit:0.3.2")
+        implementation("io.github.pablichjenkov:component-toolkit:0.4.0")
     }
 }
 ```
@@ -19,8 +19,8 @@ This is the App I use to test while developing the components.
 
 <table border="1">
  <tr>
-    <td><b style="font-size:30px">Android</b></td>
-    <td><b style="font-size:30px">iOS</b></td>
+    <td><b style="font-size:30">Android</b></td>
+    <td><b style="font-size:30">iOS</b></td>
  </tr>
  <tr>
     <td><img title="Android components demo" src="https://user-images.githubusercontent.com/5303301/225816832-682d3620-6218-4d60-b742-4a692761abee.gif" alt="android-component-demo" width="300"></td>
