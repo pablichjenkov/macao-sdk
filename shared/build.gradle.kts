@@ -23,12 +23,10 @@ kotlin {
         summary = "ComponentKt umbrella module"
         homepage = "https://github.com/pablichjenkov/templato"
         ios.deploymentTarget = "16.0"
-        podfile = project.file("../iosApp/Podfile")
         framework {
             baseName = "ComponentDemoKt"
             isStatic = true
         }
-        extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
     }
 
     // JS
