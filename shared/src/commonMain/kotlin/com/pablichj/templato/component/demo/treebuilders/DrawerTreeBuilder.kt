@@ -6,7 +6,9 @@ import androidx.compose.material.icons.filled.*
 import com.pablichj.templato.component.demo.CustomTopBarComponent
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.drawer.DrawerComponent
+import com.pablichj.templato.component.core.drawer.NavigationDrawerStateDefault
 import com.pablichj.templato.component.core.navbar.NavBarComponent
+import com.pablichj.templato.component.core.navbar.NavBarStateDefault
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.stack.StackComponent
 import com.pablichj.templato.component.platform.DiContainer
@@ -14,10 +16,9 @@ import com.pablichj.templato.component.platform.DispatchersProxy
 
 object DrawerTreeBuilder {
     private val diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
-    private lateinit var drawerComponent: DrawerComponent
+    private lateinit var drawerComponent: DrawerComponent<NavigationDrawerStateDefault>
 
-    @OptIn(ExperimentalLayoutApi::class)
-    fun build(): DrawerComponent {
+    fun build(): DrawerComponent<NavigationDrawerStateDefault> {
 
         if (DrawerTreeBuilder::drawerComponent.isInitialized) {
             return drawerComponent
@@ -44,7 +45,8 @@ object DrawerTreeBuilder {
         return DrawerComponent(
             navigationDrawerState = DrawerComponent.createDefaultState(),
             config = DrawerComponent.DefaultConfig,
-            diContainer = diContainer
+            diContainer = diContainer,
+            content = DrawerComponent.DefaultDrawerComponentView
         ).also {
             drawerComponent = it
             it.setNavItems(drawerNavItems, 0)
@@ -66,9 +68,13 @@ object DrawerTreeBuilder {
         }
     }
 
-    private fun buildNavBarNode(): NavBarComponent {
+    private fun buildNavBarNode(): NavBarComponent<NavBarStateDefault> {
 
-        val NavBarNode = NavBarComponent()
+        val NavBarNode = NavBarComponent(
+            navBarState = NavBarComponent.createDefaultState(),
+            config = NavBarComponent.DefaultConfig,
+            content = NavBarComponent.DefaultNavBarComponentView
+        )
 
         val navbarNavItems = mutableListOf(
             NavItem(

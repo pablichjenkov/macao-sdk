@@ -1,10 +1,8 @@
 package com.pablichj.templato.component.core
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.staticCompositionLocalOf
 import com.pablichj.templato.component.core.backpress.BackPressHandler
 import com.pablichj.templato.component.core.drawer.DrawerNavigationComponent
-import com.pablichj.templato.component.core.router.DefaultRouter
 import com.pablichj.templato.component.core.router.Router
 
 fun Component.getFirstParentMatching(
@@ -34,29 +32,6 @@ fun Component.findClosestDrawerNavigationComponent(): DrawerNavigationComponent?
         it is DrawerNavigationComponent
     } as? DrawerNavigationComponent
 }
-
-/*internal fun Component.onAttachedToComponentTree(treeContext: TreeContext) {
-    this.treeContext = treeContext
-
-    // Register to handle deep links
-    val deepLinkMatcherCopy = deepLinkMatcher
-    if (deepLinkMatcherCopy != null) {
-        treeContext.router.registerRoute(
-            DeepLinkDestination(
-                deepLinkMatcher = deepLinkMatcherCopy,
-                component = this
-            )
-        )
-    }
-}*/
-
-/*fun Component.dispatchAttachedToComponentTree(treeContext: TreeContext) {
-    println("${clazz}::dispatchAttachedToComponentTree()")
-    if (this is ComponentWithChildren) {
-        this.childComponents.forEach { it.dispatchAttachedToComponentTree(treeContext) }
-    }
-    this.onAttachedToComponentTree(treeContext)
-}*/
 
 @Composable
 fun Component.consumeBackPressEvent() {

@@ -26,8 +26,16 @@ object PagerTreeBuilder {
             return pagerComponent
         }
 
-        val navBarComponent1 = NavBarComponent()
-        val navBarComponent2 = NavBarComponent()
+        val navBarComponent1 = NavBarComponent(
+            navBarState = NavBarComponent.createDefaultState(),
+            config = NavBarComponent.DefaultConfig,
+            content = NavBarComponent.DefaultNavBarComponentView
+        )
+        val navBarComponent2 = NavBarComponent(
+            navBarState = NavBarComponent.createDefaultState(),
+            config = NavBarComponent.DefaultConfig,
+            content = NavBarComponent.DefaultNavBarComponentView
+        )
 
         val navbarNavItems1 = mutableListOf(
             NavItem(

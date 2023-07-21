@@ -9,8 +9,8 @@ import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.adaptive.AdaptiveSizeComponent
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.setNavItems
-import com.pablichj.templato.component.demo.CustomTopBarComponent
 import com.pablichj.templato.component.core.stack.StackComponent
+import com.pablichj.templato.component.demo.CustomTopBarComponent
 
 object AdaptableSizeTreeBuilder {
 
@@ -32,7 +32,11 @@ object AdaptableSizeTreeBuilder {
             return subTreeNavItems
         }
 
-        val navBarComponent = NavBarComponent()
+        val navBarComponent = NavBarComponent(
+            navBarState = NavBarComponent.createDefaultState(),
+            config = NavBarComponent.DefaultConfig,
+            content = NavBarComponent.DefaultNavBarComponentView
+        )
 
         val navbarNavItems = mutableListOf(
             NavItem(

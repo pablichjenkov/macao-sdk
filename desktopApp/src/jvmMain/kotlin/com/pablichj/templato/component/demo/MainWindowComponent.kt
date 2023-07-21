@@ -47,12 +47,25 @@ class MainWindowComponent(
                 DrawerComponent(
                     navigationDrawerState = DrawerComponent.createDefaultState(),
                     config = DrawerComponent.DefaultConfig,
-                    diContainer = diContainer
+                    diContainer = diContainer,
+                    content = DrawerComponent.DefaultDrawerComponentView
                 )
             )
             //it.setCompactContainer(PagerComponent())
-            it.setMediumContainer(NavBarComponent())
-            it.setExpandedContainer(PanelComponent(PanelComponent.createDefaultState()))
+            it.setMediumContainer(
+                NavBarComponent(
+                    navBarState = NavBarComponent.createDefaultState(),
+                    config = NavBarComponent.DefaultConfig,
+                    content = NavBarComponent.DefaultNavBarComponentView
+                )
+            )
+            it.setExpandedContainer(
+                PanelComponent(
+                    panelState = PanelComponent.createDefaultState(),
+                    config = PanelComponent.DefaultConfig,
+                    content = PanelComponent.DefaultPanelComponentView
+                )
+            )
         }
     }
 

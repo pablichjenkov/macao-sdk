@@ -30,9 +30,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PanelComponent(
-    private val panelState: PanelState,
-    config: Config = DefaultConfig
+class PanelComponent<T : PanelState>(
+    private val panelState: T,
+    config: Config = DefaultConfig,
+    private val content: @Composable PanelComponent<T>.(
+        modifier: Modifier,
+        childComponent: Component
+    ) -> Unit
 ) : Component(), NavigationComponent {
     override val backStack = createBackStack(config.pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
@@ -138,21 +142,6 @@ class PanelComponent(
 
     // region Panel rendering
 
-    fun setPanelComponentView(
-        panelComponentView: @Composable PanelComponent.(
-            modifier: Modifier,
-            childComponent: Component
-        ) -> Unit
-    ) {
-        this.panelComponentView = panelComponentView
-    }
-
-    private var panelComponentView: @Composable PanelComponent.(
-        modifier: Modifier,
-        childComponent: Component
-    ) -> Unit = DefaultPanelComponentView
-
-
     @Composable
     override fun Content(modifier: Modifier) {
         println(
@@ -162,7 +151,7 @@ class PanelComponent(
         )
         val activeComponentCopy = activeComponent.value
         if (activeComponentCopy != null) {
-            panelComponentView(modifier, activeComponentCopy)
+            content(modifier, activeComponentCopy)
         } else {
             Text(
                 modifier = Modifier
@@ -191,7 +180,7 @@ class PanelComponent(
         fun createDefaultState(
             dispatcher: CoroutineDispatcher = Dispatchers.Main,
             panelHeaderStyle: PanelHeaderStyle = PanelHeaderStyle()
-        ): PanelState {
+        ): PanelStateDefault {
             return PanelStateDefault(
                 dispatcher,
                 PanelHeaderStateDefault(
@@ -199,12 +188,11 @@ class PanelComponent(
                     description = "Some description or leave it blank",
                     imageUri = "",
                     style = panelHeaderStyle
-                ),
-                emptyList()
+                )
             )
         }
 
-        val DefaultPanelComponentView: @Composable PanelComponent.(
+        val DefaultPanelComponentView: @Composable PanelComponent<PanelStateDefault>.(
             modifier: Modifier,
             childComponent: Component
         ) -> Unit = { modifier, childComponent ->
