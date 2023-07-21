@@ -1,5 +1,6 @@
 package com.pablichj.templato.component.core.topbar
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -16,9 +17,7 @@ abstract class TopBarComponent(
     config: Config
 ) : StackComponent(config) {
 
-    private var topBarState = TopBarState {
-        handleBackPressed()
-    }
+    private lateinit var topBarState: TopBarState
 
     override fun onStackTopUpdate(topComponent: Component) {
         val selectedStackBarItem = getStackBarItemForComponent(topComponent)
@@ -93,7 +92,7 @@ abstract class TopBarComponent(
             topBar = { TopBar(topBarState) }
         ) { paddingValues ->
             DefaultStackComponentView(
-                modifier = modifier,
+                modifier = modifier.padding(paddingValues),
                 onComponentSwipedOut = { topBarState.handleBackPress() }
             )
         }
