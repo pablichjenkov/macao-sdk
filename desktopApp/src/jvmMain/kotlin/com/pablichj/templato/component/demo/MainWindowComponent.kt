@@ -31,7 +31,7 @@ class MainWindowComponent(
     val onRootNodeSelection: (WindowSample) -> Unit,
     val onExitClick: () -> Unit
 ) : Component() {
-    private val windowState = WindowState(size = DpSize(400.dp, 900.dp))
+    private val windowState = WindowState(size = DpSize(1000.dp, 900.dp))
     private var adaptableSizeComponent: Component
     private val appLifecycleDispatcher = DefaultAppLifecycleDispatcher()
     private val diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)

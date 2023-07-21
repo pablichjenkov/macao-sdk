@@ -54,7 +54,7 @@ interface NavigationDrawerState {
 class NavigationDrawerStateDefault(
     dispatcher: CoroutineDispatcher,
     drawerHeaderState: DrawerHeaderState,
-    var navItemDecoList: List<NavItemDeco> = emptyList()
+    navItemDecoList: List<NavItemDeco> = emptyList()
 ) : NavigationDrawerState {
 
     private val coroutineScope = CoroutineScope(dispatcher)
@@ -84,9 +84,7 @@ class NavigationDrawerStateDefault(
     }
 
     override fun setNavItemsDeco(navItemDecoList: List<NavItemDeco>) {
-        // _navItemsFlow.update { navItemDecoList }
-        // todo: investigate bug not selecting/selected the first time is opened
-        this.navItemDecoList = navItemDecoList
+        _navItemsFlow.update { navItemDecoList }
     }
 
     /**
@@ -97,10 +95,10 @@ class NavigationDrawerStateDefault(
     }
 
     private fun updateDrawerSelectedItem(drawerNavItem: NavItemDeco) {
-        _navItemsFlow.update { // navItemDecoList -> bug not selecting/selected the first time is opened
+        _navItemsFlow.update { navItemDecoList ->
             navItemDecoList.map { navItemDeco ->
                 navItemDeco.copy(
-                    selected = drawerNavItem == navItemDeco
+                    selected = drawerNavItem.component == navItemDeco.component
                 )
             }
         }

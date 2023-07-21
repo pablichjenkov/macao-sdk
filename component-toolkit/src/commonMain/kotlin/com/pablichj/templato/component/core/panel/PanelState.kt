@@ -44,7 +44,7 @@ interface PanelState {
 class PanelStateDefault(
     dispatcher: CoroutineDispatcher,
     panelHeaderState: PanelHeaderState,
-    var navItemDecoList: List<NavItemDeco> = emptyList()
+    navItemDecoList: List<NavItemDeco> = emptyList()
 ) : PanelState {
 
     private val coroutineScope = CoroutineScope(dispatcher)
@@ -64,9 +64,7 @@ class PanelStateDefault(
     }
 
     override fun setNavItemsDeco(navItemDecoList: List<NavItemDeco>) {
-        // _navItemsFlow.update { navItemDecoList }
-        // todo: investigate bug not selecting/selected the first time is opened
-        this.navItemDecoList = navItemDecoList
+        _navItemsFlow.update { navItemDecoList }
     }
 
     /**
@@ -77,10 +75,10 @@ class PanelStateDefault(
     }
 
     private fun updateNavBarSelectedItem(panelNavItem: NavItemDeco) {
-        _navItemsFlow.update {// navItemDecoList -> bug the first time is opened
+        _navItemsFlow.update { navItemDecoList ->
             navItemDecoList.map { navItemDeco ->
                 navItemDeco.copy(
-                    selected = panelNavItem == navItemDeco
+                    selected = panelNavItem.component == navItemDeco.component
                 )
             }
         }
