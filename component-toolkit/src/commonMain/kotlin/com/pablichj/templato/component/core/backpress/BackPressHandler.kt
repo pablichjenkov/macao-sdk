@@ -39,17 +39,22 @@ fun BackPressHandler(
 
     when (componentLifecycleState) {
         ComponentLifecycleState.Created -> {
+            println("${component.clazz}::Lifecycle Flow = Created, Ignoring")
             // Ignore
         }
+
         ComponentLifecycleState.Started -> {
             println("${component.clazz}::Lifecycle Flow = Started, BackPressHandler Subscribing")
             backPressDispatcher.subscribe(backPressCallback)
         }
+
         ComponentLifecycleState.Stopped -> {
-            println("${component.clazz}::onStop BackPressHandler Unsubscribing")
+            println("${component.clazz}::Lifecycle Flow = Stopped, BackPressHandler Unsubscribing")
             backPressDispatcher.unsubscribe(backPressCallback)
         }
+
         ComponentLifecycleState.Destroyed -> {
+            println("${component.clazz}::Lifecycle Flow = Destroyed, Ignoring")
             // Ignore it did unsubscribe in Stopped already.
         }
     }

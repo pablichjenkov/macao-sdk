@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.navbar.NavBarComponent
+import com.pablichj.templato.component.core.navbar.NavBarStateDefault
 import com.pablichj.templato.component.core.navbar.NavBarStyle
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.stack.FixSizedPushStrategy
@@ -16,9 +17,9 @@ import com.pablichj.templato.component.platform.DispatchersProxy
 
 object NavBarTreeBuilder {
 
-    private lateinit var navBarComponent: NavBarComponent
+    private lateinit var navBarComponent: NavBarComponent<NavBarStateDefault>
 
-    fun build(): NavBarComponent {
+    fun build(): NavBarComponent<NavBarStateDefault> {
 
         if (NavBarTreeBuilder::navBarComponent.isInitialized) {
             return navBarComponent
@@ -46,7 +47,9 @@ object NavBarTreeBuilder {
         )
 
         return NavBarComponent(
-            // createNavBarConfig()
+            navBarState = NavBarComponent.createDefaultState(),
+            config = NavBarComponent.DefaultConfig,
+            content = NavBarComponent.DefaultNavBarComponentView
         ).also {
             it.setNavItems(navbarNavItems, 0)
             navBarComponent = it

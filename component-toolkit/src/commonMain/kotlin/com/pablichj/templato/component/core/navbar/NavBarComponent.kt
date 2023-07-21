@@ -25,11 +25,18 @@ import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.core.toNavItemDeco
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.DispatchersProxy
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class NavBarComponent(
-    config: Config = DefaultConfig
+class NavBarComponent<T : NavBarState>(
+    val navBarState: T,
+    config: Config = DefaultConfig,
+    private var content: @Composable NavBarComponent<T>.(
+        modifier: Modifier,
+        childComponent: Component
+    ) -> Unit
 ) : Component(), NavigationComponent {
     override val backStack = createBackStack(config.pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
@@ -37,7 +44,6 @@ class NavBarComponent(
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
     private val coroutineScope = CoroutineScope(config.diContainer.dispatchers.main)
-    val navBarState = NavBarStateDefault(config.diContainer.dispatchers.main, emptyList())
 
     init {
         coroutineScope.launch {
@@ -134,20 +140,6 @@ class NavBarComponent(
 
     // region NavBar rendering
 
-    fun setNavBarComponentView(
-        navBarComponentView: @Composable NavBarComponent.(
-            modifier: Modifier,
-            childComponent: Component
-        ) -> Unit
-    ) {
-        this.navBarComponentView = navBarComponentView
-    }
-
-    private var navBarComponentView: @Composable NavBarComponent.(
-        modifier: Modifier,
-        childComponent: Component
-    ) -> Unit = DefaultNavBarComponentView
-
     @Composable
     override fun Content(modifier: Modifier) {
         println(
@@ -157,7 +149,7 @@ class NavBarComponent(
         )
         val activeComponentCopy = activeComponent.value
         if (activeComponentCopy != null) {
-            navBarComponentView(modifier, activeComponentCopy)
+            content(modifier, activeComponentCopy)
         } else {
             Text(
                 modifier = Modifier
@@ -183,7 +175,15 @@ class NavBarComponent(
             diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
         )
 
-        val DefaultNavBarComponentView: @Composable NavBarComponent.(
+        fun createDefaultState(
+            dispatcher: CoroutineDispatcher = Dispatchers.Main
+        ): NavBarStateDefault {
+            return NavBarStateDefault(
+                dispatcher = dispatcher
+            )
+        }
+
+        val DefaultNavBarComponentView: @Composable NavBarComponent<NavBarStateDefault>.(
             modifier: Modifier,
             childComponent: Component
         ) -> Unit = { modifier, childComponent ->

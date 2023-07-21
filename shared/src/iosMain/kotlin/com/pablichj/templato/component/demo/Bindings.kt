@@ -8,6 +8,7 @@ import com.pablichj.templato.component.demo.treebuilders.FullAppWithIntroTreeBui
 import com.pablichj.templato.component.demo.treebuilders.PagerTreeBuilder
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.drawer.DrawerComponent
+import com.pablichj.templato.component.core.drawer.NavigationDrawerState
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.panel.PanelComponent
 import com.pablichj.templato.component.platform.DefaultAppLifecycleDispatcher
@@ -38,12 +39,25 @@ fun buildAdaptableSizeComponent(): Component {
             DrawerComponent(
                 navigationDrawerState = DrawerComponent.createDefaultState(),
                 config = DrawerComponent.DefaultConfig,
-                diContainer = diContainer
+                diContainer = diContainer,
+                content = DrawerComponent.DefaultDrawerComponentView
             )
         )
         //it.setCompactContainer(PagerComponent())
-        it.setMediumContainer(NavBarComponent())
-        it.setExpandedContainer(PanelComponent(PanelComponent.createDefaultState()))
+        it.setMediumContainer(
+            NavBarComponent(
+                navBarState = NavBarComponent.createDefaultState(),
+                config = NavBarComponent.DefaultConfig,
+                content = NavBarComponent.DefaultNavBarComponentView
+            )
+        )
+        it.setExpandedContainer(
+            PanelComponent(
+                panelState = PanelComponent.createDefaultState(),
+                config = PanelComponent.DefaultConfig,
+                content = PanelComponent.DefaultPanelComponentView
+            )
+        )
     }
 }
 

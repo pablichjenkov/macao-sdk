@@ -30,10 +30,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DrawerComponent(
-    private val navigationDrawerState: NavigationDrawerState,
+class DrawerComponent<T: NavigationDrawerState>(
+    private val navigationDrawerState: T,
     config: Config,
-    diContainer: DiContainer
+    diContainer: DiContainer,
+    private var content: @Composable DrawerComponent<T>.(
+        modifier: Modifier,
+        childComponent: Component
+    ) -> Unit
 ) : Component(), NavigationComponent, DrawerNavigationComponent {
     override val backStack = createBackStack(config.pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
@@ -155,20 +159,6 @@ class DrawerComponent(
 
     // region Drawer rendering
 
-    fun setDrawerComponentView(
-        drawerComponentView: @Composable DrawerComponent.(
-            modifier: Modifier,
-            childComponent: Component
-        ) -> Unit
-    ) {
-        this.drawerComponentView = drawerComponentView
-    }
-
-    private var drawerComponentView: @Composable DrawerComponent.(
-        modifier: Modifier,
-        childComponent: Component
-    ) -> Unit = DefaultDrawerComponentView
-
     @Composable
     override fun Content(modifier: Modifier) {
         println(
@@ -179,7 +169,7 @@ class DrawerComponent(
         //Box {
         val activeComponentCopy = activeComponent.value
         if (activeComponentCopy != null) {
-            drawerComponentView(modifier, activeComponentCopy)
+            content(modifier, activeComponentCopy)
         } else {
             Text(
                 modifier = Modifier
@@ -210,7 +200,7 @@ class DrawerComponent(
         fun createDefaultState(
             dispatcher: CoroutineDispatcher = Dispatchers.Main,
             drawerHeaderStyle: DrawerHeaderStyle = DrawerHeaderStyle()
-        ): NavigationDrawerState {
+        ): NavigationDrawerStateDefault {
             return NavigationDrawerStateDefault(
                 dispatcher,
                 DrawerHeaderDefaultState(
@@ -218,12 +208,11 @@ class DrawerComponent(
                     description = "This is the default text. Provide your own text for your App",
                     imageUri = "",
                     style = drawerHeaderStyle
-                ),
-                emptyList()
+                )
             )
         }
 
-        val DefaultDrawerComponentView: @Composable DrawerComponent.(
+        val DefaultDrawerComponentView: @Composable DrawerComponent<NavigationDrawerStateDefault>.(
             modifier: Modifier,
             childComponent: Component
         ) -> Unit = { modifier, childComponent ->
