@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -48,8 +49,8 @@ class PagerComponent(
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
     private var currentActiveIndexSet = mutableSetOf<Int>()
-    val pagerState = PagerState(selectedIndex)
-    private val coroutineScope = CoroutineScope(diContainer.dispatchers.main)
+    lateinit var pagerState: PagerState
+    private var coroutineScope = CoroutineScope(diContainer.dispatchers.main)
 
     private val _componentOutFlow = MutableSharedFlow<PagerComponentOutEvent?>()
     val pagerComponentViewFlow: SharedFlow<PagerComponentOutEvent?>
@@ -193,6 +194,9 @@ class PagerComponent(
 
     @Composable
     override fun Content(modifier: Modifier) {
+        pagerState = rememberPagerState(initialPage = selectedIndex) {
+            childComponents.size
+        }
         println(
             """PagerComponent.Composing() stack.size = ${backStack.size()}
                 |currentPage = ${pagerState.currentPage}
@@ -238,7 +242,6 @@ class PagerComponent(
             val safeAreaInsets = LocalSafeAreaInsets.current
             Box {
                 HorizontalPager(
-                    pageCount = pagerItemsSize,
                     modifier = Modifier.fillMaxSize(),
                     state = pagerState
                 ) { pageIndex ->

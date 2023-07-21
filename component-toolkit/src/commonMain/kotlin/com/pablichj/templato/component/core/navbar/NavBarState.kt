@@ -38,7 +38,7 @@ interface NavBarState {
 
 class NavBarStateDefault(
     dispatcher: CoroutineDispatcher,
-    private var navItemDecoList: List<NavItemDeco> = emptyList()
+    navItemDecoList: List<NavItemDeco> = emptyList()
 ) : NavBarState {
 
     private val coroutineScope = CoroutineScope(dispatcher)
@@ -56,7 +56,7 @@ class NavBarStateDefault(
     }
 
     override fun setNavItemsDeco(navItemsDeco: List<NavItemDeco>) {
-        this.navItemDecoList = navItemsDeco
+        _navItemsFlow.update { navItemsDeco }
     }
 
     /**
@@ -67,10 +67,10 @@ class NavBarStateDefault(
     }
 
     private fun updateNavBarSelectedItem(navbarItem: NavItemDeco) {
-        _navItemsFlow.update {
+        _navItemsFlow.update { navItemDecoList ->
             navItemDecoList.map { navItemDeco ->
                 navItemDeco.copy(
-                    selected = navbarItem == navItemDeco
+                    selected = navbarItem.component == navItemDeco.component
                 )
             }
         }
