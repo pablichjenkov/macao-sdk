@@ -9,7 +9,7 @@ import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.adaptive.AdaptiveSizeComponent
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.setNavItems
-import com.pablichj.templato.component.core.stack.StackComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.demo.CustomTopBarComponent
 
 object AdaptableSizeTreeBuilder {
@@ -44,21 +44,24 @@ object AdaptableSizeTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Orders",// / Current
-                    StackComponent.DefaultConfig,
+                    TopBarComponent.DefaultConfig,
                     {}
                 )
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                component = CustomTopBarComponent("Orders / Past", StackComponent.DefaultConfig, {})
+                component = CustomTopBarComponent(
+                    "Orders / Past",
+                    TopBarComponent.DefaultConfig,
+                    {})
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent(
                     "Orders / Claim",
-                    StackComponent.DefaultConfig,
+                    TopBarComponent.DefaultConfig,
                     {}
                 )
             )
@@ -66,9 +69,9 @@ object AdaptableSizeTreeBuilder {
 
         navBarComponent.setNavItems(navbarNavItems, 0)
 
-        val settingsComponent = CustomTopBarComponent("Settings", StackComponent.DefaultConfig, {})
+        val settingsComponent = CustomTopBarComponent("Settings", TopBarComponent.DefaultConfig, {})
 
-        val homeComponent = CustomTopBarComponent("Home", StackComponent.DefaultConfig, {})
+        val homeComponent = CustomTopBarComponent("Home", TopBarComponent.DefaultConfig, {})
 
         val navItems = mutableListOf(
             NavItem(

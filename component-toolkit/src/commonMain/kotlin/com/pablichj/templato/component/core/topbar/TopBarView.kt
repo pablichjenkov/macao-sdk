@@ -2,12 +2,16 @@ package com.pablichj.templato.component.core.topbar
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,22 +21,13 @@ import com.pablichj.templato.component.platform.LocalSafeAreaInsets
 
 @Composable
 fun TopBar(
-    topBarState: ITopBarState
+    presenter: TopBarStatePresenter
 ) {
-
     val safeAreaInsets = LocalSafeAreaInsets.current
-
-    val topBarIcon1: ImageVector? by remember(topBarState) {
-        topBarState.icon1
-    }
-
-    val topBarIcon2: ImageVector? by remember(topBarState) {
-        topBarState.icon2
-    }
-
-    val topBarTitle: String? by remember(topBarState) {
-        topBarState.title
-    }
+    val state = presenter.topBarState.value
+    val topBarIcon1: ImageVector? = state.icon1
+    val topBarIcon2: ImageVector? = state.icon2
+    val topBarTitle: String? = state.title
 
     Column {
         Spacer(Modifier.fillMaxWidth().height(safeAreaInsets.top.dp))
@@ -51,7 +46,7 @@ fun TopBar(
                     modifier = Modifier
                         .padding(start = 8.dp)
                         .clickable {
-                            topBarState.onIcon1Click()
+                            state.onIcon1Click?.invoke()
                         },
                     imageVector = it,
                     contentDescription = "com.pablichj.templato.component.core.TopBar icon"
@@ -63,7 +58,7 @@ fun TopBar(
                     modifier = Modifier
                         .padding(start = 8.dp)
                         .clickable {
-                            topBarState.onIcon2Click()
+                            state.onIcon2Click?.invoke()
                         },
                     imageVector = it,
                     contentDescription = "com.pablichj.templato.component.core.TopBar icon"
@@ -76,7 +71,7 @@ fun TopBar(
                         .align(Alignment.CenterVertically)
                         .padding(start = 8.dp)
                         .clickable {
-                            topBarState.onTitleClick()
+                            state.onTitleClick?.invoke()
                         },
                     text = it,
                 )

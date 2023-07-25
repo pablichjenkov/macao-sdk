@@ -12,9 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.stack.BackStack
-import com.pablichj.templato.component.core.stack.StackComponent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.pablichj.templato.component.core.topbar.TopBarComponent
 
 class AppCoordinatorComponent : Component() {
     val backStack = BackStack<Component>()
@@ -24,7 +22,7 @@ class AppCoordinatorComponent : Component() {
     }.also { it.setParent(this@AppCoordinatorComponent) }
 
     private val customTopBarComponent: Component = CustomTopBarComponent(
-        "Onboard", StackComponent.DefaultConfig
+        "Onboard", TopBarComponent.DefaultConfig
     ) {
         backStack.push(homeComponent)
     }.also { it.setParent(this@AppCoordinatorComponent) }
@@ -62,9 +60,11 @@ class AppCoordinatorComponent : Component() {
             is SplashComponent -> {
 
             }
+
             is CustomTopBarComponent -> {
                 delegateBackPressedToParent()
             }
+
             else -> {
                 delegateBackPressedToParent()
             }
@@ -88,6 +88,7 @@ class AppCoordinatorComponent : Component() {
                 activeComponent.value = newTop
                 //updateSelectedNavItem(newTop)
             }
+
             is BackStack.Event.Pop -> {
                 val stack = event.stack
                 val newTop = stack.getOrNull(stack.lastIndex)
@@ -103,12 +104,14 @@ class AppCoordinatorComponent : Component() {
                 oldTop.dispatchStop()
                 //newTop?.let { updateSelectedNavItem(it) }
             }
+
             is BackStack.Event.PushEqualTop -> {
                 println(
                     "AppCoordinatorComponent::Event.PushEqualTop()," +
                             " backStack.size = ${backStack.size()}"
                 )
             }
+
             is BackStack.Event.PopEmptyStack -> {
                 println("AppCoordinatorComponent::Event.PopEmptyStack(), backStack.size = 0")
             }

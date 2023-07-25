@@ -100,7 +100,6 @@ publishing {
         }
     }
     publications {
-        println("publication = $name")
         withType<MavenPublication> {
             groupId = group as String
             artifactId = "component-toolkit"//makeArtifactId(name)
@@ -160,14 +159,39 @@ signing {
 
 kotlin {
     // ANDROID
-    android()
-    android {
+    androidTarget {
         publishLibraryVariants("release")
     }
 
     // IOS
-    iosArm64()
-    iosSimulatorArm64()
+    listOf(
+        iosArm64(),
+        iosSimulatorArm64(),
+    ).forEach { target ->
+        /*target.binaries.framework {
+            baseName = path.substring(1).replace(':', '-')
+        }*/
+        target.compilations.configureEach {
+            compilerOptions.configure {
+                // Try out preview custom allocator in K/N 1.9
+                // https://kotlinlang.org/docs/whatsnew19.html#preview-of-custom-memory-allocator
+                freeCompilerArgs.add("-Xallocator=custom")
+
+                // https://kotlinlang.org/docs/whatsnew19.html#compiler-option-for-c-interop-implicit-integer-conversions
+                freeCompilerArgs.add("-XXLanguage:+ImplicitSignedToUnsignedIntegerConversion")
+
+                // Enable debug symbols:
+                // https://kotlinlang.org/docs/native-ios-symbolication.html
+                freeCompilerArgs.add("-Xadd-light-debug=enable")
+
+                // Various opt-ins
+                freeCompilerArgs.addAll(
+                    "-opt-in=kotlinx.cinterop.ExperimentalForeignApi",
+                    "-opt-in=kotlinx.cinterop.BetaInteropApi",
+                )
+            }
+        }
+    }
 
     // JS
     js(IR) {
@@ -194,7 +218,7 @@ kotlin {
                 implementation(compose.material)
                 implementation(compose.animation)
                 implementation("org.jetbrains.compose.ui:ui-util:1.4.1")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+                // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
             }
         }
         val commonTest by getting {

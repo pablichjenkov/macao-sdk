@@ -26,8 +26,8 @@ kotlin {
                 implementation(project(":component-toolkit"))
                 implementation(compose.desktop.common)
                 implementation(compose.desktop.currentOs)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.2")
             }
         }
     }
@@ -41,7 +41,7 @@ kotlin {
             targetFormats(org.jetbrains.compose.desktop.application.dsl.TargetFormat.Dmg,
                 org.jetbrains.compose.desktop.application.dsl.TargetFormat.Msi,
                 org.jetbrains.compose.desktop.application.dsl.TargetFormat.Deb)
-            packageName = "Hello World"
+            packageName = "Component-Toolkit Demo"
             packageVersion = "1.0.0"
 
             windows {
