@@ -4,17 +4,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
-import com.pablichj.templato.component.demo.AppCoordinatorComponent
-import com.pablichj.templato.component.demo.CustomTopBarComponent
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.drawer.DrawerComponent
-import com.pablichj.templato.component.core.drawer.NavigationDrawerState
 import com.pablichj.templato.component.core.drawer.NavigationDrawerStateDefault
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.split.SplitComponent
-import com.pablichj.templato.component.core.stack.StackComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponent
+import com.pablichj.templato.component.demo.AppCoordinatorComponent
+import com.pablichj.templato.component.demo.CustomTopBarComponent
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.DispatchersProxy
 
@@ -52,7 +51,7 @@ object FullAppWithIntroTreeBuilder {
             setBottomComponent(
                 CustomTopBarComponent(
                     "Orders / Current",
-                    StackComponent.DefaultConfig
+                    TopBarComponent.DefaultConfig
                 ) {}
             )
         }
@@ -63,7 +62,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Orders / Current",
-                    StackComponent.DefaultConfig
+                    TopBarComponent.DefaultConfig
                 ) {},
             ),
             NavItem(
@@ -79,7 +78,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Home",
-                    StackComponent.DefaultConfig
+                    TopBarComponent.DefaultConfig
                 ) {},
             ),
             NavItem(
@@ -116,7 +115,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Orders / Current",
-                    StackComponent.DefaultConfig
+                    TopBarComponent.DefaultConfig
                 ) {},
             ),
             NavItem(
@@ -124,7 +123,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent(
                     "Orders / Past",
-                    StackComponent.DefaultConfig
+                    TopBarComponent.DefaultConfig
                 ) {},
             ),
             NavItem(
@@ -132,7 +131,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent(
                     "Orders / Claim",
-                    StackComponent.DefaultConfig
+                    TopBarComponent.DefaultConfig
                 ) {},
             )
         )
@@ -143,7 +142,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Home",
-                    StackComponent.DefaultConfig
+                    TopBarComponent.DefaultConfig
                 ) {},
             ),
             NavItem(

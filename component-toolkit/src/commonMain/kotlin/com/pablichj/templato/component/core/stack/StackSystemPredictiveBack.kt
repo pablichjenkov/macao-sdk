@@ -12,7 +12,6 @@ import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.templato.component.core.Component
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun StackSystemPredictiveBack(
     modifier: Modifier,
@@ -42,7 +41,6 @@ fun StackSystemPredictiveBack(
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 private fun getTransitionByAnimationType(animationType: AnimationType): ContentTransform {
     return when (animationType) {
         AnimationType.Direct -> {
@@ -54,7 +52,7 @@ private fun getTransitionByAnimationType(animationType: AnimationType): ContentT
                     durationMillis = 300,
                     delayMillis = 0
                 )
-            ) with//+ fadeIn(animationSpec = tween())
+            ) togetherWith//+ fadeIn(animationSpec = tween())
                     slideOutHorizontally(
                         targetOffsetX = { fullWidth ->
                             -fullWidth
@@ -72,7 +70,7 @@ private fun getTransitionByAnimationType(animationType: AnimationType): ContentT
                     -fullWidth
                 },
                 animationSpec = tween()
-            ) with//+ fadeIn(animationSpec = tween())
+            ) togetherWith//+ fadeIn(animationSpec = tween())
                     slideOutHorizontally(
                         targetOffsetX = { fullWidth ->
                             fullWidth
@@ -85,7 +83,7 @@ private fun getTransitionByAnimationType(animationType: AnimationType): ContentT
         AnimationType.Enter -> {
             fadeIn(
                 animationSpec = tween()
-            ) with fadeOut(
+            ) togetherWith fadeOut(
                 animationSpec = tween()
             )
         }

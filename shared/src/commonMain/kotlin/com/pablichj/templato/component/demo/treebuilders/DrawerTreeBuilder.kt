@@ -10,7 +10,7 @@ import com.pablichj.templato.component.core.drawer.NavigationDrawerStateDefault
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.navbar.NavBarStateDefault
 import com.pablichj.templato.component.core.setNavItems
-import com.pablichj.templato.component.core.stack.StackComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.DispatchersProxy
 
@@ -28,7 +28,7 @@ object DrawerTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Home", StackComponent.DefaultConfig) {},
+                component = CustomTopBarComponent("Home", TopBarComponent.DefaultConfig) {},
             ),
             NavItem(
                 label = "Orders",
@@ -38,7 +38,7 @@ object DrawerTreeBuilder {
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = CustomTopBarComponent("Settings", StackComponent.DefaultConfig) {},
+                component = CustomTopBarComponent("Settings", TopBarComponent.DefaultConfig) {},
             )
         )
 
@@ -80,19 +80,19 @@ object DrawerTreeBuilder {
             NavItem(
                 label = "Active",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Orders/Active", StackComponent.DefaultConfig) {},
+                component = CustomTopBarComponent("Orders/Active", TopBarComponent.DefaultConfig) {},
 
                 ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Settings,
-                component = CustomTopBarComponent("Orders/Past", StackComponent.DefaultConfig) {},
+                component = CustomTopBarComponent("Orders/Past", TopBarComponent.DefaultConfig) {},
 
                 ),
             NavItem(
                 label = "New Order",
                 icon = Icons.Filled.Add,
-                component = CustomTopBarComponent("Orders/New Order", StackComponent.DefaultConfig) {},
+                component = CustomTopBarComponent("Orders/New Order", TopBarComponent.DefaultConfig) {},
 
                 )
         )

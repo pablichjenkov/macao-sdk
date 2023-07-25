@@ -10,7 +10,7 @@ import com.pablichj.templato.component.core.navbar.NavBarStateDefault
 import com.pablichj.templato.component.core.navbar.NavBarStyle
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.stack.FixSizedPushStrategy
-import com.pablichj.templato.component.core.stack.StackComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.demo.CustomTopBarComponent
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.DispatchersProxy
@@ -29,19 +29,19 @@ object NavBarTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Home", StackComponent.DefaultConfig) {},
+                component = CustomTopBarComponent("Home", TopBarComponent.DefaultConfig) {},
 
                 ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
-                component = CustomTopBarComponent("Orders", StackComponent.DefaultConfig) {},
+                component = CustomTopBarComponent("Orders", TopBarComponent.DefaultConfig) {},
 
                 ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Add,
-                component = CustomTopBarComponent("Settings", StackComponent.DefaultConfig) {},
+                component = CustomTopBarComponent("Settings", TopBarComponent.DefaultConfig) {},
 
                 )
         )

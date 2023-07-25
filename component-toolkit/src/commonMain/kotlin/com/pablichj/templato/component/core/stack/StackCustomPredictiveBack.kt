@@ -1,15 +1,32 @@
 package com.pablichj.templato.component.core.stack
 
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.gestures.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.*
+import androidx.compose.ui.input.pointer.PointerEvent
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import com.pablichj.templato.component.FloatingBackButton
@@ -171,13 +188,12 @@ fun StackCustomPredictiveBack(
         if (childComponent != null) {
             when (dragState) {
                 DragState.None -> {
-//                    AnimatedContent(
-//                        targetState = childComponent,
-//                        transitionSpec = { getTransitionByAnimationType(animationType) }
-//                    ) {
-//                        it.Content(Modifier)
-//                    }
-                    childComponent.Content(Modifier)
+                    AnimatedContent(
+                        targetState = childComponent,
+                        transitionSpec = { getTransitionByAnimationType(animationType) },
+                    ) {
+                        it.Content(Modifier)
+                    }
                 }
 
                 DragState.PredictiveBackLeft -> {
@@ -250,7 +266,7 @@ private fun getTransitionByAnimationType(animationType: AnimationType): ContentT
                     durationMillis = 300,
                     delayMillis = 0
                 )
-            ) togetherWith//+ fadeIn(animationSpec = tween())
+            ) togetherWith //+ fadeIn(animationSpec = tween())
                     slideOutHorizontally(
                         targetOffsetX = { fullWidth ->
                             -fullWidth
@@ -268,7 +284,7 @@ private fun getTransitionByAnimationType(animationType: AnimationType): ContentT
                     -fullWidth
                 },
                 animationSpec = tween()
-            ) togetherWith//+ fadeIn(animationSpec = tween())
+            ) togetherWith //+ fadeIn(animationSpec = tween())
                     slideOutHorizontally(
                         targetOffsetX = { fullWidth ->
                             fullWidth
@@ -281,7 +297,7 @@ private fun getTransitionByAnimationType(animationType: AnimationType): ContentT
         AnimationType.Enter -> {
             fadeIn(
                 animationSpec = tween()
-            ) togetherWith  fadeOut(
+            ) togetherWith fadeOut(
                 animationSpec = tween()
             )
         }

@@ -15,10 +15,9 @@ version = extra["component-toolkit.version"] as String
 }*/
 
 kotlin {
-
     // IOS
     iosArm64()
-    iosSimulatorArm64()
+    //iosSimulatorArm64()
     cocoapods {
         summary = "ComponentKt umbrella module"
         homepage = "https://github.com/pablichjenkov/templato"
@@ -45,7 +44,7 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.material)
                 implementation(project(":component-toolkit"))
-                implementation("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
+                implementation("org.jetbrains.compose.components:components-resources:1.4.1")
             }
         }
         val commonTest by getting {
@@ -56,18 +55,18 @@ kotlin {
 
         // IOS
         val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
+        //val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependsOn(commonMain)
             iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
+         //   iosSimulatorArm64Main.dependsOn(this)
         }
         val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
+//        val iosSimulatorArm64Test by getting
         val iosTest by creating {
             dependsOn(commonTest)
             iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
+//            iosSimulatorArm64Test.dependsOn(this)
         }
 
     }

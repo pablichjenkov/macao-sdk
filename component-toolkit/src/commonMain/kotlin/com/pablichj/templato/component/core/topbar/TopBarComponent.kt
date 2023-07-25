@@ -10,14 +10,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.findClosestDrawerNavigationComponent
+import com.pablichj.templato.component.core.stack.DefaultStackComponentView
 import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.stack.StackComponent
+import com.pablichj.templato.component.core.stack.StackStyle
 
 abstract class TopBarComponent(
-    config: Config
-) : StackComponent(config) {
+    private val config: Config
+) : StackComponent() {
 
-    private lateinit var topBarState: TopBarState
+    private val topBarStatePresenter: TopBarStatePresenter =
+        DefaultTopBarStatePresenter(onHandleBackPress = ::handleBackPressed)
 
     override fun onStackTopUpdate(topComponent: Component) {
         val selectedStackBarItem = getStackBarItemForComponent(topComponent)
@@ -35,45 +38,33 @@ abstract class TopBarComponent(
     protected abstract fun getStackBarItemForComponent(topComponent: Component): StackBarItem
 
     private fun setTitleSectionForHomeClick(stackBarItem: StackBarItem) {
-        topBarState = TopBarState(
-            onBackPress = { handleBackPressed() }
-        ).apply {
-            setTitleSectionState(
-                TitleSectionStateHolder(
-                    title = stackBarItem.label,
-                    icon1 = resolveFirstIcon(),
-                    onIcon1Click = {
-                        findClosestDrawerNavigationComponent()?.open()
-                    },
-                    onTitleClick = {
-                        findClosestDrawerNavigationComponent()?.open()
-                    }
-                )
-            )
-        }
+        topBarStatePresenter.topBarState.value = TopBarState(
+            title = stackBarItem.label,
+            icon1 = resolveFirstIcon(),
+            onIcon1Click = {
+                findClosestDrawerNavigationComponent()?.open()
+            },
+            onTitleClick = {
+                findClosestDrawerNavigationComponent()?.open()
+            }
+        )
     }
 
     private fun setTitleSectionForBackClick(stackBarItem: StackBarItem) {
-        topBarState = TopBarState {
-            handleBackPressed()
-        }.apply {
-            setTitleSectionState(
-                TitleSectionStateHolder(
-                    title = stackBarItem.label,
-                    onTitleClick = {
-                        handleBackPressed()
-                    },
-                    icon1 = resolveFirstIcon(),
-                    onIcon1Click = {
-                        findClosestDrawerNavigationComponent()?.open()
-                    },
-                    icon2 = Icons.Filled.ArrowBack,
-                    onIcon2Click = {
-                        handleBackPressed()
-                    }
-                )
-            )
-        }
+        topBarStatePresenter.topBarState.value = TopBarState(
+            title = stackBarItem.label,
+            onTitleClick = {
+                handleBackPressed()
+            },
+            icon1 = resolveFirstIcon(),
+            onIcon1Click = {
+                findClosestDrawerNavigationComponent()?.open()
+            },
+            icon2 = Icons.Filled.ArrowBack,
+            onIcon2Click = {
+                handleBackPressed()
+            }
+        )
     }
 
     private fun resolveFirstIcon(): ImageVector? {
@@ -89,13 +80,25 @@ abstract class TopBarComponent(
     override fun Content(modifier: Modifier) {
         Scaffold(
             modifier = modifier,
-            topBar = { TopBar(topBarState) }
+            topBar = { TopBar(topBarStatePresenter) }
         ) { paddingValues ->
             DefaultStackComponentView(
+                topBarComponent = this,
                 modifier = modifier.padding(paddingValues),
-                onComponentSwipedOut = { topBarState.handleBackPress() }
+                onComponentSwipedOut = { topBarStatePresenter.handleBackPress() }
             )
         }
+    }
+
+    class Config(
+        val stackStyle: StackStyle = StackStyle(),
+        val showBackArrowAlways: Boolean = true
+    )
+
+    companion object {
+        val DefaultConfig = Config(
+            StackStyle()
+        )
     }
 
 }

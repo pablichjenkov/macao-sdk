@@ -1,16 +1,19 @@
 package com.pablichj.templato.component.demo.treebuilders
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.navbar.NavBarStateDefault
 import com.pablichj.templato.component.core.panel.PanelComponent
-import com.pablichj.templato.component.core.panel.PanelState
 import com.pablichj.templato.component.core.panel.PanelStateDefault
 import com.pablichj.templato.component.core.setNavItems
+import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.demo.CustomTopBarComponent
-import com.pablichj.templato.component.core.stack.StackComponent
 
 object PanelTreeBuilder {
 
@@ -26,7 +29,7 @@ object PanelTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Home", StackComponent.DefaultConfig) {},
+                component = CustomTopBarComponent("Home", TopBarComponent.DefaultConfig) {},
 
                 ),
             NavItem(
@@ -38,7 +41,7 @@ object PanelTreeBuilder {
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = CustomTopBarComponent("Settings", StackComponent.DefaultConfig) {},
+                component = CustomTopBarComponent("Settings", TopBarComponent.DefaultConfig) {},
 
                 )
         )
@@ -65,19 +68,19 @@ object PanelTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Home", StackComponent.DefaultConfig) {},
+                component = CustomTopBarComponent("Home", TopBarComponent.DefaultConfig) {},
 
                 ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
-                component = CustomTopBarComponent("Orders", StackComponent.DefaultConfig) {},
+                component = CustomTopBarComponent("Orders", TopBarComponent.DefaultConfig) {},
 
                 ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Add,
-                component = CustomTopBarComponent("Settings", StackComponent.DefaultConfig) {},
+                component = CustomTopBarComponent("Settings", TopBarComponent.DefaultConfig) {},
 
                 )
         )

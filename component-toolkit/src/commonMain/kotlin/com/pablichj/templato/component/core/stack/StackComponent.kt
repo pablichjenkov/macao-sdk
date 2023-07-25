@@ -1,14 +1,11 @@
 package com.pablichj.templato.component.core.stack
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.ComponentWithBackStack
-import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
 import com.pablichj.templato.component.core.getChildForNextUriFragment
 import com.pablichj.templato.component.core.getDeepLinkHandler
 import com.pablichj.templato.component.core.onDeepLinkNavigation
@@ -16,13 +13,11 @@ import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.router.DeepLinkMatchData
 import com.pablichj.templato.component.core.router.DeepLinkResult
 
-abstract class StackComponent(
-    protected val config: Config
-) : Component(), ComponentWithBackStack {
+abstract class StackComponent : Component(), ComponentWithBackStack {
     final override val backStack = BackStack<Component>()
     override var childComponents: MutableList<Component> = mutableListOf()
     var activeComponent: MutableState<Component?> = mutableStateOf(null)
-    private var lastBackstackEvent: BackStack.Event<Component>? = null
+    var lastBackstackEvent: BackStack.Event<Component>? = null
 
     init {
         this@StackComponent.backStack.eventListener = { event ->
@@ -116,86 +111,8 @@ abstract class StackComponent(
     }
 
     // endregion
-
-    @Composable
-    fun DefaultStackComponentView(
-        modifier: Modifier,
-        onComponentSwipedOut: () -> Unit
-    ) {
-        println(
-            """
-          $clazz::Composing(), backStack.size = ${backStack.size()}
-          lastBackstackEvent = $lastBackstackEvent
-        """
-        )
-
-        val animationType = when (lastBackstackEvent) {
-            is BackStack.Event.Pop -> {
-                if (backStack.size() > 0)
-                    AnimationType.Reverse
-                else AnimationType.Exit
-            }
-
-            is BackStack.Event.PopEmptyStack -> {
-                AnimationType.Enter
-            }
-
-            is BackStack.Event.Push -> {
-                if (backStack.size() > 1)
-                    AnimationType.Direct
-                else AnimationType.Enter
-            }
-
-            is BackStack.Event.PushEqualTop -> {
-                AnimationType.Enter
-            }
-
-            null -> AnimationType.Enter
-        }
-
-        val prevComponent = if (backStack.size() > 1) {
-            backStack.deque[backStack.size() - 2]
-        } else {
-            null
-        }
-
-        when (LocalBackPressedDispatcher.current.isSystemBackButtonEnabled()) {
-            true -> {
-                // If the traditional back button is enabled then we use our custom predictive back
-                StackCustomPredictiveBack(
-                    modifier = modifier,
-                    childComponent = activeComponent.value,
-                    prevChildComponent = prevComponent,
-                    animationType = animationType,
-                    onComponentSwipedOut = onComponentSwipedOut
-                )
-            }
-
-            false -> {
-                // Except Android, (and when the traditional 3 button navigation is enabled),
-                // all the platforms will fall in to this case.
-                StackSystemPredictiveBack(
-                    modifier = modifier,
-                    childComponent = activeComponent.value,
-                    animationType = animationType
-                )
-            }
-        }
-
-    }
-
-    class Config(
-        val stackStyle: StackStyle = StackStyle(),
-        val showBackArrowAlways: Boolean = true
-    )
-
-    companion object {
-        val DefaultConfig = Config(
-            StackStyle()
-        )
-    }
-
 }
+
 
 data class StackBarItem(
     val label: String,
