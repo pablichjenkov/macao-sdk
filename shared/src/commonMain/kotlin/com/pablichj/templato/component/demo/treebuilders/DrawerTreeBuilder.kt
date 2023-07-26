@@ -28,7 +28,11 @@ object DrawerTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Home", TopBarComponent.DefaultConfig) {},
+                component = CustomTopBarComponent(
+                    "Home",
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
             ),
             NavItem(
                 label = "Orders",
@@ -38,7 +42,11 @@ object DrawerTreeBuilder {
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = CustomTopBarComponent("Settings", TopBarComponent.DefaultConfig) {},
+                component = CustomTopBarComponent(
+                    "Settings",
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
             )
         )
 
@@ -80,21 +88,30 @@ object DrawerTreeBuilder {
             NavItem(
                 label = "Active",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Orders/Active", TopBarComponent.DefaultConfig) {},
-
-                ),
+                component = CustomTopBarComponent(
+                    "Orders/Active",
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
+            ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Settings,
-                component = CustomTopBarComponent("Orders/Past", TopBarComponent.DefaultConfig) {},
-
-                ),
+                component = CustomTopBarComponent(
+                    "Orders/Past",
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
+            ),
             NavItem(
                 label = "New Order",
                 icon = Icons.Filled.Add,
-                component = CustomTopBarComponent("Orders/New Order", TopBarComponent.DefaultConfig) {},
-
+                component = CustomTopBarComponent(
+                    "Orders/New Order",
+                    TopBarComponent.DefaultConfig,
+                    {},
                 )
+            )
         )
 
         return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }

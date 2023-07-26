@@ -6,7 +6,7 @@ fun NavigationComponent.setNavItems(
     newNavItems: MutableList<NavItem>,
     newSelectedIndex: Int
 ) {
-    println("${getComponent().clazz}.setItems()")
+    println("${getComponent().instanceId()}.setItems()")
     selectedIndex = newSelectedIndex
 
     newNavItems.map { navItem ->
@@ -45,7 +45,7 @@ internal fun NavigationComponent.removeNavItem(removeIndex: Int) {
 }
 
 internal fun NavigationComponent.clearNavItems() {
-    println("${getComponent().clazz}.clearNavItems")
+    println("${getComponent().instanceId()}.clearNavItems")
     backStack.clear()
     navItems.clear()
     selectedIndex = 0
@@ -80,7 +80,7 @@ internal fun NavigationComponent.processBackstackTransition(
 }
 
 internal fun NavigationComponent.transferFrom(donorNavComponent: NavigationComponent) {
-    println("${getComponent().clazz}::transferFrom(...), donor stack.size = ${donorNavComponent.backStack.size()}")
+    println("${getComponent().instanceId()}::transferFrom(...), donor stack.size = ${donorNavComponent.backStack.size()}")
 
     // Transfer backstack
     val donorStackCopy = donorNavComponent.backStack

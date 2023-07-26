@@ -11,7 +11,7 @@ internal fun ComponentWithBackStack.processBackstackEvent(
 ): StackTransition<Component> {
     return when (event) {
         is BackStack.Event.Push -> {
-            println("${getComponent().clazz}::Event.Push")
+            println("${getComponent().instanceId()}::Event.Push")
             val stack = event.stack
             if (stack.size > 1) {
                 val newTop = stack[stack.lastIndex]
@@ -23,7 +23,7 @@ internal fun ComponentWithBackStack.processBackstackEvent(
         }
 
         is BackStack.Event.Pop -> {
-            println("${getComponent().clazz}::Event.Pop")
+            println("${getComponent().instanceId()}::Event.Pop")
             val stack = event.stack
             val oldTop = event.oldTop
             if (stack.isNotEmpty()) {
@@ -36,21 +36,21 @@ internal fun ComponentWithBackStack.processBackstackEvent(
 
         is BackStack.Event.PushEqualTop -> {
             println(
-                "${getComponent().clazz}::Event.PushEqualTop()," +
+                "${getComponent().instanceId()}::Event.PushEqualTop()," +
                         " backStack.size = ${backStack.size()}"
             )
             StackTransition.InvalidPushEqualTop<Component>()
         }
 
         is BackStack.Event.PopEmptyStack -> {
-            println("${getComponent().clazz}::Event.PopEmptyStack(), backStack.size = 0")
+            println("${getComponent().instanceId()}::Event.PopEmptyStack(), backStack.size = 0")
             StackTransition.InvalidPopEmptyStack<Component>()
         }
     }
 }
 
 private fun ComponentWithBackStack.transitionIn(newTop: Component): StackTransition.In<Component> {
-    println("${getComponent().clazz}::transitionIn(), newTop: ${newTop::class.simpleName}")
+    println("${getComponent().instanceId()}::transitionIn(), newTop: ${newTop::class.simpleName}")
     newTop.dispatchStart()
     return StackTransition.In(newTop)
 }
@@ -60,7 +60,7 @@ private fun ComponentWithBackStack.transitionInOut(
     oldTop: Component
 ): StackTransition.InOut<Component> {
     println(
-        "${getComponent().clazz}::transitionInOut()," +
+        "${getComponent().instanceId()}::transitionInOut()," +
                 " oldTop: ${oldTop::class.simpleName}, newTop: ${newTop::class.simpleName}"
     )
     // By convention always stop the previous top before starting the new one. TODO: Tests
@@ -70,13 +70,13 @@ private fun ComponentWithBackStack.transitionInOut(
 }
 
 private fun ComponentWithBackStack.transitionOut(oldTop: Component): StackTransition.Out<Component> {
-    println("${getComponent().clazz}::transitionOut(), oldTop: ${oldTop::class.simpleName}")
+    println("${getComponent().instanceId()}::transitionOut(), oldTop: ${oldTop::class.simpleName}")
     oldTop.dispatchStop()
     return StackTransition.Out(oldTop)
 }
 
 fun ComponentWithBackStack.onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
-    println("${getComponent().clazz}.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
+    println("${getComponent().instanceId()}.onDeepLinkMatch() matchingNode = ${matchingComponent.instanceId()}")
     backStack.push(matchingComponent)
     return DeepLinkResult.Success
 }
@@ -96,7 +96,7 @@ fun ComponentWithBackStack.getChildForNextUriFragment(nextUriFragment: String): 
         it.getDeepLinkHandler().matchType == DeepLinkMatchType.MatchOne
     }.forEach {
         val linkHandler = it.getDeepLinkHandler()
-        println("${getComponent().clazz}::child.uriFragment = ${linkHandler.uriFragment}")
+        println("${getComponent().instanceId()}::child.uriFragment = ${linkHandler.uriFragment}")
         if (linkHandler.uriFragment == nextUriFragment) {
             return it
         }

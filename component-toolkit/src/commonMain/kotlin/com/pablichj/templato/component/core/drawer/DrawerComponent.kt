@@ -30,7 +30,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DrawerComponent<T: NavigationDrawerState>(
+class DrawerComponent<T: NavigationDrawerStatePresenter>(
     private val navigationDrawerState: T,
     config: Config,
     diContainer: DiContainer,
@@ -62,25 +62,25 @@ class DrawerComponent<T: NavigationDrawerState>(
 
     override fun onStart() {
         if (activeComponent.value == null) {
-            println("$clazz::onStart(). Pushing selectedIndex = $selectedIndex, children.size = ${childComponents.size}")
+            println("${instanceId()}::onStart(). Pushing selectedIndex = $selectedIndex, children.size = ${childComponents.size}")
             if (childComponents.isNotEmpty()) {
                 backStack.push(childComponents[selectedIndex])
             } else {
-                println("$clazz::onStart() with childComponents empty")
+                println("${instanceId()}::onStart() with childComponents empty")
             }
         } else {
-            println("$clazz::onStart() with activeChild = ${activeComponent.value?.clazz}")
+            println("${instanceId()}::onStart() with activeChild = ${activeComponent.value?.instanceId()}")
             activeComponent.value?.dispatchStart()
         }
     }
 
     override fun onStop() {
-        println("$clazz::onStop()")
+        println("${instanceId()}::onStop()")
         activeComponent.value?.dispatchStop()
     }
 
     override fun handleBackPressed() {
-        println("$clazz::handleBackPressed, backStack.size = ${backStack.size()}")
+        println("${instanceId()}::handleBackPressed, backStack.size = ${backStack.size()}")
         if (backStack.size() > 1) {
             backStack.pop()
         } else {
@@ -96,12 +96,12 @@ class DrawerComponent<T: NavigationDrawerState>(
     // region: IDrawerComponent
 
     override fun open() {
-        println("$clazz::open")
+        println("${instanceId()}::open")
         navigationDrawerState.setDrawerState(DrawerValue.Open)
     }
 
     override fun close() {
-        println("$clazz::close")
+        println("${instanceId()}::close")
         navigationDrawerState.setDrawerState(DrawerValue.Closed)
     }
 
@@ -124,7 +124,7 @@ class DrawerComponent<T: NavigationDrawerState>(
 
     override fun updateSelectedNavItem(newTop: Component) {
         getNavItemFromComponent(newTop).let {
-            println("$clazz::updateSelectedNavItem(), selectedIndex = $it")
+            println("${instanceId()}::updateSelectedNavItem(), selectedIndex = $it")
             navigationDrawerState.selectNavItemDeco(it.toNavItemDeco())
             selectedIndex = childComponents.indexOf(newTop)
         }
@@ -162,7 +162,7 @@ class DrawerComponent<T: NavigationDrawerState>(
     @Composable
     override fun Content(modifier: Modifier) {
         println(
-            """$clazz.Composing() stack.size = ${backStack.size()}
+            """${instanceId()}.Composing() stack.size = ${backStack.size()}
                 |lifecycleState = ${lifecycleState}
             """
         )
@@ -175,7 +175,7 @@ class DrawerComponent<T: NavigationDrawerState>(
                 modifier = Modifier
                     .fillMaxSize(),
                 //.align(Alignment.Center),
-                text = "$clazz Empty Stack, Please add some children",
+                text = "${instanceId()} Empty Stack, Please add some children",
                 textAlign = TextAlign.Center
             )
         }
@@ -218,7 +218,7 @@ class DrawerComponent<T: NavigationDrawerState>(
         ) -> Unit = { modifier, childComponent ->
             NavigationDrawer(
                 modifier = modifier,
-                navigationDrawerState = navigationDrawerState
+                statePresenter = navigationDrawerState
             ) {
                 childComponent.Content(Modifier)
             }

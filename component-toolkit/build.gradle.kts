@@ -178,7 +178,7 @@ kotlin {
                 freeCompilerArgs.add("-Xallocator=custom")
 
                 // https://kotlinlang.org/docs/whatsnew19.html#compiler-option-for-c-interop-implicit-integer-conversions
-                freeCompilerArgs.add("-XXLanguage:+ImplicitSignedToUnsignedIntegerConversion")
+                // freeCompilerArgs.add("-XXLanguage:+ImplicitSignedToUnsignedIntegerConversion")
 
                 // Enable debug symbols:
                 // https://kotlinlang.org/docs/native-ios-symbolication.html
@@ -217,7 +217,7 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.material)
                 implementation(compose.animation)
-                implementation("org.jetbrains.compose.ui:ui-util:1.4.1")
+                implementation("org.jetbrains.compose.ui:ui-util:1.4.3")
                 // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
             }
         }

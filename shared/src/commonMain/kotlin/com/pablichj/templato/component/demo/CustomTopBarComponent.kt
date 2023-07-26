@@ -2,18 +2,24 @@ package com.pablichj.templato.component.demo
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.router.DeepLinkMatchData
 import com.pablichj.templato.component.core.router.DeepLinkMatchType
 import com.pablichj.templato.component.core.stack.StackBarItem
+import com.pablichj.templato.component.core.topbar.DefaultTopBarStatePresenter
 import com.pablichj.templato.component.core.topbar.TopBarComponent
 
 class CustomTopBarComponent(
     val screenName: String,
     config: Config,
     val onMessage: (Msg) -> Unit
-) : TopBarComponent(config) {
+) : TopBarComponent<DefaultTopBarStatePresenter>(
+    topBarStatePresenter = createDefaultState(),
+    config = config
+) {
 
     val Step1 = SimpleComponent(
         "$screenName / Page 1",

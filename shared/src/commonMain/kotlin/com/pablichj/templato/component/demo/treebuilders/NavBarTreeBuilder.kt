@@ -29,21 +29,30 @@ object NavBarTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Home", TopBarComponent.DefaultConfig) {},
-
-                ),
+                component = CustomTopBarComponent(
+                    "Home",
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
+            ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
-                component = CustomTopBarComponent("Orders", TopBarComponent.DefaultConfig) {},
-
-                ),
+                component = CustomTopBarComponent(
+                    "Orders",
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
+            ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Add,
-                component = CustomTopBarComponent("Settings", TopBarComponent.DefaultConfig) {},
-
+                component = CustomTopBarComponent(
+                    "Settings",
+                    TopBarComponent.DefaultConfig,
+                    {},
                 )
+            )
         )
 
         return NavBarComponent(

@@ -27,13 +27,13 @@ class SplitComponent(
     }
 
     override fun onStart() {
-        println("$clazz::start")
+        println("${instanceId()}::start")
         topComponent?.dispatchStart()
         bottomComponent?.dispatchStart()
     }
 
     override fun onStop() {
-        println("$clazz::stop")
+        println("${instanceId()}::stop")
         topComponent?.dispatchStop()
         bottomComponent?.dispatchStop()
     }
@@ -55,7 +55,7 @@ class SplitComponent(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("$clazz::Composing()")
+        println("${instanceId()}::Composing()")
         Column(modifier = Modifier.fillMaxSize()) {
             val topComponentCopy = topComponent
             if (topComponentCopy != null) {

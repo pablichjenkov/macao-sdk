@@ -11,9 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 abstract class Component : ComponentLifecycle() {
-
-    internal val clazz = this::class.simpleName
-
+    
     // region: Component Tree
 
     var parentComponent: Component? = null
@@ -78,14 +76,14 @@ abstract class Component : ComponentLifecycle() {
      * All the way up to the root Component.
      * */
     open fun handleBackPressed() {
-        println("$clazz::onBackPressed() handling")
+        println("${instanceId()}::onBackPressed() handling")
         delegateBackPressedToParent()
     }
 
     protected fun delegateBackPressedToParent() {
         val parentComponentCopy = parentComponent
         if (parentComponentCopy != null) {
-            println("$clazz::delegateBackPressedToParent()")
+            println("${instanceId()}::delegateBackPressedToParent()")
             parentComponentCopy.handleBackPressed()
         }
     }
@@ -105,10 +103,10 @@ abstract class Component : ComponentLifecycle() {
     internal fun navigateToDeepLink(
         deepLinkMsg: DeepLinkMsg
     ) {
-        println("$clazz::navigateToDeepLink(), path = ${deepLinkMsg.path.joinToString("/")}")
+        println("${instanceId()}::navigateToDeepLink(), path = ${deepLinkMsg.path.joinToString("/")}")
 
         if (lifecycleState != ComponentLifecycleState.Started) {
-            println("$clazz::navigateToDeepLink(), Waiting to be Started ")
+            println("${instanceId()}::navigateToDeepLink(), Waiting to be Started ")
             deepLinkNavigationAwaitsStartedState = true
             awaitingDeepLinkMsg = deepLinkMsg
             return
@@ -120,7 +118,7 @@ abstract class Component : ComponentLifecycle() {
             val nextComponent = getChildForNextUriFragment(uriFragment)
             if (nextComponent == null) {
                 deepLinkMsg.resultListener.invoke(
-                    DeepLinkResult.Error("Component: $clazz does not have any child that handle uri fragment = $uriFragment")
+                    DeepLinkResult.Error("Component: ${instanceId()} does not have any child that handle uri fragment = $uriFragment")
                 )
             } else {
                 onDeepLinkNavigation(nextComponent)
@@ -141,7 +139,7 @@ abstract class Component : ComponentLifecycle() {
             val nextComponent = getChildForNextUriFragment(nextUriFragment)
             if (nextComponent == null) {
                 deepLinkMsg.resultListener.invoke(
-                    DeepLinkResult.Error("Component: $clazz does not have any child that handle uri fragment = $nextUriFragment")
+                    DeepLinkResult.Error("Component: ${instanceId()} does not have any child that handle uri fragment = $nextUriFragment")
                 )
                 return
             }
@@ -158,7 +156,7 @@ abstract class Component : ComponentLifecycle() {
             }
         } else {
             deepLinkMsg.resultListener.invoke(
-                DeepLinkResult.Error("Component: $clazz does not handle DeepLink fragment = $uriFragment.")
+                DeepLinkResult.Error("Component: ${instanceId()} does not handle DeepLink fragment = $uriFragment.")
             )
         }
     }
@@ -166,14 +164,14 @@ abstract class Component : ComponentLifecycle() {
     open fun getChildForNextUriFragment(
         nextUriFragment: String
     ): Component? {
-        println("$clazz::getChildForNextUriFragment() has been called but the function is not override in this class")
+        println("${instanceId()}::getChildForNextUriFragment() has been called but the function is not override in this class")
         return null
     }
 
     protected open fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
         return DeepLinkResult.Error(
             """
-            $clazz::onDeepLinkMatch has been called but the function is not " +
+            ${instanceId()}::onDeepLinkMatch has been called but the function is not " +
                 "override in this class. Default implementation does nothing.
             """
         )
@@ -185,6 +183,15 @@ abstract class Component : ComponentLifecycle() {
 
     @Composable
     abstract fun Content(modifier: Modifier)
+
+    // endregion
+
+    // region: Debugging
+
+    open fun instanceId(): String {
+        val addressLast3 = this.toString().let { it.substring(it.length - 3) }
+        return "${this::class.simpleName}_${addressLast3}"
+    }
 
     // endregion
 }

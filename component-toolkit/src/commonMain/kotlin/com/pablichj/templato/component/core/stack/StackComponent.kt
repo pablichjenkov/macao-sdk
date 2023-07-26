@@ -28,20 +28,20 @@ abstract class StackComponent : Component(), ComponentWithBackStack {
     }
 
     override fun onStart() {
-        println("$clazz::onStart()")
+        println("${instanceId()}::onStart()")
         if (activeComponent.value != null) {
             activeComponent.value?.dispatchStart()
         }
     }
 
     override fun onStop() {
-        println("$clazz::onStop()")
+        println("${instanceId()}::onStop()")
         activeComponent.value?.dispatchStop()
         lastBackstackEvent = null
     }
 
     override fun handleBackPressed() {
-        println("$clazz::handleBackPressed, backStack.size = ${backStack.size()}")
+        println("${instanceId()}::handleBackPressed, backStack.size = ${backStack.size()}")
         if (backStack.size() > 1) {
             backStack.pop()
         } else {

@@ -1,22 +1,20 @@
 package com.pablichj.templato.component.core.navbar
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import com.pablichj.templato.component.core.NavItemDeco
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 interface NavBarState {
     /**
      * Intended for the Composable NavBar to render the List if NavBarItems items
      * */
-    val navItemsFlow: StateFlow<List<NavItemDeco>>
+    val navItemsState: State<List<NavItemDeco>>
 
     /**
      * Intended for a client class to listen for navItem click events
@@ -28,7 +26,7 @@ interface NavBarState {
      * */
     fun navItemClick(navbarItem: NavItemDeco)
 
-    fun setNavItemsDeco(navItemsDeco: List<NavItemDeco>)
+    fun setNavItemsDeco(navItemDecoList: List<NavItemDeco>)
 
     /**
      * Intended to be called from a client class to select a navItem in the NavBar
@@ -43,8 +41,8 @@ class NavBarStateDefault(
 
     private val coroutineScope = CoroutineScope(dispatcher)
 
-    private val _navItemsFlow = MutableStateFlow(navItemDecoList)
-    override val navItemsFlow: StateFlow<List<NavItemDeco>> = _navItemsFlow.asStateFlow()
+    private val _navItemsState = mutableStateOf(navItemDecoList)
+    override val navItemsState: State<List<NavItemDeco>> = _navItemsState
 
     private val _navItemClickFlow = MutableSharedFlow<NavItemDeco>()
     override val navItemClickFlow: SharedFlow<NavItemDeco> = _navItemClickFlow.asSharedFlow()
@@ -55,8 +53,8 @@ class NavBarStateDefault(
         }
     }
 
-    override fun setNavItemsDeco(navItemsDeco: List<NavItemDeco>) {
-        _navItemsFlow.update { navItemsDeco }
+    override fun setNavItemsDeco(navItemDecoList: List<NavItemDeco>) {
+        _navItemsState.value = navItemDecoList
     }
 
     /**
@@ -67,13 +65,12 @@ class NavBarStateDefault(
     }
 
     private fun updateNavBarSelectedItem(navbarItem: NavItemDeco) {
-        _navItemsFlow.update { navItemDecoList ->
-            navItemDecoList.map { navItemDeco ->
-                navItemDeco.copy(
-                    selected = navbarItem.component == navItemDeco.component
-                )
-            }
+        val update = _navItemsState.value.map { navItemDeco ->
+            navItemDeco.copy(
+                selected = navbarItem.component == navItemDeco.component
+            )
         }
+        _navItemsState.value = update
     }
 
 }

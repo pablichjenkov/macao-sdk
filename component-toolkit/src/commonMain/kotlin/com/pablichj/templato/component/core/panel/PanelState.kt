@@ -3,23 +3,18 @@ package com.pablichj.templato.component.core.panel
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.pablichj.templato.component.core.NavItemDeco
-import com.pablichj.templato.component.core.drawer.DrawerHeaderState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 interface PanelState {
     /**
      * Intended for the Composable NavBar to render the List if NavBarItems items
      * */
-    val navItemsFlow: StateFlow<List<NavItemDeco>>
+    val navItemsState: State<List<NavItemDeco>>
 
     /**
      * Intended for a client class to listen for navItem click events
@@ -49,8 +44,8 @@ class PanelStateDefault(
 
     private val coroutineScope = CoroutineScope(dispatcher)
 
-    private val _navItemsFlow = MutableStateFlow(navItemDecoList)
-    override val navItemsFlow: StateFlow<List<NavItemDeco>> = _navItemsFlow.asStateFlow()
+    private val _navItemsState = mutableStateOf(navItemDecoList)
+    override val navItemsState: State<List<NavItemDeco>> = _navItemsState
 
     override val panelHeaderState: State<PanelHeaderState> = mutableStateOf(panelHeaderState)
 
@@ -64,7 +59,7 @@ class PanelStateDefault(
     }
 
     override fun setNavItemsDeco(navItemDecoList: List<NavItemDeco>) {
-        _navItemsFlow.update { navItemDecoList }
+        _navItemsState.value = navItemDecoList
     }
 
     /**
@@ -75,13 +70,12 @@ class PanelStateDefault(
     }
 
     private fun updateNavBarSelectedItem(panelNavItem: NavItemDeco) {
-        _navItemsFlow.update { navItemDecoList ->
-            navItemDecoList.map { navItemDeco ->
-                navItemDeco.copy(
-                    selected = panelNavItem.component == navItemDeco.component
-                )
-            }
+        val update = _navItemsState.value.map { navItemDeco ->
+            navItemDeco.copy(
+                selected = panelNavItem.component == navItemDeco.component
+            )
         }
+        _navItemsState.value = update
     }
 
 }

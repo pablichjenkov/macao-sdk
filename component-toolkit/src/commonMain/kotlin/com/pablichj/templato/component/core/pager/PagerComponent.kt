@@ -57,12 +57,12 @@ class PagerComponent(
         get() = _componentOutFlow
 
     override fun onStart() {
-        println("$clazz::onStart()")
+        println("${instanceId()}::onStart()")
         if (currentActiveIndexSet.isEmpty()) {
             if (childComponents.isNotEmpty()) {
                 activeComponent.value = childComponents[selectedIndex]
             } else {
-                println("$clazz::onStart() with childComponents empty")
+                println("${instanceId()}::onStart() with childComponents empty")
             }
         } else {
             currentActiveIndexSet.forEach { activeChildIndex ->
@@ -72,7 +72,7 @@ class PagerComponent(
     }
 
     override fun onStop() {
-        println("$clazz::onStop()")
+        println("${instanceId()}::onStop()")
         currentActiveIndexSet.forEach { activeChildIndex ->
             childComponents[activeChildIndex].dispatchStop()
         }
@@ -194,9 +194,9 @@ class PagerComponent(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        pagerState = rememberPagerState(initialPage = selectedIndex) {
+        pagerState = rememberPagerState(initialPage = selectedIndex)/* {
             childComponents.size
-        }
+        }*/
         println(
             """PagerComponent.Composing() stack.size = ${backStack.size()}
                 |currentPage = ${pagerState.currentPage}
@@ -209,7 +209,7 @@ class PagerComponent(
             Text(
                 modifier = Modifier
                     .fillMaxSize(),
-                text = "$clazz Empty Stack, Please add some children",
+                text = "${instanceId()} Empty Stack, Please add some children",
                 textAlign = TextAlign.Center
             )
         }
@@ -242,6 +242,7 @@ class PagerComponent(
             val safeAreaInsets = LocalSafeAreaInsets.current
             Box {
                 HorizontalPager(
+                    pageCount = pagerItemsSize,
                     modifier = Modifier.fillMaxSize(),
                     state = pagerState
                 ) { pageIndex ->

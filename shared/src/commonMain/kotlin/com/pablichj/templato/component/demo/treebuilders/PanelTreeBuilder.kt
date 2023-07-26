@@ -29,21 +29,26 @@ object PanelTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Home", TopBarComponent.DefaultConfig) {},
-
-                ),
+                component = CustomTopBarComponent(
+                    "Home",
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
+            ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
                 component = buildNavBarNode(),
-
-                ),
+            ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = CustomTopBarComponent("Settings", TopBarComponent.DefaultConfig) {},
-
-                )
+                component = CustomTopBarComponent(
+                    "Settings",
+                    TopBarComponent.DefaultConfig,
+                    {},
+                ),
+            )
         )
 
         return PanelComponent(
@@ -68,21 +73,30 @@ object PanelTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent("Home", TopBarComponent.DefaultConfig) {},
-
-                ),
+                component = CustomTopBarComponent(
+                    "Home",
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
+            ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
-                component = CustomTopBarComponent("Orders", TopBarComponent.DefaultConfig) {},
-
-                ),
+                component = CustomTopBarComponent(
+                    "Orders",
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
+            ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Add,
-                component = CustomTopBarComponent("Settings", TopBarComponent.DefaultConfig) {},
-
+                component = CustomTopBarComponent(
+                    "Settings",
+                    TopBarComponent.DefaultConfig,
+                    {},
                 )
+            )
         )
 
         return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }
