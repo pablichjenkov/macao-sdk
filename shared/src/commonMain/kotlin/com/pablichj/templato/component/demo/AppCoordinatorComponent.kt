@@ -35,7 +35,7 @@ class AppCoordinatorComponent : Component() {
     private var activeComponent: MutableState<Component?> = mutableStateOf(null)
 
     override fun onStart() {
-        println("AppCoordinatorComponent::start()")
+        println("${instanceId()}::start()")
         backStack.eventListener = { event ->
             processBackstackEvent(event)
         }
@@ -47,7 +47,7 @@ class AppCoordinatorComponent : Component() {
     }
 
     override fun onStop() {
-        println("AppCoordinatorComponent::stop()")
+        println("${instanceId()}::stop()")
         backStack.eventListener = { }
         activeComponent.value?.dispatchStop()
     }
@@ -80,7 +80,7 @@ class AppCoordinatorComponent : Component() {
                 val newTop = stack[stack.lastIndex]
                 val oldTop = stack.getOrNull(stack.lastIndex - 1)
                 println(
-                    "AppCoordinatorComponent::Event.StackPush()," +
+                    "${instanceId()}::Event.StackPush()," +
                             " oldTop: ${oldTop?.let { it::class.simpleName }}," +
                             " newTop: ${newTop::class.simpleName}"
                 )
@@ -96,7 +96,7 @@ class AppCoordinatorComponent : Component() {
                 val newTop = stack.getOrNull(stack.lastIndex)
                 val oldTop = event.oldTop
                 println(
-                    "AppCoordinatorComponent::Event.StackPop(), " +
+                    "${instanceId()}::Event.StackPop(), " +
                             "oldTop: ${oldTop::class.simpleName}," +
                             " newTop: ${newTop?.let { it::class.simpleName }}"
                 )
@@ -109,13 +109,13 @@ class AppCoordinatorComponent : Component() {
 
             is BackStack.Event.PushEqualTop -> {
                 println(
-                    "AppCoordinatorComponent::Event.PushEqualTop()," +
+                    "${instanceId()}::Event.PushEqualTop()," +
                             " backStack.size = ${backStack.size()}"
                 )
             }
 
             is BackStack.Event.PopEmptyStack -> {
-                println("AppCoordinatorComponent::Event.PopEmptyStack(), backStack.size = 0")
+                println("${instanceId()}::Event.PopEmptyStack(), backStack.size = 0")
             }
         }
     }
@@ -135,7 +135,7 @@ class AppCoordinatorComponent : Component() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.Center),
-                    text = "AppCoordinatorComponent Empty Stack, Please add some children",
+                    text = "${instanceId()} Empty Stack, Please add some children",
                     textAlign = TextAlign.Center
                 )
             }

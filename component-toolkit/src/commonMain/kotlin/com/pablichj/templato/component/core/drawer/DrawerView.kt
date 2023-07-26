@@ -32,7 +32,7 @@ import com.pablichj.templato.component.core.NavItemDeco
 @Composable
 fun NavigationDrawer(
     modifier: Modifier = Modifier,
-    statePresenter: NavigationDrawerStatePresenter,
+    statePresenter: DrawerStatePresenter,
     content: @Composable () -> Unit
 ) {
 
@@ -68,7 +68,7 @@ fun NavigationDrawer(
 @Composable
 private fun DrawerContent(
     modifier: Modifier = Modifier,
-    statePresenter: NavigationDrawerStatePresenter
+    statePresenter: DrawerStatePresenter
 ) {
     val navItems by statePresenter.navItemsState
     val drawerHeaderState by statePresenter.drawerHeaderState

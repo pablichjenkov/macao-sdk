@@ -34,7 +34,7 @@ fun buildAdaptableSizeComponent(): Component {
         it.setNavItems(subtreeNavItems, 0)
         it.setCompactContainer(
             DrawerComponent(
-                navigationDrawerState = DrawerComponent.createDefaultState(),
+                drawerStatePresenter = DrawerComponent.createDefaultState(),
                 config = DrawerComponent.DefaultConfig,
                 diContainer = diContainer,
                 content = DrawerComponent.DefaultDrawerComponentView
@@ -43,14 +43,14 @@ fun buildAdaptableSizeComponent(): Component {
         //it.setCompactContainer(PagerComponent())
         it.setMediumContainer(
             NavBarComponent(
-                navBarState = NavBarComponent.createDefaultState(),
+                navBarStatePresenter = NavBarComponent.createDefaultState(),
                 config = NavBarComponent.DefaultConfig,
                 content = NavBarComponent.DefaultNavBarComponentView
             )
         )
         it.setExpandedContainer(
             PanelComponent(
-                panelState = PanelComponent.createDefaultState(),
+                panelStatePresenter = PanelComponent.createDefaultState(),
                 config = PanelComponent.DefaultConfig,
                 content = PanelComponent.DefaultPanelComponentView
             )

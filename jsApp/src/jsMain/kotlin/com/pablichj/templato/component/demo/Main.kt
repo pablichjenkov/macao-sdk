@@ -3,7 +3,6 @@ package com.pablichj.templato.component.demo
 import com.pablichj.templato.component.core.BrowserComponentRender
 import com.pablichj.templato.component.core.BrowserViewportWindow
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
-import com.pablichj.templato.component.demo.treebuilders.PanelTreeBuilder
 import com.pablichj.templato.component.core.drawer.DrawerComponent
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.panel.PanelComponent
@@ -20,7 +19,7 @@ fun main() {
             it.setNavItems(subtreeNavItems, 0)
             it.setCompactContainer(
                 DrawerComponent(
-                    navigationDrawerState = DrawerComponent.createDefaultState(),
+                    drawerStatePresenter = DrawerComponent.createDefaultState(),
                     config = DrawerComponent.DefaultConfig,
                     diContainer = diContainer,
                     content = DrawerComponent.DefaultDrawerComponentView
@@ -29,14 +28,14 @@ fun main() {
             //it.setCompactContainer(PagerComponent())
             it.setMediumContainer(
                 NavBarComponent(
-                    navBarState = NavBarComponent.createDefaultState(),
+                    navBarStatePresenter = NavBarComponent.createDefaultState(),
                     config = NavBarComponent.DefaultConfig,
                     content = NavBarComponent.DefaultNavBarComponentView
                 )
             )
             it.setExpandedContainer(
                 PanelComponent(
-                    panelState = PanelComponent.createDefaultState(),
+                    panelStatePresenter = PanelComponent.createDefaultState(),
                     config = PanelComponent.DefaultConfig,
                     content = PanelComponent.DefaultPanelComponentView
                 )

@@ -30,8 +30,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PanelComponent<T : PanelState>(
-    private val panelState: T,
+class PanelComponent<T : PanelStatePresenter>(
+    private val panelStatePresenter: T,
     config: Config = DefaultConfig,
     private val content: @Composable PanelComponent<T>.(
         modifier: Modifier,
@@ -47,7 +47,7 @@ class PanelComponent<T : PanelState>(
 
     init {
         coroutineScope.launch {
-            panelState.navItemClickFlow.collect { navItemClick ->
+            panelStatePresenter.navItemClickFlow.collect { navItemClick ->
                 backStack.push(navItemClick.component)
             }
         }
@@ -98,8 +98,8 @@ class PanelComponent<T : PanelState>(
 
     override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
         val navItemDecoNewList = navItems.map { it.toNavItemDeco() }
-        panelState.setNavItemsDeco(navItemDecoNewList)
-        panelState.selectNavItemDeco(navItemDecoNewList[selectedIndex])
+        panelStatePresenter.setNavItemsDeco(navItemDecoNewList)
+        panelStatePresenter.selectNavItemDeco(navItemDecoNewList[selectedIndex])
         if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
             backStack.push(childComponents[selectedIndex])
         }
@@ -108,7 +108,7 @@ class PanelComponent<T : PanelState>(
     override fun updateSelectedNavItem(newTop: Component) {
         getNavItemFromComponent(newTop).let {
             println("${instanceId()}::updateSelectedNavItem(), selectedIndex = $it")
-            panelState.selectNavItemDeco(it.toNavItemDeco())
+            panelStatePresenter.selectNavItemDeco(it.toNavItemDeco())
             selectedIndex = childComponents.indexOf(newTop)
         }
     }
@@ -180,8 +180,8 @@ class PanelComponent<T : PanelState>(
         fun createDefaultState(
             dispatcher: CoroutineDispatcher = Dispatchers.Main,
             panelHeaderStyle: PanelHeaderStyle = PanelHeaderStyle()
-        ): PanelStateDefault {
-            return PanelStateDefault(
+        ): PanelStatePresenterDefault {
+            return PanelStatePresenterDefault(
                 dispatcher,
                 PanelHeaderStateDefault(
                     title = "A Panel Header Title",
@@ -192,13 +192,13 @@ class PanelComponent<T : PanelState>(
             )
         }
 
-        val DefaultPanelComponentView: @Composable PanelComponent<PanelStateDefault>.(
+        val DefaultPanelComponentView: @Composable PanelComponent<PanelStatePresenterDefault>.(
             modifier: Modifier,
             childComponent: Component
         ) -> Unit = { modifier, childComponent ->
             NavigationPanel(
                 modifier = modifier,
-                panelState = panelState
+                panelStatePresenter = panelStatePresenter
             ) {
                 childComponent.Content(Modifier)
             }

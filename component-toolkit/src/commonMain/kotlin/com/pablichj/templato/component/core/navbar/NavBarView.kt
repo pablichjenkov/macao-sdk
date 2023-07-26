@@ -25,16 +25,16 @@ import com.pablichj.templato.component.platform.LocalSafeAreaInsets
 @Composable
 fun NavigationBottom(
     modifier: Modifier = Modifier,
-    navbarState: NavBarState,
+    navbarStatePresenter: NavBarStatePresenter,
     Content: @Composable () -> Unit
 ) {
-    val navItems by navbarState.navItemsState
+    val navItems by navbarStatePresenter.navItemsState
 
     Scaffold(
         modifier = modifier,
         bottomBar = {
             BottomBar(navItems) { navItem ->
-                navbarState.navItemClick(navItem)
+                navbarStatePresenter.navItemClick(navItem)
             }
         }
     ) { paddingValues ->

@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
-interface NavigationDrawerStatePresenter {
+interface DrawerStatePresenter {
     /**
      * Intended for the Composable NavigationDrawer to render the List if NavDrawer items
      * */
@@ -47,11 +47,11 @@ interface NavigationDrawerStatePresenter {
     fun setDrawerState(drawerValue: DrawerValue)
 }
 
-class NavigationDrawerStateDefault(
+class DrawerStatePresenterDefault(
     dispatcher: CoroutineDispatcher,
     drawerHeaderState: DrawerHeaderState,
     navItemDecoList: List<NavItemDeco> = emptyList()
-) : NavigationDrawerStatePresenter {
+) : DrawerStatePresenter {
 
     private val coroutineScope = CoroutineScope(dispatcher)
 

@@ -12,7 +12,7 @@ interface TopBarStatePresenter {
     var onBackPressEvent: () -> Unit
 }
 
-class DefaultTopBarStatePresenter : TopBarStatePresenter {
+class TopBarStatePresenterDefault : TopBarStatePresenter {
 
     override var onBackPressEvent: () -> Unit = {}
 

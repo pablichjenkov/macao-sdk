@@ -7,7 +7,7 @@ import androidx.compose.material.icons.filled.Home
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.drawer.DrawerComponent
-import com.pablichj.templato.component.core.drawer.NavigationDrawerStateDefault
+import com.pablichj.templato.component.core.drawer.DrawerStatePresenterDefault
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.split.SplitComponent
@@ -35,13 +35,13 @@ object FullAppWithIntroTreeBuilder {
 
     private fun buildDrawerStateTree(parentComponent: Component): Component {
         val drawerComponent = DrawerComponent(
-            navigationDrawerState = DrawerComponent.createDefaultState(),
+            drawerStatePresenter = DrawerComponent.createDefaultState(),
             config = DrawerComponent.DefaultConfig,
             diContainer = diContainer,
             content = DrawerComponent.DefaultDrawerComponentView
         )
         val navBarComponent = NavBarComponent(
-            navBarState = NavBarComponent.createDefaultState(),
+            navBarStatePresenter = NavBarComponent.createDefaultState(),
             config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )
@@ -99,15 +99,15 @@ object FullAppWithIntroTreeBuilder {
         }
     }
 
-    private fun buildNestedDrawer(): DrawerComponent<NavigationDrawerStateDefault> {
+    private fun buildNestedDrawer(): DrawerComponent<DrawerStatePresenterDefault> {
         val drawerComponent = DrawerComponent(
-            navigationDrawerState = DrawerComponent.createDefaultState(),
+            drawerStatePresenter = DrawerComponent.createDefaultState(),
             config = DrawerComponent.DefaultConfig,
             diContainer = diContainer,
             content = DrawerComponent.DefaultDrawerComponentView
         )
         val navBarComponent = NavBarComponent(
-            navBarState = NavBarComponent.createDefaultState(),
+            navBarStatePresenter = NavBarComponent.createDefaultState(),
             config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )
@@ -117,7 +117,7 @@ object FullAppWithIntroTreeBuilder {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
-                    "Orders / Current",
+                    "Orders/Current",
                     TopBarComponent.DefaultConfig,
                     {},
                 )
@@ -135,7 +135,7 @@ object FullAppWithIntroTreeBuilder {
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent(
-                    "Orders / Claim",
+                    "Orders/Claim",
                     TopBarComponent.DefaultConfig,
                     {},
                 )

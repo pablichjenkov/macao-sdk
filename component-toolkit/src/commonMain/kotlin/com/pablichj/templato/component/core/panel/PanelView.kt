@@ -26,11 +26,11 @@ import com.pablichj.templato.component.core.NavItemDeco
 @Composable
 fun NavigationPanel(
     modifier: Modifier = Modifier,
-    panelState: PanelState,
+    panelStatePresenter: PanelStatePresenter,
     Content: @Composable () -> Unit
 ) {
-    val navItems by panelState.navItemsState
-    val panelHeaderState by panelState.panelHeaderState
+    val navItems by panelStatePresenter.navItemsState
+    val panelHeaderState by panelStatePresenter.panelHeaderState
 
     Row(modifier = modifier.fillMaxSize()) {
         Column(
@@ -39,7 +39,7 @@ fun NavigationPanel(
             PanelHeader(panelHeaderState = panelHeaderState)
             PanelContentList(
                 navItems = navItems,
-                onNavItemClick = { navItem -> panelState.navItemClick(navItem) }
+                onNavItemClick = { navItem -> panelStatePresenter.navItemClick(navItem) }
             )
         }
         Box(modifier = Modifier.fillMaxSize()) {

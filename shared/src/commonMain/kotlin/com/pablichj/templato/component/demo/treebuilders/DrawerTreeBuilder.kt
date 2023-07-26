@@ -1,14 +1,13 @@
 package com.pablichj.templato.component.demo.treebuilders
 
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import com.pablichj.templato.component.demo.CustomTopBarComponent
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.drawer.DrawerComponent
-import com.pablichj.templato.component.core.drawer.NavigationDrawerStateDefault
+import com.pablichj.templato.component.core.drawer.DrawerStatePresenterDefault
 import com.pablichj.templato.component.core.navbar.NavBarComponent
-import com.pablichj.templato.component.core.navbar.NavBarStateDefault
+import com.pablichj.templato.component.core.navbar.NavBarStatePresenterDefault
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.platform.DiContainer
@@ -16,9 +15,9 @@ import com.pablichj.templato.component.platform.DispatchersProxy
 
 object DrawerTreeBuilder {
     private val diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
-    private lateinit var drawerComponent: DrawerComponent<NavigationDrawerStateDefault>
+    private lateinit var drawerComponent: DrawerComponent<DrawerStatePresenterDefault>
 
-    fun build(): DrawerComponent<NavigationDrawerStateDefault> {
+    fun build(): DrawerComponent<DrawerStatePresenterDefault> {
 
         if (DrawerTreeBuilder::drawerComponent.isInitialized) {
             return drawerComponent
@@ -51,35 +50,20 @@ object DrawerTreeBuilder {
         )
 
         return DrawerComponent(
-            navigationDrawerState = DrawerComponent.createDefaultState(),
+            drawerStatePresenter = DrawerComponent.createDefaultState(),
             config = DrawerComponent.DefaultConfig,
             diContainer = diContainer,
             content = DrawerComponent.DefaultDrawerComponentView
         ).also {
             drawerComponent = it
             it.setNavItems(drawerNavItems, 0)
-            /*it.setDrawerComponentView { modifier: Modifier, childComponent: Component ->
-                Box(Modifier.fillMaxSize()) {
-                    childComponent.Content(Modifier)
-                    FlowRow {
-                        navigationDrawerState.navItemsDeco.forEach {
-                            Text(it.label)
-                        }
-                    }
-
-                    Text(modifier = Modifier.align(Alignment.Center),
-                        text = "You should provide a Composable that encloses the render of childComponent.Content(Modifier)",
-                        color = Color.Black
-                    )
-                }
-            }*/
         }
     }
 
-    private fun buildNavBarNode(): NavBarComponent<NavBarStateDefault> {
+    private fun buildNavBarNode(): NavBarComponent<NavBarStatePresenterDefault> {
 
         val NavBarNode = NavBarComponent(
-            navBarState = NavBarComponent.createDefaultState(),
+            navBarStatePresenter = NavBarComponent.createDefaultState(),
             config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )
