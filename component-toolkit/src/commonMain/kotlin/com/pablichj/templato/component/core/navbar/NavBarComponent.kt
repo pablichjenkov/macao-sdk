@@ -59,25 +59,25 @@ class NavBarComponent<T : NavBarState>(
 
     override fun onStart() {
         if (activeComponent.value == null) {
-            println("$clazz::start(). Pushing selectedIndex = $selectedIndex, children.size = ${childComponents.size}")
+            println("${instanceId()}::start(). Pushing selectedIndex = $selectedIndex, children.size = ${childComponents.size}")
             if (childComponents.isNotEmpty()) {
                 backStack.push(childComponents[selectedIndex])
             } else {
-                println("$clazz::start() with childComponents empty")
+                println("${instanceId()}::start() with childComponents empty")
             }
         } else {
-            println("$clazz::start() with activeChild = ${activeComponent.value?.clazz}")
+            println("${instanceId()}::start() with activeChild = ${activeComponent.value?.instanceId()}")
             activeComponent.value?.dispatchStart()
         }
     }
 
     override fun onStop() {
-        println("$clazz::stop()")
+        println("${instanceId()}::stop()")
         activeComponent.value?.dispatchStop()
     }
 
     override fun handleBackPressed() {
-        println("$clazz::handleBackPressed, backStack.size = ${backStack.size()}")
+        println("${instanceId()}::handleBackPressed, backStack.size = ${backStack.size()}")
         if (backStack.size() > 1) {
             backStack.pop()
         } else {
@@ -105,7 +105,7 @@ class NavBarComponent<T : NavBarState>(
 
     override fun updateSelectedNavItem(newTop: Component) {
         getNavItemFromComponent(newTop).let {
-            println("$clazz::updateSelectedNavItem(), selectedIndex = $it")
+            println("${instanceId()}::updateSelectedNavItem(), selectedIndex = $it")
             navBarState.selectNavItemDeco(it.toNavItemDeco())
             selectedIndex = childComponents.indexOf(newTop)
         }
@@ -143,7 +143,7 @@ class NavBarComponent<T : NavBarState>(
     @Composable
     override fun Content(modifier: Modifier) {
         println(
-            """$clazz.Composing() stack.size = ${backStack.size()}
+            """${instanceId()}.Composing() stack.size = ${backStack.size()}
                 |lifecycleState = ${lifecycleState}
             """.trimMargin()
         )
@@ -154,7 +154,7 @@ class NavBarComponent<T : NavBarState>(
             Text(
                 modifier = Modifier
                     .fillMaxSize(),
-                text = "$clazz Empty Stack, Please add some children",
+                text = "${instanceId()} Empty Stack, Please add some children",
                 textAlign = TextAlign.Center
             )
         }

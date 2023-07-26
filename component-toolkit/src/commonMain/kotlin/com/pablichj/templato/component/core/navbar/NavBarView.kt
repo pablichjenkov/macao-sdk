@@ -16,7 +16,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -29,7 +28,7 @@ fun NavigationBottom(
     navbarState: NavBarState,
     Content: @Composable () -> Unit
 ) {
-    val navItems by navbarState.navItemsFlow.collectAsState()
+    val navItems by navbarState.navItemsState
 
     Scaffold(
         modifier = modifier,

@@ -45,7 +45,7 @@ object AdaptableSizeTreeBuilder {
                 component = CustomTopBarComponent(
                     "Orders",// / Current
                     TopBarComponent.DefaultConfig,
-                    {}
+                    {},
                 )
             ),
             NavItem(
@@ -54,7 +54,8 @@ object AdaptableSizeTreeBuilder {
                 component = CustomTopBarComponent(
                     "Orders / Past",
                     TopBarComponent.DefaultConfig,
-                    {})
+                    {},
+                )
             ),
             NavItem(
                 label = "Claim",
@@ -62,16 +63,24 @@ object AdaptableSizeTreeBuilder {
                 component = CustomTopBarComponent(
                     "Orders / Claim",
                     TopBarComponent.DefaultConfig,
-                    {}
+                    {},
                 )
             )
         )
 
         navBarComponent.setNavItems(navbarNavItems, 0)
 
-        val settingsComponent = CustomTopBarComponent("Settings", TopBarComponent.DefaultConfig, {})
+        val settingsComponent = CustomTopBarComponent(
+            "Settings",
+            TopBarComponent.DefaultConfig,
+            {},
+        )
 
-        val homeComponent = CustomTopBarComponent("Home", TopBarComponent.DefaultConfig, {})
+        val homeComponent = CustomTopBarComponent(
+            "Home",
+            TopBarComponent.DefaultConfig,
+            {},
+        )
 
         val navItems = mutableListOf(
             NavItem(

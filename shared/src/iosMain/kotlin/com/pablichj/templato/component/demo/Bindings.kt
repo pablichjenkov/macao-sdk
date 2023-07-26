@@ -8,13 +8,10 @@ import com.pablichj.templato.component.demo.treebuilders.FullAppWithIntroTreeBui
 import com.pablichj.templato.component.demo.treebuilders.PagerTreeBuilder
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.drawer.DrawerComponent
-import com.pablichj.templato.component.core.drawer.NavigationDrawerState
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.panel.PanelComponent
-import com.pablichj.templato.component.platform.DefaultAppLifecycleDispatcher
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.DispatchersProxy
-import com.pablichj.templato.component.platform.SafeAreaInsets
 import platform.UIKit.UIViewController
 
 fun ComponentRenderer(

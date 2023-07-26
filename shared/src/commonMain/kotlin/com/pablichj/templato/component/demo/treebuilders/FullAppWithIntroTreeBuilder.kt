@@ -51,8 +51,9 @@ object FullAppWithIntroTreeBuilder {
             setBottomComponent(
                 CustomTopBarComponent(
                     "Orders / Current",
-                    TopBarComponent.DefaultConfig
-                ) {}
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
             )
         }
 
@@ -62,8 +63,9 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Orders / Current",
-                    TopBarComponent.DefaultConfig
-                ) {},
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
             ),
             NavItem(
                 label = "Nested Node",
@@ -78,8 +80,9 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Home",
-                    TopBarComponent.DefaultConfig
-                ) {},
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
             ),
             NavItem(
                 label = "Orders",
@@ -115,24 +118,27 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Orders / Current",
-                    TopBarComponent.DefaultConfig
-                ) {},
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent(
                     "Orders / Past",
-                    TopBarComponent.DefaultConfig
-                ) {},
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent(
                     "Orders / Claim",
-                    TopBarComponent.DefaultConfig
-                ) {},
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
             )
         )
 
@@ -142,8 +148,9 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Home",
-                    TopBarComponent.DefaultConfig
-                ) {},
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
             ),
             NavItem(
                 label = "Orders Nested",

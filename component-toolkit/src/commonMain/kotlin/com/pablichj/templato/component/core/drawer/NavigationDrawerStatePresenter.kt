@@ -7,19 +7,15 @@ import com.pablichj.templato.component.core.NavItemDeco
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-interface NavigationDrawerState {
+interface NavigationDrawerStatePresenter {
     /**
      * Intended for the Composable NavigationDrawer to render the List if NavDrawer items
      * */
-    val navItemsFlow: StateFlow<List<NavItemDeco>>
+    val navItemsState: State<List<NavItemDeco>>
 
     /**
      * Intended for the Composable NavigationDrawer to close open/close the Drawer pane
@@ -55,12 +51,12 @@ class NavigationDrawerStateDefault(
     dispatcher: CoroutineDispatcher,
     drawerHeaderState: DrawerHeaderState,
     navItemDecoList: List<NavItemDeco> = emptyList()
-) : NavigationDrawerState {
+) : NavigationDrawerStatePresenter {
 
     private val coroutineScope = CoroutineScope(dispatcher)
 
-    private val _navItemsFlow = MutableStateFlow(navItemDecoList)
-    override val navItemsFlow: StateFlow<List<NavItemDeco>> = _navItemsFlow.asStateFlow()
+    private var _navItemsState = mutableStateOf(navItemDecoList)
+    override val navItemsState: State<List<NavItemDeco>> = _navItemsState
 
     override val drawerHeaderState: State<DrawerHeaderState> = mutableStateOf(drawerHeaderState)
 
@@ -84,7 +80,7 @@ class NavigationDrawerStateDefault(
     }
 
     override fun setNavItemsDeco(navItemDecoList: List<NavItemDeco>) {
-        _navItemsFlow.update { navItemDecoList }
+        _navItemsState.value = navItemDecoList
     }
 
     /**
@@ -95,13 +91,12 @@ class NavigationDrawerStateDefault(
     }
 
     private fun updateDrawerSelectedItem(drawerNavItem: NavItemDeco) {
-        _navItemsFlow.update { navItemDecoList ->
-            navItemDecoList.map { navItemDeco ->
-                navItemDeco.copy(
-                    selected = drawerNavItem.component == navItemDeco.component
-                )
-            }
+        val update = _navItemsState.value.map { navItemDeco ->
+            navItemDeco.copy(
+                selected = drawerNavItem.component == navItemDeco.component
+            )
         }
+        _navItemsState.value = update
     }
 
 }

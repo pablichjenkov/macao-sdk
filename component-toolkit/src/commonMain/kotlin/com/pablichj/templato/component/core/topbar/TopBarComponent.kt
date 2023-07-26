@@ -5,33 +5,47 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.drawer.DrawerComponent
 import com.pablichj.templato.component.core.findClosestDrawerNavigationComponent
+import com.pablichj.templato.component.core.navbar.NavBarStateDefault
+import com.pablichj.templato.component.core.panel.NavigationPanel
+import com.pablichj.templato.component.core.panel.PanelComponent
+import com.pablichj.templato.component.core.panel.PanelStateDefault
 import com.pablichj.templato.component.core.stack.DefaultStackComponentView
 import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.stack.StackComponent
 import com.pablichj.templato.component.core.stack.StackStyle
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
-abstract class TopBarComponent(
+abstract class TopBarComponent<T : TopBarStatePresenter>(
+    private val topBarStatePresenter: T,
     private val config: Config
 ) : StackComponent() {
 
-    private val topBarStatePresenter: TopBarStatePresenter =
-        DefaultTopBarStatePresenter(onHandleBackPress = ::handleBackPressed)
+    init {
+        topBarStatePresenter.onBackPressEvent = {
+            handleBackPressed()
+        }
+    }
 
     override fun onStackTopUpdate(topComponent: Component) {
         val selectedStackBarItem = getStackBarItemForComponent(topComponent)
+
         if (config.showBackArrowAlways) {
             setTitleSectionForBackClick(selectedStackBarItem)
+            return
+        }
+
+        if (backStack.size() > 1) {
+            setTitleSectionForBackClick(selectedStackBarItem)
         } else {
-            if (backStack.size() > 1) {
-                setTitleSectionForBackClick(selectedStackBarItem)
-            } else {
-                setTitleSectionForHomeClick(selectedStackBarItem)
-            }
+            setTitleSectionForHomeClick(selectedStackBarItem)
         }
     }
 
@@ -76,16 +90,29 @@ abstract class TopBarComponent(
         }
     }
 
+    var topBarContent: @Composable TopBarComponent<T>.(
+        modifier: Modifier
+    ) -> Unit = { modifier ->
+        TopBar(this.topBarStatePresenter)
+    }
+
     @Composable
     override fun Content(modifier: Modifier) {
+        println(
+            """${instanceId()}.Composing() stack.size = ${backStack.size()}
+                |lifecycleState = ${lifecycleState}
+            """
+        )
         Scaffold(
             modifier = modifier,
-            topBar = { TopBar(topBarStatePresenter) }
+            topBar = { this.topBarContent(modifier) }
         ) { paddingValues ->
             DefaultStackComponentView(
                 topBarComponent = this,
                 modifier = modifier.padding(paddingValues),
-                onComponentSwipedOut = { topBarStatePresenter.handleBackPress() }
+                onComponentSwipedOut = {
+                    topBarStatePresenter.onBackPressEvent()
+                }
             )
         }
     }
@@ -99,6 +126,11 @@ abstract class TopBarComponent(
         val DefaultConfig = Config(
             StackStyle()
         )
+
+        fun createDefaultState(): DefaultTopBarStatePresenter {
+            return DefaultTopBarStatePresenter()
+        }
+
     }
 
 }

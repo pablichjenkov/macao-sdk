@@ -59,12 +59,12 @@ class AdaptiveSizeComponent : Component(), NavigationComponent {
     }
 
     override fun onStart() {
-        println("$clazz::onStart()")
+        println("${instanceId()}::onStart()")
         currentNavComponent.value.getComponent().dispatchStart()
     }
 
     override fun onStop() {
-        println("$clazz::onStop()")
+        println("${instanceId()}::onStop()")
         currentNavComponent.value.getComponent().dispatchStop()
     }
 
@@ -80,7 +80,7 @@ class AdaptiveSizeComponent : Component(), NavigationComponent {
     }
 
     override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
-        println("$clazz.onDeepLinkMatch() matchingNode = ${matchingComponent.clazz}")
+        println("${instanceId()}.onDeepLinkMatch() matchingNode = ${matchingComponent.instanceId()}")
         return DeepLinkResult.Success
     }
 
@@ -102,7 +102,7 @@ class AdaptiveSizeComponent : Component(), NavigationComponent {
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("$clazz.Composing() lifecycleState = $lifecycleState")
+        println("${instanceId()}.Composing() lifecycleState = $lifecycleState")
         val density = LocalDensity.current
         val componentLifecycleState by lifecycleStateFlow.collectAsState(ComponentLifecycleState.Created)
         when (componentLifecycleState) {
@@ -114,12 +114,12 @@ class AdaptiveSizeComponent : Component(), NavigationComponent {
                 val windowSizeInfoDiff = derivedStateOf { windowSizeInfo.value }
                 Box(Modifier.fillMaxSize().onSizeChanged { size ->
                     val widthDp = with(density) { size.width.toDp() }
-                    println("$clazz::Box.onSizeChanged Width of Text in Pixels: ${size.width}")
-                    println("$clazz::Box.onSizeChanged Width of Text in DP: $widthDp")
+                    println("${instanceId()}::Box.onSizeChanged Width of Text in Pixels: ${size.width}")
+                    println("${instanceId()}::Box.onSizeChanged Width of Text in DP: $widthDp")
                     windowSizeInfo.value = WindowSizeInfo.fromWidthDp(widthDp)
                 }) {
                     val windowSizeInfoCopy = windowSizeInfoDiff.value
-                    println("$clazz.Composing.Started() windowSizeInfo = $windowSizeInfoCopy")
+                    println("${instanceId()}.Composing.Started() windowSizeInfo = $windowSizeInfoCopy")
                     val currentNavComponentCopy = currentNavComponent.value
                     if (windowSizeInfoCopy != null) {
                         if (currentNavComponentCopy == initialEmptyNavComponent) {

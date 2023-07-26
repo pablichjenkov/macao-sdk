@@ -25,7 +25,7 @@ internal class InternalRootComponent(
     }
 
     override fun handleBackPressed() {
-        println("$clazz::BackPressed event delegation reached the InternalRootComponent")
+        println("${instanceId()}::BackPressed event delegation reached the InternalRootComponent")
         onBackPressEvent?.invoke()
     }
 
