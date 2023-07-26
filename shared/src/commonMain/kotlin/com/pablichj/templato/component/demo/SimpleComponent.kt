@@ -57,11 +57,11 @@ class SimpleComponent(
 ) : Component() {
 
     override fun onStart() {
-        println("SimpleComponent::start()")
+        println("${instanceId()}::start()")
     }
 
     override fun onStop() {
-        println("SimpleComponent::stop()")
+        println("${instanceId()}::stop()")
     }
 
     sealed interface Msg {
@@ -70,7 +70,7 @@ class SimpleComponent(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        println("SimpleComponent::Composing()")
+        println("${instanceId()}::Composing()")
         consumeBackPressEvent()
         Column (
             modifier = modifier.fillMaxSize()

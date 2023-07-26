@@ -3,7 +3,6 @@ package com.pablichj.templato.component.core.stack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
-import com.pablichj.templato.component.core.topbar.DefaultTopBarStatePresenter
 import com.pablichj.templato.component.core.topbar.TopBarComponent
 
 @Composable

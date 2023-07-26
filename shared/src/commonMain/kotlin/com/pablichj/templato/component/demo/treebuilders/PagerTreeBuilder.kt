@@ -1,6 +1,5 @@
 package com.pablichj.templato.component.demo.treebuilders
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
@@ -15,7 +14,6 @@ import com.pablichj.templato.component.demo.CustomTopBarComponent
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.DispatchersProxy
 
-@OptIn(ExperimentalFoundationApi::class)
 object PagerTreeBuilder {
     private val diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
     private lateinit var pagerComponent: PagerComponent
@@ -27,12 +25,12 @@ object PagerTreeBuilder {
         }
 
         val navBarComponent1 = NavBarComponent(
-            navBarState = NavBarComponent.createDefaultState(),
+            navBarStatePresenter = NavBarComponent.createDefaultState(),
             config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )
         val navBarComponent2 = NavBarComponent(
-            navBarState = NavBarComponent.createDefaultState(),
+            navBarStatePresenter = NavBarComponent.createDefaultState(),
             config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )
@@ -42,7 +40,7 @@ object PagerTreeBuilder {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
-                    "Orders/ Current",
+                    "Orders/Current",
                     TopBarComponent.DefaultConfig,
                     {},
                 )
@@ -51,7 +49,7 @@ object PagerTreeBuilder {
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent(
-                    "Orders / Past",
+                    "Orders/Past",
                     TopBarComponent.DefaultConfig,
                     {},
                 )
@@ -60,7 +58,7 @@ object PagerTreeBuilder {
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent(
-                    "Orders / Claim",
+                    "Orders/Claim",
                     TopBarComponent.DefaultConfig,
                     {},
                 )
@@ -72,7 +70,7 @@ object PagerTreeBuilder {
                 label = "Account",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
-                    "Settings / Account",
+                    "Settings/Account",
                     TopBarComponent.DefaultConfig,
                     {},
                 )
@@ -81,7 +79,7 @@ object PagerTreeBuilder {
                 label = "Profile",
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent(
-                    "Settings / Profile",
+                    "Settings/Profile",
                     TopBarComponent.DefaultConfig,
                     {},
                 )
@@ -90,7 +88,7 @@ object PagerTreeBuilder {
                 label = "About Us",
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent(
-                    "Settings / About Us",
+                    "Settings/About Us",
                     TopBarComponent.DefaultConfig,
                     {},
                 )

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
-interface PanelState {
+interface PanelStatePresenter {
     /**
      * Intended for the Composable NavBar to render the List if NavBarItems items
      * */
@@ -36,11 +36,11 @@ interface PanelState {
     fun selectNavItemDeco(navbarItem: NavItemDeco)
 }
 
-class PanelStateDefault(
+class PanelStatePresenterDefault(
     dispatcher: CoroutineDispatcher,
     panelHeaderState: PanelHeaderState,
     navItemDecoList: List<NavItemDeco> = emptyList()
-) : PanelState {
+) : PanelStatePresenter {
 
     private val coroutineScope = CoroutineScope(dispatcher)
 

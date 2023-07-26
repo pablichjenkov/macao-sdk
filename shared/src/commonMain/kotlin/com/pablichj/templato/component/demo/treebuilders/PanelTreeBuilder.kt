@@ -8,18 +8,18 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.navbar.NavBarComponent
-import com.pablichj.templato.component.core.navbar.NavBarStateDefault
+import com.pablichj.templato.component.core.navbar.NavBarStatePresenterDefault
 import com.pablichj.templato.component.core.panel.PanelComponent
-import com.pablichj.templato.component.core.panel.PanelStateDefault
+import com.pablichj.templato.component.core.panel.PanelStatePresenterDefault
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.demo.CustomTopBarComponent
 
 object PanelTreeBuilder {
 
-    private lateinit var panelComponent: PanelComponent<PanelStateDefault>
+    private lateinit var panelComponent: PanelComponent<PanelStatePresenterDefault>
 
-    fun build(): PanelComponent<PanelStateDefault> {
+    fun build(): PanelComponent<PanelStatePresenterDefault> {
 
         if (PanelTreeBuilder::panelComponent.isInitialized) {
             return panelComponent
@@ -52,7 +52,7 @@ object PanelTreeBuilder {
         )
 
         return PanelComponent(
-            panelState = PanelComponent.createDefaultState(),
+            panelStatePresenter = PanelComponent.createDefaultState(),
             config = PanelComponent.DefaultConfig,
             content = PanelComponent.DefaultPanelComponentView
         ).also {
@@ -61,10 +61,10 @@ object PanelTreeBuilder {
         }
     }
 
-    private fun buildNavBarNode(): NavBarComponent<NavBarStateDefault> {
+    private fun buildNavBarNode(): NavBarComponent<NavBarStatePresenterDefault> {
 
         val NavBarNode = NavBarComponent(
-            navBarState = NavBarComponent.createDefaultState(),
+            navBarStatePresenter = NavBarComponent.createDefaultState(),
             config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )

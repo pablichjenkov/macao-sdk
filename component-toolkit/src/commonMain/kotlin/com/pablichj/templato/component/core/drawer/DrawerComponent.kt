@@ -30,8 +30,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DrawerComponent<T: NavigationDrawerStatePresenter>(
-    private val navigationDrawerState: T,
+class DrawerComponent<T: DrawerStatePresenter>(
+    private val drawerStatePresenter: T,
     config: Config,
     diContainer: DiContainer,
     private var content: @Composable DrawerComponent<T>.(
@@ -48,7 +48,7 @@ class DrawerComponent<T: NavigationDrawerStatePresenter>(
 
     init {
         coroutineScope.launch {
-            navigationDrawerState.navItemClickFlow.collect { navItemClick ->
+            drawerStatePresenter.navItemClickFlow.collect { navItemClick ->
                 backStack.push(navItemClick.component)
             }
         }
@@ -97,12 +97,12 @@ class DrawerComponent<T: NavigationDrawerStatePresenter>(
 
     override fun open() {
         println("${instanceId()}::open")
-        navigationDrawerState.setDrawerState(DrawerValue.Open)
+        drawerStatePresenter.setDrawerState(DrawerValue.Open)
     }
 
     override fun close() {
         println("${instanceId()}::close")
-        navigationDrawerState.setDrawerState(DrawerValue.Closed)
+        drawerStatePresenter.setDrawerState(DrawerValue.Closed)
     }
 
     // endregion
@@ -115,8 +115,8 @@ class DrawerComponent<T: NavigationDrawerStatePresenter>(
 
     override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
         val navItemDecoNewList = navItems.map { it.toNavItemDeco() }
-        navigationDrawerState.setNavItemsDeco(navItemDecoNewList)
-        navigationDrawerState.selectNavItemDeco(navItemDecoNewList[selectedIndex])
+        drawerStatePresenter.setNavItemsDeco(navItemDecoNewList)
+        drawerStatePresenter.selectNavItemDeco(navItemDecoNewList[selectedIndex])
         if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
             backStack.push(childComponents[selectedIndex])
         }
@@ -125,7 +125,7 @@ class DrawerComponent<T: NavigationDrawerStatePresenter>(
     override fun updateSelectedNavItem(newTop: Component) {
         getNavItemFromComponent(newTop).let {
             println("${instanceId()}::updateSelectedNavItem(), selectedIndex = $it")
-            navigationDrawerState.selectNavItemDeco(it.toNavItemDeco())
+            drawerStatePresenter.selectNavItemDeco(it.toNavItemDeco())
             selectedIndex = childComponents.indexOf(newTop)
         }
     }
@@ -200,8 +200,8 @@ class DrawerComponent<T: NavigationDrawerStatePresenter>(
         fun createDefaultState(
             dispatcher: CoroutineDispatcher = Dispatchers.Main,
             drawerHeaderStyle: DrawerHeaderStyle = DrawerHeaderStyle()
-        ): NavigationDrawerStateDefault {
-            return NavigationDrawerStateDefault(
+        ): DrawerStatePresenterDefault {
+            return DrawerStatePresenterDefault(
                 dispatcher,
                 DrawerHeaderDefaultState(
                     title = "Header Title",
@@ -212,13 +212,13 @@ class DrawerComponent<T: NavigationDrawerStatePresenter>(
             )
         }
 
-        val DefaultDrawerComponentView: @Composable DrawerComponent<NavigationDrawerStateDefault>.(
+        val DefaultDrawerComponentView: @Composable DrawerComponent<DrawerStatePresenterDefault>.(
             modifier: Modifier,
             childComponent: Component
         ) -> Unit = { modifier, childComponent ->
             NavigationDrawer(
                 modifier = modifier,
-                statePresenter = navigationDrawerState
+                statePresenter = drawerStatePresenter
             ) {
                 childComponent.Content(Modifier)
             }

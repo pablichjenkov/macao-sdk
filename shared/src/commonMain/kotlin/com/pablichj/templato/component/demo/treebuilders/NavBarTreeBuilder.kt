@@ -6,7 +6,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.navbar.NavBarComponent
-import com.pablichj.templato.component.core.navbar.NavBarStateDefault
+import com.pablichj.templato.component.core.navbar.NavBarStatePresenterDefault
 import com.pablichj.templato.component.core.navbar.NavBarStyle
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.stack.FixSizedPushStrategy
@@ -17,9 +17,9 @@ import com.pablichj.templato.component.platform.DispatchersProxy
 
 object NavBarTreeBuilder {
 
-    private lateinit var navBarComponent: NavBarComponent<NavBarStateDefault>
+    private lateinit var navBarComponent: NavBarComponent<NavBarStatePresenterDefault>
 
-    fun build(): NavBarComponent<NavBarStateDefault> {
+    fun build(): NavBarComponent<NavBarStatePresenterDefault> {
 
         if (NavBarTreeBuilder::navBarComponent.isInitialized) {
             return navBarComponent
@@ -56,21 +56,12 @@ object NavBarTreeBuilder {
         )
 
         return NavBarComponent(
-            navBarState = NavBarComponent.createDefaultState(),
+            navBarStatePresenter = NavBarComponent.createDefaultState(),
             config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         ).also {
             it.setNavItems(navbarNavItems, 0)
             navBarComponent = it
-            /*it.setNavBarComponentView { modifier: Modifier, childComponent: Component, navBarState: NavBarState ->
-                Box(Modifier.fillMaxSize()) {
-                    childComponent.Content(Modifier)
-                    Text(modifier = Modifier.align(Alignment.Center),
-                        text = "You should provide a Composable that encloses the render of childComponent.Content(Modifier)",
-                        color = Color.Black
-                    )
-                }
-            }*/
         }
     }
 

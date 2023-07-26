@@ -5,23 +5,15 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.drawer.DrawerComponent
 import com.pablichj.templato.component.core.findClosestDrawerNavigationComponent
-import com.pablichj.templato.component.core.navbar.NavBarStateDefault
-import com.pablichj.templato.component.core.panel.NavigationPanel
-import com.pablichj.templato.component.core.panel.PanelComponent
-import com.pablichj.templato.component.core.panel.PanelStateDefault
 import com.pablichj.templato.component.core.stack.DefaultStackComponentView
 import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.stack.StackComponent
 import com.pablichj.templato.component.core.stack.StackStyle
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 
 abstract class TopBarComponent<T : TopBarStatePresenter>(
     private val topBarStatePresenter: T,
@@ -36,16 +28,23 @@ abstract class TopBarComponent<T : TopBarStatePresenter>(
 
     override fun onStackTopUpdate(topComponent: Component) {
         val selectedStackBarItem = getStackBarItemForComponent(topComponent)
+        when (config.showBackArrowStrategy) {
+            ShowBackArrowStrategy.WhenParentCanHandleBack -> {
+                // Assume parent can handle always, except web
+                setTitleSectionForBackClick(selectedStackBarItem)
+            }
 
-        if (config.showBackArrowAlways) {
-            setTitleSectionForBackClick(selectedStackBarItem)
-            return
-        }
+            ShowBackArrowStrategy.Always -> {
+                setTitleSectionForBackClick(selectedStackBarItem)
+            }
 
-        if (backStack.size() > 1) {
-            setTitleSectionForBackClick(selectedStackBarItem)
-        } else {
-            setTitleSectionForHomeClick(selectedStackBarItem)
+            ShowBackArrowStrategy.WhenStackCountGreaterThanOne -> {
+                if (backStack.size() > 1) {
+                    setTitleSectionForBackClick(selectedStackBarItem)
+                } else {
+                    setTitleSectionForHomeClick(selectedStackBarItem)
+                }
+            }
         }
     }
 
@@ -54,7 +53,7 @@ abstract class TopBarComponent<T : TopBarStatePresenter>(
     private fun setTitleSectionForHomeClick(stackBarItem: StackBarItem) {
         topBarStatePresenter.topBarState.value = TopBarState(
             title = stackBarItem.label,
-            icon1 = resolveFirstIcon(),
+            icon1 = resolveGlobalNavigationIcon(),
             onIcon1Click = {
                 findClosestDrawerNavigationComponent()?.open()
             },
@@ -70,7 +69,7 @@ abstract class TopBarComponent<T : TopBarStatePresenter>(
             onTitleClick = {
                 handleBackPressed()
             },
-            icon1 = resolveFirstIcon(),
+            icon1 = resolveGlobalNavigationIcon(),
             onIcon1Click = {
                 findClosestDrawerNavigationComponent()?.open()
             },
@@ -81,7 +80,7 @@ abstract class TopBarComponent<T : TopBarStatePresenter>(
         )
     }
 
-    private fun resolveFirstIcon(): ImageVector? {
+    private fun resolveGlobalNavigationIcon(): ImageVector? {
         val canProvideGlobalNavigation = findClosestDrawerNavigationComponent() != null
         return if (canProvideGlobalNavigation) {
             Icons.Filled.Menu
@@ -119,7 +118,7 @@ abstract class TopBarComponent<T : TopBarStatePresenter>(
 
     class Config(
         val stackStyle: StackStyle = StackStyle(),
-        val showBackArrowAlways: Boolean = true
+        val showBackArrowStrategy: ShowBackArrowStrategy = ShowBackArrowStrategy.Always
     )
 
     companion object {
@@ -127,8 +126,8 @@ abstract class TopBarComponent<T : TopBarStatePresenter>(
             StackStyle()
         )
 
-        fun createDefaultState(): DefaultTopBarStatePresenter {
-            return DefaultTopBarStatePresenter()
+        fun createDefaultState(): TopBarStatePresenterDefault {
+            return TopBarStatePresenterDefault()
         }
 
     }

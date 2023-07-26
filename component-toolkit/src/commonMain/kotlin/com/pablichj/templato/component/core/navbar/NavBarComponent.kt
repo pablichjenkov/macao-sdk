@@ -30,8 +30,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class NavBarComponent<T : NavBarState>(
-    val navBarState: T,
+class NavBarComponent<T : NavBarStatePresenter>(
+    val navBarStatePresenter: T,
     config: Config = DefaultConfig,
     private var content: @Composable NavBarComponent<T>.(
         modifier: Modifier,
@@ -47,7 +47,7 @@ class NavBarComponent<T : NavBarState>(
 
     init {
         coroutineScope.launch {
-            navBarState.navItemClickFlow.collect { navItem ->
+            navBarStatePresenter.navItemClickFlow.collect { navItem ->
                 backStack.push(navItem.component)
             }
         }
@@ -96,8 +96,8 @@ class NavBarComponent<T : NavBarState>(
 
     override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
         val navItemDecoNewList = navItems.map { it.toNavItemDeco() }
-        navBarState.setNavItemsDeco(navItemDecoNewList)
-        navBarState.selectNavItemDeco(navItemDecoNewList[selectedIndex])
+        navBarStatePresenter.setNavItemsDeco(navItemDecoNewList)
+        navBarStatePresenter.selectNavItemDeco(navItemDecoNewList[selectedIndex])
         if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
             backStack.push(childComponents[selectedIndex])
         }
@@ -106,7 +106,7 @@ class NavBarComponent<T : NavBarState>(
     override fun updateSelectedNavItem(newTop: Component) {
         getNavItemFromComponent(newTop).let {
             println("${instanceId()}::updateSelectedNavItem(), selectedIndex = $it")
-            navBarState.selectNavItemDeco(it.toNavItemDeco())
+            navBarStatePresenter.selectNavItemDeco(it.toNavItemDeco())
             selectedIndex = childComponents.indexOf(newTop)
         }
     }
@@ -177,19 +177,19 @@ class NavBarComponent<T : NavBarState>(
 
         fun createDefaultState(
             dispatcher: CoroutineDispatcher = Dispatchers.Main
-        ): NavBarStateDefault {
-            return NavBarStateDefault(
+        ): NavBarStatePresenterDefault {
+            return NavBarStatePresenterDefault(
                 dispatcher = dispatcher
             )
         }
 
-        val DefaultNavBarComponentView: @Composable NavBarComponent<NavBarStateDefault>.(
+        val DefaultNavBarComponentView: @Composable NavBarComponent<NavBarStatePresenterDefault>.(
             modifier: Modifier,
             childComponent: Component
         ) -> Unit = { modifier, childComponent ->
             NavigationBottom(
                 modifier = modifier,
-                navbarState = navBarState
+                navbarStatePresenter = navBarStatePresenter
             ) {
                 childComponent.Content(Modifier)
             }

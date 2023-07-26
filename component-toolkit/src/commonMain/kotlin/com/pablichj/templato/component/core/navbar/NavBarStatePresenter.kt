@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
-interface NavBarState {
+interface NavBarStatePresenter {
     /**
      * Intended for the Composable NavBar to render the List if NavBarItems items
      * */
@@ -34,10 +34,10 @@ interface NavBarState {
     fun selectNavItemDeco(navbarItem: NavItemDeco)
 }
 
-class NavBarStateDefault(
+class NavBarStatePresenterDefault(
     dispatcher: CoroutineDispatcher,
     navItemDecoList: List<NavItemDeco> = emptyList()
-) : NavBarState {
+) : NavBarStatePresenter {
 
     private val coroutineScope = CoroutineScope(dispatcher)
 

@@ -135,7 +135,7 @@ class PagerComponent(
     }
 
     private fun onPageChanged(pageIndex: Int) {
-        println("PagerComponent::onPageChanged newPage = $pageIndex")
+        println("${instanceId()}::onPageChanged newPage = $pageIndex")
         val nextStartedIndexSet = mutableSetOf<Int>()
         if (pageIndex - 1 >= 0) {
             nextStartedIndexSet.add(pageIndex - 1)
@@ -198,7 +198,7 @@ class PagerComponent(
             childComponents.size
         }*/
         println(
-            """PagerComponent.Composing() stack.size = ${backStack.size()}
+            """${instanceId()}.Composing() stack.size = ${backStack.size()}
                 |currentPage = ${pagerState.currentPage}
                 |lifecycleState = ${lifecycleState}
             """.trimMargin()

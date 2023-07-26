@@ -8,7 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import com.pablichj.templato.component.core.AndroidComponentRender
 import com.pablichj.templato.component.core.drawer.DrawerComponent
-import com.pablichj.templato.component.core.drawer.NavigationDrawerStateDefault
+import com.pablichj.templato.component.core.drawer.DrawerStatePresenterDefault
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.panel.PanelComponent
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
@@ -25,8 +25,8 @@ class AdaptableSizeNodeActivity : ComponentActivity() {
         val rootComponent = AdaptableSizeTreeBuilder.build().also {
             it.setNavItems(subtreeNavItems, 0)
             it.setCompactContainer(
-                DrawerComponent<NavigationDrawerStateDefault>(
-                    navigationDrawerState = DrawerComponent.createDefaultState(),
+                DrawerComponent<DrawerStatePresenterDefault>(
+                    drawerStatePresenter = DrawerComponent.createDefaultState(),
                     config = DrawerComponent.DefaultConfig,
                     diContainer = diContainer,
                     content = DrawerComponent.DefaultDrawerComponentView
@@ -34,14 +34,14 @@ class AdaptableSizeNodeActivity : ComponentActivity() {
             )
             it.setMediumContainer(
                 NavBarComponent(
-                    navBarState = NavBarComponent.createDefaultState(),
+                    navBarStatePresenter = NavBarComponent.createDefaultState(),
                     config = NavBarComponent.DefaultConfig,
                     content = NavBarComponent.DefaultNavBarComponentView
                 )
             )
             it.setExpandedContainer(
                 PanelComponent(
-                    panelState = PanelComponent.createDefaultState(),
+                    panelStatePresenter = PanelComponent.createDefaultState(),
                     config = PanelComponent.DefaultConfig,
                     content = PanelComponent.DefaultPanelComponentView
                 )
