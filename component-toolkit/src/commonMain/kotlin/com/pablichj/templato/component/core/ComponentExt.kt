@@ -2,7 +2,6 @@ package com.pablichj.templato.component.core
 
 import androidx.compose.runtime.Composable
 import com.pablichj.templato.component.core.backpress.BackPressHandler
-import com.pablichj.templato.component.core.drawer.DrawerNavigationComponent
 import com.pablichj.templato.component.core.router.Router
 
 fun Component.getFirstParentMatching(
@@ -25,12 +24,6 @@ fun Component.getRouter(): Router? {
     } as? ComponentTreeContext ?: return null
 
     return treeContext.router
-}
-
-fun Component.findClosestDrawerNavigationComponent(): DrawerNavigationComponent? {
-    return getFirstParentMatching {
-        it is DrawerNavigationComponent
-    } as? DrawerNavigationComponent
 }
 
 @Composable

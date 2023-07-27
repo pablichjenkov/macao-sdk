@@ -23,11 +23,13 @@ import androidx.compose.material.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.pablichj.templato.component.core.NavItemDeco
+import com.pablichj.templato.component.core.backpress.DefaultBackPressDispatcher
 
 @Composable
 fun NavigationDrawer(
@@ -141,3 +143,8 @@ fun NavigationDrawerItem(
         label()
     }
 }
+
+val LocalDrawerNavigationProvider =
+    staticCompositionLocalOf<DrawerNavigationProvider> {
+        EmptyDrawerNavigationProvider()
+    }

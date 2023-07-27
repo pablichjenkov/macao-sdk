@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
@@ -38,7 +39,7 @@ class DrawerComponent<T: DrawerStatePresenter>(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit
-) : Component(), NavigationComponent, DrawerNavigationComponent {
+) : Component(), NavigationComponent, DrawerNavigationProvider {
     override val backStack = createBackStack(config.pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
@@ -166,20 +167,20 @@ class DrawerComponent<T: DrawerStatePresenter>(
                 |lifecycleState = ${lifecycleState}
             """
         )
-        //Box {
-        val activeComponentCopy = activeComponent.value
-        if (activeComponentCopy != null) {
-            content(modifier, activeComponentCopy)
-        } else {
-            Text(
-                modifier = Modifier
-                    .fillMaxSize(),
-                //.align(Alignment.Center),
-                text = "${instanceId()} Empty Stack, Please add some children",
-                textAlign = TextAlign.Center
-            )
+        CompositionLocalProvider(
+            LocalDrawerNavigationProvider provides this
+        ) {
+            val activeComponentCopy = activeComponent.value
+            if (activeComponentCopy != null) {
+                content(modifier, activeComponentCopy)
+            } else {
+                Text(
+                    modifier = Modifier.fillMaxSize(),
+                    text = "${instanceId()} Empty Stack, Please add some children",
+                    textAlign = TextAlign.Center
+                )
+            }
         }
-        //}
     }
 
     // endregion
