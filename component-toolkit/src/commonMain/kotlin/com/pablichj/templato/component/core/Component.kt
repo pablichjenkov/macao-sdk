@@ -34,7 +34,7 @@ abstract class Component : ComponentLifecycle() {
     val lifecycleStateFlow: StateFlow<ComponentLifecycleState>
         get() = _lifecycleStateFlow.asStateFlow()
 
-    fun dispatchStart() {
+    open fun dispatchStart() {
         lifecycleState =
             ComponentLifecycleState.Started // It has to be the first line of this block
         if (deepLinkNavigationAwaitsStartedState) {
@@ -45,13 +45,13 @@ abstract class Component : ComponentLifecycle() {
         _lifecycleStateFlow.value = ComponentLifecycleState.Started
     }
 
-    fun dispatchStop() {
+    open fun dispatchStop() {
         lifecycleState = ComponentLifecycleState.Stopped
         onStop()
         _lifecycleStateFlow.value = ComponentLifecycleState.Stopped
     }
 
-    fun dispatchDestroy() {
+    open fun dispatchDestroy() {
         lifecycleState = ComponentLifecycleState.Destroyed
         onDestroy()
         _lifecycleStateFlow.value = ComponentLifecycleState.Destroyed

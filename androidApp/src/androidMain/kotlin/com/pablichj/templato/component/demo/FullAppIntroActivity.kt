@@ -18,7 +18,7 @@ class FullAppIntroActivity : ComponentActivity() {
             MaterialTheme {
                 AndroidComponentRender(
                     rootComponent = rootComponent,
-                    onBackPressEvent = { finish() }
+                    onBackPress = { finish() }
                 )
             }
         }

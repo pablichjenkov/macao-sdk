@@ -43,7 +43,7 @@ object AdaptableSizeTreeBuilder {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
-                    "Orders",// / Current
+                    "Orders/Current",
                     TopBarComponent.DefaultConfig,
                     {},
                 )
@@ -52,7 +52,7 @@ object AdaptableSizeTreeBuilder {
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent(
-                    "Orders / Past",
+                    "Orders/Past",
                     TopBarComponent.DefaultConfig,
                     {},
                 )
@@ -61,7 +61,7 @@ object AdaptableSizeTreeBuilder {
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent(
-                    "Orders / Claim",
+                    "Orders/Claim",
                     TopBarComponent.DefaultConfig,
                     {},
                 )

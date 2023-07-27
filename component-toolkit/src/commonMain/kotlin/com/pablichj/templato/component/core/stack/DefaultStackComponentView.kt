@@ -26,7 +26,7 @@ fun DefaultStackComponentView(
         }
 
         is BackStack.Event.PopEmptyStack -> {
-            AnimationType.Enter
+            AnimationType.Exit
         }
 
         is BackStack.Event.Push -> {

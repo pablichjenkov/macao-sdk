@@ -2,8 +2,6 @@ package com.pablichj.templato.component.core.backpress
 
 import android.content.Context
 import androidx.annotation.IntDef
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
 
 object SystemNavigationUtil {
     /**
@@ -58,7 +56,7 @@ object SystemNavigationUtil {
         return if (resourceId > 0) resources.getInteger(resourceId) else NAVIGATION_BAR_INTERACTION_MODE_THREE_BUTTON
     }
 
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(AnnotationRetention.SOURCE)
     @IntDef(
         NAVIGATION_BAR_INTERACTION_MODE_THREE_BUTTON,
         NAVIGATION_BAR_INTERACTION_MODE_TWO_BUTTON,
