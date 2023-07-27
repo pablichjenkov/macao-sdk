@@ -57,11 +57,11 @@ class SimpleComponent(
 ) : Component() {
 
     override fun onStart() {
-        println("${instanceId()}::start()")
+        println("${instanceId()}::onStart()")
     }
 
     override fun onStop() {
-        println("${instanceId()}::stop()")
+        println("${instanceId()}::onStop()")
     }
 
     sealed interface Msg {

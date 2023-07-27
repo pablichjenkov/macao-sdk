@@ -1,12 +1,12 @@
 package com.pablichj.templato.component.core.backpress
 
-interface IBackPressDispatcher {
+interface BackPressDispatcher {
     fun subscribe(backPressedCallback: BackPressedCallback)
     fun unsubscribe(backPressedCallback: BackPressedCallback)
     fun isSystemBackButtonEnabled(): Boolean
 }
 
-class DefaultBackPressDispatcher : IBackPressDispatcher {
+class DefaultBackPressDispatcher : BackPressDispatcher {
 
     private val onBackPressedCallbacks: ArrayDeque<BackPressedCallbackProxy> = ArrayDeque()
 

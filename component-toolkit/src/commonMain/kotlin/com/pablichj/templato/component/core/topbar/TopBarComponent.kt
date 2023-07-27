@@ -6,10 +6,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.findClosestDrawerNavigationComponent
+import com.pablichj.templato.component.core.drawer.DrawerNavigationProvider
+import com.pablichj.templato.component.core.drawer.EmptyDrawerNavigationProvider
+import com.pablichj.templato.component.core.drawer.LocalDrawerNavigationProvider
 import com.pablichj.templato.component.core.stack.DefaultStackComponentView
 import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.stack.StackComponent
@@ -19,6 +22,8 @@ abstract class TopBarComponent<T : TopBarStatePresenter>(
     private val topBarStatePresenter: T,
     private val config: Config
 ) : StackComponent() {
+
+    private var drawerNavigationProvider: DrawerNavigationProvider? = null
 
     init {
         topBarStatePresenter.onBackPressEvent = {
@@ -55,10 +60,10 @@ abstract class TopBarComponent<T : TopBarStatePresenter>(
             title = stackBarItem.label,
             icon1 = resolveGlobalNavigationIcon(),
             onIcon1Click = {
-                findClosestDrawerNavigationComponent()?.open()
+                drawerNavigationProvider?.open()
             },
             onTitleClick = {
-                findClosestDrawerNavigationComponent()?.open()
+                drawerNavigationProvider?.open()
             }
         )
     }
@@ -71,7 +76,7 @@ abstract class TopBarComponent<T : TopBarStatePresenter>(
             },
             icon1 = resolveGlobalNavigationIcon(),
             onIcon1Click = {
-                findClosestDrawerNavigationComponent()?.open()
+                drawerNavigationProvider?.open()
             },
             icon2 = Icons.Filled.ArrowBack,
             onIcon2Click = {
@@ -81,11 +86,12 @@ abstract class TopBarComponent<T : TopBarStatePresenter>(
     }
 
     private fun resolveGlobalNavigationIcon(): ImageVector? {
-        val canProvideGlobalNavigation = findClosestDrawerNavigationComponent() != null
-        return if (canProvideGlobalNavigation) {
-            Icons.Filled.Menu
-        } else {
+        if (drawerNavigationProvider == null) return null
+
+        return if (drawerNavigationProvider is EmptyDrawerNavigationProvider) {
             null
+        } else {
+            Icons.Filled.Menu
         }
     }
 
@@ -102,6 +108,10 @@ abstract class TopBarComponent<T : TopBarStatePresenter>(
                 |lifecycleState = ${lifecycleState}
             """
         )
+        drawerNavigationProvider = LocalDrawerNavigationProvider.current
+        LaunchedEffect(key1 = this@TopBarComponent) {
+            activeComponent.value?.let { onStackTopUpdate(it) }
+        }
         Scaffold(
             modifier = modifier,
             topBar = { this.topBarContent(modifier) }

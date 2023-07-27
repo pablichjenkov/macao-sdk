@@ -5,7 +5,7 @@ import androidx.activity.OnBackPressedCallback
 
 class AndroidBackPressDispatcher(
     private val componentActivity: ComponentActivity,
-) : IBackPressDispatcher {
+) : BackPressDispatcher {
 
     override fun subscribe(backPressedCallback: BackPressedCallback) {
         componentActivity.onBackPressedDispatcher.addCallback(

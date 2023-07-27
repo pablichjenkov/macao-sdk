@@ -72,7 +72,7 @@ fun BackPressHandler(
 }
 
 /**
- * This [CompositionLocal] is used to provide an [IBackPressDispatcher]:
+ * This [CompositionLocal] is used to provide an [BackPressDispatcher]:
  *
  * ```
  * val backPressedDispatcher = AndroidBackPressedDispatcher
@@ -85,4 +85,4 @@ fun BackPressHandler(
  * and setting up the callbacks with [BackPressHandler].
  */
 val LocalBackPressedDispatcher =
-    staticCompositionLocalOf<IBackPressDispatcher> { DefaultBackPressDispatcher() }
+    staticCompositionLocalOf<BackPressDispatcher> { DefaultBackPressDispatcher() }
