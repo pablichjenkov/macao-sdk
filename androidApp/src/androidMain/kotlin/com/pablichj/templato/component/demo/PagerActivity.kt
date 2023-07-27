@@ -19,7 +19,7 @@ class PagerActivity : ComponentActivity() {
             MaterialTheme {
                 AndroidComponentRender(
                     rootComponent = rootComponent,
-                    onBackPressEvent = { finish() }
+                    onBackPress = { finish() }
                 )
             }
         }

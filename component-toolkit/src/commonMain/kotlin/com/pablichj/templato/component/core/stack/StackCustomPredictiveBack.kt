@@ -9,7 +9,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.Box
@@ -37,7 +37,6 @@ import kotlinx.coroutines.launch
 private val PredictiveBackAreaWidth = 100
 private val PredictiveBackDragWidth = 50
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun StackCustomPredictiveBack(
     modifier: Modifier,
@@ -257,7 +256,6 @@ fun StackCustomPredictiveBack(
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 private fun getTransitionByAnimationType(animationType: AnimationType): ContentTransform {
     return when (animationType) {
         AnimationType.Direct -> {
@@ -269,7 +267,7 @@ private fun getTransitionByAnimationType(animationType: AnimationType): ContentT
                     durationMillis = 300,
                     delayMillis = 0
                 )
-            ) with //+ fadeIn(animationSpec = tween())
+            ) togetherWith  //+ fadeIn(animationSpec = tween())
                     slideOutHorizontally(
                         targetOffsetX = { fullWidth ->
                             -fullWidth
@@ -287,7 +285,7 @@ private fun getTransitionByAnimationType(animationType: AnimationType): ContentT
                     -fullWidth
                 },
                 animationSpec = tween()
-            ) with //+ fadeIn(animationSpec = tween())
+            ) togetherWith //+ fadeIn(animationSpec = tween())
                     slideOutHorizontally(
                         targetOffsetX = { fullWidth ->
                             fullWidth
@@ -300,7 +298,7 @@ private fun getTransitionByAnimationType(animationType: AnimationType): ContentT
         AnimationType.Enter -> {
             fadeIn(
                 animationSpec = tween()
-            ) with fadeOut(
+            ) togetherWith fadeOut(
                 animationSpec = tween()
             )
         }

@@ -53,7 +53,6 @@ class CustomTopBarComponent(
             when (msg) {
                 SimpleComponent.Msg.Next -> {
                     onMessage(Msg.OnboardDone)
-                    //router?.handleDeepLink("Settings")
                 }
             }
         }.also {
@@ -61,7 +60,7 @@ class CustomTopBarComponent(
         }
 
     override fun onStart() {
-        println("${instanceId()}::start()")
+        println("${instanceId()}::onStart()")
         if (activeComponent.value == null) {
             backStack.push(Step1)
         } else {

@@ -28,8 +28,8 @@ kotlin {
                 implementation(compose.ui)
                 implementation(project(":shared"))
                 implementation(project(":component-toolkit"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.7.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.7.3")
             }
         }
     }

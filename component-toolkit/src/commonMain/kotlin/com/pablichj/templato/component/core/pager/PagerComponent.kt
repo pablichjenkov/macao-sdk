@@ -194,9 +194,9 @@ class PagerComponent(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        pagerState = rememberPagerState(initialPage = selectedIndex)/* {
+        pagerState = rememberPagerState(initialPage = selectedIndex) {
             childComponents.size
-        }*/
+        }
         println(
             """${instanceId()}.Composing() stack.size = ${backStack.size()}
                 |currentPage = ${pagerState.currentPage}
@@ -242,7 +242,6 @@ class PagerComponent(
             val safeAreaInsets = LocalSafeAreaInsets.current
             Box {
                 HorizontalPager(
-                    pageCount = pagerItemsSize,
                     modifier = Modifier.fillMaxSize(),
                     state = pagerState
                 ) { pageIndex ->

@@ -20,41 +20,35 @@ import platform.UIKit.UIViewController
 
 fun IosComponentRender(
     rootComponent: Component,
-    iosBridge: IosBridge
+    iosBridge: IosBridge,
+    onBackPress: () -> Unit = {}
 ): UIViewController = ComposeUIViewController {
 
     val backPressDispatcher = remember(rootComponent) {
         DefaultBackPressDispatcher()
     }
 
-    // TODO: Accept a callback for back press in the constructor
-    // val updatedOnBackPressed by rememberUpdatedState(onBackPressEvent)
-
-    val internalRootComponent = remember(key1 = rootComponent) {
-        InternalRootComponent(
-            platformRootComponent = rootComponent,
-            onBackPressEvent = {
-                println("back pressed dispatched in root node")
-                /*updatedOnBackPressed.invoke()*/
-            }
-        )
-    }
+    val updatedOnBackPressed by rememberUpdatedState(onBackPress)
 
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides backPressDispatcher,
         LocalSafeAreaInsets provides iosBridge.safeAreaInsets
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            internalRootComponent.Content(Modifier.fillMaxSize())
+            rootComponent.Content(Modifier.fillMaxSize())
         }
     }
 
-    LaunchedEffect(key1 = rootComponent/*, key2 = onBackPressEvent*/) {
+    LaunchedEffect(key1 = rootComponent) {
+        InternalRootComponent(
+            platformRootComponent = rootComponent,
+            onBackPressEvent = updatedOnBackPressed
+        )
         iosBridge.appLifecycleDispatcher.subscribe(
             ForwardAppLifecycleCallback {
                 when (it) {
-                    AppLifecycleEvent.Start -> internalRootComponent.dispatchStart()
-                    AppLifecycleEvent.Stop -> internalRootComponent.dispatchStop()
+                    AppLifecycleEvent.Start -> rootComponent.dispatchStart()
+                    AppLifecycleEvent.Stop -> rootComponent.dispatchStop()
                 }
             }
         )

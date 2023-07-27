@@ -27,15 +27,15 @@ abstract class StackComponent : Component(), ComponentWithBackStack {
         }
     }
 
-    override fun onStart() {
-        println("${instanceId()}::onStart()")
+    override fun dispatchStart() {
+        super.dispatchStart()
         if (activeComponent.value != null) {
             activeComponent.value?.dispatchStart()
         }
     }
 
-    override fun onStop() {
-        println("${instanceId()}::onStop()")
+    override fun dispatchStop() {
+        super.dispatchStop()
         activeComponent.value?.dispatchStop()
         lastBackstackEvent = null
     }
@@ -58,7 +58,7 @@ abstract class StackComponent : Component(), ComponentWithBackStack {
         return this
     }
 
-    internal fun processBackstackTransition(
+    private fun processBackstackTransition(
         stackTransition: StackTransition<Component>
     ) {
         when (stackTransition) {

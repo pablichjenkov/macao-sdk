@@ -16,14 +16,6 @@ internal class InternalRootComponent(
         platformRootComponent.setParent(this)
     }
 
-    override fun onStart() {
-        platformRootComponent.dispatchStart()
-    }
-
-    override fun onStop() {
-        platformRootComponent.dispatchStop()
-    }
-
     override fun handleBackPressed() {
         println("${instanceId()}::BackPressed event delegation reached the InternalRootComponent")
         onBackPressEvent?.invoke()
@@ -31,7 +23,7 @@ internal class InternalRootComponent(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        platformRootComponent.Content(modifier)
+        // no-op
     }
 
     override fun getDeepLinkHandler(): DeepLinkMatchData {

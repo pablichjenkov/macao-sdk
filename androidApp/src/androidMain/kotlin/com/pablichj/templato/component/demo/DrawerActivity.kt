@@ -18,7 +18,7 @@ class DrawerActivity : ComponentActivity() {
             MaterialTheme {
                 AndroidComponentRender(
                     rootComponent = rootComponent,
-                    onBackPressEvent = { finish() }
+                    onBackPress = { finish() }
                 )
             }
         }
