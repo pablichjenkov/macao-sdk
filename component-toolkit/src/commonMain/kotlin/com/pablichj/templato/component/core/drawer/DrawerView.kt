@@ -29,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.pablichj.templato.component.core.NavItemDeco
-import com.pablichj.templato.component.core.backpress.DefaultBackPressDispatcher
 
 @Composable
 fun NavigationDrawer(

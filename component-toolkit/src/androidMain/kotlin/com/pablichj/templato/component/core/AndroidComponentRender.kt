@@ -4,15 +4,14 @@ import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import com.pablichj.templato.component.core.backpress.AndroidBackPressDispatcher
 import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
+import com.pablichj.templato.component.core.router.LocalRootComponentProvider
 
 @Composable
 fun AndroidComponentRender(
@@ -24,7 +23,8 @@ fun AndroidComponentRender(
     val activity = LocalContext.current as ComponentActivity
 
     CompositionLocalProvider(
-        LocalBackPressedDispatcher provides AndroidBackPressDispatcher(activity)
+        LocalBackPressedDispatcher provides AndroidBackPressDispatcher(activity),
+        LocalRootComponentProvider provides rootComponent
     ) {
         rootComponent.Content(Modifier.fillMaxSize())
     }
@@ -41,10 +41,4 @@ fun AndroidComponentRender(
         }
     )
 
-    LaunchedEffect(key1 = rootComponent) {
-        InternalRootComponent(
-            platformRootComponent = rootComponent,
-            onBackPressEvent = updatedOnBackPressed
-        )
-    }
 }

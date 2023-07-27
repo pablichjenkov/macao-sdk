@@ -12,7 +12,6 @@ import androidx.compose.ui.window.WindowState
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.DesktopComponentRender
 import com.pablichj.templato.component.core.drawer.DrawerComponent
-import com.pablichj.templato.component.core.getRouter
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.panel.PanelComponent
 import com.pablichj.templato.component.core.router.DeepLinkMsg
@@ -77,7 +76,7 @@ class MainWindowComponent(
         ) {
             println("MainWindowNode::deepLinkResult = $it")
         }
-        adaptableSizeComponent.getRouter()?.handleDeepLink(deepLinkMsg)
+        adaptableSizeComponent.navigateToDeepLink(deepLinkMsg)
     }
 
     // endregion

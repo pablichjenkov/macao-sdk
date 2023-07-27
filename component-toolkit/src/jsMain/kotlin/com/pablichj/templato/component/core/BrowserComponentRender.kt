@@ -10,6 +10,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import com.pablichj.templato.component.core.backpress.DefaultBackPressDispatcher
 import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
+import com.pablichj.templato.component.core.router.LocalRootComponentProvider
 
 @Composable
 fun BrowserComponentRender(
@@ -23,6 +24,7 @@ fun BrowserComponentRender(
 
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides webBackPressDispatcher,
+        LocalRootComponentProvider provides rootComponent
     ) {
         rootComponent.Content(Modifier.fillMaxSize())
         /*Box(modifier = Modifier.fillMaxSize()) {
@@ -36,10 +38,7 @@ fun BrowserComponentRender(
     }
 
     LaunchedEffect(key1 = rootComponent) {
-        InternalRootComponent(
-            platformRootComponent = rootComponent,
-            onBackPressEvent = updatedOnBackPressed
-        )
         rootComponent.dispatchStart()
     }
+
 }

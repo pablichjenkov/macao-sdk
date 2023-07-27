@@ -2,7 +2,6 @@ package com.pablichj.templato.component.core
 
 import androidx.compose.runtime.Composable
 import com.pablichj.templato.component.core.backpress.BackPressHandler
-import com.pablichj.templato.component.core.router.Router
 
 fun Component.getFirstParentMatching(
     condition: (Component) -> Boolean
@@ -16,14 +15,6 @@ fun Component.getFirstParentMatching(
         parentIterator = parentIterator.parentComponent
     }
     return null
-}
-
-fun Component.getRouter(): Router? {
-    val treeContext = getFirstParentMatching {
-        it is ComponentTreeContext
-    } as? ComponentTreeContext ?: return null
-
-    return treeContext.router
 }
 
 @Composable

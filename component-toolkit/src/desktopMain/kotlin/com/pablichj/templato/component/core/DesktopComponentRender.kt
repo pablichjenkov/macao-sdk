@@ -10,6 +10,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import com.pablichj.templato.component.core.backpress.DefaultBackPressDispatcher
 import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
+import com.pablichj.templato.component.core.router.LocalRootComponentProvider
 import com.pablichj.templato.component.platform.AppLifecycleEvent
 import com.pablichj.templato.component.platform.DesktopBridge
 import com.pablichj.templato.component.platform.ForwardAppLifecycleCallback
@@ -27,6 +28,7 @@ fun DesktopComponentRender(
 
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides desktopBackPressDispatcher,
+        LocalRootComponentProvider provides rootComponent
     ) {
         rootComponent.Content(Modifier.fillMaxSize())
         /*Box {
@@ -41,10 +43,6 @@ fun DesktopComponentRender(
     }
 
     LaunchedEffect(key1 = rootComponent) {
-        InternalRootComponent(
-            platformRootComponent = rootComponent,
-            onBackPressEvent = updatedOnBackPressed
-        )
         desktopBridge.appLifecycleDispatcher.subscribe(
             ForwardAppLifecycleCallback {
                 when (it) {
@@ -54,4 +52,5 @@ fun DesktopComponentRender(
             }
         )
     }
+
 }
