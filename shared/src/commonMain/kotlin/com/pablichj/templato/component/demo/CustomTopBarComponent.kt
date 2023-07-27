@@ -7,8 +7,8 @@ import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.router.DeepLinkMatchData
 import com.pablichj.templato.component.core.router.DeepLinkMatchType
 import com.pablichj.templato.component.core.stack.StackBarItem
-import com.pablichj.templato.component.core.topbar.TopBarStatePresenterDefault
 import com.pablichj.templato.component.core.topbar.TopBarComponent
+import com.pablichj.templato.component.core.topbar.TopBarStatePresenterDefault
 
 class CustomTopBarComponent(
     val screenName: String,
@@ -105,7 +105,7 @@ class CustomTopBarComponent(
 
     override fun getDeepLinkHandler(): DeepLinkMatchData {
         return DeepLinkMatchData(
-            screenName,
+            screenName.substringBefore("/"),
             DeepLinkMatchType.MatchOne
         )
     }

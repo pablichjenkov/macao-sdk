@@ -85,6 +85,8 @@ abstract class Component : ComponentLifecycle() {
         if (parentComponentCopy != null) {
             println("${instanceId()}::delegateBackPressedToParent()")
             parentComponentCopy.handleBackPressed()
+        } else {
+            println("${instanceId()}::Back Press reached root component unhandled")
         }
     }
 
@@ -100,7 +102,7 @@ abstract class Component : ComponentLifecycle() {
         DeepLinkMatchType.MatchOne
     )
 
-    internal fun navigateToDeepLink(
+    fun navigateToDeepLink(
         deepLinkMsg: DeepLinkMsg
     ) {
         println("${instanceId()}::navigateToDeepLink(), path = ${deepLinkMsg.path.joinToString("/")}")

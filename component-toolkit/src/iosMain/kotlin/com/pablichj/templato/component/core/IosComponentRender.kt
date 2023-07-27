@@ -10,8 +10,8 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.ComposeUIViewController
 import com.pablichj.templato.component.core.backpress.DefaultBackPressDispatcher
-import com.pablichj.templato.component.core.backpress.ForwardBackPressCallback
 import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
+import com.pablichj.templato.component.core.router.LocalRootComponentProvider
 import com.pablichj.templato.component.platform.AppLifecycleEvent
 import com.pablichj.templato.component.platform.ForwardAppLifecycleCallback
 import com.pablichj.templato.component.platform.IosBridge
@@ -32,7 +32,8 @@ fun IosComponentRender(
 
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides backPressDispatcher,
-        LocalSafeAreaInsets provides iosBridge.safeAreaInsets
+        LocalSafeAreaInsets provides iosBridge.safeAreaInsets,
+        LocalRootComponentProvider provides rootComponent
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             rootComponent.Content(Modifier.fillMaxSize())
@@ -40,10 +41,6 @@ fun IosComponentRender(
     }
 
     LaunchedEffect(key1 = rootComponent) {
-        InternalRootComponent(
-            platformRootComponent = rootComponent,
-            onBackPressEvent = updatedOnBackPressed
-        )
         iosBridge.appLifecycleDispatcher.subscribe(
             ForwardAppLifecycleCallback {
                 when (it) {
