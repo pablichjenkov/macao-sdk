@@ -4,6 +4,12 @@ A set of prefabricated compose-multiplatform components to speedup the App devel
 ##### How to use it?
 Just add bellow dependency in the **commonMain** target of the module that plans to consume the toolkit. For sample usage code, check the `shared` module in this same project, or check the links to the Apps in the next session.
 
+See readme inside component-toolkit module for code snippets.
+<BR>
+<BR>
+
+**Component-toolkit is published on Maven Central:**
+
 ```kotlin
 val commonMain by getting {
     dependencies {
