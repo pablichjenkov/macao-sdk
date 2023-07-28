@@ -15,7 +15,6 @@ import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.DispatchersProxy
 
 object PagerTreeBuilder {
-    private val diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
     private lateinit var pagerComponent: PagerComponent
 
     fun build(): Component {
@@ -25,12 +24,12 @@ object PagerTreeBuilder {
         }
 
         val navBarComponent1 = NavBarComponent(
-            navBarStatePresenter = NavBarComponent.createDefaultState(),
+            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
             config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )
         val navBarComponent2 = NavBarComponent(
-            navBarStatePresenter = NavBarComponent.createDefaultState(),
+            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
             config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )
@@ -119,7 +118,7 @@ object PagerTreeBuilder {
 
         return PagerComponent(
             PagerComponent.DefaultConfig,
-            diContainer
+            DispatchersProxy.DefaultDispatchers
         ).also {
             pagerComponent = it
             it.setNavItems(pagerNavItems, 0)

@@ -10,6 +10,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.ComponentWithBackStack
+import com.pablichj.templato.component.core.EmptyStackMessage
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.getChildForNextUriFragment
@@ -33,6 +34,7 @@ import kotlinx.coroutines.launch
 class PanelComponent<T : PanelStatePresenter>(
     private val panelStatePresenter: T,
     config: Config = DefaultConfig,
+    dispatchers: DispatchersProxy = DispatchersProxy.DefaultDispatchers,
     private val content: @Composable PanelComponent<T>.(
         modifier: Modifier,
         childComponent: Component
@@ -43,7 +45,7 @@ class PanelComponent<T : PanelStatePresenter>(
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
-    private val coroutineScope = CoroutineScope(config.diContainer.dispatchers.main)
+    private val coroutineScope = CoroutineScope(dispatchers.main)
 
     init {
         coroutineScope.launch {
@@ -156,7 +158,7 @@ class PanelComponent<T : PanelStatePresenter>(
             Text(
                 modifier = Modifier
                     .fillMaxSize(),
-                text = "${instanceId()} Empty Stack, Please add some children",
+                text = "${instanceId()} $EmptyStackMessage",
                 textAlign = TextAlign.Center
             )
         }
@@ -177,7 +179,7 @@ class PanelComponent<T : PanelStatePresenter>(
             diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
         )
 
-        fun createDefaultState(
+        fun createDefaultPanelStatePresenter(
             dispatcher: CoroutineDispatcher = Dispatchers.Main,
             panelHeaderStyle: PanelHeaderStyle = PanelHeaderStyle()
         ): PanelStatePresenterDefault {

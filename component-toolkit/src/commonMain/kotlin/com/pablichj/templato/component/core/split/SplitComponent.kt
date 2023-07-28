@@ -9,7 +9,7 @@ import com.pablichj.templato.component.core.router.DeepLinkMatchData
 import com.pablichj.templato.component.core.router.DeepLinkMatchType
 
 class SplitComponent(
-    private val config: Config
+    private val config: Config = DefaultConfig
 ) : Component() {
     private var topComponent: Component? = null
     private var bottomComponent: Component? = null

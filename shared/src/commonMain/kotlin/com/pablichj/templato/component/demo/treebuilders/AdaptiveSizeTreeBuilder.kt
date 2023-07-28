@@ -33,7 +33,7 @@ object AdaptableSizeTreeBuilder {
         }
 
         val navBarComponent = NavBarComponent(
-            navBarStatePresenter = NavBarComponent.createDefaultState(),
+            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
             config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )

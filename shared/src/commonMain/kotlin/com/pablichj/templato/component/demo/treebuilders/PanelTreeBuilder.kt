@@ -52,7 +52,7 @@ object PanelTreeBuilder {
         )
 
         return PanelComponent(
-            panelStatePresenter = PanelComponent.createDefaultState(),
+            panelStatePresenter = PanelComponent.createDefaultPanelStatePresenter(),
             config = PanelComponent.DefaultConfig,
             content = PanelComponent.DefaultPanelComponentView
         ).also {
@@ -64,7 +64,7 @@ object PanelTreeBuilder {
     private fun buildNavBarNode(): NavBarComponent<NavBarStatePresenterDefault> {
 
         val NavBarNode = NavBarComponent(
-            navBarStatePresenter = NavBarComponent.createDefaultState(),
+            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
             config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )

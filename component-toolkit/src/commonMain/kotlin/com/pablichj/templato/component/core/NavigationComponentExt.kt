@@ -3,7 +3,7 @@ package com.pablichj.templato.component.core
 import com.pablichj.templato.component.core.stack.StackTransition
 
 fun NavigationComponent.setNavItems(
-    newNavItems: MutableList<NavItem>,
+    newNavItems: List<NavItem>,
     newSelectedIndex: Int
 ) {
     println("${getComponent().instanceId()}.setItems()")

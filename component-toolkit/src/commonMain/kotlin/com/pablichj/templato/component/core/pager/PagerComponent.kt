@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.ComponentWithBackStack
+import com.pablichj.templato.component.core.EmptyStackMessage
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.getChildForNextUriFragment
@@ -26,7 +27,7 @@ import com.pablichj.templato.component.core.router.DeepLinkMatchData
 import com.pablichj.templato.component.core.router.DeepLinkResult
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
 import com.pablichj.templato.component.core.stack.PushStrategy
-import com.pablichj.templato.component.platform.DiContainer
+import com.pablichj.templato.component.platform.DispatchersProxy
 import com.pablichj.templato.component.platform.LocalSafeAreaInsets
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancelChildren
@@ -40,8 +41,8 @@ import kotlinx.coroutines.launch
  * */
 @OptIn(ExperimentalFoundationApi::class)
 class PagerComponent(
-    private val config: Config,
-    private var diContainer: DiContainer
+    config: Config = DefaultConfig,
+    dispatchers: DispatchersProxy = DispatchersProxy.DefaultDispatchers
 ) : Component(), NavigationComponent {
     override val backStack = createBackStack(config.pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
@@ -50,7 +51,7 @@ class PagerComponent(
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
     private var currentActiveIndexSet = mutableSetOf<Int>()
     lateinit var pagerState: PagerState
-    private var coroutineScope = CoroutineScope(diContainer.dispatchers.main)
+    private var coroutineScope = CoroutineScope(dispatchers.main)
 
     private val _componentOutFlow = MutableSharedFlow<PagerComponentOutEvent?>()
     val pagerComponentViewFlow: SharedFlow<PagerComponentOutEvent?>
@@ -209,7 +210,7 @@ class PagerComponent(
             Text(
                 modifier = Modifier
                     .fillMaxSize(),
-                text = "${instanceId()} Empty Stack, Please add some children",
+                text = "${instanceId()} $EmptyStackMessage",
                 textAlign = TextAlign.Center
             )
         }

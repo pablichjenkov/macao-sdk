@@ -15,7 +15,7 @@ class CustomTopBarComponent(
     config: Config,
     val onMessage: (Msg) -> Unit
 ) : TopBarComponent<TopBarStatePresenterDefault>(
-    topBarStatePresenter = createDefaultState(),
+    topBarStatePresenter = createDefaultTopBarStatePresenter(),
     config = config
 ) {
 

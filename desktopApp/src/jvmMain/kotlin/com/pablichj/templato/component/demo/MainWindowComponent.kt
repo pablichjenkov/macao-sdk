@@ -1,8 +1,6 @@
 package com.pablichj.templato.component.demo
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -16,14 +14,9 @@ import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.panel.PanelComponent
 import com.pablichj.templato.component.core.router.DeepLinkMsg
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
-import com.pablichj.templato.component.platform.AppLifecycleEvent
-import com.pablichj.templato.component.platform.DefaultAppLifecycleDispatcher
 import com.pablichj.templato.component.platform.DesktopBridge
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.DispatchersProxy
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 class MainWindowComponent(
     val onOpenDeepLinkClick: () -> Unit,
@@ -32,11 +25,7 @@ class MainWindowComponent(
 ) : Component() {
     private val windowState = WindowState(size = DpSize(1000.dp, 900.dp))
     private var adaptableSizeComponent: Component
-    private val appLifecycleDispatcher = DefaultAppLifecycleDispatcher()
-    private val diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
-    private val desktopBridge = DesktopBridge(
-        appLifecycleDispatcher = appLifecycleDispatcher
-    )
+    private val desktopBridge = DesktopBridge()
 
     init {
         val subtreeNavItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
@@ -44,23 +33,23 @@ class MainWindowComponent(
             it.setNavItems(subtreeNavItems, 0)
             it.setCompactContainer(
                 DrawerComponent(
-                    drawerStatePresenter = DrawerComponent.createDefaultState(),
+                    drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
                     config = DrawerComponent.DefaultConfig,
-                    diContainer = diContainer,
+                    dispatchers = DispatchersProxy.DefaultDispatchers,
                     content = DrawerComponent.DefaultDrawerComponentView
                 )
             )
             //it.setCompactContainer(PagerComponent())
             it.setMediumContainer(
                 NavBarComponent(
-                    navBarStatePresenter = NavBarComponent.createDefaultState(),
+                    navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
                     config = NavBarComponent.DefaultConfig,
                     content = NavBarComponent.DefaultNavBarComponentView
                 )
             )
             it.setExpandedContainer(
                 PanelComponent(
-                    panelStatePresenter = PanelComponent.createDefaultState(),
+                    panelStatePresenter = PanelComponent.createDefaultPanelStatePresenter(),
                     config = PanelComponent.DefaultConfig,
                     content = PanelComponent.DefaultPanelComponentView
                 )
@@ -131,31 +120,10 @@ class MainWindowComponent(
             }
             DesktopComponentRender(
                 rootComponent = adaptableSizeComponent,
+                windowState = windowState,
                 onBackPress = onExitClick,
                 desktopBridge = desktopBridge
             )
-        }
-
-        LaunchedEffect(windowState) {
-            launch {
-                snapshotFlow { windowState.isMinimized }
-                    .onEach {
-                        onWindowMinimized(appLifecycleDispatcher, it)
-                    }
-                    .launchIn(this)
-            }
-        }
-
-    }
-
-    private fun onWindowMinimized(
-        appLifecycleDispatcher: DefaultAppLifecycleDispatcher,
-        minimized: Boolean
-    ) {
-        if (minimized) {
-            appLifecycleDispatcher.dispatchAppLifecycleEvent(AppLifecycleEvent.Stop)
-        } else {
-            appLifecycleDispatcher.dispatchAppLifecycleEvent(AppLifecycleEvent.Start)
         }
     }
 

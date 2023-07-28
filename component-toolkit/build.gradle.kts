@@ -4,7 +4,7 @@ plugins {
     id("org.jetbrains.compose")
     id("org.jetbrains.dokka")
     id("maven-publish")
-    signing
+    id("signing")
 }
 
 group = "io.github.pablichjenkov"
@@ -86,6 +86,10 @@ val javadocJar: TaskProvider<Jar> by tasks.registering(Jar::class) {
     from(dokkaHtml.outputDirectory)
 }
 
+signing {
+    sign(publishing.publications)
+}
+
 publishing {
     repositories {
         maven {
@@ -143,10 +147,6 @@ publishing {
             from(components["java"])
         }*/
     }
-}
-
-signing {
-    sign(publishing.publications)
 }
 
 /*compose {

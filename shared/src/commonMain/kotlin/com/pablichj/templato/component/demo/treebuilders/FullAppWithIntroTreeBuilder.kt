@@ -35,13 +35,13 @@ object FullAppWithIntroTreeBuilder {
 
     private fun buildDrawerStateTree(parentComponent: Component): Component {
         val drawerComponent = DrawerComponent(
-            drawerStatePresenter = DrawerComponent.createDefaultState(),
+            drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
             config = DrawerComponent.DefaultConfig,
-            diContainer = diContainer,
+            dispatchers = DispatchersProxy.DefaultDispatchers,
             content = DrawerComponent.DefaultDrawerComponentView
         )
         val navBarComponent = NavBarComponent(
-            navBarStatePresenter = NavBarComponent.createDefaultState(),
+            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
             config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )
@@ -101,13 +101,13 @@ object FullAppWithIntroTreeBuilder {
 
     private fun buildNestedDrawer(): DrawerComponent<DrawerStatePresenterDefault> {
         val drawerComponent = DrawerComponent(
-            drawerStatePresenter = DrawerComponent.createDefaultState(),
+            drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
             config = DrawerComponent.DefaultConfig,
-            diContainer = diContainer,
+            dispatchers = DispatchersProxy.DefaultDispatchers,
             content = DrawerComponent.DefaultDrawerComponentView
         )
         val navBarComponent = NavBarComponent(
-            navBarStatePresenter = NavBarComponent.createDefaultState(),
+            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
             config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )

@@ -12,6 +12,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.ComponentWithBackStack
+import com.pablichj.templato.component.core.EmptyStackMessage
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.getChildForNextUriFragment
@@ -25,16 +26,16 @@ import com.pablichj.templato.component.core.router.DeepLinkResult
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
 import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.core.toNavItemDeco
-import com.pablichj.templato.component.platform.DiContainer
+import com.pablichj.templato.component.platform.DispatchersProxy
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DrawerComponent<T: DrawerStatePresenter>(
-    private val drawerStatePresenter: T,
-    config: Config,
-    diContainer: DiContainer,
+class DrawerComponent<T : DrawerStatePresenter>(
+    val drawerStatePresenter: T,
+    config: Config = DefaultConfig,
+    dispatchers: DispatchersProxy = DispatchersProxy.DefaultDispatchers,
     private var content: @Composable DrawerComponent<T>.(
         modifier: Modifier,
         childComponent: Component
@@ -45,7 +46,7 @@ class DrawerComponent<T: DrawerStatePresenter>(
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
-    private val coroutineScope = CoroutineScope(diContainer.dispatchers.main)
+    private val coroutineScope = CoroutineScope(dispatchers.main)
 
     init {
         coroutineScope.launch {
@@ -176,7 +177,7 @@ class DrawerComponent<T: DrawerStatePresenter>(
             } else {
                 Text(
                     modifier = Modifier.fillMaxSize(),
-                    text = "${instanceId()} Empty Stack, Please add some children",
+                    text = "${instanceId()} $EmptyStackMessage",
                     textAlign = TextAlign.Center
                 )
             }
@@ -198,7 +199,7 @@ class DrawerComponent<T: DrawerStatePresenter>(
             drawerBodyStyle = DrawerBodyStyle()
         )
 
-        fun createDefaultState(
+        fun createDefaultDrawerStatePresenter(
             dispatcher: CoroutineDispatcher = Dispatchers.Main,
             drawerHeaderStyle: DrawerHeaderStyle = DrawerHeaderStyle()
         ): DrawerStatePresenterDefault {
