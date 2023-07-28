@@ -2,7 +2,6 @@ package com.pablichj.templato.component.core.stack
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.ComponentWithBackStack
@@ -112,9 +111,3 @@ abstract class StackComponent : Component(), ComponentWithBackStack {
 
     // endregion
 }
-
-
-data class StackBarItem(
-    val label: String,
-    val icon: ImageVector,
-)

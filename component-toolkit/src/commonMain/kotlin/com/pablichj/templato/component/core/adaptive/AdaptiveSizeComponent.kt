@@ -148,8 +148,7 @@ class AdaptiveSizeComponent : Component(), NavigationComponent {
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.Center),
-                    text = "AdaptableSizeComponent currentNavComponent is empty. " +
-                            "Please add some children NavComponent",
+                    text = "${instanceId()} $EmptyStackMessage",
                     textAlign = TextAlign.Center
                 )
             }

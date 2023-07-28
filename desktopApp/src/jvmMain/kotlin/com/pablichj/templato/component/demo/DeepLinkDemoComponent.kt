@@ -75,17 +75,6 @@ class DeepLinkDemoComponent(
                     })
             }
         }
-
-        LaunchedEffect(windowState) {
-            launch {
-                snapshotFlow { windowState.isMinimized }
-                    .onEach {
-                        //onWindowMinimized(activeNode, it)
-                    }
-                    .launchIn(this)
-            }
-        }
-
     }
 
 }

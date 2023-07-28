@@ -21,10 +21,7 @@ class NavBarWindowComponent(
 ) : Component() {
     private val windowState = WindowState()
     private var navBarComponent: Component = NavBarTreeBuilder.build()
-    private val appLifecycleDispatcher = DefaultAppLifecycleDispatcher()
-    private val desktopBridge = DesktopBridge(
-        appLifecycleDispatcher = appLifecycleDispatcher
-    )
+    private val desktopBridge = DesktopBridge()
 
     @Composable
     override fun Content(modifier: Modifier) {
@@ -34,30 +31,10 @@ class NavBarWindowComponent(
         ) {
             DesktopComponentRender(
                 rootComponent = navBarComponent,
+                windowState = windowState,
                 onBackPress = onCloseClick,
                 desktopBridge = desktopBridge
             )
-        }
-
-        LaunchedEffect(windowState) {
-            launch {
-                snapshotFlow { windowState.isMinimized }
-                    .onEach {
-                        onWindowMinimized(appLifecycleDispatcher, it)
-                    }
-                    .launchIn(this)
-            }
-        }
-    }
-
-    private fun onWindowMinimized(
-        appLifecycleDispatcher: DefaultAppLifecycleDispatcher,
-        minimized: Boolean
-    ) {
-        if (minimized) {
-            appLifecycleDispatcher.dispatchAppLifecycleEvent(AppLifecycleEvent.Stop)
-        } else {
-            appLifecycleDispatcher.dispatchAppLifecycleEvent(AppLifecycleEvent.Start)
         }
     }
 

@@ -50,9 +50,9 @@ object DrawerTreeBuilder {
         )
 
         return DrawerComponent(
-            drawerStatePresenter = DrawerComponent.createDefaultState(),
+            drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
             config = DrawerComponent.DefaultConfig,
-            diContainer = diContainer,
+            dispatchers = DispatchersProxy.DefaultDispatchers,
             content = DrawerComponent.DefaultDrawerComponentView
         ).also {
             drawerComponent = it
@@ -63,7 +63,7 @@ object DrawerTreeBuilder {
     private fun buildNavBarNode(): NavBarComponent<NavBarStatePresenterDefault> {
 
         val NavBarNode = NavBarComponent(
-            navBarStatePresenter = NavBarComponent.createDefaultState(),
+            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
             config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )

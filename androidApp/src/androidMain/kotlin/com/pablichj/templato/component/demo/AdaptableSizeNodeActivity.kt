@@ -26,22 +26,22 @@ class AdaptableSizeNodeActivity : ComponentActivity() {
             it.setNavItems(subtreeNavItems, 0)
             it.setCompactContainer(
                 DrawerComponent<DrawerStatePresenterDefault>(
-                    drawerStatePresenter = DrawerComponent.createDefaultState(),
+                    drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
                     config = DrawerComponent.DefaultConfig,
-                    diContainer = diContainer,
+                    dispatchers = DispatchersProxy.DefaultDispatchers,
                     content = DrawerComponent.DefaultDrawerComponentView
                 )
             )
             it.setMediumContainer(
                 NavBarComponent(
-                    navBarStatePresenter = NavBarComponent.createDefaultState(),
+                    navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
                     config = NavBarComponent.DefaultConfig,
                     content = NavBarComponent.DefaultNavBarComponentView
                 )
             )
             it.setExpandedContainer(
                 PanelComponent(
-                    panelStatePresenter = PanelComponent.createDefaultState(),
+                    panelStatePresenter = PanelComponent.createDefaultPanelStatePresenter(),
                     config = PanelComponent.DefaultConfig,
                     content = PanelComponent.DefaultPanelComponentView
                 )

@@ -10,6 +10,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.ComponentWithBackStack
+import com.pablichj.templato.component.core.EmptyStackMessage
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.getChildForNextUriFragment
@@ -33,6 +34,7 @@ import kotlinx.coroutines.launch
 class NavBarComponent<T : NavBarStatePresenter>(
     val navBarStatePresenter: T,
     config: Config = DefaultConfig,
+    dispatchers: DispatchersProxy = DispatchersProxy.DefaultDispatchers,
     private var content: @Composable NavBarComponent<T>.(
         modifier: Modifier,
         childComponent: Component
@@ -43,7 +45,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
-    private val coroutineScope = CoroutineScope(config.diContainer.dispatchers.main)
+    private val coroutineScope = CoroutineScope(dispatchers.main)
 
     init {
         coroutineScope.launch {
@@ -154,7 +156,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
             Text(
                 modifier = Modifier
                     .fillMaxSize(),
-                text = "${instanceId()} Empty Stack, Please add some children",
+                text = "${instanceId()} $EmptyStackMessage",
                 textAlign = TextAlign.Center
             )
         }
@@ -175,7 +177,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
             diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
         )
 
-        fun createDefaultState(
+        fun createDefaultNavBarStatePresenter(
             dispatcher: CoroutineDispatcher = Dispatchers.Main
         ): NavBarStatePresenterDefault {
             return NavBarStatePresenterDefault(
