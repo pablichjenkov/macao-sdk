@@ -2,8 +2,6 @@ package com.pablichj.templato.component.core
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.pablichj.templato.component.core.router.DeepLinkMatchData
-import com.pablichj.templato.component.core.router.DeepLinkMatchType
 import com.pablichj.templato.component.core.router.DeepLinkMsg
 import com.pablichj.templato.component.core.router.DeepLinkResult
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 abstract class Component : ComponentLifecycle() {
-    
+
     // region: Component Tree
 
     var parentComponent: Component? = null
@@ -96,11 +94,7 @@ abstract class Component : ComponentLifecycle() {
 
     private var deepLinkNavigationAwaitsStartedState = false
     private var awaitingDeepLinkMsg: DeepLinkMsg? = null
-
-    open fun getDeepLinkHandler(): DeepLinkMatchData = DeepLinkMatchData(
-        null,
-        DeepLinkMatchType.MatchOne
-    )
+    open var uriFragment: String? = null
 
     fun navigateToDeepLink(
         deepLinkMsg: DeepLinkMsg
@@ -115,21 +109,7 @@ abstract class Component : ComponentLifecycle() {
         }
 
         val uriFragment = deepLinkMsg.path[0]
-
-        if (getDeepLinkHandler().matchType == DeepLinkMatchType.MatchAny) {
-            val nextComponent = getChildForNextUriFragment(uriFragment)
-            if (nextComponent == null) {
-                deepLinkMsg.resultListener.invoke(
-                    DeepLinkResult.Error("Component: ${instanceId()} does not have any child that handle uri fragment = $uriFragment")
-                )
-            } else {
-                onDeepLinkNavigation(nextComponent)
-                nextComponent.navigateToDeepLink(deepLinkMsg)
-            }
-            return
-        }
-
-        val match = getDeepLinkHandler().uriFragment == uriFragment
+        val match = this.uriFragment == uriFragment
 
         if (match) {
             if (deepLinkMsg.path.size == 1) {
@@ -148,11 +128,19 @@ abstract class Component : ComponentLifecycle() {
 
             if (deepLinkMsg.path.size > 2) {
                 val nextDeepLinkMsg = deepLinkMsg.copy(
-                    path = deepLinkMsg.path.subList(1, deepLinkMsg.path.lastIndex)
+                    path = deepLinkMsg.path.subList(1, deepLinkMsg.path.size)
                 )
                 onDeepLinkNavigation(nextComponent)
                 nextComponent.navigateToDeepLink(nextDeepLinkMsg)
-            } else {
+            }
+            else if (deepLinkMsg.path.size == 2) {
+                val nextDeepLinkMsg = deepLinkMsg.copy(
+                    path = listOf(deepLinkMsg.path[1])
+                )
+                onDeepLinkNavigation(nextComponent)
+                nextComponent.navigateToDeepLink(nextDeepLinkMsg)
+            }
+            else {
                 onDeepLinkNavigation(nextComponent)
                 deepLinkMsg.resultListener.invoke(DeepLinkResult.Success)
             }

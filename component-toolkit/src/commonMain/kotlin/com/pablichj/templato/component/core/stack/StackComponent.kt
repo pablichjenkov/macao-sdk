@@ -6,10 +6,8 @@ import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.ComponentWithBackStack
 import com.pablichj.templato.component.core.getChildForNextUriFragment
-import com.pablichj.templato.component.core.getDeepLinkHandler
 import com.pablichj.templato.component.core.onDeepLinkNavigation
 import com.pablichj.templato.component.core.processBackstackEvent
-import com.pablichj.templato.component.core.router.DeepLinkMatchData
 import com.pablichj.templato.component.core.router.DeepLinkResult
 
 abstract class StackComponent : Component(), ComponentWithBackStack {
@@ -99,10 +97,6 @@ abstract class StackComponent : Component(), ComponentWithBackStack {
 
     override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
         return (this as ComponentWithBackStack).onDeepLinkNavigation(matchingComponent)
-    }
-
-    override fun getDeepLinkHandler(): DeepLinkMatchData {
-        return (this as ComponentWithBackStack).getDeepLinkHandler()
     }
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {

@@ -3,7 +3,6 @@ package com.pablichj.templato.component.demo
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -44,14 +43,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.consumeBackPressEvent
 
 class SimpleComponent(
-    val text: String,
+    val screenName: String,
     val bgColor: Color,
     val onMessage: (Msg) -> Unit
 ) : Component() {

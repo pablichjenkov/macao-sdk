@@ -20,10 +20,8 @@ import com.pablichj.templato.component.core.EmptyStackMessage
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.getChildForNextUriFragment
-import com.pablichj.templato.component.core.getDeepLinkHandler
 import com.pablichj.templato.component.core.onDeepLinkNavigation
 import com.pablichj.templato.component.core.pager.indicator.DefaultPagerIndicator
-import com.pablichj.templato.component.core.router.DeepLinkMatchData
 import com.pablichj.templato.component.core.router.DeepLinkResult
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
 import com.pablichj.templato.component.core.stack.PushStrategy
@@ -115,12 +113,10 @@ class PagerComponent(
 
     // region: DeepLink
 
+    override var uriFragment: String? = "_navigator_pager"
+
     override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
         return (this as ComponentWithBackStack).onDeepLinkNavigation(matchingComponent)
-    }
-
-    override fun getDeepLinkHandler(): DeepLinkMatchData {
-        return (this as ComponentWithBackStack).getDeepLinkHandler()
     }
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {

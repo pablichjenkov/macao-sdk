@@ -15,9 +15,9 @@ out/
 ### iOS Xcode generated ###
 iosApp/Podfile.lock
 iosApp/Pods/*
-iosApp/HelloWorld.xcworkspace/*
-iosApp/HelloWorld.xcodeproj/*
-!iosApp/HelloWorld.xcodeproj/project.pbxproj
+iosApp/ComponentDemo.xcworkspace/*
+iosApp/ComponentDemo.xcodeproj/*
+!iosApp/ComponentDemo.xcodeproj/project.pbxproj
 shared/*.podspec
 
 ### Mac OS ###

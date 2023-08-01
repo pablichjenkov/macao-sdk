@@ -16,12 +16,10 @@ import com.pablichj.templato.component.core.EmptyStackMessage
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.getChildForNextUriFragment
-import com.pablichj.templato.component.core.getDeepLinkHandler
 import com.pablichj.templato.component.core.getNavItemFromComponent
 import com.pablichj.templato.component.core.onDeepLinkNavigation
 import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.processBackstackTransition
-import com.pablichj.templato.component.core.router.DeepLinkMatchData
 import com.pablichj.templato.component.core.router.DeepLinkResult
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
 import com.pablichj.templato.component.core.stack.PushStrategy
@@ -149,9 +147,7 @@ class DrawerComponent<T : DrawerStatePresenter>(
         return (this as ComponentWithBackStack).onDeepLinkNavigation(matchingComponent)
     }
 
-    override fun getDeepLinkHandler(): DeepLinkMatchData {
-        return (this as ComponentWithBackStack).getDeepLinkHandler()
-    }
+    override var uriFragment: String? = "_navigation_drawer"
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
         return (this as ComponentWithBackStack).getChildForNextUriFragment(nextUriFragment)
