@@ -58,7 +58,8 @@ This is the App I use to test while developing the components.
  </tr>
 </table>
 
-#### Hotel Booking
+
+#### Hotel Booking App
 
 [Hotel Booking](https://github.com/pablichjenkov/amadeus-hotel-app) An App that consumes Amadeus hotel booking public API.
 
