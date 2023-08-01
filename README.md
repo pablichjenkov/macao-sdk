@@ -43,10 +43,18 @@ This is the App I use to test while developing the components.
 </table>
 <table border="1">
 <tr>
-    <td><b style="font-size:30px">Desktop</b></td>
+    <td><b style="font-size:30px">Adaptive Layout</b></td>
  </tr>
  <tr>
-    <td><img title="Desktop components demo" src="https://user-images.githubusercontent.com/5303301/225287289-d1870ba7-1a09-4570-a041-934746a35c11.gif" alt="desktop-component-demo" width="800"></td>
+    <td><img title="Desktop components demo" src="https://user-images.githubusercontent.com/5303301/225287289-d1870ba7-1a09-4570-a041-934746a35c11.gif" alt="desktop-adaptive-component-demo" width="800"></td>
+ </tr>
+</table>
+<table border="1">
+<tr>
+    <td><b style="font-size:30px">Deep Link</b></td>
+ </tr>
+ <tr>
+    <td><img title="Desktop components demo" src="https://github-production-user-asset-6210df.s3.amazonaws.com/5303301/257454521-3c91ca8e-37d4-45a8-be2e-c7ed2eb48d81.gif" alt="desktop-deep-link-demo" width="800"></td>
  </tr>
 </table>
 
