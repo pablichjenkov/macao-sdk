@@ -1,12 +1,15 @@
 package com.pablichj.templato.component.core.split
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.router.DeepLinkMatchData
-import com.pablichj.templato.component.core.router.DeepLinkMatchType
 
 class SplitComponent(
     private val config: Config = DefaultConfig
@@ -38,17 +41,12 @@ class SplitComponent(
         bottomComponent?.dispatchStop()
     }
 
-    override fun getDeepLinkHandler(): DeepLinkMatchData {
-        return DeepLinkMatchData(
-            null,
-            DeepLinkMatchType.MatchAny
-        )
-    }
+    override var uriFragment: String? = "_navigator_split"
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
-        return if (topComponent?.getDeepLinkHandler()?.uriFragment == nextUriFragment) {
+        return if (topComponent?.uriFragment == nextUriFragment) {
             topComponent
-        } else if (bottomComponent?.getDeepLinkHandler()?.uriFragment == nextUriFragment) {
+        } else if (bottomComponent?.uriFragment == nextUriFragment) {
             bottomComponent
         } else null
     }

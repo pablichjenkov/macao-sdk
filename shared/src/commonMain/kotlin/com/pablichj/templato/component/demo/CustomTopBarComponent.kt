@@ -4,8 +4,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Color
 import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.router.DeepLinkMatchData
-import com.pablichj.templato.component.core.router.DeepLinkMatchType
 import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.core.topbar.TopBarStatePresenterDefault
@@ -30,6 +28,7 @@ class CustomTopBarComponent(
         }
     }.also {
         it.setParent(this@CustomTopBarComponent)
+        it.uriFragment = "Page 1"
     }
 
     val Step2 = SimpleComponent(
@@ -43,6 +42,7 @@ class CustomTopBarComponent(
         }
     }.also {
         it.setParent(this@CustomTopBarComponent)
+        it.uriFragment = "Page 2"
     }
 
     val Step3 =
@@ -57,6 +57,7 @@ class CustomTopBarComponent(
             }
         }.also {
             it.setParent(this@CustomTopBarComponent)
+            it.uriFragment = "Page 3"
         }
 
     override fun onStart() {
@@ -76,21 +77,21 @@ class CustomTopBarComponent(
         return when (topComponent) {
             Step1 -> {
                 StackBarItem(
-                    Step1.text,
+                    Step1.screenName,
                     Icons.Filled.Star,
                 )
             }
 
             Step2 -> {
                 StackBarItem(
-                    Step2.text,
+                    Step2.screenName,
                     Icons.Filled.Star,
                 )
             }
 
             Step3 -> {
                 StackBarItem(
-                    Step3.text,
+                    Step3.screenName,
                     Icons.Filled.Star,
                 )
             }
@@ -103,18 +104,12 @@ class CustomTopBarComponent(
 
     // region: DeepLink
 
-    override fun getDeepLinkHandler(): DeepLinkMatchData {
-        return DeepLinkMatchData(
-            screenName.substringBefore("/"),
-            DeepLinkMatchType.MatchOne
-        )
-    }
-
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
+        println("${instanceId()}::getChildForNextUriFragment = $nextUriFragment")
         return when (nextUriFragment) {
-            "Page1" -> Step1
-            "Page2" -> Step2
-            "Page3" -> Step3
+            Step1.uriFragment -> Step1
+            Step2.uriFragment -> Step2
+            Step3.uriFragment -> Step3
             else -> null
         }
     }

@@ -4,17 +4,27 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
+import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.ComponentLifecycleState
+import com.pablichj.templato.component.core.EmptyStackMessage
+import com.pablichj.templato.component.core.NavItem
+import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.router.DeepLinkResult
+import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.stack.BackStack
-import com.pablichj.templato.component.core.*
-import com.pablichj.templato.component.core.router.DeepLinkMatchData
-import com.pablichj.templato.component.core.router.DeepLinkMatchType
+import com.pablichj.templato.component.core.transferFrom
 
 /**
  * This node is basically a proxy, it transfer request and events to its active child node
@@ -30,7 +40,8 @@ class AdaptiveSizeComponent : Component(), NavigationComponent {
     override var navItems: MutableList<NavItem> = currentNavComponent.value.navItems
     override var childComponents: MutableList<Component> = mutableListOf()
     override var selectedIndex: Int = currentNavComponent.value.selectedIndex
-    override var activeComponent: MutableState<Component?> = mutableStateOf(null) // Do not use, use currentNavComponent instead
+    // Do not use activeComponent, is always null, use currentNavComponent instead
+    override var activeComponent: MutableState<Component?> = mutableStateOf(null)
 
     fun setNavItems(navItems: MutableList<NavItem>, selectedIndex: Int) {
         this.navItems = navItems
@@ -68,15 +79,12 @@ class AdaptiveSizeComponent : Component(), NavigationComponent {
         currentNavComponent.value.getComponent().dispatchStop()
     }
 
-    override fun getDeepLinkHandler(): DeepLinkMatchData {
-        return DeepLinkMatchData(
-            null,
-            DeepLinkMatchType.MatchAny
-        )
-    }
+    override var uriFragment: String? = "_navigator_adaptive"
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
-        return currentNavComponent.value.getComponent()
+        val nextComponent = currentNavComponent.value.getComponent()
+        nextComponent.uriFragment = nextUriFragment
+        return nextComponent
     }
 
     override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {

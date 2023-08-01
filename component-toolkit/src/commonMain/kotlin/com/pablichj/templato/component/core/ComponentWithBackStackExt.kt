@@ -1,7 +1,5 @@
 package com.pablichj.templato.component.core
 
-import com.pablichj.templato.component.core.router.DeepLinkMatchData
-import com.pablichj.templato.component.core.router.DeepLinkMatchType
 import com.pablichj.templato.component.core.router.DeepLinkResult
 import com.pablichj.templato.component.core.stack.BackStack
 import com.pablichj.templato.component.core.stack.StackTransition
@@ -81,30 +79,13 @@ fun ComponentWithBackStack.onDeepLinkNavigation(matchingComponent: Component): D
     return DeepLinkResult.Success
 }
 
-fun ComponentWithBackStack.getDeepLinkHandler(): DeepLinkMatchData {
-    return DeepLinkMatchData(
-        null,
-        DeepLinkMatchType.MatchAny
-    )
-}
-
 fun ComponentWithBackStack.getChildForNextUriFragment(nextUriFragment: String): Component? {
-    childComponents.sortedBy {
-        // Direct child matching the deepLink fragment have priority over another matching child
-        // that is deeper in the Component hierarchy. So we sort the children to check for direct
-        // children first and then check MatchAny Components also known as Forward Components.
-        it.getDeepLinkHandler().matchType == DeepLinkMatchType.MatchOne
-    }.forEach {
-        val linkHandler = it.getDeepLinkHandler()
-        println("${getComponent().instanceId()}::child.uriFragment = ${linkHandler.uriFragment}")
-        if (linkHandler.uriFragment == nextUriFragment) {
+    println("${getComponent().instanceId()}.getChildForNextUriFragment() nextUriFragment = $nextUriFragment")
+    childComponents.forEach {
+        println("${getComponent().instanceId()}::child.uriFragment = ${it.uriFragment}")
+        val isUriFragmentMatch = it.uriFragment == nextUriFragment
+        if (isUriFragmentMatch) {
             return it
-        }
-        if (linkHandler.matchType == DeepLinkMatchType.MatchAny) {
-            val childMatching = it.getChildForNextUriFragment(nextUriFragment)
-            if (childMatching != null) {
-                return it
-            }
         }
     }
     return null

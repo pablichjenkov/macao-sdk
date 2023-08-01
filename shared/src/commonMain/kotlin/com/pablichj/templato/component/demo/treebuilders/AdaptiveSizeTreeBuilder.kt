@@ -36,7 +36,9 @@ object AdaptableSizeTreeBuilder {
             navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
             config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
-        )
+        ).apply {
+            uriFragment = "Orders"
+        }
 
         val navbarNavItems = mutableListOf(
             NavItem(
@@ -46,7 +48,9 @@ object AdaptableSizeTreeBuilder {
                     "Orders/Current",
                     TopBarComponent.DefaultConfig,
                     {},
-                )
+                ).apply {
+                    uriFragment = "Current"
+                }
             ),
             NavItem(
                 label = "Past",
@@ -55,7 +59,9 @@ object AdaptableSizeTreeBuilder {
                     "Orders/Past",
                     TopBarComponent.DefaultConfig,
                     {},
-                )
+                ).apply {
+                    uriFragment = "Past"
+                }
             ),
             NavItem(
                 label = "Claim",
@@ -64,7 +70,9 @@ object AdaptableSizeTreeBuilder {
                     "Orders/Claim",
                     TopBarComponent.DefaultConfig,
                     {},
-                )
+                ).apply {
+                    uriFragment = "Claim"
+                }
             )
         )
 
@@ -74,13 +82,17 @@ object AdaptableSizeTreeBuilder {
             "Settings",
             TopBarComponent.DefaultConfig,
             {},
-        )
+        ).apply {
+            uriFragment = "Settings"
+        }
 
         val homeComponent = CustomTopBarComponent(
             "Home",
             TopBarComponent.DefaultConfig,
             {},
-        )
+        ).apply {
+            uriFragment = "Home"
+        }
 
         val navItems = mutableListOf(
             NavItem(
