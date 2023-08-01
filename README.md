@@ -54,7 +54,7 @@ This is the App I use to test while developing the components.
     <td><b style="font-size:30px">Deep Link</b></td>
  </tr>
  <tr>
-    <td><img title="Desktop components demo" src="https://github-production-user-asset-6210df.s3.amazonaws.com/5303301/257454521-3c91ca8e-37d4-45a8-be2e-c7ed2eb48d81.gif" alt="desktop-deep-link-demo" width="800"></td>
+    <td><img title="Desktop components demo" src="https://github-production-user-asset-6210df.s3.amazonaws.com/5303301/257454521-3c91ca8e-37d4-45a8-be2e-c7ed2eb48d81.gif" alt="desktop-deep-link-demo" width="900"></td>
  </tr>
 </table>
 
