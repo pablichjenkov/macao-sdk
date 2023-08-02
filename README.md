@@ -34,13 +34,14 @@ This is the App I use to test while developing the components.
  </tr>
 </table>
 <table border="1">
- <tr>
-    <td><b style="font-size:30px">Web</b></td>
+<tr>
+    <td><b style="font-size:30px">Deep Link</b></td>
  </tr>
  <tr>
-    <td><img title="Web components demo" src="https://user-images.githubusercontent.com/5303301/214518301-88398770-a508-45f2-b411-520155f4f7e9.jpg" alt="web-component-demo" width="800"></td>
+    <td><img title="Desktop components demo" src="https://github.com/pablichjenkov/component-toolkit/assets/5303301/f9f998e4-41dd-44ac-a5d0-dbbac7c0a002" alt="desktop-deep-link-demo" width="800"></td>
  </tr>
 </table>
+
 <table border="1">
 <tr>
     <td><b style="font-size:30px">Adaptive Layout</b></td>
@@ -50,14 +51,15 @@ This is the App I use to test while developing the components.
  </tr>
 </table>
 <table border="1">
-<tr>
-    <td><b style="font-size:30px">Deep Link</b></td>
+ <tr>
+    <td><b style="font-size:30px">Web Browser</b></td>
  </tr>
  <tr>
-    <td><img title="Desktop components demo" src="https://github.com/pablichjenkov/component-toolkit/assets/5303301/f9f998e4-41dd-44ac-a5d0-dbbac7c0a002" alt="desktop-deep-link-demo" width="800"></td>
+    <td><img title="Web components demo" src="https://user-images.githubusercontent.com/5303301/214518301-88398770-a508-45f2-b411-520155f4f7e9.jpg" alt="web-component-demo" width="800"></td>
  </tr>
 </table>
 
+<BR>
 
 #### Hotel Booking App
 
