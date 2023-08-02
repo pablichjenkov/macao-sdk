@@ -121,7 +121,9 @@ abstract class Component : ComponentLifecycle() {
             val nextComponent = getChildForNextUriFragment(nextUriFragment)
             if (nextComponent == null) {
                 deepLinkMsg.resultListener.invoke(
-                    DeepLinkResult.Error("Component: ${instanceId()} does not have any child that handle uri fragment = $nextUriFragment")
+                    DeepLinkResult.Error(
+                        "Component: ${instanceId()} does not have any child that handle uri fragment = $nextUriFragment"
+                    )
                 )
                 return
             }
@@ -132,15 +134,7 @@ abstract class Component : ComponentLifecycle() {
                 )
                 onDeepLinkNavigation(nextComponent)
                 nextComponent.navigateToDeepLink(nextDeepLinkMsg)
-            }
-            else if (deepLinkMsg.path.size == 2) {
-                val nextDeepLinkMsg = deepLinkMsg.copy(
-                    path = listOf(deepLinkMsg.path[1])
-                )
-                onDeepLinkNavigation(nextComponent)
-                nextComponent.navigateToDeepLink(nextDeepLinkMsg)
-            }
-            else {
+            } else {
                 onDeepLinkNavigation(nextComponent)
                 deepLinkMsg.resultListener.invoke(DeepLinkResult.Success)
             }

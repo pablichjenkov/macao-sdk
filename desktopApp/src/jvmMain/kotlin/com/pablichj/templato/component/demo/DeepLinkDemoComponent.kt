@@ -28,10 +28,10 @@ class DeepLinkDemoComponent(
     )
 
     private val deepLinks = mutableListOf(
-        listOf("_navigator_adaptive", "_navigator_adaptive_child", "Home", "Page 1"),
-        listOf("_navigator_adaptive", "_navigator_adaptive_child", "Orders", "Past", "Page 2"),
-        listOf("_navigator_adaptive", "_navigator_adaptive_child", "Settings", "Page 3"),
-        listOf("_navigator_adaptive", "_navigator_adaptive_child", "Settings", "Page 1")
+        listOf("_navigator_adaptive", "*", "Home", "Page 1"),
+        listOf("_navigator_adaptive", "*", "Orders", "Past", "Page 2"),
+        listOf("_navigator_adaptive", "*", "Settings", "Page 3"),
+        listOf("_navigator_adaptive", "*", "Settings", "Page 1")
     )
 
     @Composable
@@ -59,6 +59,7 @@ class DeepLinkDemoComponent(
                             elevation = 8.dp
                         ) {
                             Text(
+                                modifier = Modifier.padding(8.dp),
                                 text = destination.joinToString("/"),
                                 style = TextStyle(fontSize = 18.sp)
                             )
