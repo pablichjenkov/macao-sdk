@@ -10,7 +10,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import com.pablichj.templato.component.core.backpress.DefaultBackPressDispatcher
 import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
-import com.pablichj.templato.component.core.router.LocalRootComponentProvider
+import com.pablichj.templato.component.core.deeplink.LocalRootComponentProvider
 
 @Composable
 fun BrowserComponentRender(

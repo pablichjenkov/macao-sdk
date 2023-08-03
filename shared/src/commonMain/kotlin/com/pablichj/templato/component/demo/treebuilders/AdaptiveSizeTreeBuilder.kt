@@ -11,6 +11,8 @@ import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.demo.CustomTopBarComponent
+import com.pablichj.templato.component.demo.HomeTopBarComponent
+import com.pablichj.templato.component.demo.SettingsTopBarComponent
 
 object AdaptableSizeTreeBuilder {
 
@@ -23,6 +25,7 @@ object AdaptableSizeTreeBuilder {
         }
         return AdaptiveSizeComponent().also {
             adaptiveSizeComponent = it
+            it.uriFragment = "_navigator_adaptive"
         }
     }
 
@@ -78,20 +81,20 @@ object AdaptableSizeTreeBuilder {
 
         navBarComponent.setNavItems(navbarNavItems, 0)
 
-        val settingsComponent = CustomTopBarComponent(
-            "Settings",
-            TopBarComponent.DefaultConfig,
-            {},
-        ).apply {
-            uriFragment = "Settings"
-        }
-
-        val homeComponent = CustomTopBarComponent(
+        val homeComponent = HomeTopBarComponent(
             "Home",
             TopBarComponent.DefaultConfig,
             {},
         ).apply {
             uriFragment = "Home"
+        }
+
+        val settingsComponent = SettingsTopBarComponent(
+            "Settings",
+            TopBarComponent.DefaultConfig,
+            {},
+        ).apply {
+            uriFragment = "Settings"
         }
 
         val navItems = mutableListOf(

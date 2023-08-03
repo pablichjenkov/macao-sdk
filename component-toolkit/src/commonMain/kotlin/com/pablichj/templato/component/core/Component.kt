@@ -2,8 +2,9 @@ package com.pablichj.templato.component.core
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.pablichj.templato.component.core.router.DeepLinkMsg
-import com.pablichj.templato.component.core.router.DeepLinkResult
+import com.pablichj.templato.component.core.deeplink.ComponentConnection
+import com.pablichj.templato.component.core.deeplink.DeepLinkMsg
+import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -94,7 +95,8 @@ abstract class Component : ComponentLifecycle() {
 
     private var deepLinkNavigationAwaitsStartedState = false
     private var awaitingDeepLinkMsg: DeepLinkMsg? = null
-    open var uriFragment: String? = null
+    var uriFragment: String? = null
+    var componentConnection: ComponentConnection? = null
 
     fun navigateToDeepLink(
         deepLinkMsg: DeepLinkMsg
@@ -113,6 +115,7 @@ abstract class Component : ComponentLifecycle() {
 
         if (match) {
             if (deepLinkMsg.path.size == 1) {
+                componentConnection = deepLinkMsg.componentConnection
                 deepLinkMsg.resultListener.invoke(DeepLinkResult.Success)
                 return
             }
@@ -132,10 +135,11 @@ abstract class Component : ComponentLifecycle() {
                 val nextDeepLinkMsg = deepLinkMsg.copy(
                     path = deepLinkMsg.path.subList(1, deepLinkMsg.path.size)
                 )
-                onDeepLinkNavigation(nextComponent)
+                onDeepLinkNavigateTo(nextComponent)
                 nextComponent.navigateToDeepLink(nextDeepLinkMsg)
             } else {
-                onDeepLinkNavigation(nextComponent)
+                onDeepLinkNavigateTo(nextComponent)
+                nextComponent.componentConnection = deepLinkMsg.componentConnection
                 deepLinkMsg.resultListener.invoke(DeepLinkResult.Success)
             }
         } else {
@@ -152,7 +156,7 @@ abstract class Component : ComponentLifecycle() {
         return null
     }
 
-    protected open fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
+    protected open fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
         return DeepLinkResult.Error(
             """
             ${instanceId()}::onDeepLinkMatch has been called but the function is not " +
