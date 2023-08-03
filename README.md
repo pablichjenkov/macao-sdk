@@ -41,7 +41,14 @@ This is the App I use to test while developing the components.
     <td><img title="Desktop components demo" src="https://github.com/pablichjenkov/component-toolkit/assets/5303301/f9f998e4-41dd-44ac-a5d0-dbbac7c0a002" alt="desktop-deep-link-demo" width="800"></td>
  </tr>
 </table>
-
+<table border="1">
+<tr>
+    <td><b style="font-size:30px">Deep Linking + Request/Result between Components</b></td>
+ </tr>
+ <tr>
+    <td><img title="Desktop deep link result passing demo" src="https://github.com/pablichjenkov/component-toolkit/assets/5303301/03aa2b69-0698-482a-ad33-979e2ea510aa" alt="desktop-deep-link-demo" width="800"></td>
+ </tr>
+</table>
 <table border="1">
 <tr>
     <td><b style="font-size:30px">Adaptive Layout</b></td>
