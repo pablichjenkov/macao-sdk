@@ -41,8 +41,6 @@ class SplitComponent(
         bottomComponent?.dispatchStop()
     }
 
-    override var uriFragment: String? = "_navigator_split"
-
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
         return if (topComponent?.uriFragment == nextUriFragment) {
             topComponent

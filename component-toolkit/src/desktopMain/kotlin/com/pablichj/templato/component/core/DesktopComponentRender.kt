@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.WindowState
 import com.pablichj.templato.component.core.backpress.DefaultBackPressDispatcher
 import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
-import com.pablichj.templato.component.core.router.LocalRootComponentProvider
+import com.pablichj.templato.component.core.deeplink.LocalRootComponentProvider
 import com.pablichj.templato.component.platform.DesktopBridge
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

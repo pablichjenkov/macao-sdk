@@ -1,6 +1,6 @@
 package com.pablichj.templato.component.core
 
-import com.pablichj.templato.component.core.router.DeepLinkResult
+import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.stack.BackStack
 import com.pablichj.templato.component.core.stack.StackTransition
 
@@ -73,7 +73,7 @@ private fun ComponentWithBackStack.transitionOut(oldTop: Component): StackTransi
     return StackTransition.Out(oldTop)
 }
 
-fun ComponentWithBackStack.onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
+fun ComponentWithBackStack.onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
     println("${getComponent().instanceId()}.onDeepLinkMatch() matchingNode = ${matchingComponent.instanceId()}")
     backStack.push(matchingComponent)
     return DeepLinkResult.Success

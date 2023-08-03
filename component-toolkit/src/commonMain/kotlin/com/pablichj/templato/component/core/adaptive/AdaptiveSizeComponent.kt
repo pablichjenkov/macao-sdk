@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,7 +17,7 @@ import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.EmptyStackMessage
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
-import com.pablichj.templato.component.core.router.DeepLinkResult
+import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.transferFrom
 
@@ -72,15 +71,13 @@ class AdaptiveSizeComponent : Component() {
         currentNavComponent.value.getComponent().dispatchStop()
     }
 
-    override var uriFragment: String? = "_navigator_adaptive"
-
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
         val nextComponent = currentNavComponent.value.getComponent()
         nextComponent.uriFragment = nextUriFragment
         return nextComponent
     }
 
-    override fun onDeepLinkNavigation(matchingComponent: Component): DeepLinkResult {
+    override fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
         println("${instanceId()}.onDeepLinkMatch() matchingNode = ${matchingComponent.instanceId()}")
         return DeepLinkResult.Success
     }

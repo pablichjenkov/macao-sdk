@@ -9,13 +9,13 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.DesktopComponentRender
+import com.pablichj.templato.component.core.deeplink.ComponentConnection
+import com.pablichj.templato.component.core.deeplink.DeepLinkMsg
 import com.pablichj.templato.component.core.drawer.DrawerComponent
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.panel.PanelComponent
-import com.pablichj.templato.component.core.router.DeepLinkMsg
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.templato.component.platform.DesktopBridge
-import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.DispatchersProxy
 
 class MainWindowComponent(
@@ -59,12 +59,16 @@ class MainWindowComponent(
 
     // region: DeepLink
 
-    fun handleDeepLink(destination: List<String>) {
+    fun handleDeepLink(destinations: List<String>) {
         val deepLinkMsg = DeepLinkMsg(
-            destination
-        ) {
-            println("MainWindowNode::deepLinkResult = $it")
-        }
+            path = destinations,
+            resultListener = {
+                println("MainWindowNode::deepLinkResult = $it")
+            },
+            componentConnection = ComponentConnection(
+                request = "Pablo Req"
+            )
+        )
         adaptableSizeComponent.navigateToDeepLink(deepLinkMsg)
     }
 

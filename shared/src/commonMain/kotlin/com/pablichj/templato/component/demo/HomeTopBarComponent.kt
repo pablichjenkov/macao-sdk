@@ -8,7 +8,7 @@ import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.core.topbar.TopBarStatePresenterDefault
 
-class CustomTopBarComponent(
+class HomeTopBarComponent(
     val screenName: String,
     config: Config,
     val onMessage: (Msg) -> Unit
@@ -27,7 +27,7 @@ class CustomTopBarComponent(
             }
         }
     }.also {
-        it.setParent(this@CustomTopBarComponent)
+        it.setParent(this@HomeTopBarComponent)
         it.uriFragment = "Page 1"
     }
 
@@ -41,21 +41,16 @@ class CustomTopBarComponent(
             }
         }
     }.also {
-        it.setParent(this@CustomTopBarComponent)
+        it.setParent(this@HomeTopBarComponent)
         it.uriFragment = "Page 2"
     }
 
-    val Step3 = SimpleComponent(
-        "$screenName/Page 3",
-        Color.Green
-    ) { msg ->
-        when (msg) {
-            SimpleComponent.Msg.Next -> {
-                onMessage(Msg.OnboardDone)
-            }
-        }
-    }.also {
-            it.setParent(this@CustomTopBarComponent)
+    val Step3 =
+        SimpleRequestComponent(
+            "$screenName/Page 3",
+            Color.Cyan
+        ).also {
+            it.setParent(this@HomeTopBarComponent)
             it.uriFragment = "Page 3"
         }
 

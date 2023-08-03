@@ -11,7 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import com.pablichj.templato.component.core.backpress.AndroidBackPressDispatcher
 import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
-import com.pablichj.templato.component.core.router.LocalRootComponentProvider
+import com.pablichj.templato.component.core.deeplink.LocalRootComponentProvider
 
 @Composable
 fun AndroidComponentRender(
