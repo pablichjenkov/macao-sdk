@@ -46,7 +46,7 @@ This is the App I use to test while developing the components.
     <td><b style="font-size:30px">Deep Linking + Request/Result between Components</b></td>
  </tr>
  <tr>
-    <td><img title="Desktop deep link result passing demo" src="https://github.com/pablichjenkov/component-toolkit/assets/5303301/03aa2b69-0698-482a-ad33-979e2ea510aa" alt="desktop-deep-link-demo" width="800"></td>
+    <td><img title="Desktop deep link result passing demo" src="https://github.com/pablichjenkov/component-toolkit/assets/5303301/601556cd-42c2-4491-95fc-30e5a139d3ac" alt="desktop-deep-link-demo" width="800"></td>
  </tr>
 </table>
 <table border="1">
