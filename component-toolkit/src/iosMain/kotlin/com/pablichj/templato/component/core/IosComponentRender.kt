@@ -15,7 +15,6 @@ import com.pablichj.templato.component.core.deeplink.LocalRootComponentProvider
 import com.pablichj.templato.component.platform.AppLifecycleEvent
 import com.pablichj.templato.component.platform.ForwardAppLifecycleCallback
 import com.pablichj.templato.component.platform.IosBridge
-import com.pablichj.templato.component.platform.LocalSafeAreaInsets
 import platform.UIKit.UIViewController
 
 fun IosComponentRender(
@@ -32,7 +31,6 @@ fun IosComponentRender(
 
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides backPressDispatcher,
-        LocalSafeAreaInsets provides iosBridge.safeAreaInsets,
         LocalRootComponentProvider provides rootComponent
     ) {
         Box(modifier = Modifier.fillMaxSize()) {

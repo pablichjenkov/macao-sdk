@@ -1,26 +1,20 @@
 package com.pablichj.templato.component.core.navbar
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.primarySurface
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.pablichj.templato.component.core.NavItemDeco
-import com.pablichj.templato.component.platform.LocalSafeAreaInsets
 
 @Composable
 fun NavigationBottom(
@@ -51,15 +45,13 @@ private fun BottomBar(
     onNavItemClick: (NavItemDeco) -> Unit
 ) {
     Column {
-        val safeAreaInsets = LocalSafeAreaInsets.current
-        val bgColor = MaterialTheme.colors.primarySurface
+        val bgColor = MaterialTheme.colorScheme.background
 
-        BottomNavigation(
+        NavigationBar(
             modifier = Modifier.fillMaxWidth(),
-            backgroundColor = bgColor
         ) {
             navItems.forEach { navItem ->
-                BottomNavigationItem(
+                NavigationBarItem(
                     label = { Text(text = navItem.label) },
                     alwaysShowLabel = true,
                     selected = navItem.selected,
@@ -73,11 +65,5 @@ private fun BottomBar(
                 )
             }
         }
-        Spacer(
-            Modifier
-                .fillMaxWidth()
-                .height(safeAreaInsets.bottom.dp)
-                .background(bgColor)
-        )
     }
 }

@@ -3,30 +3,27 @@ package com.pablichj.templato.component.core.pager
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.ComponentWithBackStack
 import com.pablichj.templato.component.core.EmptyStackMessage
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
+import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.getChildForNextUriFragment
 import com.pablichj.templato.component.core.onDeepLinkNavigateTo
 import com.pablichj.templato.component.core.pager.indicator.DefaultPagerIndicator
-import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
 import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.platform.DispatchersProxy
-import com.pablichj.templato.component.platform.LocalSafeAreaInsets
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -234,7 +231,6 @@ class PagerComponent(
             childComponents: List<Component>
         ) -> Unit = { modifier, childComponents ->
             val pagerItemsSize = childComponents.size
-            val safeAreaInsets = LocalSafeAreaInsets.current
             Box {
                 HorizontalPager(
                     modifier = Modifier.fillMaxSize(),
@@ -244,9 +240,7 @@ class PagerComponent(
                     childComponents[pageIndex].Content(modifier = modifier)
                 }
                 DefaultPagerIndicator(
-                    modifier = Modifier
-                        .align(Alignment.TopCenter)
-                        .padding(top = safeAreaInsets.top.dp.plus(56.dp)),
+                    modifier = Modifier.align(Alignment.TopCenter),
                     pagerState = pagerState,
                     itemCount = pagerItemsSize,
                     indicatorCount = pagerItemsSize
