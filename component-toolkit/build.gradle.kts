@@ -215,7 +215,7 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.ui)
-                implementation(compose.material)
+                implementation(compose.material3)
                 implementation(compose.animation)
                 implementation("org.jetbrains.compose.ui:ui-util:1.4.3")
                 // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
@@ -272,7 +272,7 @@ kotlin {
 
 android {
     namespace = "com.pablichj.templato.component"
-    compileSdk = 33
+    compileSdk = 34
     sourceSets {
         named("main") {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")

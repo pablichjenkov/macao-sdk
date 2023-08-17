@@ -42,7 +42,7 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.ui)
-                implementation(compose.material)
+                implementation(compose.material3)
                 implementation(project(":component-toolkit"))
                 implementation("org.jetbrains.compose.components:components-resources:1.4.1")
             }

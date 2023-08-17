@@ -19,7 +19,7 @@ kotlin {
             dependencies {
                 implementation(project(":shared"))
                 implementation(project(":component-toolkit"))
-                implementation(compose.material)
+                implementation(compose.material3)
                 implementation("androidx.activity:activity-compose:1.7.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
@@ -30,12 +30,12 @@ kotlin {
 
 android {
     namespace = "com.pablichj.templato.component.demo"
-    compileSdk = 33
+    compileSdk = 34
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         applicationId = "com.pablichj.incubator.uistate3.demo"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
     }

@@ -1,6 +1,6 @@
 package com.pablichj.templato.component.core.drawer
 
-import androidx.compose.material.DrawerValue
+import androidx.compose.material3.DrawerValue
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.pablichj.templato.component.core.NavItemDeco

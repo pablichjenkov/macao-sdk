@@ -47,7 +47,7 @@ class CustomTopBarComponent(
 
     val Step3 = SimpleComponent(
         "$screenName/Page 3",
-        Color.Green
+        Color.Cyan
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {

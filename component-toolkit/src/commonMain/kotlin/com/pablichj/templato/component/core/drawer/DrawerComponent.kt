@@ -1,8 +1,8 @@
 package com.pablichj.templato.component.core.drawer
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.DrawerValue
-import androidx.compose.material.Text
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState

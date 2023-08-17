@@ -15,14 +15,14 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Checkbox
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -115,12 +115,12 @@ fun SignUpForm(
     ) {
         Text(
             text = "Create Free Account",
-            style = MaterialTheme.typography.h3
+            style = MaterialTheme.typography.headlineLarge
         )
         Spacer(Modifier.height(12.dp))
         Text(
             text = "Gain access to the full Composables catalog",
-            style = MaterialTheme.typography.body1
+            style = MaterialTheme.typography.bodyMedium
         )
         Spacer(Modifier.height(24.dp))
         OutlinedTextField(
@@ -220,7 +220,7 @@ fun SignUpForm(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 onClick = onSignIn,
                 colors = ButtonDefaults.textButtonColors(
-                    contentColor = MaterialTheme.colors.onSurface.copy(
+                    contentColor = MaterialTheme.colorScheme.onSurface.copy(
                         alpha = 0.66f
                     )
                 )
@@ -245,7 +245,7 @@ fun TermsAndConditions() {
 
         addStyle(
             style = SpanStyle(
-                color = MaterialTheme.colors.primary,
+                color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.SemiBold
             ),
             start = 17,
@@ -261,7 +261,7 @@ fun TermsAndConditions() {
     }
     val uriHandler = LocalUriHandler.current
     ClickableText(
-        style = MaterialTheme.typography.body1.copy(
+        style = MaterialTheme.typography.bodyMedium.copy(
             color = LocalContentColor.current
         ),
         text = annotatedString,
