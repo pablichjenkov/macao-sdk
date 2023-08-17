@@ -15,6 +15,7 @@ import com.pablichj.templato.component.core.ComponentWithBackStack
 import com.pablichj.templato.component.core.EmptyStackMessage
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
+import com.pablichj.templato.component.core.NavigationComponentDefaultLifecycleHandler
 import com.pablichj.templato.component.core.getChildForNextUriFragment
 import com.pablichj.templato.component.core.getNavItemFromComponent
 import com.pablichj.templato.component.core.onDeepLinkNavigateTo
@@ -33,6 +34,7 @@ import kotlinx.coroutines.launch
 class DrawerComponent<T : DrawerStatePresenter>(
     val drawerStatePresenter: T,
     config: Config = DefaultConfig,
+    private val lifecycleHandler: NavigationComponent.LifecycleHandler = NavigationComponentDefaultLifecycleHandler(),
     dispatchers: DispatchersProxy = DispatchersProxy.DefaultDispatchers,
     private var content: @Composable DrawerComponent<T>.(
         modifier: Modifier,
@@ -61,22 +63,15 @@ class DrawerComponent<T : DrawerStatePresenter>(
     // region: ComponentLifecycle
 
     override fun onStart() {
-        if (activeComponent.value == null) {
-            println("${instanceId()}::onStart(). Pushing selectedIndex = $selectedIndex, children.size = ${childComponents.size}")
-            if (childComponents.isNotEmpty()) {
-                backStack.push(childComponents[selectedIndex])
-            } else {
-                println("${instanceId()}::onStart() with childComponents empty")
-            }
-        } else {
-            println("${instanceId()}::onStart() with activeChild = ${activeComponent.value?.instanceId()}")
-            activeComponent.value?.dispatchStart()
-        }
+        lifecycleHandler.onStart(this)
     }
 
     override fun onStop() {
-        println("${instanceId()}::onStop()")
-        activeComponent.value?.dispatchStop()
+        lifecycleHandler.onStop(this)
+    }
+
+    override fun onDestroy() {
+        lifecycleHandler.onDestroy(this)
     }
 
     override fun handleBackPressed() {

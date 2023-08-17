@@ -12,6 +12,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,18 +23,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.consumeBackPressEvent
-import com.pablichj.templato.component.core.deeplink.ComponentConnection
 import com.pablichj.templato.component.core.deeplink.DeepLinkMsg
 import com.pablichj.templato.component.core.deeplink.LocalRootComponentProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SimpleRequestComponent(
     val screenName: String,
     val bgColor: Color
 ) : Component() {
 
-    init {
-        componentConnection = ComponentConnection()
-    }
+    private var result by mutableStateOf("")
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onStart() {
         println("${instanceId()}::onStart()")
@@ -38,6 +43,26 @@ class SimpleRequestComponent(
 
     override fun onStop() {
         println("${instanceId()}::onStop()")
+    }
+
+    private fun subscribeToSimpleResponseComponent(component: Component?) {
+        if (component == null) {
+            println("SimpleResponseComponent not found in component tree")
+            return
+        }
+        val responseComponent = component as? SimpleResponseComponent
+        if (responseComponent == null) {
+            println("Cast to SimpleResponseComponent failed")
+            return
+        }
+
+        coroutineScope.launch {
+            println("Pablo launch response subscription")
+            responseComponent.resultFlow.collect {
+                println("Pablo received response: $it")
+                result = it
+            }
+        }
     }
 
     @Composable
@@ -59,11 +84,9 @@ class SimpleRequestComponent(
                     rootComponent?.navigateToDeepLink(
                         DeepLinkMsg(
                             path = listOf("_navigator_adaptive", "*", "Settings", "Page 3"),
-                            resultListener = {
-                                println("$screenName deeplink result: $it")
-                            },
-                            componentConnection = componentConnection?.apply {
-                                request = "Request from $screenName"
+                            resultListener = { result, component ->
+                                println("$screenName deeplink result: $result")
+                                subscribeToSimpleResponseComponent(component)
                             }
                         )
                     )
@@ -72,18 +95,9 @@ class SimpleRequestComponent(
                 Text(text = "Go To Settings/Page 3")
             }
             Spacer(modifier.padding(24.dp))
-            val request = componentConnection?.request
-            if (request != null) {
+            if (result.isNotEmpty()) {
                 Text(
-                    text = "Request: ${request}",
-                    fontSize = 20.sp
-                )
-            }
-            val response = componentConnection?.response
-            if (response != null) {
-                Spacer(Modifier.height(40.dp))
-                Text(
-                    text = "Response: ${response}",
+                    text = "Response: ${result}",
                     fontSize = 20.sp
                 )
             }

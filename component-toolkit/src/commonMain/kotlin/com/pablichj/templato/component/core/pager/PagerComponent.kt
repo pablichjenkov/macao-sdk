@@ -19,6 +19,7 @@ import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.getChildForNextUriFragment
+import com.pablichj.templato.component.core.getNavItemFromComponent
 import com.pablichj.templato.component.core.onDeepLinkNavigateTo
 import com.pablichj.templato.component.core.pager.indicator.DefaultPagerIndicator
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
@@ -56,6 +57,9 @@ class PagerComponent(
         println("${instanceId()}::onStart()")
         if (currentActiveIndexSet.isEmpty()) {
             if (childComponents.isNotEmpty()) {
+                if (getComponent().startedFromDeepLink) {
+                    return
+                }
                 activeComponent.value = childComponents[selectedIndex]
             } else {
                 println("${instanceId()}::onStart() with childComponents empty")
@@ -111,7 +115,9 @@ class PagerComponent(
     // region: DeepLink
 
     override fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
-        return (this as ComponentWithBackStack).onDeepLinkNavigateTo(matchingComponent)
+        val matchingComponentIndex = childComponents.indexOf(matchingComponent)
+        selectPage(matchingComponentIndex)
+        return DeepLinkResult.Success
     }
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
