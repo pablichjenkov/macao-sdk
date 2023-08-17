@@ -16,6 +16,12 @@ interface NavigationComponent : ComponentWithBackStack {
 
     fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>)
     fun updateSelectedNavItem(newTop: Component)
+
+    interface LifecycleHandler {
+        fun onStart(navigationComponent: NavigationComponent)
+        fun onStop(navigationComponent: NavigationComponent)
+        fun onDestroy(navigationComponent: NavigationComponent)
+    }
 }
 
 data class NavItemDeco(

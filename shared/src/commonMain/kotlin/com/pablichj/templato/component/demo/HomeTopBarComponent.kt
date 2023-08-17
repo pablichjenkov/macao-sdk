@@ -57,6 +57,9 @@ class HomeTopBarComponent(
     override fun onStart() {
         println("${instanceId()}::onStart()")
         if (activeComponent.value == null) {
+            if (getComponent().startedFromDeepLink) {
+                return
+            }
             backStack.push(Step1)
         } else {
             activeComponent.value?.dispatchStart()
