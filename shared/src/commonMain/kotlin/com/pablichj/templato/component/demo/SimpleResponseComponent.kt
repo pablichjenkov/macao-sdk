@@ -25,8 +25,12 @@ import androidx.compose.ui.unit.sp
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.consumeBackPressEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SimpleResponseComponent(
@@ -34,8 +38,11 @@ class SimpleResponseComponent(
     val bgColor: Color
 ) : Component() {
 
-    private val _resultFlow = MutableSharedFlow<String>(extraBufferCapacity = 1)
-    val resultFlow: SharedFlow<String> = _resultFlow.asSharedFlow()
+    private val _resultSharedFlow = MutableSharedFlow<String>(extraBufferCapacity = 1)
+    val resultSharedFlow: SharedFlow<String> = _resultSharedFlow.asSharedFlow()
+
+    private val _resultStateFlow = MutableStateFlow<String>("")
+    val resultStateFlow: StateFlow<String> = _resultStateFlow.asStateFlow()
 
     override fun onStart() {
         println("${instanceId()}::onStart()")
@@ -65,7 +72,8 @@ class SimpleResponseComponent(
             Button(
                 modifier = Modifier.padding(vertical = 40.dp),
                 onClick = {
-                    coroutineScope.launch { _resultFlow.emit(response) }
+                    _resultStateFlow.update { response }
+                    coroutineScope.launch { _resultSharedFlow.emit(response) }
                     handleBackPressed()
                 }
             ) {
