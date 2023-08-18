@@ -70,6 +70,12 @@ class SettingsTopBarComponent(
         println("${instanceId()}::onStop()")
     }
 
+    override fun delegateBackPressedToParent() {
+        super.delegateBackPressedToParent()
+        activeComponent.value = null
+        backStack.clear()
+    }
+
     override fun getStackBarItemForComponent(topComponent: Component): StackBarItem {
         return when (topComponent) {
             Step1 -> {

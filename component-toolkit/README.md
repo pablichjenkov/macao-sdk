@@ -1,33 +1,23 @@
-## UI-State3
-Yet another State Management alternative in the ***Jetpack/Jetbrains Compose*** world. The concept
-is based on the [Decompose](https://github.com/arkivanov/Decompose) pattern but implementation 
-deviated a bit to fit better other needs. The motive behind the library is to
-create a tool that allows to build Apps quickly, with a variety of navigation options and seamless
-effort to achieve scalability.
-<BR>
-The library separates UI state from any of the underlying platforms, could be Desktop mobile doesn't
-matter. The library itself contain a mechanism for navigation but it can be integrated with other
-navigation solutions too.
+## Component Toolkit
+The component-toolkit is basically another state management library. At its core, a Component is nothing else than a State Holder helper class. In this case, the components or state holders will form a tree structure. Components can interact with each other directly or indirectly. In a direct manner, a parent component will create or hoist children components so it knows the children types and functionality.
+In another way, a Component can navigate to another Component in the tree that is not necessarely a children or parent. Using Component deep linking, any Component in the tree can talk to another Component, send requests and receive results back.
 
-<H4>Getting Started</H4>
-The best way to get familiar with the concepts is to check the project wiki [wiki](https://github.com/pablichjenkov/uistate3/wiki)
+#### Guides
+1. Simple Component
+2. Navigation Component
+3. Components Deep Linking
+4. Request/Result between Components
 
-<H4>Show me some code</H4>
+#### Show me some code
 
 ```kotlin
 // An example of how to make a component tree. In this case a DrawerComponent that will have a 
 // BottomBarComponent as one of its children.
 object ComponentTreeBuilder {
 
-    private lateinit var DrawerComponent: DrawerComponent
-
     fun build(): DrawerComponent {
 
-        if (ComponentTreeBuilder::DrawerComponent.isInitialized) {
-            return DrawerComponent
-        }
-
-        val DrawerComponent = DrawerComponent()
+        val drawerComponent = DrawerComponent()
 
         val drawerNavItems = mutableListOf(
             NavItem(
@@ -50,12 +40,12 @@ object ComponentTreeBuilder {
             )
         )
 
-        return DrawerComponent.also { it.setItems(drawerNavItems, 0) }
+        return drawerComponent.also { it.setItems(drawerNavItems, 0) }
     }
 
     private fun buildNavBarComponent(): NavBarComponent {
 
-        val NavBarComponent = NavBarComponent()
+        val navBarComponent = NavBarComponent()
 
         val navbarNavItems = mutableListOf(
             NavItem(
@@ -78,7 +68,7 @@ object ComponentTreeBuilder {
             )
         )
 
-        return NavBarComponent.also { it.setItems(navbarNavItems, 0) }
+        return navBarComponent.also { it.setItems(navbarNavItems, 0) }
     }
 
 }
@@ -88,21 +78,21 @@ object ComponentTreeBuilder {
 
 fun main() = application {
 
-    val DrawerComponent: DrawerComponent = remember(key1 = this) {
+    val drawerComponent: DrawerComponent = remember(key1 = this) {
         DrawerTreeBuilder.build()
     }
 
    DesktopComponentRender(
-      rootComponent = DrawerComponent,
-      onBackPressEvent = { exitProcess(0) }
+      rootComponent = drawerComponent,
+      onBackPress = { exitProcess(0) }
    )
    
 }
 ```
 
 Above code will produce the desktop application shown in the video below. The **DesktopAppComponent** is
-a demo component that consists of, an **AdaptiveSizeComponent** as a parent of 3 **NavigatorComponents**(Drawer,
-BottomBar, Panel) that share children of type **BackStackComponents** which contain single page Components(
+a demo component that consists of, an **AdaptiveSizeComponent** as a parent of 3 **NavigationComponents**(Drawer,
+BottomBar, Panel) that share children of type **StackComponents** which contain single page Components(
 Page1, Page2, Page3). When the window size changes, the **DesktopAppComponent** sets the corresponding **
 NavigatorComponent** as active, and the children Components are tranfered from one navigator parent to the new
 active navigator parent. In the video there is also a demonstration of how deep links work. Deep
@@ -118,12 +108,12 @@ Lets see how the Android code will look like for the same NavigatonDrawer type o
 class DrawerActivity : ComponentActivity() {
 
     private val stateTreeHolder by viewModels<DrawerStateTreeHolder>()
-    private lateinit var StateTree: Component
+    private lateinit var stateTree: Component
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // It creates a state tree where the root Component is a NavigationDrawer
-        StateTree = stateTreeHolder.getOrCreate().apply {
+        stateTree = stateTreeHolder.getOrCreate().apply {
             context.rootComponentBackPressedDelegate = ForwardBackPressCallback { finish() }
         }
 
@@ -132,7 +122,7 @@ class DrawerActivity : ComponentActivity() {
                 CompositionLocalProvider(
                     LocalBackPressedDispatcher provides AndroidBackPressDispatcher(this@DrawerActivity),
                 ) {
-                    StateTree.Content(Modifier)
+                    stateTree.Content(Modifier)
                 }
             }
         }
@@ -200,7 +190,7 @@ event up to its parent component. Then the parent do the same until the event re
 
 An example of a ***Component*** implementation that handles its children as a back stack is the ***
 BackStackComponent***. It will have only one Active child at any time and this child will ocuppy the
-entire Viewport assigned to the ***BackStackComponent***. The pattern allows to build any type of nested
+entire Viewport assigned to the ***StackComponent***. The pattern allows to build any type of nested
 navigation within the tree. It is a matter of just placing a ***Component***
 implementation in the tree and handle the children components whatever the way you want.
 
@@ -217,17 +207,6 @@ ActivityRetained scope or in the Application scope and must survive configuratio
 to the user of the State Tree where to scope it. When the root Composable is recreated in case of
 screen size, layout or rotation changes. The Tree will traverse all the children and will recreate
 the previous Composable output before the configuration changes.
-
-<H4>ComponentContext</H4>
-
-**ComponentContext** is used to share fundamental elements within the components in the state tree, similar
-to **CompositionLocal** in the Composable tree. The ComponentContext is used to dispatch the BackPressed
-event from child component to parent component. It also can be queried to fetch the closest parent component
-handling navigation, things of that nature. This class should not be used to share data between the
-components, passing data implicitly within the tree is discouraged. Implicit data passing decreases
-portability of the component, it limits to use the **Component** in another application that might not provide
-the implicit state it depends on. To pass data to *Components* use the constructor, is the better option
-for testability as well.
 
 <H3>Build the Tree</H3>
 Creating a tree of components is simple. Start by the root component and append child components to it. Some components
