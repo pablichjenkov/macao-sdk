@@ -7,6 +7,7 @@ In another way, a Component can navigate to another Component in the tree that i
 2. Navigation Component
 3. Components Deep Linking
 4. Request/Result between Components
+5. Component.repeatOnLifeCycle, StateFlow<T>.collectAsStateWithLifecycle
 
 #### Show me some code
 
