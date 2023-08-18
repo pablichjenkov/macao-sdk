@@ -78,7 +78,7 @@ abstract class Component : ComponentLifecycle() {
         delegateBackPressedToParent()
     }
 
-    protected fun delegateBackPressedToParent() {
+    protected open fun delegateBackPressedToParent() {
         val parentComponentCopy = parentComponent
         if (parentComponentCopy != null) {
             println("${instanceId()}::delegateBackPressedToParent()")
@@ -86,6 +86,11 @@ abstract class Component : ComponentLifecycle() {
         } else {
             println("${instanceId()}::Back Press reached root component unhandled")
         }
+        resetInternal()
+    }
+
+    private fun resetInternal() {
+        startedFromDeepLink = false
     }
 
     // endregion
