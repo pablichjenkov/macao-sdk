@@ -66,7 +66,6 @@ class SimpleResponseComponent(
                 modifier = Modifier.padding(vertical = 40.dp),
                 onClick = {
                     coroutineScope.launch { _resultFlow.emit(response) }
-                    _resultFlow.tryEmit(response)
                     handleBackPressed()
                 }
             ) {
