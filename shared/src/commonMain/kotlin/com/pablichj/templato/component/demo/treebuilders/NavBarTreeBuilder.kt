@@ -13,7 +13,7 @@ import com.pablichj.templato.component.core.stack.FixSizedPushStrategy
 import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.demo.CustomTopBarComponent
 import com.pablichj.templato.component.platform.DiContainer
-import com.pablichj.templato.component.platform.DispatchersProxy
+import com.pablichj.templato.component.platform.CoroutineDispatchers
 
 object NavBarTreeBuilder {
 
@@ -69,7 +69,7 @@ object NavBarTreeBuilder {
         return NavBarComponent.Config(
             pushStrategy = FixSizedPushStrategy(1),
             navBarStyle = NavBarStyle(),
-            diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
+            diContainer = DiContainer(CoroutineDispatchers.Defaults)
         )
     }
 

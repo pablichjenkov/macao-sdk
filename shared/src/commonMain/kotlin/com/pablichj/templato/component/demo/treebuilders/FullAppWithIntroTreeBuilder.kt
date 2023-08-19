@@ -15,10 +15,10 @@ import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.demo.AppCoordinatorComponent
 import com.pablichj.templato.component.demo.CustomTopBarComponent
 import com.pablichj.templato.component.platform.DiContainer
-import com.pablichj.templato.component.platform.DispatchersProxy
+import com.pablichj.templato.component.platform.CoroutineDispatchers
 
 object FullAppWithIntroTreeBuilder {
-    private val diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
+    private val diContainer = DiContainer(CoroutineDispatchers.Defaults)
     private lateinit var appCoordinatorComponent: Component
 
     fun build(): Component {
@@ -37,7 +37,7 @@ object FullAppWithIntroTreeBuilder {
         val drawerComponent = DrawerComponent(
             drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
             config = DrawerComponent.DefaultConfig,
-            dispatchers = DispatchersProxy.DefaultDispatchers,
+            dispatchers = CoroutineDispatchers.Defaults,
             content = DrawerComponent.DefaultDrawerComponentView
         )
         val navBarComponent = NavBarComponent(
@@ -103,7 +103,7 @@ object FullAppWithIntroTreeBuilder {
         val drawerComponent = DrawerComponent(
             drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
             config = DrawerComponent.DefaultConfig,
-            dispatchers = DispatchersProxy.DefaultDispatchers,
+            dispatchers = CoroutineDispatchers.Defaults,
             content = DrawerComponent.DefaultDrawerComponentView
         )
         val navBarComponent = NavBarComponent(

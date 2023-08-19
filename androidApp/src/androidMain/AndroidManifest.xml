@@ -40,7 +40,7 @@
             android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true" />
         <activity
-            android:name="com.pablichj.templato.component.demo.AdaptableSizeNodeActivity"
+            android:name="com.pablichj.templato.component.demo.AdaptiveSizeActivity"
             android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true" />
     </application>

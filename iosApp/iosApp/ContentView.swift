@@ -8,12 +8,15 @@ struct ComposeView : UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> UIViewController {
         // let drawerComponent = BindingsKt.buildDrawerComponent()
-        // let adaptableComponent = BindingsKt.buildAdaptableSizeComponent()
-         let pagerComponent = BindingsKt.buildPagerComponent()
+         let adaptableComponent = BindingsKt.buildAdaptableSizeComponent()
+        // let pagerComponent = BindingsKt.buildPagerComponent()
         
         let mainViewController = BindingsKt.ComponentRenderer(
-            rootComponent: pagerComponent,
-            iosBridge: iosBridge
+            rootComponent: adaptableComponent,
+            iosBridge: iosBridge,
+            onBackPress: {
+                exit(0)
+            }
         )
 
         return mainViewController

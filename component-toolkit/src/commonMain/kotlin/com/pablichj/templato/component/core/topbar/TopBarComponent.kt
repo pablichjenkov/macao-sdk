@@ -17,12 +17,12 @@ import com.pablichj.templato.component.core.stack.DefaultStackComponentView
 import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.stack.StackComponent
 import com.pablichj.templato.component.core.stack.StackStyle
-import com.pablichj.templato.component.platform.DispatchersProxy
+import com.pablichj.templato.component.platform.CoroutineDispatchers
 
 abstract class TopBarComponent<T : TopBarStatePresenter>(
     private val topBarStatePresenter: T,
     private val config: Config = DefaultConfig,
-    dispatchers: DispatchersProxy = DispatchersProxy.DefaultDispatchers,
+    dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
 ) : StackComponent() {
 
     private var drawerNavigationProvider: DrawerNavigationProvider? = null

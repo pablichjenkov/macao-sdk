@@ -12,12 +12,9 @@ import com.pablichj.templato.component.core.drawer.DrawerStatePresenterDefault
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.panel.PanelComponent
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
-import com.pablichj.templato.component.platform.DiContainer
-import com.pablichj.templato.component.platform.DispatchersProxy
+import com.pablichj.templato.component.platform.CoroutineDispatchers
 
-class AdaptableSizeNodeActivity : ComponentActivity() {
-
-    private val diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
+class AdaptiveSizeActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +25,7 @@ class AdaptableSizeNodeActivity : ComponentActivity() {
                 DrawerComponent<DrawerStatePresenterDefault>(
                     drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
                     config = DrawerComponent.DefaultConfig,
-                    dispatchers = DispatchersProxy.DefaultDispatchers,
+                    dispatchers = CoroutineDispatchers.Defaults,
                     content = DrawerComponent.DefaultDrawerComponentView
                 )
             )

@@ -24,7 +24,7 @@ import com.pablichj.templato.component.core.stack.AddAllPushStrategy
 import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.core.toNavItemDeco
 import com.pablichj.templato.component.platform.DiContainer
-import com.pablichj.templato.component.platform.DispatchersProxy
+import com.pablichj.templato.component.platform.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +34,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
     val navBarStatePresenter: T,
     config: Config = DefaultConfig,
     private val lifecycleHandler: NavigationComponent.LifecycleHandler = NavigationComponentDefaultLifecycleHandler(),
-    dispatchers: DispatchersProxy = DispatchersProxy.DefaultDispatchers,
+    dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
     private var content: @Composable NavBarComponent<T>.(
         modifier: Modifier,
         childComponent: Component
@@ -163,7 +163,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
         val DefaultConfig = Config(
             pushStrategy = AddAllPushStrategy(),
             navBarStyle = NavBarStyle(),
-            diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
+            diContainer = DiContainer(CoroutineDispatchers.Defaults)
         )
 
         fun createDefaultNavBarStatePresenter(

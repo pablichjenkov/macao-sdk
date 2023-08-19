@@ -21,13 +21,10 @@ import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.getChildForNextUriFragment
-import com.pablichj.templato.component.core.getNavItemFromComponent
-import com.pablichj.templato.component.core.navbar.NavBarComponent
-import com.pablichj.templato.component.core.onDeepLinkNavigateTo
 import com.pablichj.templato.component.core.pager.indicator.DefaultPagerIndicator
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
 import com.pablichj.templato.component.core.stack.PushStrategy
-import com.pablichj.templato.component.platform.DispatchersProxy
+import com.pablichj.templato.component.platform.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -41,7 +38,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class)
 class PagerComponent(
     config: Config = DefaultConfig,
-    dispatchers: DispatchersProxy = DispatchersProxy.DefaultDispatchers,
+    dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
     private var content: @Composable PagerComponent.(
         modifier: Modifier,
         pagerState: PagerState,

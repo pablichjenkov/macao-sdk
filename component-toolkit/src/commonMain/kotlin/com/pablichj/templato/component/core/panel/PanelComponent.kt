@@ -24,7 +24,7 @@ import com.pablichj.templato.component.core.stack.AddAllPushStrategy
 import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.core.toNavItemDeco
 import com.pablichj.templato.component.platform.DiContainer
-import com.pablichj.templato.component.platform.DispatchersProxy
+import com.pablichj.templato.component.platform.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +34,7 @@ class PanelComponent<T : PanelStatePresenter>(
     private val panelStatePresenter: T,
     config: Config = DefaultConfig,
     private val lifecycleHandler: NavigationComponent.LifecycleHandler = NavigationComponentDefaultLifecycleHandler(),
-    dispatchers: DispatchersProxy = DispatchersProxy.DefaultDispatchers,
+    dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
     private val content: @Composable PanelComponent<T>.(
         modifier: Modifier,
         childComponent: Component
@@ -165,7 +165,7 @@ class PanelComponent<T : PanelStatePresenter>(
         val DefaultConfig = Config(
             pushStrategy = AddAllPushStrategy(),
             panelHeaderStyle = PanelHeaderStyle(),
-            diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
+            diContainer = DiContainer(CoroutineDispatchers.Defaults)
         )
 
         fun createDefaultPanelStatePresenter(

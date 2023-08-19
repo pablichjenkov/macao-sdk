@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                         "BottomBar Example"
                     )
                     LaunchButton(
-                        AdaptableSizeNodeActivity::class.java,
+                        AdaptiveSizeActivity::class.java,
                         "Adaptive Navigation Example"
                     )
                     LaunchButton(
