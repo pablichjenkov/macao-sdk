@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
@@ -18,8 +19,8 @@ fun AndroidComponentRender(
     rootComponent: Component,
     onBackPress: () -> Unit = {}
 ) {
-    val updatedOnBackPressed by rememberUpdatedState(onBackPress)
 
+    val updatedOnBackPressed by rememberUpdatedState(onBackPress)
     val activity = LocalContext.current as ComponentActivity
 
     CompositionLocalProvider(
@@ -41,4 +42,7 @@ fun AndroidComponentRender(
         }
     )
 
+    LaunchedEffect(rootComponent) {
+        rootComponent.rootBackPressDelegate = updatedOnBackPressed
+    }
 }

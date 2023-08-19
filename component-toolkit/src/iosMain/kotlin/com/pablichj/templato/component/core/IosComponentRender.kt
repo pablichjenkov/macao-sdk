@@ -39,6 +39,7 @@ fun IosComponentRender(
     }
 
     LaunchedEffect(key1 = rootComponent) {
+        rootComponent.rootBackPressDelegate = updatedOnBackPressed
         iosBridge.appLifecycleDispatcher.subscribe(
             ForwardAppLifecycleCallback {
                 when (it) {

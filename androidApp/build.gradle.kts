@@ -13,7 +13,7 @@ plugins {
 }*/
 
 kotlin {
-    android()
+    androidTarget()
     sourceSets {
         val androidMain by getting {
             dependencies {
