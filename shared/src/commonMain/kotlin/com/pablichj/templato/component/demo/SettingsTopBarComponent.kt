@@ -7,6 +7,9 @@ import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.core.topbar.TopBarStatePresenterDefault
+import com.pablichj.templato.component.demo.viewmodel.SimpleViewModel
+import com.pablichj.templato.component.demo.viewmodel.SimpleViewModelView
+import com.pablichj.templato.component.demo.viewmodel.ViewModelComponent
 
 class SettingsTopBarComponent(
     val screenName: String,
@@ -31,16 +34,18 @@ class SettingsTopBarComponent(
         it.uriFragment = "Page 1"
     }
 
-    val Step2 = SimpleComponent(
-        "$screenName/Page 2",
-        Color.Green
-    ) { msg ->
-        when (msg) {
-            SimpleComponent.Msg.Next -> {
-                backStack.push(Step3)
-            }
+    private val simpleViewModel = SimpleViewModel(
+        screenName = "$screenName/Page 2",
+        bgColor = Color.Green,
+        onNext = {
+            backStack.push(Step3)
         }
-    }.also {
+    )
+
+    val Step2 = ViewModelComponent(
+        viewModel = simpleViewModel,
+        content = SimpleViewModelView
+    ).also {
         it.setParent(this@SettingsTopBarComponent)
         it.uriFragment = "Page 2"
     }
@@ -87,7 +92,7 @@ class SettingsTopBarComponent(
 
             Step2 -> {
                 StackBarItem(
-                    Step2.screenName,
+                    simpleViewModel.screenName,
                     Icons.Filled.Star,
                 )
             }

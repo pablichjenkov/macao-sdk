@@ -27,8 +27,7 @@ abstract class Component : ComponentLifecycle() {
 
     var lifecycleState: ComponentLifecycleState = ComponentLifecycleState.Created
 
-    private val _lifecycleStateFlow =
-        MutableStateFlow<ComponentLifecycleState>(ComponentLifecycleState.Created)
+    private val _lifecycleStateFlow = MutableStateFlow(lifecycleState)
     val lifecycleStateFlow: StateFlow<ComponentLifecycleState>
         get() = _lifecycleStateFlow.asStateFlow()
 
