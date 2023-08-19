@@ -11,10 +11,10 @@ import com.pablichj.templato.component.core.navbar.NavBarStatePresenterDefault
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.platform.DiContainer
-import com.pablichj.templato.component.platform.DispatchersProxy
+import com.pablichj.templato.component.platform.CoroutineDispatchers
 
 object DrawerTreeBuilder {
-    private val diContainer = DiContainer(DispatchersProxy.DefaultDispatchers)
+    private val diContainer = DiContainer(CoroutineDispatchers.Defaults)
     private lateinit var drawerComponent: DrawerComponent<DrawerStatePresenterDefault>
 
     fun build(): DrawerComponent<DrawerStatePresenterDefault> {
@@ -52,7 +52,7 @@ object DrawerTreeBuilder {
         return DrawerComponent(
             drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
             config = DrawerComponent.DefaultConfig,
-            dispatchers = DispatchersProxy.DefaultDispatchers,
+            dispatchers = CoroutineDispatchers.Defaults,
             content = DrawerComponent.DefaultDrawerComponentView
         ).also {
             drawerComponent = it

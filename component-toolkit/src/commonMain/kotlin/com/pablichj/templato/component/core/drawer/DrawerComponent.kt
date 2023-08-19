@@ -25,7 +25,7 @@ import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
 import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.core.toNavItemDeco
-import com.pablichj.templato.component.platform.DispatchersProxy
+import com.pablichj.templato.component.platform.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +35,7 @@ class DrawerComponent<T : DrawerStatePresenter>(
     val drawerStatePresenter: T,
     config: Config = DefaultConfig,
     private val lifecycleHandler: NavigationComponent.LifecycleHandler = NavigationComponentDefaultLifecycleHandler(),
-    dispatchers: DispatchersProxy = DispatchersProxy.DefaultDispatchers,
+    dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
     private var content: @Composable DrawerComponent<T>.(
         modifier: Modifier,
         childComponent: Component

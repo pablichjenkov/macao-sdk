@@ -15,7 +15,7 @@ import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.panel.PanelComponent
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.templato.component.platform.DesktopBridge
-import com.pablichj.templato.component.platform.DispatchersProxy
+import com.pablichj.templato.component.platform.CoroutineDispatchers
 
 class MainWindowComponent(
     val onOpenDeepLinkClick: () -> Unit,
@@ -34,7 +34,7 @@ class MainWindowComponent(
                 DrawerComponent(
                     drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
                     config = DrawerComponent.DefaultConfig,
-                    dispatchers = DispatchersProxy.DefaultDispatchers,
+                    dispatchers = CoroutineDispatchers.Defaults,
                     content = DrawerComponent.DefaultDrawerComponentView
                 )
             )

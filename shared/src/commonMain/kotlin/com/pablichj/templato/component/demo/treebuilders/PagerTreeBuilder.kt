@@ -12,7 +12,7 @@ import com.pablichj.templato.component.core.pager.PagerComponent
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.demo.CustomTopBarComponent
-import com.pablichj.templato.component.platform.DispatchersProxy
+import com.pablichj.templato.component.platform.CoroutineDispatchers
 
 @OptIn(ExperimentalFoundationApi::class)
 object PagerTreeBuilder {
@@ -119,7 +119,7 @@ object PagerTreeBuilder {
 
         return PagerComponent(
             PagerComponent.DefaultConfig,
-            DispatchersProxy.DefaultDispatchers,
+            CoroutineDispatchers.Defaults,
             PagerComponent.DefaultPagerComponentView
         ).also {
             pagerComponent = it
