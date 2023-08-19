@@ -3,6 +3,7 @@ package com.pablichj.templato.component.core.pager
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -11,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.ComponentWithBackStack
@@ -20,6 +22,7 @@ import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.getChildForNextUriFragment
 import com.pablichj.templato.component.core.getNavItemFromComponent
+import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.onDeepLinkNavigateTo
 import com.pablichj.templato.component.core.pager.indicator.DefaultPagerIndicator
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
@@ -38,7 +41,12 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class)
 class PagerComponent(
     config: Config = DefaultConfig,
-    dispatchers: DispatchersProxy = DispatchersProxy.DefaultDispatchers
+    dispatchers: DispatchersProxy = DispatchersProxy.DefaultDispatchers,
+    private var content: @Composable PagerComponent.(
+        modifier: Modifier,
+        pagerState: PagerState,
+        childComponents: List<Component>
+    ) -> Unit
 ) : Component(), NavigationComponent {
     override val backStack = createBackStack(config.pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
@@ -46,12 +54,13 @@ class PagerComponent(
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
     private var currentActiveIndexSet = mutableSetOf<Int>()
-    lateinit var pagerState: PagerState
     private var coroutineScope = CoroutineScope(dispatchers.main)
 
     private val _componentOutFlow = MutableSharedFlow<PagerComponentOutEvent?>()
     val pagerComponentViewFlow: SharedFlow<PagerComponentOutEvent?>
         get() = _componentOutFlow
+
+    private var currentPage = 0
 
     override fun onStart() {
         println("${instanceId()}::onStart()")
@@ -80,8 +89,8 @@ class PagerComponent(
     }
 
     override fun handleBackPressed() {
-        if (pagerState.currentPage > 0) {
-            selectPage(pagerState.currentPage - 1)
+        if (currentPage > 0) {
+            selectPage(currentPage - 1)
         } else {
             delegateBackPressedToParent()
         }
@@ -134,6 +143,7 @@ class PagerComponent(
 
     private fun onPageChanged(pageIndex: Int) {
         println("${instanceId()}::onPageChanged newPage = $pageIndex")
+        currentPage = pageIndex
         val nextStartedIndexSet = mutableSetOf<Int>()
         if (pageIndex - 1 >= 0) {
             nextStartedIndexSet.add(pageIndex - 1)
@@ -176,23 +186,9 @@ class PagerComponent(
 
     // region Pager rendering
 
-    fun setPagerComponentView(
-        pagerComponentView: @Composable PagerComponent.(
-            modifier: Modifier,
-            childComponents: List<Component>
-        ) -> Unit
-    ) {
-        this.pagerComponentView = pagerComponentView
-    }
-
-    private var pagerComponentView: @Composable PagerComponent.(
-        modifier: Modifier,
-        childComponents: List<Component>
-    ) -> Unit = DefaultPagerComponentView
-
     @Composable
     override fun Content(modifier: Modifier) {
-        pagerState = rememberPagerState(initialPage = selectedIndex) {
+        val pagerState = rememberPagerState(initialPage = selectedIndex) {
             childComponents.size
         }
         println(
@@ -202,7 +198,7 @@ class PagerComponent(
             """.trimMargin()
         )
         if (activeComponent.value != null) {
-            pagerComponentView(modifier, childComponents)
+            content(modifier, pagerState, childComponents)
         } else {
             Text(
                 modifier = Modifier
@@ -234,8 +230,9 @@ class PagerComponent(
 
         val DefaultPagerComponentView: @Composable PagerComponent.(
             modifier: Modifier,
+            pagerState: PagerState,
             childComponents: List<Component>
-        ) -> Unit = { modifier, childComponents ->
+        ) -> Unit = { modifier, pagerState, childComponents ->
             val pagerItemsSize = childComponents.size
             Box {
                 HorizontalPager(
@@ -246,7 +243,7 @@ class PagerComponent(
                     childComponents[pageIndex].Content(modifier = modifier)
                 }
                 DefaultPagerIndicator(
-                    modifier = Modifier.align(Alignment.TopCenter),
+                    modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 56.dp),
                     pagerState = pagerState,
                     itemCount = pagerItemsSize,
                     indicatorCount = pagerItemsSize
