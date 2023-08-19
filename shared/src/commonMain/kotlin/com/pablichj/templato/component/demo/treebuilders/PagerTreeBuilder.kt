@@ -1,5 +1,6 @@
 package com.pablichj.templato.component.demo.treebuilders
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
@@ -11,9 +12,9 @@ import com.pablichj.templato.component.core.pager.PagerComponent
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.demo.CustomTopBarComponent
-import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.DispatchersProxy
 
+@OptIn(ExperimentalFoundationApi::class)
 object PagerTreeBuilder {
     private lateinit var pagerComponent: PagerComponent
 
@@ -118,7 +119,8 @@ object PagerTreeBuilder {
 
         return PagerComponent(
             PagerComponent.DefaultConfig,
-            DispatchersProxy.DefaultDispatchers
+            DispatchersProxy.DefaultDispatchers,
+            PagerComponent.DefaultPagerComponentView
         ).also {
             pagerComponent = it
             it.setNavItems(pagerNavItems, 0)
