@@ -47,7 +47,8 @@ fun DesktopComponentRender(
         }*/
     }
 
-    LaunchedEffect(windowState) {
+    LaunchedEffect(rootComponent, windowState) {
+        rootComponent.rootBackPressDelegate = updatedOnBackPressed
         launch {
             snapshotFlow { windowState.isMinimized }
                 .onEach { isMinimized ->
