@@ -1,4 +1,4 @@
-### Component Toolkit <under development 🚧👷>
+### Component Toolkit
 A set of prefabricated compose-multiplatform components to speedup the App development process. The module contains a variety of navigation components as drawer, tabbar, topbar, bottombar, pager, stack, panel and many more. Code is 99% reusable in each platform. Check demos bellow.
 
 ##### How to use it?
