@@ -3,7 +3,7 @@ The component-toolkit is basically another state management library. At its core
 In another way, a Component can navigate to another Component in the tree that is not necessarely a children or parent. Using Component deep linking, any Component in the tree can talk to another Component, send requests and receive results back.
 
 #### Guides
-1. Simple Component
+1. [Simple Component](#simple-component)
 2. Navigation Component
 3. Components Deep Linking
 4. Request/Result between Components
@@ -154,6 +154,10 @@ https://user-images.githubusercontent.com/5303301/208034085-7a8cf47c-3339-45b0-b
 or in the device, although is not to practical in this case.
 
 https://user-images.githubusercontent.com/5303301/205610976-ce7e3006-bbdf-4f42-941c-de784714b6cd.mp4
+
+#### <a id="simple-component"></a>Simple Component
+
+dcdcdcldwjncljdnwlcdn
 
 <H4>Adaptable UI</H4>
 
