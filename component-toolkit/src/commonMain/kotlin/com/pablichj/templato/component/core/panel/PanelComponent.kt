@@ -1,30 +1,27 @@
 package com.pablichj.templato.component.core.panel
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.ComponentWithBackStack
-import com.pablichj.templato.component.core.EmptyStackMessage
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.NavigationComponentDefaultLifecycleHandler
+import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.getChildForNextUriFragment
 import com.pablichj.templato.component.core.getNavItemFromComponent
 import com.pablichj.templato.component.core.onDeepLinkNavigateTo
 import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.processBackstackTransition
-import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
 import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.core.toNavItemDeco
-import com.pablichj.templato.component.platform.DiContainer
+import com.pablichj.templato.component.core.util.EmptyNavigationComponentView
 import com.pablichj.templato.component.platform.CoroutineDispatchers
+import com.pablichj.templato.component.platform.DiContainer
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -144,12 +141,7 @@ class PanelComponent<T : PanelStatePresenter>(
         if (activeComponentCopy != null) {
             content(modifier, activeComponentCopy)
         } else {
-            Text(
-                modifier = Modifier
-                    .fillMaxSize(),
-                text = "${instanceId()} $EmptyStackMessage",
-                textAlign = TextAlign.Center
-            )
+            EmptyNavigationComponentView(this@PanelComponent)
         }
     }
 

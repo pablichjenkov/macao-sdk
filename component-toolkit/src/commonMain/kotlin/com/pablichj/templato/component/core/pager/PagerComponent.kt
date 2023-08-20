@@ -7,16 +7,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.ComponentWithBackStack
-import com.pablichj.templato.component.core.EmptyStackMessage
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
@@ -24,6 +21,7 @@ import com.pablichj.templato.component.core.getChildForNextUriFragment
 import com.pablichj.templato.component.core.pager.indicator.DefaultPagerIndicator
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
 import com.pablichj.templato.component.core.stack.PushStrategy
+import com.pablichj.templato.component.core.util.EmptyNavigationComponentView
 import com.pablichj.templato.component.platform.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancelChildren
@@ -197,12 +195,7 @@ class PagerComponent(
         if (activeComponent.value != null) {
             content(modifier, pagerState, childComponents)
         } else {
-            Text(
-                modifier = Modifier
-                    .fillMaxSize(),
-                text = "${instanceId()} $EmptyStackMessage",
-                textAlign = TextAlign.Center
-            )
+            EmptyNavigationComponentView(this@PagerComponent)
         }
         LaunchedEffect(childComponents, pagerState) {
             launch {
