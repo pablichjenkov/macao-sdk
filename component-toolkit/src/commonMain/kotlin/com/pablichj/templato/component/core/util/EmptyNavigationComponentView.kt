@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.ComponentDefaults
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 
@@ -33,7 +34,7 @@ fun EmptyNavigationComponentView(
         Box(modifier = Modifier.fillMaxSize()) {
             Text(
                 modifier = Modifier.align(Alignment.Center).padding(16.dp),
-                text = "${component.instanceId()}\n${Component.EmptyStackMessage}"
+                text = "${component.instanceId()}\n${ComponentDefaults.EmptyStackMessage}"
             )
         }
     }

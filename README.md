@@ -1,11 +1,13 @@
 ### Component Toolkit
-A set of prefabricated compose-multiplatform components to speedup the App development process. The module contains a variety of navigation components as drawer, tabbar, topbar, bottombar, pager, stack, panel and many more. Code is 99% reusable in each platform. Check demos bellow.
+A set of prefabricated compose-multiplatform components to speedup the App development process. 
+The toolkit contains a variety of navigation components as drawer, tabbar, topbar, bottombar, pager,
+stack, panel and many more. Code is 99% reusable in each platform. Check demos bellow.
 
 ##### How to use it?
-Just add bellow dependency in the **commonMain** target of the module that plans to consume the toolkit. Check the guides in the Readme file under the component-toolkit module [Usage Guide](/component-toolkit/README.md).
+Just add bellow dependency to the **commonMain** target and check the [Developer Guide](/component-toolkit/README.md) 
+in the component-toolkit module.
 
 See readme inside component-toolkit module for code snippets.
-<BR>
 <BR>
 
 **Component-toolkit is published on Maven Central:**

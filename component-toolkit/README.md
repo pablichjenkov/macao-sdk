@@ -1,7 +1,12 @@
 ## Component Toolkit
-Component-toolkit is basically a state management library. At its core, a Component is nothing else than a State Holder class to help with state hoisting. 
-In the context of this library components or state holders form a tree. Components in the tree can interact with each other directly or indirectly. In a direct manner, a parent component will create or hoist children components so it knows the children types and functionality.
-In an indirect way, a Component can connect to another Component in the tree that is not its children. Using Component deep linking, any Component in the tree can connect to another Component and send requests and receive results back.
+Component-toolkit is basically a state management library. At its core, a Component is nothing else 
+than a State Holder class to help with state hoisting. 
+In the context of this library, Components are state holders that form a tree, in this tree, 
+Components can interact with each other directly or indirectly. In a direct manner, a parent 
+component will create or hoist children components so it knows the children types and functionality.
+In an indirect way, a Component can connect to another Component in the tree that is not its 
+children. Using Component deep linking, any Component in the tree can connect to another Component 
+and send requests and receive results back.
 
 #### Guides
 1. [Simple Component](#simple-component)
@@ -11,7 +16,8 @@ In an indirect way, a Component can connect to another Component in the tree tha
 5. [Component Extensions](#components-ext)
 
 #### <a id="simple-component"></a>Simple Component
-To create a component all you need to do is extend the Component class and provide an implementation for the Composable content.
+To create a component all you need to do is extend the Component class and provide an implementation
+for the Composable content.
 
 ```kotlin
   @Composable 

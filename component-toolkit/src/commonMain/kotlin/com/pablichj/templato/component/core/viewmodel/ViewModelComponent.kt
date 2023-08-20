@@ -1,4 +1,4 @@
-package com.pablichj.templato.component.demo.viewmodel
+package com.pablichj.templato.component.core.viewmodel
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

@@ -1,4 +1,4 @@
-package com.pablichj.templato.component.demo.viewmodel
+package com.pablichj.templato.component.core.viewmodel
 
 import com.pablichj.templato.component.core.ComponentLifecycle
 import com.pablichj.templato.component.core.ComponentLifecycleState

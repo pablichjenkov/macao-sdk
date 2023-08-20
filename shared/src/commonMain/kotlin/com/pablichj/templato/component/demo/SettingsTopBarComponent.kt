@@ -9,7 +9,7 @@ import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.core.topbar.TopBarStatePresenterDefault
 import com.pablichj.templato.component.demo.viewmodel.SimpleViewModel
 import com.pablichj.templato.component.demo.viewmodel.SimpleViewModelView
-import com.pablichj.templato.component.demo.viewmodel.ViewModelComponent
+import com.pablichj.templato.component.core.viewmodel.ViewModelComponent
 
 class SettingsTopBarComponent(
     val screenName: String,

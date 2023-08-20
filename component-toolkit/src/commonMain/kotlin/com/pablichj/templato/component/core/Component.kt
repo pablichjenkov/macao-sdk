@@ -2,8 +2,10 @@ package com.pablichj.templato.component.core
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.pablichj.templato.component.core.deeplink.DeepLinkManager
 import com.pablichj.templato.component.core.deeplink.DeepLinkMsg
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
+import com.pablichj.templato.component.core.deeplink.DefaultDeepLinkManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,7 +38,9 @@ abstract class Component : ComponentLifecycle() {
             ComponentLifecycleState.Started // It has to be the first line of this block
         if (deepLinkNavigationAwaitsStartedState) {
             deepLinkNavigationAwaitsStartedState = false
-            awaitingDeepLinkMsg?.let { navigateToDeepLink(it) }
+            awaitingDeepLinkMsg?.let {
+                DefaultDeepLinkManager().navigateToDeepLink(this, it)
+            }
         }
         onStart()
         _lifecycleStateFlow.value = ComponentLifecycleState.Started
@@ -99,65 +103,10 @@ abstract class Component : ComponentLifecycle() {
 
     // region: DeepLink
 
-    protected var deepLinkNavigationAwaitsStartedState = false
-    protected var awaitingDeepLinkMsg: DeepLinkMsg? = null
+    internal var deepLinkNavigationAwaitsStartedState = false
+    internal var awaitingDeepLinkMsg: DeepLinkMsg? = null
     var startedFromDeepLink = false
     var uriFragment: String? = null
-
-    fun navigateToDeepLink(
-        deepLinkMsg: DeepLinkMsg
-    ) {
-        println("${instanceId()}::navigateToDeepLink(), path = ${deepLinkMsg.path.joinToString("/")}")
-
-        if (lifecycleState != ComponentLifecycleState.Started) {
-            println("${instanceId()}::navigateToDeepLink(), Waiting to be Started")
-            deepLinkNavigationAwaitsStartedState = true
-            awaitingDeepLinkMsg = deepLinkMsg
-            return
-        }
-
-        val uriFragment = deepLinkMsg.path[0]
-        val match = this.uriFragment == uriFragment
-
-        if (match) {
-            if (deepLinkMsg.path.size == 1) {
-                deepLinkMsg.resultListener.invoke(DeepLinkResult.Success, this)
-                return
-            }
-
-            val nextUriFragment = deepLinkMsg.path[1]
-            val nextComponent = getChildForNextUriFragment(nextUriFragment)
-            if (nextComponent == null) {
-                deepLinkMsg.resultListener.invoke(
-                    DeepLinkResult.Error(
-                        "Component: ${instanceId()} does not have any child that handle uri fragment = $nextUriFragment"
-                    ),
-                    null
-                )
-                return
-            }
-
-            nextComponent.startedFromDeepLink = true
-
-            if (deepLinkMsg.path.size > 2) {
-                val nextDeepLinkMsg = deepLinkMsg.copy(
-                    path = deepLinkMsg.path.subList(1, deepLinkMsg.path.size)
-                )
-                onDeepLinkNavigateTo(nextComponent)
-                nextComponent.navigateToDeepLink(nextDeepLinkMsg)
-            } else {
-                onDeepLinkNavigateTo(nextComponent)
-                deepLinkMsg.resultListener.invoke(DeepLinkResult.Success, nextComponent)
-            }
-        } else {
-            deepLinkMsg.resultListener.invoke(
-                DeepLinkResult.Error(
-                    "Component: ${instanceId()} does not handle DeepLink fragment = $uriFragment."
-                ),
-                null
-            )
-        }
-    }
 
     open fun getChildForNextUriFragment(
         nextUriFragment: String
@@ -166,7 +115,7 @@ abstract class Component : ComponentLifecycle() {
         return null
     }
 
-    protected open fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
+    open fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
         return DeepLinkResult.Error(
             """
             ${instanceId()}::onDeepLinkMatch has been called but the function is not " +
@@ -192,11 +141,11 @@ abstract class Component : ComponentLifecycle() {
     }
 
     // endregion
+}
 
-    companion object {
-        internal const val EmptyStackMessage =
-            "NavigationComponent Empty Stack!.\nYou either did not call setNavItem(...) and/or dispatchStart()"
-    }
+object ComponentDefaults {
+    internal const val EmptyStackMessage =
+        "NavigationComponent Empty Stack!.\nYou either did not call setNavItem(...) and/or dispatchStart()"
 }
 
 sealed interface ComponentLifecycleState {
