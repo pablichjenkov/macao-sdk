@@ -3,12 +3,6 @@ package com.pablichj.templato.component.core
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.vector.ImageVector
 
-internal const val EmptyStackMessage =
-        """
-            NavigationComponent Empty Stack!.\nYou either did not call setNavItem(...) 
-            and/or dispatchStart()
-        """
-
 interface NavigationComponent : ComponentWithBackStack {
     var navItems: MutableList<NavItem>
     var selectedIndex: Int

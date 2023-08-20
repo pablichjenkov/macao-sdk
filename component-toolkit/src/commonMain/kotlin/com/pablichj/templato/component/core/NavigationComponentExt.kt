@@ -17,7 +17,9 @@ fun NavigationComponent.setNavItems(
         childComponents = it.second.toMutableList()
     }
 
-    onSelectNavItem(selectedIndex, navItems)
+    if (navItems.isNotEmpty()) {
+        onSelectNavItem(selectedIndex, navItems)
+    }
 }
 
 internal fun NavigationComponent.addNavItem(newIndex: Int, navItem: NavItem) {

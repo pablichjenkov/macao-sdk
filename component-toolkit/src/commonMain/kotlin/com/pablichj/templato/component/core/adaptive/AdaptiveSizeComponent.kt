@@ -14,12 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentLifecycleState
-import com.pablichj.templato.component.core.EmptyStackMessage
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.transferFrom
+import com.pablichj.templato.component.core.util.EmptyNavigationComponentView
 
 /**
  * This node is basically a proxy, it transfer request and events to its active child node
@@ -123,13 +123,7 @@ class AdaptiveSizeComponent : Component() {
         if (currentComponent != null) {
             currentComponent.Content(modifier)
         } else {
-            Box(modifier = Modifier.fillMaxSize()) {
-                Text(
-                    modifier = Modifier.fillMaxWidth().align(Alignment.Center),
-                    text = "${instanceId()} $EmptyStackMessage",
-                    textAlign = TextAlign.Center
-                )
-            }
+            EmptyNavigationComponentView(this@AdaptiveSizeComponent)
         }
 
     }

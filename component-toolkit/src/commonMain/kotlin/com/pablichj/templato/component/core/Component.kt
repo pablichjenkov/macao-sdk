@@ -192,6 +192,11 @@ abstract class Component : ComponentLifecycle() {
     }
 
     // endregion
+
+    companion object {
+        internal const val EmptyStackMessage =
+            "NavigationComponent Empty Stack!.\nYou either did not call setNavItem(...) and/or dispatchStart()"
+    }
 }
 
 sealed interface ComponentLifecycleState {
