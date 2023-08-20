@@ -1,273 +1,303 @@
 ## Component Toolkit
-The component-toolkit is basically another state management library. At its core, a Component is nothing else than a State Holder helper class. In this case, the components or state holders will form a tree structure. Components can interact with each other directly or indirectly. In a direct manner, a parent component will create or hoist children components so it knows the children types and functionality.
-In another way, a Component can navigate to another Component in the tree that is not necessarely a children or parent. Using Component deep linking, any Component in the tree can talk to another Component, send requests and receive results back.
+Component-toolkit is basically a state management library. At its core, a Component is nothing else than a State Holder class to help with state hoisting. 
+In the context of this library components or state holders form a tree. Components in the tree can interact with each other directly or indirectly. In a direct manner, a parent component will create or hoist children components so it knows the children types and functionality.
+In an indirect way, a Component can connect to another Component in the tree that is not its children. Using Component deep linking, any Component in the tree can connect to another Component and send requests and receive results back.
 
 #### Guides
 1. [Simple Component](#simple-component)
-2. Navigation Component
-3. Components Deep Linking
-4. Request/Result between Components
-5. Component.repeatOnLifeCycle, StateFlow<T>.collectAsStateWithLifecycle
+2. [Navigation Component](#navigation-component)
+3. [Platform Renderers](#platform-renderers)
+4. [Component Deep Linking](#components-deep-linking)
+5. [Component Extensions](#components-ext)
 
-#### Show me some code
+#### <a id="simple-component"></a>Simple Component
+To create a component all you need to do is extend the Component class and provide an implementation for the Composable content.
 
 ```kotlin
-// An example of how to make a component tree. In this case a DrawerComponent that will have a 
-// BottomBarComponent as one of its children.
-object ComponentTreeBuilder {
+  @Composable 
+  fun Content() {
+  }
+```
+A simple Component class will look like this.
 
-    fun build(): DrawerComponent {
+```kotlin
+class SimpleComponent(
+    val screenName: String,
+    val onResult: (result: Boolean) -> Unit
+) : Component() {
 
-        val drawerComponent = DrawerComponent()
-
-        val drawerNavItems = mutableListOf(
-            NavItem(
-                label = "Home",
-                icon = Icons.Filled.Home,
-                component = TopBarComponent("Home", Icons.Filled.Home) {},
-                selected = false
-            ),
-            NavItem(
-                label = "Orders",
-                icon = Icons.Filled.Refresh,
-                component = buildNavBarComponent(),
-                selected = false
-            ),
-            NavItem(
-                label = "Settings",
-                icon = Icons.Filled.Email,
-                component = TopBarComponent("Settings", Icons.Filled.Email) {},
-                selected = false
-            )
-        )
-
-        return drawerComponent.also { it.setItems(drawerNavItems, 0) }
+    override fun onStart() {
+        println("${instanceId()}::onStart()")
     }
 
-    private fun buildNavBarComponent(): NavBarComponent {
-
-        val navBarComponent = NavBarComponent()
-
-        val navbarNavItems = mutableListOf(
-            NavItem(
-                label = "Active",
-                icon = Icons.Filled.Home,
-                component = TopBarComponent("Orders/Active", Icons.Filled.Home) {},
-                selected = false
-            ),
-            NavItem(
-                label = "Past",
-                icon = Icons.Filled.Settings,
-                component = TopBarComponent("Orders/Past", Icons.Filled.Settings) {},
-                selected = false
-            ),
-            NavItem(
-                label = "New Order",
-                icon = Icons.Filled.Add,
-                component = TopBarComponent("Orders/New Order", Icons.Filled.Add) {},
-                selected = false
-            )
-        )
-
-        return navBarComponent.also { it.setItems(navbarNavItems, 0) }
+    override fun onStop() {
+        println("${instanceId()}::onStop()")
     }
 
-}
-
-// Once you have a tree, then just call Content(Modifier) on the root component. The compose 
-// machinery will traverse the tree painting on the screen each active component.Content(Modifier).
-
-fun main() = application {
-
-    val drawerComponent: DrawerComponent = remember(key1 = this) {
-        DrawerTreeBuilder.build()
+    @Composable
+    override fun Content(modifier: Modifier) {
+        println("${instanceId()}::Composing()")
+        // To handle back press events.
+        consumeBackPressEvent()
+        Column (
+            modifier = modifier.fillMaxSize()
+                .background(bgColor)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = screenName)
+            Button(
+                modifier = Modifier.padding(vertical = 40.dp),
+                onClick = { onResult(true) }
+            ) { 
+                Text(text = "Click me") 
+            }
+        }
     }
-
-   DesktopComponentRender(
-      rootComponent = drawerComponent,
-      onBackPress = { exitProcess(0) }
-   )
-   
 }
 ```
 
-Above code will produce the desktop application shown in the video below. The **DesktopAppComponent** is
-a demo component that consists of, an **AdaptiveSizeComponent** as a parent of 3 **NavigationComponents**(Drawer,
-BottomBar, Panel) that share children of type **StackComponents** which contain single page Components(
-Page1, Page2, Page3). When the window size changes, the **DesktopAppComponent** sets the corresponding **
-NavigatorComponent** as active, and the children Components are tranfered from one navigator parent to the new
-active navigator parent. In the video there is also a demonstration of how deep links work. Deep
-links are represented as a path in the state tree, each subpath represents a Component. When a deep link
-path is traversed, each Component represented in a subpath is activated, all the way upto the last Component.
-The Component path can be mapped to a web url.
+#### <a id="navigation-component"></a>Navigation Component
+Simple Components are basically the leaf nodes in the Component tree. To build the actual tree we need Components that can hoist children Components. The toolkit defines an interface just for that, `ComponentWithChildren`.
+This interface is the base to `NavigationComponent` interface which is implemented by many navigator Components. The next code snippet shows how to instantiate a NavBarComponent.
 
-https://user-images.githubusercontent.com/5303301/209282619-06748ddc-3fb1-4a74-8849-0c2215bbafc4.mp4
+```kotlin
+fun build(): NavBarComponent<NavBarStatePresenterDefault> {
 
-Lets see how the Android code will look like for the same NavigatonDrawer type of Application.
+        val navbarNavItems = mutableListOf(
+            NavItem(
+                label = "Home",
+                icon = Icons.Filled.Home,
+                component = CustomTopBarComponent(
+                    "Home",
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
+            ),
+            NavItem(
+                label = "Orders",
+                icon = Icons.Filled.Settings,
+                component = CustomTopBarComponent(
+                    "Orders",
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
+            ),
+            NavItem(
+                label = "Settings",
+                icon = Icons.Filled.Add,
+                component = CustomTopBarComponent(
+                    "Settings",
+                    TopBarComponent.DefaultConfig,
+                    {},
+                )
+            )
+        )
 
+        val navBarComponent = NavBarComponent(
+            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
+            config = NavBarComponent.DefaultConfig,
+            content = NavBarComponent.DefaultNavBarComponentView
+        )
+        navBarComponent.setNavItems(navbarNavItems, 0)
+        return navBarComponent
+    }
+```
+
+Above code snippet will produce bellow image. 
+
+<image src="https://github.com/pablichjenkov/component-toolkit/assets/5303301/d331f0a9-1241-484a-82bf-517f3fdd3168" width=220>
+
+There are many other navigation Components such as `DrawerComponent`, `PagerComponent`, `PanelComponent`, `TopBarComponent`, `StackComponent` and a special type of Component named `AdaptiveSizeComponent` which takes 3 NavigationComponents as children, each one to be used depending on the screen size when it varies.
+You can also create your own navigator by implementing the NavigationComponent interface. Check the code in NavBarComponent for instance, to have some guidance on how to do so.
+
+#### <a id="platform-renderers"></a>Platform Renderes
+Once you create a Component or more often a NavigationComponent, we need to render its Composable content. For that the toolkit provides a Component renderer Composable per each platform.
+```kotlin
+// Android
+AndroidComponentRender(
+    rootComponent: rootComponent,
+    onBackPress: () -> Unit = {}
+)
+
+// iOS
+fun IosComponentRender(
+    rootComponent: Component,
+    iosBridge: IosBridge,
+    onBackPress: () -> Unit = {}
+)
+
+// Desktop
+@Composable
+fun DesktopComponentRender(
+    rootComponent: Component,
+    windowState: WindowState,
+    desktopBridge: DesktopBridge,
+    onBackPress: () -> Unit = {}
+)
+
+// JS
+@Composable
+fun BrowserComponentRender(
+    rootComponent: Component,
+    onBackPress: () -> Unit = {}
+)
+```
+This is a snippet on Android, see the toolkit Demo App for the other platforms.
 ```kotlin
 class DrawerActivity : ComponentActivity() {
 
-    private val stateTreeHolder by viewModels<DrawerStateTreeHolder>()
-    private lateinit var stateTree: Component
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // It creates a state tree where the root Component is a NavigationDrawer
-        stateTree = stateTreeHolder.getOrCreate().apply {
-            context.rootComponentBackPressedDelegate = ForwardBackPressCallback { finish() }
-        }
-
+        val rootComponent = DrawerTreeBuilder.build()
         setContent {
             MaterialTheme {
-                CompositionLocalProvider(
-                    LocalBackPressedDispatcher provides AndroidBackPressDispatcher(this@DrawerActivity),
-                ) {
-                    stateTree.Content(Modifier)
-                }
+                AndroidComponentRender(
+                    rootComponent = rootComponent,
+                    onBackPress = { finish() }
+                )
             }
         }
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show()
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 }
 ```
 
-https://user-images.githubusercontent.com/5303301/205950623-1944bd2c-52c6-4bda-80a0-a7408055e1e1.mp4
-
-<H4>Navigation State Preserved</H4>
-
-Notice how **Navigation State** is preserved in each screen as the user move through different parts
-of the App. They can also have a **Back Button Press** party and the original navigation path is
-preserved. No forced jumps to graph startDestinations or sort of things.
-
-<H4>Navigation Components Nesting</H4>
-
-In the case of large screens you can have multiple Navigation components in a split screen or you could
-nest them within another Navigation component. In the next video, one of the screens is splitted in two
-sections each with a navivation drawer on its own. Observe than switching pages in the outer
-NavigationDrawer doesn't affect the state of those inner NavigationDrawers. This is possible because
-each parent component contains its own navigation state and is not affected by being switched/swapped by
-a sibling component.
-
-https://user-images.githubusercontent.com/5303301/208034085-7a8cf47c-3339-45b0-b411-b94be1f5f974.mov
-
-or in the device, although is not to practical in this case.
-
-https://user-images.githubusercontent.com/5303301/205610976-ce7e3006-bbdf-4f42-941c-de784714b6cd.mp4
-
-#### <a id="simple-component"></a>Simple Component
-
-dcdcdcldwjncljdnwlcdn
-
-<H4>Adaptable UI</H4>
-
-A NavigatorComponent can be replaced with another NavigatorComponent at any point in time while the App is
-running. All you have to do is transfer children components from one NavigatorComponent to the other and
-attach the NavigatorComponent to the parent Component. Automatically the tree will refresh its content. See
-AdaptableWindowComponent for an example.
-
-https://user-images.githubusercontent.com/5303301/206708221-a8d13577-f38d-4b07-bcbf-f66cbca26d46.mov
-
-The corresponding scenario in a phone
-
-https://user-images.githubusercontent.com/5303301/206601512-84ff3d70-28e8-4cb3-bbf6-67f134f6fe08.mov
-
-Above videos show how the App switches between a **DrawerComponent** and a **PanelComponent**, but it could be
-any Component that implements NavigatorComponent interface. Eg: NavBarComponent, PagerComponent, YourCustomNavigatorComponent
-etc
-
-<H3>Library Concepts</H3>
-
-The pattern consists of designing your App navigation as if it was a Tree data structure. Users can
-visit the different components of the tree at any desired time. When the user modifies a component and visit a
-different component, the component state remains as the user left it. The next time the user comes back to
-that component, it will have the same state when it was last visited.
-
-<H4>Component</H4>
-
-A **Component** is the class used to build the State Tree.
-
-Each ***Component*** is in charge of hadling **back press** events as well as Activity Lifecycle events
-like start and stop. Also each ***Component*** is responsible for propagating Start/Stop events to its
-children components. In the case of a back pressed events, the top most component will have the opportunity to
-first process the event. In case no processing is needed, it has the responsability to pass the
-event up to its parent component. Then the parent do the same until the event reaches the root component.
-
-An example of a ***Component*** implementation that handles its children as a back stack is the ***
-BackStackComponent***. It will have only one Active child at any time and this child will ocuppy the
-entire Viewport assigned to the ***StackComponent***. The pattern allows to build any type of nested
-navigation within the tree. It is a matter of just placing a ***Component***
-implementation in the tree and handle the children components whatever the way you want.
-
-The ***Component*** abstract class produces a Composable content representing its State every time
-recomposition happens.
-
+#### <a id="components-deep-linking"></a>Components Deep Linking
+A parent Component can activate/deactivate or show/hide a direct child Component. It does so by calling dispatchStart()/dispatchStop() on the respective child. But sometimes in an App, a user needs to go to another screen that is not a direct child of the current screen. Let's say there is a banner in the Feed screen that takes users to the Setting screen to see their most recent credit score changes. 
+The toolkit support this type of navigation by using deep links. Each Component has a property named `uriFragment` that represents a path in the deep link uri. The App developer most know the path to the Component to be able to navigate to it.
 ```kotlin
-    @Composable
-abstract fun Content(modifier: Modifier)
+
+val rootComponent = LocalRootComponentProvider.current
+
+Button(
+    modifier = Modifier.padding(vertical = 40.dp),
+    onClick = {
+        rootComponent?.navigateToDeepLink(
+            DeepLinkMsg(
+                path = listOf("_navigator_adaptive", "*", "Settings", "Page 3"),
+                resultListener = { result, component ->
+                    println("Deep link result: $result")
+                    
+                    val responseComponent = component as? SimpleResponseComponent
+                    
+                    if (responseComponent == null) {
+                        println("Cast to SimpleResponseComponent failed")
+                        return
+                    }
+                    coroutineScope.launch {
+                        responseComponent.resultSharedFlow.collect {
+                            println("Receiving response = $it")
+                        }
+                    }
+                }
+            )
+        )
+    }
+) {
+    Text(text = "Go To Settings/Page 3")
+}
+```
+Lets decode above snippet:
+1. First it grabs the `rootComponent` from a CompositionLocal.
+2. Create a `DeepLinkMsg` specifying the `path` and a `resultListener` to receive the result of the deep link navigation as well as the navigated to Component.
+`path = listOf("_navigator_adaptive", "*", "Settings", "Page 3")` indicates that the first Component which `uriFragmet = _navigator_adaptive`, then `*` means that there is a NavigationComponent in the deep link route that will accept any uri path as name. Then it goes through the `Settings` TopBarComponent and then finally to `Page 3` SimpleResponseComponent.
+3. Call Component::navigateToDeepLink(DeepLinkMsg) function to start the navigation. The algorithm will traverse the Component tree matching the uri path against the Components uriFragment property. As it traverse the tree it activates the Components that match each uri path. If a full uri match succeed, then a `DeepLinkResult.Success` is returned and as a result of traversing the tree, the Component represented by the last uri path will be the one active.
+If no child Component is found to match a specific uri path at a specific tree level, then a `DeepLinkResult.Error` will be returned.
+4. Once the component has been navigated to, the DeepLinkResult gives a reference to it. If you know the type then cast it and start interacting with it. That is the code below:
+    ```kotlin
+      val responseComponent = component as? SimpleResponseComponent
+      if (responseComponent == null) {
+            println("Cast to SimpleResponseComponent failed")
+            return
+        }
+        coroutineScope.launch {
+            responseComponent.resultSharedFlow.collect {
+                println("Receiving response = $it")
+            }
+        }
+    ```
+
+#### <a id="components-ext"></a>Component Extensions
+The toolkit provides some nice extensions to match some extension functions popular in Android.
+```kotlin
+suspend fun Component.repeatOnLifecycle(
+    block: suspend CoroutineScope.() -> Unit
+)
 ```
 
-The state tree is not affected by recomposition or lifecycle changes. It can live in the
-ActivityRetained scope or in the Application scope and must survive configuration changes. It is up
-to the user of the State Tree where to scope it. When the root Composable is recreated in case of
-screen size, layout or rotation changes. The Tree will traverse all the children and will recreate
-the previous Composable output before the configuration changes.
-
-<H3>Build the Tree</H3>
-Creating a tree of components is simple. Start by the root component and append child components to it. Some components
-may have already a predifined child types that it knows how to handle. Bellow is an example of how
-to build a bottom bar navigator component. Check the other examples.
-
 ```kotlin
-        val NavBarComponent = NavBarComponent(rootParentComponentContext)
-
-val PagerComponent = PagerComponent(NavBarComponent.context)
-
-val pagerNavItems = mutableListOf(
-    NavigationComponentItem(
-        label = "Account",
-        icon = Icons.Filled.Home,
-        component = TopBarComponent(PagerComponent.context, "Settings / Account", Icons.Filled.Home) {},
-        selected = false
-    ),
-    NavigationComponentItem(
-        label = "Profile",
-        icon = Icons.Filled.Edit,
-        component = TopBarComponent(PagerComponent.context, "Settings / Profile", Icons.Filled.Edit) {},
-        selected = false
-    ),
-    NavigationComponentItem(
-        label = "About Us",
-        icon = Icons.Filled.Email,
-        component = TopBarComponent(PagerComponent.context, "Settings / About Us", Icons.Filled.Email) {},
-        selected = false
-    )
-)
-
-val navbarNavItems = mutableListOf(
-    NavigationComponentItem(
-        label = "Home",
-        icon = Icons.Filled.Home,
-        component = TopBarComponent(NavBarComponent.context, "Home", Icons.Filled.Home) {},
-        selected = false
-    ),
-    NavigationComponentItem(
-        label = "Orders",
-        icon = Icons.Filled.Edit,
-        component = TopBarComponent(NavBarComponent.context, "Orders", Icons.Filled.Edit) {},
-        selected = false
-    ),
-    NavigationComponentItem(
-        label = "Settings",
-        icon = Icons.Filled.Email,
-        component = PagerComponent.also { it.setNavItems(pagerNavItems, 0) },
-        selected = false
-    )
-)
-
-return NavBarComponent.also { it.setNavItems(navbarNavItems, 0) }
+@Composable
+fun <T> Flow<T>.collectAsStateWithLifecycle(
+    initialValue: T,
+    component: Component,
+    context: CoroutineContext = EmptyCoroutineContext
+): State<T>
 ```
 
-<H3>Contribute</H3>
+```kotlin
+@Composable
+fun <T> StateFlow<T>.collectAsStateWithLifecycle(
+    component: Component,
+    context: CoroutineContext = EmptyCoroutineContext
+): State<T>
+```
 
-Contributions of any type are welcome!
+In adition to above extension functions the toolkit provides a `ViewModel` class for those familiar with that architecture. To use the ViewModel in this library you have to use the `ViewModelComponent` class defined as bellow.
+```kotlin
+open class ViewModelComponent<VM : ViewModel>(
+    private var viewModel: VM,
+    private val content: @Composable (VM) -> Unit
+) : Component()
+```
+Sample usage:
+```kotlin
+val SimpleViewModelView: @Composable (SimpleViewModel) -> Unit = { viewModel ->
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(Modifier.height(12.dp))
+        Text(
+            text = viewModel.text,
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Button(
+            onClick = {
+                viewModel.next()
+            }
+        ) {
+            Text(
+                text = "Next",
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+    }
+}
+    
+private val myViewModel = SimpleViewModel(
+    screenName = "$screenName/Page 2",
+    bgColor = Color.Green,
+    onNext = {
+        backStack.push(Step3)
+    }
+)
+
+val myComponent = ViewModelComponent(
+    viewModel = myViewModel,
+    content = SimpleViewModelView
+)
+
+// Somewhere in the parent Component call
+myComponent.dispatchStart()
+```
