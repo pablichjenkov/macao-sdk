@@ -2,7 +2,7 @@
 A set of prefabricated compose-multiplatform components to speedup the App development process. The module contains a variety of navigation components as drawer, tabbar, topbar, bottombar, pager, stack, panel and many more. Code is 99% reusable in each platform. Check demos bellow.
 
 ##### How to use it?
-Just add bellow dependency in the **commonMain** target of the module that plans to consume the toolkit. For sample usage code, check the `shared` module in this same project, or check the links to the Apps in the next session.
+Just add bellow dependency in the **commonMain** target of the module that plans to consume the toolkit. Check the guides in the Readme file under the component-toolkit module [Usage Guide](/component-toolkit#component-toolkit).
 
 See readme inside component-toolkit module for code snippets.
 <BR>
