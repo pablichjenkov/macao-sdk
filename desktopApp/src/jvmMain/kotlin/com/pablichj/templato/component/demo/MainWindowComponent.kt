@@ -10,6 +10,7 @@ import androidx.compose.ui.window.WindowState
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.DesktopComponentRender
 import com.pablichj.templato.component.core.deeplink.DeepLinkMsg
+import com.pablichj.templato.component.core.deeplink.DefaultDeepLinkManager
 import com.pablichj.templato.component.core.drawer.DrawerComponent
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.panel.PanelComponent
@@ -65,7 +66,7 @@ class MainWindowComponent(
                 println("MainWindowNode::deepLinkResult = $dlResult")
             }
         )
-        adaptableSizeComponent.navigateToDeepLink(deepLinkMsg)
+        DefaultDeepLinkManager().navigateToDeepLink(adaptableSizeComponent, deepLinkMsg)
     }
 
     // endregion

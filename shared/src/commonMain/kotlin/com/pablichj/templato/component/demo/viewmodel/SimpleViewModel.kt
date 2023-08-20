@@ -1,6 +1,7 @@
 package com.pablichj.templato.component.demo.viewmodel
 
 import androidx.compose.ui.graphics.Color
+import com.pablichj.templato.component.core.viewmodel.ViewModel
 
 class SimpleViewModel(
     val screenName: String,

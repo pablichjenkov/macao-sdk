@@ -22,6 +22,7 @@ import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.collectAsStateWithLifecycle
 import com.pablichj.templato.component.core.consumeBackPressEvent
 import com.pablichj.templato.component.core.deeplink.DeepLinkMsg
+import com.pablichj.templato.component.core.deeplink.DefaultDeepLinkManager
 import com.pablichj.templato.component.core.deeplink.LocalRootComponentProvider
 import com.pablichj.templato.component.core.repeatOnLifecycle
 import kotlinx.coroutines.CoroutineScope
@@ -92,7 +93,8 @@ class SimpleRequestComponent(
             Button(
                 modifier = Modifier.padding(vertical = 40.dp),
                 onClick = {
-                    rootComponent?.navigateToDeepLink(
+                    DefaultDeepLinkManager().navigateToDeepLink(
+                        rootComponent,
                         DeepLinkMsg(
                             path = listOf("_navigator_adaptive", "*", "Settings", "Page 3"),
                             resultListener = { result, component ->
