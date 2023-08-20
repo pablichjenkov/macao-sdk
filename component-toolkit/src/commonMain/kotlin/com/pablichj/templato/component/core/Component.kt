@@ -136,8 +136,8 @@ abstract class Component : ComponentLifecycle() {
     // region: Debugging
 
     open fun instanceId(): String {
-        val addressLast3 = this.toString().let { it.substring(it.length - 3) }
-        return "${this::class.simpleName}_${addressLast3}"
+        val addressLast5 = this.toString().let { it.substring(it.length - 5) }
+        return "${this::class.simpleName}_${addressLast5}"
     }
 
     // endregion
