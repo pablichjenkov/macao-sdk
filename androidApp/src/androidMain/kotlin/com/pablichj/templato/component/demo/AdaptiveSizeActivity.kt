@@ -12,6 +12,7 @@ import com.pablichj.templato.component.core.drawer.DrawerStatePresenterDefault
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.panel.PanelComponent
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
+import com.pablichj.templato.component.platform.AndroidBridge
 import com.pablichj.templato.component.platform.CoroutineDispatchers
 
 class AdaptiveSizeActivity : ComponentActivity() {
@@ -48,6 +49,7 @@ class AdaptiveSizeActivity : ComponentActivity() {
             MaterialTheme {
                 AndroidComponentRender(
                     rootComponent = rootComponent,
+                    AndroidBridge(),
                     onBackPress = { finish() }
                 )
             }

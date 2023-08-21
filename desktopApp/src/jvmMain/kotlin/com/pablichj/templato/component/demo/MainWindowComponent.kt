@@ -1,5 +1,6 @@
 package com.pablichj.templato.component.demo
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
@@ -14,9 +15,10 @@ import com.pablichj.templato.component.core.deeplink.DefaultDeepLinkManager
 import com.pablichj.templato.component.core.drawer.DrawerComponent
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.panel.PanelComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
-import com.pablichj.templato.component.platform.DesktopBridge
 import com.pablichj.templato.component.platform.CoroutineDispatchers
+import com.pablichj.templato.component.platform.DesktopBridge
 
 class MainWindowComponent(
     val onOpenDeepLinkClick: () -> Unit,
@@ -128,4 +130,24 @@ class MainWindowComponent(
         }
     }
 
+}
+
+@Preview
+@Composable
+fun MainWindowComponentPreview() {
+
+    /*
+    val simpleComponent = SimpleComponent(
+        "Simple",
+        Color.Yellow,
+    ) {}
+    simpleComponent.Content(Modifier)
+    */
+
+    val topbarComponent = CustomTopBarComponent(
+        "CustomTopBarComponent",
+        TopBarComponent.DefaultConfig
+    ) {}
+    topbarComponent.dispatchStart()
+    topbarComponent.Content(Modifier)
 }

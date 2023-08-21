@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import com.pablichj.templato.component.core.AndroidComponentRender
 import com.pablichj.templato.component.demo.treebuilders.NavBarTreeBuilder
+import com.pablichj.templato.component.platform.AndroidBridge
 
 class NavBarActivity : ComponentActivity() {
 
@@ -18,6 +19,7 @@ class NavBarActivity : ComponentActivity() {
             MaterialTheme {
                 AndroidComponentRender(
                     rootComponent = rootComponent,
+                    AndroidBridge(),
                     onBackPress = { finish() }
                 )
             }
