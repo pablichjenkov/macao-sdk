@@ -11,10 +11,12 @@ import androidx.compose.ui.Modifier
 import com.pablichj.templato.component.core.backpress.DefaultBackPressDispatcher
 import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
 import com.pablichj.templato.component.core.deeplink.LocalRootComponentProvider
+import com.pablichj.templato.component.platform.JsBridge
 
 @Composable
 fun BrowserComponentRender(
     rootComponent: Component,
+    jsBridge: JsBridge,
     onBackPress: () -> Unit = {}
 ) {
     val webBackPressDispatcher = remember(rootComponent) {

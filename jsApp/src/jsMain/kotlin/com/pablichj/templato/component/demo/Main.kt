@@ -8,6 +8,7 @@ import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.panel.PanelComponent
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.templato.component.platform.CoroutineDispatchers
+import com.pablichj.templato.component.platform.JsBridge
 import org.jetbrains.skiko.wasm.onWasmReady
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -47,6 +48,7 @@ fun main() {
         CanvasBasedWindow("Component Demo") {
             BrowserComponentRender(
                 rootComponent = adaptiveSizeComponent,
+                jsBridge = JsBridge(),
                 onBackPress = {
                     println("Back press dispatched in root component")
                 }

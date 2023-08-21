@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import com.pablichj.templato.component.core.AndroidComponentRender
 import com.pablichj.templato.component.demo.treebuilders.PagerTreeBuilder
+import com.pablichj.templato.component.platform.AndroidBridge
 
 class PagerActivity : ComponentActivity() {
 
@@ -19,6 +20,7 @@ class PagerActivity : ComponentActivity() {
             MaterialTheme {
                 AndroidComponentRender(
                     rootComponent = rootComponent,
+                    AndroidBridge(),
                     onBackPress = { finish() }
                 )
             }

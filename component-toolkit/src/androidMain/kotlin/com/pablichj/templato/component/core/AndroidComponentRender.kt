@@ -13,10 +13,12 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import com.pablichj.templato.component.core.backpress.AndroidBackPressDispatcher
 import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
 import com.pablichj.templato.component.core.deeplink.LocalRootComponentProvider
+import com.pablichj.templato.component.platform.AndroidBridge
 
 @Composable
 fun AndroidComponentRender(
     rootComponent: Component,
+    androidBridge: AndroidBridge,
     onBackPress: () -> Unit = {}
 ) {
 

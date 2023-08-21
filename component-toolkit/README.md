@@ -121,9 +121,11 @@ You can also create your own navigator by implementing the NavigationComponent i
 Once you create a Component or more often a NavigationComponent, we need to render its Composable content. For that the toolkit provides a Component renderer Composable per each platform.
 ```kotlin
 // Android
-AndroidComponentRender(
-    rootComponent: rootComponent,
-    onBackPress: () -> Unit = {}
+@Composable
+fun AndroidComponentRender(
+   rootComponent: Component,
+   androidBridge: AndroidBridge,
+   onBackPress: () -> Unit = {}
 )
 
 // iOS
@@ -145,8 +147,9 @@ fun DesktopComponentRender(
 // JS
 @Composable
 fun BrowserComponentRender(
-    rootComponent: Component,
-    onBackPress: () -> Unit = {}
+   rootComponent: Component,
+   jsBridge: JsBridge,
+   onBackPress: () -> Unit = {}
 )
 ```
 This is a snippet on Android, see the toolkit Demo App for the other platforms.
