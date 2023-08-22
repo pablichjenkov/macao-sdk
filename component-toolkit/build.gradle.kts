@@ -149,6 +149,12 @@ publishing {
     }
 }
 
+// Workaround for gradle issue: https://youtrack.jetbrains.com/issue/KT-46466
+val signingTasks = tasks.withType<Sign>()
+tasks.withType<AbstractPublishToMaven>().configureEach {
+    dependsOn(signingTasks)
+}
+
 /*compose {
     // Sets a specific JetBrains Compose Compiler version
     kotlinCompilerPlugin.set("1.4.7")

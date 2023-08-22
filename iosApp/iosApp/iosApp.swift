@@ -4,7 +4,9 @@ import ComponentDemoKt
 @main
 struct iOSDemoAppApp: App {
 
-    let iosBridge = IosBridge(appLifecycleDispatcher: DefaultAppLifecycleDispatcher())
+    let iosBridge = IosBridge(
+        appLifecycleDispatcher: DefaultAppLifecycleDispatcher()
+    )
 
     var body: some Scene {
        WindowGroup {

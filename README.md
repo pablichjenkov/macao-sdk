@@ -15,7 +15,7 @@ See readme inside component-toolkit module for code snippets.
 ```kotlin
 val commonMain by getting {
     dependencies {
-        implementation("io.github.pablichjenkov:component-toolkit:0.4.5")
+        implementation("io.github.pablichjenkov:component-toolkit:0.5.0-rc02")
     }
 }
 ```
