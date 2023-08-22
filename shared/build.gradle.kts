@@ -20,7 +20,7 @@ kotlin {
     //iosSimulatorArm64()
     cocoapods {
         summary = "ComponentKt umbrella module"
-        homepage = "https://github.com/pablichjenkov/templato"
+        homepage = "https://github.com/pablichjenkov/component-toolkit"
         ios.deploymentTarget = "16.0"
         framework {
             baseName = "ComponentDemoKt"

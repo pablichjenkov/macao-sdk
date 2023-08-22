@@ -30,12 +30,12 @@ kotlin {
 
 android {
     namespace = "com.pablichj.templato.component.demo"
-    compileSdk = 34
+    compileSdk = (findProperty("android.compileSdk") as String).toInt()
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         applicationId = "com.pablichj.incubator.uistate3.demo"
-        minSdk = 26
-        targetSdk = 34
+        minSdk = (findProperty("android.minSdk") as String).toInt()
+        targetSdk = (findProperty("android.targetSdk") as String).toInt()
         versionCode = 1
         versionName = "1.0"
     }

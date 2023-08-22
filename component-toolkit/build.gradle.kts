@@ -279,7 +279,7 @@ kotlin {
 
 android {
     namespace = "com.pablichj.templato.component"
-    compileSdk = 34
+    compileSdk = (findProperty("android.compileSdk") as String).toInt()
     sourceSets {
         named("main") {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -287,7 +287,7 @@ android {
         }
     }
     defaultConfig {
-        minSdk = 26
+        minSdk = (findProperty("android.minSdk") as String).toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
