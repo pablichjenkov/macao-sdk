@@ -57,20 +57,12 @@ object NavBarTreeBuilder {
 
         return NavBarComponent(
             navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-            config = NavBarComponent.DefaultConfig,
+            // pushStrategy = FixSizedPushStrategy(1), // Uncomment to test other push strategies
             content = NavBarComponent.DefaultNavBarComponentView
         ).also {
             it.setNavItems(navbarNavItems, 0)
             navBarComponent = it
         }
-    }
-
-    private fun createNavBarConfig(): NavBarComponent.Config {
-        return NavBarComponent.Config(
-            pushStrategy = FixSizedPushStrategy(1),
-            navBarStyle = NavBarStyle(),
-            diContainer = DiContainer(CoroutineDispatchers.Defaults)
-        )
     }
 
 }

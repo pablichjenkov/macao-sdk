@@ -42,7 +42,6 @@ object FullAppWithIntroTreeBuilder {
         )
         val navBarComponent = NavBarComponent(
             navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-            config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )
 
@@ -108,7 +107,6 @@ object FullAppWithIntroTreeBuilder {
         )
         val navBarComponent = NavBarComponent(
             navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-            config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )
 

@@ -37,7 +37,6 @@ object AdaptableSizeTreeBuilder {
 
         val navBarComponent = NavBarComponent(
             navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-            config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         ).apply {
             uriFragment = "Orders"

@@ -64,7 +64,6 @@ object DrawerTreeBuilder {
 
         val NavBarNode = NavBarComponent(
             navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-            config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )
 
