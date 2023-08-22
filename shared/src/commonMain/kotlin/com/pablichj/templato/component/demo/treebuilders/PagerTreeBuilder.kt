@@ -39,7 +39,6 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Orders/Current",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -48,7 +47,6 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent(
                     "Orders/Past",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -57,7 +55,6 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent(
                     "Orders/Claim",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             )
@@ -69,7 +66,6 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Settings/Account",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -78,7 +74,6 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent(
                     "Settings/Profile",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -87,7 +82,6 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent(
                     "Settings/About Us",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             )
@@ -99,7 +93,6 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Home",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -116,21 +109,11 @@ object PagerTreeBuilder {
         )
 
         return PagerComponent(
-            PagerComponent.DefaultConfig,
-            CoroutineDispatchers.Defaults,
-            PagerComponent.DefaultPagerComponentView
+            content = PagerComponent.DefaultPagerComponentView
         ).also {
             pagerComponent = it
-            it.setNavItems(pagerNavItems, 0)
-            /*it.setPagerComponentView { modifier, childComponents ->
-                Box(Modifier.fillMaxSize()) {
-                    childComponents[0].Content(Modifier)
-                    Text(modifier = Modifier.align(Alignment.Center),
-                        text = "You should provide a Pager Composable that encloses the render of childComponents Content",
-                        color = Color.Black
-                    )
-                }
-            }*/
+            it.setNavItems(
+                pagerNavItems, 0)
         }
     }
 

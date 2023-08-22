@@ -50,6 +50,7 @@ interface DrawerStatePresenter {
 class DrawerStatePresenterDefault(
     dispatcher: CoroutineDispatcher,
     drawerHeaderState: DrawerHeaderState,
+    val drawerStyle: DrawerStyle = DrawerStyle(),
     navItemDecoList: List<NavItemDeco> = emptyList()
 ) : DrawerStatePresenter {
 

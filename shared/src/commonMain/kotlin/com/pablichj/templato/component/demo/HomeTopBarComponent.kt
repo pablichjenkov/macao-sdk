@@ -10,11 +10,9 @@ import com.pablichj.templato.component.core.topbar.TopBarStatePresenterDefault
 
 class HomeTopBarComponent(
     val screenName: String,
-    config: Config,
     val onMessage: (Msg) -> Unit
 ) : TopBarComponent<TopBarStatePresenterDefault>(
     topBarStatePresenter = createDefaultTopBarStatePresenter(),
-    config = config
 ) {
 
     val Step1 = SimpleComponent(

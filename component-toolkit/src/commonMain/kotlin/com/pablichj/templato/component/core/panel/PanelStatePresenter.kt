@@ -39,6 +39,7 @@ interface PanelStatePresenter {
 class PanelStatePresenterDefault(
     dispatcher: CoroutineDispatcher,
     panelHeaderState: PanelHeaderState,
+    val panelStyle: PanelStyle = PanelStyle(),
     navItemDecoList: List<NavItemDeco> = emptyList()
 ) : PanelStatePresenter {
 

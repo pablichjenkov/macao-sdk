@@ -8,5 +8,5 @@ class PanelHeaderStateDefault(
     val title: String,
     val description: String,
     val imageUri: String,
-    val style: PanelHeaderStyle
+    val style: PanelStyle
 ): PanelHeaderState

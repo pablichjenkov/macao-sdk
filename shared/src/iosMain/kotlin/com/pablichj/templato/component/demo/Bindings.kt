@@ -36,8 +36,6 @@ fun buildAdaptableSizeComponent(): Component {
         it.setCompactContainer(
             DrawerComponent(
                 drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
-                config = DrawerComponent.DefaultConfig,
-                dispatchers = CoroutineDispatchers.Defaults,
                 content = DrawerComponent.DefaultDrawerComponentView
             )
         )
@@ -51,7 +49,6 @@ fun buildAdaptableSizeComponent(): Component {
         it.setExpandedContainer(
             PanelComponent(
                 panelStatePresenter = PanelComponent.createDefaultPanelStatePresenter(),
-                config = PanelComponent.DefaultConfig,
                 content = PanelComponent.DefaultPanelComponentView
             )
         )

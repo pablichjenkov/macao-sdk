@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 
 class DrawerComponent<T : DrawerStatePresenter>(
     val drawerStatePresenter: T,
-    config: Config = DefaultConfig,
+    pushStrategy: PushStrategy<Component> = AddAllPushStrategy(),
     private val lifecycleHandler: NavigationComponent.LifecycleHandler = NavigationComponentDefaultLifecycleHandler(),
     dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
     private var content: @Composable DrawerComponent<T>.(
@@ -38,7 +38,7 @@ class DrawerComponent<T : DrawerStatePresenter>(
         childComponent: Component
     ) -> Unit
 ) : Component(), NavigationComponent, DrawerNavigationProvider {
-    override val backStack = createBackStack(config.pushStrategy)
+    override val backStack = createBackStack(pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
@@ -168,31 +168,22 @@ class DrawerComponent<T : DrawerStatePresenter>(
 
     // endregion
 
-    class Config(
-        val pushStrategy: PushStrategy<Component>,
-        val drawerHeaderStyle: DrawerHeaderStyle,
-        val drawerBodyStyle: DrawerBodyStyle
-    )
-
     companion object {
-        val DefaultConfig = Config(
-            pushStrategy = AddAllPushStrategy(),
-            drawerHeaderStyle = DrawerHeaderStyle(),
-            drawerBodyStyle = DrawerBodyStyle()
-        )
 
         fun createDefaultDrawerStatePresenter(
             dispatcher: CoroutineDispatcher = Dispatchers.Main,
-            drawerHeaderStyle: DrawerHeaderStyle = DrawerHeaderStyle()
+            drawerStyle: DrawerStyle = DrawerStyle(),
+            drawerHeaderState: DrawerHeaderState = DrawerHeaderDefaultState(
+                title = "Header Title",
+                description = "This is the default text. Provide your own text for your App",
+                imageUri = "",
+                style = drawerStyle
+            )
         ): DrawerStatePresenterDefault {
             return DrawerStatePresenterDefault(
-                dispatcher,
-                DrawerHeaderDefaultState(
-                    title = "Header Title",
-                    description = "This is the default text. Provide your own text for your App",
-                    imageUri = "",
-                    style = drawerHeaderStyle
-                )
+                dispatcher = dispatcher,
+                drawerHeaderState = drawerHeaderState,
+                drawerStyle = drawerStyle
             )
         }
 

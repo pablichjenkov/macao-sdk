@@ -12,7 +12,9 @@ interface TopBarStatePresenter {
     var onBackPressEvent: () -> Unit
 }
 
-class TopBarStatePresenterDefault : TopBarStatePresenter {
+class TopBarStatePresenterDefault(
+    val topBarStyle: TopBarStyle = TopBarStyle(),
+) : TopBarStatePresenter {
 
     override var onBackPressEvent: () -> Unit = {}
 

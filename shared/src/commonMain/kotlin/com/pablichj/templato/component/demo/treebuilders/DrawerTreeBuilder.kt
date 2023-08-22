@@ -29,7 +29,6 @@ object DrawerTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Home",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -43,7 +42,6 @@ object DrawerTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent(
                     "Settings",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             )
@@ -51,8 +49,6 @@ object DrawerTreeBuilder {
 
         return DrawerComponent(
             drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
-            config = DrawerComponent.DefaultConfig,
-            dispatchers = CoroutineDispatchers.Defaults,
             content = DrawerComponent.DefaultDrawerComponentView
         ).also {
             drawerComponent = it
@@ -73,7 +69,6 @@ object DrawerTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Orders/Active",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -82,7 +77,6 @@ object DrawerTreeBuilder {
                 icon = Icons.Filled.Settings,
                 component = CustomTopBarComponent(
                     "Orders/Past",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -91,7 +85,6 @@ object DrawerTreeBuilder {
                 icon = Icons.Filled.Add,
                 component = CustomTopBarComponent(
                     "Orders/New Order",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             )

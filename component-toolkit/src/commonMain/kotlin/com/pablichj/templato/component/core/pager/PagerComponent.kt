@@ -35,7 +35,8 @@ import kotlinx.coroutines.launch
  * */
 @OptIn(ExperimentalFoundationApi::class)
 class PagerComponent(
-    config: Config = DefaultConfig,
+    val pushStrategy: PushStrategy<Component> = AddAllPushStrategy(),
+    val pagerStyle: PagerStyle = PagerStyle(),
     dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
     private var content: @Composable PagerComponent.(
         modifier: Modifier,
@@ -43,7 +44,7 @@ class PagerComponent(
         childComponents: List<Component>
     ) -> Unit
 ) : Component(), NavigationComponent {
-    override val backStack = createBackStack(config.pushStrategy)
+    override val backStack = createBackStack(pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
@@ -207,16 +208,7 @@ class PagerComponent(
         }
     }
 
-    class Config(
-        val pushStrategy: PushStrategy<Component>,
-        val pagerStyle: PagerStyle = PagerStyle()
-    )
-
     companion object {
-        val DefaultConfig = Config(
-            pushStrategy = AddAllPushStrategy(),
-            pagerStyle = PagerStyle()
-        )
 
         val DefaultPagerComponentView: @Composable PagerComponent.(
             modifier: Modifier,

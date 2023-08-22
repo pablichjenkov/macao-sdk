@@ -16,13 +16,10 @@ import com.pablichj.templato.component.core.drawer.LocalDrawerNavigationProvider
 import com.pablichj.templato.component.core.stack.DefaultStackComponentView
 import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.stack.StackComponent
-import com.pablichj.templato.component.core.stack.StackStyle
-import com.pablichj.templato.component.platform.CoroutineDispatchers
 
 abstract class TopBarComponent<T : TopBarStatePresenter>(
     private val topBarStatePresenter: T,
-    private val config: Config = DefaultConfig,
-    dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
+    val showBackArrowStrategy: ShowBackArrowStrategy = ShowBackArrowStrategy.Always
 ) : StackComponent() {
 
     private var drawerNavigationProvider: DrawerNavigationProvider? = null
@@ -35,7 +32,7 @@ abstract class TopBarComponent<T : TopBarStatePresenter>(
 
     override fun onStackTopUpdate(topComponent: Component) {
         val selectedStackBarItem = getStackBarItemForComponent(topComponent)
-        when (config.showBackArrowStrategy) {
+        when (showBackArrowStrategy) {
             ShowBackArrowStrategy.WhenParentCanHandleBack -> {
                 // Assume parent can handle always, except web
                 setTitleSectionForBackClick(selectedStackBarItem)
@@ -128,20 +125,13 @@ abstract class TopBarComponent<T : TopBarStatePresenter>(
         }
     }
 
-    class Config(
-        val stackStyle: StackStyle = StackStyle(),
-        val showBackArrowStrategy: ShowBackArrowStrategy = ShowBackArrowStrategy.Always
-    )
-
     companion object {
-        val DefaultConfig = Config(
-            StackStyle()
-        )
 
-        fun createDefaultTopBarStatePresenter(): TopBarStatePresenterDefault {
-            return TopBarStatePresenterDefault()
+        fun createDefaultTopBarStatePresenter(
+            topBarStyle: TopBarStyle = TopBarStyle()
+        ): TopBarStatePresenterDefault {
+            return TopBarStatePresenterDefault(topBarStyle = topBarStyle)
         }
-
     }
 
 }

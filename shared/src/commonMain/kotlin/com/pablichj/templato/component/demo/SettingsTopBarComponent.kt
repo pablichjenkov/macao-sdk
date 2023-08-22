@@ -13,11 +13,9 @@ import com.pablichj.templato.component.core.viewmodel.ViewModelComponent
 
 class SettingsTopBarComponent(
     val screenName: String,
-    config: Config,
     val onMessage: (Msg) -> Unit
 ) : TopBarComponent<TopBarStatePresenterDefault>(
-    topBarStatePresenter = createDefaultTopBarStatePresenter(),
-    config = config
+    topBarStatePresenter = createDefaultTopBarStatePresenter()
 ) {
 
     val Step1 = SimpleComponent(

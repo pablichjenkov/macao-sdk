@@ -25,8 +25,6 @@ class AdaptiveSizeActivity : ComponentActivity() {
             it.setCompactContainer(
                 DrawerComponent<DrawerStatePresenterDefault>(
                     drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
-                    config = DrawerComponent.DefaultConfig,
-                    dispatchers = CoroutineDispatchers.Defaults,
                     content = DrawerComponent.DefaultDrawerComponentView
                 )
             )
@@ -39,7 +37,6 @@ class AdaptiveSizeActivity : ComponentActivity() {
             it.setExpandedContainer(
                 PanelComponent(
                     panelStatePresenter = PanelComponent.createDefaultPanelStatePresenter(),
-                    config = PanelComponent.DefaultConfig,
                     content = PanelComponent.DefaultPanelComponentView
                 )
             )

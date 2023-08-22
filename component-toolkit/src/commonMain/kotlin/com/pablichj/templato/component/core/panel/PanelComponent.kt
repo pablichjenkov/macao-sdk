@@ -21,7 +21,6 @@ import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.core.toNavItemDeco
 import com.pablichj.templato.component.core.util.EmptyNavigationComponentView
 import com.pablichj.templato.component.platform.CoroutineDispatchers
-import com.pablichj.templato.component.platform.DiContainer
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +28,7 @@ import kotlinx.coroutines.launch
 
 class PanelComponent<T : PanelStatePresenter>(
     private val panelStatePresenter: T,
-    config: Config = DefaultConfig,
+    pushStrategy: PushStrategy<Component> = AddAllPushStrategy(),
     private val lifecycleHandler: NavigationComponent.LifecycleHandler = NavigationComponentDefaultLifecycleHandler(),
     dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
     private val content: @Composable PanelComponent<T>.(
@@ -37,7 +36,7 @@ class PanelComponent<T : PanelStatePresenter>(
         childComponent: Component
     ) -> Unit
 ) : Component(), NavigationComponent {
-    override val backStack = createBackStack(config.pushStrategy)
+    override val backStack = createBackStack(pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
@@ -147,31 +146,22 @@ class PanelComponent<T : PanelStatePresenter>(
 
     // endregion
 
-    class Config(
-        val pushStrategy: PushStrategy<Component>,
-        val panelHeaderStyle: PanelHeaderStyle,
-        val diContainer: DiContainer
-    )
-
     companion object {
-        val DefaultConfig = Config(
-            pushStrategy = AddAllPushStrategy(),
-            panelHeaderStyle = PanelHeaderStyle(),
-            diContainer = DiContainer(CoroutineDispatchers.Defaults)
-        )
 
         fun createDefaultPanelStatePresenter(
             dispatcher: CoroutineDispatcher = Dispatchers.Main,
-            panelHeaderStyle: PanelHeaderStyle = PanelHeaderStyle()
+            panelStyle: PanelStyle = PanelStyle(),
+            panelHeaderState: PanelHeaderState = PanelHeaderStateDefault(
+                title = "A Panel Header Title",
+                description = "Some description or leave it blank",
+                imageUri = "",
+                style = panelStyle
+            )
         ): PanelStatePresenterDefault {
             return PanelStatePresenterDefault(
                 dispatcher,
-                PanelHeaderStateDefault(
-                    title = "A Panel Header Title",
-                    description = "Some description or leave it blank",
-                    imageUri = "",
-                    style = panelHeaderStyle
-                )
+                panelHeaderState = panelHeaderState,
+                panelStyle = panelStyle
             )
         }
 
