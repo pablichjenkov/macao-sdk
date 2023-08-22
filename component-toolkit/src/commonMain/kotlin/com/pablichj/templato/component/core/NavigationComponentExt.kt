@@ -4,10 +4,10 @@ import com.pablichj.templato.component.core.stack.StackTransition
 
 fun NavigationComponent.setNavItems(
     newNavItems: List<NavItem>,
-    newSelectedIndex: Int
+    selectedIndex: Int
 ) {
     println("${getComponent().instanceId()}.setItems()")
-    selectedIndex = newSelectedIndex
+    this.selectedIndex = selectedIndex
 
     newNavItems.map { navItem ->
         navItem.component.setParent(parentComponent = this@setNavItems.getComponent())
