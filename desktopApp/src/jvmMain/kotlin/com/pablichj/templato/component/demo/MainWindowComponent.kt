@@ -36,8 +36,6 @@ class MainWindowComponent(
             it.setCompactContainer(
                 DrawerComponent(
                     drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
-                    config = DrawerComponent.DefaultConfig,
-                    dispatchers = CoroutineDispatchers.Defaults,
                     content = DrawerComponent.DefaultDrawerComponentView
                 )
             )
@@ -51,7 +49,6 @@ class MainWindowComponent(
             it.setExpandedContainer(
                 PanelComponent(
                     panelStatePresenter = PanelComponent.createDefaultPanelStatePresenter(),
-                    config = PanelComponent.DefaultConfig,
                     content = PanelComponent.DefaultPanelComponentView
                 )
             )
@@ -144,8 +141,7 @@ fun MainWindowComponentPreview() {
     */
 
     val topbarComponent = CustomTopBarComponent(
-        "CustomTopBarComponent",
-        TopBarComponent.DefaultConfig
+        "CustomTopBarComponent"
     ) {}
     topbarComponent.dispatchStart()
     topbarComponent.Content(Modifier)

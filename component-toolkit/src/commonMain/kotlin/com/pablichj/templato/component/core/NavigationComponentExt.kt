@@ -3,22 +3,22 @@ package com.pablichj.templato.component.core
 import com.pablichj.templato.component.core.stack.StackTransition
 
 fun NavigationComponent.setNavItems(
-    newNavItems: List<NavItem>,
+    navItems: List<NavItem>,
     selectedIndex: Int
 ) {
     println("${getComponent().instanceId()}.setItems()")
     this.selectedIndex = selectedIndex
 
-    newNavItems.map { navItem ->
+    navItems.map { navItem ->
         navItem.component.setParent(parentComponent = this@setNavItems.getComponent())
         navItem to navItem.component
     }.unzip().let {
-        navItems = it.first.toMutableList()
-        childComponents = it.second.toMutableList()
+        this.navItems = it.first.toMutableList()
+        this.childComponents = it.second.toMutableList()
     }
 
-    if (navItems.isNotEmpty()) {
-        onSelectNavItem(selectedIndex, navItems)
+    if (this.navItems.isNotEmpty()) {
+        onSelectNavItem(selectedIndex, this.navItems)
     }
 }
 

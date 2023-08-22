@@ -48,7 +48,6 @@ object AdaptableSizeTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Orders/Current",
-                    TopBarComponent.DefaultConfig,
                     {},
                 ).apply {
                     uriFragment = "Current"
@@ -59,7 +58,6 @@ object AdaptableSizeTreeBuilder {
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent(
                     "Orders/Past",
-                    TopBarComponent.DefaultConfig,
                     {},
                 ).apply {
                     uriFragment = "Past"
@@ -70,7 +68,6 @@ object AdaptableSizeTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent(
                     "Orders/Claim",
-                    TopBarComponent.DefaultConfig,
                     {},
                 ).apply {
                     uriFragment = "Claim"
@@ -82,7 +79,6 @@ object AdaptableSizeTreeBuilder {
 
         val homeComponent = HomeTopBarComponent(
             "Home",
-            TopBarComponent.DefaultConfig,
             {},
         ).apply {
             uriFragment = "Home"
@@ -90,7 +86,6 @@ object AdaptableSizeTreeBuilder {
 
         val settingsComponent = SettingsTopBarComponent(
             "Settings",
-            TopBarComponent.DefaultConfig,
             {},
         ).apply {
             uriFragment = "Settings"

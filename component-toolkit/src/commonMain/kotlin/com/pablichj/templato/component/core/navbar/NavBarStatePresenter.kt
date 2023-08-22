@@ -36,6 +36,7 @@ interface NavBarStatePresenter {
 
 class NavBarStatePresenterDefault(
     dispatcher: CoroutineDispatcher,
+    val navBarStyle: NavBarStyle = NavBarStyle(),
     navItemDecoList: List<NavItemDeco> = emptyList()
 ) : NavBarStatePresenter {
 

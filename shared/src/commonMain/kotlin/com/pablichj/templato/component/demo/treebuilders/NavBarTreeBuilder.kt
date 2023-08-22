@@ -31,7 +31,6 @@ object NavBarTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Home",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -40,7 +39,6 @@ object NavBarTreeBuilder {
                 icon = Icons.Filled.Settings,
                 component = CustomTopBarComponent(
                     "Orders",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -49,7 +47,6 @@ object NavBarTreeBuilder {
                 icon = Icons.Filled.Add,
                 component = CustomTopBarComponent(
                     "Settings",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             )

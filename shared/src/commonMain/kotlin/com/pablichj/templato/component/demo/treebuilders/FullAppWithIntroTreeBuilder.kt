@@ -36,8 +36,6 @@ object FullAppWithIntroTreeBuilder {
     private fun buildDrawerStateTree(parentComponent: Component): Component {
         val drawerComponent = DrawerComponent(
             drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
-            config = DrawerComponent.DefaultConfig,
-            dispatchers = CoroutineDispatchers.Defaults,
             content = DrawerComponent.DefaultDrawerComponentView
         )
         val navBarComponent = NavBarComponent(
@@ -50,7 +48,6 @@ object FullAppWithIntroTreeBuilder {
             setBottomComponent(
                 CustomTopBarComponent(
                     "Orders / Current",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             )
@@ -62,7 +59,6 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Orders / Current",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -79,7 +75,6 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Home",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -101,8 +96,6 @@ object FullAppWithIntroTreeBuilder {
     private fun buildNestedDrawer(): DrawerComponent<DrawerStatePresenterDefault> {
         val drawerComponent = DrawerComponent(
             drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
-            config = DrawerComponent.DefaultConfig,
-            dispatchers = CoroutineDispatchers.Defaults,
             content = DrawerComponent.DefaultDrawerComponentView
         )
         val navBarComponent = NavBarComponent(
@@ -116,7 +109,6 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Orders/Current",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -125,7 +117,6 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Edit,
                 component = CustomTopBarComponent(
                     "Orders / Past",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -134,7 +125,6 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent(
                     "Orders/Claim",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             )
@@ -146,7 +136,6 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Home",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),

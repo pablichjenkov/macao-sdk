@@ -31,7 +31,6 @@ object PanelTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Home",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -45,7 +44,6 @@ object PanelTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = CustomTopBarComponent(
                     "Settings",
-                    TopBarComponent.DefaultConfig,
                     {},
                 ),
             )
@@ -53,7 +51,6 @@ object PanelTreeBuilder {
 
         return PanelComponent(
             panelStatePresenter = PanelComponent.createDefaultPanelStatePresenter(),
-            config = PanelComponent.DefaultConfig,
             content = PanelComponent.DefaultPanelComponentView
         ).also {
             it.setNavItems(panelNavItems, 0)
@@ -74,7 +71,6 @@ object PanelTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = CustomTopBarComponent(
                     "Home",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -83,7 +79,6 @@ object PanelTreeBuilder {
                 icon = Icons.Filled.Settings,
                 component = CustomTopBarComponent(
                     "Orders",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             ),
@@ -92,7 +87,6 @@ object PanelTreeBuilder {
                 icon = Icons.Filled.Add,
                 component = CustomTopBarComponent(
                     "Settings",
-                    TopBarComponent.DefaultConfig,
                     {},
                 )
             )

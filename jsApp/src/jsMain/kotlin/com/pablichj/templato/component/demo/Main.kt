@@ -21,8 +21,6 @@ fun main() {
             it.setCompactContainer(
                 DrawerComponent(
                     drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
-                    config = DrawerComponent.DefaultConfig,
-                    dispatchers = CoroutineDispatchers.Defaults,
                     content = DrawerComponent.DefaultDrawerComponentView
                 )
             )
@@ -36,7 +34,6 @@ fun main() {
             it.setExpandedContainer(
                 PanelComponent(
                     panelStatePresenter = PanelComponent.createDefaultPanelStatePresenter(),
-                    config = PanelComponent.DefaultConfig,
                     content = PanelComponent.DefaultPanelComponentView
                 )
             )

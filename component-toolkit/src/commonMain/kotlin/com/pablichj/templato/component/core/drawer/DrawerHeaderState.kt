@@ -8,7 +8,7 @@ class DrawerHeaderDefaultState(
     val title: String,
     val description: String,
     val imageUri: String,
-    val style: DrawerHeaderStyle
+    val style: DrawerStyle
 ) : DrawerHeaderState
 
 
