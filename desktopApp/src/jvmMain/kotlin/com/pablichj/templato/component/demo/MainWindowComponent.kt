@@ -45,7 +45,6 @@ class MainWindowComponent(
             it.setMediumContainer(
                 NavBarComponent(
                     navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-                    config = NavBarComponent.DefaultConfig,
                     content = NavBarComponent.DefaultNavBarComponentView
                 )
             )

@@ -26,12 +26,10 @@ object PagerTreeBuilder {
 
         val navBarComponent1 = NavBarComponent(
             navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-            config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )
         val navBarComponent2 = NavBarComponent(
             navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-            config = NavBarComponent.DefaultConfig,
             content = NavBarComponent.DefaultNavBarComponentView
         )
 

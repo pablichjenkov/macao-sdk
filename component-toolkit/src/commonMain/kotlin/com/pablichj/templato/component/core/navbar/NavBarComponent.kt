@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 
 class NavBarComponent<T : NavBarStatePresenter>(
     val navBarStatePresenter: T,
-    config: Config = DefaultConfig,
+    pushStrategy: PushStrategy<Component> = AddAllPushStrategy(),
     private val lifecycleHandler: NavigationComponent.LifecycleHandler = NavigationComponentDefaultLifecycleHandler(),
     dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
     private var content: @Composable NavBarComponent<T>.(
@@ -37,7 +37,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
         childComponent: Component
     ) -> Unit
 ) : Component(), NavigationComponent {
-    override val backStack = createBackStack(config.pushStrategy)
+    override val backStack = createBackStack(pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
@@ -145,18 +145,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
 
     // endregion
 
-    class Config(
-        val pushStrategy: PushStrategy<Component>,
-        val navBarStyle: NavBarStyle,
-        val diContainer: DiContainer
-    )
-
     companion object {
-        val DefaultConfig = Config(
-            pushStrategy = AddAllPushStrategy(),
-            navBarStyle = NavBarStyle(),
-            diContainer = DiContainer(CoroutineDispatchers.Defaults)
-        )
 
         fun createDefaultNavBarStatePresenter(
             dispatcher: CoroutineDispatcher = Dispatchers.Main
@@ -177,6 +166,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
                 childComponent.Content(Modifier)
             }
         }
+
     }
 
 }
