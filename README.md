@@ -1,14 +1,12 @@
 ### Component Toolkit
 A set of prefabricated compose-multiplatform components to speedup the Multiplatform App development process. 
-The toolkit contains a variety of navigation components as drawer, tabbar, topbar, bottombar, pager,
-stack, panel and many more. Code is 99% reusable in each platform. Check demos bellow.
+The toolkit contains a variety of customizable navigation components such as `Drawer`, `Navbar`, `Pager`, `Panel`,
+`Topbar`, `Stack` and many more. 
+It also provides an easy mechanism to implement MVVM architeture. Code is 99% reusable in each platform.
 
 ##### How to use it?
-Just add bellow dependency to the **commonMain** target and check the [Developer Guide](/component-toolkit/README.md) 
+Just add bellow dependency to the **commonMain** target and check the [Developers Guide](/component-toolkit/README.md) 
 in the component-toolkit module.
-
-See readme inside component-toolkit module for code snippets.
-<BR>
 
 **Component-toolkit is published on Maven Central:**
 
@@ -23,7 +21,7 @@ val commonMain by getting {
 ### Built with component-toolkit
 #### Component Toolkit Demo App
 
-This is the App I use to test while developing the components.
+This is the App used to demo and test while developing components.
 
 <table border="1">
  <tr>
@@ -72,7 +70,8 @@ This is the App I use to test while developing the components.
 
 #### Hotel Booking App
 
-[Hotel Booking](https://github.com/pablichjenkov/amadeus-hotel-app) An App that consumes Amadeus hotel booking public API.
+[Hotel Booking](https://github.com/pablichjenkov/amadeus-hotel-app) An App that consumes Amadeus Self Sevice API.
+The Amadeus Self Sevice API is the company's public service to test the Hotel and Flight booking in their platform.
 
 <table style="border:1px solid black;">
  <tr>
