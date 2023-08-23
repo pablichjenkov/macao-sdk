@@ -12,8 +12,7 @@ import com.pablichj.templato.component.core.navbar.NavBarStatePresenterDefault
 import com.pablichj.templato.component.core.panel.PanelComponent
 import com.pablichj.templato.component.core.panel.PanelStatePresenterDefault
 import com.pablichj.templato.component.core.setNavItems
-import com.pablichj.templato.component.core.topbar.TopBarComponent
-import com.pablichj.templato.component.demo.CustomTopBarComponent
+import com.pablichj.templato.component.demo.createCustomTopBarComponent
 
 object PanelTreeBuilder {
 
@@ -29,7 +28,7 @@ object PanelTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Home",
                     {},
                 )
@@ -42,7 +41,7 @@ object PanelTreeBuilder {
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Settings",
                     {},
                 ),
@@ -69,7 +68,7 @@ object PanelTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Home",
                     {},
                 )
@@ -77,7 +76,7 @@ object PanelTreeBuilder {
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Orders",
                     {},
                 )
@@ -85,7 +84,7 @@ object PanelTreeBuilder {
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Add,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Settings",
                     {},
                 )

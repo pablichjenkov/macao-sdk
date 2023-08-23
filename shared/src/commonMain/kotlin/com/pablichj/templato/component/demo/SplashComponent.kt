@@ -23,7 +23,7 @@ class SplashComponent(
     val onDone: () -> Unit
 ) : Component() {
 
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)// TODO: Use DispatchersBin
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
     private var splashJob: Job? = null
     private val SplashDelaySeconds = 3
     private val splashTimeFlow = MutableStateFlow(SplashDelaySeconds)

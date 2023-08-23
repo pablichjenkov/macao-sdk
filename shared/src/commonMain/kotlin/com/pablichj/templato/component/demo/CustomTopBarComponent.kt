@@ -8,11 +8,13 @@ import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.core.topbar.TopBarStatePresenterDefault
 
+/*
 class CustomTopBarComponent(
     val screenName: String,
     val onMessage: (Msg) -> Unit
 ) : TopBarComponent<TopBarStatePresenterDefault>(
     topBarStatePresenter = createDefaultTopBarStatePresenter(),
+    content = DefaultTopBarComponentView
 ) {
 
     val Step1 = SimpleComponent(
@@ -53,9 +55,9 @@ class CustomTopBarComponent(
             }
         }
     }.also {
-            it.setParent(this@CustomTopBarComponent)
-            it.uriFragment = "Page 3"
-        }
+        it.setParent(this@CustomTopBarComponent)
+        it.uriFragment = "Page 3"
+    }
 
     override fun onStart() {
         println("${instanceId()}::onStart()")
@@ -73,7 +75,7 @@ class CustomTopBarComponent(
         println("${instanceId()}::onStop()")
     }
 
-    override fun getStackBarItemForComponent(topComponent: Component): StackBarItem {
+    fun getStackBarItemForComponent(topComponent: Component): StackBarItem {
         return when (topComponent) {
             Step1 -> {
                 StackBarItem(
@@ -121,3 +123,4 @@ class CustomTopBarComponent(
     }
 
 }
+*/

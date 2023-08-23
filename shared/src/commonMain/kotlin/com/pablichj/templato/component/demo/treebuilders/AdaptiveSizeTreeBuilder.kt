@@ -9,10 +9,7 @@ import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.adaptive.AdaptiveSizeComponent
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.setNavItems
-import com.pablichj.templato.component.core.topbar.TopBarComponent
-import com.pablichj.templato.component.demo.CustomTopBarComponent
-import com.pablichj.templato.component.demo.HomeTopBarComponent
-import com.pablichj.templato.component.demo.SettingsTopBarComponent
+import com.pablichj.templato.component.demo.createCustomTopBarComponent
 
 object AdaptableSizeTreeBuilder {
 
@@ -46,30 +43,21 @@ object AdaptableSizeTreeBuilder {
             NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent(
-                    "Orders/Current",
-                    {},
-                ).apply {
+                component = createCustomTopBarComponent("Orders/Current", {}).apply {
                     uriFragment = "Current"
                 }
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                component = CustomTopBarComponent(
-                    "Orders/Past",
-                    {},
-                ).apply {
+                component = createCustomTopBarComponent("Orders/Past", {}).apply {
                     uriFragment = "Past"
                 }
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                component = CustomTopBarComponent(
-                    "Orders/Claim",
-                    {},
-                ).apply {
+                component = createCustomTopBarComponent("Orders/Claim", {}).apply {
                     uriFragment = "Claim"
                 }
             )
@@ -77,14 +65,14 @@ object AdaptableSizeTreeBuilder {
 
         navBarComponent.setNavItems(navbarNavItems, 0)
 
-        val homeComponent = HomeTopBarComponent(
+        val homeComponent = createCustomTopBarComponent(//HomeTopBarComponent(
             "Home",
             {},
         ).apply {
             uriFragment = "Home"
         }
 
-        val settingsComponent = SettingsTopBarComponent(
+        val settingsComponent = createCustomTopBarComponent(//SettingsTopBarComponent(
             "Settings",
             {},
         ).apply {

@@ -17,7 +17,8 @@ import com.pablichj.templato.component.core.ComponentWithBackStack
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
-import com.pablichj.templato.component.core.getChildForNextUriFragment
+import com.pablichj.templato.component.core.childForNextUriFragment
+import com.pablichj.templato.component.core.destroyChildComponent
 import com.pablichj.templato.component.core.pager.indicator.DefaultPagerIndicator
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
 import com.pablichj.templato.component.core.stack.PushStrategy
@@ -44,6 +45,7 @@ class PagerComponent(
         childComponents: List<Component>
     ) -> Unit
 ) : Component(), NavigationComponent {
+
     override val backStack = createBackStack(pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
@@ -107,12 +109,7 @@ class PagerComponent(
     }
 
     override fun onDestroyChildComponent(component: Component) {
-        if (component.lifecycleState == ComponentLifecycleState.Started) {
-            component.dispatchStop()
-            component.dispatchDestroy()
-        } else {
-            component.dispatchDestroy()
-        }
+        destroyChildComponent()
     }
 
     // endregion
@@ -126,7 +123,7 @@ class PagerComponent(
     }
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
-        return (this as ComponentWithBackStack).getChildForNextUriFragment(nextUriFragment)
+        return (this as ComponentWithBackStack).childForNextUriFragment(nextUriFragment)
     }
 
     // endregion

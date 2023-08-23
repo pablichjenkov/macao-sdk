@@ -1,17 +1,20 @@
 package com.pablichj.templato.component.demo.treebuilders
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import com.pablichj.templato.component.demo.CustomTopBarComponent
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.drawer.DrawerComponent
 import com.pablichj.templato.component.core.drawer.DrawerStatePresenterDefault
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.navbar.NavBarStatePresenterDefault
 import com.pablichj.templato.component.core.setNavItems
-import com.pablichj.templato.component.core.topbar.TopBarComponent
-import com.pablichj.templato.component.platform.DiContainer
+import com.pablichj.templato.component.demo.createCustomTopBarComponent
 import com.pablichj.templato.component.platform.CoroutineDispatchers
+import com.pablichj.templato.component.platform.DiContainer
 
 object DrawerTreeBuilder {
     private val diContainer = DiContainer(CoroutineDispatchers.Defaults)
@@ -27,10 +30,7 @@ object DrawerTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent(
-                    "Home",
-                    {},
-                )
+                component = createCustomTopBarComponent("Home", {})
             ),
             NavItem(
                 label = "Orders",
@@ -40,10 +40,7 @@ object DrawerTreeBuilder {
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = CustomTopBarComponent(
-                    "Settings",
-                    {},
-                )
+                component = createCustomTopBarComponent("Settings", {})
             )
         )
 
@@ -67,26 +64,17 @@ object DrawerTreeBuilder {
             NavItem(
                 label = "Active",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent(
-                    "Orders/Active",
-                    {},
-                )
+                component = createCustomTopBarComponent("Active", {})
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Settings,
-                component = CustomTopBarComponent(
-                    "Orders/Past",
-                    {},
-                )
+                component = createCustomTopBarComponent("Past", {})
             ),
             NavItem(
                 label = "New Order",
                 icon = Icons.Filled.Add,
-                component = CustomTopBarComponent(
-                    "Orders/New Order",
-                    {},
-                )
+                component = createCustomTopBarComponent("New Order", {})
             )
         )
 

@@ -31,6 +31,7 @@ fun NavigationPanel(
 ) {
     val navItems by panelStatePresenter.navItemsState
     val panelHeaderState by panelStatePresenter.panelHeaderState
+    val panelStyle = panelStatePresenter.panelStyle
 
     Row(modifier = modifier.fillMaxSize()) {
         Column(
@@ -39,6 +40,7 @@ fun NavigationPanel(
             PanelHeader(panelHeaderState = panelHeaderState)
             PanelContentList(
                 navItems = navItems,
+                panelStyle = panelStyle,
                 onNavItemClick = { navItem -> panelStatePresenter.navItemClick(navItem) }
             )
         }
@@ -53,17 +55,25 @@ fun NavigationPanel(
 private fun PanelContentList(
     modifier: Modifier = Modifier,
     navItems: List<NavItemDeco>,
+    panelStyle: PanelStyle,
     onNavItemClick: (NavItemDeco) -> Unit
 ) {
     Column(
         modifier
             .fillMaxSize()
+            .background(color = panelStyle.bgColor)
             .padding(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = panelStyle.horizontalAlignment
     ) {
         for (navItem in navItems) {
             PanelDrawerItem(
-                label = { Text(navItem.label) },
+                panelStyle = panelStyle,
+                label = {
+                    Text(
+                        text = navItem.label,
+                        fontSize = panelStyle.itemTextSize
+                    )
+                },
                 icon = { Icon(navItem.icon, null) },
                 selected = navItem.selected,
                 onClick = { onNavItemClick(navItem) }
@@ -74,6 +84,7 @@ private fun PanelContentList(
 
 @Composable
 private fun PanelDrawerItem(
+    panelStyle: PanelStyle,
     label: @Composable () -> Unit,
     icon: @Composable () -> Unit,
     selected: Boolean,
@@ -83,8 +94,8 @@ private fun PanelDrawerItem(
         Modifier
             .fillMaxWidth()
             .height(56.dp)
-            .border(width = 1.dp, color = Color.Black)
-            .background(Color.LightGray)
+            .border(width = 1.dp, color = panelStyle.borderColor)
+            .background(panelStyle.selectedColor)
             .padding(8.dp)
             .clickable {
                 onClick()

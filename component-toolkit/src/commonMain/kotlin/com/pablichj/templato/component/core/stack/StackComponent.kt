@@ -1,17 +1,28 @@
 package com.pablichj.templato.component.core.stack
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Modifier
 import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.ComponentWithBackStack
-import com.pablichj.templato.component.core.getChildForNextUriFragment
-import com.pablichj.templato.component.core.onDeepLinkNavigateTo
-import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
+import com.pablichj.templato.component.core.destroyChildComponent
+import com.pablichj.templato.component.core.childForNextUriFragment
+import com.pablichj.templato.component.core.deepLinkNavigateTo
+import com.pablichj.templato.component.core.processBackstackEvent
+import com.pablichj.templato.component.core.util.EmptyNavigationComponentView
 
-abstract class StackComponent : Component(), ComponentWithBackStack {
-    final override val backStack = BackStack<Component>()
+class StackComponent(
+    private val componentDelegate: StackComponentDelegate,
+    private val content: @Composable StackComponent.(
+        modifier: Modifier,
+        activeComponent: Component
+    ) -> Unit
+) : Component(), ComponentWithBackStack {
+
+    override val backStack = BackStack<Component>()
     override var childComponents: MutableList<Component> = mutableListOf()
     var activeComponent: MutableState<Component?> = mutableStateOf(null)
     var lastBackstackEvent: BackStack.Event<Component>? = null
@@ -24,15 +35,13 @@ abstract class StackComponent : Component(), ComponentWithBackStack {
         }
     }
 
-    override fun dispatchStart() {
-        super.dispatchStart()
+    override fun onStart() {
         if (activeComponent.value != null) {
             activeComponent.value?.dispatchStart()
         }
     }
 
-    override fun dispatchStop() {
-        super.dispatchStop()
+    override fun onStop() {
         activeComponent.value?.dispatchStop()
         lastBackstackEvent = null
     }
@@ -49,7 +58,7 @@ abstract class StackComponent : Component(), ComponentWithBackStack {
         }
     }
 
-    // region: NavigatorItems
+    // region: ComponentWithChildren
 
     override fun getComponent(): Component {
         return this
@@ -60,12 +69,12 @@ abstract class StackComponent : Component(), ComponentWithBackStack {
     ) {
         when (stackTransition) {
             is StackTransition.In -> {
-                onStackTopUpdate(stackTransition.newTop)
+                dispatchStackTopUpdate(stackTransition.newTop)
                 activeComponent.value = stackTransition.newTop
             }
 
             is StackTransition.InOut -> {
-                onStackTopUpdate(stackTransition.newTop)
+                dispatchStackTopUpdate(stackTransition.newTop)
                 activeComponent.value = stackTransition.newTop
             }
 
@@ -80,15 +89,12 @@ abstract class StackComponent : Component(), ComponentWithBackStack {
         }
     }
 
-    protected abstract fun onStackTopUpdate(topComponent: Component)
+    private fun dispatchStackTopUpdate(topComponent: Component) {
+        componentDelegate.onStackTopUpdate(topComponent)
+    }
 
     override fun onDestroyChildComponent(component: Component) {
-        if (component.lifecycleState == ComponentLifecycleState.Started) {
-            component.dispatchStop()
-            component.dispatchDestroy()
-        } else {
-            component.dispatchDestroy()
-        }
+        destroyChildComponent()
     }
 
     // endregion
@@ -96,12 +102,46 @@ abstract class StackComponent : Component(), ComponentWithBackStack {
     // region: DeepLink
 
     override fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
-        return (this as ComponentWithBackStack).onDeepLinkNavigateTo(matchingComponent)
+        return (this as ComponentWithBackStack).deepLinkNavigateTo(matchingComponent)
     }
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
-        return (this as ComponentWithBackStack).getChildForNextUriFragment(nextUriFragment)
+        return (this as ComponentWithBackStack).childForNextUriFragment(nextUriFragment)
     }
 
     // endregion
+
+    @Composable
+    override fun Content(modifier: Modifier) {
+        println(
+            """${instanceId()}.Composing() stack.size = ${backStack.size()}
+                |lifecycleState = ${lifecycleState}
+            """
+        )
+        val activeComponentCopy = activeComponent.value
+        if (activeComponentCopy != null) {
+            content(modifier, activeComponentCopy)
+        } else {
+            EmptyNavigationComponentView(this@StackComponent)
+        }
+    }
+
+    companion object {
+
+        val DefaultStackComponentView: @Composable StackComponent.(
+            modifier: Modifier,
+            activeChildComponent: Component
+        ) -> Unit = { modifier, activeChildComponent ->
+            Box {
+                PredictiveBackstackView(
+                    modifier = modifier,
+                    predictiveComponent = activeChildComponent,
+                    backStack = backStack,
+                    lastBackstackEvent = lastBackstackEvent,
+                    onComponentSwipedOut = {}
+                )
+            }
+        }
+    }
+
 }

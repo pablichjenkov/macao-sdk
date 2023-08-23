@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -18,10 +17,11 @@ internal fun PanelHeader(
     modifier: Modifier = Modifier,
     panelHeaderState: PanelHeaderState
 ) {
-    when(panelHeaderState) {
+    when (panelHeaderState) {
         NoPanelHeaderState -> {
             // No Op
         }
+
         is PanelHeaderStateDefault -> {
             DefaultPanelHeader(modifier, panelHeaderState)
         }
@@ -33,11 +33,12 @@ private fun DefaultPanelHeader(
     modifier: Modifier = Modifier,
     panelHeaderState: PanelHeaderStateDefault
 ) {
+    val style = panelHeaderState.style
     Box(
         modifier
             .fillMaxWidth()
-            .height(120.dp)
-            .background(Color.LightGray)
+            .height(style.headerHeight)
+            .background(style.headerBgColor)
             .padding(all = 16.dp),
     ) {
         Column(modifier = modifier) {

@@ -11,9 +11,10 @@ import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.NavigationComponentDefaultLifecycleHandler
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
-import com.pablichj.templato.component.core.getChildForNextUriFragment
+import com.pablichj.templato.component.core.childForNextUriFragment
 import com.pablichj.templato.component.core.getNavItemFromComponent
-import com.pablichj.templato.component.core.onDeepLinkNavigateTo
+import com.pablichj.templato.component.core.deepLinkNavigateTo
+import com.pablichj.templato.component.core.destroyChildComponent
 import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.processBackstackTransition
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
@@ -105,12 +106,7 @@ class PanelComponent<T : PanelStatePresenter>(
     }
 
     override fun onDestroyChildComponent(component: Component) {
-        if (component.lifecycleState == ComponentLifecycleState.Started) {
-            component.dispatchStop()
-            component.dispatchDestroy()
-        } else {
-            component.dispatchDestroy()
-        }
+        destroyChildComponent()
     }
 
     // endregion
@@ -118,11 +114,11 @@ class PanelComponent<T : PanelStatePresenter>(
     // region: DeepLink
 
     override fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
-        return (this as ComponentWithBackStack).onDeepLinkNavigateTo(matchingComponent)
+        return (this as ComponentWithBackStack).deepLinkNavigateTo(matchingComponent)
     }
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
-        return (this as ComponentWithBackStack).getChildForNextUriFragment(nextUriFragment)
+        return (this as ComponentWithBackStack).childForNextUriFragment(nextUriFragment)
     }
 
     // endregion

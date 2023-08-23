@@ -10,9 +10,7 @@ import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.pager.PagerComponent
 import com.pablichj.templato.component.core.setNavItems
-import com.pablichj.templato.component.core.topbar.TopBarComponent
-import com.pablichj.templato.component.demo.CustomTopBarComponent
-import com.pablichj.templato.component.platform.CoroutineDispatchers
+import com.pablichj.templato.component.demo.createCustomTopBarComponent
 
 @OptIn(ExperimentalFoundationApi::class)
 object PagerTreeBuilder {
@@ -37,7 +35,7 @@ object PagerTreeBuilder {
             NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Orders/Current",
                     {},
                 )
@@ -45,7 +43,7 @@ object PagerTreeBuilder {
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Orders/Past",
                     {},
                 )
@@ -53,7 +51,7 @@ object PagerTreeBuilder {
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Orders/Claim",
                     {},
                 )
@@ -64,7 +62,7 @@ object PagerTreeBuilder {
             NavItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Settings/Account",
                     {},
                 )
@@ -72,7 +70,7 @@ object PagerTreeBuilder {
             NavItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Settings/Profile",
                     {},
                 )
@@ -80,7 +78,7 @@ object PagerTreeBuilder {
             NavItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Settings/About Us",
                     {},
                 )
@@ -91,7 +89,7 @@ object PagerTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Home",
                     {},
                 )
@@ -113,7 +111,8 @@ object PagerTreeBuilder {
         ).also {
             pagerComponent = it
             it.setNavItems(
-                pagerNavItems, 0)
+                pagerNavItems, 0
+            )
         }
     }
 

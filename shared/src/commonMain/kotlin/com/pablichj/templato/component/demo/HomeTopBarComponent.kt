@@ -7,13 +7,18 @@ import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.core.topbar.TopBarStatePresenterDefault
-
+/*
 class HomeTopBarComponent(
     val screenName: String,
     val onMessage: (Msg) -> Unit
 ) : TopBarComponent<TopBarStatePresenterDefault>(
     topBarStatePresenter = createDefaultTopBarStatePresenter(),
+    content = DefaultTopBarComponentView
 ) {
+
+    init {
+        componentToStackBarItemMapper = ::getStackBarItemForComponent
+    }
 
     val Step1 = SimpleComponent(
         "$screenName/Page 1",
@@ -68,7 +73,7 @@ class HomeTopBarComponent(
         println("${instanceId()}::onStop()")
     }
 
-    override fun getStackBarItemForComponent(topComponent: Component): StackBarItem {
+    private fun getStackBarItemForComponent(topComponent: Component): StackBarItem {
         return when (topComponent) {
             Step1 -> {
                 StackBarItem(
@@ -116,3 +121,4 @@ class HomeTopBarComponent(
     }
 
 }
+*/

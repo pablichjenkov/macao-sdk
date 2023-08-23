@@ -21,11 +21,10 @@ class AppCoordinatorComponent : Component() {
         backStack.push(customTopBarComponent)
     }.also { it.setParent(this@AppCoordinatorComponent) }
 
-    private val customTopBarComponent: Component = CustomTopBarComponent(
-        "Onboard"
-    ) {
-        backStack.push(homeComponent)
-    }.also { it.setParent(this@AppCoordinatorComponent) }
+    private val customTopBarComponent: Component =
+        createCustomTopBarComponent("Onboard") {
+            backStack.push(homeComponent)
+        }.also { it.setParent(this@AppCoordinatorComponent) }
 
     //todo: Use setHomeNode instead, and attach to parent context, see SplitNode class as example
     lateinit var homeComponent: Component
@@ -61,7 +60,7 @@ class AppCoordinatorComponent : Component() {
 
             }
 
-            is CustomTopBarComponent -> {
+            is TopBarComponent<*> -> {
                 delegateBackPressedToParent()
             }
 
