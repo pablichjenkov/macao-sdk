@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 interface TopBarStatePresenter {
     var topBarState: MutableState<TopBarState>
+    val topBarStyle: TopBarStyle
     fun setIcon1(icon1: ImageVector, onIcon1Click: (() -> Unit)?)
     fun setIcon2(icon2: ImageVector, onIcon2Click: (() -> Unit)?)
     fun setTitle(title: String, onTitleClick: (() -> Unit)?)
@@ -13,7 +14,7 @@ interface TopBarStatePresenter {
 }
 
 class TopBarStatePresenterDefault(
-    val topBarStyle: TopBarStyle = TopBarStyle(),
+    override val topBarStyle: TopBarStyle = TopBarStyle(),
 ) : TopBarStatePresenter {
 
     override var onBackPressEvent: () -> Unit = {}

@@ -11,11 +11,10 @@ import com.pablichj.templato.component.core.drawer.DrawerStatePresenterDefault
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.split.SplitComponent
-import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.demo.AppCoordinatorComponent
-import com.pablichj.templato.component.demo.CustomTopBarComponent
-import com.pablichj.templato.component.platform.DiContainer
+import com.pablichj.templato.component.demo.createCustomTopBarComponent
 import com.pablichj.templato.component.platform.CoroutineDispatchers
+import com.pablichj.templato.component.platform.DiContainer
 
 object FullAppWithIntroTreeBuilder {
     private val diContainer = DiContainer(CoroutineDispatchers.Defaults)
@@ -46,7 +45,7 @@ object FullAppWithIntroTreeBuilder {
         val SplitNavNode = SplitComponent(SplitComponent.DefaultConfig).apply {
             setTopComponent(buildNestedDrawer())
             setBottomComponent(
-                CustomTopBarComponent(
+                createCustomTopBarComponent(
                     "Orders / Current",
                     {},
                 )
@@ -57,7 +56,7 @@ object FullAppWithIntroTreeBuilder {
             NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Orders / Current",
                     {},
                 )
@@ -73,7 +72,7 @@ object FullAppWithIntroTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Home",
                     {},
                 )
@@ -107,7 +106,7 @@ object FullAppWithIntroTreeBuilder {
             NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Orders/Current",
                     {},
                 )
@@ -115,7 +114,7 @@ object FullAppWithIntroTreeBuilder {
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Orders / Past",
                     {},
                 )
@@ -123,7 +122,7 @@ object FullAppWithIntroTreeBuilder {
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Orders/Claim",
                     {},
                 )
@@ -134,7 +133,7 @@ object FullAppWithIntroTreeBuilder {
             NavItem(
                 label = "Home Nested",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Home",
                     {},
                 )

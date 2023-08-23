@@ -2,25 +2,21 @@ package com.pablichj.templato.component.core.stack
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
-import com.pablichj.templato.component.core.topbar.TopBarComponent
 
 @Composable
-fun DefaultStackComponentView(
-    topBarComponent: TopBarComponent<*>,
+fun PredictiveBackstackView(
     modifier: Modifier,
+    predictiveComponent: Component,
+    backStack: BackStack<Component>,
+    lastBackstackEvent: BackStack.Event<Component>?,
     onComponentSwipedOut: () -> Unit
 ) {
-    println(
-        """
-          ${topBarComponent.instanceId()}::Composing(), backStack.size = ${topBarComponent.backStack.size()}
-          lastBackstackEvent = ${topBarComponent.lastBackstackEvent}
-        """
-    )
 
-    val animationType = when (topBarComponent.lastBackstackEvent) {
+    val animationType = when (lastBackstackEvent) {
         is BackStack.Event.Pop -> {
-            if (topBarComponent.backStack.size() > 0)
+            if (backStack.size() > 0)
                 AnimationType.Reverse
             else AnimationType.Exit
         }
@@ -30,7 +26,7 @@ fun DefaultStackComponentView(
         }
 
         is BackStack.Event.Push -> {
-            if (topBarComponent.backStack.size() > 1)
+            if (backStack.size() > 1)
                 AnimationType.Direct
             else AnimationType.Enter
         }
@@ -42,8 +38,8 @@ fun DefaultStackComponentView(
         null -> AnimationType.Enter
     }
 
-    val prevComponent = if (topBarComponent.backStack.size() > 1) {
-        topBarComponent.backStack.deque[topBarComponent.backStack.size() - 2]
+    val prevComponent = if (backStack.size() > 1) {
+        backStack.deque[backStack.size() - 2]
     } else {
         null
     }
@@ -54,7 +50,7 @@ fun DefaultStackComponentView(
             // all the platforms will fall in to this case.
             StackCustomPredictiveBack(
                 modifier = modifier,
-                childComponent = topBarComponent.activeComponent.value,
+                childComponent = predictiveComponent,
                 prevChildComponent = prevComponent,
                 animationType = animationType,
                 onComponentSwipedOut = onComponentSwipedOut
@@ -67,7 +63,7 @@ fun DefaultStackComponentView(
             // system gesture takes care of the App.
             StackSystemPredictiveBack(
                 modifier = modifier,
-                childComponent = topBarComponent.activeComponent.value,
+                childComponent = predictiveComponent,
                 animationType = animationType
             )
         }

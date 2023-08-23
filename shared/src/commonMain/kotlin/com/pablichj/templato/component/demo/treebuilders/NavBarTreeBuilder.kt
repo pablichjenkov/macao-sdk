@@ -7,13 +7,8 @@ import androidx.compose.material.icons.filled.Settings
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.navbar.NavBarStatePresenterDefault
-import com.pablichj.templato.component.core.navbar.NavBarStyle
 import com.pablichj.templato.component.core.setNavItems
-import com.pablichj.templato.component.core.stack.FixSizedPushStrategy
-import com.pablichj.templato.component.core.topbar.TopBarComponent
-import com.pablichj.templato.component.demo.CustomTopBarComponent
-import com.pablichj.templato.component.platform.DiContainer
-import com.pablichj.templato.component.platform.CoroutineDispatchers
+import com.pablichj.templato.component.demo.createCustomTopBarComponent
 
 object NavBarTreeBuilder {
 
@@ -29,7 +24,7 @@ object NavBarTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Home",
                     {},
                 )
@@ -37,7 +32,7 @@ object NavBarTreeBuilder {
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Orders",
                     {},
                 )
@@ -45,7 +40,7 @@ object NavBarTreeBuilder {
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Add,
-                component = CustomTopBarComponent(
+                component = createCustomTopBarComponent(
                     "Settings",
                     {},
                 )

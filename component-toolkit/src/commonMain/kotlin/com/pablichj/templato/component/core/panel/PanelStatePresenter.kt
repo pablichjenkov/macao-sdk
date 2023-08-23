@@ -16,6 +16,8 @@ interface PanelStatePresenter {
      * */
     val navItemsState: State<List<NavItemDeco>>
 
+    val panelStyle: PanelStyle
+
     /**
      * Intended for a client class to listen for navItem click events
      * */
@@ -39,7 +41,7 @@ interface PanelStatePresenter {
 class PanelStatePresenterDefault(
     dispatcher: CoroutineDispatcher,
     panelHeaderState: PanelHeaderState,
-    val panelStyle: PanelStyle = PanelStyle(),
+    override val panelStyle: PanelStyle = PanelStyle(),
     navItemDecoList: List<NavItemDeco> = emptyList()
 ) : PanelStatePresenter {
 

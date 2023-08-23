@@ -140,7 +140,7 @@ fun MainWindowComponentPreview() {
     simpleComponent.Content(Modifier)
     */
 
-    val topbarComponent = CustomTopBarComponent(
+    val topbarComponent = createCustomTopBarComponent(
         "CustomTopBarComponent"
     ) {}
     topbarComponent.dispatchStart()
