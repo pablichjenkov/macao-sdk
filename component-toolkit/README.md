@@ -8,6 +8,7 @@ In an indirect way, a Component can connect to another Component in the tree tha
 children. Using Component deep linking, any Component in the tree can connect to another Component 
 and send requests and receive results back.
 
+`Bellow Guides are outdated, project is waiting for cmp 1.5.0 release to make toolkit 0.5.0 and update the guides. API improvements coming!`
 #### Guides
 1. [Simple Component](#simple-component)
 2. [Navigation Component](#navigation-component)
