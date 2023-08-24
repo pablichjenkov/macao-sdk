@@ -238,6 +238,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("androidx.activity:activity-compose:1.7.2")
+                api(compose.uiTooling)
+                api(compose.preview)
             }
         }
         val androidUnitTest by getting {
@@ -272,7 +274,12 @@ kotlin {
         */
 
         // JVM
-        val desktopMain by getting
+        val desktopMain by getting {
+            dependencies {
+                api(compose.uiTooling)
+                api(compose.preview)
+            }
+        }
     }
 
 }
@@ -292,5 +299,11 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.2"
     }
 }

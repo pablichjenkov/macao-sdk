@@ -44,7 +44,7 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.material3)
                 implementation(project(":component-toolkit"))
-                implementation("org.jetbrains.compose.components:components-resources:1.4.1")
+                implementation("org.jetbrains.compose.components:components-resources:1.4.3")
             }
         }
         val commonTest by getting {

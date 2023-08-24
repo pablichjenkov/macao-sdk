@@ -3,20 +3,6 @@ plugins {
     id("org.jetbrains.compose")
 }
 
-compose {
-    // Sets a specific JetBrains Compose Compiler version
-    /*kotlinCompilerPlugin.set("1.4.7")
-    // Sets a specific Google Compose Compiler version
-    // kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:1.4.2")
-    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.8.21")*/
-
-    desktop {
-        application {
-            mainClass = "com.pablichj.templato.component.demo.MainKt"
-        }
-    }
-}
-
 kotlin {
     jvm {}
     sourceSets {
@@ -30,6 +16,20 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.3")
             }
+        }
+    }
+}
+
+compose {
+    // Sets a specific JetBrains Compose Compiler version
+    /*kotlinCompilerPlugin.set("1.4.7")
+    // Sets a specific Google Compose Compiler version
+    // kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:1.4.2")
+    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.8.21")*/
+
+    desktop {
+        application {
+            mainClass = "com.pablichj.templato.component.demo.MainKt"
         }
     }
 }

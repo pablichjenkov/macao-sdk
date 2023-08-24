@@ -1,5 +1,4 @@
 import SwiftUI
-import UIKit
 import ComponentDemoKt
 
 struct ComposeView : UIViewControllerRepresentable {
@@ -11,9 +10,15 @@ struct ComposeView : UIViewControllerRepresentable {
          let adaptiveComponent = BindingsKt.buildAdaptableSizeComponent()
         // let pagerComponent = BindingsKt.buildPagerComponent()
         
+        
+        let test = IosBridge2(
+            test: NSURL.fileURL(withPath: "dcrcd")
+        )
+        
         let mainViewController = BindingsKt.ComponentRenderer(
             rootComponent: adaptiveComponent,
             iosBridge: iosBridge,
+            iosBridge2: test,
             onBackPress: {
                 exit(0)
             }

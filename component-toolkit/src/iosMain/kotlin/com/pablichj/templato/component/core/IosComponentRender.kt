@@ -16,7 +16,10 @@ import com.pablichj.templato.component.platform.AppLifecycleEvent
 import com.pablichj.templato.component.platform.ForwardAppLifecycleCallback
 import com.pablichj.templato.component.platform.IosBridge
 import platform.UIKit.UIViewController
+import kotlin.experimental.ExperimentalObjCName
 
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("IosComponentRender")
 fun IosComponentRender(
     rootComponent: Component,
     iosBridge: IosBridge,
