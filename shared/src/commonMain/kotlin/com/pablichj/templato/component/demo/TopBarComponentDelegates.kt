@@ -1,8 +1,10 @@
 package com.pablichj.templato.component.demo
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Color
 import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.stack.BackStack
+import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.core.topbar.TopBarComponentDelegate
 import com.pablichj.templato.component.core.topbar.TopBarStatePresenterDefault
@@ -76,6 +78,35 @@ fun createCustomTopBarComponent (
 
         override fun TopBarComponent<*>.stop() {
             println("${instanceId()}::onStop()")
+        }
+
+        override fun mapComponentToStackBarItem(topComponent: Component): StackBarItem {
+            return when (topComponent) {
+                Step1 -> {
+                    StackBarItem(
+                        Step1.screenName,
+                        Icons.Filled.Star,
+                    )
+                }
+
+                Step2 -> {
+                    StackBarItem(
+                        Step2.screenName,
+                        Icons.Filled.Star,
+                    )
+                }
+
+                Step3 -> {
+                    StackBarItem(
+                        Step3.screenName,
+                        Icons.Filled.Star,
+                    )
+                }
+
+                else -> {
+                    throw IllegalStateException()
+                }
+            }
         }
 
         override fun TopBarComponent<*>.childForNextUriFragment(nextUriFragment: String): Component? {

@@ -1,6 +1,7 @@
 package com.pablichj.templato.component.demo
 
 import com.pablichj.templato.component.platform.IosBridge
+import com.pablichj.templato.component.platform.IOSBridge2
 import com.pablichj.templato.component.core.IosComponentRender
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.templato.component.demo.treebuilders.DrawerTreeBuilder
@@ -12,11 +13,13 @@ import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.panel.PanelComponent
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.CoroutineDispatchers
+import platform.Foundation.NSURL
 import platform.UIKit.UIViewController
 
 fun ComponentRenderer(
     rootComponent: Component,
     iosBridge: IosBridge,
+    iosBridge2: IOSBridge2 = IOSBridge2(test = NSURL(string = "kjbkjbk")),
     onBackPress: () -> Unit = {}
 ): UIViewController = IosComponentRender(rootComponent, iosBridge, onBackPress)
 

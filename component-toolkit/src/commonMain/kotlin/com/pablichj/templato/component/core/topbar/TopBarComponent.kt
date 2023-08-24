@@ -28,7 +28,6 @@ import com.pablichj.templato.component.core.util.EmptyNavigationComponentView
 class TopBarComponent<T : TopBarStatePresenter>(
     private val topBarStatePresenter: T,
     private val componentDelegate: TopBarComponentDelegate,
-    var componentToStackBarItemMapper: ((Component) -> StackBarItem)? = null,
     private val showBackArrowStrategy: ShowBackArrowStrategy = ShowBackArrowStrategy.Always,
     private val content: @Composable TopBarComponent<T>.(
         modifier: Modifier,
@@ -145,7 +144,7 @@ class TopBarComponent<T : TopBarStatePresenter>(
     // endregion
 
     private fun getStackBarItemForComponent(topComponent: Component): StackBarItem {
-        return componentToStackBarItemMapper?.invoke(topComponent) ?: EmptyStackBarItem
+        return componentDelegate.mapComponentToStackBarItem(topComponent)
     }
 
     private fun setTitleSectionForHomeClick(stackBarItem: StackBarItem) {
