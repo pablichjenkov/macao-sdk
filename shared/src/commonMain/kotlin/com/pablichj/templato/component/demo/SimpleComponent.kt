@@ -45,7 +45,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.consumeBackPressEvent
+import com.pablichj.templato.component.core.BackPressHandler
 
 class SimpleComponent(
     val screenName: String,
@@ -68,7 +68,7 @@ class SimpleComponent(
     @Composable
     override fun Content(modifier: Modifier) {
         println("${instanceId()}::Composing()")
-        consumeBackPressEvent()
+        BackPressHandler()
         Column (
             modifier = modifier.fillMaxSize()
                 .background(bgColor)

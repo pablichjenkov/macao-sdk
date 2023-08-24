@@ -17,9 +17,9 @@ import com.pablichj.templato.component.core.destroyChildComponent
 import com.pablichj.templato.component.core.drawer.DrawerNavigationProvider
 import com.pablichj.templato.component.core.drawer.EmptyDrawerNavigationProvider
 import com.pablichj.templato.component.core.drawer.LocalDrawerNavigationProvider
+import com.pablichj.templato.component.core.consumeBackPressedDefault
 import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.stack.BackStack
-import com.pablichj.templato.component.core.stack.EmptyStackBarItem
 import com.pablichj.templato.component.core.stack.PredictiveBackstackView
 import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.stack.StackTransition
@@ -74,12 +74,7 @@ class TopBarComponent<T : TopBarStatePresenter>(
 
     override fun handleBackPressed() {
         println("${instanceId()}::handleBackPressed, backStack.size = ${backStack.size()}")
-        if (backStack.size() > 1) {
-            backStack.pop()
-        } else {
-            // We delegate the back event when the stack has 1 element and not 0. The reason is, if
-            // we pop all the way to zero the stack empty view will be show for a fraction of
-            // milliseconds and this creates an undesirable effect.
+        if (consumeBackPressedDefault().not()) {
             delegateBackPressedToParent()
         }
     }

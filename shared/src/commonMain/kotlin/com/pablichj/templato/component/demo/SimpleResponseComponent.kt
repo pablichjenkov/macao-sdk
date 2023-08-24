@@ -23,7 +23,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.consumeBackPressEvent
+import com.pablichj.templato.component.core.BackPressHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -55,7 +55,7 @@ class SimpleResponseComponent(
     @Composable
     override fun Content(modifier: Modifier) {
         println("${instanceId()}::Composing()")
-        consumeBackPressEvent()
+        BackPressHandler()
 
         var response by remember(this@SimpleResponseComponent) {
             mutableStateOf("")

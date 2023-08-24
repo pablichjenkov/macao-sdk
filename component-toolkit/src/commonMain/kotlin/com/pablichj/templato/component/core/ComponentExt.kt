@@ -30,10 +30,10 @@ fun Component.getFirstParentMatching(
 }
 
 @Composable
-fun Component.consumeBackPressEvent() {
+fun Component.BackPressHandler() {
     BackPressHandler(
         component = this,
-        onBackPressed = { this.handleBackPressed() }
+        onBackPressed = { handleBackPressed() }
     )
 }
 

@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.collectAsStateWithLifecycle
-import com.pablichj.templato.component.core.consumeBackPressEvent
+import com.pablichj.templato.component.core.BackPressHandler
 import com.pablichj.templato.component.core.deeplink.DeepLinkMsg
 import com.pablichj.templato.component.core.deeplink.DefaultDeepLinkManager
 import com.pablichj.templato.component.core.deeplink.LocalRootComponentProvider
@@ -77,7 +77,7 @@ class SimpleRequestComponent(
     @Composable
     override fun Content(modifier: Modifier) {
         println("${instanceId()}::Composing()")
-        consumeBackPressEvent()
+        BackPressHandler()
 
         val rootComponent = LocalRootComponentProvider.current
 

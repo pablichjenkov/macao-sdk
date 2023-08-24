@@ -90,3 +90,10 @@ fun ComponentWithBackStack.childForNextUriFragment(nextUriFragment: String): Com
     }
     return null
 }
+
+fun ComponentWithBackStack.consumeBackPressedDefault(): Boolean {
+    return if (backStack.size() > 1) {
+        backStack.pop()
+        true
+    } else false
+}
