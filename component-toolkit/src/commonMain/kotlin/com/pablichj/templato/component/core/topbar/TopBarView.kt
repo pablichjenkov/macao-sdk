@@ -1,5 +1,6 @@
 package com.pablichj.templato.component.core.topbar
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +24,7 @@ fun TopBar(
     presenter: TopBarStatePresenter
 ) {
     val state = presenter.topBarState.value
+    val topBarStyle = presenter.topBarStyle
     val topBarIcon1: ImageVector? = state.icon1
     val topBarIcon2: ImageVector? = state.icon2
     val topBarTitle: String? = state.title
@@ -31,8 +33,9 @@ fun TopBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(48.dp)
-                .border(1.dp, Color.Blue)
+                .height(topBarStyle.barHeight)
+                .background(topBarStyle.barColor)
+                .border(1.dp, topBarStyle.borderColor)
                 .padding(4.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
@@ -71,6 +74,7 @@ fun TopBar(
                             state.onTitleClick?.invoke()
                         },
                     text = it,
+                    fontSize = topBarStyle.textSize
                 )
             }
 

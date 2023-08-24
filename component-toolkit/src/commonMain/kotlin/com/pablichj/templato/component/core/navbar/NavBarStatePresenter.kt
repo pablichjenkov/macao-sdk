@@ -16,6 +16,8 @@ interface NavBarStatePresenter {
      * */
     val navItemsState: State<List<NavItemDeco>>
 
+    val navBarStyle: NavBarStyle
+
     /**
      * Intended for a client class to listen for navItem click events
      * */
@@ -36,7 +38,7 @@ interface NavBarStatePresenter {
 
 class NavBarStatePresenterDefault(
     dispatcher: CoroutineDispatcher,
-    val navBarStyle: NavBarStyle = NavBarStyle(),
+    override val navBarStyle: NavBarStyle = NavBarStyle(),
     navItemDecoList: List<NavItemDeco> = emptyList()
 ) : NavBarStatePresenter {
 
