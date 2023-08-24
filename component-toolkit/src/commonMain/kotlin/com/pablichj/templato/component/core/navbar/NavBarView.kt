@@ -10,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,11 +25,12 @@ fun NavigationBottom(
     Content: @Composable () -> Unit
 ) {
     val navItems by navbarStatePresenter.navItemsState
+    val navBarStyle = navbarStatePresenter.navBarStyle
 
     Scaffold(
         modifier = modifier,
         bottomBar = {
-            BottomBar(navItems) { navItem ->
+            BottomBar(navItems, navBarStyle) { navItem ->
                 navbarStatePresenter.navItemClick(navItem)
             }
         }
@@ -43,20 +45,22 @@ fun NavigationBottom(
 @Composable
 private fun BottomBar(
     navItems: List<NavItemDeco>,
+    navBarStyle: NavBarStyle,
     onNavItemClick: (NavItemDeco) -> Unit
 ) {
     Column {
         val bgColor = MaterialTheme.colorScheme.background
 
         NavigationBar(
-            modifier = Modifier.fillMaxWidth().height(48.dp),
+            modifier = Modifier.fillMaxWidth().height(navBarStyle.barSize),
             containerColor = bgColor
         ) {
             navItems.forEach { navItem ->
                 NavigationBarItem(
-                    alwaysShowLabel = false,
+                    alwaysShowLabel = navBarStyle.showLabel,
                     selected = navItem.selected,
                     onClick = { onNavItemClick(navItem) },
+                    colors = NavigationBarItemDefaults.colors(),
                     icon = {
                         Icon(
                             imageVector = navItem.icon,

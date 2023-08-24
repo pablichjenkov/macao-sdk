@@ -17,6 +17,8 @@ interface DrawerStatePresenter {
      * */
     val navItemsState: State<List<NavItemDeco>>
 
+    val drawerStyle: DrawerStyle
+
     /**
      * Intended for the Composable NavigationDrawer to close open/close the Drawer pane
      * */
@@ -50,7 +52,7 @@ interface DrawerStatePresenter {
 class DrawerStatePresenterDefault(
     dispatcher: CoroutineDispatcher,
     drawerHeaderState: DrawerHeaderState,
-    val drawerStyle: DrawerStyle = DrawerStyle(),
+    override val drawerStyle: DrawerStyle = DrawerStyle(),
     navItemDecoList: List<NavItemDeco> = emptyList()
 ) : DrawerStatePresenter {
 

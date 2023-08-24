@@ -1,14 +1,17 @@
 package com.pablichj.templato.component.core.drawer
 
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
 data class DrawerStyle(
-    var bgColor: Color = Color.Cyan,
-    var titleTextSize: TextUnit = 20.sp,
-    var descriptionTextSize: TextUnit = 16.sp,
-    var unselectedColor: Color = Color.LightGray,
-    var selectedColor: Color = Color.Gray,
-    var itemTextSize: TextUnit = 14.sp
+    val alignment: Alignment.Horizontal = Alignment.Start,
+    val bgColor: Color = Color.Cyan,
+    val titleTextSize: TextUnit = 20.sp,
+    val descriptionTextSize: TextUnit = 16.sp,
+    val unselectedColor: Color = Color.LightGray,
+    val selectedColor: Color = Color.Gray,
+    val itemTextColor: Color = Color.Black,
+    val itemTextSize: TextUnit = 14.sp
 )

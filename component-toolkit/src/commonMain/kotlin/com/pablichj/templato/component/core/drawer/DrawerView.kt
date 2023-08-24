@@ -1,14 +1,18 @@
 package com.pablichj.templato.component.core.drawer
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DrawerDefaults
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -59,15 +63,16 @@ private fun DrawerContent(
 ) {
     val navItems by statePresenter.navItemsState
     val drawerHeaderState by statePresenter.drawerHeaderState
+    val drawerStyle = statePresenter.drawerStyle
 
     ModalDrawerSheet {
         Column(
             modifier = modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.Start
         ) {
             DrawerHeader(drawerHeaderState = drawerHeaderState)
             DrawerContentList(
                 navItems = navItems,
+                drawerStyle = drawerStyle,
                 onNavItemClick = { navItem -> statePresenter.navItemClick(navItem) }
             )
         }
@@ -78,16 +83,29 @@ private fun DrawerContent(
 private fun DrawerContentList(
     modifier: Modifier = Modifier,
     navItems: List<NavItemDeco>,
+    drawerStyle: DrawerStyle,
     onNavItemClick: (NavItemDeco) -> Unit
 ) {
     Column(
-        modifier.fillMaxSize().padding(8.dp)
+        modifier = modifier.fillMaxSize().padding(8.dp).verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
+        horizontalAlignment = drawerStyle.alignment
     ) {
         for (navItem in navItems) {
             NavigationDrawerItem(
-                label = { Text(navItem.label) },
+                label = {
+                    Text(
+                        text = navItem.label,
+                        color = drawerStyle.itemTextColor,
+                        fontSize = drawerStyle.itemTextSize
+                    )
+                },
                 icon = { Icon(navItem.icon, null) },
                 selected = navItem.selected,
+                colors = NavigationDrawerItemDefaults.colors(
+                    selectedContainerColor = drawerStyle.selectedColor,
+                    unselectedContainerColor = drawerStyle.unselectedColor,
+                ),
                 onClick = { onNavItemClick(navItem) }
             )
         }

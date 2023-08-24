@@ -30,19 +30,19 @@ internal fun DrawerHeader(
 @Composable
 private fun DefaultDrawerHeader(
     modifier: Modifier = Modifier,
-    state: DrawerHeaderDefaultState
+    drawerHeaderState: DrawerHeaderDefaultState
 ) {
     Box(
         modifier
             .fillMaxWidth()
             .height(120.dp)
-            .background(state.style.bgColor)
+            .background(drawerHeaderState.style.bgColor)
             .padding(all = 16.dp),
     ) {
         Column(modifier = modifier) {
             Text(
-                text = state.title,
-                fontSize = state.style.titleTextSize,
+                text = drawerHeaderState.title,
+                fontSize = drawerHeaderState.style.titleTextSize,
                 fontWeight = FontWeight.Bold
             )
             Spacer(
@@ -51,8 +51,8 @@ private fun DefaultDrawerHeader(
                     .height(8.dp)
             )
             Text(
-                text = state.description,
-                fontSize = state.style.descriptionTextSize
+                text = drawerHeaderState.description,
+                fontSize = drawerHeaderState.style.descriptionTextSize
             )
         }
     }
