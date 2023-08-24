@@ -45,7 +45,9 @@ fun BackPressHandler(
 
         ComponentLifecycleState.Started -> {
             println("${component.instanceId()}::Lifecycle Flow = Started, BackPressHandler Subscribing")
-            backPressDispatcher.subscribe(backPressCallback)
+            if (enabled) {
+                backPressDispatcher.subscribe(backPressCallback)
+            }
         }
 
         ComponentLifecycleState.Stopped -> {
@@ -59,16 +61,6 @@ fun BackPressHandler(
         }
     }
 
-    // Whenever there's a new dispatcher set up the callback
-    /*DisposableEffect(backPressDispatcher) {
-        println("Subscribing to backPressDispatcher, class = className here")
-        backPressDispatcher.subscribe(backCallback)
-        // When the effect leaves the Composition, or there's a new dispatcher, remove the callback
-        onDispose {
-            println("BackPressHandler::onDispose Unsubscribing from backPressDispatcher, class = className here")
-            backPressDispatcher.unsubscribe(backCallback)
-        }
-    }*/
 }
 
 /**

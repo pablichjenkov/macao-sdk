@@ -15,6 +15,7 @@ import com.pablichj.templato.component.core.childForNextUriFragment
 import com.pablichj.templato.component.core.getNavItemFromComponent
 import com.pablichj.templato.component.core.deepLinkNavigateTo
 import com.pablichj.templato.component.core.destroyChildComponent
+import com.pablichj.templato.component.core.consumeBackPressedDefault
 import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.processBackstackTransition
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
@@ -71,12 +72,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
 
     override fun handleBackPressed() {
         println("${instanceId()}::handleBackPressed, backStack.size = ${backStack.size()}")
-        if (backStack.size() > 1) {
-            backStack.pop()
-        } else {
-            // We delegate the back event when the stack has 1 element and not 0. The reason is, if
-            // we pop all the way to zero the stack empty view will be show for a fraction of
-            // milliseconds and this creates an undesirable effect.
+        if (consumeBackPressedDefault().not()) {
             delegateBackPressedToParent()
         }
     }
