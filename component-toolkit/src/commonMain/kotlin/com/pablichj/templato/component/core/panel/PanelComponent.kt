@@ -11,9 +11,9 @@ import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.NavigationComponentDefaultLifecycleHandler
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
-import com.pablichj.templato.component.core.childForNextUriFragment
+import com.pablichj.templato.component.core.componentWithBackStackGetChildForNextUriFragment
 import com.pablichj.templato.component.core.getNavItemFromComponent
-import com.pablichj.templato.component.core.deepLinkNavigateTo
+import com.pablichj.templato.component.core.componentWithBackStackOnDeepLinkNavigateTo
 import com.pablichj.templato.component.core.destroyChildComponent
 import com.pablichj.templato.component.core.consumeBackPressedDefault
 import com.pablichj.templato.component.core.processBackstackEvent
@@ -30,20 +30,18 @@ import kotlinx.coroutines.launch
 
 class PanelComponent<T : PanelStatePresenter>(
     private val panelStatePresenter: T,
-    pushStrategy: PushStrategy<Component> = AddAllPushStrategy(),
-    private val lifecycleHandler: NavigationComponent.LifecycleHandler = NavigationComponentDefaultLifecycleHandler(),
-    dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
+    private val componentDelegate: PanelComponentDelegate<T>,
     private val content: @Composable PanelComponent<T>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit
 ) : Component(), NavigationComponent {
-    override val backStack = createBackStack(pushStrategy)
+    override val backStack = createBackStack(componentDelegate.pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
-    private val coroutineScope = CoroutineScope(dispatchers.main)
+    private val coroutineScope = CoroutineScope(componentDelegate.dispatchers.main)
 
     init {
         coroutineScope.launch {
@@ -58,15 +56,21 @@ class PanelComponent<T : PanelStatePresenter>(
     }
 
     override fun onStart() {
-        lifecycleHandler.onStart(this)
+        with(componentDelegate) {
+            navigationComponentLifecycleStart()
+        }
     }
 
     override fun onStop() {
-        lifecycleHandler.onStop(this)
+        with(componentDelegate) {
+            navigationComponentLifecycleStop()
+        }
     }
 
     override fun onDestroy() {
-        lifecycleHandler.onDestroy(this)
+        with(componentDelegate) {
+            navigationComponentLifecycleDestroy()
+        }
     }
 
     override fun handleBackPressed() {
@@ -110,11 +114,11 @@ class PanelComponent<T : PanelStatePresenter>(
     // region: DeepLink
 
     override fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
-        return (this as ComponentWithBackStack).deepLinkNavigateTo(matchingComponent)
+        return (this as ComponentWithBackStack).componentWithBackStackOnDeepLinkNavigateTo(matchingComponent)
     }
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
-        return (this as ComponentWithBackStack).childForNextUriFragment(nextUriFragment)
+        return (this as ComponentWithBackStack).componentWithBackStackGetChildForNextUriFragment(nextUriFragment)
     }
 
     // endregion

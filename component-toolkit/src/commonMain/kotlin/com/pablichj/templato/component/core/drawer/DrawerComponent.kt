@@ -8,14 +8,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentLifecycleState
-import com.pablichj.templato.component.core.ComponentWithBackStack
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
-import com.pablichj.templato.component.core.NavigationComponentDefaultLifecycleHandler
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
-import com.pablichj.templato.component.core.childForNextUriFragment
+import com.pablichj.templato.component.core.componentWithBackStackGetChildForNextUriFragment
 import com.pablichj.templato.component.core.getNavItemFromComponent
-import com.pablichj.templato.component.core.deepLinkNavigateTo
+import com.pablichj.templato.component.core.componentWithBackStackOnDeepLinkNavigateTo
 import com.pablichj.templato.component.core.destroyChildComponent
 import com.pablichj.templato.component.core.consumeBackPressedDefault
 import com.pablichj.templato.component.core.processBackstackEvent
@@ -25,28 +23,24 @@ import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.core.toNavItemDeco
 import com.pablichj.templato.component.core.util.EmptyNavigationComponentView
 import com.pablichj.templato.component.platform.CoroutineDispatchers
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DrawerComponent<T : DrawerStatePresenter>(
     val drawerStatePresenter: T,
-    pushStrategy: PushStrategy<Component> = AddAllPushStrategy(),
-    private val lifecycleHandler: NavigationComponent.LifecycleHandler = NavigationComponentDefaultLifecycleHandler(),
-    dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
+    val componentDelegate: DrawerComponentDelegate<T>,
     private var content: @Composable DrawerComponent<T>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit
 ) : Component(), NavigationComponent, DrawerNavigationProvider {
 
-    override val backStack = createBackStack(pushStrategy)
+    override val backStack = createBackStack(componentDelegate.pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
-    private val coroutineScope = CoroutineScope(dispatchers.main)
+    private val coroutineScope = CoroutineScope(componentDelegate.dispatchers.main)
 
     init {
         coroutineScope.launch {
@@ -63,15 +57,21 @@ class DrawerComponent<T : DrawerStatePresenter>(
     // region: ComponentLifecycle
 
     override fun onStart() {
-        lifecycleHandler.onStart(this)
+        with(componentDelegate) {
+            navigationComponentLifecycleStart()
+        }
     }
 
     override fun onStop() {
-        lifecycleHandler.onStop(this)
+        with(componentDelegate) {
+            navigationComponentLifecycleStop()
+        }
     }
 
     override fun onDestroy() {
-        lifecycleHandler.onDestroy(this)
+        with(componentDelegate) {
+            navigationComponentLifecycleDestroy()
+        }
     }
 
     override fun handleBackPressed() {
@@ -128,12 +128,12 @@ class DrawerComponent<T : DrawerStatePresenter>(
 
     // region: DeepLink
 
-    override fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
-        return (this as ComponentWithBackStack).deepLinkNavigateTo(matchingComponent)
+    override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
+        return componentWithBackStackGetChildForNextUriFragment(nextUriFragment)
     }
 
-    override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
-        return (this as ComponentWithBackStack).childForNextUriFragment(nextUriFragment)
+    override fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
+        return componentWithBackStackOnDeepLinkNavigateTo(matchingComponent)
     }
 
     // endregion
@@ -160,37 +160,5 @@ class DrawerComponent<T : DrawerStatePresenter>(
     }
 
     // endregion
-
-    companion object {
-
-        fun createDefaultDrawerStatePresenter(
-            dispatcher: CoroutineDispatcher = Dispatchers.Main,
-            drawerStyle: DrawerStyle = DrawerStyle(),
-            drawerHeaderState: DrawerHeaderState = DrawerHeaderDefaultState(
-                title = "Header Title",
-                description = "This is the default text. Provide your own text for your App",
-                imageUri = "",
-                style = drawerStyle
-            )
-        ): DrawerStatePresenterDefault {
-            return DrawerStatePresenterDefault(
-                dispatcher = dispatcher,
-                drawerHeaderState = drawerHeaderState,
-                drawerStyle = drawerStyle
-            )
-        }
-
-        val DefaultDrawerComponentView: @Composable DrawerComponent<DrawerStatePresenterDefault>.(
-            modifier: Modifier,
-            childComponent: Component
-        ) -> Unit = { modifier, childComponent ->
-            NavigationDrawer(
-                modifier = modifier,
-                statePresenter = drawerStatePresenter
-            ) {
-                childComponent.Content(Modifier)
-            }
-        }
-    }
 
 }

@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -19,6 +22,10 @@ import com.pablichj.templato.component.core.backpress.AndroidBackPressDispatcher
 import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
 import com.pablichj.templato.component.core.deeplink.LocalRootComponentProvider
 import com.pablichj.templato.component.core.drawer.DrawerComponent
+import com.pablichj.templato.component.core.drawer.DrawerComponentDefaults
+import com.pablichj.templato.component.core.drawer.DrawerComponentDelegate
+import com.pablichj.templato.component.core.drawer.DrawerNavItem
+import com.pablichj.templato.component.core.drawer.DrawerStatePresenterDefault
 import com.pablichj.templato.component.platform.AndroidBridge
 
 @Composable
@@ -82,7 +89,7 @@ fun AndroidComponentRenderPreview() {
     val drawerItems = listOf(
         NavItem(
             "simpleComponent",
-            Icons.Default.Close,
+            Icons.Default.Email,
             simpleComponent
         ),
         NavItem(
@@ -92,9 +99,32 @@ fun AndroidComponentRenderPreview() {
         )
     )
 
+    val componentDelegate = object : DrawerComponentDelegate<DrawerStatePresenterDefault>() {
+        override fun mapComponentToDrawerNavItem(component: Component): DrawerNavItem {
+            return when (component) {
+                simpleComponent -> DrawerNavItem(
+                    label = "simpleComponent",
+                    icon = Icons.Filled.Email,
+                    selected = false
+                )
+                simpleComponent2 -> DrawerNavItem(
+                    label = "simpleComponent2",
+                    icon = Icons.Filled.Close,
+                    selected = false
+                )
+                else -> DrawerNavItem(
+                    label = "Null Empty",
+                    icon = Icons.Filled.ExitToApp,
+                    selected = false
+                )
+            }
+        }
+    }
+
     val drawerComponent = DrawerComponent(
-        drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
-        content = DrawerComponent.DefaultDrawerComponentView
+        drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
+        componentDelegate = componentDelegate,
+        content = DrawerComponentDefaults.DrawerComponentView
     ).also {
         it.setNavItems(navItems = drawerItems, selectedIndex = 1)
     }

@@ -12,9 +12,9 @@ interface NavigationComponent : ComponentWithBackStack {
     fun updateSelectedNavItem(newTop: Component)
 
     interface LifecycleHandler {
-        fun onStart(navigationComponent: NavigationComponent)
-        fun onStop(navigationComponent: NavigationComponent)
-        fun onDestroy(navigationComponent: NavigationComponent)
+        fun NavigationComponent.navigationComponentLifecycleStart()
+        fun NavigationComponent.navigationComponentLifecycleStop()
+        fun NavigationComponent.navigationComponentLifecycleDestroy()
     }
 }
 

@@ -9,8 +9,13 @@ import com.pablichj.templato.component.demo.treebuilders.FullAppWithIntroTreeBui
 import com.pablichj.templato.component.demo.treebuilders.PagerTreeBuilder
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.drawer.DrawerComponent
+import com.pablichj.templato.component.core.drawer.DrawerComponentDefaults
 import com.pablichj.templato.component.core.navbar.NavBarComponent
+import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.panel.PanelComponent
+import com.pablichj.templato.component.demo.componentDelegates.DrawerComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.PanelComponentDelegate1
 import com.pablichj.templato.component.platform.DiContainer
 import com.pablichj.templato.component.platform.CoroutineDispatchers
 import platform.Foundation.NSURL
@@ -38,20 +43,23 @@ fun buildAdaptableSizeComponent(): Component {
         it.setNavItems(subtreeNavItems, 0)
         it.setCompactContainer(
             DrawerComponent(
-                drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
-                content = DrawerComponent.DefaultDrawerComponentView
+                drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
+                componentDelegate = DrawerComponentDelegate1(subtreeNavItems),
+                content = DrawerComponentDefaults.DrawerComponentView
             )
         )
         //it.setCompactContainer(PagerComponent())
         it.setMediumContainer(
             NavBarComponent(
-                navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-                content = NavBarComponent.DefaultNavBarComponentView
+                navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
+                componentDelegate = NavBarComponentDelegate1(subtreeNavItems),
+                content = NavBarComponentDefaults.NavBarComponentView
             )
         )
         it.setExpandedContainer(
             PanelComponent(
                 panelStatePresenter = PanelComponent.createDefaultPanelStatePresenter(),
+                componentDelegate = PanelComponentDelegate1(subtreeNavItems),
                 content = PanelComponent.DefaultPanelComponentView
             )
         )

@@ -8,11 +8,15 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.navbar.NavBarComponent
+import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.navbar.NavBarStatePresenterDefault
 import com.pablichj.templato.component.core.panel.PanelComponent
 import com.pablichj.templato.component.core.panel.PanelStatePresenterDefault
 import com.pablichj.templato.component.core.setNavItems
-import com.pablichj.templato.component.demo.createCustomTopBarComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponent
+import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.PanelComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
 
 object PanelTreeBuilder {
 
@@ -28,9 +32,10 @@ object PanelTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = createCustomTopBarComponent(
-                    "Home",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Home", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             ),
             NavItem(
@@ -41,15 +46,17 @@ object PanelTreeBuilder {
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = createCustomTopBarComponent(
-                    "Settings",
-                    {},
-                ),
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
+                )
             )
         )
 
         return PanelComponent(
             panelStatePresenter = PanelComponent.createDefaultPanelStatePresenter(),
+            componentDelegate = PanelComponentDelegate1(panelNavItems),
             content = PanelComponent.DefaultPanelComponentView
         ).also {
             it.setNavItems(panelNavItems, 0)
@@ -59,39 +66,41 @@ object PanelTreeBuilder {
 
     private fun buildNavBarNode(): NavBarComponent<NavBarStatePresenterDefault> {
 
-        val NavBarNode = NavBarComponent(
-            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-            content = NavBarComponent.DefaultNavBarComponentView
-        )
-
         val navbarNavItems = mutableListOf(
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = createCustomTopBarComponent(
-                    "Home",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Home", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
-                component = createCustomTopBarComponent(
-                    "Orders",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Orders", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Add,
-                component = createCustomTopBarComponent(
-                    "Settings",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             )
         )
 
-        return NavBarNode.also { it.setNavItems(navbarNavItems, 0) }
+        return NavBarComponent(
+            navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
+            componentDelegate = NavBarComponentDelegate1(navbarNavItems),
+            content = NavBarComponentDefaults.NavBarComponentView
+        ).also { it.setNavItems(navbarNavItems, 0) }
     }
 
 }

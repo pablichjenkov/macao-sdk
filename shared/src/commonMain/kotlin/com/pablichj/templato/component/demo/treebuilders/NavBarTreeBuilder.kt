@@ -6,9 +6,12 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.navbar.NavBarComponent
+import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.navbar.NavBarStatePresenterDefault
 import com.pablichj.templato.component.core.setNavItems
-import com.pablichj.templato.component.demo.createCustomTopBarComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponent
+import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
 
 object NavBarTreeBuilder {
 
@@ -24,33 +27,37 @@ object NavBarTreeBuilder {
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = createCustomTopBarComponent(
-                    "Home",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Home", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
-                component = createCustomTopBarComponent(
-                    "Orders",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Orders", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Add,
-                component = createCustomTopBarComponent(
-                    "Settings",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             )
         )
 
         return NavBarComponent(
-            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
+            navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
             // pushStrategy = FixSizedPushStrategy(1), // Uncomment to test other push strategies
-            content = NavBarComponent.DefaultNavBarComponentView
+            componentDelegate = NavBarComponentDelegate1(navbarNavItems),
+            content = NavBarComponentDefaults.NavBarComponentView
         ).also {
             it.setNavItems(navbarNavItems, 0)
             navBarComponent = it

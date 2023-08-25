@@ -9,20 +9,16 @@ import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.ComponentWithBackStack
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
-import com.pablichj.templato.component.core.NavigationComponentDefaultLifecycleHandler
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
-import com.pablichj.templato.component.core.childForNextUriFragment
+import com.pablichj.templato.component.core.componentWithBackStackGetChildForNextUriFragment
 import com.pablichj.templato.component.core.getNavItemFromComponent
-import com.pablichj.templato.component.core.deepLinkNavigateTo
+import com.pablichj.templato.component.core.componentWithBackStackOnDeepLinkNavigateTo
 import com.pablichj.templato.component.core.destroyChildComponent
 import com.pablichj.templato.component.core.consumeBackPressedDefault
 import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.processBackstackTransition
-import com.pablichj.templato.component.core.stack.AddAllPushStrategy
-import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.core.toNavItemDeco
 import com.pablichj.templato.component.core.util.EmptyNavigationComponentView
-import com.pablichj.templato.component.platform.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,21 +26,19 @@ import kotlinx.coroutines.launch
 
 class NavBarComponent<T : NavBarStatePresenter>(
     val navBarStatePresenter: T,
-    pushStrategy: PushStrategy<Component> = AddAllPushStrategy(),
-    private val lifecycleHandler: NavigationComponent.LifecycleHandler = NavigationComponentDefaultLifecycleHandler(),
-    dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
+    private val componentDelegate: NavBarComponentDelegate<T>,
     private var content: @Composable NavBarComponent<T>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit
 ) : Component(), NavigationComponent {
 
-    override val backStack = createBackStack(pushStrategy)
+    override val backStack = createBackStack(componentDelegate.pushStrategy)
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
-    private val coroutineScope = CoroutineScope(dispatchers.main)
+    private val coroutineScope = CoroutineScope(componentDelegate.dispatchers.main)
 
     init {
         coroutineScope.launch {
@@ -59,15 +53,21 @@ class NavBarComponent<T : NavBarStatePresenter>(
     }
 
     override fun onStart() {
-        lifecycleHandler.onStart(this)
+        with(componentDelegate) {
+            navigationComponentLifecycleStart()
+        }
     }
 
     override fun onStop() {
-        lifecycleHandler.onStop(this)
+        with(componentDelegate) {
+            navigationComponentLifecycleStop()
+        }
     }
 
     override fun onDestroy() {
-        lifecycleHandler.onDestroy(this)
+        with(componentDelegate) {
+            navigationComponentLifecycleDestroy()
+        }
     }
 
     override fun handleBackPressed() {
@@ -109,11 +109,11 @@ class NavBarComponent<T : NavBarStatePresenter>(
     // region: DeepLink
 
     override fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
-        return (this as ComponentWithBackStack).deepLinkNavigateTo(matchingComponent)
+        return (this as ComponentWithBackStack).componentWithBackStackOnDeepLinkNavigateTo(matchingComponent)
     }
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
-        return (this as ComponentWithBackStack).childForNextUriFragment(nextUriFragment)
+        return (this as ComponentWithBackStack).componentWithBackStackGetChildForNextUriFragment(nextUriFragment)
     }
 
     // endregion
@@ -136,29 +136,5 @@ class NavBarComponent<T : NavBarStatePresenter>(
     }
 
     // endregion
-
-    companion object {
-
-        fun createDefaultNavBarStatePresenter(
-            dispatcher: CoroutineDispatcher = Dispatchers.Main
-        ): NavBarStatePresenterDefault {
-            return NavBarStatePresenterDefault(
-                dispatcher = dispatcher
-            )
-        }
-
-        val DefaultNavBarComponentView: @Composable NavBarComponent<NavBarStatePresenterDefault>.(
-            modifier: Modifier,
-            childComponent: Component
-        ) -> Unit = { modifier, childComponent ->
-            NavigationBottom(
-                modifier = modifier,
-                navbarStatePresenter = navBarStatePresenter
-            ) {
-                childComponent.Content(Modifier)
-            }
-        }
-
-    }
 
 }

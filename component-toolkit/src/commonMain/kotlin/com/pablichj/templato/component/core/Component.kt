@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 abstract class Component : ComponentLifecycle() {
 
     // region: Component Tree
-
+    var id: String? = null
     var parentComponent: Component? = null
 
     fun setParent(parentComponent: Component) {

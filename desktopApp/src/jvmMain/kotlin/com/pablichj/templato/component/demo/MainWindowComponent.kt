@@ -13,11 +13,16 @@ import com.pablichj.templato.component.core.DesktopComponentRender
 import com.pablichj.templato.component.core.deeplink.DeepLinkMsg
 import com.pablichj.templato.component.core.deeplink.DefaultDeepLinkManager
 import com.pablichj.templato.component.core.drawer.DrawerComponent
+import com.pablichj.templato.component.core.drawer.DrawerComponentDefaults
 import com.pablichj.templato.component.core.navbar.NavBarComponent
+import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.panel.PanelComponent
 import com.pablichj.templato.component.core.topbar.TopBarComponent
+import com.pablichj.templato.component.demo.componentDelegates.DrawerComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.PanelComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
-import com.pablichj.templato.component.platform.CoroutineDispatchers
 import com.pablichj.templato.component.platform.DesktopBridge
 
 class MainWindowComponent(
@@ -30,25 +35,28 @@ class MainWindowComponent(
     private val desktopBridge = DesktopBridge()
 
     init {
-        val subtreeNavItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
+        val navItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
         adaptableSizeComponent = AdaptableSizeTreeBuilder.build().also {
-            it.setNavItems(subtreeNavItems, 0)
+            it.setNavItems(navItems, 0)
             it.setCompactContainer(
                 DrawerComponent(
-                    drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
-                    content = DrawerComponent.DefaultDrawerComponentView
+                    drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
+                    componentDelegate = DrawerComponentDelegate1(navItems),
+                    content = DrawerComponentDefaults.DrawerComponentView
                 )
             )
             //it.setCompactContainer(PagerComponent())
             it.setMediumContainer(
                 NavBarComponent(
-                    navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-                    content = NavBarComponent.DefaultNavBarComponentView
+                    navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
+                    componentDelegate = NavBarComponentDelegate1(navItems),
+                    content = NavBarComponentDefaults.NavBarComponentView
                 )
             )
             it.setExpandedContainer(
                 PanelComponent(
                     panelStatePresenter = PanelComponent.createDefaultPanelStatePresenter(),
+                    componentDelegate = PanelComponentDelegate1(navItems),
                     content = PanelComponent.DefaultPanelComponentView
                 )
             )
@@ -140,9 +148,16 @@ fun MainWindowComponentPreview() {
     simpleComponent.Content(Modifier)
     */
 
-    val topbarComponent = createCustomTopBarComponent(
-        "CustomTopBarComponent"
-    ) {}
+    val topbarComponent = TopBarComponent(
+        topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+        componentDelegate = TopBarComponentDelegate1.create(
+            "Orders",
+            {}
+        ),
+        content = TopBarComponent.DefaultTopBarComponentView
+    ).apply {
+        uriFragment = "Orders"
+    }
     topbarComponent.dispatchStart()
     topbarComponent.Content(Modifier)
 }

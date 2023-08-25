@@ -4,15 +4,11 @@ import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.stack.StackBarItem
 
-interface TopBarComponentDelegate {
-    fun TopBarComponent<*>.create()
-    fun TopBarComponent<*>.start()
-    fun TopBarComponent<*>.stop()
+interface TopBarComponentDelegate<T : TopBarStatePresenter> {
+    fun TopBarComponent<T>.create()
+    fun TopBarComponent<T>.start()
+    fun TopBarComponent<T>.stop()
+    fun TopBarComponent<T>.destroy()
     fun mapComponentToStackBarItem(topComponent: Component): StackBarItem
-    fun TopBarComponent<*>.childForNextUriFragment(nextUriFragment: String): Component?
-    fun TopBarComponent<*>.deepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
-        println("${getComponent().instanceId()}.onDeepLinkMatch() matchingNode = ${matchingComponent.instanceId()}")
-        backStack.push(matchingComponent)
-        return DeepLinkResult.Success
-    }
+    fun TopBarComponent<T>.componentDelegateChildForNextUriFragment(nextUriFragment: String): Component?
 }
