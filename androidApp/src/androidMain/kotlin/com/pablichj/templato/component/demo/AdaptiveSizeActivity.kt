@@ -20,6 +20,7 @@ import com.pablichj.templato.component.core.drawer.DrawerStatePresenterDefault
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.panel.PanelComponent
+import com.pablichj.templato.component.core.panel.PanelComponentDefaults
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.demo.componentDelegates.DrawerComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
@@ -50,9 +51,9 @@ class AdaptiveSizeActivity : ComponentActivity() {
             )
             it.setExpandedContainer(
                 PanelComponent(
-                    panelStatePresenter = PanelComponent.createDefaultPanelStatePresenter(),
+                    panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
                     componentDelegate = PanelComponentDelegate1(navItems),
-                    content = PanelComponent.DefaultPanelComponentView
+                    content = PanelComponentDefaults.PanelComponentView
                 )
             )
         }

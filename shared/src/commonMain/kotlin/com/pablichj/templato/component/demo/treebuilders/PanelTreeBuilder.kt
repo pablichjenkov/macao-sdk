@@ -11,9 +11,11 @@ import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.navbar.NavBarStatePresenterDefault
 import com.pablichj.templato.component.core.panel.PanelComponent
+import com.pablichj.templato.component.core.panel.PanelComponentDefaults
 import com.pablichj.templato.component.core.panel.PanelStatePresenterDefault
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.topbar.TopBarComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponentDefaults
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.PanelComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
@@ -33,9 +35,9 @@ object PanelTreeBuilder {
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Home", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(
@@ -47,17 +49,17 @@ object PanelTreeBuilder {
                 label = "Settings",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
         )
 
         return PanelComponent(
-            panelStatePresenter = PanelComponent.createDefaultPanelStatePresenter(),
+            panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
             componentDelegate = PanelComponentDelegate1(panelNavItems),
-            content = PanelComponent.DefaultPanelComponentView
+            content = PanelComponentDefaults.PanelComponentView
         ).also {
             it.setNavItems(panelNavItems, 0)
             panelComponent = it
@@ -71,27 +73,27 @@ object PanelTreeBuilder {
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Home", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Orders", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Add,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
         )

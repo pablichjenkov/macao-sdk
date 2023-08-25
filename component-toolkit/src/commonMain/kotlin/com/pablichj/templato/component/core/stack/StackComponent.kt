@@ -1,23 +1,23 @@
 package com.pablichj.templato.component.core.stack
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentWithBackStack
-import com.pablichj.templato.component.core.deeplink.DeepLinkResult
-import com.pablichj.templato.component.core.destroyChildComponent
 import com.pablichj.templato.component.core.componentWithBackStackGetChildForNextUriFragment
 import com.pablichj.templato.component.core.componentWithBackStackOnDeepLinkNavigateTo
 import com.pablichj.templato.component.core.consumeBackPressedDefault
+import com.pablichj.templato.component.core.deeplink.DeepLinkResult
+import com.pablichj.templato.component.core.destroyChildComponent
 import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.util.EmptyNavigationComponentView
 
-class StackComponent(
-    private val componentDelegate: StackComponentDelegate,
-    private val content: @Composable StackComponent.(
+class StackComponent<T : StackStatePresenter>(
+    val stackStatePresenter: T,
+    private val componentDelegate: StackComponentDelegate<T>,
+    private val content: @Composable StackComponent<T>.(
         modifier: Modifier,
         activeComponent: Component
     ) -> Unit
@@ -122,24 +122,6 @@ class StackComponent(
             content(modifier, activeComponentCopy)
         } else {
             EmptyNavigationComponentView(this@StackComponent)
-        }
-    }
-
-    companion object {
-
-        val DefaultStackComponentView: @Composable StackComponent.(
-            modifier: Modifier,
-            activeChildComponent: Component
-        ) -> Unit = { modifier, activeChildComponent ->
-            Box {
-                PredictiveBackstackView(
-                    modifier = modifier,
-                    predictiveComponent = activeChildComponent,
-                    backStack = backStack,
-                    lastBackstackEvent = lastBackstackEvent,
-                    onComponentSwipedOut = {}
-                )
-            }
         }
     }
 

@@ -14,6 +14,7 @@ import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.split.SplitComponent
 import com.pablichj.templato.component.core.topbar.TopBarComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponentDefaults
 import com.pablichj.templato.component.demo.AppCoordinatorComponent
 import com.pablichj.templato.component.demo.componentDelegates.DrawerComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
@@ -43,9 +44,9 @@ object FullAppWithIntroTreeBuilder {
             setTopComponent(buildNestedDrawer())
             setBottomComponent(
                 TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Orders / Current", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
         }
@@ -55,9 +56,9 @@ object FullAppWithIntroTreeBuilder {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Orders/Current", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(
@@ -78,9 +79,9 @@ object FullAppWithIntroTreeBuilder {
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Home", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(
@@ -111,27 +112,27 @@ object FullAppWithIntroTreeBuilder {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Orders/Current", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Orders/Past", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Orders/Claim", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
         )
@@ -147,9 +148,9 @@ object FullAppWithIntroTreeBuilder {
                 label = "Home Nested",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Home Nested", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(

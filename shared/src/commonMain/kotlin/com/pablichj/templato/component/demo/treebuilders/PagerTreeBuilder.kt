@@ -12,6 +12,7 @@ import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.pager.PagerComponent
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.topbar.TopBarComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponentDefaults
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
 
@@ -30,27 +31,27 @@ object PagerTreeBuilder {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Orders/Claim", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
         )
@@ -66,27 +67,27 @@ object PagerTreeBuilder {
                 label = "Account",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Settings/Account", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Settings/Profile", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Settings/About Us", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
         )
@@ -102,9 +103,9 @@ object PagerTreeBuilder {
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(

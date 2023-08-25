@@ -15,6 +15,7 @@ import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.navbar.NavBarStatePresenterDefault
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.topbar.TopBarComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponentDefaults
 import com.pablichj.templato.component.demo.componentDelegates.DrawerComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
@@ -33,9 +34,9 @@ object DrawerTreeBuilder {
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Home", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(
@@ -47,9 +48,9 @@ object DrawerTreeBuilder {
                 label = "Settings",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
         )
@@ -71,27 +72,27 @@ object DrawerTreeBuilder {
                 label = "Active",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Active", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Settings,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Past", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(
                 label = "New Order",
                 icon = Icons.Filled.Add,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("New Order", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
         )

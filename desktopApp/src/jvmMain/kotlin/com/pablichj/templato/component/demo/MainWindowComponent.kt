@@ -17,7 +17,9 @@ import com.pablichj.templato.component.core.drawer.DrawerComponentDefaults
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.panel.PanelComponent
+import com.pablichj.templato.component.core.panel.PanelComponentDefaults
 import com.pablichj.templato.component.core.topbar.TopBarComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponentDefaults
 import com.pablichj.templato.component.demo.componentDelegates.DrawerComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.PanelComponentDelegate1
@@ -55,9 +57,9 @@ class MainWindowComponent(
             )
             it.setExpandedContainer(
                 PanelComponent(
-                    panelStatePresenter = PanelComponent.createDefaultPanelStatePresenter(),
+                    panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
                     componentDelegate = PanelComponentDelegate1(navItems),
-                    content = PanelComponent.DefaultPanelComponentView
+                    content = PanelComponentDefaults.PanelComponentView
                 )
             )
         }
@@ -149,12 +151,12 @@ fun MainWindowComponentPreview() {
     */
 
     val topbarComponent = TopBarComponent(
-        topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
         componentDelegate = TopBarComponentDelegate1.create(
             "Orders",
             {}
         ),
-        content = TopBarComponent.DefaultTopBarComponentView
+        content = TopBarComponentDefaults.TopBarComponentView
     ).apply {
         uriFragment = "Orders"
     }

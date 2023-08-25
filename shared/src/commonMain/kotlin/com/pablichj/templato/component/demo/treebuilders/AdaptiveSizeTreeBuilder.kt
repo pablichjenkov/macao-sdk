@@ -11,6 +11,7 @@ import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.topbar.TopBarComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponentDefaults
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
 
@@ -40,12 +41,12 @@ object AdaptableSizeTreeBuilder {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create(
                         "Orders/Current",
                         {}
                     ),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 ).apply {
                     uriFragment = "Current"
                 }
@@ -54,9 +55,9 @@ object AdaptableSizeTreeBuilder {
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Orders/Past", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 ).apply {
                     uriFragment = "Past"
                 }
@@ -65,9 +66,9 @@ object AdaptableSizeTreeBuilder {
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
                     componentDelegate = TopBarComponentDelegate1.create("Orders/Claim", {}),
-                    content = TopBarComponent.DefaultTopBarComponentView
+                    content = TopBarComponentDefaults.TopBarComponentView
                 ).apply {
                     uriFragment = "Claim"
                 }
@@ -89,17 +90,17 @@ object AdaptableSizeTreeBuilder {
         navBarComponent.setNavItems(navbarNavItems, 0)
 
         val homeComponent = TopBarComponent(
-            topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+            topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
             componentDelegate = TopBarComponentDelegate1.create("Home", {}),
-            content = TopBarComponent.DefaultTopBarComponentView
+            content = TopBarComponentDefaults.TopBarComponentView
         ).apply {
             uriFragment = "Home"
         }
 
         val settingsComponent = TopBarComponent(
-            topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+            topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
             componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
-            content = TopBarComponent.DefaultTopBarComponentView
+            content = TopBarComponentDefaults.TopBarComponentView
         ).apply {
             uriFragment = "Settings"
         }
