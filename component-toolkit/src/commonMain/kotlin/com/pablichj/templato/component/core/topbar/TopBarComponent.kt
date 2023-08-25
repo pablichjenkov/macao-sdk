@@ -1,10 +1,8 @@
 package com.pablichj.templato.component.core.topbar
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -21,15 +19,13 @@ import com.pablichj.templato.component.core.drawer.EmptyDrawerNavigationProvider
 import com.pablichj.templato.component.core.drawer.LocalDrawerNavigationProvider
 import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.stack.BackStack
-import com.pablichj.templato.component.core.stack.PredictiveBackstackView
 import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.stack.StackTransition
 import com.pablichj.templato.component.core.util.EmptyNavigationComponentView
 
 class TopBarComponent<T : TopBarStatePresenter>(
-    private val topBarStatePresenter: T,
+    val topBarStatePresenter: T,
     private val componentDelegate: TopBarComponentDelegate<T>,
-    private val showBackArrowStrategy: ShowBackArrowStrategy = ShowBackArrowStrategy.Always,
     private val content: @Composable TopBarComponent<T>.(
         modifier: Modifier,
         childComponent: Component
@@ -119,7 +115,7 @@ class TopBarComponent<T : TopBarStatePresenter>(
 
     fun onStackTopUpdate(topComponent: Component) {
         val selectedStackBarItem = getStackBarItemForComponent(topComponent)
-        when (showBackArrowStrategy) {
+        when (componentDelegate.showBackArrowStrategy) {
             ShowBackArrowStrategy.WhenParentCanHandleBack -> {
                 // Assume parent can handle always, except web
                 setTitleSectionForBackClick(selectedStackBarItem)
@@ -218,38 +214,6 @@ class TopBarComponent<T : TopBarStatePresenter>(
         } else {
             EmptyNavigationComponentView(this@TopBarComponent)
         }
-    }
-
-    companion object {
-
-        fun createDefaultTopBarStatePresenter(
-            topBarStyle: TopBarStyle = TopBarStyle()
-        ): TopBarStatePresenterDefault {
-            return TopBarStatePresenterDefault(topBarStyle = topBarStyle)
-        }
-
-        val DefaultTopBarComponentView: @Composable TopBarComponent<TopBarStatePresenterDefault>.(
-            modifier: Modifier,
-            activeChildComponent: Component
-        ) -> Unit = { modifier, activeChildComponent ->
-            Scaffold(
-                modifier = modifier,
-                topBar = {
-                    TopBar(this.topBarStatePresenter)
-                }
-            ) { paddingValues ->
-                PredictiveBackstackView(
-                    predictiveComponent = activeChildComponent,
-                    modifier = modifier.padding(paddingValues),
-                    backStack = backStack,
-                    lastBackstackEvent = lastBackstackEvent,
-                    onComponentSwipedOut = {
-                        topBarStatePresenter.onBackPressEvent()
-                    }
-                )
-            }
-        }
-
     }
 
 }

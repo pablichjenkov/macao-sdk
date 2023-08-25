@@ -13,6 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.stack.BackStack
 import com.pablichj.templato.component.core.topbar.TopBarComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponentDefaults
 import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
 
 class AppCoordinatorComponent : Component() {
@@ -25,9 +26,9 @@ class AppCoordinatorComponent : Component() {
     private val customTopBarComponent: Component =
 
         TopBarComponent(
-            topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+            topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
             componentDelegate = TopBarComponentDelegate1.create("Onboard", {}),
-            content = TopBarComponent.DefaultTopBarComponentView
+            content = TopBarComponentDefaults.TopBarComponentView
         ).apply {
             setParent(this@AppCoordinatorComponent)
             uriFragment = "Onboard"

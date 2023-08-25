@@ -13,7 +13,7 @@ import com.pablichj.templato.component.demo.SimpleComponent
 class TopBarComponentDelegate1(
     screenName: String,
     onDone: () -> Unit
-) : TopBarComponentDelegate<TopBarStatePresenterDefault> {
+) : TopBarComponentDelegate<TopBarStatePresenterDefault>() {
 
     var topBarComponent: TopBarComponent<*>? = null
 

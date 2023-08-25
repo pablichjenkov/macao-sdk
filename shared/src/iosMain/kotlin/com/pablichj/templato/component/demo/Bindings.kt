@@ -13,6 +13,7 @@ import com.pablichj.templato.component.core.drawer.DrawerComponentDefaults
 import com.pablichj.templato.component.core.navbar.NavBarComponent
 import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.panel.PanelComponent
+import com.pablichj.templato.component.core.panel.PanelComponentDefaults
 import com.pablichj.templato.component.demo.componentDelegates.DrawerComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.PanelComponentDelegate1
@@ -58,9 +59,9 @@ fun buildAdaptableSizeComponent(): Component {
         )
         it.setExpandedContainer(
             PanelComponent(
-                panelStatePresenter = PanelComponent.createDefaultPanelStatePresenter(),
+                panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
                 componentDelegate = PanelComponentDelegate1(subtreeNavItems),
-                content = PanelComponent.DefaultPanelComponentView
+                content = PanelComponentDefaults.PanelComponentView
             )
         )
     }

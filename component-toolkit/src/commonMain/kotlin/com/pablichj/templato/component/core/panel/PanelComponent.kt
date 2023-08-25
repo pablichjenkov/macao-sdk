@@ -9,7 +9,6 @@ import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.ComponentWithBackStack
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
-import com.pablichj.templato.component.core.NavigationComponentDefaultLifecycleHandler
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.componentWithBackStackGetChildForNextUriFragment
 import com.pablichj.templato.component.core.getNavItemFromComponent
@@ -18,18 +17,15 @@ import com.pablichj.templato.component.core.destroyChildComponent
 import com.pablichj.templato.component.core.consumeBackPressedDefault
 import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.processBackstackTransition
-import com.pablichj.templato.component.core.stack.AddAllPushStrategy
-import com.pablichj.templato.component.core.stack.PushStrategy
 import com.pablichj.templato.component.core.toNavItemDeco
 import com.pablichj.templato.component.core.util.EmptyNavigationComponentView
-import com.pablichj.templato.component.platform.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PanelComponent<T : PanelStatePresenter>(
-    private val panelStatePresenter: T,
+    val panelStatePresenter: T,
     private val componentDelegate: PanelComponentDelegate<T>,
     private val content: @Composable PanelComponent<T>.(
         modifier: Modifier,
@@ -141,37 +137,5 @@ class PanelComponent<T : PanelStatePresenter>(
     }
 
     // endregion
-
-    companion object {
-
-        fun createDefaultPanelStatePresenter(
-            dispatcher: CoroutineDispatcher = Dispatchers.Main,
-            panelStyle: PanelStyle = PanelStyle(),
-            panelHeaderState: PanelHeaderState = PanelHeaderStateDefault(
-                title = "A Panel Header Title",
-                description = "Some description or leave it blank",
-                imageUri = "",
-                style = panelStyle
-            )
-        ): PanelStatePresenterDefault {
-            return PanelStatePresenterDefault(
-                dispatcher,
-                panelHeaderState = panelHeaderState,
-                panelStyle = panelStyle
-            )
-        }
-
-        val DefaultPanelComponentView: @Composable PanelComponent<PanelStatePresenterDefault>.(
-            modifier: Modifier,
-            childComponent: Component
-        ) -> Unit = { modifier, childComponent ->
-            NavigationPanel(
-                modifier = modifier,
-                panelStatePresenter = panelStatePresenter
-            ) {
-                childComponent.Content(Modifier)
-            }
-        }
-    }
 
 }
