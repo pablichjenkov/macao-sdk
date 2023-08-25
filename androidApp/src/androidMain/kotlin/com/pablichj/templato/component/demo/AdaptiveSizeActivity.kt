@@ -7,46 +7,51 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.pablichj.templato.component.core.AndroidComponentRender
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.drawer.DrawerComponent
+import com.pablichj.templato.component.core.drawer.DrawerComponentDefaults
 import com.pablichj.templato.component.core.drawer.DrawerStatePresenterDefault
 import com.pablichj.templato.component.core.navbar.NavBarComponent
+import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.panel.PanelComponent
 import com.pablichj.templato.component.core.setNavItems
+import com.pablichj.templato.component.demo.componentDelegates.DrawerComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.PanelComponentDelegate1
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.templato.component.platform.AndroidBridge
-import com.pablichj.templato.component.platform.CoroutineDispatchers
 
 class AdaptiveSizeActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val subtreeNavItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
+        val navItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
         val rootComponent = AdaptableSizeTreeBuilder.build().also {
-            it.setNavItems(subtreeNavItems, 0)
+            it.setNavItems(navItems, 0)
             it.setCompactContainer(
                 DrawerComponent<DrawerStatePresenterDefault>(
-                    drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
-                    content = DrawerComponent.DefaultDrawerComponentView
+                    drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
+                    componentDelegate = DrawerComponentDelegate1(navItems),
+                    content = DrawerComponentDefaults.DrawerComponentView
                 )
             )
             it.setMediumContainer(
                 NavBarComponent(
-                    navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-                    content = NavBarComponent.DefaultNavBarComponentView
+                    navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
+                    componentDelegate = NavBarComponentDelegate1(navItems),
+                    content = NavBarComponentDefaults.NavBarComponentView
                 )
             )
             it.setExpandedContainer(
                 PanelComponent(
                     panelStatePresenter = PanelComponent.createDefaultPanelStatePresenter(),
+                    componentDelegate = PanelComponentDelegate1(navItems),
                     content = PanelComponent.DefaultPanelComponentView
                 )
             )
@@ -78,7 +83,7 @@ class AdaptiveSizeActivity : ComponentActivity() {
 @Composable
 fun DrawerPreview() {
 
-    val drawerItems = listOf(
+    val navbarItems = listOf(
         NavItem(
             "Tab 1",
             Icons.Default.Email,
@@ -98,10 +103,11 @@ fun DrawerPreview() {
     )
 
     val navBarComponent = NavBarComponent(
-        navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-        content = NavBarComponent.DefaultNavBarComponentView
+        navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
+        componentDelegate = NavBarComponentDelegate1(navbarItems),
+        content = NavBarComponentDefaults.NavBarComponentView
     ).also {
-        it.setNavItems(navItems = drawerItems, selectedIndex = 0)
+        it.setNavItems(navItems = navbarItems, selectedIndex = 0)
     }
 
     MaterialTheme {

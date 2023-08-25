@@ -13,6 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.stack.BackStack
 import com.pablichj.templato.component.core.topbar.TopBarComponent
+import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
 
 class AppCoordinatorComponent : Component() {
     val backStack = BackStack<Component>()
@@ -22,9 +23,15 @@ class AppCoordinatorComponent : Component() {
     }.also { it.setParent(this@AppCoordinatorComponent) }
 
     private val customTopBarComponent: Component =
-        createCustomTopBarComponent("Onboard") {
-            backStack.push(homeComponent)
-        }.also { it.setParent(this@AppCoordinatorComponent) }
+
+        TopBarComponent(
+            topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+            componentDelegate = TopBarComponentDelegate1.create("Onboard", {}),
+            content = TopBarComponent.DefaultTopBarComponentView
+        ).apply {
+            setParent(this@AppCoordinatorComponent)
+            uriFragment = "Onboard"
+        }
 
     //todo: Use setHomeNode instead, and attach to parent context, see SplitNode class as example
     lateinit var homeComponent: Component

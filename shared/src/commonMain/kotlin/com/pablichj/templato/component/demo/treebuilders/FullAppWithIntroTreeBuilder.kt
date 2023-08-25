@@ -7,12 +7,17 @@ import androidx.compose.material.icons.filled.Home
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.drawer.DrawerComponent
+import com.pablichj.templato.component.core.drawer.DrawerComponentDefaults
 import com.pablichj.templato.component.core.drawer.DrawerStatePresenterDefault
 import com.pablichj.templato.component.core.navbar.NavBarComponent
+import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.split.SplitComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.demo.AppCoordinatorComponent
-import com.pablichj.templato.component.demo.createCustomTopBarComponent
+import com.pablichj.templato.component.demo.componentDelegates.DrawerComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
 import com.pablichj.templato.component.platform.CoroutineDispatchers
 import com.pablichj.templato.component.platform.DiContainer
 
@@ -33,21 +38,14 @@ object FullAppWithIntroTreeBuilder {
     }
 
     private fun buildDrawerStateTree(parentComponent: Component): Component {
-        val drawerComponent = DrawerComponent(
-            drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
-            content = DrawerComponent.DefaultDrawerComponentView
-        )
-        val navBarComponent = NavBarComponent(
-            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-            content = NavBarComponent.DefaultNavBarComponentView
-        )
 
-        val SplitNavNode = SplitComponent(SplitComponent.DefaultConfig).apply {
+        val splitComponent = SplitComponent(SplitComponent.DefaultConfig).apply {
             setTopComponent(buildNestedDrawer())
             setBottomComponent(
-                createCustomTopBarComponent(
-                    "Orders / Current",
-                    {},
+                TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Orders / Current", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             )
         }
@@ -56,25 +54,33 @@ object FullAppWithIntroTreeBuilder {
             NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                component = createCustomTopBarComponent(
-                    "Orders / Current",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Orders/Current", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             ),
             NavItem(
                 label = "Nested Node",
                 icon = Icons.Filled.Email,
-                component = SplitNavNode
+                component = splitComponent
             )
+        )
+
+        val navBarComponent = NavBarComponent(
+            navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
+            componentDelegate = NavBarComponentDelegate1(navbarNavItems),
+            content = NavBarComponentDefaults.NavBarComponentView
         )
 
         val drawerNavItems = mutableListOf(
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = createCustomTopBarComponent(
-                    "Home",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Home", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             ),
             NavItem(
@@ -86,6 +92,12 @@ object FullAppWithIntroTreeBuilder {
             )
         )
 
+        val drawerComponent = DrawerComponent(
+            drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
+            componentDelegate = DrawerComponentDelegate1(drawerNavItems),
+            content = DrawerComponentDefaults.DrawerComponentView
+        )
+
         return drawerComponent.apply {
             setParent(parentComponent)
             setNavItems(drawerNavItems, 0)
@@ -93,49 +105,51 @@ object FullAppWithIntroTreeBuilder {
     }
 
     private fun buildNestedDrawer(): DrawerComponent<DrawerStatePresenterDefault> {
-        val drawerComponent = DrawerComponent(
-            drawerStatePresenter = DrawerComponent.createDefaultDrawerStatePresenter(),
-            content = DrawerComponent.DefaultDrawerComponentView
-        )
-        val navBarComponent = NavBarComponent(
-            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-            content = NavBarComponent.DefaultNavBarComponentView
-        )
 
         val navbarNavItems = mutableListOf(
             NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                component = createCustomTopBarComponent(
-                    "Orders/Current",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Orders/Current", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                component = createCustomTopBarComponent(
-                    "Orders / Past",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Orders/Past", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                component = createCustomTopBarComponent(
-                    "Orders/Claim",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Orders/Claim", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             )
+        )
+
+        val navBarComponent = NavBarComponent(
+            navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
+            componentDelegate = NavBarComponentDelegate1(navbarNavItems),
+            content = NavBarComponentDefaults.NavBarComponentView
         )
 
         val drawerNavItems = mutableListOf(
             NavItem(
                 label = "Home Nested",
                 icon = Icons.Filled.Home,
-                component = createCustomTopBarComponent(
-                    "Home",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Home Nested", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             ),
             NavItem(
@@ -143,6 +157,12 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Edit,
                 component = navBarComponent.also { it.setNavItems(navbarNavItems, 0) },
             )
+        )
+
+        val drawerComponent = DrawerComponent(
+            drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
+            componentDelegate = DrawerComponentDelegate1(drawerNavItems),
+            content = DrawerComponentDefaults.DrawerComponentView
         )
 
         return drawerComponent.also { it.setNavItems(drawerNavItems, 0) }

@@ -12,12 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentWithBackStack
+import com.pablichj.templato.component.core.componentWithBackStackOnDeepLinkNavigateTo
+import com.pablichj.templato.component.core.consumeBackPressedDefault
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.destroyChildComponent
 import com.pablichj.templato.component.core.drawer.DrawerNavigationProvider
 import com.pablichj.templato.component.core.drawer.EmptyDrawerNavigationProvider
 import com.pablichj.templato.component.core.drawer.LocalDrawerNavigationProvider
-import com.pablichj.templato.component.core.consumeBackPressedDefault
 import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.stack.BackStack
 import com.pablichj.templato.component.core.stack.PredictiveBackstackView
@@ -27,7 +28,7 @@ import com.pablichj.templato.component.core.util.EmptyNavigationComponentView
 
 class TopBarComponent<T : TopBarStatePresenter>(
     private val topBarStatePresenter: T,
-    private val componentDelegate: TopBarComponentDelegate,
+    private val componentDelegate: TopBarComponentDelegate<T>,
     private val showBackArrowStrategy: ShowBackArrowStrategy = ShowBackArrowStrategy.Always,
     private val content: @Composable TopBarComponent<T>.(
         modifier: Modifier,
@@ -50,26 +51,32 @@ class TopBarComponent<T : TopBarStatePresenter>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
-        with(componentDelegate){
+        with(componentDelegate) {
             create()
         }
     }
 
     override fun onStart() {
+        println("${instanceId()}::onStart()")
         if (activeComponent.value != null) {
             activeComponent.value?.dispatchStart()
         }
-        with(componentDelegate){
+        with(componentDelegate) {
             start()
         }
     }
 
     override fun onStop() {
+        println("${instanceId()}::onStop()")
         activeComponent.value?.dispatchStop()
         lastBackstackEvent = null
         with(componentDelegate) {
             stop()
         }
+    }
+
+    override fun onDestroy() {
+        println("${instanceId()}::onDestroy()")
     }
 
     override fun handleBackPressed() {
@@ -185,15 +192,13 @@ class TopBarComponent<T : TopBarStatePresenter>(
     override fun getChildForNextUriFragment(
         nextUriFragment: String
     ): Component? {
-        return with(componentDelegate){
-            childForNextUriFragment(nextUriFragment)
+        return with(componentDelegate) {
+            componentDelegateChildForNextUriFragment(nextUriFragment)
         }
     }
 
     override fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
-        return with(componentDelegate){
-            deepLinkNavigateTo(matchingComponent)
-        }
+        return componentWithBackStackOnDeepLinkNavigateTo(matchingComponent)
     }
 
     @Composable

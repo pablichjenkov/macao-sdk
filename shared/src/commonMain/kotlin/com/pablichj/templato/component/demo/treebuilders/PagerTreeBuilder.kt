@@ -8,9 +8,12 @@ import androidx.compose.material.icons.filled.Home
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.navbar.NavBarComponent
+import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.pager.PagerComponent
 import com.pablichj.templato.component.core.setNavItems
-import com.pablichj.templato.component.demo.createCustomTopBarComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponent
+import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
 
 @OptIn(ExperimentalFoundationApi::class)
 object PagerTreeBuilder {
@@ -22,76 +25,86 @@ object PagerTreeBuilder {
             return pagerComponent
         }
 
-        val navBarComponent1 = NavBarComponent(
-            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-            content = NavBarComponent.DefaultNavBarComponentView
-        )
-        val navBarComponent2 = NavBarComponent(
-            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-            content = NavBarComponent.DefaultNavBarComponentView
-        )
-
         val navbarNavItems1 = mutableListOf(
             NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                component = createCustomTopBarComponent(
-                    "Orders/Current",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                component = createCustomTopBarComponent(
-                    "Orders/Past",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                component = createCustomTopBarComponent(
-                    "Orders/Claim",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Orders/Claim", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             )
+        )
+
+        val navBarComponent1 = NavBarComponent(
+            navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
+            componentDelegate = NavBarComponentDelegate1(navbarNavItems1),
+            content = NavBarComponentDefaults.NavBarComponentView
         )
 
         val navbarNavItems2 = mutableListOf(
             NavItem(
                 label = "Account",
                 icon = Icons.Filled.Home,
-                component = createCustomTopBarComponent(
-                    "Settings/Account",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Settings/Account", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             ),
             NavItem(
                 label = "Profile",
                 icon = Icons.Filled.Edit,
-                component = createCustomTopBarComponent(
-                    "Settings/Profile",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Settings/Profile", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             ),
             NavItem(
                 label = "About Us",
                 icon = Icons.Filled.Email,
-                component = createCustomTopBarComponent(
-                    "Settings/About Us",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Settings/About Us", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             )
+        )
+
+        val navBarComponent2 = NavBarComponent(
+            navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
+            componentDelegate = NavBarComponentDelegate1(navbarNavItems2),
+            content = NavBarComponentDefaults.NavBarComponentView
         )
 
         val pagerNavItems = mutableListOf(
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
-                component = createCustomTopBarComponent(
-                    "Home",
-                    {},
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
                 )
             ),
             NavItem(

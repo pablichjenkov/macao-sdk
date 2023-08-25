@@ -8,8 +8,11 @@ import androidx.compose.material.icons.filled.Refresh
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.adaptive.AdaptiveSizeComponent
 import com.pablichj.templato.component.core.navbar.NavBarComponent
+import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.setNavItems
-import com.pablichj.templato.component.demo.createCustomTopBarComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponent
+import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
 
 object AdaptableSizeTreeBuilder {
 
@@ -32,49 +35,71 @@ object AdaptableSizeTreeBuilder {
             return subTreeNavItems
         }
 
-        val navBarComponent = NavBarComponent(
-            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-            content = NavBarComponent.DefaultNavBarComponentView
-        ).apply {
-            uriFragment = "Orders"
-        }
-
         val navbarNavItems = mutableListOf(
             NavItem(
                 label = "Current",
                 icon = Icons.Filled.Home,
-                component = createCustomTopBarComponent("Orders/Current", {}).apply {
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create(
+                        "Orders/Current",
+                        {}
+                    ),
+                    content = TopBarComponent.DefaultTopBarComponentView
+                ).apply {
                     uriFragment = "Current"
                 }
             ),
             NavItem(
                 label = "Past",
                 icon = Icons.Filled.Edit,
-                component = createCustomTopBarComponent("Orders/Past", {}).apply {
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Orders/Past", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
+                ).apply {
                     uriFragment = "Past"
                 }
             ),
             NavItem(
                 label = "Claim",
                 icon = Icons.Filled.Email,
-                component = createCustomTopBarComponent("Orders/Claim", {}).apply {
+                component = TopBarComponent(
+                    topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+                    componentDelegate = TopBarComponentDelegate1.create("Orders/Claim", {}),
+                    content = TopBarComponent.DefaultTopBarComponentView
+                ).apply {
                     uriFragment = "Claim"
                 }
             )
         )
 
+        val NavBarComponentDelegate1 = NavBarComponentDelegate1(
+            navbarNavItems
+        )
+
+        val navBarComponent = NavBarComponent(
+            navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
+            componentDelegate = NavBarComponentDelegate1,
+            content = NavBarComponentDefaults.NavBarComponentView
+        ).apply {
+            uriFragment = "Orders"
+        }
+
         navBarComponent.setNavItems(navbarNavItems, 0)
 
-        val homeComponent = createCustomTopBarComponent(//HomeTopBarComponent(
-            "Home",
-            {},
+        val homeComponent = TopBarComponent(
+            topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+            componentDelegate = TopBarComponentDelegate1.create("Home", {}),
+            content = TopBarComponent.DefaultTopBarComponentView
         ).apply {
             uriFragment = "Home"
         }
 
-        val settingsComponent = createCustomTopBarComponent(//SettingsTopBarComponent(
-            "Settings",
-            {},
+        val settingsComponent = TopBarComponent(
+            topBarStatePresenter = TopBarComponent.createDefaultTopBarStatePresenter(),
+            componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
+            content = TopBarComponent.DefaultTopBarComponentView
         ).apply {
             uriFragment = "Settings"
         }

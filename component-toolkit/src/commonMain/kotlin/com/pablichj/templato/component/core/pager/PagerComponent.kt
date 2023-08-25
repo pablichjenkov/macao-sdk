@@ -12,12 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.ComponentWithBackStack
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
-import com.pablichj.templato.component.core.childForNextUriFragment
+import com.pablichj.templato.component.core.componentWithBackStackGetChildForNextUriFragment
 import com.pablichj.templato.component.core.destroyChildComponent
 import com.pablichj.templato.component.core.pager.indicator.DefaultPagerIndicator
 import com.pablichj.templato.component.core.stack.AddAllPushStrategy
@@ -123,7 +122,7 @@ class PagerComponent(
     }
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
-        return (this as ComponentWithBackStack).childForNextUriFragment(nextUriFragment)
+        return (this as ComponentWithBackStack).componentWithBackStackGetChildForNextUriFragment(nextUriFragment)
     }
 
     // endregion
