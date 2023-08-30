@@ -31,7 +31,7 @@ fun NavItem.toDrawerNavItem(selected: Boolean = false): DrawerNavItem {
     return DrawerNavItem(
         label = this.label,
         icon = this.icon,
-        component = this.component,
-        selected = selected
+        selected = selected,
+        component = this.component
     )
 }

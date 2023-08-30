@@ -57,7 +57,7 @@ object NavBarTreeBuilder {
         return NavBarComponent(
             navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
             // pushStrategy = FixSizedPushStrategy(1), // Uncomment to test other push strategies
-            componentDelegate = NavBarComponentDelegate1(navbarNavItems),
+            componentDelegate = NavBarComponentDelegate1(),
             content = NavBarComponentDefaults.NavBarComponentView
         ).also {
             it.setNavItems(navbarNavItems, 0)
