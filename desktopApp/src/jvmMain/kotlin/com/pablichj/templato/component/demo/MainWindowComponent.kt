@@ -43,7 +43,7 @@ class MainWindowComponent(
             it.setCompactContainer(
                 DrawerComponent(
                     drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-                    componentDelegate = DrawerComponentDelegate1(navItems),
+                    componentDelegate = DrawerComponentDelegate1(),
                     content = DrawerComponentDefaults.DrawerComponentView
                 )
             )

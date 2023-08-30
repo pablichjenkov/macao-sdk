@@ -82,9 +82,9 @@ private fun DrawerContent(
 @Composable
 private fun DrawerContentList(
     modifier: Modifier = Modifier,
-    navItems: List<NavItemDeco>,
+    navItems: List<DrawerNavItem>,
     drawerStyle: DrawerStyle,
-    onNavItemClick: (NavItemDeco) -> Unit
+    onNavItemClick: (DrawerNavItem) -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(8.dp).verticalScroll(rememberScrollState()),

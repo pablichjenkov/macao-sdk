@@ -104,7 +104,7 @@ class DrawerComponent<T : DrawerStatePresenter>(
     }
 
     override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
-        val navItemDecoNewList = navItems.map { it.toNavItemDeco() }
+        val navItemDecoNewList = navItems.map { it.toDrawerNavItem() }
         drawerStatePresenter.setNavItemsDeco(navItemDecoNewList)
         drawerStatePresenter.selectNavItemDeco(navItemDecoNewList[selectedIndex])
         if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
@@ -115,7 +115,7 @@ class DrawerComponent<T : DrawerStatePresenter>(
     override fun updateSelectedNavItem(newTop: Component) {
         getNavItemFromComponent(newTop).let {
             println("${instanceId()}::updateSelectedNavItem(), selectedIndex = $it")
-            drawerStatePresenter.selectNavItemDeco(it.toNavItemDeco())
+            drawerStatePresenter.selectNavItemDeco(it.toDrawerNavItem())
             selectedIndex = childComponents.indexOf(newTop)
         }
     }

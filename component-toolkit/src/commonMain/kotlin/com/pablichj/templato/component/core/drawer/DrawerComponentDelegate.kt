@@ -14,5 +14,4 @@ abstract class DrawerComponentDelegate<T : DrawerStatePresenter>(
 
     val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults
     open val pushStrategy: PushStrategy<Component> = AddAllPushStrategy()
-    abstract fun mapComponentToDrawerNavItem(component: Component): DrawerNavItem
 }
