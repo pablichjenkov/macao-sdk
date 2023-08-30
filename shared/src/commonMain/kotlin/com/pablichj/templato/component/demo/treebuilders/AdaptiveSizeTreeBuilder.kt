@@ -12,7 +12,9 @@ import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
 import com.pablichj.templato.component.core.setNavItems
 import com.pablichj.templato.component.core.topbar.TopBarComponent
 import com.pablichj.templato.component.core.topbar.TopBarComponentDefaults
+import com.pablichj.templato.component.demo.componentDelegates.HomeTopBarComponentDelegate
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.SettingsTopBarComponentDelegate
 import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
 
 object AdaptableSizeTreeBuilder {
@@ -75,13 +77,9 @@ object AdaptableSizeTreeBuilder {
             )
         )
 
-        val NavBarComponentDelegate1 = NavBarComponentDelegate1(
-            navbarNavItems
-        )
-
         val navBarComponent = NavBarComponent(
             navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentDelegate = NavBarComponentDelegate1,
+            componentDelegate = NavBarComponentDelegate1(navbarNavItems),
             content = NavBarComponentDefaults.NavBarComponentView
         ).apply {
             uriFragment = "Orders"
@@ -91,7 +89,7 @@ object AdaptableSizeTreeBuilder {
 
         val homeComponent = TopBarComponent(
             topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-            componentDelegate = TopBarComponentDelegate1.create("Home", {}),
+            componentDelegate = HomeTopBarComponentDelegate.create("Home", {}),
             content = TopBarComponentDefaults.TopBarComponentView
         ).apply {
             uriFragment = "Home"
@@ -99,7 +97,7 @@ object AdaptableSizeTreeBuilder {
 
         val settingsComponent = TopBarComponent(
             topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-            componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
+            componentDelegate = SettingsTopBarComponentDelegate.create("Settings", {}),
             content = TopBarComponentDefaults.TopBarComponentView
         ).apply {
             uriFragment = "Settings"

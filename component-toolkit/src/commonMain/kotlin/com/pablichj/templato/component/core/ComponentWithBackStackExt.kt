@@ -73,10 +73,12 @@ private fun ComponentWithBackStack.transitionOut(oldTop: Component): StackTransi
     return StackTransition.Out(oldTop)
 }
 
-fun ComponentWithBackStack.componentWithBackStackOnDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
+fun ComponentWithBackStack.componentWithBackStackOnDeepLinkNavigateTo(
+    matchingComponent: Component
+): DeepLinkResult {
     println("${getComponent().instanceId()}.onDeepLinkMatch() matchingNode = ${matchingComponent.instanceId()}")
     backStack.push(matchingComponent)
-    return DeepLinkResult.Success
+    return DeepLinkResult.Success(matchingComponent)
 }
 
 fun ComponentWithBackStack.componentWithBackStackGetChildForNextUriFragment(nextUriFragment: String): Component? {

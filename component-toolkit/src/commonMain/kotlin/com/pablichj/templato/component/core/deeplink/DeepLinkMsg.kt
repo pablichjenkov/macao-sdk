@@ -4,5 +4,5 @@ import com.pablichj.templato.component.core.Component
 
 data class DeepLinkMsg (
     val path: List<String>,
-    val resultListener: (DeepLinkResult, Component?) -> Unit
+    val resultListener: (DeepLinkResult) -> Unit
 )

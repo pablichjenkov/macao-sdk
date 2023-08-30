@@ -22,6 +22,7 @@ import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.collectAsStateWithLifecycle
 import com.pablichj.templato.component.core.BackPressHandler
 import com.pablichj.templato.component.core.deeplink.DeepLinkMsg
+import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.deeplink.DefaultDeepLinkManager
 import com.pablichj.templato.component.core.deeplink.LocalRootComponentProvider
 import com.pablichj.templato.component.core.repeatOnLifecycle
@@ -46,18 +47,13 @@ class SimpleRequestComponent(
         println("${instanceId()}::onStop()")
     }
 
-    private fun subscribeToSimpleResponseComponent(component: Component?) {
+    private fun subscribeToSimpleResponseComponent(component: SimpleResponseComponent?) {
         if (component == null) {
             println("SimpleResponseComponent not found in component tree")
             return
         }
-        val responseComponent = component as? SimpleResponseComponent
-        if (responseComponent == null) {
-            println("Cast to SimpleResponseComponent failed")
-            return
-        }
 
-        this@SimpleRequestComponent.responseComponent = responseComponent
+        this@SimpleRequestComponent.responseComponent = component
 
         coroutineScope.launch {
             // Use collect if the exposed flow is a SharedFlow so it gets updated at any time
@@ -67,7 +63,7 @@ class SimpleRequestComponent(
 
             // Use repeatOnLifecycle if the exposed flow is a StateFlow so it gets updated onStart
             repeatOnLifecycle {
-                responseComponent.resultStateFlow.collect {
+                component.resultStateFlow.collect {
                     result = it
                 }
             }
@@ -97,9 +93,13 @@ class SimpleRequestComponent(
                         rootComponent,
                         DeepLinkMsg(
                             path = listOf("_navigator_adaptive", "*", "Settings", "Page 3"),
-                            resultListener = { result, component ->
+                            resultListener = { result  ->
                                 println("$screenName deeplink result: $result")
-                                subscribeToSimpleResponseComponent(component)
+                                if (result is DeepLinkResult.Success) {
+                                    subscribeToSimpleResponseComponent(
+                                        result.componentOrNull<SimpleResponseComponent>()
+                                    )
+                                }
                             }
                         )
                     )

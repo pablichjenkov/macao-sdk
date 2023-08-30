@@ -77,9 +77,11 @@ class AdaptiveSizeComponent : Component() {
         return nextComponent
     }
 
-    override fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
+    override fun onDeepLinkNavigateTo(
+        matchingComponent: Component
+    ): DeepLinkResult {
         println("${instanceId()}.onDeepLinkMatch() matchingNode = ${matchingComponent.instanceId()}")
-        return DeepLinkResult.Success
+        return DeepLinkResult.Success(matchingComponent)
     }
 
     fun getComponent(): Component {
