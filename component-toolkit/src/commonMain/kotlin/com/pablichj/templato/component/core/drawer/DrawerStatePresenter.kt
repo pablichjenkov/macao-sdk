@@ -3,7 +3,6 @@ package com.pablichj.templato.component.core.drawer
 import androidx.compose.material3.DrawerValue
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import com.pablichj.templato.component.core.NavItemDeco
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -15,7 +14,7 @@ interface DrawerStatePresenter {
     /**
      * Intended for the Composable NavigationDrawer to render the List if NavDrawer items
      * */
-    val navItemsState: State<List<NavItemDeco>>
+    val navItemsState: State<List<DrawerNavItem>>
 
     val drawerStyle: DrawerStyle
 
@@ -27,21 +26,21 @@ interface DrawerStatePresenter {
     /**
      * Intended for a client class to listen for navItem click events
      * */
-    val navItemClickFlow: SharedFlow<NavItemDeco>
+    val navItemClickFlow: SharedFlow<DrawerNavItem>
 
     val drawerHeaderState: State<DrawerHeaderState>
 
     /**
      * Intended to be called from the Composable NavigationDrawer item click events
      * */
-    fun navItemClick(drawerNavItem: NavItemDeco)
+    fun navItemClick(drawerNavItem: DrawerNavItem)
 
-    fun setNavItemsDeco(navItemDecoList: List<NavItemDeco>)
+    fun setNavItemsDeco(navItemDecoList: List<DrawerNavItem>)
 
     /**
      * Intended to be called from a client class to select a navItem in the drawer
      * */
-    fun selectNavItemDeco(drawerNavItem: NavItemDeco)
+    fun selectNavItemDeco(drawerNavItem: DrawerNavItem)
 
     /**
      * Intended to be called from a client class to toggle the drawer visibility
@@ -53,23 +52,23 @@ class DrawerStatePresenterDefault(
     dispatcher: CoroutineDispatcher,
     drawerHeaderState: DrawerHeaderState,
     override val drawerStyle: DrawerStyle = DrawerStyle(),
-    navItemDecoList: List<NavItemDeco> = emptyList()
+    navItemDecoList: List<DrawerNavItem> = emptyList()
 ) : DrawerStatePresenter {
 
     private val coroutineScope = CoroutineScope(dispatcher)
 
     private var _navItemsState = mutableStateOf(navItemDecoList)
-    override val navItemsState: State<List<NavItemDeco>> = _navItemsState
+    override val navItemsState: State<List<DrawerNavItem>> = _navItemsState
 
     override val drawerHeaderState: State<DrawerHeaderState> = mutableStateOf(drawerHeaderState)
 
     private val _drawerOpenFlow = MutableSharedFlow<DrawerValue>()
     override val drawerOpenFlow: SharedFlow<DrawerValue> = _drawerOpenFlow.asSharedFlow()
 
-    private val _navItemClickFlow = MutableSharedFlow<NavItemDeco>()
-    override val navItemClickFlow: SharedFlow<NavItemDeco> = _navItemClickFlow.asSharedFlow()
+    private val _navItemClickFlow = MutableSharedFlow<DrawerNavItem>()
+    override val navItemClickFlow: SharedFlow<DrawerNavItem> = _navItemClickFlow.asSharedFlow()
 
-    override fun navItemClick(drawerNavItem: NavItemDeco) {
+    override fun navItemClick(drawerNavItem: DrawerNavItem) {
         coroutineScope.launch {
             _drawerOpenFlow.emit(DrawerValue.Closed)
             _navItemClickFlow.emit(drawerNavItem)
@@ -82,18 +81,18 @@ class DrawerStatePresenterDefault(
         }
     }
 
-    override fun setNavItemsDeco(navItemDecoList: List<NavItemDeco>) {
+    override fun setNavItemsDeco(navItemDecoList: List<DrawerNavItem>) {
         _navItemsState.value = navItemDecoList
     }
 
     /**
      * To be called by a client class when the Drawer selected item needs to be updated.
      * */
-    override fun selectNavItemDeco(drawerNavItem: NavItemDeco) {
+    override fun selectNavItemDeco(drawerNavItem: DrawerNavItem) {
         updateDrawerSelectedItem(drawerNavItem)
     }
 
-    private fun updateDrawerSelectedItem(drawerNavItem: NavItemDeco) {
+    private fun updateDrawerSelectedItem(drawerNavItem: DrawerNavItem) {
         val update = _navItemsState.value.map { navItemDeco ->
             navItemDeco.copy(
                 selected = drawerNavItem.component == navItemDeco.component

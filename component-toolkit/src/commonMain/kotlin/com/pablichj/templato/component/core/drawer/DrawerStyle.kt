@@ -6,6 +6,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.NavItem
+import com.pablichj.templato.component.core.NavItemDeco
 
 data class DrawerStyle(
     val alignment: Alignment.Horizontal = Alignment.Start,
@@ -21,5 +23,15 @@ data class DrawerStyle(
 data class DrawerNavItem(
     val label: String,
     val icon: ImageVector,
-    var selected: Boolean
+    var selected: Boolean,
+    val component: Component
 )
+
+fun NavItem.toDrawerNavItem(selected: Boolean = false): DrawerNavItem {
+    return DrawerNavItem(
+        label = this.label,
+        icon = this.icon,
+        component = this.component,
+        selected = selected
+    )
+}

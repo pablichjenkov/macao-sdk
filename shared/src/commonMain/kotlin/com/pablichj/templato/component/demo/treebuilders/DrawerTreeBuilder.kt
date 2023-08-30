@@ -57,7 +57,7 @@ object DrawerTreeBuilder {
 
         return DrawerComponent(
             drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-            componentDelegate = DrawerComponentDelegate1(drawerNavItems),
+            componentDelegate = DrawerComponentDelegate1(),
             content = DrawerComponentDefaults.DrawerComponentView
         ).also {
             drawerComponent = it

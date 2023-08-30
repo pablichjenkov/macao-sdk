@@ -95,7 +95,7 @@ object FullAppWithIntroTreeBuilder {
 
         val drawerComponent = DrawerComponent(
             drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-            componentDelegate = DrawerComponentDelegate1(drawerNavItems),
+            componentDelegate = DrawerComponentDelegate1(),
             content = DrawerComponentDefaults.DrawerComponentView
         )
 
@@ -162,7 +162,7 @@ object FullAppWithIntroTreeBuilder {
 
         val drawerComponent = DrawerComponent(
             drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-            componentDelegate = DrawerComponentDelegate1(drawerNavItems),
+            componentDelegate = DrawerComponentDelegate1(),
             content = DrawerComponentDefaults.DrawerComponentView
         )
 
