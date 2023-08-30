@@ -118,7 +118,7 @@ class PagerComponent(
     override fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
         val matchingComponentIndex = childComponents.indexOf(matchingComponent)
         selectPage(matchingComponentIndex)
-        return DeepLinkResult.Success
+        return DeepLinkResult.Success(matchingComponent)
     }
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {

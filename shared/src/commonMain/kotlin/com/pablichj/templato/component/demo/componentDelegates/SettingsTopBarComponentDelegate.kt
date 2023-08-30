@@ -1,4 +1,4 @@
-package com.pablichj.templato.component.demo
+package com.pablichj.templato.component.demo.componentDelegates
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -6,22 +6,18 @@ import androidx.compose.ui.graphics.Color
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.topbar.TopBarComponent
+import com.pablichj.templato.component.core.topbar.TopBarComponentDelegate
 import com.pablichj.templato.component.core.topbar.TopBarStatePresenterDefault
-import com.pablichj.templato.component.demo.viewmodel.SimpleViewModel
-import com.pablichj.templato.component.demo.viewmodel.SimpleViewModelView
-import com.pablichj.templato.component.core.viewmodel.ViewModelComponent
-/*
-class SettingsTopBarComponent(
-    val screenName: String,
-    val onMessage: (Msg) -> Unit
-) : TopBarComponent<TopBarStatePresenterDefault>(
-    topBarStatePresenter = createDefaultTopBarStatePresenter(),
-    content = DefaultTopBarComponentView
-) {
+import com.pablichj.templato.component.demo.SimpleComponent
+import com.pablichj.templato.component.demo.SimpleRequestComponent
+import com.pablichj.templato.component.demo.SimpleResponseComponent
 
-    init {
-        componentToStackBarItemMapper = ::getStackBarItemForComponent
-    }
+class SettingsTopBarComponentDelegate(
+    screenName: String,
+    onDone: () -> Unit
+) : TopBarComponentDelegate<TopBarStatePresenterDefault>() {
+
+    var topBarComponent: TopBarComponent<*>? = null
 
     val Step1 = SimpleComponent(
         "$screenName/Page 1",
@@ -29,27 +25,23 @@ class SettingsTopBarComponent(
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                backStack.push(Step2)
+                topBarComponent?.backStack?.push(Step2)
             }
         }
     }.also {
-        it.setParent(this@SettingsTopBarComponent)
         it.uriFragment = "Page 1"
     }
 
-    private val simpleViewModel = SimpleViewModel(
-        screenName = "$screenName/Page 2",
-        bgColor = Color.Green,
-        onNext = {
-            backStack.push(Step3)
+    val Step2 = SimpleComponent(
+        "$screenName/Page 2",
+        Color.Green
+    ) { msg ->
+        when (msg) {
+            SimpleComponent.Msg.Next -> {
+                topBarComponent?.backStack?.push(Step3)
+            }
         }
-    )
-
-    val Step2 = ViewModelComponent(
-        viewModel = simpleViewModel,
-        content = SimpleViewModelView
-    ).also {
-        it.setParent(this@SettingsTopBarComponent)
+    }.also {
         it.uriFragment = "Page 2"
     }
 
@@ -58,11 +50,17 @@ class SettingsTopBarComponent(
             "$screenName/Page 3",
             Color.Cyan
         ).also {
-            it.setParent(this@SettingsTopBarComponent)
             it.uriFragment = "Page 3"
         }
 
-    override fun onStart() {
+    override fun TopBarComponent<TopBarStatePresenterDefault>.create() {
+        topBarComponent = this
+        listOf(Step1, Step2, Step3).forEach {
+            it.setParent(this)
+        }
+    }
+
+    override fun TopBarComponent<TopBarStatePresenterDefault>.start() {
         println("${instanceId()}::onStart()")
         if (activeComponent.value == null) {
             if (getComponent().startedFromDeepLink) {
@@ -74,17 +72,14 @@ class SettingsTopBarComponent(
         }
     }
 
-    override fun onStop() {
+    override fun TopBarComponent<TopBarStatePresenterDefault>.stop() {
+    }
+
+    override fun TopBarComponent<TopBarStatePresenterDefault>.destroy() {
         println("${instanceId()}::onStop()")
     }
 
-    override fun delegateBackPressedToParent() {
-        super.delegateBackPressedToParent()
-        activeComponent.value = null
-        backStack.clear()
-    }
-
-    private fun getStackBarItemForComponent(topComponent: Component): StackBarItem {
+    override fun mapComponentToStackBarItem(topComponent: Component): StackBarItem {
         return when (topComponent) {
             Step1 -> {
                 StackBarItem(
@@ -95,7 +90,7 @@ class SettingsTopBarComponent(
 
             Step2 -> {
                 StackBarItem(
-                    simpleViewModel.screenName,
+                    Step2.screenName,
                     Icons.Filled.Star,
                 )
             }
@@ -113,9 +108,7 @@ class SettingsTopBarComponent(
         }
     }
 
-    // region: DeepLink
-
-    override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
+    override fun TopBarComponent<TopBarStatePresenterDefault>.componentDelegateChildForNextUriFragment(nextUriFragment: String): Component? {
         println("${instanceId()}::getChildForNextUriFragment = $nextUriFragment")
         return when (nextUriFragment) {
             Step1.uriFragment -> Step1
@@ -125,11 +118,12 @@ class SettingsTopBarComponent(
         }
     }
 
-    // endregion
-
-    sealed interface Msg {
-        object OnboardDone : Msg
+    companion object {
+        fun create(
+            screenName: String,
+            onDone: () -> Unit
+        ) : SettingsTopBarComponentDelegate {
+            return SettingsTopBarComponentDelegate(screenName, onDone)
+        }
     }
-
 }
-*/

@@ -70,8 +70,8 @@ class MainWindowComponent(
     fun handleDeepLink(destinations: List<String>) {
         val deepLinkMsg = DeepLinkMsg(
             path = destinations,
-            resultListener = { dlResult, component ->
-                println("MainWindowNode::deepLinkResult = $dlResult")
+            resultListener = { result ->
+                println("MainWindowNode::deepLinkResult = $result")
             }
         )
         DefaultDeepLinkManager().navigateToDeepLink(adaptableSizeComponent, deepLinkMsg)

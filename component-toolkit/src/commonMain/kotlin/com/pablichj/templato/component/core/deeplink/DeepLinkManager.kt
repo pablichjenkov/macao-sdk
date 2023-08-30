@@ -30,7 +30,7 @@ class DefaultDeepLinkManager {
 
         if (match) {
             if (deepLinkMsg.path.size == 1) {
-                deepLinkMsg.resultListener.invoke(DeepLinkResult.Success, component)
+                deepLinkMsg.resultListener.invoke(DeepLinkResult.Success(component))
                 return
             }
 
@@ -40,8 +40,7 @@ class DefaultDeepLinkManager {
                 deepLinkMsg.resultListener.invoke(
                     DeepLinkResult.Error(
                         "Component: ${component.instanceId()} does not have any child that handle uri fragment = $nextUriFragment"
-                    ),
-                    null
+                    )
                 )
                 return
             }
@@ -56,14 +55,13 @@ class DefaultDeepLinkManager {
                 navigateToDeepLink(nextComponent, nextDeepLinkMsg)
             } else {
                 component.onDeepLinkNavigateTo(nextComponent)
-                deepLinkMsg.resultListener.invoke(DeepLinkResult.Success, nextComponent)
+                deepLinkMsg.resultListener.invoke(DeepLinkResult.Success(nextComponent))
             }
         } else {
             deepLinkMsg.resultListener.invoke(
                 DeepLinkResult.Error(
                     "Component: ${component.instanceId()} does not handle DeepLink fragment = $uriFragment."
-                ),
-                null
+                )
             )
         }
     }
