@@ -15,8 +15,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.pablichj.templato.component.core.NavItemDeco
 
 @Composable
 fun NavigationBottom(
@@ -44,9 +42,9 @@ fun NavigationBottom(
 
 @Composable
 private fun BottomBar(
-    navItems: List<NavItemDeco>,
+    navItems: List<NavBarNavItem>,
     navBarStyle: NavBarStyle,
-    onNavItemClick: (NavItemDeco) -> Unit
+    onNavItemClick: (NavBarNavItem) -> Unit
 ) {
     Column {
         val bgColor = MaterialTheme.colorScheme.background

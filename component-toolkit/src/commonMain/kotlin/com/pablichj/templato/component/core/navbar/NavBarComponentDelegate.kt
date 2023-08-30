@@ -14,5 +14,4 @@ abstract class NavBarComponentDelegate<T : NavBarStatePresenter>(
 
     val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults
     open val pushStrategy: PushStrategy<Component> = AddAllPushStrategy()
-    abstract fun mapComponentToNavBarNavItem(component: Component): NavBarNavItem
 }

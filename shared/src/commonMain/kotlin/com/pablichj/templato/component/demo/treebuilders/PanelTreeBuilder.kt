@@ -100,7 +100,7 @@ object PanelTreeBuilder {
 
         return NavBarComponent(
             navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentDelegate = NavBarComponentDelegate1(navbarNavItems),
+            componentDelegate = NavBarComponentDelegate1(),
             content = NavBarComponentDefaults.NavBarComponentView
         ).also { it.setNavItems(navbarNavItems, 0) }
     }

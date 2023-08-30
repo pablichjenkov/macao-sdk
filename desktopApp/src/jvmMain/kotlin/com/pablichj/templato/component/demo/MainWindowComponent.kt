@@ -51,7 +51,7 @@ class MainWindowComponent(
             it.setMediumContainer(
                 NavBarComponent(
                     navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-                    componentDelegate = NavBarComponentDelegate1(navItems),
+                    componentDelegate = NavBarComponentDelegate1(),
                     content = NavBarComponentDefaults.NavBarComponentView
                 )
             )

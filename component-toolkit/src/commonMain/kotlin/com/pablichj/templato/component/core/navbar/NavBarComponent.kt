@@ -84,7 +84,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
     }
 
     override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
-        val navItemDecoNewList = navItems.map { it.toNavItemDeco() }
+        val navItemDecoNewList = navItems.map { it.toNavBarNavItem() }
         navBarStatePresenter.setNavItemsDeco(navItemDecoNewList)
         navBarStatePresenter.selectNavItemDeco(navItemDecoNewList[selectedIndex])
         if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
@@ -95,7 +95,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
     override fun updateSelectedNavItem(newTop: Component) {
         getNavItemFromComponent(newTop).let {
             println("${instanceId()}::updateSelectedNavItem(), selectedIndex = $it")
-            navBarStatePresenter.selectNavItemDeco(it.toNavItemDeco())
+            navBarStatePresenter.selectNavItemDeco(it.toNavBarNavItem())
             selectedIndex = childComponents.indexOf(newTop)
         }
     }
