@@ -2,21 +2,16 @@ package com.pablichj.templato.component.core.topbar
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentWithBackStack
 import com.pablichj.templato.component.core.componentWithBackStackOnDeepLinkNavigateTo
 import com.pablichj.templato.component.core.consumeBackPressedDefault
 import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.destroyChildComponent
-import com.pablichj.templato.component.core.drawer.DrawerNavigationProvider
-import com.pablichj.templato.component.core.drawer.EmptyDrawerNavigationProvider
-import com.pablichj.templato.component.core.drawer.LocalDrawerNavigationProvider
 import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.stack.BackStack
 import com.pablichj.templato.component.core.stack.StackTransition
@@ -35,7 +30,6 @@ class TopBarComponent<T : TopBarStatePresenter>(
     override var childComponents: MutableList<Component> = mutableListOf()
     var activeComponent: MutableState<Component?> = mutableStateOf(null)
     var lastBackstackEvent: BackStack.Event<Component>? = null
-    private var drawerNavigationProvider: DrawerNavigationProvider? = null
 
     init {
         topBarStatePresenter.onBackPressEvent = {
@@ -145,12 +139,11 @@ class TopBarComponent<T : TopBarStatePresenter>(
     private fun setTitleSectionForHomeClick(topBarItem: TopBarItem) {
         topBarStatePresenter.topBarState.value = TopBarState(
             title = topBarItem.label,
-            icon1 = resolveGlobalNavigationIcon(),
-            onIcon1Click = {
-                drawerNavigationProvider?.open()
+            onIconGlobalNavigationClick = { drawerNavigationProvider ->
+                drawerNavigationProvider.open()
             },
-            onTitleClick = {
-                drawerNavigationProvider?.open()
+            onTitleClick = { drawerNavigationProvider ->
+                drawerNavigationProvider.open()
             }
         )
     }
@@ -161,25 +154,14 @@ class TopBarComponent<T : TopBarStatePresenter>(
             onTitleClick = {
                 handleBackPressed()
             },
-            icon1 = resolveGlobalNavigationIcon(),
-            onIcon1Click = {
-                drawerNavigationProvider?.open()
+            onIconGlobalNavigationClick = { drawerNavigationProvider ->
+                drawerNavigationProvider.open()
             },
-            icon2 = Icons.Filled.ArrowBack,
-            onIcon2Click = {
+            backNavigationIcon = Icons.Filled.ArrowBack,
+            onBackNavigationIconClick = {
                 handleBackPressed()
             }
         )
-    }
-
-    private fun resolveGlobalNavigationIcon(): ImageVector? {
-        if (drawerNavigationProvider == null) return null
-
-        return if (drawerNavigationProvider is EmptyDrawerNavigationProvider) {
-            null
-        } else {
-            Icons.Filled.Menu
-        }
     }
 
     override fun getChildForNextUriFragment(
@@ -203,9 +185,7 @@ class TopBarComponent<T : TopBarStatePresenter>(
                 lifecycleState = ${lifecycleState}
             """
         )
-        drawerNavigationProvider = LocalDrawerNavigationProvider.current
         val activeComponentCopy = activeComponent.value
-
         if (activeComponentCopy != null) {
             content(modifier, activeComponentCopy)
         } else {
