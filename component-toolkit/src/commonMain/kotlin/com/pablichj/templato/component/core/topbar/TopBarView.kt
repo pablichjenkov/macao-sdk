@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,18 +14,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.pablichj.templato.component.core.drawer.LocalDrawerNavigationProvider
 
 @Composable
 fun TopBar(
     presenter: TopBarStatePresenter
 ) {
+
+    val drawerNavigationProvider = LocalDrawerNavigationProvider.current
     val state = presenter.topBarState.value
     val topBarStyle = presenter.topBarStyle
-    val topBarIcon1: ImageVector? = state.icon1
-    val topBarIcon2: ImageVector? = state.icon2
+    val topBarIcon1: ImageVector? = state.resolveGlobalNavigationIcon1(drawerNavigationProvider)
+    val topBarIcon2: ImageVector? = state.backNavigationIcon
     val topBarTitle: String? = state.title
 
     Column {
@@ -46,7 +47,7 @@ fun TopBar(
                     modifier = Modifier
                         .padding(start = 8.dp)
                         .clickable {
-                            state.onIcon1Click?.invoke()
+                            state.onIconGlobalNavigationClick?.invoke(drawerNavigationProvider)
                         },
                     imageVector = it,
                     contentDescription = "com.pablichj.templato.component.core.TopBar icon"
@@ -58,7 +59,7 @@ fun TopBar(
                     modifier = Modifier
                         .padding(start = 8.dp)
                         .clickable {
-                            state.onIcon2Click?.invoke()
+                            state.onBackNavigationIconClick?.invoke(drawerNavigationProvider)
                         },
                     imageVector = it,
                     contentDescription = "com.pablichj.templato.component.core.TopBar icon"
@@ -71,7 +72,7 @@ fun TopBar(
                         .align(Alignment.CenterVertically)
                         .padding(start = 8.dp)
                         .clickable {
-                            state.onTitleClick?.invoke()
+                            state.onTitleClick?.invoke(drawerNavigationProvider)
                         },
                     text = it,
                     fontSize = topBarStyle.textSize
