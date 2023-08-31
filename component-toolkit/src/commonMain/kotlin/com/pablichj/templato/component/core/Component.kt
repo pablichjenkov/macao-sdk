@@ -50,6 +50,7 @@ abstract class Component : ComponentLifecycle() {
         lifecycleState = ComponentLifecycleState.Stopped
         onStop()
         _lifecycleStateFlow.value = ComponentLifecycleState.Stopped
+        resetStartedValuesInternal()
     }
 
     open fun dispatchDestroy() {
@@ -92,10 +93,9 @@ abstract class Component : ComponentLifecycle() {
             println("${instanceId()}::Back Press reached root component unhandled")
             rootBackPressDelegate?.invoke()
         }
-        resetInternal()
     }
 
-    private fun resetInternal() {
+    private fun resetStartedValuesInternal() {
         startedFromDeepLink = false
     }
 

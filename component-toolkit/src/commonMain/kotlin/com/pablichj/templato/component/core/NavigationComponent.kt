@@ -18,22 +18,6 @@ interface NavigationComponent : ComponentWithBackStack {
     }
 }
 
-data class NavItemDeco(
-    val label: String,
-    val icon: ImageVector,
-    val component: Component,
-    var selected: Boolean
-)
-
-fun NavItem.toNavItemDeco(selected: Boolean = false): NavItemDeco {
-    return NavItemDeco(
-        label = this.label,
-        icon = this.icon,
-        component = this.component,
-        selected = selected
-    )
-}
-
 data class NavItem(
     val label: String,
     val icon: ImageVector,

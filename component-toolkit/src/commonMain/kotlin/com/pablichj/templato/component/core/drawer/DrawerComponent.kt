@@ -10,19 +10,16 @@ import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
-import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.componentWithBackStackGetChildForNextUriFragment
-import com.pablichj.templato.component.core.getNavItemFromComponent
 import com.pablichj.templato.component.core.componentWithBackStackOnDeepLinkNavigateTo
-import com.pablichj.templato.component.core.destroyChildComponent
 import com.pablichj.templato.component.core.consumeBackPressedDefault
+import com.pablichj.templato.component.core.deeplink.DeepLinkResult
+import com.pablichj.templato.component.core.destroyChildComponent
+import com.pablichj.templato.component.core.getNavItemFromComponent
 import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.processBackstackTransition
-import com.pablichj.templato.component.core.stack.AddAllPushStrategy
-import com.pablichj.templato.component.core.stack.PushStrategy
-import com.pablichj.templato.component.core.toNavItemDeco
+import com.pablichj.templato.component.core.resetNavigationComponent
 import com.pablichj.templato.component.core.util.EmptyNavigationComponentView
-import com.pablichj.templato.component.platform.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -77,6 +74,7 @@ class DrawerComponent<T : DrawerStatePresenter>(
     override fun handleBackPressed() {
         println("${instanceId()}::handleBackPressed, backStack.size = ${backStack.size()}")
         if (consumeBackPressedDefault().not()) {
+            resetNavigationComponent()
             delegateBackPressedToParent()
         }
     }

@@ -58,7 +58,7 @@ class MainWindowComponent(
             it.setExpandedContainer(
                 PanelComponent(
                     panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
-                    componentDelegate = PanelComponentDelegate1(navItems),
+                    componentDelegate = PanelComponentDelegate1(),
                     content = PanelComponentDefaults.PanelComponentView
                 )
             )

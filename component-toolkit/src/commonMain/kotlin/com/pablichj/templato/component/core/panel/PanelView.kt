@@ -21,9 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.pablichj.templato.component.core.NavItemDeco
 
 @Composable
 fun NavigationPanel(
@@ -56,9 +54,9 @@ fun NavigationPanel(
 @Composable
 private fun PanelContentList(
     modifier: Modifier = Modifier,
-    navItems: List<NavItemDeco>,
+    navItems: List<PanelNavItem>,
     panelStyle: PanelStyle,
-    onNavItemClick: (NavItemDeco) -> Unit
+    onNavItemClick: (PanelNavItem) -> Unit
 ) {
     Column(
         modifier

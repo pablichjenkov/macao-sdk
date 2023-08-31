@@ -53,6 +53,8 @@ class StackComponent<T : StackStatePresenter>(
             // We delegate the back event when the stack has 1 element and not 0. The reason is, if
             // we pop all the way to zero the stack empty view will be show for a fraction of
             // milliseconds and this creates an undesirable effect.
+            activeComponent.value = null
+            backStack.clear()
             delegateBackPressedToParent()
         }
     }
