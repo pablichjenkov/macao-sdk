@@ -7,6 +7,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pablichj.templato.component.core.Component
+import com.pablichj.templato.component.core.NavItem
 
 data class PanelStyle(
     val bgColor: Color = Color.LightGray,
@@ -24,5 +26,16 @@ data class PanelStyle(
 data class PanelNavItem(
     val label: String,
     val icon: ImageVector,
-    var selected: Boolean
+    var selected: Boolean,
+    val component: Component
 )
+
+fun NavItem.toPanelNavItem(selected: Boolean = false): PanelNavItem {
+    return PanelNavItem(
+        label = this.label,
+        icon = this.icon,
+        selected = selected,
+        component = this.component
+    )
+}
+

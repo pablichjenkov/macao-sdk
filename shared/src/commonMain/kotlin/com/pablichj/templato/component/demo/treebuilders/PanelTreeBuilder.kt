@@ -58,7 +58,7 @@ object PanelTreeBuilder {
 
         return PanelComponent(
             panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
-            componentDelegate = PanelComponentDelegate1(panelNavItems),
+            componentDelegate = PanelComponentDelegate1(),
             content = PanelComponentDefaults.PanelComponentView
         ).also {
             it.setNavItems(panelNavItems, 0)

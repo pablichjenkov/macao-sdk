@@ -46,8 +46,15 @@ internal fun NavigationComponent.removeNavItem(removeIndex: Int) {
     onSelectNavItem(selectedIndex, navItems)
 }
 
-internal fun NavigationComponent.clearNavItems() {
-    println("${getComponent().instanceId()}.clearNavItems")
+internal fun NavigationComponent.resetNavigationComponent() {
+    println("${getComponent().instanceId()}.clearNavigationComponent")
+    backStack.clear()
+    selectedIndex = 0
+    activeComponent.value = null
+}
+
+internal fun NavigationComponent.clearNavigationComponent() {
+    println("${getComponent().instanceId()}.clearNavigationComponent")
     backStack.clear()
     navItems.clear()
     selectedIndex = 0
@@ -111,5 +118,5 @@ internal fun NavigationComponent.transferFrom(donorNavComponent: NavigationCompo
     this.getComponent().lifecycleState = donorNavComponent.getComponent().lifecycleState
 
     // Make sure we don't keep references to the navItems in the donor Container
-    donorNavComponent.clearNavItems()
+    donorNavComponent.clearNavigationComponent()
 }

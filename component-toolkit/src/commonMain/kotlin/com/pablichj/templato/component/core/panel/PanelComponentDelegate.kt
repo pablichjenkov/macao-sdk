@@ -14,5 +14,4 @@ abstract class PanelComponentDelegate<T: PanelStatePresenter>(
 
     val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults
     open val pushStrategy: PushStrategy<Component> = AddAllPushStrategy()
-    abstract fun mapComponentToPanelNavItem(component: Component): PanelNavItem
 }

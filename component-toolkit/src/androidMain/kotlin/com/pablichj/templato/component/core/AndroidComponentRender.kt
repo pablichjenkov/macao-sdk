@@ -100,25 +100,6 @@ fun AndroidComponentRenderPreview() {
     )
 
     val componentDelegate = object : DrawerComponentDelegate<DrawerStatePresenterDefault>() {
-        override fun mapComponentToDrawerNavItem(component: Component): DrawerNavItem {
-            return when (component) {
-                simpleComponent -> DrawerNavItem(
-                    label = "simpleComponent",
-                    icon = Icons.Filled.Email,
-                    selected = false
-                )
-                simpleComponent2 -> DrawerNavItem(
-                    label = "simpleComponent2",
-                    icon = Icons.Filled.Close,
-                    selected = false
-                )
-                else -> DrawerNavItem(
-                    label = "Null Empty",
-                    icon = Icons.Filled.ExitToApp,
-                    selected = false
-                )
-            }
-        }
     }
 
     val drawerComponent = DrawerComponent(

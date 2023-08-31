@@ -19,7 +19,6 @@ import com.pablichj.templato.component.core.drawer.EmptyDrawerNavigationProvider
 import com.pablichj.templato.component.core.drawer.LocalDrawerNavigationProvider
 import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.stack.BackStack
-import com.pablichj.templato.component.core.stack.StackBarItem
 import com.pablichj.templato.component.core.stack.StackTransition
 import com.pablichj.templato.component.core.util.EmptyNavigationComponentView
 
@@ -78,6 +77,8 @@ class TopBarComponent<T : TopBarStatePresenter>(
     override fun handleBackPressed() {
         println("${instanceId()}::handleBackPressed, backStack.size = ${backStack.size()}")
         if (consumeBackPressedDefault().not()) {
+            activeComponent.value = null
+            backStack.clear()
             delegateBackPressedToParent()
         }
     }
@@ -113,8 +114,8 @@ class TopBarComponent<T : TopBarStatePresenter>(
         }
     }
 
-    fun onStackTopUpdate(topComponent: Component) {
-        val selectedStackBarItem = getStackBarItemForComponent(topComponent)
+    private fun onStackTopUpdate(topComponent: Component) {
+        val selectedStackBarItem = componentDelegate.mapComponentToStackBarItem(topComponent)
         when (componentDelegate.showBackArrowStrategy) {
             ShowBackArrowStrategy.WhenParentCanHandleBack -> {
                 // Assume parent can handle always, except web
@@ -141,13 +142,9 @@ class TopBarComponent<T : TopBarStatePresenter>(
 
     // endregion
 
-    private fun getStackBarItemForComponent(topComponent: Component): StackBarItem {
-        return componentDelegate.mapComponentToStackBarItem(topComponent)
-    }
-
-    private fun setTitleSectionForHomeClick(stackBarItem: StackBarItem) {
+    private fun setTitleSectionForHomeClick(topBarItem: TopBarItem) {
         topBarStatePresenter.topBarState.value = TopBarState(
-            title = stackBarItem.label,
+            title = topBarItem.label,
             icon1 = resolveGlobalNavigationIcon(),
             onIcon1Click = {
                 drawerNavigationProvider?.open()
@@ -158,9 +155,9 @@ class TopBarComponent<T : TopBarStatePresenter>(
         )
     }
 
-    private fun setTitleSectionForBackClick(stackBarItem: StackBarItem) {
+    private fun setTitleSectionForBackClick(topBarItem: TopBarItem) {
         topBarStatePresenter.topBarState.value = TopBarState(
-            title = stackBarItem.label,
+            title = topBarItem.label,
             onTitleClick = {
                 handleBackPressed()
             },

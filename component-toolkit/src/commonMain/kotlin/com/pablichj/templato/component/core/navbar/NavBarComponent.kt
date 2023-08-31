@@ -9,19 +9,17 @@ import com.pablichj.templato.component.core.ComponentLifecycleState
 import com.pablichj.templato.component.core.ComponentWithBackStack
 import com.pablichj.templato.component.core.NavItem
 import com.pablichj.templato.component.core.NavigationComponent
-import com.pablichj.templato.component.core.deeplink.DeepLinkResult
 import com.pablichj.templato.component.core.componentWithBackStackGetChildForNextUriFragment
-import com.pablichj.templato.component.core.getNavItemFromComponent
 import com.pablichj.templato.component.core.componentWithBackStackOnDeepLinkNavigateTo
-import com.pablichj.templato.component.core.destroyChildComponent
 import com.pablichj.templato.component.core.consumeBackPressedDefault
+import com.pablichj.templato.component.core.deeplink.DeepLinkResult
+import com.pablichj.templato.component.core.destroyChildComponent
+import com.pablichj.templato.component.core.getNavItemFromComponent
 import com.pablichj.templato.component.core.processBackstackEvent
 import com.pablichj.templato.component.core.processBackstackTransition
-import com.pablichj.templato.component.core.toNavItemDeco
+import com.pablichj.templato.component.core.resetNavigationComponent
 import com.pablichj.templato.component.core.util.EmptyNavigationComponentView
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NavBarComponent<T : NavBarStatePresenter>(
@@ -73,6 +71,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
     override fun handleBackPressed() {
         println("${instanceId()}::handleBackPressed, backStack.size = ${backStack.size()}")
         if (consumeBackPressedDefault().not()) {
+            resetNavigationComponent()
             delegateBackPressedToParent()
         }
     }
@@ -109,11 +108,15 @@ class NavBarComponent<T : NavBarStatePresenter>(
     // region: DeepLink
 
     override fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {
-        return (this as ComponentWithBackStack).componentWithBackStackOnDeepLinkNavigateTo(matchingComponent)
+        return (this as ComponentWithBackStack).componentWithBackStackOnDeepLinkNavigateTo(
+            matchingComponent
+        )
     }
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
-        return (this as ComponentWithBackStack).componentWithBackStackGetChildForNextUriFragment(nextUriFragment)
+        return (this as ComponentWithBackStack).componentWithBackStackGetChildForNextUriFragment(
+            nextUriFragment
+        )
     }
 
     // endregion

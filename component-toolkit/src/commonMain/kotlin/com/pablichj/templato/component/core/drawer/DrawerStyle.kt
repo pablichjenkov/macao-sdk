@@ -7,7 +7,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.pablichj.templato.component.core.Component
 import com.pablichj.templato.component.core.NavItem
-import com.pablichj.templato.component.core.NavItemDeco
 
 data class DrawerStyle(
     val alignment: Alignment.Horizontal = Alignment.Start,

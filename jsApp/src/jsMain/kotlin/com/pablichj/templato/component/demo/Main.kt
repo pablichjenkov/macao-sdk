@@ -26,7 +26,7 @@ fun main() {
             it.setCompactContainer(
                 DrawerComponent(
                     drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-                    componentDelegate = DrawerComponentDelegate1(subtreeNavItems),
+                    componentDelegate = DrawerComponentDelegate1(),
                     content = DrawerComponentDefaults.DrawerComponentView
                 )
             )
@@ -34,14 +34,14 @@ fun main() {
             it.setMediumContainer(
                 NavBarComponent(
                     navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-                    componentDelegate = NavBarComponentDelegate1(subtreeNavItems),
+                    componentDelegate = NavBarComponentDelegate1(),
                     content = NavBarComponentDefaults.NavBarComponentView
                 )
             )
             it.setExpandedContainer(
                 PanelComponent(
                     panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
-                    componentDelegate = PanelComponentDelegate1(subtreeNavItems),
+                    componentDelegate = PanelComponentDelegate1(),
                     content = PanelComponentDefaults.PanelComponentView
                 )
             )

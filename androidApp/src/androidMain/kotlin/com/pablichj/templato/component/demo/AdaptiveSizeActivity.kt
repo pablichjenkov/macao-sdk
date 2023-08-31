@@ -38,21 +38,21 @@ class AdaptiveSizeActivity : ComponentActivity() {
             it.setCompactContainer(
                 DrawerComponent<DrawerStatePresenterDefault>(
                     drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-                    componentDelegate = DrawerComponentDelegate1(navItems),
+                    componentDelegate = DrawerComponentDelegate1(),
                     content = DrawerComponentDefaults.DrawerComponentView
                 )
             )
             it.setMediumContainer(
                 NavBarComponent(
                     navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-                    componentDelegate = NavBarComponentDelegate1(navItems),
+                    componentDelegate = NavBarComponentDelegate1(),
                     content = NavBarComponentDefaults.NavBarComponentView
                 )
             )
             it.setExpandedContainer(
                 PanelComponent(
                     panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
-                    componentDelegate = PanelComponentDelegate1(navItems),
+                    componentDelegate = PanelComponentDelegate1(),
                     content = PanelComponentDefaults.PanelComponentView
                 )
             )
@@ -105,7 +105,7 @@ fun DrawerPreview() {
 
     val navBarComponent = NavBarComponent(
         navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-        componentDelegate = NavBarComponentDelegate1(navbarItems),
+        componentDelegate = NavBarComponentDelegate1(),
         content = NavBarComponentDefaults.NavBarComponentView
     ).also {
         it.setNavItems(navItems = navbarItems, selectedIndex = 0)
