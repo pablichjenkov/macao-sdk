@@ -29,11 +29,11 @@ kotlin {
 }
 
 android {
-    namespace = "com.pablichj.templato.component.demo"
+    namespace = "com.macaosoftware.component.demo"
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        applicationId = "com.pablichj.incubator.uistate3.demo"
+        applicationId = "com.macaosoftware.component.demo"
         minSdk = (findProperty("android.minSdk") as String).toInt()
         targetSdk = (findProperty("android.targetSdk") as String).toInt()
         versionCode = 1

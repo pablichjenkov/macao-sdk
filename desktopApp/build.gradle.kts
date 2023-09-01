@@ -29,14 +29,14 @@ compose {
 
     desktop {
         application {
-            mainClass = "com.pablichj.templato.component.demo.MainKt"
+            mainClass = "com.macaosoftware.component.demo.MainKt"
         }
     }
 }
 
 /*compose.desktop {
     application {
-        mainClass = "com.pablichj.incubator.uistate3.example.helloWorld.MainKt"
+        mainClass = "com.macaosoftware.component.demo.MainKt"
 
         nativeDistributions {
             targetFormats(org.jetbrains.compose.desktop.application.dsl.TargetFormat.Dmg,
