@@ -1,4 +1,4 @@
-package com.pablichj.templato.component.platform
+package com.macaosoftware.platform
 
 import com.macaosoftware.platform.DefaultAppLifecycleDispatcher
 import kotlin.experimental.ExperimentalObjCName

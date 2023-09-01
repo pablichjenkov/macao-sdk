@@ -7,9 +7,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.core.Component
-import com.pablichj.templato.component.core.DesktopComponentRender
+import com.macaosoftware.component.DesktopComponentRender
 import com.pablichj.templato.component.demo.treebuilders.FullAppWithIntroTreeBuilder
-import com.pablichj.templato.component.platform.DesktopBridge
+import com.macaosoftware.platform.DesktopBridge
 
 class FullAppWindowComponent(
     val onCloseClick: () -> Unit

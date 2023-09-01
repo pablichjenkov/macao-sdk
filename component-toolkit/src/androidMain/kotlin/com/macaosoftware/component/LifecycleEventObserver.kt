@@ -1,4 +1,4 @@
-package com.pablichj.templato.component.core
+package com.macaosoftware.component
 
 import android.util.Log
 import androidx.compose.runtime.Composable

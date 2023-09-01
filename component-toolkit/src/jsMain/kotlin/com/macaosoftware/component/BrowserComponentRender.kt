@@ -1,4 +1,4 @@
-package com.pablichj.templato.component.core
+package com.macaosoftware.component
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -12,7 +12,7 @@ import com.macaosoftware.component.backpress.DefaultBackPressDispatcher
 import com.macaosoftware.component.backpress.LocalBackPressedDispatcher
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
-import com.pablichj.templato.component.platform.JsBridge
+import com.macaosoftware.platform.JsBridge
 
 @Composable
 fun BrowserComponentRender(

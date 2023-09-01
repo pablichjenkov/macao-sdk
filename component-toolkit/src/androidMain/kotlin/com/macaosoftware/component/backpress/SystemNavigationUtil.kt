@@ -1,4 +1,4 @@
-package com.pablichj.templato.component.core.backpress
+package com.macaosoftware.component.backpress
 
 import android.content.Context
 import androidx.annotation.IntDef

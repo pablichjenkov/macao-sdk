@@ -6,9 +6,9 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
-import com.pablichj.templato.component.core.AndroidComponentRender
+import com.macaosoftware.component.AndroidComponentRender
 import com.pablichj.templato.component.demo.treebuilders.FullAppWithIntroTreeBuilder
-import com.pablichj.templato.component.platform.AndroidBridge
+import com.macaosoftware.platform.AndroidBridge
 
 class FullAppIntroActivity : ComponentActivity() {
 

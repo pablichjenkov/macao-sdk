@@ -1,4 +1,4 @@
-package com.pablichj.templato.component.core
+package com.macaosoftware.component
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Column
@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -18,18 +16,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
-import com.pablichj.templato.component.core.backpress.AndroidBackPressDispatcher
+import com.macaosoftware.component.backpress.AndroidBackPressDispatcher
 import com.macaosoftware.component.backpress.LocalBackPressedDispatcher
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.NavItem
-import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
+import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.drawer.DrawerComponentDelegate
-import com.macaosoftware.component.drawer.DrawerNavItem
 import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
-import com.pablichj.templato.component.platform.AndroidBridge
+import com.macaosoftware.platform.AndroidBridge
 
 @Composable
 fun AndroidComponentRender(

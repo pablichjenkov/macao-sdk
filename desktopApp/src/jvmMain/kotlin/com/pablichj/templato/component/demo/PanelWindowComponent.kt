@@ -1,20 +1,13 @@
 package com.pablichj.templato.component.demo
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.core.Component
-import com.pablichj.templato.component.core.DesktopComponentRender
+import com.macaosoftware.component.DesktopComponentRender
 import com.pablichj.templato.component.demo.treebuilders.PanelTreeBuilder
-import com.macaosoftware.platform.AppLifecycleEvent
-import com.macaosoftware.platform.DefaultAppLifecycleDispatcher
-import com.pablichj.templato.component.platform.DesktopBridge
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
+import com.macaosoftware.platform.DesktopBridge
 
 class PanelWindowComponent(
     val onCloseClick: () -> Unit
