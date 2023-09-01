@@ -47,10 +47,8 @@ internal fun NavigationComponent.removeNavItem(removeIndex: Int) {
 }
 
 internal fun NavigationComponent.resetNavigationComponent() {
-    println("${getComponent().instanceId()}.clearNavigationComponent")
-    backStack.clear()
+    println("${getComponent().instanceId()}.resetNavigationComponent")
     selectedIndex = 0
-    activeComponent.value = null
 }
 
 internal fun NavigationComponent.clearNavigationComponent() {

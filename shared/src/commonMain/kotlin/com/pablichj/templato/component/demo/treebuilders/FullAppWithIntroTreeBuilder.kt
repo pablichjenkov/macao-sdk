@@ -18,7 +18,7 @@ import com.macaosoftware.component.topbar.TopBarComponentDefaults
 import com.pablichj.templato.component.demo.AppCoordinatorComponent
 import com.pablichj.templato.component.demo.componentDelegates.DrawerComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
-import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.Demo3PageTopBarViewModel
 import com.macaosoftware.platform.CoroutineDispatchers
 import com.macaosoftware.platform.DiContainer
 
@@ -45,7 +45,7 @@ object FullAppWithIntroTreeBuilder {
             setBottomComponent(
                 TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Orders / Current", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Orders / Current", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
@@ -57,7 +57,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Orders/Current", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Orders/Current", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -80,7 +80,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Home", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Home", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -113,7 +113,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Orders/Current", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Orders/Current", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -122,7 +122,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Orders/Past", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Orders/Past", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -131,7 +131,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Orders/Claim", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Orders/Claim", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
@@ -149,7 +149,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Home Nested", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Home Nested", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),

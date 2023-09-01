@@ -5,17 +5,18 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Color
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.topbar.TopBarComponent
-import com.macaosoftware.component.topbar.TopBarComponentDelegate
+import com.macaosoftware.component.topbar.TopBarComponentViewModel
 import com.macaosoftware.component.topbar.TopBarItem
 import com.macaosoftware.component.topbar.TopBarStatePresenterDefault
 import com.pablichj.templato.component.demo.SimpleComponent
+import com.pablichj.templato.component.demo.SimpleRequestComponent
 
-class TopBarComponentDelegate1(
+class HomeTopBarComponentViewModel(
     screenName: String,
     onDone: () -> Unit
-) : TopBarComponentDelegate<TopBarStatePresenterDefault>() {
+) : TopBarComponentViewModel<TopBarStatePresenterDefault>() {
 
-    var topBarComponent: TopBarComponent<TopBarStatePresenterDefault>? = null
+    private lateinit var topBarComponent: TopBarComponent<TopBarStatePresenterDefault>
 
     val Step1 = SimpleComponent(
         "$screenName/Page 1",
@@ -23,7 +24,7 @@ class TopBarComponentDelegate1(
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                topBarComponent?.backStack?.push(Step2)
+                topBarComponent.backStack.push(Step2)
             }
         }
     }.also {
@@ -36,50 +37,43 @@ class TopBarComponentDelegate1(
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                topBarComponent?.backStack?.push(Step3)
+                topBarComponent.backStack.push(Step3)
             }
         }
     }.also {
         it.uriFragment = "Page 2"
     }
 
-    val Step3 = SimpleComponent(
-        "$screenName/Page 3",
-        Color.Cyan
-    ) { msg ->
-        when (msg) {
-            SimpleComponent.Msg.Next -> {
-                onDone()
-            }
+    val Step3 =
+        SimpleRequestComponent(
+            "$screenName/Page 3",
+            Color.Cyan
+        ).also {
+            it.uriFragment = "Page 3"
         }
-    }.also {
-        it.uriFragment = "Page 3"
-    }
 
-    override fun TopBarComponent<TopBarStatePresenterDefault>.create() {
-        topBarComponent = this
+    override fun create(topBarComponent: TopBarComponent<TopBarStatePresenterDefault>) {
+        this.topBarComponent = topBarComponent
         listOf(Step1, Step2, Step3).forEach {
-            it.setParent(this)
+            it.setParent(topBarComponent)
         }
     }
 
-    override fun TopBarComponent<TopBarStatePresenterDefault>.start() {
-        println("${instanceId()}::onStart()")
-        if (activeComponent.value == null) {
-            if (getComponent().startedFromDeepLink) {
+    override fun start() {
+        println("${topBarComponent.instanceId()}::onStart()")
+        if (topBarComponent.activeComponent.value == null) {
+            if (topBarComponent.getComponent().startedFromDeepLink) {
                 return
             }
-            backStack.push(Step1)
-        } else {
-            activeComponent.value?.dispatchStart()
+            topBarComponent.backStack.push(Step1)
         }
     }
 
-    override fun TopBarComponent<TopBarStatePresenterDefault>.stop() {
+    override fun stop() {
     }
 
-    override fun TopBarComponent<TopBarStatePresenterDefault>.destroy() {
-        println("${instanceId()}::onStop()")
+    override fun destroy() {
+        println("${topBarComponent.instanceId()}::onStop()")
     }
 
     override fun mapComponentToStackBarItem(topComponent: Component): TopBarItem {
@@ -111,8 +105,8 @@ class TopBarComponentDelegate1(
         }
     }
 
-    override fun TopBarComponent<TopBarStatePresenterDefault>.componentDelegateChildForNextUriFragment(nextUriFragment: String): Component? {
-        println("${instanceId()}::getChildForNextUriFragment = $nextUriFragment")
+    override fun componentDelegateChildForNextUriFragment(nextUriFragment: String): Component? {
+        println("${topBarComponent.instanceId()}::getChildForNextUriFragment = $nextUriFragment")
         return when (nextUriFragment) {
             Step1.uriFragment -> Step1
             Step2.uriFragment -> Step2
@@ -125,8 +119,8 @@ class TopBarComponentDelegate1(
         fun create(
             screenName: String,
             onDone: () -> Unit
-        ) : TopBarComponentDelegate1 {
-            return TopBarComponentDelegate1(screenName, onDone)
+        ) : HomeTopBarComponentViewModel {
+            return HomeTopBarComponentViewModel(screenName, onDone)
         }
     }
 }

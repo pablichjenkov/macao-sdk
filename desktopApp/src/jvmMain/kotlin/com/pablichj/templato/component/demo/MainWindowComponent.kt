@@ -8,24 +8,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.DesktopComponentRender
+import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
+import com.macaosoftware.component.drawer.DrawerComponentDelegate
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
+import com.macaosoftware.component.navbar.NavBarComponentDelegate
 import com.macaosoftware.component.panel.PanelComponent
 import com.macaosoftware.component.panel.PanelComponentDefaults
+import com.macaosoftware.component.panel.PanelComponentDelegate
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
-import com.pablichj.templato.component.demo.componentDelegates.DrawerComponentDelegate1
-import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
-import com.pablichj.templato.component.demo.componentDelegates.PanelComponentDelegate1
-import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
-import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.macaosoftware.platform.DesktopBridge
+import com.pablichj.templato.component.demo.componentDelegates.Demo3PageTopBarViewModel
+import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
 
 class MainWindowComponent(
     val onOpenDeepLinkClick: () -> Unit,
@@ -43,7 +43,7 @@ class MainWindowComponent(
             it.setCompactContainer(
                 DrawerComponent(
                     drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-                    componentDelegate = DrawerComponentDelegate1(),
+                    componentDelegate = DrawerComponentDelegate(),
                     content = DrawerComponentDefaults.DrawerComponentView
                 )
             )
@@ -51,14 +51,14 @@ class MainWindowComponent(
             it.setMediumContainer(
                 NavBarComponent(
                     navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-                    componentDelegate = NavBarComponentDelegate1(),
+                    componentDelegate = NavBarComponentDelegate(),
                     content = NavBarComponentDefaults.NavBarComponentView
                 )
             )
             it.setExpandedContainer(
                 PanelComponent(
                     panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
-                    componentDelegate = PanelComponentDelegate1(),
+                    componentDelegate = PanelComponentDelegate(),
                     content = PanelComponentDefaults.PanelComponentView
                 )
             )
@@ -152,7 +152,7 @@ fun MainWindowComponentPreview() {
 
     val topbarComponent = TopBarComponent(
         topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-        componentDelegate = TopBarComponentDelegate1.create(
+        viewModel = Demo3PageTopBarViewModel.create(
             "Orders",
             {}
         ),

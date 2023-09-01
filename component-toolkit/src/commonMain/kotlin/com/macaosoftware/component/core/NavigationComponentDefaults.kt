@@ -11,19 +11,23 @@ object NavigationComponentDefaults {
 class NavigationComponentDefaultLifecycleHandler : NavigationComponent.LifecycleHandler {
 
     override fun NavigationComponent.navigationComponentLifecycleStart() {
-        if (activeComponent.value == null) {
-            if (getComponent().startedFromDeepLink) {
-                return
-            }
+
+        if (getComponent().startedFromDeepLink) {
+            return
+        }
+
+        val activeComponentCopy = activeComponent.value
+        if (activeComponentCopy != null && backStack.size() > 0) {
+            println("${getComponent().instanceId()}::onStart() with activeChild = ${activeComponentCopy.instanceId()}")
+            activeComponentCopy.dispatchStart()
+            return
+        }
+
+        if (childComponents.isNotEmpty()) {
             println("${getComponent().instanceId()}::onStart(). Pushing selectedIndex = $selectedIndex, children.size = ${childComponents.size}")
-            if (childComponents.isNotEmpty()) {
-                backStack.push(childComponents[selectedIndex])
-            } else {
-                println("${getComponent().instanceId()}::onStart() with childComponents empty")
-            }
+            backStack.push(childComponents[selectedIndex])
         } else {
-            println("${getComponent().instanceId()}::onStart() with activeChild = ${activeComponent.value?.instanceId()}")
-            activeComponent.value?.dispatchStart()
+            println("${getComponent().instanceId()}::onStart() with childComponents empty")
         }
     }
 

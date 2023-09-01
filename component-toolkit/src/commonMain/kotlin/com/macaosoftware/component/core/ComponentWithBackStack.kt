@@ -9,4 +9,6 @@ interface ComponentWithBackStack : ComponentWithChildren {
     fun createBackStack(pushStrategy: PushStrategy<Component>): BackStack<Component> {
         return BackStack(pushStrategy)
     }
+
+    var isFirstComponentInStackPreviousCache: Boolean
 }

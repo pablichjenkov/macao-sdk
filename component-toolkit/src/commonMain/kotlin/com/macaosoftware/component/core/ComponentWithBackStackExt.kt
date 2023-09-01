@@ -10,6 +10,7 @@ internal fun ComponentWithBackStack.processBackstackEvent(
     return when (event) {
         is BackStack.Event.Push -> {
             println("${getComponent().instanceId()}::Event.Push")
+            isFirstComponentInStackPreviousCache = false
             val stack = event.stack
             if (stack.size > 1) {
                 val newTop = stack[stack.lastIndex]
@@ -97,5 +98,8 @@ fun ComponentWithBackStack.consumeBackPressedDefault(): Boolean {
     return if (backStack.size() > 1) {
         backStack.pop()
         true
-    } else false
+    } else {
+        isFirstComponentInStackPreviousCache = true
+        false
+    }
 }

@@ -24,8 +24,9 @@ class StackComponent<T : StackStatePresenter>(
 ) : Component(), ComponentWithBackStack {
 
     override val backStack = BackStack<Component>()
+    override var isFirstComponentInStackPreviousCache: Boolean = false
     override var childComponents: MutableList<Component> = mutableListOf()
-    var activeComponent: MutableState<Component?> = mutableStateOf(null)
+    override var activeComponent: MutableState<Component?> = mutableStateOf(null)
     var lastBackstackEvent: BackStack.Event<Component>? = null
 
     init {
@@ -50,11 +51,6 @@ class StackComponent<T : StackStatePresenter>(
     override fun handleBackPressed() {
         println("${instanceId()}::handleBackPressed, backStack.size = ${backStack.size()}")
         if (consumeBackPressedDefault().not()) {
-            // We delegate the back event when the stack has 1 element and not 0. The reason is, if
-            // we pop all the way to zero the stack empty view will be show for a fraction of
-            // milliseconds and this creates an undesirable effect.
-            activeComponent.value = null
-            backStack.clear()
             delegateBackPressedToParent()
         }
     }

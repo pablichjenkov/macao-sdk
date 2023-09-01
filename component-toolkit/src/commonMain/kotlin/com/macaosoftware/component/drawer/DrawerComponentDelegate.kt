@@ -7,11 +7,9 @@ import com.macaosoftware.component.stack.AddAllPushStrategy
 import com.macaosoftware.component.stack.PushStrategy
 import com.macaosoftware.platform.CoroutineDispatchers
 
-abstract class DrawerComponentDelegate<T : DrawerStatePresenter>(
+open class DrawerComponentDelegate<T : DrawerStatePresenter>(
     private val lifecycleHandler: NavigationComponent.LifecycleHandler =
-        NavigationComponentDefaults.createLifecycleHandler()
-) : NavigationComponent.LifecycleHandler by lifecycleHandler {
-
-    val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults
-    open val pushStrategy: PushStrategy<Component> = AddAllPushStrategy()
-}
+        NavigationComponentDefaults.createLifecycleHandler(),
+    val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
+    val pushStrategy: PushStrategy<Component> = AddAllPushStrategy(),
+) : NavigationComponent.LifecycleHandler by lifecycleHandler

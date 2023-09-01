@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 interface NavigationComponent : ComponentWithBackStack {
     var navItems: MutableList<NavItem>
     var selectedIndex: Int
-    var activeComponent: MutableState<Component?>
+    //var activeComponent: MutableState<Component?>
 
     fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>)
     fun updateSelectedNavItem(newTop: Component)
