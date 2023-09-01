@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Modifier
-import com.pablichj.templato.component.core.Component
+import com.macaosoftware.component.core.Component
 
 class DesktopAppComponent : Component() {
     private val activeComponents = mutableStateListOf<Component>()

@@ -6,7 +6,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import com.pablichj.templato.component.core.Component
+import com.macaosoftware.component.core.Component
 import com.pablichj.templato.component.core.DesktopComponentRender
 import com.pablichj.templato.component.demo.treebuilders.FullAppWithIntroTreeBuilder
 import com.pablichj.templato.component.platform.DesktopBridge

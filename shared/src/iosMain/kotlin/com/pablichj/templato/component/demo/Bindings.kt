@@ -7,18 +7,18 @@ import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilde
 import com.pablichj.templato.component.demo.treebuilders.DrawerTreeBuilder
 import com.pablichj.templato.component.demo.treebuilders.FullAppWithIntroTreeBuilder
 import com.pablichj.templato.component.demo.treebuilders.PagerTreeBuilder
-import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.drawer.DrawerComponent
-import com.pablichj.templato.component.core.drawer.DrawerComponentDefaults
-import com.pablichj.templato.component.core.navbar.NavBarComponent
-import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
-import com.pablichj.templato.component.core.panel.PanelComponent
-import com.pablichj.templato.component.core.panel.PanelComponentDefaults
+import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.drawer.DrawerComponent
+import com.macaosoftware.component.drawer.DrawerComponentDefaults
+import com.macaosoftware.component.navbar.NavBarComponent
+import com.macaosoftware.component.navbar.NavBarComponentDefaults
+import com.macaosoftware.component.panel.PanelComponent
+import com.macaosoftware.component.panel.PanelComponentDefaults
 import com.pablichj.templato.component.demo.componentDelegates.DrawerComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.PanelComponentDelegate1
-import com.pablichj.templato.component.platform.DiContainer
-import com.pablichj.templato.component.platform.CoroutineDispatchers
+import com.macaosoftware.platform.DiContainer
+import com.macaosoftware.platform.CoroutineDispatchers
 import platform.Foundation.NSURL
 import platform.UIKit.UIViewController
 

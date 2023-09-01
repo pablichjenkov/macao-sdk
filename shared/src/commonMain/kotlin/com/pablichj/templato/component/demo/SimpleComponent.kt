@@ -44,8 +44,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.BackPressHandler
+import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.core.BackPressHandler
 
 class SimpleComponent(
     val screenName: String,

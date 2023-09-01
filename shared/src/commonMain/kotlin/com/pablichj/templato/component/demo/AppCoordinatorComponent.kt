@@ -10,10 +10,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.stack.BackStack
-import com.pablichj.templato.component.core.topbar.TopBarComponent
-import com.pablichj.templato.component.core.topbar.TopBarComponentDefaults
+import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.stack.BackStack
+import com.macaosoftware.component.topbar.TopBarComponent
+import com.macaosoftware.component.topbar.TopBarComponentDefaults
 import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
 
 class AppCoordinatorComponent : Component() {

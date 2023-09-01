@@ -19,13 +19,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import com.pablichj.templato.component.core.backpress.AndroidBackPressDispatcher
-import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
-import com.pablichj.templato.component.core.deeplink.LocalRootComponentProvider
-import com.pablichj.templato.component.core.drawer.DrawerComponent
-import com.pablichj.templato.component.core.drawer.DrawerComponentDefaults
-import com.pablichj.templato.component.core.drawer.DrawerComponentDelegate
-import com.pablichj.templato.component.core.drawer.DrawerNavItem
-import com.pablichj.templato.component.core.drawer.DrawerStatePresenterDefault
+import com.macaosoftware.component.backpress.LocalBackPressedDispatcher
+import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.core.NavItem
+import com.macaosoftware.component.core.setNavItems
+import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
+import com.macaosoftware.component.drawer.DrawerComponent
+import com.macaosoftware.component.drawer.DrawerComponentDefaults
+import com.macaosoftware.component.drawer.DrawerComponentDelegate
+import com.macaosoftware.component.drawer.DrawerNavItem
+import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
 import com.pablichj.templato.component.platform.AndroidBridge
 
 @Composable
@@ -58,6 +61,7 @@ fun AndroidComponentRender(
     )
 
     LaunchedEffect(rootComponent) {
+        rootComponent.isRoot = true
         rootComponent.rootBackPressDelegate = updatedOnBackPressed
     }
 }

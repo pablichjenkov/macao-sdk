@@ -3,11 +3,11 @@ package com.pablichj.templato.component.demo.componentDelegates
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Color
-import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.topbar.TopBarComponent
-import com.pablichj.templato.component.core.topbar.TopBarComponentDelegate
-import com.pablichj.templato.component.core.topbar.TopBarItem
-import com.pablichj.templato.component.core.topbar.TopBarStatePresenterDefault
+import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.topbar.TopBarComponent
+import com.macaosoftware.component.topbar.TopBarComponentDelegate
+import com.macaosoftware.component.topbar.TopBarItem
+import com.macaosoftware.component.topbar.TopBarStatePresenterDefault
 import com.pablichj.templato.component.demo.SimpleComponent
 import com.pablichj.templato.component.demo.SimpleResponseComponent
 

@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import com.pablichj.templato.component.core.Component
+import com.macaosoftware.component.core.Component
 
 class DeepLinkDemoComponent(
     val onDeepLinkClick: (destination: List<String>) -> Unit,
