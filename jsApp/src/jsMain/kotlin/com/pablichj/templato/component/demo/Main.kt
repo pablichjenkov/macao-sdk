@@ -2,7 +2,7 @@ package com.pablichj.templato.component.demo
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.CanvasBasedWindow
-import com.pablichj.templato.component.core.BrowserComponentRender
+import com.macaosoftware.component.BrowserComponentRender
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.navbar.NavBarComponent
@@ -13,7 +13,7 @@ import com.pablichj.templato.component.demo.componentDelegates.DrawerComponentDe
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.PanelComponentDelegate1
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
-import com.pablichj.templato.component.platform.JsBridge
+import com.macaosoftware.platform.JsBridge
 import org.jetbrains.skiko.wasm.onWasmReady
 
 @OptIn(ExperimentalComposeUiApi::class)

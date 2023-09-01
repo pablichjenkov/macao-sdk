@@ -1,4 +1,4 @@
-package com.pablichj.templato.component.core
+package com.macaosoftware.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +15,7 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
 import com.macaosoftware.platform.AppLifecycleEvent
 import com.macaosoftware.platform.ForwardAppLifecycleCallback
-import com.pablichj.templato.component.platform.IosBridge
+import com.macaosoftware.platform.IosBridge
 import platform.UIKit.UIViewController
 import kotlin.experimental.ExperimentalObjCName
 

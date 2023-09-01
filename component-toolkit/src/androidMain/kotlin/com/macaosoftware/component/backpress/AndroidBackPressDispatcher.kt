@@ -1,9 +1,7 @@
-package com.pablichj.templato.component.core.backpress
+package com.macaosoftware.component.backpress
 
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
-import com.macaosoftware.component.backpress.BackPressDispatcher
-import com.macaosoftware.component.backpress.BackPressedCallback
 
 class AndroidBackPressDispatcher(
     private val componentActivity: ComponentActivity,

@@ -9,7 +9,7 @@ import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.core.Component
-import com.pablichj.templato.component.core.DesktopComponentRender
+import com.macaosoftware.component.DesktopComponentRender
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
 import com.macaosoftware.component.drawer.DrawerComponent
@@ -25,7 +25,7 @@ import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDe
 import com.pablichj.templato.component.demo.componentDelegates.PanelComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
-import com.pablichj.templato.component.platform.DesktopBridge
+import com.macaosoftware.platform.DesktopBridge
 
 class MainWindowComponent(
     val onOpenDeepLinkClick: () -> Unit,

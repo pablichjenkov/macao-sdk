@@ -1,4 +1,4 @@
-package com.pablichj.templato.component.platform
+package com.macaosoftware.platform
 
 import platform.Foundation.NSURL
 import kotlin.experimental.ExperimentalObjCName

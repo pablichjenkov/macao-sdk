@@ -1,8 +1,8 @@
 package com.pablichj.templato.component.demo
 
-import com.pablichj.templato.component.platform.IosBridge
-import com.pablichj.templato.component.platform.IOSBridge2
-import com.pablichj.templato.component.core.IosComponentRender
+import com.macaosoftware.platform.IosBridge
+import com.macaosoftware.platform.IOSBridge2
+import com.macaosoftware.component.IosComponentRender
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.pablichj.templato.component.demo.treebuilders.DrawerTreeBuilder
 import com.pablichj.templato.component.demo.treebuilders.FullAppWithIntroTreeBuilder

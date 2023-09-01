@@ -1,4 +1,4 @@
-package com.pablichj.templato.component.core
+package com.macaosoftware.component
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
@@ -17,7 +17,7 @@ import com.macaosoftware.component.backpress.DefaultBackPressDispatcher
 import com.macaosoftware.component.backpress.LocalBackPressedDispatcher
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
-import com.pablichj.templato.component.platform.DesktopBridge
+import com.macaosoftware.platform.DesktopBridge
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
