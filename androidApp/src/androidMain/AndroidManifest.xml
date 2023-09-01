@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:enableOnBackInvokedCallback="true">
         <activity
-            android:name="com.pablichj.templato.component.demo.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,23 +24,23 @@
                 android:value="" />
         </activity>
         <activity
-            android:name="com.pablichj.templato.component.demo.DrawerActivity"
+            android:name=".DrawerActivity"
             android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true"/>
         <activity
-            android:name="com.pablichj.templato.component.demo.PagerActivity"
+            android:name=".PagerActivity"
             android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true" />
         <activity
-            android:name="com.pablichj.templato.component.demo.NavBarActivity"
+            android:name=".NavBarActivity"
             android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true" />
         <activity
-            android:name="com.pablichj.templato.component.demo.FullAppIntroActivity"
+            android:name=".FullAppIntroActivity"
             android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true" />
         <activity
-            android:name="com.pablichj.templato.component.demo.AdaptiveSizeActivity"
+            android:name=".AdaptiveSizeActivity"
             android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true" />
     </application>
