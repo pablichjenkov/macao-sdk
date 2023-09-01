@@ -9,11 +9,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.ComposeUIViewController
-import com.pablichj.templato.component.core.backpress.DefaultBackPressDispatcher
-import com.pablichj.templato.component.core.backpress.LocalBackPressedDispatcher
-import com.pablichj.templato.component.core.deeplink.LocalRootComponentProvider
-import com.pablichj.templato.component.platform.AppLifecycleEvent
-import com.pablichj.templato.component.platform.ForwardAppLifecycleCallback
+import com.macaosoftware.component.backpress.DefaultBackPressDispatcher
+import com.macaosoftware.component.backpress.LocalBackPressedDispatcher
+import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
+import com.macaosoftware.platform.AppLifecycleEvent
+import com.macaosoftware.platform.ForwardAppLifecycleCallback
 import com.pablichj.templato.component.platform.IosBridge
 import platform.UIKit.UIViewController
 import kotlin.experimental.ExperimentalObjCName
@@ -42,6 +43,7 @@ fun IosComponentRender(
     }
 
     LaunchedEffect(key1 = rootComponent) {
+        rootComponent.isRoot = true
         rootComponent.rootBackPressDelegate = updatedOnBackPressed
         iosBridge.appLifecycleDispatcher.subscribe(
             ForwardAppLifecycleCallback {

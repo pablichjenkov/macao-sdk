@@ -4,13 +4,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
-import com.pablichj.templato.component.core.NavItem
-import com.pablichj.templato.component.core.navbar.NavBarComponent
-import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
-import com.pablichj.templato.component.core.navbar.NavBarStatePresenterDefault
-import com.pablichj.templato.component.core.setNavItems
-import com.pablichj.templato.component.core.topbar.TopBarComponent
-import com.pablichj.templato.component.core.topbar.TopBarComponentDefaults
+import com.macaosoftware.component.core.NavItem
+import com.macaosoftware.component.navbar.NavBarComponent
+import com.macaosoftware.component.navbar.NavBarComponentDefaults
+import com.macaosoftware.component.navbar.NavBarStatePresenterDefault
+import com.macaosoftware.component.core.setNavItems
+import com.macaosoftware.component.topbar.TopBarComponent
+import com.macaosoftware.component.topbar.TopBarComponentDefaults
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
 

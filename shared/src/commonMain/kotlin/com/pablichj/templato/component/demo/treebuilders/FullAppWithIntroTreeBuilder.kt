@@ -4,23 +4,23 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
-import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.NavItem
-import com.pablichj.templato.component.core.drawer.DrawerComponent
-import com.pablichj.templato.component.core.drawer.DrawerComponentDefaults
-import com.pablichj.templato.component.core.drawer.DrawerStatePresenterDefault
-import com.pablichj.templato.component.core.navbar.NavBarComponent
-import com.pablichj.templato.component.core.navbar.NavBarComponentDefaults
-import com.pablichj.templato.component.core.setNavItems
-import com.pablichj.templato.component.core.split.SplitComponent
-import com.pablichj.templato.component.core.topbar.TopBarComponent
-import com.pablichj.templato.component.core.topbar.TopBarComponentDefaults
+import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.core.NavItem
+import com.macaosoftware.component.drawer.DrawerComponent
+import com.macaosoftware.component.drawer.DrawerComponentDefaults
+import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
+import com.macaosoftware.component.navbar.NavBarComponent
+import com.macaosoftware.component.navbar.NavBarComponentDefaults
+import com.macaosoftware.component.core.setNavItems
+import com.macaosoftware.component.split.SplitComponent
+import com.macaosoftware.component.topbar.TopBarComponent
+import com.macaosoftware.component.topbar.TopBarComponentDefaults
 import com.pablichj.templato.component.demo.AppCoordinatorComponent
 import com.pablichj.templato.component.demo.componentDelegates.DrawerComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
-import com.pablichj.templato.component.platform.CoroutineDispatchers
-import com.pablichj.templato.component.platform.DiContainer
+import com.macaosoftware.platform.CoroutineDispatchers
+import com.macaosoftware.platform.DiContainer
 
 object FullAppWithIntroTreeBuilder {
     private val diContainer = DiContainer(CoroutineDispatchers.Defaults)

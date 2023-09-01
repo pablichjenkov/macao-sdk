@@ -6,11 +6,11 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import com.pablichj.templato.component.core.Component
+import com.macaosoftware.component.core.Component
 import com.pablichj.templato.component.core.DesktopComponentRender
 import com.pablichj.templato.component.demo.treebuilders.NavBarTreeBuilder
-import com.pablichj.templato.component.platform.AppLifecycleEvent
-import com.pablichj.templato.component.platform.DefaultAppLifecycleDispatcher
+import com.macaosoftware.platform.AppLifecycleEvent
+import com.macaosoftware.platform.DefaultAppLifecycleDispatcher
 import com.pablichj.templato.component.platform.DesktopBridge
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

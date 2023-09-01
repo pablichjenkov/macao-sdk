@@ -22,8 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pablichj.templato.component.core.Component
-import com.pablichj.templato.component.core.BackPressHandler
+import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.core.BackPressHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
