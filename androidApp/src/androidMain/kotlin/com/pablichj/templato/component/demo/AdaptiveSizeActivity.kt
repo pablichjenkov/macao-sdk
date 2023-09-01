@@ -14,18 +14,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.macaosoftware.component.AndroidComponentRender
 import com.macaosoftware.component.core.NavItem
+import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
+import com.macaosoftware.component.drawer.DrawerComponentDelegate
 import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
+import com.macaosoftware.component.navbar.NavBarComponentDelegate
 import com.macaosoftware.component.panel.PanelComponent
 import com.macaosoftware.component.panel.PanelComponentDefaults
-import com.macaosoftware.component.core.setNavItems
+import com.macaosoftware.component.panel.PanelComponentDelegate
 import com.macaosoftware.platform.AndroidBridge
-import com.pablichj.templato.component.demo.componentDelegates.DrawerComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
-import com.pablichj.templato.component.demo.componentDelegates.PanelComponentDelegate1
 import com.pablichj.templato.component.demo.treebuilders.AdaptableSizeTreeBuilder
 
 class AdaptiveSizeActivity : ComponentActivity() {
@@ -38,21 +39,21 @@ class AdaptiveSizeActivity : ComponentActivity() {
             it.setCompactContainer(
                 DrawerComponent<DrawerStatePresenterDefault>(
                     drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-                    componentDelegate = DrawerComponentDelegate1(),
+                    componentDelegate = DrawerComponentDelegate(),
                     content = DrawerComponentDefaults.DrawerComponentView
                 )
             )
             it.setMediumContainer(
                 NavBarComponent(
                     navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-                    componentDelegate = NavBarComponentDelegate1(),
+                    componentDelegate = NavBarComponentDelegate(),
                     content = NavBarComponentDefaults.NavBarComponentView
                 )
             )
             it.setExpandedContainer(
                 PanelComponent(
                     panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
-                    componentDelegate = PanelComponentDelegate1(),
+                    componentDelegate = PanelComponentDelegate(),
                     content = PanelComponentDefaults.PanelComponentView
                 )
             )
@@ -91,7 +92,7 @@ fun DrawerPreview() {
             SimpleComponent(
                 "Tab 1",
                 Color.Magenta,
-            ){}
+            ) {}
         ),
         NavItem(
             "Tab 2",
@@ -99,7 +100,7 @@ fun DrawerPreview() {
             SimpleComponent(
                 "Tab 2",
                 Color.Blue,
-            ){}
+            ) {}
         )
     )
 

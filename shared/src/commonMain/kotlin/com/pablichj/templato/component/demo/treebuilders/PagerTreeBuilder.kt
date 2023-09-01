@@ -14,7 +14,7 @@ import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
-import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.Demo3PageTopBarViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 object PagerTreeBuilder {
@@ -32,7 +32,7 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Settings", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -41,7 +41,7 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Settings", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -50,7 +50,7 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Orders/Claim", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Orders/Claim", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
@@ -68,7 +68,7 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Settings/Account", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Settings/Account", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -77,7 +77,7 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Settings/Profile", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Settings/Profile", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -86,7 +86,7 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Settings/About Us", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Settings/About Us", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
@@ -104,7 +104,7 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Settings", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),

@@ -12,10 +12,10 @@ import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
-import com.pablichj.templato.component.demo.componentDelegates.HomeTopBarComponentDelegate
+import com.pablichj.templato.component.demo.componentDelegates.HomeTopBarComponentViewModel
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
-import com.pablichj.templato.component.demo.componentDelegates.SettingsTopBarComponentDelegate
-import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.SettingsTopBarViewModel
+import com.pablichj.templato.component.demo.componentDelegates.Demo3PageTopBarViewModel
 
 object AdaptableSizeTreeBuilder {
 
@@ -44,7 +44,7 @@ object AdaptableSizeTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create(
+                    viewModel = Demo3PageTopBarViewModel.create(
                         "Orders/Current",
                         {}
                     ),
@@ -58,7 +58,7 @@ object AdaptableSizeTreeBuilder {
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Orders/Past", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Orders/Past", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 ).apply {
                     uriFragment = "Past"
@@ -69,7 +69,7 @@ object AdaptableSizeTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Orders/Claim", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Orders/Claim", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 ).apply {
                     uriFragment = "Claim"
@@ -89,7 +89,7 @@ object AdaptableSizeTreeBuilder {
 
         val homeComponent = TopBarComponent(
             topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-            componentDelegate = HomeTopBarComponentDelegate.create("Home", {}),
+            viewModel = HomeTopBarComponentViewModel.create("Home", {}),
             content = TopBarComponentDefaults.TopBarComponentView
         ).apply {
             uriFragment = "Home"
@@ -97,7 +97,7 @@ object AdaptableSizeTreeBuilder {
 
         val settingsComponent = TopBarComponent(
             topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-            componentDelegate = SettingsTopBarComponentDelegate.create("Settings", {}),
+            viewModel = SettingsTopBarViewModel.create("Settings", {}),
             content = TopBarComponentDefaults.TopBarComponentView
         ).apply {
             uriFragment = "Settings"

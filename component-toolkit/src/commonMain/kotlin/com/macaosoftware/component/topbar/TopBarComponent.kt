@@ -19,7 +19,7 @@ import com.macaosoftware.component.util.EmptyNavigationComponentView
 
 class TopBarComponent<T : TopBarStatePresenter>(
     val topBarStatePresenter: T,
-    private val componentDelegate: TopBarComponentDelegate<T>,
+    private val viewModel: TopBarComponentViewModel<T>,
     private val content: @Composable TopBarComponent<T>.(
         modifier: Modifier,
         childComponent: Component
@@ -27,8 +27,9 @@ class TopBarComponent<T : TopBarStatePresenter>(
 ) : Component(), ComponentWithBackStack {
 
     override val backStack = BackStack<Component>()
+    override var isFirstComponentInStackPreviousCache: Boolean = false
     override var childComponents: MutableList<Component> = mutableListOf()
-    var activeComponent: MutableState<Component?> = mutableStateOf(null)
+    override var activeComponent: MutableState<Component?> = mutableStateOf(null)
     var lastBackstackEvent: BackStack.Event<Component>? = null
 
     init {
@@ -40,17 +41,21 @@ class TopBarComponent<T : TopBarStatePresenter>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
-        with(componentDelegate) {
-            create()
+        with(viewModel) {
+            create(this@TopBarComponent)
         }
     }
 
     override fun onStart() {
         println("${instanceId()}::onStart()")
-        if (activeComponent.value != null) {
+        if (activeComponent.value != null && !isFirstComponentInStackPreviousCache) {
             activeComponent.value?.dispatchStart()
         }
-        with(componentDelegate) {
+        with(viewModel) {
+            if (isFirstComponentInStackPreviousCache) {
+                activeComponent.value = null
+                backStack.clear()
+            }
             start()
         }
     }
@@ -59,7 +64,7 @@ class TopBarComponent<T : TopBarStatePresenter>(
         println("${instanceId()}::onStop()")
         activeComponent.value?.dispatchStop()
         lastBackstackEvent = null
-        with(componentDelegate) {
+        with(viewModel) {
             stop()
         }
     }
@@ -71,8 +76,6 @@ class TopBarComponent<T : TopBarStatePresenter>(
     override fun handleBackPressed() {
         println("${instanceId()}::handleBackPressed, backStack.size = ${backStack.size()}")
         if (consumeBackPressedDefault().not()) {
-            activeComponent.value = null
-            backStack.clear()
             delegateBackPressedToParent()
         }
     }
@@ -109,8 +112,8 @@ class TopBarComponent<T : TopBarStatePresenter>(
     }
 
     private fun onStackTopUpdate(topComponent: Component) {
-        val selectedStackBarItem = componentDelegate.mapComponentToStackBarItem(topComponent)
-        when (componentDelegate.showBackArrowStrategy) {
+        val selectedStackBarItem = viewModel.mapComponentToStackBarItem(topComponent)
+        when (viewModel.showBackArrowStrategy) {
             ShowBackArrowStrategy.WhenParentCanHandleBack -> {
                 // Assume parent can handle always, except web
                 setTitleSectionForBackClick(selectedStackBarItem)
@@ -167,7 +170,7 @@ class TopBarComponent<T : TopBarStatePresenter>(
     override fun getChildForNextUriFragment(
         nextUriFragment: String
     ): Component? {
-        return with(componentDelegate) {
+        return with(viewModel) {
             componentDelegateChildForNextUriFragment(nextUriFragment)
         }
     }

@@ -33,6 +33,7 @@ class DrawerComponent<T : DrawerStatePresenter>(
 ) : Component(), NavigationComponent, DrawerNavigationProvider {
 
     override val backStack = createBackStack(componentDelegate.pushStrategy)
+    override var isFirstComponentInStackPreviousCache: Boolean = false
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()

@@ -14,7 +14,7 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.stack.BackStack
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
-import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.Demo3PageTopBarViewModel
 
 class AppCoordinatorComponent : Component() {
     val backStack = BackStack<Component>()
@@ -27,7 +27,7 @@ class AppCoordinatorComponent : Component() {
 
         TopBarComponent(
             topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-            componentDelegate = TopBarComponentDelegate1.create("Onboard", {}),
+            viewModel = Demo3PageTopBarViewModel.create("Onboard", {}),
             content = TopBarComponentDefaults.TopBarComponentView
         ).apply {
             setParent(this@AppCoordinatorComponent)

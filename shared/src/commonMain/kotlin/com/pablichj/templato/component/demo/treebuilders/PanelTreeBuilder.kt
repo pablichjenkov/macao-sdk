@@ -18,7 +18,7 @@ import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 import com.pablichj.templato.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.pablichj.templato.component.demo.componentDelegates.PanelComponentDelegate1
-import com.pablichj.templato.component.demo.componentDelegates.TopBarComponentDelegate1
+import com.pablichj.templato.component.demo.componentDelegates.Demo3PageTopBarViewModel
 
 object PanelTreeBuilder {
 
@@ -36,7 +36,7 @@ object PanelTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Home", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Home", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -50,7 +50,7 @@ object PanelTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Settings", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
@@ -74,7 +74,7 @@ object PanelTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Home", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Home", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -83,7 +83,7 @@ object PanelTreeBuilder {
                 icon = Icons.Filled.Settings,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Orders", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Orders", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -92,7 +92,7 @@ object PanelTreeBuilder {
                 icon = Icons.Filled.Add,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentDelegate = TopBarComponentDelegate1.create("Settings", {}),
+                    viewModel = Demo3PageTopBarViewModel.create("Settings", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
