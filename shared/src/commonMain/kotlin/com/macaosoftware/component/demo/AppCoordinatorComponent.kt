@@ -27,7 +27,7 @@ class AppCoordinatorComponent : Component() {
 
         TopBarComponent(
             topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-            viewModel = Demo3PageTopBarViewModel.create("Onboard", {}),
+            componentViewModel = Demo3PageTopBarViewModel.create("Onboard", {}),
             content = TopBarComponentDefaults.TopBarComponentView
         ).apply {
             setParent(this@AppCoordinatorComponent)

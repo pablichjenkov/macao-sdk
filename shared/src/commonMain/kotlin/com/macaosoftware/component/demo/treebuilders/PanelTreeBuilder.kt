@@ -36,7 +36,7 @@ object PanelTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Home", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Home", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -50,7 +50,7 @@ object PanelTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Settings", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Settings", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
@@ -74,7 +74,7 @@ object PanelTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Home", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Home", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -83,7 +83,7 @@ object PanelTreeBuilder {
                 icon = Icons.Filled.Settings,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Orders", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Orders", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -92,7 +92,7 @@ object PanelTreeBuilder {
                 icon = Icons.Filled.Add,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Settings", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Settings", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )

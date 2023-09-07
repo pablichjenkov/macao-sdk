@@ -1,12 +1,11 @@
 package com.macaosoftware.component.viewmodel
 
-import com.macaosoftware.component.core.ComponentLifecycle
 import com.macaosoftware.component.core.ComponentLifecycleState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-abstract class ViewModel : ComponentLifecycle() {
+abstract class ComponentViewModel : ComponentViewModelLifecycle() {
     protected var lifecycleState: ComponentLifecycleState = ComponentLifecycleState.Created
 
     private val _lifecycleStateFlow = MutableStateFlow(lifecycleState)
@@ -14,7 +13,8 @@ abstract class ViewModel : ComponentLifecycle() {
         get() = _lifecycleStateFlow.asStateFlow()
 
     open fun dispatchStart() {
-        lifecycleState = ComponentLifecycleState.Started // It has to be the first line of this block
+        // It has to be the first line of this block
+        lifecycleState = ComponentLifecycleState.Started
         onStart()
         _lifecycleStateFlow.value = ComponentLifecycleState.Started
     }
@@ -32,3 +32,4 @@ abstract class ViewModel : ComponentLifecycle() {
     }
 
 }
+

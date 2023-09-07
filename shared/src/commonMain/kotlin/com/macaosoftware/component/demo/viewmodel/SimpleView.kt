@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-val SimpleViewModelView: @Composable (SimpleViewModel) -> Unit = { viewModel ->
+val SimpleView: @Composable (SimpleComponentViewModel) -> Unit = { viewModel ->
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally

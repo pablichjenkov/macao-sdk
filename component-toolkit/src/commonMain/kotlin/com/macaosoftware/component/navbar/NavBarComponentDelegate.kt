@@ -7,7 +7,7 @@ import com.macaosoftware.component.stack.AddAllPushStrategy
 import com.macaosoftware.component.stack.PushStrategy
 import com.macaosoftware.platform.CoroutineDispatchers
 
-open class NavBarComponentDelegate<T : NavBarStatePresenter>(
+abstract class NavBarComponentDelegate<T : NavBarStatePresenter>(
     private val lifecycleHandler: NavigationComponent.LifecycleHandler =
         NavigationComponentDefaults.createLifecycleHandler(),
     val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,

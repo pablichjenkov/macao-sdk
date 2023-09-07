@@ -44,7 +44,7 @@ object AdaptableSizeTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create(
+                    componentViewModel = Demo3PageTopBarViewModel.create(
                         "Orders/Current",
                         {}
                     ),
@@ -58,7 +58,7 @@ object AdaptableSizeTreeBuilder {
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Orders/Past", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Orders/Past", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 ).apply {
                     uriFragment = "Past"
@@ -69,7 +69,7 @@ object AdaptableSizeTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Orders/Claim", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Orders/Claim", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 ).apply {
                     uriFragment = "Claim"
@@ -89,7 +89,7 @@ object AdaptableSizeTreeBuilder {
 
         val homeComponent = TopBarComponent(
             topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-            viewModel = HomeTopBarComponentViewModel.create("Home", {}),
+            componentViewModel = HomeTopBarComponentViewModel.create("Home", {}),
             content = TopBarComponentDefaults.TopBarComponentView
         ).apply {
             uriFragment = "Home"
@@ -97,7 +97,7 @@ object AdaptableSizeTreeBuilder {
 
         val settingsComponent = TopBarComponent(
             topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-            viewModel = SettingsTopBarViewModel.create("Settings", {}),
+            componentViewModel = SettingsTopBarViewModel.create("Settings", {}),
             content = TopBarComponentDefaults.TopBarComponentView
         ).apply {
             uriFragment = "Settings"
