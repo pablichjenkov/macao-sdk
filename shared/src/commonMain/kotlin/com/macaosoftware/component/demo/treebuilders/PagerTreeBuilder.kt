@@ -32,7 +32,7 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Settings", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Settings", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -41,7 +41,7 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Settings", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Settings", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -50,7 +50,7 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Orders/Claim", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Orders/Claim", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
@@ -68,7 +68,7 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Settings/Account", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Settings/Account", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -77,7 +77,7 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Settings/Profile", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Settings/Profile", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -86,7 +86,7 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Settings/About Us", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Settings/About Us", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
@@ -104,7 +104,7 @@ object PagerTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Settings", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Settings", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),

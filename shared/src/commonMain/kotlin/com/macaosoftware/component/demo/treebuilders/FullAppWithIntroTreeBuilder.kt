@@ -45,7 +45,7 @@ object FullAppWithIntroTreeBuilder {
             setBottomComponent(
                 TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Orders / Current", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Orders / Current", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
@@ -57,7 +57,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Orders/Current", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Orders/Current", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -80,7 +80,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Home", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Home", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -113,7 +113,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Orders/Current", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Orders/Current", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -122,7 +122,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Orders/Past", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Orders/Past", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -131,7 +131,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Orders/Claim", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Orders/Claim", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
@@ -149,7 +149,7 @@ object FullAppWithIntroTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Home Nested", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Home Nested", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),

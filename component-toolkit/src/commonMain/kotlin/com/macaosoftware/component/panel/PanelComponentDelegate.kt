@@ -7,7 +7,7 @@ import com.macaosoftware.component.stack.AddAllPushStrategy
 import com.macaosoftware.component.stack.PushStrategy
 import com.macaosoftware.platform.CoroutineDispatchers
 
-open class PanelComponentDelegate<T: PanelStatePresenter>(
+abstract class PanelComponentDelegate<T: PanelStatePresenter>(
     private val lifecycleHandler: NavigationComponent.LifecycleHandler =
         NavigationComponentDefaults.createLifecycleHandler(),
     val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,

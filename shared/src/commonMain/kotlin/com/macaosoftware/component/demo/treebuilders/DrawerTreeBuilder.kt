@@ -35,7 +35,7 @@ object DrawerTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Home", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Home", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -49,7 +49,7 @@ object DrawerTreeBuilder {
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Settings", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Settings", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
@@ -73,7 +73,7 @@ object DrawerTreeBuilder {
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Active", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Active", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -82,7 +82,7 @@ object DrawerTreeBuilder {
                 icon = Icons.Filled.Settings,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("Past", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Past", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -91,7 +91,7 @@ object DrawerTreeBuilder {
                 icon = Icons.Filled.Add,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    viewModel = Demo3PageTopBarViewModel.create("New Order", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("New Order", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )

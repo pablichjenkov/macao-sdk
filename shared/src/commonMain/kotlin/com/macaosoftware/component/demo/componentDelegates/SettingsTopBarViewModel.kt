@@ -4,12 +4,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Color
 import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.demo.SimpleComponent
+import com.macaosoftware.component.demo.SimpleResponseComponent
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentViewModel
 import com.macaosoftware.component.topbar.TopBarItem
 import com.macaosoftware.component.topbar.TopBarStatePresenterDefault
-import com.macaosoftware.component.demo.SimpleComponent
-import com.macaosoftware.component.demo.SimpleResponseComponent
 
 class SettingsTopBarViewModel(
     screenName: String,
@@ -17,6 +17,7 @@ class SettingsTopBarViewModel(
 ) : TopBarComponentViewModel<TopBarStatePresenterDefault>() {
 
     private lateinit var topBarComponent: TopBarComponent<TopBarStatePresenterDefault>
+    private var currentComponent: Component? = null
 
     val Step1 = SimpleComponent(
         "$screenName/Page 1",
@@ -59,21 +60,17 @@ class SettingsTopBarViewModel(
         }
     }
 
-    override fun start() {
-        println("${topBarComponent.instanceId()}::onStart()")
-        if (topBarComponent.activeComponent.value == null) {
-            if (topBarComponent.getComponent().startedFromDeepLink) {
-                return
-            }
+    override fun onStart() {
+        if (currentComponent == null) {
+            currentComponent = Step1
             topBarComponent.backStack.push(Step1)
         }
     }
 
-    override fun stop() {
+    override fun onStop() {
     }
 
-    override fun destroy() {
-        println("${topBarComponent.instanceId()}::onStop()")
+    override fun onDestroy() {
     }
 
     override fun mapComponentToStackBarItem(topComponent: Component): TopBarItem {
@@ -115,6 +112,10 @@ class SettingsTopBarViewModel(
             Step3.uriFragment -> Step3
             else -> null
         }
+    }
+
+    override fun onBackstackEmpty() {
+        currentComponent = null
     }
 
     companion object {

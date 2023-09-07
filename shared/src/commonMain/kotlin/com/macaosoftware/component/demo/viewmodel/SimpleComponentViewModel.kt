@@ -1,13 +1,13 @@
 package com.macaosoftware.component.demo.viewmodel
 
 import androidx.compose.ui.graphics.Color
-import com.macaosoftware.component.viewmodel.ViewModel
+import com.macaosoftware.component.viewmodel.ComponentViewModel
 
-class SimpleViewModel(
+class SimpleComponentViewModel(
     val screenName: String,
     private val bgColor: Color,
     private val onNext: () -> Unit
-) : ViewModel() {
+) : ComponentViewModel() {
 
     val text = "A sample text from the view Model"
 
