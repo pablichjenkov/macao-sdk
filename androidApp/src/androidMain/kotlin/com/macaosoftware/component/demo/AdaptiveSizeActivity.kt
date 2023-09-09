@@ -15,19 +15,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.macaosoftware.component.AndroidComponentRender
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
+import com.macaosoftware.component.demo.componentDelegates.DrawerComponentDelegate1
+import com.macaosoftware.component.demo.componentDelegates.NavBarComponentDelegate1
+import com.macaosoftware.component.demo.componentDelegates.PanelComponentDelegate1
+import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
-import com.macaosoftware.component.drawer.DrawerComponentDelegate
 import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
-import com.macaosoftware.component.navbar.NavBarComponentDelegate
 import com.macaosoftware.component.panel.PanelComponent
 import com.macaosoftware.component.panel.PanelComponentDefaults
-import com.macaosoftware.component.panel.PanelComponentDelegate
 import com.macaosoftware.platform.AndroidBridge
-import com.macaosoftware.component.demo.componentDelegates.NavBarComponentDelegate1
-import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
 
 class AdaptiveSizeActivity : ComponentActivity() {
 
@@ -39,21 +38,21 @@ class AdaptiveSizeActivity : ComponentActivity() {
             it.setCompactContainer(
                 DrawerComponent<DrawerStatePresenterDefault>(
                     drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-                    componentDelegate = DrawerComponentDelegate(),
+                    componentDelegate = DrawerComponentDelegate1(),
                     content = DrawerComponentDefaults.DrawerComponentView
                 )
             )
             it.setMediumContainer(
                 NavBarComponent(
                     navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-                    componentDelegate = NavBarComponentDelegate(),
+                    componentDelegate = NavBarComponentDelegate1(),
                     content = NavBarComponentDefaults.NavBarComponentView
                 )
             )
             it.setExpandedContainer(
                 PanelComponent(
                     panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
-                    componentDelegate = PanelComponentDelegate(),
+                    componentDelegate = PanelComponentDelegate1(),
                     content = PanelComponentDefaults.PanelComponentView
                 )
             )
