@@ -41,9 +41,7 @@ class TopBarComponent<T : TopBarStatePresenter>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
-        with(componentViewModel) {
-            create(this@TopBarComponent)
-        }
+        componentViewModel.create(this@TopBarComponent)
     }
 
     override fun onStart() {
@@ -171,9 +169,7 @@ class TopBarComponent<T : TopBarStatePresenter>(
     override fun getChildForNextUriFragment(
         nextUriFragment: String
     ): Component? {
-        return with(componentViewModel) {
-            componentDelegateChildForNextUriFragment(nextUriFragment)
-        }
+        return componentViewModel.onCheckChildForNextUriFragment(nextUriFragment)
     }
 
     override fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {

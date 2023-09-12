@@ -102,7 +102,7 @@ class SettingsTopBarViewModel(
         }
     }
 
-    override fun componentDelegateChildForNextUriFragment(
+    override fun onCheckChildForNextUriFragment(
         nextUriFragment: String
     ): Component? {
         println("${topBarComponent.instanceId()}::getChildForNextUriFragment = $nextUriFragment")

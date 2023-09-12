@@ -25,20 +25,20 @@ import kotlinx.coroutines.launch
 
 class DrawerComponent<T : DrawerStatePresenter>(
     val drawerStatePresenter: T,
-    val componentDelegate: DrawerComponentDelegate<T>,
+    val componentViewModel: DrawerComponentViewModel<T>,
     private var content: @Composable DrawerComponent<T>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit
 ) : Component(), NavigationComponent, DrawerNavigationProvider {
 
-    override val backStack = createBackStack(componentDelegate.pushStrategy)
+    override val backStack = createBackStack(componentViewModel.pushStrategy)
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
-    private val coroutineScope = CoroutineScope(componentDelegate.dispatchers.main)
+    private val coroutineScope = CoroutineScope(componentViewModel.dispatchers.main)
 
     init {
         coroutineScope.launch {
@@ -55,19 +55,19 @@ class DrawerComponent<T : DrawerStatePresenter>(
     // region: ComponentLifecycle
 
     override fun onStart() {
-        with(componentDelegate) {
+        with(componentViewModel) {
             navigationComponentLifecycleStart()
         }
     }
 
     override fun onStop() {
-        with(componentDelegate) {
+        with(componentViewModel) {
             navigationComponentLifecycleStop()
         }
     }
 
     override fun onDestroy() {
-        with(componentDelegate) {
+        with(componentViewModel) {
             navigationComponentLifecycleDestroy()
         }
     }

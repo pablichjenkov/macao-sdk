@@ -13,7 +13,6 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
 import com.macaosoftware.component.demo.componentDelegates.Demo3PageTopBarViewModel
-import com.macaosoftware.component.demo.componentDelegates.DrawerComponentDelegate1
 import com.macaosoftware.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.macaosoftware.component.demo.componentDelegates.PanelComponentDelegate1
 import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
@@ -43,7 +42,7 @@ class MainWindowComponent(
             it.setCompactContainer(
                 DrawerComponent(
                     drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-                    componentDelegate = DrawerComponentDelegate1(),
+                    componentViewModel = DrawerComponentDefaults.createViewModel(),
                     content = DrawerComponentDefaults.DrawerComponentView
                 )
             )

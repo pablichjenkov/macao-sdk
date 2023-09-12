@@ -3,7 +3,6 @@ package com.macaosoftware.component.demo
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.CanvasBasedWindow
 import com.macaosoftware.component.BrowserComponentRender
-import com.macaosoftware.component.demo.componentDelegates.DrawerComponentDelegate1
 import com.macaosoftware.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.macaosoftware.component.demo.componentDelegates.PanelComponentDelegate1
 import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
@@ -26,7 +25,7 @@ fun main() {
             it.setCompactContainer(
                 DrawerComponent(
                     drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-                    componentDelegate = DrawerComponentDelegate1(),
+                    componentViewModel = DrawerComponentDefaults.createViewModel(),
                     content = DrawerComponentDefaults.DrawerComponentView
                 )
             )

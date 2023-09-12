@@ -15,7 +15,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.macaosoftware.component.AndroidComponentRender
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
-import com.macaosoftware.component.demo.componentDelegates.DrawerComponentDelegate1
 import com.macaosoftware.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.macaosoftware.component.demo.componentDelegates.PanelComponentDelegate1
 import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
@@ -38,7 +37,7 @@ class AdaptiveSizeActivity : ComponentActivity() {
             it.setCompactContainer(
                 DrawerComponent<DrawerStatePresenterDefault>(
                     drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-                    componentDelegate = DrawerComponentDelegate1(),
+                    componentViewModel = DrawerComponentDefaults.createViewModel(),
                     content = DrawerComponentDefaults.DrawerComponentView
                 )
             )

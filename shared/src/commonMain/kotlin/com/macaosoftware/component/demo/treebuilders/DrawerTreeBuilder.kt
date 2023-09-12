@@ -7,18 +7,17 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import com.macaosoftware.component.core.NavItem
+import com.macaosoftware.component.core.setNavItems
+import com.macaosoftware.component.demo.componentDelegates.Demo3PageTopBarViewModel
+import com.macaosoftware.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.component.navbar.NavBarStatePresenterDefault
-import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
-import com.macaosoftware.component.demo.componentDelegates.DrawerComponentDelegate1
-import com.macaosoftware.component.demo.componentDelegates.NavBarComponentDelegate1
-import com.macaosoftware.component.demo.componentDelegates.Demo3PageTopBarViewModel
 
 object DrawerTreeBuilder {
     private lateinit var drawerComponent: DrawerComponent<DrawerStatePresenterDefault>
@@ -57,7 +56,7 @@ object DrawerTreeBuilder {
 
         return DrawerComponent(
             drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-            componentDelegate = DrawerComponentDelegate1(),
+            componentViewModel = DrawerComponentDefaults.createViewModel(),
             content = DrawerComponentDefaults.DrawerComponentView
         ).also {
             drawerComponent = it
