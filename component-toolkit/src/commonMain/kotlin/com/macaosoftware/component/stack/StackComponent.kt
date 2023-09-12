@@ -16,7 +16,7 @@ import com.macaosoftware.component.util.EmptyNavigationComponentView
 
 class StackComponent<T : StackStatePresenter>(
     val stackStatePresenter: T,
-    private val componentDelegate: StackComponentDelegate<T>,
+    private val componentDelegate: StackComponentViewModel<T>,
     private val content: @Composable StackComponent<T>.(
         modifier: Modifier,
         activeComponent: Component

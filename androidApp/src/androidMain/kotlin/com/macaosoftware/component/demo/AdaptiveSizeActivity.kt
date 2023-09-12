@@ -15,7 +15,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.macaosoftware.component.AndroidComponentRender
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
-import com.macaosoftware.component.demo.componentDelegates.PanelComponentDelegate1
 import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
@@ -36,21 +35,21 @@ class AdaptiveSizeActivity : ComponentActivity() {
             it.setCompactContainer(
                 DrawerComponent<DrawerStatePresenterDefault>(
                     drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-                    componentViewModel = DrawerComponentDefaults.createViewModel(),
+                    componentViewModel = DrawerComponentDefaults.createComponentViewModel(),
                     content = DrawerComponentDefaults.DrawerComponentView
                 )
             )
             it.setMediumContainer(
                 NavBarComponent(
                     navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-                    componentViewModel = NavBarComponentDefaults.createViewModel(),
+                    componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
                     content = NavBarComponentDefaults.NavBarComponentView
                 )
             )
             it.setExpandedContainer(
                 PanelComponent(
                     panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
-                    componentDelegate = PanelComponentDelegate1(),
+                    componentViewModel = PanelComponentDefaults.createComponentViewModel(),
                     content = PanelComponentDefaults.PanelComponentView
                 )
             )
@@ -103,7 +102,7 @@ fun DrawerPreview() {
 
     val navBarComponent = NavBarComponent(
         navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-        componentViewModel = NavBarComponentDefaults.createViewModel(),
+        componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
         content = NavBarComponentDefaults.NavBarComponentView
     ).also {
         it.setNavItems(navItems = navbarItems, selectedIndex = 0)

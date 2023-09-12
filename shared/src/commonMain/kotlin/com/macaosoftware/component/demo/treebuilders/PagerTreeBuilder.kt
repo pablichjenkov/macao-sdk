@@ -57,7 +57,7 @@ object PagerTreeBuilder {
 
         val navBarComponent1 = NavBarComponent(
             navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentViewModel = NavBarComponentDefaults.createViewModel(),
+            componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
             content = NavBarComponentDefaults.NavBarComponentView
         )
 
@@ -93,7 +93,7 @@ object PagerTreeBuilder {
 
         val navBarComponent2 = NavBarComponent(
             navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentViewModel = NavBarComponentDefaults.createViewModel(),
+            componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
             content = NavBarComponentDefaults.NavBarComponentView
         )
 

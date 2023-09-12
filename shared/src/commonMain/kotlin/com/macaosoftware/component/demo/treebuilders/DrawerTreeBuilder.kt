@@ -55,7 +55,7 @@ object DrawerTreeBuilder {
 
         return DrawerComponent(
             drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-            componentViewModel = DrawerComponentDefaults.createViewModel(),
+            componentViewModel = DrawerComponentDefaults.createComponentViewModel(),
             content = DrawerComponentDefaults.DrawerComponentView
         ).also {
             drawerComponent = it
@@ -97,7 +97,7 @@ object DrawerTreeBuilder {
 
         val navBarComponent = NavBarComponent(
             navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentViewModel = NavBarComponentDefaults.createViewModel(),
+            componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
             content = NavBarComponentDefaults.NavBarComponentView
         )
 

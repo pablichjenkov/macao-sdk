@@ -68,7 +68,7 @@ object FullAppWithIntroTreeBuilder {
 
         val navBarComponent = NavBarComponent(
             navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentViewModel = NavBarComponentDefaults.createViewModel(),
+            componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
             content = NavBarComponentDefaults.NavBarComponentView
         )
 
@@ -93,7 +93,7 @@ object FullAppWithIntroTreeBuilder {
 
         val drawerComponent = DrawerComponent(
             drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-            componentViewModel = DrawerComponentDefaults.createViewModel(),
+            componentViewModel = DrawerComponentDefaults.createComponentViewModel(),
             content = DrawerComponentDefaults.DrawerComponentView
         )
 
@@ -137,7 +137,7 @@ object FullAppWithIntroTreeBuilder {
 
         val navBarComponent = NavBarComponent(
             navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentViewModel = NavBarComponentDefaults.createViewModel(),
+            componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
             content = NavBarComponentDefaults.NavBarComponentView
         )
 
@@ -160,7 +160,7 @@ object FullAppWithIntroTreeBuilder {
 
         val drawerComponent = DrawerComponent(
             drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-            componentViewModel = DrawerComponentDefaults.createViewModel(),
+            componentViewModel = DrawerComponentDefaults.createComponentViewModel(),
             content = DrawerComponentDefaults.DrawerComponentView
         )
 

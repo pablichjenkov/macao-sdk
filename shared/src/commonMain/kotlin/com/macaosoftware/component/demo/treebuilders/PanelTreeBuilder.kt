@@ -9,7 +9,6 @@ import androidx.compose.material.icons.filled.Settings
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.demo.componentDelegates.Demo3PageTopBarViewModel
-import com.macaosoftware.component.demo.componentDelegates.PanelComponentDelegate1
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.component.navbar.NavBarStatePresenterDefault
@@ -57,7 +56,7 @@ object PanelTreeBuilder {
 
         return PanelComponent(
             panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
-            componentDelegate = PanelComponentDelegate1(),
+            componentViewModel = PanelComponentDefaults.createComponentViewModel(),
             content = PanelComponentDefaults.PanelComponentView
         ).also {
             it.setNavItems(panelNavItems, 0)
@@ -99,7 +98,7 @@ object PanelTreeBuilder {
 
         return NavBarComponent(
             navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentViewModel = NavBarComponentDefaults.createViewModel(),
+            componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
             content = NavBarComponentDefaults.NavBarComponentView
         ).also { it.setNavItems(navbarNavItems, 0) }
     }
