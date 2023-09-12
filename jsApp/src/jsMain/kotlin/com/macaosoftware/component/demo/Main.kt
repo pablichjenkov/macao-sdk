@@ -3,7 +3,6 @@ package com.macaosoftware.component.demo
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.CanvasBasedWindow
 import com.macaosoftware.component.BrowserComponentRender
-import com.macaosoftware.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.macaosoftware.component.demo.componentDelegates.PanelComponentDelegate1
 import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.macaosoftware.component.drawer.DrawerComponent
@@ -33,7 +32,7 @@ fun main() {
             it.setMediumContainer(
                 NavBarComponent(
                     navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-                    componentDelegate = NavBarComponentDelegate1(),
+                    componentViewModel = NavBarComponentDefaults.createViewModel(),
                     content = NavBarComponentDefaults.NavBarComponentView
                 )
             )

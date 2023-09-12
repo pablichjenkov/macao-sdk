@@ -15,7 +15,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.macaosoftware.component.AndroidComponentRender
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
-import com.macaosoftware.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.macaosoftware.component.demo.componentDelegates.PanelComponentDelegate1
 import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.macaosoftware.component.drawer.DrawerComponent
@@ -44,7 +43,7 @@ class AdaptiveSizeActivity : ComponentActivity() {
             it.setMediumContainer(
                 NavBarComponent(
                     navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-                    componentDelegate = NavBarComponentDelegate1(),
+                    componentViewModel = NavBarComponentDefaults.createViewModel(),
                     content = NavBarComponentDefaults.NavBarComponentView
                 )
             )
@@ -104,7 +103,7 @@ fun DrawerPreview() {
 
     val navBarComponent = NavBarComponent(
         navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-        componentDelegate = NavBarComponentDelegate1(),
+        componentViewModel = NavBarComponentDefaults.createViewModel(),
         content = NavBarComponentDefaults.NavBarComponentView
     ).also {
         it.setNavItems(navItems = navbarItems, selectedIndex = 0)

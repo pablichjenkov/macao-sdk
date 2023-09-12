@@ -7,18 +7,17 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import com.macaosoftware.component.core.NavItem
+import com.macaosoftware.component.core.setNavItems
+import com.macaosoftware.component.demo.componentDelegates.Demo3PageTopBarViewModel
+import com.macaosoftware.component.demo.componentDelegates.PanelComponentDelegate1
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.component.navbar.NavBarStatePresenterDefault
 import com.macaosoftware.component.panel.PanelComponent
 import com.macaosoftware.component.panel.PanelComponentDefaults
 import com.macaosoftware.component.panel.PanelStatePresenterDefault
-import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
-import com.macaosoftware.component.demo.componentDelegates.NavBarComponentDelegate1
-import com.macaosoftware.component.demo.componentDelegates.PanelComponentDelegate1
-import com.macaosoftware.component.demo.componentDelegates.Demo3PageTopBarViewModel
 
 object PanelTreeBuilder {
 
@@ -100,7 +99,7 @@ object PanelTreeBuilder {
 
         return NavBarComponent(
             navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentDelegate = NavBarComponentDelegate1(),
+            componentViewModel = NavBarComponentDefaults.createViewModel(),
             content = NavBarComponentDefaults.NavBarComponentView
         ).also { it.setNavItems(navbarNavItems, 0) }
     }
