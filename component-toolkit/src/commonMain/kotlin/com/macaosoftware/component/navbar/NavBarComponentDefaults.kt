@@ -28,7 +28,7 @@ object NavBarComponentDefaults {
         }
     }
 
-    fun createViewModel(): NavBarComponentDefaultViewModel {
+    fun createComponentViewModel(): NavBarComponentDefaultViewModel {
         return NavBarComponentDefaultViewModel()
     }
 }

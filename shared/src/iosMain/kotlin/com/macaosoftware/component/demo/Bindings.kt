@@ -2,7 +2,6 @@ package com.macaosoftware.component.demo
 
 import com.macaosoftware.component.IosComponentRender
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.demo.componentDelegates.PanelComponentDelegate1
 import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.macaosoftware.component.demo.treebuilders.DrawerTreeBuilder
 import com.macaosoftware.component.demo.treebuilders.FullAppWithIntroTreeBuilder
@@ -43,7 +42,7 @@ fun buildAdaptableSizeComponent(): Component {
         it.setCompactContainer(
             DrawerComponent(
                 drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-                componentViewModel = DrawerComponentDefaults.createViewModel(),
+                componentViewModel = DrawerComponentDefaults.createComponentViewModel(),
                 content = DrawerComponentDefaults.DrawerComponentView
             )
         )
@@ -51,14 +50,14 @@ fun buildAdaptableSizeComponent(): Component {
         it.setMediumContainer(
             NavBarComponent(
                 navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-                componentViewModel = NavBarComponentDefaults.createViewModel(),
+                componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
                 content = NavBarComponentDefaults.NavBarComponentView
             )
         )
         it.setExpandedContainer(
             PanelComponent(
                 panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
-                componentDelegate = PanelComponentDelegate1(),
+                componentViewModel = PanelComponentDefaults.createComponentViewModel(),
                 content = PanelComponentDefaults.PanelComponentView
             )
         )
