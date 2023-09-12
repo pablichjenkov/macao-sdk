@@ -118,7 +118,7 @@ class Demo3PageTopBarViewModel(
         }
     }
 
-    override fun componentDelegateChildForNextUriFragment(nextUriFragment: String): Component? {
+    override fun onCheckChildForNextUriFragment(nextUriFragment: String): Component? {
         println("Demo3PageTopBarViewModel::ChildForNextUriFragment nextUriFragment = $nextUriFragment")
         return when (nextUriFragment) {
             Step1.uriFragment -> Step1

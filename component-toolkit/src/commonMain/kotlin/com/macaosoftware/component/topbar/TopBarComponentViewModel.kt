@@ -7,11 +7,9 @@ abstract class TopBarComponentViewModel<T : TopBarStatePresenter> : ComponentVie
 
     open val showBackArrowStrategy: ShowBackArrowStrategy = ShowBackArrowStrategy.Always
 
-    // TODO: Remove this, don't pass the component, the component should listen for
-    // ViewModel events
     abstract fun create(topBarComponent: TopBarComponent<T>)
     abstract fun mapComponentToStackBarItem(topComponent: Component): TopBarItem
-    abstract fun componentDelegateChildForNextUriFragment(
+    abstract fun onCheckChildForNextUriFragment(
         nextUriFragment: String
     ): Component?
     abstract fun onBackstackEmpty()

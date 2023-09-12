@@ -11,7 +11,7 @@ import com.macaosoftware.component.topbar.TopBarComponentViewModel
 import com.macaosoftware.component.topbar.TopBarItem
 import com.macaosoftware.component.topbar.TopBarStatePresenterDefault
 
-class HomeTopBarComponentViewModel(
+class HomeTopBarViewModel(
     screenName: String,
     onDone: () -> Unit
 ) : TopBarComponentViewModel<TopBarStatePresenterDefault>() {
@@ -102,7 +102,7 @@ class HomeTopBarComponentViewModel(
         }
     }
 
-    override fun componentDelegateChildForNextUriFragment(nextUriFragment: String): Component? {
+    override fun onCheckChildForNextUriFragment(nextUriFragment: String): Component? {
         println("${topBarComponent.instanceId()}::getChildForNextUriFragment = $nextUriFragment")
         return when (nextUriFragment) {
             Step1.uriFragment -> Step1
@@ -120,8 +120,8 @@ class HomeTopBarComponentViewModel(
         fun create(
             screenName: String,
             onDone: () -> Unit
-        ): HomeTopBarComponentViewModel {
-            return HomeTopBarComponentViewModel(screenName, onDone)
+        ): HomeTopBarViewModel {
+            return HomeTopBarViewModel(screenName, onDone)
         }
     }
 }

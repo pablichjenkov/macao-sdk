@@ -6,19 +6,18 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.NavItem
+import com.macaosoftware.component.core.setNavItems
+import com.macaosoftware.component.demo.AppCoordinatorComponent
+import com.macaosoftware.component.demo.componentDelegates.Demo3PageTopBarViewModel
+import com.macaosoftware.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
-import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.split.SplitComponent
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
-import com.macaosoftware.component.demo.AppCoordinatorComponent
-import com.macaosoftware.component.demo.componentDelegates.DrawerComponentDelegate1
-import com.macaosoftware.component.demo.componentDelegates.NavBarComponentDelegate1
-import com.macaosoftware.component.demo.componentDelegates.Demo3PageTopBarViewModel
 import com.macaosoftware.platform.CoroutineDispatchers
 import com.macaosoftware.platform.DiContainer
 
@@ -95,7 +94,7 @@ object FullAppWithIntroTreeBuilder {
 
         val drawerComponent = DrawerComponent(
             drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-            componentDelegate = DrawerComponentDelegate1(),
+            componentViewModel = DrawerComponentDefaults.createViewModel(),
             content = DrawerComponentDefaults.DrawerComponentView
         )
 
@@ -162,7 +161,7 @@ object FullAppWithIntroTreeBuilder {
 
         val drawerComponent = DrawerComponent(
             drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-            componentDelegate = DrawerComponentDelegate1(),
+            componentViewModel = DrawerComponentDefaults.createViewModel(),
             content = DrawerComponentDefaults.DrawerComponentView
         )
 

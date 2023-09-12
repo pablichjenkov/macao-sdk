@@ -12,7 +12,7 @@ import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
-import com.macaosoftware.component.demo.componentDelegates.HomeTopBarComponentViewModel
+import com.macaosoftware.component.demo.componentDelegates.HomeTopBarViewModel
 import com.macaosoftware.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.macaosoftware.component.demo.componentDelegates.SettingsTopBarViewModel
 import com.macaosoftware.component.demo.componentDelegates.Demo3PageTopBarViewModel
@@ -89,7 +89,7 @@ object AdaptableSizeTreeBuilder {
 
         val homeComponent = TopBarComponent(
             topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-            componentViewModel = HomeTopBarComponentViewModel.create("Home", {}),
+            componentViewModel = HomeTopBarViewModel.create("Home", {}),
             content = TopBarComponentDefaults.TopBarComponentView
         ).apply {
             uriFragment = "Home"
