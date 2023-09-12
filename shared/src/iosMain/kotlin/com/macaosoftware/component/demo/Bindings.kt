@@ -2,7 +2,6 @@ package com.macaosoftware.component.demo
 
 import com.macaosoftware.component.IosComponentRender
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.macaosoftware.component.demo.componentDelegates.PanelComponentDelegate1
 import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.macaosoftware.component.demo.treebuilders.DrawerTreeBuilder
@@ -52,7 +51,7 @@ fun buildAdaptableSizeComponent(): Component {
         it.setMediumContainer(
             NavBarComponent(
                 navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-                componentDelegate = NavBarComponentDelegate1(),
+                componentViewModel = NavBarComponentDefaults.createViewModel(),
                 content = NavBarComponentDefaults.NavBarComponentView
             )
         )

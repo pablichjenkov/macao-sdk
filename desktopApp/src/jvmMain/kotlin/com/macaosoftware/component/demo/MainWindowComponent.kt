@@ -13,7 +13,6 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
 import com.macaosoftware.component.demo.componentDelegates.Demo3PageTopBarViewModel
-import com.macaosoftware.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.macaosoftware.component.demo.componentDelegates.PanelComponentDelegate1
 import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.macaosoftware.component.drawer.DrawerComponent
@@ -50,7 +49,7 @@ class MainWindowComponent(
             it.setMediumContainer(
                 NavBarComponent(
                     navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-                    componentDelegate = NavBarComponentDelegate1(),
+                    componentViewModel = NavBarComponentDefaults.createViewModel(),
                     content = NavBarComponentDefaults.NavBarComponentView
                 )
             )

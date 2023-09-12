@@ -27,4 +27,8 @@ object NavBarComponentDefaults {
             childComponent.Content(Modifier)
         }
     }
+
+    fun createViewModel(): NavBarComponentDefaultViewModel {
+        return NavBarComponentDefaultViewModel()
+    }
 }

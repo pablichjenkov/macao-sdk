@@ -9,7 +9,6 @@ import androidx.compose.material.icons.filled.Settings
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.demo.componentDelegates.Demo3PageTopBarViewModel
-import com.macaosoftware.component.demo.componentDelegates.NavBarComponentDelegate1
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
@@ -98,7 +97,7 @@ object DrawerTreeBuilder {
 
         val navBarComponent = NavBarComponent(
             navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentDelegate = NavBarComponentDelegate1(),
+            componentViewModel = NavBarComponentDefaults.createViewModel(),
             content = NavBarComponentDefaults.NavBarComponentView
         )
 

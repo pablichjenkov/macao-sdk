@@ -24,20 +24,20 @@ import kotlinx.coroutines.launch
 
 class NavBarComponent<T : NavBarStatePresenter>(
     val navBarStatePresenter: T,
-    private val componentDelegate: NavBarComponentDelegate<T>,
+    private val componentViewModel: NavBarComponentViewModel<T>,
     private var content: @Composable NavBarComponent<T>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit
 ) : Component(), NavigationComponent {
 
-    override val backStack = createBackStack(componentDelegate.pushStrategy)
+    override val backStack = createBackStack(componentViewModel.pushStrategy)
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
-    private val coroutineScope = CoroutineScope(componentDelegate.dispatchers.main)
+    private val coroutineScope = CoroutineScope(componentViewModel.dispatchers.main)
 
     init {
         coroutineScope.launch {
@@ -52,19 +52,19 @@ class NavBarComponent<T : NavBarStatePresenter>(
     }
 
     override fun onStart() {
-        with(componentDelegate) {
+        with(componentViewModel) {
             navigationComponentLifecycleStart()
         }
     }
 
     override fun onStop() {
-        with(componentDelegate) {
+        with(componentViewModel) {
             navigationComponentLifecycleStop()
         }
     }
 
     override fun onDestroy() {
-        with(componentDelegate) {
+        with(componentViewModel) {
             navigationComponentLifecycleDestroy()
         }
     }
