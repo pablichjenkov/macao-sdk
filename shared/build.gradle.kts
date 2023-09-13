@@ -1,7 +1,6 @@
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
-    kotlin("native.cocoapods")
 }
 
 version = extra["component-toolkit.version"] as String
@@ -16,15 +15,16 @@ version = extra["component-toolkit.version"] as String
 
 kotlin {
     // IOS
-    iosArm64()
-    //iosSimulatorArm64()
-    cocoapods {
-        summary = "ComponentKt umbrella module"
-        homepage = "https://github.com/pablichjenkov/component-toolkit"
-        ios.deploymentTarget = "16.0"
-        framework {
-            baseName = "ComponentDemoKt"
-            isStatic = true
+    listOf(
+        // iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries {
+            framework {
+                baseName = "ComponentDemoKt"
+                isStatic = true
+            }
         }
     }
 
@@ -44,7 +44,7 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.material3)
                 implementation(project(":component-toolkit"))
-                implementation("org.jetbrains.compose.components:components-resources:1.4.3")
+                implementation("org.jetbrains.compose.components:components-resources:1.5.1")
             }
         }
         val commonTest by getting {
