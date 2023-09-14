@@ -1,6 +1,6 @@
 package com.macaosoftware.component.core
 
-internal fun ComponentWithChildren.destroyChildComponent() {
+internal fun ComponentWithChildrenOneActive.destroyChildComponent() {
     if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
         getComponent().dispatchStop()
         getComponent().dispatchDestroy()

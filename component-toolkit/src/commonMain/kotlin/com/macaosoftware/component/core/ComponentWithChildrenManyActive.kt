@@ -1,10 +1,8 @@
 package com.macaosoftware.component.core
 
-import androidx.compose.runtime.MutableState
-
-interface ComponentWithChildren {
+interface ComponentWithChildrenManyActive {
     fun getComponent(): Component
     var childComponents: MutableList<Component>
-    var activeComponent: MutableState<Component?>
+    var activeComponentList: MutableList<Component>
     fun onDestroyChildComponent(component: Component)
 }

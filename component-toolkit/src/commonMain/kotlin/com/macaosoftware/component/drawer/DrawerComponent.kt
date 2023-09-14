@@ -50,6 +50,7 @@ class DrawerComponent<T : DrawerStatePresenter>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
+        componentViewModel.create(this@DrawerComponent)
     }
 
     // region: ComponentLifecycle
@@ -57,18 +58,21 @@ class DrawerComponent<T : DrawerStatePresenter>(
     override fun onStart() {
         with(componentViewModel) {
             navigationComponentLifecycleStart()
+            onStart()
         }
     }
 
     override fun onStop() {
         with(componentViewModel) {
             navigationComponentLifecycleStop()
+            onStop()
         }
     }
 
     override fun onDestroy() {
         with(componentViewModel) {
             navigationComponentLifecycleDestroy()
+            onDestroy()
         }
     }
 

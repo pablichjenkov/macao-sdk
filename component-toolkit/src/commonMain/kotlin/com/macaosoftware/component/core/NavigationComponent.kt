@@ -1,12 +1,10 @@
 package com.macaosoftware.component.core
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.vector.ImageVector
 
 interface NavigationComponent : ComponentWithBackStack {
     var navItems: MutableList<NavItem>
     var selectedIndex: Int
-    //var activeComponent: MutableState<Component?>
 
     fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>)
     fun updateSelectedNavItem(newTop: Component)
@@ -19,7 +17,8 @@ interface NavigationComponent : ComponentWithBackStack {
 }
 
 data class NavItem(
+    val component: Component,
     val label: String,
     val icon: ImageVector,
-    val component: Component
+    val badgeText: String? = null
 )

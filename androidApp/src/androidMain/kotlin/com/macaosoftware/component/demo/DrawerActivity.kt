@@ -7,18 +7,25 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import com.macaosoftware.component.AndroidComponentRender
+import com.macaosoftware.component.demo.componentDelegates.DrawerDemoViewModel
+import com.macaosoftware.component.drawer.DrawerComponent
+import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.platform.AndroidBridge
-import com.macaosoftware.component.demo.treebuilders.DrawerTreeBuilder
 
 class DrawerActivity : ComponentActivity() {
 
+    private val drawerComponent = DrawerComponent(
+        drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
+        componentViewModel = DrawerDemoViewModel(),
+        content = DrawerComponentDefaults.DrawerComponentView
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val rootComponent = DrawerTreeBuilder.build()
         setContent {
             MaterialTheme {
                 AndroidComponentRender(
-                    rootComponent = rootComponent,
+                    rootComponent = drawerComponent,
                     AndroidBridge(),
                     onBackPress = { finish() }
                 )
