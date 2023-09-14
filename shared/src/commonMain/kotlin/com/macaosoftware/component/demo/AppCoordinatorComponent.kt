@@ -14,7 +14,7 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.stack.BackStack
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
-import com.macaosoftware.component.demo.componentDelegates.Demo3PageTopBarViewModel
+import com.macaosoftware.component.demo.viewmodel.Demo3PageTopBarViewModel
 
 class AppCoordinatorComponent : Component() {
     val backStack = BackStack<Component>()

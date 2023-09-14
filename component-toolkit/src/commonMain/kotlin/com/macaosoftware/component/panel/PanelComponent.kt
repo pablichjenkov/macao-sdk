@@ -48,23 +48,27 @@ class PanelComponent<T : PanelStatePresenter>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
+        componentViewModel.create(this@PanelComponent)
     }
 
     override fun onStart() {
         with(componentViewModel) {
             navigationComponentLifecycleStart()
+            onStart()
         }
     }
 
     override fun onStop() {
         with(componentViewModel) {
             navigationComponentLifecycleStop()
+            onStop()
         }
     }
 
     override fun onDestroy() {
         with(componentViewModel) {
             navigationComponentLifecycleDestroy()
+            onDestroy()
         }
     }
 

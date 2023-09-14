@@ -12,7 +12,7 @@ import com.macaosoftware.component.DesktopComponentRender
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
-import com.macaosoftware.component.demo.componentDelegates.Demo3PageTopBarViewModel
+import com.macaosoftware.component.demo.viewmodel.Demo3PageTopBarViewModel
 import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults

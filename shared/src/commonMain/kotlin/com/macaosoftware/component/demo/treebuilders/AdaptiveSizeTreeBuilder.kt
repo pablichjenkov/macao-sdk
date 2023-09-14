@@ -8,9 +8,9 @@ import androidx.compose.material.icons.filled.Refresh
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
-import com.macaosoftware.component.demo.componentDelegates.Demo3PageTopBarViewModel
-import com.macaosoftware.component.demo.componentDelegates.HomeTopBarViewModel
-import com.macaosoftware.component.demo.componentDelegates.SettingsTopBarViewModel
+import com.macaosoftware.component.demo.viewmodel.Demo3PageTopBarViewModel
+import com.macaosoftware.component.demo.viewmodel.HomeTopBarViewModel
+import com.macaosoftware.component.demo.viewmodel.SettingsTopBarViewModel
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.component.topbar.TopBarComponent

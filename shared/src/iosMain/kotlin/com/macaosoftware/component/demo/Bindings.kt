@@ -2,7 +2,7 @@ package com.macaosoftware.component.demo
 
 import com.macaosoftware.component.IosComponentRender
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.demo.componentDelegates.DrawerDemoViewModel
+import com.macaosoftware.component.demo.viewmodel.DrawerDemoViewModel
 import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.macaosoftware.component.demo.treebuilders.FullAppWithIntroTreeBuilder
 import com.macaosoftware.component.demo.treebuilders.PagerTreeBuilder

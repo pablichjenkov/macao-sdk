@@ -1,17 +1,17 @@
-package com.macaosoftware.component.demo.componentDelegates
+package com.macaosoftware.component.demo.viewmodel
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Color
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.SimpleComponent
-import com.macaosoftware.component.demo.SimpleRequestComponent
+import com.macaosoftware.component.demo.SimpleResponseComponent
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentViewModel
 import com.macaosoftware.component.topbar.TopBarItem
 import com.macaosoftware.component.topbar.TopBarStatePresenterDefault
 
-class HomeTopBarViewModel(
+class SettingsTopBarViewModel(
     screenName: String,
     onDone: () -> Unit
 ) : TopBarComponentViewModel<TopBarStatePresenterDefault>() {
@@ -46,7 +46,7 @@ class HomeTopBarViewModel(
     }
 
     val Step3 =
-        SimpleRequestComponent(
+        SimpleResponseComponent(
             "$screenName/Page 3",
             Color.Cyan
         ).also {
@@ -102,7 +102,9 @@ class HomeTopBarViewModel(
         }
     }
 
-    override fun onCheckChildForNextUriFragment(nextUriFragment: String): Component? {
+    override fun onCheckChildForNextUriFragment(
+        nextUriFragment: String
+    ): Component? {
         println("${topBarComponent.instanceId()}::getChildForNextUriFragment = $nextUriFragment")
         return when (nextUriFragment) {
             Step1.uriFragment -> Step1
@@ -120,8 +122,8 @@ class HomeTopBarViewModel(
         fun create(
             screenName: String,
             onDone: () -> Unit
-        ): HomeTopBarViewModel {
-            return HomeTopBarViewModel(screenName, onDone)
+        ): SettingsTopBarViewModel {
+            return SettingsTopBarViewModel(screenName, onDone)
         }
     }
 }

@@ -6,7 +6,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.DesktopComponentRender
-import com.macaosoftware.component.demo.componentDelegates.DrawerDemoViewModel
+import com.macaosoftware.component.demo.viewmodel.DrawerDemoViewModel
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.platform.DesktopBridge

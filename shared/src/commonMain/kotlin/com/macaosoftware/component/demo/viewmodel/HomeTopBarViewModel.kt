@@ -1,16 +1,17 @@
-package com.macaosoftware.component.demo.componentDelegates
+package com.macaosoftware.component.demo.viewmodel
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Color
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.SimpleComponent
+import com.macaosoftware.component.demo.SimpleRequestComponent
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentViewModel
 import com.macaosoftware.component.topbar.TopBarItem
 import com.macaosoftware.component.topbar.TopBarStatePresenterDefault
 
-class Demo3PageTopBarViewModel(
+class HomeTopBarViewModel(
     screenName: String,
     onDone: () -> Unit
 ) : TopBarComponentViewModel<TopBarStatePresenterDefault>() {
@@ -25,7 +26,6 @@ class Demo3PageTopBarViewModel(
         when (msg) {
             SimpleComponent.Msg.Next -> {
                 topBarComponent.backStack.push(Step2)
-
             }
         }
     }.also {
@@ -45,18 +45,13 @@ class Demo3PageTopBarViewModel(
         it.uriFragment = "Page 2"
     }
 
-    val Step3 = SimpleComponent(
-        "$screenName/Page 3",
-        Color.Cyan
-    ) { msg ->
-        when (msg) {
-            SimpleComponent.Msg.Next -> {
-                onDone()
-            }
+    val Step3 =
+        SimpleRequestComponent(
+            "$screenName/Page 3",
+            Color.Cyan
+        ).also {
+            it.uriFragment = "Page 3"
         }
-    }.also {
-        it.uriFragment = "Page 3"
-    }
 
     override fun create(topBarComponent: TopBarComponent<TopBarStatePresenterDefault>) {
         this.topBarComponent = topBarComponent
@@ -77,17 +72,6 @@ class Demo3PageTopBarViewModel(
 
     override fun onDestroy() {
     }
-
-    /*override fun start() {
-
-    }
-
-    override fun stop() {
-    }
-
-    override fun destroy() {
-        println("${topBarComponent.instanceId()}::onStop()")
-    }*/
 
     override fun mapComponentToStackBarItem(topComponent: Component): TopBarItem {
         return when (topComponent) {
@@ -119,7 +103,7 @@ class Demo3PageTopBarViewModel(
     }
 
     override fun onCheckChildForNextUriFragment(nextUriFragment: String): Component? {
-        println("Demo3PageTopBarViewModel::ChildForNextUriFragment nextUriFragment = $nextUriFragment")
+        println("${topBarComponent.instanceId()}::getChildForNextUriFragment = $nextUriFragment")
         return when (nextUriFragment) {
             Step1.uriFragment -> Step1
             Step2.uriFragment -> Step2
@@ -136,8 +120,8 @@ class Demo3PageTopBarViewModel(
         fun create(
             screenName: String,
             onDone: () -> Unit
-        ): Demo3PageTopBarViewModel {
-            return Demo3PageTopBarViewModel(screenName, onDone)
+        ): HomeTopBarViewModel {
+            return HomeTopBarViewModel(screenName, onDone)
         }
     }
 }
