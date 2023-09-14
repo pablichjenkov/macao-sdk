@@ -4,17 +4,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.DesktopComponentRender
-import com.macaosoftware.component.demo.treebuilders.PanelTreeBuilder
+import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.demo.viewmodel.PanelDemoViewModel
+import com.macaosoftware.component.panel.PanelComponent
+import com.macaosoftware.component.panel.PanelComponentDefaults
 import com.macaosoftware.platform.DesktopBridge
 
 class PanelWindowComponent(
     val onCloseClick: () -> Unit
 ) : Component() {
     private val windowState = WindowState()
-    private var panelComponent: Component = PanelTreeBuilder.build()
     private val desktopBridge = DesktopBridge()
+
+    private var panelComponent = PanelComponent(
+        panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
+        componentViewModel = PanelDemoViewModel(),
+        content = PanelComponentDefaults.PanelComponentView
+    )
 
     @Composable
     override fun Content(modifier: Modifier) {

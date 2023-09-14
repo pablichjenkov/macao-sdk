@@ -1,4 +1,4 @@
-package com.macaosoftware.component.demo.treebuilders
+package com.macaosoftware.component.demo.viewmodel
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -6,24 +6,38 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
-import com.macaosoftware.component.demo.componentDelegates.Demo3PageTopBarViewModel
 import com.macaosoftware.component.navbar.NavBarComponent
-import com.macaosoftware.component.navbar.NavBarComponentDefaults
+import com.macaosoftware.component.navbar.NavBarComponentViewModel
 import com.macaosoftware.component.navbar.NavBarStatePresenterDefault
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
-object NavBarTreeBuilder {
+class BottomBarDemoViewModel : NavBarComponentViewModel<NavBarStatePresenterDefault>() {
 
     private lateinit var navBarComponent: NavBarComponent<NavBarStatePresenterDefault>
+    private var navBarItemsCache: MutableList<NavItem>? = null
 
-    fun build(): NavBarComponent<NavBarStatePresenterDefault> {
+    override fun create(navBarComponent: NavBarComponent<NavBarStatePresenterDefault>) {
+        this.navBarComponent = navBarComponent
+        val navBarItems = createNavBarItems()
+        val selectedIndex = 0
+        navBarComponent.setNavItems(navBarItems, selectedIndex)
+    }
 
-        if (NavBarTreeBuilder::navBarComponent.isInitialized) {
-            return navBarComponent
+    override fun onStart() {
+    }
+
+    override fun onStop() {
+    }
+
+    override fun onDestroy() {
+    }
+
+    private fun createNavBarItems(): MutableList<NavItem> {
+        navBarItemsCache?.let {
+            return it
         }
-
-        val navbarNavItems = mutableListOf(
+        return mutableListOf(
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
@@ -51,16 +65,8 @@ object NavBarTreeBuilder {
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
-        )
-
-        return NavBarComponent(
-            navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            // pushStrategy = FixSizedPushStrategy(1), // Uncomment to test other push strategies
-            componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
-            content = NavBarComponentDefaults.NavBarComponentView
         ).also {
-            it.setNavItems(navbarNavItems, 0)
-            navBarComponent = it
+            navBarItemsCache = it
         }
     }
 

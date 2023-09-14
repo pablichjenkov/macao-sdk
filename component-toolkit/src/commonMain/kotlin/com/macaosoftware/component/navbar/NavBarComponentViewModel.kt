@@ -5,6 +5,7 @@ import com.macaosoftware.component.core.NavigationComponent
 import com.macaosoftware.component.core.NavigationComponentDefaults
 import com.macaosoftware.component.stack.AddAllPushStrategy
 import com.macaosoftware.component.stack.PushStrategy
+import com.macaosoftware.component.viewmodel.ComponentViewModel
 import com.macaosoftware.platform.CoroutineDispatchers
 
 abstract class NavBarComponentViewModel<T : NavBarStatePresenter>(
@@ -12,6 +13,27 @@ abstract class NavBarComponentViewModel<T : NavBarStatePresenter>(
         NavigationComponentDefaults.createLifecycleHandler(),
     val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
     val pushStrategy: PushStrategy<Component> = AddAllPushStrategy(),
-) : NavigationComponent.LifecycleHandler by lifecycleHandler
+) : ComponentViewModel(),
+    NavigationComponent.LifecycleHandler by lifecycleHandler {
 
-class NavBarComponentDefaultViewModel : NavBarComponentViewModel<NavBarStatePresenterDefault>()
+    abstract fun create(navBarComponent: NavBarComponent<T>)
+}
+
+class NavBarComponentDefaultViewModel : NavBarComponentViewModel<NavBarStatePresenterDefault>() {
+
+    override fun create(navBarComponent: NavBarComponent<NavBarStatePresenterDefault>) {
+        println("NavBarComponentDefaultViewModel::create()")
+    }
+
+    override fun onStart() {
+        println("NavBarComponentDefaultViewModel::onStart()")
+    }
+
+    override fun onStop() {
+        println("NavBarComponentDefaultViewModel::onStop()")
+    }
+
+    override fun onDestroy() {
+        println("NavBarComponentDefaultViewModel::onDestroy()")
+    }
+}

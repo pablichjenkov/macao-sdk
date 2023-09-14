@@ -1,4 +1,4 @@
-package com.macaosoftware.component.demo.componentDelegates
+package com.macaosoftware.component.demo.viewmodel
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -6,45 +6,40 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
-import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
-import com.macaosoftware.component.drawer.DrawerComponent
-import com.macaosoftware.component.drawer.DrawerComponentViewModel
-import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.component.navbar.NavBarStatePresenterDefault
+import com.macaosoftware.component.panel.PanelComponent
+import com.macaosoftware.component.panel.PanelComponentViewModel
+import com.macaosoftware.component.panel.PanelStatePresenterDefault
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
-import com.macaosoftware.component.topbar.TopBarStatePresenterDefault
 
-class DrawerDemoViewModel : DrawerComponentViewModel<DrawerStatePresenterDefault>() {
+class PanelDemoViewModel : PanelComponentViewModel<PanelStatePresenterDefault>() {
 
-    private lateinit var topBarComponent: TopBarComponent<TopBarStatePresenterDefault>
-    private var currentComponent: Component? = null
-    private var drawerNavItemsCache: MutableList<NavItem>? = null
+    private lateinit var panelComponent: PanelComponent<PanelStatePresenterDefault>
+    private var panelItemsCache: MutableList<NavItem>? = null
 
-    override fun create(drawerComponent: DrawerComponent<DrawerStatePresenterDefault>) {
-        val drawerNavItems = createDrawerItems()
+    override fun create(panelComponent: PanelComponent<PanelStatePresenterDefault>) {
+        this.panelComponent = panelComponent
+        val panelNavItems = createPanelNavItems()
         val selectedIndex = 0
-        drawerComponent.setNavItems(drawerNavItems, selectedIndex)
+        panelComponent.setNavItems(panelNavItems, selectedIndex)
     }
 
     override fun onStart() {
-
     }
 
     override fun onStop() {
-
     }
 
     override fun onDestroy() {
-
     }
 
-    private fun createDrawerItems(): MutableList<NavItem> {
-        drawerNavItemsCache?.let {
+    private fun createPanelNavItems(): List<NavItem> {
+        panelItemsCache?.let {
             return it
         }
         return mutableListOf(
@@ -72,7 +67,7 @@ class DrawerDemoViewModel : DrawerComponentViewModel<DrawerStatePresenterDefault
                 )
             )
         ).also {
-            drawerNavItemsCache = it
+            panelItemsCache = it
         }
     }
 
@@ -80,41 +75,39 @@ class DrawerDemoViewModel : DrawerComponentViewModel<DrawerStatePresenterDefault
 
         val navbarNavItems = mutableListOf(
             NavItem(
-                label = "Active",
+                label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Active", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Home", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(
-                label = "Past",
+                label = "Orders",
                 icon = Icons.Filled.Settings,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Past", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Orders", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
             NavItem(
-                label = "New Order",
+                label = "Settings",
                 icon = Icons.Filled.Add,
                 component = TopBarComponent(
                     topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("New Order", {}),
+                    componentViewModel = Demo3PageTopBarViewModel.create("Settings", {}),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
         )
 
-        val navBarComponent = NavBarComponent(
+        return NavBarComponent(
             navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
             componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
             content = NavBarComponentDefaults.NavBarComponentView
-        )
-
-        return navBarComponent.also { it.setNavItems(navbarNavItems, 0) }
+        ).also { it.setNavItems(navbarNavItems, 0) }
     }
 
 }
