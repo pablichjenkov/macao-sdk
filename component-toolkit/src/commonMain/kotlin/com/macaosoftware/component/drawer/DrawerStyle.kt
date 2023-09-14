@@ -23,7 +23,8 @@ data class DrawerNavItem(
     val label: String,
     val icon: ImageVector,
     var selected: Boolean,
-    val component: Component
+    val component: Component,
+    val badgeText: String? = null
 )
 
 fun NavItem.toDrawerNavItem(selected: Boolean = false): DrawerNavItem {

@@ -83,21 +83,22 @@ fun DrawerPreview() {
 
     val navbarItems = listOf(
         NavItem(
-            "Tab 1",
-            Icons.Default.Email,
-            SimpleComponent(
+            component = SimpleComponent(
                 "Tab 1",
                 Color.Magenta,
-            ) {}
+            ) {},
+            label = "Tab 1",
+            icon = Icons.Default.Email
         ),
         NavItem(
-            "Tab 2",
-            Icons.Default.AccountBox,
-            SimpleComponent(
+            component = SimpleComponent(
                 "Tab 2",
                 Color.Blue,
-            ) {}
-        )
+            ) {},
+            label = "Tab 2",
+            icon = Icons.Default.AccountBox,
+
+            )
     )
 
     val navBarComponent = NavBarComponent(

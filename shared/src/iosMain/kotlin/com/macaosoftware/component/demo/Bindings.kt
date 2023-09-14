@@ -2,8 +2,8 @@ package com.macaosoftware.component.demo
 
 import com.macaosoftware.component.IosComponentRender
 import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.demo.componentDelegates.DrawerDemoViewModel
 import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
-import com.macaosoftware.component.demo.treebuilders.DrawerTreeBuilder
 import com.macaosoftware.component.demo.treebuilders.FullAppWithIntroTreeBuilder
 import com.macaosoftware.component.demo.treebuilders.PagerTreeBuilder
 import com.macaosoftware.component.drawer.DrawerComponent
@@ -27,7 +27,11 @@ fun ComponentRenderer(
 ): UIViewController = IosComponentRender(rootComponent, iosBridge, onBackPress)
 
 fun buildDrawerComponent(): Component {
-    return DrawerTreeBuilder.build()
+    return DrawerComponent(
+        drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
+        componentViewModel = DrawerDemoViewModel(),
+        content = DrawerComponentDefaults.DrawerComponentView
+    )
 }
 
 fun buildPagerComponent(): Component {
