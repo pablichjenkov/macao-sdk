@@ -16,7 +16,7 @@ import com.macaosoftware.component.util.EmptyNavigationComponentView
 
 class StackComponent<T : StackStatePresenter>(
     val stackStatePresenter: T,
-    private val componentDelegate: StackComponentViewModel<T>,
+    private val componentViewModel: StackComponentViewModel<T>,
     private val content: @Composable StackComponent<T>.(
         modifier: Modifier,
         activeComponent: Component
@@ -35,17 +35,24 @@ class StackComponent<T : StackStatePresenter>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
+        componentViewModel.create(this)
     }
 
     override fun onStart() {
         if (activeComponent.value != null) {
             activeComponent.value?.dispatchStart()
         }
+        componentViewModel.onStart()
     }
 
     override fun onStop() {
         activeComponent.value?.dispatchStop()
         lastBackstackEvent = null
+        componentViewModel.onStop()
+    }
+
+    override fun onDestroy() {
+        componentViewModel.onDestroy()
     }
 
     override fun handleBackPressed() {
@@ -87,7 +94,7 @@ class StackComponent<T : StackStatePresenter>(
     }
 
     private fun dispatchStackTopUpdate(topComponent: Component) {
-        componentDelegate.onStackTopUpdate(topComponent)
+        componentViewModel.onStackTopUpdate(topComponent)
     }
 
     override fun onDestroyChildComponent(component: Component) {

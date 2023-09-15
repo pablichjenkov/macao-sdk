@@ -4,14 +4,15 @@ import com.macaosoftware.component.IosComponentRender
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.viewmodel.DrawerDemoViewModel
 import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
-import com.macaosoftware.component.demo.treebuilders.FullAppWithIntroTreeBuilder
 import com.macaosoftware.component.demo.treebuilders.PagerTreeBuilder
+import com.macaosoftware.component.demo.viewmodel.AppViewModel
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.component.panel.PanelComponent
 import com.macaosoftware.component.panel.PanelComponentDefaults
+import com.macaosoftware.component.stack.StackComponentDefaults
 import com.macaosoftware.platform.CoroutineDispatchers
 import com.macaosoftware.platform.DiContainer
 import com.macaosoftware.platform.IOSBridge2
@@ -69,5 +70,9 @@ fun buildAdaptableSizeComponent(): Component {
 }
 
 fun buildAppWithIntroComponent(): Component {
-    return FullAppWithIntroTreeBuilder.build()
+    return AppComponent(
+        stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
+        componentViewModel = AppViewModel(),
+        content = StackComponentDefaults.DefaultStackComponentView
+    )
 }

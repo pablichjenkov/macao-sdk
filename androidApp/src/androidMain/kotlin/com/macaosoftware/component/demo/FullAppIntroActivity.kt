@@ -7,18 +7,24 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import com.macaosoftware.component.AndroidComponentRender
-import com.macaosoftware.component.demo.treebuilders.FullAppWithIntroTreeBuilder
+import com.macaosoftware.component.demo.viewmodel.AppViewModel
+import com.macaosoftware.component.stack.StackComponentDefaults
 import com.macaosoftware.platform.AndroidBridge
 
 class FullAppIntroActivity : ComponentActivity() {
 
+    private val appComponent = AppComponent(
+        stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
+        componentViewModel = AppViewModel(),
+        content = StackComponentDefaults.DefaultStackComponentView
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val rootComponent = FullAppWithIntroTreeBuilder.build()
         setContent {
             MaterialTheme {
                 AndroidComponentRender(
-                    rootComponent = rootComponent,
+                    rootComponent = appComponent,
                     AndroidBridge(),
                     onBackPress = { finish() }
                 )

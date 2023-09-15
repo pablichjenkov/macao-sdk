@@ -8,14 +8,19 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.DesktopComponentRender
-import com.macaosoftware.component.demo.treebuilders.FullAppWithIntroTreeBuilder
+import com.macaosoftware.component.demo.viewmodel.AppViewModel
+import com.macaosoftware.component.stack.StackComponentDefaults
 import com.macaosoftware.platform.DesktopBridge
 
 class FullAppWindowComponent(
     val onCloseClick: () -> Unit
 ) : Component() {
     private val windowState = WindowState(size = DpSize(800.dp, 900.dp))
-    private var activeComponent: Component = FullAppWithIntroTreeBuilder.build()
+    private var appComponent = AppComponent(
+        stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
+        componentViewModel = AppViewModel(),
+        content = StackComponentDefaults.DefaultStackComponentView
+    )
     private val desktopBridge = DesktopBridge()
 
     @Composable
@@ -25,7 +30,7 @@ class FullAppWindowComponent(
             onCloseRequest = { onCloseClick() }
         ) {
             DesktopComponentRender(
-                rootComponent = activeComponent,
+                rootComponent = appComponent,
                 windowState = windowState,
                 onBackPress = onCloseClick,
                 desktopBridge = desktopBridge
