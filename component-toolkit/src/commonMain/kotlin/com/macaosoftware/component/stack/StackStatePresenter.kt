@@ -1,11 +1,16 @@
 package com.macaosoftware.component.stack
 
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 
 interface StackStatePresenter {
-    var stackState: MutableState<StackState>
+    var stackStateSnapshot: State<StackState>
 }
 
 class StackStatePresenterDefault(
-    override var stackState: MutableState<StackState>
-) : StackStatePresenter
+    stackState: StackState = StackState()
+) : StackStatePresenter {
+
+    private var _stackStateSnapshot = mutableStateOf(stackState)
+    override var stackStateSnapshot: State<StackState> = _stackStateSnapshot
+}

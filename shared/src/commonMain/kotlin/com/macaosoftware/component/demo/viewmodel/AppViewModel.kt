@@ -1,4 +1,4 @@
-package com.macaosoftware.component.demo.treebuilders
+package com.macaosoftware.component.demo.viewmodel
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -7,33 +7,61 @@ import androidx.compose.material.icons.filled.Home
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
-import com.macaosoftware.component.demo.AppCoordinatorComponent
-import com.macaosoftware.component.demo.viewmodel.Demo3PageTopBarViewModel
+import com.macaosoftware.component.demo.SplashComponent
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.component.split.SplitComponent
+import com.macaosoftware.component.stack.StackComponent
+import com.macaosoftware.component.stack.StackComponentViewModel
+import com.macaosoftware.component.stack.StackStatePresenterDefault
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
-import com.macaosoftware.platform.CoroutineDispatchers
-import com.macaosoftware.platform.DiContainer
 
-object FullAppWithIntroTreeBuilder {
-    private val diContainer = DiContainer(CoroutineDispatchers.Defaults)
-    private lateinit var appCoordinatorComponent: Component
+class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
 
-    fun build(): Component {
+    lateinit var stackComponent: StackComponent<StackStatePresenterDefault>
 
-        if (FullAppWithIntroTreeBuilder::appCoordinatorComponent.isInitialized) {
-            return appCoordinatorComponent
-        }
+    private val customTopBarComponent: Component = TopBarComponent(
+        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+        componentViewModel = Demo3PageTopBarViewModel.create(
+            screenName = "Onboard",
+            onDone = {
+                val drawerComponent = buildDrawerStateTree(stackComponent)
+                stackComponent.backStack.push(drawerComponent)
+            }
+        ),
+        content = TopBarComponentDefaults.TopBarComponentView
+    ).apply {
+        uriFragment = "Onboard"
+    }
 
-        return AppCoordinatorComponent().also {
-            it.homeComponent = buildDrawerStateTree(it)
-            appCoordinatorComponent = it
-        }
+    private val splashComponent = SplashComponent {
+        stackComponent.backStack.push(customTopBarComponent)
+    }
+
+    override fun create(stackComponent: StackComponent<StackStatePresenterDefault>) {
+        this.stackComponent = stackComponent
+        splashComponent.setParent(stackComponent)
+        customTopBarComponent.setParent(stackComponent)
+    }
+
+    override fun onStart() {
+        stackComponent.backStack.push(splashComponent)
+    }
+
+    override fun onStackTopUpdate(topComponent: Component) {
+
+    }
+
+    override fun onStop() {
+
+    }
+
+    override fun onDestroy() {
+
     }
 
     private fun buildDrawerStateTree(parentComponent: Component): Component {
