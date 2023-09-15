@@ -1,17 +1,25 @@
 package com.macaosoftware.component.adaptive
 
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.macaosoftware.component.core.deeplink.DeepLinkResult
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.Measurable
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.ComponentLifecycleState
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.NavigationComponent
+import com.macaosoftware.component.core.deeplink.DeepLinkResult
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.core.transferFrom
 import com.macaosoftware.component.util.EmptyNavigationComponentView
@@ -20,6 +28,7 @@ import com.macaosoftware.component.util.EmptyNavigationComponentView
  * This node is basically a proxy, it transfer request and events to its active child node
  * */
 class AdaptiveSizeComponent : Component() {
+
     private val initialEmptyNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
     private var CompactNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
     private var MediumNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
@@ -29,6 +38,8 @@ class AdaptiveSizeComponent : Component() {
     var navItems: MutableList<NavItem> = currentNavComponent.value.navItems
     var selectedIndex: Int = currentNavComponent.value.selectedIndex
     var childComponents: MutableList<Component> = mutableListOf()
+
+    private var currentWindowSizeInfo : WindowSizeInfo? = null
 
     fun setNavItems(navItems: MutableList<NavItem>, selectedIndex: Int) {
         this.navItems = navItems
@@ -93,11 +104,14 @@ class AdaptiveSizeComponent : Component() {
             }
 
             ComponentLifecycleState.Started -> {
+                /*
+                // Uncomment this code to see the performance difference. You will notice a small
+                // glitch when switching from Panel to BottomNavigation for instance
                 BoxWithConstraints(Modifier.fillMaxSize()) {
                     val boxConstraints = this
-                    val currentNavComponentCopy = currentNavComponent.value
                     val windowSizeInfo = WindowSizeInfo.fromWidthDp(boxConstraints.maxWidth)
 
+                    val currentNavComponentCopy = currentNavComponent.value
                     if (currentNavComponentCopy == initialEmptyNavComponent) {
                         setAndStartNavComponent(windowSizeInfo)
                     } else if (currentNavComponentCopy != windowSizeInfo) {
@@ -106,6 +120,10 @@ class AdaptiveSizeComponent : Component() {
 
                     StartedContent(modifier, currentNavComponentCopy)
                 }
+                */
+
+                // Bellow is the most efficient adaptive selector I have found
+                AdaptiveChildComponentSelector(modifier.fillMaxSize())
             }
 
             ComponentLifecycleState.Stopped -> {
@@ -114,15 +132,50 @@ class AdaptiveSizeComponent : Component() {
     }
 
     @Composable
+    private fun AdaptiveChildComponentSelector(modifier: Modifier = Modifier) {
+        val dimensionScope = remember { AdaptiveSelectorScopeImpl()  }
+        Layout(
+            // Since we invoke it here it will have Size.Zero
+            // on Composition then will have size value below
+            content = { dimensionScope.AdaptiveView() },
+            modifier = modifier
+        ) { measurables: List<Measurable>, constraints: Constraints ->
+            dimensionScope.maxWidthDp.value = constraints.maxWidth.toDp()
+            val placeables = measurables.map { measurable ->
+                measurable.measure(constraints)
+            }
+            layout(constraints.maxWidth, constraints.maxHeight) {
+                placeables.forEach { placeable ->
+                    placeable.placeRelative(x = 0, y = 0)
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun AdaptiveSelectorScope.AdaptiveView() {
+        val windowSizeInfo = windowSizeInfoState.value
+        println("AdaptiveSizeComponent::AdaptiveView.Composing windowSizeInfo = $windowSizeInfo")
+        if (currentNavComponent.value == initialEmptyNavComponent) {
+            setAndStartNavComponent(windowSizeInfo)
+        } else if (currentWindowSizeInfo != windowSizeInfo) {
+            currentWindowSizeInfo = windowSizeInfo
+            transferNavComponent(windowSizeInfo)
+        }
+        StartedContent(Modifier, currentNavComponent.value)
+    }
+
+    /**
+     * The Content when this component is in Started State.
+     * */
+    @Composable
     private fun StartedContent(modifier: Modifier, currentNavComponent: NavigationComponent?) {
         val currentComponent = currentNavComponent?.getComponent()
-
         if (currentComponent != null) {
             currentComponent.Content(modifier)
         } else {
             EmptyNavigationComponentView(this@AdaptiveSizeComponent)
         }
-
     }
 
     private fun setAndStartNavComponent(windowSizeInfo: WindowSizeInfo) {
@@ -139,6 +192,7 @@ class AdaptiveSizeComponent : Component() {
     private fun transferNavComponent(
         windowSizeInfo: WindowSizeInfo
     ) {
+        println("AdaptiveSizeComponent::transferNavComponent")
         currentNavComponent.value = when (windowSizeInfo) {
             WindowSizeInfo.Compact -> {
                 transfer(currentNavComponent.value, CompactNavComponent)
