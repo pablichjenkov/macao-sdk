@@ -2,10 +2,7 @@ package com.macaosoftware.component.adaptive
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -13,8 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.ComponentLifecycleState
 import com.macaosoftware.component.core.NavItem
@@ -39,7 +34,7 @@ class AdaptiveSizeComponent : Component() {
     var selectedIndex: Int = currentNavComponent.value.selectedIndex
     var childComponents: MutableList<Component> = mutableListOf()
 
-    private var currentWindowSizeInfo : WindowSizeInfo? = null
+    private var currentWindowSizeInfo: WindowSizeInfo? = null
 
     fun setNavItems(navItems: MutableList<NavItem>, selectedIndex: Int) {
         this.navItems = navItems
@@ -133,7 +128,7 @@ class AdaptiveSizeComponent : Component() {
 
     @Composable
     private fun AdaptiveChildComponentSelector(modifier: Modifier = Modifier) {
-        val dimensionScope = remember { AdaptiveSelectorScopeImpl()  }
+        val dimensionScope = remember(key1 = this@AdaptiveSizeComponent) { AdaptiveSelectorScopeImpl() }
         Layout(
             // Since we invoke it here it will have Size.Zero
             // on Composition then will have size value below
