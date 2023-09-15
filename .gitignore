@@ -13,12 +13,8 @@ build/
 out/
 
 ### iOS Xcode generated ###
-iosApp/Podfile.lock
-iosApp/Pods/*
-iosApp/ComponentDemo.xcworkspace/*
 iosApp/ComponentDemo.xcodeproj/*
 !iosApp/ComponentDemo.xcodeproj/project.pbxproj
-shared/*.podspec
 
 ### Mac OS ###
 .DS_Store

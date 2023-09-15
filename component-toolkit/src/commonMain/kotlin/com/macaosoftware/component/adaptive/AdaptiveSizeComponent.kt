@@ -128,14 +128,16 @@ class AdaptiveSizeComponent : Component() {
 
     @Composable
     private fun AdaptiveChildComponentSelector(modifier: Modifier = Modifier) {
-        val dimensionScope = remember(key1 = this@AdaptiveSizeComponent) { AdaptiveSelectorScopeImpl() }
+        val adaptiveSelectorScope = remember(key1 = this@AdaptiveSizeComponent) {
+            AdaptiveSelectorScopeImpl()
+        }
         Layout(
             // Since we invoke it here it will have Size.Zero
             // on Composition then will have size value below
-            content = { dimensionScope.AdaptiveView() },
+            content = { adaptiveSelectorScope.AdaptiveView() },
             modifier = modifier
         ) { measurables: List<Measurable>, constraints: Constraints ->
-            dimensionScope.maxWidthDp.value = constraints.maxWidth.toDp()
+            adaptiveSelectorScope.maxWidthDp.value = constraints.maxWidth.toDp()
             val placeables = measurables.map { measurable ->
                 measurable.measure(constraints)
             }
