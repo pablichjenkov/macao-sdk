@@ -137,7 +137,7 @@ class AdaptiveSizeComponent : Component() {
             content = { adaptiveSelectorScope.AdaptiveView() },
             modifier = modifier
         ) { measurables: List<Measurable>, constraints: Constraints ->
-            adaptiveSelectorScope.maxWidthDp.value = constraints.maxWidth.toDp()
+            adaptiveSelectorScope.updateMaxWidth(this@Layout, constraints.maxWidth)
             val placeables = measurables.map { measurable ->
                 measurable.measure(constraints)
             }
