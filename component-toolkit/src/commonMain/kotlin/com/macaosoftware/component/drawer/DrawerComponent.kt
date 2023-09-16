@@ -50,7 +50,7 @@ class DrawerComponent<T : DrawerStatePresenter>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
-        componentViewModel.create(this@DrawerComponent)
+        componentViewModel.onCreate(this@DrawerComponent)
     }
 
     // region: ComponentLifecycle

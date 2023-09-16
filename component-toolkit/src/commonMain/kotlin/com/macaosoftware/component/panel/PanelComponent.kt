@@ -48,7 +48,7 @@ class PanelComponent<T : PanelStatePresenter>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
-        componentViewModel.create(this@PanelComponent)
+        componentViewModel.onCreate(this@PanelComponent)
     }
 
     override fun onStart() {

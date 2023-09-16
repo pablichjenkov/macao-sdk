@@ -42,7 +42,7 @@ class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
         stackComponent.backStack.push(customTopBarComponent)
     }
 
-    override fun create(stackComponent: StackComponent<StackStatePresenterDefault>) {
+    override fun onCreate(stackComponent: StackComponent<StackStatePresenterDefault>) {
         this.stackComponent = stackComponent
         splashComponent.setParent(stackComponent)
         customTopBarComponent.setParent(stackComponent)

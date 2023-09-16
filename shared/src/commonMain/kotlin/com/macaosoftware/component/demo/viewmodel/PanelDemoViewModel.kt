@@ -22,7 +22,7 @@ class PanelDemoViewModel : PanelComponentViewModel<PanelStatePresenterDefault>()
     private lateinit var panelComponent: PanelComponent<PanelStatePresenterDefault>
     private var panelItemsCache: MutableList<NavItem>? = null
 
-    override fun create(panelComponent: PanelComponent<PanelStatePresenterDefault>) {
+    override fun onCreate(panelComponent: PanelComponent<PanelStatePresenterDefault>) {
         this.panelComponent = panelComponent
         val panelNavItems = createPanelNavItems()
         val selectedIndex = 0

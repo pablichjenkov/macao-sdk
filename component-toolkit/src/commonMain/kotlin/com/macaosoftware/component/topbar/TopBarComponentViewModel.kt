@@ -7,7 +7,7 @@ abstract class TopBarComponentViewModel<T : TopBarStatePresenter> : ComponentVie
 
     open val showBackArrowStrategy: ShowBackArrowStrategy = ShowBackArrowStrategy.Always
 
-    abstract fun create(topBarComponent: TopBarComponent<T>)
+    abstract fun onCreate(topBarComponent: TopBarComponent<T>)
     abstract fun mapComponentToStackBarItem(topComponent: Component): TopBarItem
     abstract fun onCheckChildForNextUriFragment(
         nextUriFragment: String
