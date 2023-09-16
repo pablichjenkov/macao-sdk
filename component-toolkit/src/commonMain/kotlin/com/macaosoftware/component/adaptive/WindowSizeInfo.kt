@@ -11,8 +11,8 @@ sealed interface WindowSizeInfo {
     companion object {
         fun fromWidthDp(widthDp: Dp): WindowSizeInfo {
             return when (widthDp) {
-                in (0.dp..600.dp) -> Compact
-                in (600.dp..840.dp) -> Medium
+                in (0.dp..<600.dp) -> Compact
+                in (600.dp..<840.dp) -> Medium
                 else -> Expanded
             }
         }
