@@ -58,7 +58,7 @@ class Demo3PageTopBarViewModel(
         it.uriFragment = "Page 3"
     }
 
-    override fun create(topBarComponent: TopBarComponent<TopBarStatePresenterDefault>) {
+    override fun onCreate(topBarComponent: TopBarComponent<TopBarStatePresenterDefault>) {
         this.topBarComponent = topBarComponent
         listOf(Step1, Step2, Step3).forEach {
             it.setParent(topBarComponent)

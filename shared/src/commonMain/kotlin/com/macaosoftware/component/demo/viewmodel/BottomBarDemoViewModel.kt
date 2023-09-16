@@ -17,7 +17,7 @@ class BottomBarDemoViewModel : NavBarComponentViewModel<NavBarStatePresenterDefa
     private lateinit var navBarComponent: NavBarComponent<NavBarStatePresenterDefault>
     private var navBarItemsCache: MutableList<NavItem>? = null
 
-    override fun create(navBarComponent: NavBarComponent<NavBarStatePresenterDefault>) {
+    override fun onCreate(navBarComponent: NavBarComponent<NavBarStatePresenterDefault>) {
         this.navBarComponent = navBarComponent
         val navBarItems = createNavBarItems()
         val selectedIndex = 0

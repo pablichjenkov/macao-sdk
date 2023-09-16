@@ -35,7 +35,7 @@ class StackComponent<T : StackStatePresenter>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
-        componentViewModel.create(this)
+        componentViewModel.onCreate(this)
     }
 
     override fun onStart() {

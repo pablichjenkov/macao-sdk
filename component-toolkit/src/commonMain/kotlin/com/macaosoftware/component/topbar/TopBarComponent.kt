@@ -41,7 +41,7 @@ class TopBarComponent<T : TopBarStatePresenter>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
-        componentViewModel.create(this@TopBarComponent)
+        componentViewModel.onCreate(this@TopBarComponent)
     }
 
     override fun onStart() {

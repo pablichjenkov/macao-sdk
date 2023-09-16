@@ -22,7 +22,9 @@ import com.macaosoftware.component.util.EmptyNavigationComponentView
 /**
  * This node is basically a proxy, it transfer request and events to its active child node
  * */
-class AdaptiveSizeComponent : Component() {
+class AdaptiveSizeComponent(
+    private val componentViewModel: AdaptiveSizeComponentViewModel
+) : Component() {
 
     private val initialEmptyNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
     private var CompactNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
@@ -35,6 +37,10 @@ class AdaptiveSizeComponent : Component() {
     var childComponents: MutableList<Component> = mutableListOf()
 
     private var currentWindowSizeInfo: WindowSizeInfo? = null
+
+    init {
+        componentViewModel.onCreate(this)
+    }
 
     fun setNavItems(navItems: MutableList<NavItem>, selectedIndex: Int) {
         this.navItems = navItems
@@ -65,11 +71,19 @@ class AdaptiveSizeComponent : Component() {
     override fun onStart() {
         println("${instanceId()}::onStart()")
         currentNavComponent.value.getComponent().dispatchStart()
+        componentViewModel.onStart()
     }
 
     override fun onStop() {
         println("${instanceId()}::onStop()")
         currentNavComponent.value.getComponent().dispatchStop()
+        componentViewModel.onStop()
+    }
+
+    override fun onDestroy() {
+        println("${instanceId()}::onDestroy()")
+        currentNavComponent.value.getComponent().dispatchDestroy()
+        componentViewModel.onDestroy()
     }
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {

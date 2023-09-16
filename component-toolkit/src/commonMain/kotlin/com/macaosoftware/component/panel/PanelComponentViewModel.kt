@@ -16,12 +16,12 @@ abstract class PanelComponentViewModel<T : PanelStatePresenter>(
 ) : ComponentViewModel(),
     NavigationComponent.LifecycleHandler by lifecycleHandler {
 
-    abstract fun create(panelComponent: PanelComponent<T>)
+    abstract fun onCreate(panelComponent: PanelComponent<T>)
 }
 
 class PanelComponentDefaultViewModel : PanelComponentViewModel<PanelStatePresenterDefault>() {
 
-    override fun create(panelComponent: PanelComponent<PanelStatePresenterDefault>) {
+    override fun onCreate(panelComponent: PanelComponent<PanelStatePresenterDefault>) {
         println("PanelComponentDefaultViewModel::create()")
     }
 

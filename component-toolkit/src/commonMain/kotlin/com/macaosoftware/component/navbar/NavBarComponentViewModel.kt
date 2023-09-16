@@ -16,12 +16,12 @@ abstract class NavBarComponentViewModel<T : NavBarStatePresenter>(
 ) : ComponentViewModel(),
     NavigationComponent.LifecycleHandler by lifecycleHandler {
 
-    abstract fun create(navBarComponent: NavBarComponent<T>)
+    abstract fun onCreate(navBarComponent: NavBarComponent<T>)
 }
 
 class NavBarComponentDefaultViewModel : NavBarComponentViewModel<NavBarStatePresenterDefault>() {
 
-    override fun create(navBarComponent: NavBarComponent<NavBarStatePresenterDefault>) {
+    override fun onCreate(navBarComponent: NavBarComponent<NavBarStatePresenterDefault>) {
         println("NavBarComponentDefaultViewModel::create()")
     }
 

@@ -49,7 +49,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
-        componentViewModel.create(this@NavBarComponent)
+        componentViewModel.onCreate(this@NavBarComponent)
     }
 
     override fun onStart() {

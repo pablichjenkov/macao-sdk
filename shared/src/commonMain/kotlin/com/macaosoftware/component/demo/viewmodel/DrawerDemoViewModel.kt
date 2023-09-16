@@ -22,7 +22,7 @@ class DrawerDemoViewModel : DrawerComponentViewModel<DrawerStatePresenterDefault
     private lateinit var drawerComponent: DrawerComponent<DrawerStatePresenterDefault>
     private var drawerNavItemsCache: MutableList<NavItem>? = null
 
-    override fun create(drawerComponent: DrawerComponent<DrawerStatePresenterDefault>) {
+    override fun onCreate(drawerComponent: DrawerComponent<DrawerStatePresenterDefault>) {
         this.drawerComponent = drawerComponent
         val drawerNavItems = createDrawerItems()
         val selectedIndex = 0

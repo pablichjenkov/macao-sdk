@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
+import com.macaosoftware.component.adaptive.AdaptiveSizeComponentDefaultViewModel
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.demo.viewmodel.Demo3PageTopBarViewModel
@@ -25,7 +26,9 @@ object AdaptableSizeTreeBuilder {
         if (AdaptableSizeTreeBuilder::adaptiveSizeComponent.isInitialized) {
             return adaptiveSizeComponent
         }
-        return AdaptiveSizeComponent().also {
+        return AdaptiveSizeComponent(
+            AdaptiveSizeComponentDefaultViewModel()
+        ).also {
             adaptiveSizeComponent = it
             it.uriFragment = "_navigator_adaptive"
         }
