@@ -1,4 +1,4 @@
-package com.macaosoftware.component.demo.treebuilders
+package com.macaosoftware.component.demo.viewmodel
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -6,38 +6,69 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
-import com.macaosoftware.component.adaptive.AdaptiveSizeComponentDefaultViewModel
+import com.macaosoftware.component.adaptive.AdaptiveSizeComponentViewModel
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
-import com.macaosoftware.component.demo.viewmodel.Demo3PageTopBarViewModel
-import com.macaosoftware.component.demo.viewmodel.HomeTopBarViewModel
-import com.macaosoftware.component.demo.viewmodel.SettingsTopBarViewModel
+import com.macaosoftware.component.drawer.DrawerComponent
+import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
+import com.macaosoftware.component.panel.PanelComponent
+import com.macaosoftware.component.panel.PanelComponentDefaults
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
-object AdaptableSizeTreeBuilder {
+class AdaptiveSizeDemoViewModel : AdaptiveSizeComponentViewModel() {
 
     private lateinit var adaptiveSizeComponent: AdaptiveSizeComponent
-    private lateinit var subTreeNavItems: MutableList<NavItem>
+    private var subTreeNavItems: MutableList<NavItem>? = null
 
-    fun build(): AdaptiveSizeComponent {
-        if (AdaptableSizeTreeBuilder::adaptiveSizeComponent.isInitialized) {
-            return adaptiveSizeComponent
-        }
-        return AdaptiveSizeComponent(
-            AdaptiveSizeComponentDefaultViewModel()
-        ).also {
-            adaptiveSizeComponent = it
-            it.uriFragment = "_navigator_adaptive"
-        }
+    override fun onCreate(adaptiveSizeComponent: AdaptiveSizeComponent) {
+        this.adaptiveSizeComponent = adaptiveSizeComponent
+        adaptiveSizeComponent.uriFragment = "_navigator_adaptive"
+        val navItems = getOrCreateDetachedNavItems()
+        adaptiveSizeComponent.setNavItems(navItems, 0)
+        adaptiveSizeComponent.setCompactContainer(
+            DrawerComponent(
+                drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
+                componentViewModel = DrawerComponentDefaults.createComponentViewModel(),
+                content = DrawerComponentDefaults.DrawerComponentView
+            )
+        )
+        //adaptiveSizeComponent.setCompactContainer(PagerComponent())
+        adaptiveSizeComponent.setMediumContainer(
+            NavBarComponent(
+                navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
+                componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
+                content = NavBarComponentDefaults.NavBarComponentView
+            )
+        )
+        adaptiveSizeComponent.setExpandedContainer(
+            PanelComponent(
+                panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
+                componentViewModel = PanelComponentDefaults.createComponentViewModel(),
+                content = PanelComponentDefaults.PanelComponentView
+            )
+        )
+
+    }
+
+    override fun onStart() {
+        println("AdaptiveSizeDemoViewModel::onStart()")
+    }
+
+    override fun onStop() {
+        println("AdaptiveSizeDemoViewModel::onStop()")
+    }
+
+    override fun onDestroy() {
+        println("AdaptiveSizeDemoViewModel::onDestroy()")
     }
 
     fun getOrCreateDetachedNavItems(): MutableList<NavItem> {
 
-        if (AdaptableSizeTreeBuilder::subTreeNavItems.isInitialized) {
-            return subTreeNavItems
+        subTreeNavItems?.let {
+            return it
         }
 
         val navbarNavItems = mutableListOf(
@@ -123,5 +154,4 @@ object AdaptableSizeTreeBuilder {
 
         return navItems.also { subTreeNavItems = it }
     }
-
 }

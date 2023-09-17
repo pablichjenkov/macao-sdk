@@ -5,21 +5,28 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.MaterialTheme
 import com.macaosoftware.component.AndroidComponentRender
-import com.macaosoftware.component.demo.treebuilders.PagerTreeBuilder
+import com.macaosoftware.component.demo.viewmodel.PagerDemoViewModel
+import com.macaosoftware.component.pager.PagerComponent
+import com.macaosoftware.component.pager.PagerComponentDefaults
 import com.macaosoftware.platform.AndroidBridge
 
 class PagerActivity : ComponentActivity() {
 
+    @OptIn(ExperimentalFoundationApi::class)
+    val pagerComponent = PagerComponent(
+        componentViewModel = PagerDemoViewModel(),
+        content = PagerComponentDefaults.PagerComponentView
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // It creates a state tree where the root component is a Pager
-        val rootComponent = PagerTreeBuilder.build()
         setContent {
             MaterialTheme {
                 AndroidComponentRender(
-                    rootComponent = rootComponent,
+                    rootComponent = pagerComponent,
                     AndroidBridge(),
                     onBackPress = { finish() }
                 )

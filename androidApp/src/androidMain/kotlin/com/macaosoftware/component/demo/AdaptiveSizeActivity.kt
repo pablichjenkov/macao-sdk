@@ -13,51 +13,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.macaosoftware.component.AndroidComponentRender
+import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
-import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
-import com.macaosoftware.component.drawer.DrawerComponent
-import com.macaosoftware.component.drawer.DrawerComponentDefaults
-import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
+import com.macaosoftware.component.demo.viewmodel.AdaptiveSizeDemoViewModel
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
-import com.macaosoftware.component.panel.PanelComponent
-import com.macaosoftware.component.panel.PanelComponentDefaults
 import com.macaosoftware.platform.AndroidBridge
 
 class AdaptiveSizeActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val navItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
-        val rootComponent = AdaptableSizeTreeBuilder.build().also {
-            it.setNavItems(navItems, 0)
-            it.setCompactContainer(
-                DrawerComponent<DrawerStatePresenterDefault>(
-                    drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-                    componentViewModel = DrawerComponentDefaults.createComponentViewModel(),
-                    content = DrawerComponentDefaults.DrawerComponentView
-                )
-            )
-            it.setMediumContainer(
-                NavBarComponent(
-                    navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-                    componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
-                    content = NavBarComponentDefaults.NavBarComponentView
-                )
-            )
-            it.setExpandedContainer(
-                PanelComponent(
-                    panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
-                    componentViewModel = PanelComponentDefaults.createComponentViewModel(),
-                    content = PanelComponentDefaults.PanelComponentView
-                )
-            )
-        }
+        val adaptiveSizeComponent = AdaptiveSizeComponent(AdaptiveSizeDemoViewModel())
         setContent {
             MaterialTheme {
                 AndroidComponentRender(
-                    rootComponent = rootComponent,
+                    rootComponent = adaptiveSizeComponent,
                     AndroidBridge(),
                     onBackPress = { finish() }
                 )

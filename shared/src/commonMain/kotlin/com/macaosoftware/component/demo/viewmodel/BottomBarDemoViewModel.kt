@@ -15,7 +15,6 @@ import com.macaosoftware.component.topbar.TopBarComponentDefaults
 class BottomBarDemoViewModel : NavBarComponentViewModel<NavBarStatePresenterDefault>() {
 
     private lateinit var navBarComponent: NavBarComponent<NavBarStatePresenterDefault>
-    private var navBarItemsCache: MutableList<NavItem>? = null
 
     override fun onCreate(navBarComponent: NavBarComponent<NavBarStatePresenterDefault>) {
         this.navBarComponent = navBarComponent
@@ -34,9 +33,6 @@ class BottomBarDemoViewModel : NavBarComponentViewModel<NavBarStatePresenterDefa
     }
 
     private fun createNavBarItems(): MutableList<NavItem> {
-        navBarItemsCache?.let {
-            return it
-        }
         return mutableListOf(
             NavItem(
                 label = "Home",
@@ -65,9 +61,7 @@ class BottomBarDemoViewModel : NavBarComponentViewModel<NavBarStatePresenterDefa
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
-        ).also {
-            navBarItemsCache = it
-        }
+        )
     }
 
 }

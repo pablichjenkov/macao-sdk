@@ -20,7 +20,6 @@ import com.macaosoftware.component.topbar.TopBarComponentDefaults
 class DrawerDemoViewModel : DrawerComponentViewModel<DrawerStatePresenterDefault>() {
 
     private lateinit var drawerComponent: DrawerComponent<DrawerStatePresenterDefault>
-    private var drawerNavItemsCache: MutableList<NavItem>? = null
 
     override fun onCreate(drawerComponent: DrawerComponent<DrawerStatePresenterDefault>) {
         this.drawerComponent = drawerComponent
@@ -39,9 +38,6 @@ class DrawerDemoViewModel : DrawerComponentViewModel<DrawerStatePresenterDefault
     }
 
     private fun createDrawerItems(): MutableList<NavItem> {
-        drawerNavItemsCache?.let {
-            return it
-        }
         return mutableListOf(
             NavItem(
                 label = "Home",
@@ -66,9 +62,7 @@ class DrawerDemoViewModel : DrawerComponentViewModel<DrawerStatePresenterDefault
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
-        ).also {
-            drawerNavItemsCache = it
-        }
+        )
     }
 
     private fun buildNavBarComponent(): NavBarComponent<NavBarStatePresenterDefault> {
