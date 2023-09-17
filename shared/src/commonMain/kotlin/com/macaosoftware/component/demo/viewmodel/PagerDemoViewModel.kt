@@ -1,30 +1,43 @@
-package com.macaosoftware.component.demo.treebuilders
+package com.macaosoftware.component.demo.viewmodel
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
-import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
-import com.macaosoftware.component.demo.viewmodel.Demo3PageTopBarViewModel
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.component.pager.PagerComponent
+import com.macaosoftware.component.pager.PagerComponentViewModel
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
-@OptIn(ExperimentalFoundationApi::class)
-object PagerTreeBuilder {
+class PagerDemoViewModel : PagerComponentViewModel() {
+
     private lateinit var pagerComponent: PagerComponent
 
-    fun build(): Component {
+    override fun onCreate(pagerComponent: PagerComponent) {
+        this.pagerComponent = pagerComponent
+        pagerComponent.setNavItems(
+            navItems = createPagerItems(),
+            selectedIndex = 0
+        )
+    }
 
-        if (this@PagerTreeBuilder::pagerComponent.isInitialized) {
-            return pagerComponent
-        }
+    override fun onStart() {
 
+    }
+
+    override fun onStop() {
+
+    }
+
+    override fun onDestroy() {
+
+    }
+
+    private fun createPagerItems(): MutableList<NavItem> {
         val navbarNavItems1 = mutableListOf(
             NavItem(
                 label = "Current",
@@ -97,7 +110,7 @@ object PagerTreeBuilder {
             content = NavBarComponentDefaults.NavBarComponentView
         )
 
-        val pagerNavItems = mutableListOf(
+        return mutableListOf(
             NavItem(
                 label = "Home",
                 icon = Icons.Filled.Home,
@@ -118,15 +131,6 @@ object PagerTreeBuilder {
                 component = navBarComponent2.also { it.setNavItems(navbarNavItems2, 0) },
             )
         )
-
-        return PagerComponent(
-            content = PagerComponent.DefaultPagerComponentView
-        ).also {
-            pagerComponent = it
-            it.setNavItems(
-                pagerNavItems, 0
-            )
-        }
     }
 
 }

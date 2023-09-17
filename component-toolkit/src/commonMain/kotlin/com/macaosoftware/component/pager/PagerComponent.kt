@@ -1,28 +1,18 @@
 package com.macaosoftware.component.pager
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.ComponentWithBackStack
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.NavigationComponent
-import com.macaosoftware.component.core.deeplink.DeepLinkResult
 import com.macaosoftware.component.core.componentWithBackStackGetChildForNextUriFragment
+import com.macaosoftware.component.core.deeplink.DeepLinkResult
 import com.macaosoftware.component.core.destroyChildComponent
-import com.macaosoftware.component.pager.indicator.DefaultPagerIndicator
-import com.macaosoftware.component.stack.AddAllPushStrategy
-import com.macaosoftware.component.stack.PushStrategy
 import com.macaosoftware.component.util.EmptyNavigationComponentView
-import com.macaosoftware.platform.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -35,9 +25,7 @@ import kotlinx.coroutines.launch
  * */
 @OptIn(ExperimentalFoundationApi::class)
 class PagerComponent(
-    val pushStrategy: PushStrategy<Component> = AddAllPushStrategy(),
-    val pagerStyle: PagerStyle = PagerStyle(),
-    dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
+    private val componentViewModel: PagerComponentViewModel,
     private var content: @Composable PagerComponent.(
         modifier: Modifier,
         pagerState: PagerState,
@@ -45,20 +33,24 @@ class PagerComponent(
     ) -> Unit
 ) : Component(), NavigationComponent {
 
-    override val backStack = createBackStack(pushStrategy)
+    override val backStack = createBackStack(componentViewModel.pushStrategy)
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
     private var currentActiveIndexSet = mutableSetOf<Int>()
-    private var coroutineScope = CoroutineScope(dispatchers.main)
+    private var coroutineScope = CoroutineScope(componentViewModel.dispatchers.main)
 
     private val _componentOutFlow = MutableSharedFlow<PagerComponentOutEvent?>()
     val pagerComponentViewFlow: SharedFlow<PagerComponentOutEvent?>
         get() = _componentOutFlow
 
     private var currentPage = 0
+
+    init {
+        componentViewModel.onCreate(this@PagerComponent)
+    }
 
     override fun onStart() {
         println("${instanceId()}::onStart()")
@@ -76,6 +68,7 @@ class PagerComponent(
                 childComponents[activeChildIndex].dispatchStart()
             }
         }
+        componentViewModel.onStart()
     }
 
     override fun onStop() {
@@ -84,6 +77,11 @@ class PagerComponent(
             childComponents[activeChildIndex].dispatchStop()
         }
         coroutineScope.coroutineContext.cancelChildren()
+        componentViewModel.onStop()
+    }
+
+    override fun onDestroy() {
+        componentViewModel.onDestroy()
     }
 
     override fun handleBackPressed() {
@@ -123,7 +121,9 @@ class PagerComponent(
     }
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
-        return (this as ComponentWithBackStack).componentWithBackStackGetChildForNextUriFragment(nextUriFragment)
+        return (this as ComponentWithBackStack).componentWithBackStackGetChildForNextUriFragment(
+            nextUriFragment
+        )
     }
 
     // endregion
@@ -200,46 +200,6 @@ class PagerComponent(
                 // Collect from the pager state a snapshotFlow reading the settledPage
                 snapshotFlow { pagerState.settledPage }.collect { pageIndex ->
                     onPageChanged(pageIndex)
-                }
-            }
-        }
-    }
-
-    companion object {
-
-        val DefaultPagerComponentView: @Composable PagerComponent.(
-            modifier: Modifier,
-            pagerState: PagerState,
-            childComponents: List<Component>
-        ) -> Unit = { modifier, pagerState, childComponents ->
-            val pagerItemsSize = childComponents.size
-            Box {
-                HorizontalPager(
-                    modifier = Modifier.fillMaxSize(),
-                    state = pagerState
-                ) { pageIndex ->
-                    println("HorizontalPager::pageIndex = $pageIndex")
-                    childComponents[pageIndex].Content(modifier = modifier)
-                }
-                DefaultPagerIndicator(
-                    modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 56.dp),
-                    pagerState = pagerState,
-                    itemCount = pagerItemsSize,
-                    indicatorCount = pagerItemsSize
-                )
-            }
-            LaunchedEffect(childComponents, pagerState) {
-                launch {
-                    pagerComponentViewFlow.collect {
-                        when (val componentEvent = it) {
-                            is PagerComponentOutEvent.SelectPage -> {
-                                pagerState.animateScrollToPage(componentEvent.page)
-                            }
-
-                            null -> { /* NoOp */
-                            }
-                        }
-                    }
                 }
             }
         }

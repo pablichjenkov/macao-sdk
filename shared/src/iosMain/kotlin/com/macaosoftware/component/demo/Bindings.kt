@@ -1,20 +1,19 @@
 package com.macaosoftware.component.demo
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import com.macaosoftware.component.IosComponentRender
+import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.viewmodel.DrawerDemoViewModel
-import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
 import com.macaosoftware.component.demo.treebuilders.PagerTreeBuilder
+import com.macaosoftware.component.demo.viewmodel.AdaptiveSizeDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.AppViewModel
+import com.macaosoftware.component.demo.viewmodel.PagerDemoViewModel
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
-import com.macaosoftware.component.navbar.NavBarComponent
-import com.macaosoftware.component.navbar.NavBarComponentDefaults
-import com.macaosoftware.component.panel.PanelComponent
-import com.macaosoftware.component.panel.PanelComponentDefaults
+import com.macaosoftware.component.pager.PagerComponent
+import com.macaosoftware.component.pager.PagerComponentDefaults
 import com.macaosoftware.component.stack.StackComponentDefaults
-import com.macaosoftware.platform.CoroutineDispatchers
-import com.macaosoftware.platform.DiContainer
 import com.macaosoftware.platform.IOSBridge2
 import com.macaosoftware.platform.IosBridge
 import platform.Foundation.NSURL
@@ -35,38 +34,16 @@ fun buildDrawerComponent(): Component {
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 fun buildPagerComponent(): Component {
-    return PagerTreeBuilder.build()
+    return PagerComponent(
+        componentViewModel = PagerDemoViewModel(),
+        content = PagerComponentDefaults.PagerComponentView
+    )
 }
 
 fun buildAdaptableSizeComponent(): Component {
-    val diContainer = DiContainer(CoroutineDispatchers.Defaults)
-    val subtreeNavItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
-    return AdaptableSizeTreeBuilder.build().also {
-        it.setNavItems(subtreeNavItems, 0)
-        it.setCompactContainer(
-            DrawerComponent(
-                drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-                componentViewModel = DrawerComponentDefaults.createComponentViewModel(),
-                content = DrawerComponentDefaults.DrawerComponentView
-            )
-        )
-        //it.setCompactContainer(PagerComponent())
-        it.setMediumContainer(
-            NavBarComponent(
-                navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-                componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
-                content = NavBarComponentDefaults.NavBarComponentView
-            )
-        )
-        it.setExpandedContainer(
-            PanelComponent(
-                panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
-                componentViewModel = PanelComponentDefaults.createComponentViewModel(),
-                content = PanelComponentDefaults.PanelComponentView
-            )
-        )
-    }
+    return AdaptiveSizeComponent(AdaptiveSizeDemoViewModel())
 }
 
 fun buildAppWithIntroComponent(): Component {

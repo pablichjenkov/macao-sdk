@@ -9,17 +9,12 @@ import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.DesktopComponentRender
+import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
 import com.macaosoftware.component.demo.viewmodel.Demo3PageTopBarViewModel
-import com.macaosoftware.component.demo.treebuilders.AdaptableSizeTreeBuilder
-import com.macaosoftware.component.drawer.DrawerComponent
-import com.macaosoftware.component.drawer.DrawerComponentDefaults
-import com.macaosoftware.component.navbar.NavBarComponent
-import com.macaosoftware.component.navbar.NavBarComponentDefaults
-import com.macaosoftware.component.panel.PanelComponent
-import com.macaosoftware.component.panel.PanelComponentDefaults
+import com.macaosoftware.component.demo.viewmodel.AdaptiveSizeDemoViewModel
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 import com.macaosoftware.platform.DesktopBridge
@@ -30,37 +25,8 @@ class MainWindowComponent(
     val onExitClick: () -> Unit
 ) : Component() {
     private val windowState = WindowState(size = DpSize(1000.dp, 900.dp))
-    private var adaptableSizeComponent: Component
+    private var adaptableSizeComponent = AdaptiveSizeComponent(AdaptiveSizeDemoViewModel())
     private val desktopBridge = DesktopBridge()
-
-    init {
-        val navItems = AdaptableSizeTreeBuilder.getOrCreateDetachedNavItems()
-        adaptableSizeComponent = AdaptableSizeTreeBuilder.build().also {
-            it.setNavItems(navItems, 0)
-            it.setCompactContainer(
-                DrawerComponent(
-                    drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-                    componentViewModel = DrawerComponentDefaults.createComponentViewModel(),
-                    content = DrawerComponentDefaults.DrawerComponentView
-                )
-            )
-            //it.setCompactContainer(PagerComponent())
-            it.setMediumContainer(
-                NavBarComponent(
-                    navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-                    componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
-                    content = NavBarComponentDefaults.NavBarComponentView
-                )
-            )
-            it.setExpandedContainer(
-                PanelComponent(
-                    panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
-                    componentViewModel = PanelComponentDefaults.createComponentViewModel(),
-                    content = PanelComponentDefaults.PanelComponentView
-                )
-            )
-        }
-    }
 
     // region: DeepLink
 

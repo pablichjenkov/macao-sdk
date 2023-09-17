@@ -20,7 +20,6 @@ import com.macaosoftware.component.topbar.TopBarComponentDefaults
 class PanelDemoViewModel : PanelComponentViewModel<PanelStatePresenterDefault>() {
 
     private lateinit var panelComponent: PanelComponent<PanelStatePresenterDefault>
-    private var panelItemsCache: MutableList<NavItem>? = null
 
     override fun onCreate(panelComponent: PanelComponent<PanelStatePresenterDefault>) {
         this.panelComponent = panelComponent
@@ -39,9 +38,6 @@ class PanelDemoViewModel : PanelComponentViewModel<PanelStatePresenterDefault>()
     }
 
     private fun createPanelNavItems(): List<NavItem> {
-        panelItemsCache?.let {
-            return it
-        }
         return mutableListOf(
             NavItem(
                 label = "Home",
@@ -66,9 +62,7 @@ class PanelDemoViewModel : PanelComponentViewModel<PanelStatePresenterDefault>()
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
-        ).also {
-            panelItemsCache = it
-        }
+        )
     }
 
     private fun buildNavBarComponent(): NavBarComponent<NavBarStatePresenterDefault> {
