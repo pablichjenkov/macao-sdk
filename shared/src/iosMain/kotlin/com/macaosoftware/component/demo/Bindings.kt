@@ -5,7 +5,6 @@ import com.macaosoftware.component.IosComponentRender
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.viewmodel.DrawerDemoViewModel
-import com.macaosoftware.component.demo.treebuilders.PagerTreeBuilder
 import com.macaosoftware.component.demo.viewmodel.AdaptiveSizeDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.AppViewModel
 import com.macaosoftware.component.demo.viewmodel.PagerDemoViewModel
