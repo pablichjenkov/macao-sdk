@@ -17,7 +17,9 @@ import com.macaosoftware.component.navbar.NavBarStatePresenterDefault
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
-class DrawerDemoViewModel : DrawerComponentViewModel<DrawerStatePresenterDefault>() {
+class DrawerDemoViewModel(
+    override val drawerStatePresenter: DrawerStatePresenterDefault
+) : DrawerComponentViewModel<DrawerStatePresenterDefault>() {
 
     private lateinit var drawerComponent: DrawerComponent<DrawerStatePresenterDefault>
 

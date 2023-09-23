@@ -31,7 +31,7 @@ object DrawerComponentDefaults {
     ) -> Unit = { modifier, childComponent ->
         NavigationDrawer(
             modifier = modifier,
-            statePresenter = drawerStatePresenter
+            statePresenter = componentViewModel.drawerStatePresenter
         ) {
             childComponent.Content(Modifier)
         }
