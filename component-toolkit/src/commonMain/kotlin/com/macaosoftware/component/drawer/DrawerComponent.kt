@@ -24,7 +24,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class DrawerComponent<T : DrawerStatePresenter>(
-    val drawerStatePresenter: T,
     val componentViewModel: DrawerComponentViewModel<T>,
     private var content: @Composable DrawerComponent<T>.(
         modifier: Modifier,
@@ -32,6 +31,7 @@ class DrawerComponent<T : DrawerStatePresenter>(
     ) -> Unit
 ) : Component(), NavigationComponent, DrawerNavigationProvider {
 
+    private val drawerStatePresenter: T = componentViewModel.drawerStatePresenter
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var navItems: MutableList<NavItem> = mutableListOf()

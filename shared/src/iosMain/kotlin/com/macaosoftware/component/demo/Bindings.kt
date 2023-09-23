@@ -4,9 +4,9 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import com.macaosoftware.component.IosComponentRender
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.demo.viewmodel.DrawerDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.AdaptiveSizeDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.AppViewModel
+import com.macaosoftware.component.demo.viewmodel.DrawerDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.PagerDemoViewModel
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
@@ -27,8 +27,9 @@ fun ComponentRenderer(
 
 fun buildDrawerComponent(): Component {
     return DrawerComponent(
-        drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-        componentViewModel = DrawerDemoViewModel(),
+        componentViewModel = DrawerDemoViewModel(
+            DrawerComponentDefaults.createDrawerStatePresenter()
+        ),
         content = DrawerComponentDefaults.DrawerComponentView
     )
 }

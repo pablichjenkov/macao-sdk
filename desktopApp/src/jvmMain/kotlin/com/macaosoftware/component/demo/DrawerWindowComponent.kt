@@ -19,8 +19,9 @@ class DrawerWindowComponent(
     private val desktopBridge = DesktopBridge()
 
     private var drawerComponent: Component = DrawerComponent(
-        drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-        componentViewModel = DrawerDemoViewModel(),
+        componentViewModel = DrawerDemoViewModel(
+            DrawerComponentDefaults.createDrawerStatePresenter()
+        ),
         content = DrawerComponentDefaults.DrawerComponentView
     )
 

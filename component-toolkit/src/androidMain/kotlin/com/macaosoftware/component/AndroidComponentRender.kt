@@ -99,7 +99,6 @@ fun AndroidComponentRenderPreview() {
     )
 
     val drawerComponent = DrawerComponent(
-        drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
         componentViewModel = DrawerComponentDefaults.createComponentViewModel(),
         content = DrawerComponentDefaults.DrawerComponentView
     ).also {

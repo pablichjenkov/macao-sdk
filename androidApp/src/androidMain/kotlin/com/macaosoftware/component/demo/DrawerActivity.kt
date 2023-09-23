@@ -15,8 +15,9 @@ import com.macaosoftware.platform.AndroidBridge
 class DrawerActivity : ComponentActivity() {
 
     private val drawerComponent = DrawerComponent(
-        drawerStatePresenter = DrawerComponentDefaults.createDrawerStatePresenter(),
-        componentViewModel = DrawerDemoViewModel(),
+        componentViewModel = DrawerDemoViewModel(
+            DrawerComponentDefaults.createDrawerStatePresenter()
+        ),
         content = DrawerComponentDefaults.DrawerComponentView
     )
 

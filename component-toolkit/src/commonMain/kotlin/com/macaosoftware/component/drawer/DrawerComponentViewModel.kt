@@ -16,10 +16,14 @@ abstract class DrawerComponentViewModel<T : DrawerStatePresenter>(
 ) : ComponentViewModel(),
     NavigationComponent.LifecycleHandler by lifecycleHandler {
 
+    abstract val drawerStatePresenter: T
     abstract fun onCreate(drawerComponent: DrawerComponent<T>)
 }
 
-class DrawerComponentDefaultViewModel : DrawerComponentViewModel<DrawerStatePresenterDefault>() {
+class DrawerComponentDefaultViewModel(
+    override val drawerStatePresenter: DrawerStatePresenterDefault =
+        DrawerComponentDefaults.createDrawerStatePresenter()
+) : DrawerComponentViewModel<DrawerStatePresenterDefault>() {
 
     override fun onCreate(drawerComponent: DrawerComponent<DrawerStatePresenterDefault>) {
         println("DrawerComponentDefaultViewModel::create()")
