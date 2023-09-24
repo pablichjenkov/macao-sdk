@@ -18,13 +18,13 @@ import com.macaosoftware.component.panel.PanelComponentDefaults
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
-class AdaptiveSizeDemoViewModel : AdaptiveSizeComponentViewModel() {
+class AdaptiveSizeDemoViewModel(
+    private val adaptiveSizeComponent: AdaptiveSizeComponent
+) : AdaptiveSizeComponentViewModel() {
 
-    private lateinit var adaptiveSizeComponent: AdaptiveSizeComponent
     private var subTreeNavItems: MutableList<NavItem>? = null
 
-    override fun onCreate(adaptiveSizeComponent: AdaptiveSizeComponent) {
-        this.adaptiveSizeComponent = adaptiveSizeComponent
+    init {
         adaptiveSizeComponent.uriFragment = "_navigator_adaptive"
         val navItems = getOrCreateDetachedNavItems()
         adaptiveSizeComponent.setNavItems(navItems, 0)
