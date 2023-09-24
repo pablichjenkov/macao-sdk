@@ -120,7 +120,7 @@ class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
         )
 
         val drawerComponent = DrawerComponent(
-            componentViewModel = DrawerComponentDefaults.createComponentViewModel(),
+            viewModelFactory = DrawerComponentDefaults.viewModelFactory(),
             content = DrawerComponentDefaults.DrawerComponentView
         )
 
@@ -186,7 +186,7 @@ class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
         )
 
         val drawerComponent = DrawerComponent(
-            componentViewModel = DrawerComponentDefaults.createComponentViewModel(),
+            viewModelFactory = DrawerComponentDefaults.viewModelFactory(),
             content = DrawerComponentDefaults.DrawerComponentView
         )
 

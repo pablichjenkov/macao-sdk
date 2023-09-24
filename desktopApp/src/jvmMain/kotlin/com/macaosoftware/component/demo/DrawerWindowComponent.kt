@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.DesktopComponentRender
-import com.macaosoftware.component.demo.viewmodel.DrawerDemoViewModel
+import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.demo.viewmodel.factory.DrawerDemoViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.platform.DesktopBridge
@@ -19,7 +19,7 @@ class DrawerWindowComponent(
     private val desktopBridge = DesktopBridge()
 
     private var drawerComponent: Component = DrawerComponent(
-        componentViewModel = DrawerDemoViewModel(
+        viewModelFactory = DrawerDemoViewModelFactory(
             DrawerComponentDefaults.createDrawerStatePresenter()
         ),
         content = DrawerComponentDefaults.DrawerComponentView

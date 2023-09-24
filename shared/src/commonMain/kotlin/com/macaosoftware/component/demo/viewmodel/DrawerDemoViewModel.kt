@@ -18,13 +18,11 @@ import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
 class DrawerDemoViewModel(
+    drawerComponent: DrawerComponent<DrawerStatePresenterDefault>,
     override val drawerStatePresenter: DrawerStatePresenterDefault
-) : DrawerComponentViewModel<DrawerStatePresenterDefault>() {
-
-    private lateinit var drawerComponent: DrawerComponent<DrawerStatePresenterDefault>
+) : DrawerComponentViewModel<DrawerStatePresenterDefault>(drawerComponent) {
 
     override fun onCreate(drawerComponent: DrawerComponent<DrawerStatePresenterDefault>) {
-        this.drawerComponent = drawerComponent
         val drawerNavItems = createDrawerItems()
         val selectedIndex = 0
         drawerComponent.setNavItems(drawerNavItems, selectedIndex)

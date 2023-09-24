@@ -6,8 +6,8 @@ import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.viewmodel.AdaptiveSizeDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.AppViewModel
-import com.macaosoftware.component.demo.viewmodel.DrawerDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.PagerDemoViewModel
+import com.macaosoftware.component.demo.viewmodel.factory.DrawerDemoViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.pager.PagerComponent
@@ -27,7 +27,7 @@ fun ComponentRenderer(
 
 fun buildDrawerComponent(): Component {
     return DrawerComponent(
-        componentViewModel = DrawerDemoViewModel(
+        viewModelFactory = DrawerDemoViewModelFactory(
             DrawerComponentDefaults.createDrawerStatePresenter()
         ),
         content = DrawerComponentDefaults.DrawerComponentView

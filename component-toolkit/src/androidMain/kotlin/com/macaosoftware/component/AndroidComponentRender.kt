@@ -99,7 +99,7 @@ fun AndroidComponentRenderPreview() {
     )
 
     val drawerComponent = DrawerComponent(
-        componentViewModel = DrawerComponentDefaults.createComponentViewModel(),
+        viewModelFactory = DrawerComponentDefaults.viewModelFactory(),
         content = DrawerComponentDefaults.DrawerComponentView
     ).also {
         it.setNavItems(navItems = drawerItems, selectedIndex = 1)

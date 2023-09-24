@@ -24,13 +24,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class DrawerComponent<T : DrawerStatePresenter>(
-    val componentViewModel: DrawerComponentViewModel<T>,
+    viewModelFactory: DrawerComponentViewModelFactory<T>,
     private var content: @Composable DrawerComponent<T>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit
 ) : Component(), NavigationComponent, DrawerNavigationProvider {
 
+    val componentViewModel = viewModelFactory.create(this)
     private val drawerStatePresenter: T = componentViewModel.drawerStatePresenter
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override var isFirstComponentInStackPreviousCache: Boolean = false

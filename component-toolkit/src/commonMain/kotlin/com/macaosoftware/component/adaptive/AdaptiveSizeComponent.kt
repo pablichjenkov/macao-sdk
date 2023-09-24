@@ -157,7 +157,7 @@ class AdaptiveSizeComponent(
             }
             layout(constraints.maxWidth, constraints.maxHeight) {
                 placeables.forEach { placeable ->
-                    placeable.placeRelative(x = 0, y = 0)
+                    placeable.place(x = 0, y = 0)
                 }
             }
         }
@@ -167,8 +167,9 @@ class AdaptiveSizeComponent(
     private fun AdaptiveSelectorScope.AdaptiveView() {
         val windowSizeInfo = windowSizeInfoState.value
         println("AdaptiveSizeComponent::AdaptiveView.Composing windowSizeInfo = $windowSizeInfo")
+        if (windowSizeInfo == WindowSizeInfo.ZeroSize) return
         if (currentNavComponent.value == initialEmptyNavComponent) {
-            setAndStartNavComponent(windowSizeInfo)
+            setAndStartNavComponentByWindowSizeInfo(windowSizeInfo)
         } else if (currentWindowSizeInfo != windowSizeInfo) {
             currentWindowSizeInfo = windowSizeInfo
             transferNavComponent(windowSizeInfo)
@@ -189,8 +190,9 @@ class AdaptiveSizeComponent(
         }
     }
 
-    private fun setAndStartNavComponent(windowSizeInfo: WindowSizeInfo) {
+    private fun setAndStartNavComponentByWindowSizeInfo(windowSizeInfo: WindowSizeInfo) {
         val navComponent = when (windowSizeInfo) {
+            WindowSizeInfo.ZeroSize -> currentNavComponent.value
             WindowSizeInfo.Compact -> CompactNavComponent
             WindowSizeInfo.Medium -> MediumNavComponent
             WindowSizeInfo.Expanded -> ExpandedNavComponent
@@ -205,6 +207,10 @@ class AdaptiveSizeComponent(
     ) {
         println("AdaptiveSizeComponent::transferNavComponent")
         currentNavComponent.value = when (windowSizeInfo) {
+            WindowSizeInfo.ZeroSize -> {
+                currentNavComponent.value
+            }
+
             WindowSizeInfo.Compact -> {
                 transfer(currentNavComponent.value, CompactNavComponent)
             }
