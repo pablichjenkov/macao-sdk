@@ -17,6 +17,7 @@ import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.platform.AndroidBridge
@@ -76,8 +77,9 @@ fun DrawerPreview() {
     )
 
     val navBarComponent = NavBarComponent(
-        navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-        componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
+        viewModelFactory = BottomNavigationDemoViewModelFactory(
+            NavBarComponentDefaults.createNavBarStatePresenter()
+        ),
         content = NavBarComponentDefaults.NavBarComponentView
     ).also {
         it.setNavItems(navItems = navbarItems, selectedIndex = 0)

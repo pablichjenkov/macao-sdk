@@ -23,14 +23,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class NavBarComponent<T : NavBarStatePresenter>(
-    val navBarStatePresenter: T,
-    private val componentViewModel: NavBarComponentViewModel<T>,
+    viewModelFactory: BottomNavigationComponentViewModelFactory<T>,
     private var content: @Composable NavBarComponent<T>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit
 ) : Component(), NavigationComponent {
 
+    private val componentViewModel = viewModelFactory.create(this)
+    val navBarStatePresenter = componentViewModel.bottomNavigationStatePresenter
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var navItems: MutableList<NavItem> = mutableListOf()
@@ -49,7 +50,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
-        componentViewModel.onCreate(this@NavBarComponent)
+        componentViewModel.onCreate()
     }
 
     override fun onStart() {

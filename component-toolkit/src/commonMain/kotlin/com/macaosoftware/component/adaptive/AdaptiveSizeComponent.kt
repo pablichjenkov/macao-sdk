@@ -26,7 +26,7 @@ class AdaptiveSizeComponent(
     viewModelFactory: AdaptiveSizeComponentViewModelFactory,
 ) : Component() {
 
-    private val componentViewModel: AdaptiveSizeComponentViewModel
+    private val componentViewModel: AdaptiveSizeComponentViewModel = viewModelFactory.create(this)
     private val initialEmptyNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
     private var CompactNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
     private var MediumNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
@@ -40,7 +40,7 @@ class AdaptiveSizeComponent(
     private var currentWindowSizeInfo: WindowSizeInfo? = null
 
     init {
-        componentViewModel = viewModelFactory.create(this)
+        componentViewModel.onCreate()
     }
 
     fun setNavItems(navItems: MutableList<NavItem>, selectedIndex: Int) {

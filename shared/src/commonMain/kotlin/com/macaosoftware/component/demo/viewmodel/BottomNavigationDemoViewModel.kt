@@ -6,21 +6,21 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
+import com.macaosoftware.component.navbar.BottomNavigationComponentViewModel
 import com.macaosoftware.component.navbar.NavBarComponent
-import com.macaosoftware.component.navbar.NavBarComponentViewModel
 import com.macaosoftware.component.navbar.NavBarStatePresenterDefault
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
-class BottomBarDemoViewModel : NavBarComponentViewModel<NavBarStatePresenterDefault>() {
+class BottomNavigationDemoViewModel(
+    navBarComponent: NavBarComponent<NavBarStatePresenterDefault>,
+    override val bottomNavigationStatePresenter: NavBarStatePresenterDefault
+) : BottomNavigationComponentViewModel<NavBarStatePresenterDefault>(navBarComponent) {
 
-    private lateinit var navBarComponent: NavBarComponent<NavBarStatePresenterDefault>
-
-    override fun onCreate(navBarComponent: NavBarComponent<NavBarStatePresenterDefault>) {
-        this.navBarComponent = navBarComponent
+    override fun onCreate() {
         val navBarItems = createNavBarItems()
         val selectedIndex = 0
-        navBarComponent.setNavItems(navBarItems, selectedIndex)
+        bottomNavigationComponent.setNavItems(navBarItems, selectedIndex)
     }
 
     override fun onStart() {

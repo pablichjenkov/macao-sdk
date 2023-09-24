@@ -9,6 +9,7 @@ import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponentViewModel
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
+import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.navbar.NavBarComponent
@@ -24,7 +25,7 @@ class AdaptiveSizeDemoViewModel(
 
     private var subTreeNavItems: MutableList<NavItem>? = null
 
-    init {
+    override fun onCreate() {
         adaptiveSizeComponent.uriFragment = "_navigator_adaptive"
         val navItems = getOrCreateDetachedNavItems()
         adaptiveSizeComponent.setNavItems(navItems, 0)
@@ -37,8 +38,9 @@ class AdaptiveSizeDemoViewModel(
         //adaptiveSizeComponent.setCompactContainer(PagerComponent())
         adaptiveSizeComponent.setMediumContainer(
             NavBarComponent(
-                navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-                componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
+                viewModelFactory = BottomNavigationDemoViewModelFactory(
+                    NavBarComponentDefaults.createNavBarStatePresenter()
+                ),
                 content = NavBarComponentDefaults.NavBarComponentView
             )
         )
@@ -110,8 +112,9 @@ class AdaptiveSizeDemoViewModel(
         )
 
         val navBarComponent = NavBarComponent(
-            navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
+            viewModelFactory = BottomNavigationDemoViewModelFactory(
+                NavBarComponentDefaults.createNavBarStatePresenter()
+            ),
             content = NavBarComponentDefaults.NavBarComponentView
         ).apply {
             uriFragment = "Orders"

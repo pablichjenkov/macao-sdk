@@ -8,6 +8,7 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.demo.SplashComponent
+import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
@@ -95,8 +96,9 @@ class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
         )
 
         val navBarComponent = NavBarComponent(
-            navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
+            viewModelFactory = BottomNavigationDemoViewModelFactory(
+                NavBarComponentDefaults.createNavBarStatePresenter()
+            ),
             content = NavBarComponentDefaults.NavBarComponentView
         )
 
@@ -163,8 +165,9 @@ class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
         )
 
         val navBarComponent = NavBarComponent(
-            navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
+            viewModelFactory = BottomNavigationDemoViewModelFactory(
+                NavBarComponentDefaults.createNavBarStatePresenter()
+            ),
             content = NavBarComponentDefaults.NavBarComponentView
         )
 
