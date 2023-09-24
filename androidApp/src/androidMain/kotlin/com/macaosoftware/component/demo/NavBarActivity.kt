@@ -7,7 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import com.macaosoftware.component.AndroidComponentRender
-import com.macaosoftware.component.demo.viewmodel.BottomBarDemoViewModel
+import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.platform.AndroidBridge
@@ -15,9 +15,10 @@ import com.macaosoftware.platform.AndroidBridge
 class NavBarActivity : ComponentActivity() {
 
     val navBarComponent = NavBarComponent(
-        navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
         // pushStrategy = FixSizedPushStrategy(1), // Uncomment to test other push strategies
-        componentViewModel = BottomBarDemoViewModel(),
+        viewModelFactory = BottomNavigationDemoViewModelFactory(
+            NavBarComponentDefaults.createNavBarStatePresenter()
+        ),
         content = NavBarComponentDefaults.NavBarComponentView
     )
 

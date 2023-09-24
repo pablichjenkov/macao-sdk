@@ -6,7 +6,8 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.DesktopComponentRender
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.demo.viewmodel.BottomBarDemoViewModel
+import com.macaosoftware.component.demo.viewmodel.BottomNavigationDemoViewModel
+import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.platform.DesktopBridge
@@ -18,9 +19,10 @@ class NavBarWindowComponent(
     private val desktopBridge = DesktopBridge()
 
     private var navBarComponent = NavBarComponent(
-        navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
         // pushStrategy = FixSizedPushStrategy(1), // Uncomment to test other push strategies
-        componentViewModel = BottomBarDemoViewModel(),
+        viewModelFactory = BottomNavigationDemoViewModelFactory(
+            NavBarComponentDefaults.createNavBarStatePresenter()
+        ),
         content = NavBarComponentDefaults.NavBarComponentView
     )
 

@@ -8,7 +8,8 @@ import com.macaosoftware.component.stack.PushStrategy
 import com.macaosoftware.component.viewmodel.ComponentViewModel
 import com.macaosoftware.platform.CoroutineDispatchers
 
-abstract class NavBarComponentViewModel<T : NavBarStatePresenter>(
+abstract class BottomNavigationComponentViewModel<T : NavBarStatePresenter>(
+    protected val bottomNavigationComponent: NavigationComponent,
     private val lifecycleHandler: NavigationComponent.LifecycleHandler =
         NavigationComponentDefaults.createLifecycleHandler(),
     val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
@@ -16,24 +17,29 @@ abstract class NavBarComponentViewModel<T : NavBarStatePresenter>(
 ) : ComponentViewModel(),
     NavigationComponent.LifecycleHandler by lifecycleHandler {
 
-    abstract fun onCreate(navBarComponent: NavBarComponent<T>)
-}
+        abstract fun onCreate()
+        abstract val bottomNavigationStatePresenter: T
+    }
 
-class NavBarComponentDefaultViewModel : NavBarComponentViewModel<NavBarStatePresenterDefault>() {
+class BottomNavigationComponentDefaultViewModel(
+    bottomNavigationComponent: NavigationComponent,
+    override val bottomNavigationStatePresenter: NavBarStatePresenterDefault =
+        NavBarComponentDefaults.createNavBarStatePresenter()
+) : BottomNavigationComponentViewModel<NavBarStatePresenterDefault>(bottomNavigationComponent) {
 
-    override fun onCreate(navBarComponent: NavBarComponent<NavBarStatePresenterDefault>) {
-        println("NavBarComponentDefaultViewModel::create()")
+    override fun onCreate() {
+        println("BottomNavigationComponentDefaultViewModel::onCreate()")
     }
 
     override fun onStart() {
-        println("NavBarComponentDefaultViewModel::onStart()")
+        println("BottomNavigationComponentDefaultViewModel::onStart()")
     }
 
     override fun onStop() {
-        println("NavBarComponentDefaultViewModel::onStop()")
+        println("BottomNavigationComponentDefaultViewModel::onStop()")
     }
 
     override fun onDestroy() {
-        println("NavBarComponentDefaultViewModel::onDestroy()")
+        println("BottomNavigationComponentDefaultViewModel::onDestroy()")
     }
 }

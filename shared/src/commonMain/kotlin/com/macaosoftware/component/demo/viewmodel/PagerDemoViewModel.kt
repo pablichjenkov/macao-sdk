@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
+import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.component.pager.PagerComponent
@@ -69,8 +70,9 @@ class PagerDemoViewModel : PagerComponentViewModel() {
         )
 
         val navBarComponent1 = NavBarComponent(
-            navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
+            viewModelFactory = BottomNavigationDemoViewModelFactory(
+                NavBarComponentDefaults.createNavBarStatePresenter(),
+            ),
             content = NavBarComponentDefaults.NavBarComponentView
         )
 
@@ -105,8 +107,9 @@ class PagerDemoViewModel : PagerComponentViewModel() {
         )
 
         val navBarComponent2 = NavBarComponent(
-            navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
+            viewModelFactory = BottomNavigationDemoViewModelFactory(
+                NavBarComponentDefaults.createNavBarStatePresenter()
+            ),
             content = NavBarComponentDefaults.NavBarComponentView
         )
 

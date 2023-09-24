@@ -9,7 +9,9 @@ import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
 class DrawerDemoViewModelFactory(
     private val drawerStatePresenter: DrawerStatePresenterDefault
 ) : DrawerComponentViewModelFactory<DrawerStatePresenterDefault> {
-    override fun create(drawerComponent: DrawerComponent<DrawerStatePresenterDefault>): DrawerComponentViewModel<DrawerStatePresenterDefault> {
+    override fun create(
+        drawerComponent: DrawerComponent<DrawerStatePresenterDefault>
+    ): DrawerComponentViewModel<DrawerStatePresenterDefault> {
         return DrawerDemoViewModel(drawerComponent, drawerStatePresenter)
     }
 }

@@ -8,9 +8,11 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
+import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentViewModel
 import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
+import com.macaosoftware.component.navbar.BottomNavigationComponentViewModelFactory
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.component.navbar.NavBarStatePresenterDefault
@@ -22,10 +24,10 @@ class DrawerDemoViewModel(
     override val drawerStatePresenter: DrawerStatePresenterDefault
 ) : DrawerComponentViewModel<DrawerStatePresenterDefault>(drawerComponent) {
 
-    override fun onCreate(drawerComponent: DrawerComponent<DrawerStatePresenterDefault>) {
+    override fun onCreate()  {
         val drawerNavItems = createDrawerItems()
         val selectedIndex = 0
-        drawerComponent.setNavItems(drawerNavItems, selectedIndex)
+        this.drawerComponent.setNavItems(drawerNavItems, selectedIndex)
     }
 
     override fun onStart() {
@@ -98,8 +100,9 @@ class DrawerDemoViewModel(
         )
 
         val navBarComponent = NavBarComponent(
-            navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
+            viewModelFactory = BottomNavigationDemoViewModelFactory(
+                NavBarComponentDefaults.createNavBarStatePresenter()
+            ),
             content = NavBarComponentDefaults.NavBarComponentView
         )
 

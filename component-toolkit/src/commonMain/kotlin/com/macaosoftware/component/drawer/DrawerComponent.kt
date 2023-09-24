@@ -31,8 +31,8 @@ class DrawerComponent<T : DrawerStatePresenter>(
     ) -> Unit
 ) : Component(), NavigationComponent, DrawerNavigationProvider {
 
-    val componentViewModel = viewModelFactory.create(this)
-    private val drawerStatePresenter: T = componentViewModel.drawerStatePresenter
+    private val componentViewModel = viewModelFactory.create(this)
+    val drawerStatePresenter: T = componentViewModel.drawerStatePresenter
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var navItems: MutableList<NavItem> = mutableListOf()
@@ -51,7 +51,7 @@ class DrawerComponent<T : DrawerStatePresenter>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
-        componentViewModel.onCreate(this@DrawerComponent)
+        componentViewModel.onCreate()
     }
 
     // region: ComponentLifecycle

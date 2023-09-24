@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
+import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.component.navbar.NavBarStatePresenterDefault
@@ -98,8 +99,9 @@ class PanelDemoViewModel : PanelComponentViewModel<PanelStatePresenterDefault>()
         )
 
         return NavBarComponent(
-            navBarStatePresenter = NavBarComponentDefaults.createNavBarStatePresenter(),
-            componentViewModel = NavBarComponentDefaults.createComponentViewModel(),
+            viewModelFactory = BottomNavigationDemoViewModelFactory(
+                NavBarComponentDefaults.createNavBarStatePresenter()
+            ),
             content = NavBarComponentDefaults.NavBarComponentView
         ).also { it.setNavItems(navbarNavItems, 0) }
     }
