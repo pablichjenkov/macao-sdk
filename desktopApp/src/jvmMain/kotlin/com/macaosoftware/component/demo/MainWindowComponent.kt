@@ -14,7 +14,7 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
 import com.macaosoftware.component.demo.viewmodel.Demo3PageTopBarViewModel
-import com.macaosoftware.component.demo.viewmodel.AdaptiveSizeDemoViewModel
+import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 import com.macaosoftware.platform.DesktopBridge
@@ -25,7 +25,7 @@ class MainWindowComponent(
     val onExitClick: () -> Unit
 ) : Component() {
     private val windowState = WindowState(size = DpSize(1000.dp, 900.dp))
-    private var adaptableSizeComponent = AdaptiveSizeComponent(AdaptiveSizeDemoViewModel())
+    private var adaptableSizeComponent = AdaptiveSizeComponent(AdaptiveSizeDemoViewModelFactory())
     private val desktopBridge = DesktopBridge()
 
     // region: DeepLink

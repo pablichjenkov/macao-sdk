@@ -4,9 +4,9 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import com.macaosoftware.component.IosComponentRender
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.demo.viewmodel.AdaptiveSizeDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.AppViewModel
 import com.macaosoftware.component.demo.viewmodel.PagerDemoViewModel
+import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.DrawerDemoViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
@@ -43,7 +43,7 @@ fun buildPagerComponent(): Component {
 }
 
 fun buildAdaptableSizeComponent(): Component {
-    return AdaptiveSizeComponent(AdaptiveSizeDemoViewModel())
+    return AdaptiveSizeComponent(AdaptiveSizeDemoViewModelFactory())
 }
 
 fun buildAppWithIntroComponent(): Component {

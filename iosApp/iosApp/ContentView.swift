@@ -12,7 +12,7 @@ struct ComposeView : UIViewControllerRepresentable {
         
         
         let test = IosBridge2(
-            test: NSURL.fileURL(withPath: "dcrcd")
+            test: NSURL.fileURL(withPath: "this_should_be_a_url")
         )
         
         let mainViewController = BindingsKt.ComponentRenderer(

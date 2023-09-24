@@ -16,7 +16,7 @@ import com.macaosoftware.component.AndroidComponentRender
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
-import com.macaosoftware.component.demo.viewmodel.AdaptiveSizeDemoViewModel
+import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.platform.AndroidBridge
@@ -25,7 +25,9 @@ class AdaptiveSizeActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val adaptiveSizeComponent = AdaptiveSizeComponent(AdaptiveSizeDemoViewModel())
+        val adaptiveSizeComponent = AdaptiveSizeComponent(
+            AdaptiveSizeDemoViewModelFactory()
+        )
         setContent {
             MaterialTheme {
                 AndroidComponentRender(

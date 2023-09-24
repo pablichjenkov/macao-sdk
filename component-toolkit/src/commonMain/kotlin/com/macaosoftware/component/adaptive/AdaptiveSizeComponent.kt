@@ -23,9 +23,10 @@ import com.macaosoftware.component.util.EmptyNavigationComponentView
  * This node is basically a proxy, it transfer request and events to its active child node
  * */
 class AdaptiveSizeComponent(
-    private val componentViewModel: AdaptiveSizeComponentViewModel
+    viewModelFactory: AdaptiveSizeComponentViewModelFactory,
 ) : Component() {
 
+    private val componentViewModel: AdaptiveSizeComponentViewModel
     private val initialEmptyNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
     private var CompactNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
     private var MediumNavComponent: NavigationComponent = AdaptiveSizeStubNavComponent()
@@ -39,7 +40,7 @@ class AdaptiveSizeComponent(
     private var currentWindowSizeInfo: WindowSizeInfo? = null
 
     init {
-        componentViewModel.onCreate(this)
+        componentViewModel = viewModelFactory.create(this)
     }
 
     fun setNavItems(navItems: MutableList<NavItem>, selectedIndex: Int) {

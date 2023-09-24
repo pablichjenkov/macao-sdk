@@ -2,16 +2,9 @@ package com.macaosoftware.component.adaptive
 
 import com.macaosoftware.component.viewmodel.ComponentViewModel
 
-abstract class AdaptiveSizeComponentViewModel : ComponentViewModel() {
-
-    abstract fun onCreate(adaptiveSizeComponent: AdaptiveSizeComponent)
-}
+abstract class AdaptiveSizeComponentViewModel : ComponentViewModel()
 
 class AdaptiveSizeComponentDefaultViewModel : AdaptiveSizeComponentViewModel() {
-
-    override fun onCreate(adaptiveSizeComponent: AdaptiveSizeComponent) {
-        println("AdaptiveSizeComponentDefaultViewModel::create()")
-    }
 
     override fun onStart() {
         println("AdaptiveSizeComponentDefaultViewModel::onStart()")
