@@ -7,7 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import com.macaosoftware.component.AndroidComponentRender
-import com.macaosoftware.component.demo.viewmodel.DrawerDemoViewModel
+import com.macaosoftware.component.demo.viewmodel.factory.DrawerDemoViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.platform.AndroidBridge
@@ -15,7 +15,7 @@ import com.macaosoftware.platform.AndroidBridge
 class DrawerActivity : ComponentActivity() {
 
     private val drawerComponent = DrawerComponent(
-        componentViewModel = DrawerDemoViewModel(
+        viewModelFactory = DrawerDemoViewModelFactory(
             DrawerComponentDefaults.createDrawerStatePresenter()
         ),
         content = DrawerComponentDefaults.DrawerComponentView

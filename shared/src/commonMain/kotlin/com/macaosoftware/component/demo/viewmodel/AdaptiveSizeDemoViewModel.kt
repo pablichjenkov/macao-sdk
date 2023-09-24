@@ -30,7 +30,7 @@ class AdaptiveSizeDemoViewModel : AdaptiveSizeComponentViewModel() {
         adaptiveSizeComponent.setNavItems(navItems, 0)
         adaptiveSizeComponent.setCompactContainer(
             DrawerComponent(
-                componentViewModel = DrawerComponentDefaults.createComponentViewModel(),
+                viewModelFactory = DrawerComponentDefaults.viewModelFactory(),
                 content = DrawerComponentDefaults.DrawerComponentView
             )
         )

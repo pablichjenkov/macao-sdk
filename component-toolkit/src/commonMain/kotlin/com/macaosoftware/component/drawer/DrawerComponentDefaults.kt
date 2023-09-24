@@ -37,7 +37,7 @@ object DrawerComponentDefaults {
         }
     }
 
-    fun createComponentViewModel() : DrawerComponentDefaultViewModel {
-        return DrawerComponentDefaultViewModel()
+    fun viewModelFactory() : DrawerComponentViewModelFactoryDefault {
+        return DrawerComponentViewModelFactoryDefault()
     } 
 }
