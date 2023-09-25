@@ -12,11 +12,12 @@ import com.macaosoftware.component.topbar.TopBarItem
 import com.macaosoftware.component.topbar.TopBarStatePresenterDefault
 
 class HomeTopBarViewModel(
+    topBarComponent: TopBarComponent<TopBarStatePresenterDefault>,
+    override val topBarStatePresenter: TopBarStatePresenterDefault,
     screenName: String,
     onDone: () -> Unit
-) : TopBarComponentViewModel<TopBarStatePresenterDefault>() {
+) : TopBarComponentViewModel<TopBarStatePresenterDefault>(topBarComponent) {
 
-    private lateinit var topBarComponent: TopBarComponent<TopBarStatePresenterDefault>
     private var currentComponent: Component? = null
 
     val Step1 = SimpleComponent(
@@ -29,6 +30,7 @@ class HomeTopBarViewModel(
             }
         }
     }.also {
+        it.setParent(topBarComponent)
         it.uriFragment = "Page 1"
     }
 
@@ -42,6 +44,7 @@ class HomeTopBarViewModel(
             }
         }
     }.also {
+        it.setParent(topBarComponent)
         it.uriFragment = "Page 2"
     }
 
@@ -50,14 +53,11 @@ class HomeTopBarViewModel(
             "$screenName/Page 3",
             Color.Cyan
         ).also {
+            it.setParent(topBarComponent)
             it.uriFragment = "Page 3"
         }
 
-    override fun onCreate(topBarComponent: TopBarComponent<TopBarStatePresenterDefault>) {
-        this.topBarComponent = topBarComponent
-        listOf(Step1, Step2, Step3).forEach {
-            it.setParent(topBarComponent)
-        }
+    override fun onCreate() {
     }
 
     override fun onStart() {
@@ -116,12 +116,4 @@ class HomeTopBarViewModel(
         currentComponent = null
     }
 
-    companion object {
-        fun create(
-            screenName: String,
-            onDone: () -> Unit
-        ): HomeTopBarViewModel {
-            return HomeTopBarViewModel(screenName, onDone)
-        }
-    }
 }

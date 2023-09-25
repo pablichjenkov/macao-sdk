@@ -9,6 +9,8 @@ import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.demo.SplashComponent
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.factory.DrawerComponentViewModelEmptyFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
@@ -21,13 +23,14 @@ import com.macaosoftware.component.stack.StackStatePresenterDefault
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
-class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
-
-    lateinit var stackComponent: StackComponent<StackStatePresenterDefault>
+class AppViewModel(
+    stackComponent: StackComponent<StackStatePresenterDefault>,
+    override val stackStatePresenter: StackStatePresenterDefault
+) : StackComponentViewModel<StackStatePresenterDefault>(stackComponent) {
 
     private val customTopBarComponent: Component = TopBarComponent(
-        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-        componentViewModel = Demo3PageTopBarViewModel.create(
+        viewModelFactory = Demo3PageTopBarViewModelFactory(
+            topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
             screenName = "Onboard",
             onDone = {
                 val drawerComponent = buildDrawerStateTree(stackComponent)
@@ -43,8 +46,7 @@ class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
         stackComponent.backStack.push(customTopBarComponent)
     }
 
-    override fun onCreate(stackComponent: StackComponent<StackStatePresenterDefault>) {
-        this.stackComponent = stackComponent
+    override fun onCreate() {
         splashComponent.setParent(stackComponent)
         customTopBarComponent.setParent(stackComponent)
     }
@@ -71,8 +73,11 @@ class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
             setTopComponent(buildNestedDrawer())
             setBottomComponent(
                 TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Orders / Current", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Orders / Current",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
@@ -83,8 +88,11 @@ class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Orders/Current", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Orders/Current",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -107,8 +115,11 @@ class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Home", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Home",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -122,7 +133,7 @@ class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
         )
 
         val drawerComponent = DrawerComponent(
-            viewModelFactory = DrawerComponentDefaults.viewModelFactory(),
+            viewModelFactory = DrawerComponentViewModelEmptyFactory(),
             content = DrawerComponentDefaults.DrawerComponentView
         )
 
@@ -139,8 +150,11 @@ class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Orders/Current", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Orders/Current",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -148,8 +162,11 @@ class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Orders/Past", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Orders/Past",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -157,8 +174,11 @@ class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Orders/Claim", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Orders/Claim",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
@@ -176,8 +196,11 @@ class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
                 label = "Home Nested",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Home Nested", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Home Nested",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -189,7 +212,7 @@ class AppViewModel : StackComponentViewModel<StackStatePresenterDefault>() {
         )
 
         val drawerComponent = DrawerComponent(
-            viewModelFactory = DrawerComponentDefaults.viewModelFactory(),
+            viewModelFactory = DrawerComponentViewModelEmptyFactory(),
             content = DrawerComponentDefaults.DrawerComponentView
         )
 

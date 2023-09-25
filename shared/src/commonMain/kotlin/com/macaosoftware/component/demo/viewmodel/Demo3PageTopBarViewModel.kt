@@ -11,11 +11,12 @@ import com.macaosoftware.component.topbar.TopBarItem
 import com.macaosoftware.component.topbar.TopBarStatePresenterDefault
 
 class Demo3PageTopBarViewModel(
+    topBarComponent: TopBarComponent<TopBarStatePresenterDefault>,
+    override val topBarStatePresenter: TopBarStatePresenterDefault,
     screenName: String,
-    onDone: () -> Unit
-) : TopBarComponentViewModel<TopBarStatePresenterDefault>() {
+    onDone: () -> Unit,
+) : TopBarComponentViewModel<TopBarStatePresenterDefault>(topBarComponent) {
 
-    private lateinit var topBarComponent: TopBarComponent<TopBarStatePresenterDefault>
     private var currentComponent: Component? = null
 
     val Step1 = SimpleComponent(
@@ -58,8 +59,7 @@ class Demo3PageTopBarViewModel(
         it.uriFragment = "Page 3"
     }
 
-    override fun onCreate(topBarComponent: TopBarComponent<TopBarStatePresenterDefault>) {
-        this.topBarComponent = topBarComponent
+    override fun onCreate() {
         listOf(Step1, Step2, Step3).forEach {
             it.setParent(topBarComponent)
         }
@@ -132,12 +132,4 @@ class Demo3PageTopBarViewModel(
         currentComponent = null
     }
 
-    companion object {
-        fun create(
-            screenName: String,
-            onDone: () -> Unit
-        ): Demo3PageTopBarViewModel {
-            return Demo3PageTopBarViewModel(screenName, onDone)
-        }
-    }
 }

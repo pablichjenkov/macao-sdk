@@ -10,6 +10,11 @@ import com.macaosoftware.component.adaptive.AdaptiveSizeComponentViewModel
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.factory.DrawerComponentViewModelEmptyFactory
+import com.macaosoftware.component.demo.viewmodel.factory.HomeTopBarViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.factory.PanelComponentViewModelEmptyFactory
+import com.macaosoftware.component.demo.viewmodel.factory.SettingsTopBarViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.navbar.NavBarComponent
@@ -31,7 +36,7 @@ class AdaptiveSizeDemoViewModel(
         adaptiveSizeComponent.setNavItems(navItems, 0)
         adaptiveSizeComponent.setCompactContainer(
             DrawerComponent(
-                viewModelFactory = DrawerComponentDefaults.viewModelFactory(),
+                viewModelFactory = DrawerComponentViewModelEmptyFactory(),
                 content = DrawerComponentDefaults.DrawerComponentView
             )
         )
@@ -46,8 +51,7 @@ class AdaptiveSizeDemoViewModel(
         )
         adaptiveSizeComponent.setExpandedContainer(
             PanelComponent(
-                panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
-                componentViewModel = PanelComponentDefaults.createComponentViewModel(),
+                viewModelFactory = PanelComponentViewModelEmptyFactory(),
                 content = PanelComponentDefaults.PanelComponentView
             )
         )
@@ -77,10 +81,10 @@ class AdaptiveSizeDemoViewModel(
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create(
-                        "Orders/Current",
-                        {}
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Orders/Current",
+                        onDone = {}
                     ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 ).apply {
@@ -91,8 +95,11 @@ class AdaptiveSizeDemoViewModel(
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Orders/Past", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Orders/Past",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 ).apply {
                     uriFragment = "Past"
@@ -102,8 +109,11 @@ class AdaptiveSizeDemoViewModel(
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Orders/Claim", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Orders/Claim",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 ).apply {
                     uriFragment = "Claim"
@@ -123,16 +133,22 @@ class AdaptiveSizeDemoViewModel(
         navBarComponent.setNavItems(navbarNavItems, 0)
 
         val homeComponent = TopBarComponent(
-            topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-            componentViewModel = HomeTopBarViewModel.create("Home", {}),
+            viewModelFactory = HomeTopBarViewModelFactory(
+                topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                screenName = "Home",
+                onDone = {}
+            ),
             content = TopBarComponentDefaults.TopBarComponentView
         ).apply {
             uriFragment = "Home"
         }
 
         val settingsComponent = TopBarComponent(
-            topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-            componentViewModel = SettingsTopBarViewModel.create("Settings", {}),
+            viewModelFactory = SettingsTopBarViewModelFactory(
+                topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                screenName = "Settings",
+                onDone = {}
+            ),
             content = TopBarComponentDefaults.TopBarComponentView
         ).apply {
             uriFragment = "Settings"

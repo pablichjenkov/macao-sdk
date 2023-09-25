@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
  * */
 @OptIn(ExperimentalFoundationApi::class)
 class PagerComponent(
-    private val componentViewModel: PagerComponentViewModel,
+    viewModelFactory: PagerComponentViewModelFactory,
     private var content: @Composable PagerComponent.(
         modifier: Modifier,
         pagerState: PagerState,
@@ -33,6 +33,7 @@ class PagerComponent(
     ) -> Unit
 ) : Component(), NavigationComponent {
 
+    private val componentViewModel: PagerComponentViewModel = viewModelFactory.create(this)
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var navItems: MutableList<NavItem> = mutableListOf()
@@ -49,7 +50,7 @@ class PagerComponent(
     private var currentPage = 0
 
     init {
-        componentViewModel.onCreate(this@PagerComponent)
+        componentViewModel.onCreate()
     }
 
     override fun onStart() {

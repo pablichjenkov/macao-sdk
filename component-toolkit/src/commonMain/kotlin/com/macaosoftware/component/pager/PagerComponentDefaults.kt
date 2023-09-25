@@ -17,10 +17,6 @@ import kotlinx.coroutines.launch
 
 object PagerComponentDefaults {
 
-    fun createComponentViewModel(): PagerComponentDefaultViewModel {
-        return PagerComponentDefaultViewModel()
-    }
-
     @OptIn(ExperimentalFoundationApi::class)
     val PagerComponentView: @Composable PagerComponent.(
         modifier: Modifier,

@@ -4,10 +4,10 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import com.macaosoftware.component.IosComponentRender
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.demo.viewmodel.AppViewModel
-import com.macaosoftware.component.demo.viewmodel.PagerDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.factory.AppViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.DrawerDemoViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.factory.PagerDemoViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.pager.PagerComponent
@@ -37,7 +37,7 @@ fun buildDrawerComponent(): Component {
 @OptIn(ExperimentalFoundationApi::class)
 fun buildPagerComponent(): Component {
     return PagerComponent(
-        componentViewModel = PagerDemoViewModel(),
+        viewModelFactory = PagerDemoViewModelFactory(),
         content = PagerComponentDefaults.PagerComponentView
     )
 }
@@ -48,8 +48,9 @@ fun buildAdaptableSizeComponent(): Component {
 
 fun buildAppWithIntroComponent(): Component {
     return AppComponent(
-        stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
-        componentViewModel = AppViewModel(),
+        viewModelFactory = AppViewModelFactory(
+            stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
+        ),
         content = StackComponentDefaults.DefaultStackComponentView
     )
 }

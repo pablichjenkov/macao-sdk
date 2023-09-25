@@ -18,14 +18,15 @@ import com.macaosoftware.component.stack.StackTransition
 import com.macaosoftware.component.util.EmptyNavigationComponentView
 
 class TopBarComponent<T : TopBarStatePresenter>(
-    val topBarStatePresenter: T,
-    private val componentViewModel: TopBarComponentViewModel<T>,
+    viewModelFactory: TopBarComponentViewModelFactory<T>,
     private val content: @Composable TopBarComponent<T>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit
 ) : Component(), ComponentWithBackStack {
 
+    private val componentViewModel = viewModelFactory.create(this)
+    val topBarStatePresenter = componentViewModel.topBarStatePresenter
     override val backStack = BackStack<Component>()
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var childComponents: MutableList<Component> = mutableListOf()
@@ -41,7 +42,7 @@ class TopBarComponent<T : TopBarStatePresenter>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
-        componentViewModel.onCreate(this@TopBarComponent)
+        componentViewModel.onCreate()
     }
 
     override fun onStart() {

@@ -36,8 +36,5 @@ object PanelComponentDefaults {
             childComponent.Content(Modifier)
         }
     }
-    
-    fun createComponentViewModel() : PanelComponentDefaultViewModel {
-        return PanelComponentDefaultViewModel()
-    }
+
 }

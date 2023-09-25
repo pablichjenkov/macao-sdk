@@ -23,13 +23,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class PanelComponent<T : PanelStatePresenter>(
-    val panelStatePresenter: T,
-    private val componentViewModel: PanelComponentViewModel<T>,
+    viewModelFactory: PanelComponentViewModelFactory<T>,
     private val content: @Composable PanelComponent<T>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit
 ) : Component(), NavigationComponent {
+
+    private val componentViewModel: PanelComponentViewModel<T> = viewModelFactory.create(this)
+    val panelStatePresenter = componentViewModel.panelStatePresenter
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var navItems: MutableList<NavItem> = mutableListOf()
@@ -48,7 +50,7 @@ class PanelComponent<T : PanelStatePresenter>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
-        componentViewModel.onCreate(this@PanelComponent)
+        componentViewModel.onCreate()
     }
 
     override fun onStart() {

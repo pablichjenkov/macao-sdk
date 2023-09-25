@@ -9,6 +9,7 @@ import com.macaosoftware.component.viewmodel.ComponentViewModel
 import com.macaosoftware.platform.CoroutineDispatchers
 
 abstract class PanelComponentViewModel<T : PanelStatePresenter>(
+    val panelComponent: PanelComponent<T>,
     private val lifecycleHandler: NavigationComponent.LifecycleHandler =
         NavigationComponentDefaults.createLifecycleHandler(),
     val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
@@ -16,24 +17,6 @@ abstract class PanelComponentViewModel<T : PanelStatePresenter>(
 ) : ComponentViewModel(),
     NavigationComponent.LifecycleHandler by lifecycleHandler {
 
-    abstract fun onCreate(panelComponent: PanelComponent<T>)
-}
-
-class PanelComponentDefaultViewModel : PanelComponentViewModel<PanelStatePresenterDefault>() {
-
-    override fun onCreate(panelComponent: PanelComponent<PanelStatePresenterDefault>) {
-        println("PanelComponentDefaultViewModel::create()")
-    }
-
-    override fun onStart() {
-        println("PanelComponentDefaultViewModel::create()")
-    }
-
-    override fun onStop() {
-        println("PanelComponentDefaultViewModel::create()")
-    }
-
-    override fun onDestroy() {
-        println("PanelComponentDefaultViewModel::create()")
-    }
+    abstract fun onCreate()
+    abstract val panelStatePresenter: T
 }

@@ -15,14 +15,15 @@ import com.macaosoftware.component.core.processBackstackEvent
 import com.macaosoftware.component.util.EmptyNavigationComponentView
 
 class StackComponent<T : StackStatePresenter>(
-    val stackStatePresenter: T,
-    private val componentViewModel: StackComponentViewModel<T>,
+    private val viewModelFactory: StackComponentViewModelFactory<T>,
     private val content: @Composable StackComponent<T>.(
         modifier: Modifier,
         activeComponent: Component
     ) -> Unit
 ) : Component(), ComponentWithBackStack {
 
+    private val componentViewModel = viewModelFactory.create(this)
+    val stackStatePresenter: T = componentViewModel.stackStatePresenter
     override val backStack = BackStack<Component>()
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var childComponents: MutableList<Component> = mutableListOf()
@@ -35,7 +36,7 @@ class StackComponent<T : StackStatePresenter>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
-        componentViewModel.onCreate(this)
+        componentViewModel.onCreate()
     }
 
     override fun onStart() {
