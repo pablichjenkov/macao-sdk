@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Home
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarComponentDefaults
 import com.macaosoftware.component.pager.PagerComponent
@@ -14,12 +15,11 @@ import com.macaosoftware.component.pager.PagerComponentViewModel
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
-class PagerDemoViewModel : PagerComponentViewModel() {
+class PagerDemoViewModel(
+    pagerComponent: PagerComponent
+) : PagerComponentViewModel(pagerComponent) {
 
-    private lateinit var pagerComponent: PagerComponent
-
-    override fun onCreate(pagerComponent: PagerComponent) {
-        this.pagerComponent = pagerComponent
+    override fun onCreate() {
         pagerComponent.setNavItems(
             navItems = createPagerItems(),
             selectedIndex = 0
@@ -44,8 +44,11 @@ class PagerDemoViewModel : PagerComponentViewModel() {
                 label = "Current",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Settings", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Orders/Current",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -53,8 +56,11 @@ class PagerDemoViewModel : PagerComponentViewModel() {
                 label = "Past",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Settings", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Orders/Past",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -62,8 +68,11 @@ class PagerDemoViewModel : PagerComponentViewModel() {
                 label = "Claim",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Orders/Claim", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Orders/Claim",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
@@ -81,8 +90,11 @@ class PagerDemoViewModel : PagerComponentViewModel() {
                 label = "Account",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Settings/Account", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Settings/Account",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -90,8 +102,11 @@ class PagerDemoViewModel : PagerComponentViewModel() {
                 label = "Profile",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Settings/Profile", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Settings/Profile",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -99,8 +114,11 @@ class PagerDemoViewModel : PagerComponentViewModel() {
                 label = "About Us",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Settings/About Us", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Settings/About Us",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )
@@ -118,8 +136,11 @@ class PagerDemoViewModel : PagerComponentViewModel() {
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Settings", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Home",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),

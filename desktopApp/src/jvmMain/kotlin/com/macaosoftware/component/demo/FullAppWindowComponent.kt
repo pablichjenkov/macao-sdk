@@ -6,9 +6,9 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.DesktopComponentRender
-import com.macaosoftware.component.demo.viewmodel.AppViewModel
+import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.demo.viewmodel.factory.AppViewModelFactory
 import com.macaosoftware.component.stack.StackComponentDefaults
 import com.macaosoftware.platform.DesktopBridge
 
@@ -17,8 +17,9 @@ class FullAppWindowComponent(
 ) : Component() {
     private val windowState = WindowState(size = DpSize(800.dp, 900.dp))
     private var appComponent = AppComponent(
-        stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
-        componentViewModel = AppViewModel(),
+        viewModelFactory = AppViewModelFactory(
+            stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
+        ),
         content = StackComponentDefaults.DefaultStackComponentView
     )
     private val desktopBridge = DesktopBridge()

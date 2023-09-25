@@ -24,6 +24,7 @@ import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
+import com.macaosoftware.component.preview.DrawerComponentViewModelPreviewAndroidRenderFactory
 import com.macaosoftware.platform.AndroidBridge
 
 @Composable
@@ -63,7 +64,7 @@ fun AndroidComponentRender(
 
 @Preview
 @Composable
-fun AndroidComponentRenderPreview() {
+private fun AndroidComponentRenderPreview() {
 
     val simpleComponent = object : Component() {
         @Composable
@@ -99,7 +100,7 @@ fun AndroidComponentRenderPreview() {
     )
 
     val drawerComponent = DrawerComponent(
-        viewModelFactory = DrawerComponentDefaults.viewModelFactory(),
+        viewModelFactory = DrawerComponentViewModelPreviewAndroidRenderFactory(),
         content = DrawerComponentDefaults.DrawerComponentView
     ).also {
         it.setNavItems(navItems = drawerItems, selectedIndex = 1)

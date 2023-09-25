@@ -13,8 +13,8 @@ import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
-import com.macaosoftware.component.demo.viewmodel.Demo3PageTopBarViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 import com.macaosoftware.platform.DesktopBridge
@@ -114,10 +114,10 @@ fun MainWindowComponentPreview() {
     */
 
     val topbarComponent = TopBarComponent(
-        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-        componentViewModel = Demo3PageTopBarViewModel.create(
-            "Orders",
-            {}
+        viewModelFactory = Demo3PageTopBarViewModelFactory(
+            topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+            screenName = "Orders",
+            onDone = {}
         ),
         content = TopBarComponentDefaults.TopBarComponentView
     ).apply {

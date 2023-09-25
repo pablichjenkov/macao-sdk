@@ -17,29 +17,6 @@ abstract class BottomNavigationComponentViewModel<T : NavBarStatePresenter>(
 ) : ComponentViewModel(),
     NavigationComponent.LifecycleHandler by lifecycleHandler {
 
-        abstract fun onCreate()
-        abstract val bottomNavigationStatePresenter: T
-    }
-
-class BottomNavigationComponentDefaultViewModel(
-    bottomNavigationComponent: NavigationComponent,
-    override val bottomNavigationStatePresenter: NavBarStatePresenterDefault =
-        NavBarComponentDefaults.createNavBarStatePresenter()
-) : BottomNavigationComponentViewModel<NavBarStatePresenterDefault>(bottomNavigationComponent) {
-
-    override fun onCreate() {
-        println("BottomNavigationComponentDefaultViewModel::onCreate()")
-    }
-
-    override fun onStart() {
-        println("BottomNavigationComponentDefaultViewModel::onStart()")
-    }
-
-    override fun onStop() {
-        println("BottomNavigationComponentDefaultViewModel::onStop()")
-    }
-
-    override fun onDestroy() {
-        println("BottomNavigationComponentDefaultViewModel::onDestroy()")
-    }
+    abstract fun onCreate()
+    abstract val bottomNavigationStatePresenter: T
 }

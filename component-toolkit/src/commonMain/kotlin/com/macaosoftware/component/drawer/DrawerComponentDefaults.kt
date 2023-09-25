@@ -36,8 +36,4 @@ object DrawerComponentDefaults {
             childComponent.Content(Modifier)
         }
     }
-
-    fun viewModelFactory() : DrawerComponentViewModelFactoryDefault {
-        return DrawerComponentViewModelFactoryDefault()
-    } 
 }

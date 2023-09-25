@@ -9,6 +9,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.MaterialTheme
 import com.macaosoftware.component.AndroidComponentRender
 import com.macaosoftware.component.demo.viewmodel.PagerDemoViewModel
+import com.macaosoftware.component.demo.viewmodel.factory.PagerDemoViewModelFactory
 import com.macaosoftware.component.pager.PagerComponent
 import com.macaosoftware.component.pager.PagerComponentDefaults
 import com.macaosoftware.platform.AndroidBridge
@@ -17,7 +18,7 @@ class PagerActivity : ComponentActivity() {
 
     @OptIn(ExperimentalFoundationApi::class)
     val pagerComponent = PagerComponent(
-        componentViewModel = PagerDemoViewModel(),
+        viewModelFactory = PagerDemoViewModelFactory(),
         content = PagerComponentDefaults.PagerComponentView
     )
 

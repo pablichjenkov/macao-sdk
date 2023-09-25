@@ -28,7 +28,4 @@ object NavBarComponentDefaults {
         }
     }
 
-    fun viewModelFactory(navBarComponent: NavBarComponent<NavBarStatePresenterDefault>): BottomNavigationComponentDefaultViewModel {
-        return BottomNavigationComponentDefaultViewModel(navBarComponent)
-    }
 }

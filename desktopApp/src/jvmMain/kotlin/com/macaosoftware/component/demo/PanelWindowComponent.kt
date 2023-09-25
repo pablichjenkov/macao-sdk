@@ -7,6 +7,8 @@ import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.DesktopComponentRender
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.viewmodel.PanelDemoViewModel
+import com.macaosoftware.component.demo.viewmodel.factory.PanelComponentViewModelEmptyFactory
+import com.macaosoftware.component.demo.viewmodel.factory.PanelDemoViewModelFactory
 import com.macaosoftware.component.panel.PanelComponent
 import com.macaosoftware.component.panel.PanelComponentDefaults
 import com.macaosoftware.platform.DesktopBridge
@@ -18,8 +20,9 @@ class PanelWindowComponent(
     private val desktopBridge = DesktopBridge()
 
     private var panelComponent = PanelComponent(
-        panelStatePresenter = PanelComponentDefaults.createPanelStatePresenter(),
-        componentViewModel = PanelDemoViewModel(),
+        viewModelFactory = PanelDemoViewModelFactory(
+            PanelComponentDefaults.createPanelStatePresenter()
+        ),
         content = PanelComponentDefaults.PanelComponentView
     )
 

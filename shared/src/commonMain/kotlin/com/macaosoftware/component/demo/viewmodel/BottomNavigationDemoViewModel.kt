@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
+import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
 import com.macaosoftware.component.navbar.BottomNavigationComponentViewModel
 import com.macaosoftware.component.navbar.NavBarComponent
 import com.macaosoftware.component.navbar.NavBarStatePresenterDefault
@@ -38,8 +39,11 @@ class BottomNavigationDemoViewModel(
                 label = "Home",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Home", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Home",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -47,8 +51,11 @@ class BottomNavigationDemoViewModel(
                 label = "Orders",
                 icon = Icons.Filled.Settings,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Orders", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Orders",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             ),
@@ -56,8 +63,11 @@ class BottomNavigationDemoViewModel(
                 label = "Settings",
                 icon = Icons.Filled.Add,
                 component = TopBarComponent(
-                    topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                    componentViewModel = Demo3PageTopBarViewModel.create("Settings", {}),
+                    viewModelFactory = Demo3PageTopBarViewModelFactory(
+                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
+                        screenName = "Settings",
+                        onDone = {}
+                    ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
             )

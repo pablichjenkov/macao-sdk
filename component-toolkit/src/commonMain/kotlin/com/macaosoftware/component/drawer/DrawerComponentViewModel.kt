@@ -9,7 +9,7 @@ import com.macaosoftware.component.viewmodel.ComponentViewModel
 import com.macaosoftware.platform.CoroutineDispatchers
 
 abstract class DrawerComponentViewModel<T : DrawerStatePresenter>(
-    val drawerComponent: DrawerComponent<T>,
+    protected val drawerComponent: DrawerComponent<T>,
     private val lifecycleHandler: NavigationComponent.LifecycleHandler =
         NavigationComponentDefaults.createLifecycleHandler(),
     val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
@@ -19,27 +19,4 @@ abstract class DrawerComponentViewModel<T : DrawerStatePresenter>(
 
     abstract fun onCreate()
     abstract val drawerStatePresenter: T
-}
-
-class DrawerComponentDefaultViewModel(
-    drawerComponent: DrawerComponent<DrawerStatePresenterDefault>,
-    override val drawerStatePresenter: DrawerStatePresenterDefault =
-        DrawerComponentDefaults.createDrawerStatePresenter()
-) : DrawerComponentViewModel<DrawerStatePresenterDefault>(drawerComponent) {
-
-    override fun onCreate() {
-        println("DrawerComponentDefaultViewModel::onCreate()")
-    }
-
-    override fun onStart() {
-        println("DrawerComponentDefaultViewModel::onStart()")
-    }
-
-    override fun onStop() {
-        println("DrawerComponentDefaultViewModel::onStop()")
-    }
-
-    override fun onDestroy() {
-        println("DrawerComponentDefaultViewModel::onDestroy()")
-    }
 }
