@@ -13,9 +13,9 @@ import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewMod
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentViewModel
 import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
-import com.macaosoftware.component.navbar.NavBarComponent
-import com.macaosoftware.component.navbar.NavBarComponentDefaults
-import com.macaosoftware.component.navbar.NavBarStatePresenterDefault
+import com.macaosoftware.component.navbar.BottomNavigationComponent
+import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
+import com.macaosoftware.component.navbar.BottomNavigationStatePresenterDefault
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
@@ -73,7 +73,7 @@ class DrawerDemoViewModel(
         )
     }
 
-    private fun buildNavBarComponent(): NavBarComponent<NavBarStatePresenterDefault> {
+    private fun buildNavBarComponent(): BottomNavigationComponent<BottomNavigationStatePresenterDefault> {
 
         val navbarNavItems = mutableListOf(
             NavItem(
@@ -114,14 +114,14 @@ class DrawerDemoViewModel(
             )
         )
 
-        val navBarComponent = NavBarComponent(
+        val bottomNavigationComponent = BottomNavigationComponent(
             viewModelFactory = BottomNavigationDemoViewModelFactory(
-                NavBarComponentDefaults.createNavBarStatePresenter()
+                BottomNavigationComponentDefaults.createBottomNavigationStatePresenter()
             ),
-            content = NavBarComponentDefaults.NavBarComponentView
+            content = BottomNavigationComponentDefaults.BottomNavigationComponentView
         )
 
-        return navBarComponent.also { it.setNavItems(navbarNavItems, 0) }
+        return bottomNavigationComponent.also { it.setNavItems(navbarNavItems, 0) }
     }
 
 }

@@ -8,8 +8,8 @@ import com.macaosoftware.component.stack.PushStrategy
 import com.macaosoftware.component.viewmodel.ComponentViewModel
 import com.macaosoftware.platform.CoroutineDispatchers
 
-abstract class BottomNavigationComponentViewModel<T : NavBarStatePresenter>(
-    protected val bottomNavigationComponent: NavigationComponent,
+abstract class BottomNavigationComponentViewModel<T : BottomNavigationStatePresenter>(
+    protected val bottomNavigationComponent: BottomNavigationComponent<T>,
     private val lifecycleHandler: NavigationComponent.LifecycleHandler =
         NavigationComponentDefaults.createLifecycleHandler(),
     val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,

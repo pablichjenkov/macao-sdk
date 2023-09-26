@@ -3,15 +3,15 @@ package com.macaosoftware.component.demo.viewmodel.factory
 import com.macaosoftware.component.demo.viewmodel.BottomNavigationDemoViewModel
 import com.macaosoftware.component.navbar.BottomNavigationComponentViewModel
 import com.macaosoftware.component.navbar.BottomNavigationComponentViewModelFactory
-import com.macaosoftware.component.navbar.NavBarComponent
-import com.macaosoftware.component.navbar.NavBarStatePresenterDefault
+import com.macaosoftware.component.navbar.BottomNavigationComponent
+import com.macaosoftware.component.navbar.BottomNavigationStatePresenterDefault
 
 class BottomNavigationDemoViewModelFactory(
-    private val navBarStatePresenter: NavBarStatePresenterDefault
-) : BottomNavigationComponentViewModelFactory<NavBarStatePresenterDefault> {
+    private val navBarStatePresenter: BottomNavigationStatePresenterDefault
+) : BottomNavigationComponentViewModelFactory<BottomNavigationStatePresenterDefault> {
     override fun create(
-        navBarComponent: NavBarComponent<NavBarStatePresenterDefault>
-    ): BottomNavigationComponentViewModel<NavBarStatePresenterDefault> {
-        return BottomNavigationDemoViewModel(navBarComponent, navBarStatePresenter)
+        bottomNavigationComponent: BottomNavigationComponent<BottomNavigationStatePresenterDefault>
+    ): BottomNavigationComponentViewModel<BottomNavigationStatePresenterDefault> {
+        return BottomNavigationDemoViewModel(bottomNavigationComponent, navBarStatePresenter)
     }
 }

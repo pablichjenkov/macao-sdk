@@ -8,18 +8,18 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import com.macaosoftware.component.AndroidComponentRender
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
-import com.macaosoftware.component.navbar.NavBarComponent
-import com.macaosoftware.component.navbar.NavBarComponentDefaults
+import com.macaosoftware.component.navbar.BottomNavigationComponent
+import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
 import com.macaosoftware.platform.AndroidBridge
 
 class NavBarActivity : ComponentActivity() {
 
-    val navBarComponent = NavBarComponent(
+    val bottomNavigationComponent = BottomNavigationComponent(
         // pushStrategy = FixSizedPushStrategy(1), // Uncomment to test other push strategies
         viewModelFactory = BottomNavigationDemoViewModelFactory(
-            NavBarComponentDefaults.createNavBarStatePresenter()
+            BottomNavigationComponentDefaults.createBottomNavigationStatePresenter()
         ),
-        content = NavBarComponentDefaults.NavBarComponentView
+        content = BottomNavigationComponentDefaults.BottomNavigationComponentView
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,7 @@ class NavBarActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 AndroidComponentRender(
-                    rootComponent = navBarComponent,
+                    rootComponent = bottomNavigationComponent,
                     AndroidBridge(),
                     onBackPress = { finish() }
                 )

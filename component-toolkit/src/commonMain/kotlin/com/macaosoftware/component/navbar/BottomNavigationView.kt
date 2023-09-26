@@ -19,11 +19,11 @@ import androidx.compose.ui.Modifier
 @Composable
 fun NavigationBottom(
     modifier: Modifier = Modifier,
-    navbarStatePresenter: NavBarStatePresenter,
+    navbarStatePresenter: BottomNavigationStatePresenter,
     Content: @Composable () -> Unit
 ) {
     val navItems by navbarStatePresenter.navItemsState
-    val navBarStyle = navbarStatePresenter.navBarStyle
+    val navBarStyle = navbarStatePresenter.bottomNavigationStyle
 
     Scaffold(
         modifier = modifier,
@@ -42,20 +42,20 @@ fun NavigationBottom(
 
 @Composable
 private fun BottomBar(
-    navItems: List<NavBarNavItem>,
-    navBarStyle: NavBarStyle,
-    onNavItemClick: (NavBarNavItem) -> Unit
+    navItems: List<BottomNavigationNavItem>,
+    bottomNavigationStyle: BottomNavigationStyle,
+    onNavItemClick: (BottomNavigationNavItem) -> Unit
 ) {
     Column {
         val bgColor = MaterialTheme.colorScheme.background
 
         NavigationBar(
-            modifier = Modifier.fillMaxWidth().height(navBarStyle.barSize),
+            modifier = Modifier.fillMaxWidth().height(bottomNavigationStyle.barSize),
             containerColor = bgColor
         ) {
             navItems.forEach { navItem ->
                 NavigationBarItem(
-                    alwaysShowLabel = navBarStyle.showLabel,
+                    alwaysShowLabel = bottomNavigationStyle.showLabel,
                     selected = navItem.selected,
                     onClick = { onNavItemClick(navItem) },
                     colors = NavigationBarItemDefaults.colors(),

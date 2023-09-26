@@ -10,9 +10,9 @@ import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
-import com.macaosoftware.component.navbar.NavBarComponent
-import com.macaosoftware.component.navbar.NavBarComponentDefaults
-import com.macaosoftware.component.navbar.NavBarStatePresenterDefault
+import com.macaosoftware.component.navbar.BottomNavigationComponent
+import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
+import com.macaosoftware.component.navbar.BottomNavigationStatePresenterDefault
 import com.macaosoftware.component.panel.PanelComponent
 import com.macaosoftware.component.panel.PanelComponentViewModel
 import com.macaosoftware.component.panel.PanelStatePresenterDefault
@@ -73,7 +73,7 @@ class PanelDemoViewModel(
         )
     }
 
-    private fun buildNavBarComponent(): NavBarComponent<NavBarStatePresenterDefault> {
+    private fun buildNavBarComponent(): BottomNavigationComponent<BottomNavigationStatePresenterDefault> {
 
         val navbarNavItems = mutableListOf(
             NavItem(
@@ -114,11 +114,11 @@ class PanelDemoViewModel(
             )
         )
 
-        return NavBarComponent(
+        return BottomNavigationComponent(
             viewModelFactory = BottomNavigationDemoViewModelFactory(
-                NavBarComponentDefaults.createNavBarStatePresenter()
+                BottomNavigationComponentDefaults.createBottomNavigationStatePresenter()
             ),
-            content = NavBarComponentDefaults.NavBarComponentView
+            content = BottomNavigationComponentDefaults.BottomNavigationComponentView
         ).also { it.setNavItems(navbarNavItems, 0) }
     }
 

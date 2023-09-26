@@ -8,15 +8,15 @@ import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
 import com.macaosoftware.component.navbar.BottomNavigationComponentViewModel
-import com.macaosoftware.component.navbar.NavBarComponent
-import com.macaosoftware.component.navbar.NavBarStatePresenterDefault
+import com.macaosoftware.component.navbar.BottomNavigationComponent
+import com.macaosoftware.component.navbar.BottomNavigationStatePresenterDefault
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
 class BottomNavigationDemoViewModel(
-    navBarComponent: NavBarComponent<NavBarStatePresenterDefault>,
-    override val bottomNavigationStatePresenter: NavBarStatePresenterDefault
-) : BottomNavigationComponentViewModel<NavBarStatePresenterDefault>(navBarComponent) {
+    bottomNavigationComponent: BottomNavigationComponent<BottomNavigationStatePresenterDefault>,
+    override val bottomNavigationStatePresenter: BottomNavigationStatePresenterDefault
+) : BottomNavigationComponentViewModel<BottomNavigationStatePresenterDefault>(bottomNavigationComponent) {
 
     override fun onCreate() {
         val navBarItems = createNavBarItems()

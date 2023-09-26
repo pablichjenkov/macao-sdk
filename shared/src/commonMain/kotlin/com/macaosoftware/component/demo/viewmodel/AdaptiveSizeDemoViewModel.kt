@@ -17,8 +17,8 @@ import com.macaosoftware.component.demo.viewmodel.factory.PanelComponentViewMode
 import com.macaosoftware.component.demo.viewmodel.factory.SettingsTopBarViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
-import com.macaosoftware.component.navbar.NavBarComponent
-import com.macaosoftware.component.navbar.NavBarComponentDefaults
+import com.macaosoftware.component.navbar.BottomNavigationComponent
+import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
 import com.macaosoftware.component.panel.PanelComponent
 import com.macaosoftware.component.panel.PanelComponentDefaults
 import com.macaosoftware.component.topbar.TopBarComponent
@@ -42,11 +42,11 @@ class AdaptiveSizeDemoViewModel(
         )
         //adaptiveSizeComponent.setCompactContainer(PagerComponent())
         adaptiveSizeComponent.setMediumContainer(
-            NavBarComponent(
+            BottomNavigationComponent(
                 viewModelFactory = BottomNavigationDemoViewModelFactory(
-                    NavBarComponentDefaults.createNavBarStatePresenter()
+                    BottomNavigationComponentDefaults.createBottomNavigationStatePresenter()
                 ),
-                content = NavBarComponentDefaults.NavBarComponentView
+                content = BottomNavigationComponentDefaults.BottomNavigationComponentView
             )
         )
         adaptiveSizeComponent.setExpandedContainer(
@@ -121,16 +121,16 @@ class AdaptiveSizeDemoViewModel(
             )
         )
 
-        val navBarComponent = NavBarComponent(
+        val bottomNavigationComponent = BottomNavigationComponent(
             viewModelFactory = BottomNavigationDemoViewModelFactory(
-                NavBarComponentDefaults.createNavBarStatePresenter()
+                BottomNavigationComponentDefaults.createBottomNavigationStatePresenter()
             ),
-            content = NavBarComponentDefaults.NavBarComponentView
+            content = BottomNavigationComponentDefaults.BottomNavigationComponentView
         ).apply {
             uriFragment = "Orders"
         }
 
-        navBarComponent.setNavItems(navbarNavItems, 0)
+        bottomNavigationComponent.setNavItems(navbarNavItems, 0)
 
         val homeComponent = TopBarComponent(
             viewModelFactory = HomeTopBarViewModelFactory(
@@ -162,7 +162,7 @@ class AdaptiveSizeDemoViewModel(
             ), NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Refresh,
-                component = navBarComponent,
+                component = bottomNavigationComponent,
             ), NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,

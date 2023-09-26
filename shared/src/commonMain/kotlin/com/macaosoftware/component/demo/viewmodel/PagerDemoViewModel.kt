@@ -8,8 +8,8 @@ import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
-import com.macaosoftware.component.navbar.NavBarComponent
-import com.macaosoftware.component.navbar.NavBarComponentDefaults
+import com.macaosoftware.component.navbar.BottomNavigationComponent
+import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
 import com.macaosoftware.component.pager.PagerComponent
 import com.macaosoftware.component.pager.PagerComponentViewModel
 import com.macaosoftware.component.topbar.TopBarComponent
@@ -78,11 +78,11 @@ class PagerDemoViewModel(
             )
         )
 
-        val navBarComponent1 = NavBarComponent(
+        val bottomNavigationComponent1 = BottomNavigationComponent(
             viewModelFactory = BottomNavigationDemoViewModelFactory(
-                NavBarComponentDefaults.createNavBarStatePresenter(),
+                BottomNavigationComponentDefaults.createBottomNavigationStatePresenter(),
             ),
-            content = NavBarComponentDefaults.NavBarComponentView
+            content = BottomNavigationComponentDefaults.BottomNavigationComponentView
         )
 
         val navbarNavItems2 = mutableListOf(
@@ -124,11 +124,11 @@ class PagerDemoViewModel(
             )
         )
 
-        val navBarComponent2 = NavBarComponent(
+        val bottomNavigationComponent2 = BottomNavigationComponent(
             viewModelFactory = BottomNavigationDemoViewModelFactory(
-                NavBarComponentDefaults.createNavBarStatePresenter()
+                BottomNavigationComponentDefaults.createBottomNavigationStatePresenter()
             ),
-            content = NavBarComponentDefaults.NavBarComponentView
+            content = BottomNavigationComponentDefaults.BottomNavigationComponentView
         )
 
         return mutableListOf(
@@ -147,12 +147,12 @@ class PagerDemoViewModel(
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
-                component = navBarComponent1.also { it.setNavItems(navbarNavItems1, 0) },
+                component = bottomNavigationComponent1.also { it.setNavItems(navbarNavItems1, 0) },
             ),
             NavItem(
                 label = "Settings",
                 icon = Icons.Filled.Email,
-                component = navBarComponent2.also { it.setNavItems(navbarNavItems2, 0) },
+                component = bottomNavigationComponent2.also { it.setNavItems(navbarNavItems2, 0) },
             )
         )
     }

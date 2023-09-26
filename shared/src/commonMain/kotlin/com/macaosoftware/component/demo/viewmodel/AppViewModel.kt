@@ -14,8 +14,8 @@ import com.macaosoftware.component.demo.viewmodel.factory.DrawerComponentViewMod
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
-import com.macaosoftware.component.navbar.NavBarComponent
-import com.macaosoftware.component.navbar.NavBarComponentDefaults
+import com.macaosoftware.component.navbar.BottomNavigationComponent
+import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
 import com.macaosoftware.component.split.SplitComponent
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentViewModel
@@ -103,11 +103,11 @@ class AppViewModel(
             )
         )
 
-        val navBarComponent = NavBarComponent(
+        val bottomNavigationComponent = BottomNavigationComponent(
             viewModelFactory = BottomNavigationDemoViewModelFactory(
-                NavBarComponentDefaults.createNavBarStatePresenter()
+                BottomNavigationComponentDefaults.createBottomNavigationStatePresenter()
             ),
-            content = NavBarComponentDefaults.NavBarComponentView
+            content = BottomNavigationComponentDefaults.BottomNavigationComponentView
         )
 
         val drawerNavItems = mutableListOf(
@@ -126,7 +126,7 @@ class AppViewModel(
             NavItem(
                 label = "Orders",
                 icon = Icons.Filled.Edit,
-                component = navBarComponent.also {
+                component = bottomNavigationComponent.also {
                     it.setNavItems(navbarNavItems, 0)
                 },
             )
@@ -184,11 +184,11 @@ class AppViewModel(
             )
         )
 
-        val navBarComponent = NavBarComponent(
+        val bottomNavigationComponent = BottomNavigationComponent(
             viewModelFactory = BottomNavigationDemoViewModelFactory(
-                NavBarComponentDefaults.createNavBarStatePresenter()
+                BottomNavigationComponentDefaults.createBottomNavigationStatePresenter()
             ),
-            content = NavBarComponentDefaults.NavBarComponentView
+            content = BottomNavigationComponentDefaults.BottomNavigationComponentView
         )
 
         val drawerNavItems = mutableListOf(
@@ -207,7 +207,7 @@ class AppViewModel(
             NavItem(
                 label = "Orders Nested",
                 icon = Icons.Filled.Edit,
-                component = navBarComponent.also { it.setNavItems(navbarNavItems, 0) },
+                component = bottomNavigationComponent.also { it.setNavItems(navbarNavItems, 0) },
             )
         )
 
