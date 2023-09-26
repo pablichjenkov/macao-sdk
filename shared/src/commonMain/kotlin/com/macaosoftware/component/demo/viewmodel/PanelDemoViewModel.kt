@@ -20,9 +20,9 @@ import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
 class PanelDemoViewModel(
-    panelComponent: PanelComponent<PanelStatePresenterDefault>,
+    panelComponent: PanelComponent<PanelDemoViewModel>,
     override val panelStatePresenter: PanelStatePresenterDefault
-) : PanelComponentViewModel<PanelStatePresenterDefault>(panelComponent) {
+) : PanelComponentViewModel(panelComponent) {
 
     override fun onCreate() {
         val panelNavItems = createPanelNavItems()

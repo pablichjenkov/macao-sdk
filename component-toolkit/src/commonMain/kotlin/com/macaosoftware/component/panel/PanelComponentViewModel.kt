@@ -8,8 +8,8 @@ import com.macaosoftware.component.stack.PushStrategy
 import com.macaosoftware.component.viewmodel.ComponentViewModel
 import com.macaosoftware.platform.CoroutineDispatchers
 
-abstract class PanelComponentViewModel<T : PanelStatePresenter>(
-    val panelComponent: PanelComponent<T>,
+abstract class PanelComponentViewModel(
+    val panelComponent: PanelComponent<PanelComponentViewModel>,
     private val lifecycleHandler: NavigationComponent.LifecycleHandler =
         NavigationComponentDefaults.createLifecycleHandler(),
     val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
@@ -18,5 +18,5 @@ abstract class PanelComponentViewModel<T : PanelStatePresenter>(
     NavigationComponent.LifecycleHandler by lifecycleHandler {
 
     abstract fun onCreate()
-    abstract val panelStatePresenter: T
+    abstract val panelStatePresenter: PanelStatePresenter
 }

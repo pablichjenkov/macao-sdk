@@ -4,7 +4,7 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.viewmodel.ComponentViewModel
 
 abstract class TopBarComponentViewModel(
-    protected val topBarComponent: TopBarComponent<out TopBarComponentViewModel>,
+    protected val topBarComponent: TopBarComponent<TopBarComponentViewModel>,
     open val showBackArrowStrategy: ShowBackArrowStrategy = ShowBackArrowStrategy.Always
 ) : ComponentViewModel() {
 

@@ -25,7 +25,7 @@ object PanelComponentDefaults {
         )
     }
 
-    val PanelComponentView: @Composable PanelComponent<PanelStatePresenterDefault>.(
+    val PanelComponentView: @Composable PanelComponent<out PanelComponentViewModel>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit = { modifier, childComponent ->

@@ -17,7 +17,7 @@ import com.macaosoftware.component.stack.BackStack
 import com.macaosoftware.component.stack.StackTransition
 import com.macaosoftware.component.util.EmptyNavigationComponentView
 
-class TopBarComponent<VM : TopBarComponentViewModel>(
+class TopBarComponent<out VM : TopBarComponentViewModel>(
     viewModelFactory: TopBarComponentViewModelFactory<VM>,
     private val content: @Composable TopBarComponent<VM>.(
         modifier: Modifier,
