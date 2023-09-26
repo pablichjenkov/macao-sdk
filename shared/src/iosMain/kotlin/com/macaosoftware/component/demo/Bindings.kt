@@ -12,6 +12,7 @@ import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.pager.PagerComponent
 import com.macaosoftware.component.pager.PagerComponentDefaults
+import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
 import com.macaosoftware.platform.IOSBridge2
 import com.macaosoftware.platform.IosBridge
@@ -47,7 +48,7 @@ fun buildAdaptableSizeComponent(): Component {
 }
 
 fun buildAppWithIntroComponent(): Component {
-    return AppComponent(
+    return StackComponent(
         viewModelFactory = AppViewModelFactory(
             stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
         ),

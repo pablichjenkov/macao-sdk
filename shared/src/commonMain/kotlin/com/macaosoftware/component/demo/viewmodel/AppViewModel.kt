@@ -24,9 +24,9 @@ import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
 class AppViewModel(
-    stackComponent: StackComponent<StackStatePresenterDefault>,
+    stackComponent: StackComponent<StackComponentViewModel>,
     override val stackStatePresenter: StackStatePresenterDefault
-) : StackComponentViewModel<StackStatePresenterDefault>(stackComponent) {
+) : StackComponentViewModel(stackComponent) {
 
     private val customTopBarComponent: Component = TopBarComponent(
         viewModelFactory = Demo3PageTopBarViewModelFactory(
