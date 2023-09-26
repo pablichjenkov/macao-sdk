@@ -8,11 +8,11 @@ import com.macaosoftware.component.stack.StackStatePresenterDefault
 
 class AppViewModelFactory(
     private val stackStatePresenter: StackStatePresenterDefault
-) : StackComponentViewModelFactory<StackStatePresenterDefault> {
+) : StackComponentViewModelFactory<AppViewModel> {
 
     override fun create(
-        stackComponent: StackComponent<StackStatePresenterDefault>
-    ): StackComponentViewModel<StackStatePresenterDefault> {
+        stackComponent: StackComponent<AppViewModel>
+    ): StackComponentViewModel {
         return AppViewModel(
             stackComponent = stackComponent,
             stackStatePresenter = stackStatePresenter

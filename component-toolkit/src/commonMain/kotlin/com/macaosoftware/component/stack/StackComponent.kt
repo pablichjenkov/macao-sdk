@@ -14,16 +14,16 @@ import com.macaosoftware.component.core.destroyChildComponent
 import com.macaosoftware.component.core.processBackstackEvent
 import com.macaosoftware.component.util.EmptyNavigationComponentView
 
-class StackComponent<T : StackStatePresenter>(
-    private val viewModelFactory: StackComponentViewModelFactory<T>,
-    private val content: @Composable StackComponent<T>.(
+class StackComponent<out VM : StackComponentViewModel>(
+    private val viewModelFactory: StackComponentViewModelFactory<VM>,
+    private val content: @Composable StackComponent<VM>.(
         modifier: Modifier,
         activeComponent: Component
     ) -> Unit
 ) : Component(), ComponentWithBackStack {
 
     val componentViewModel = viewModelFactory.create(this)
-    val stackStatePresenter: T = componentViewModel.stackStatePresenter
+    val stackStatePresenter = componentViewModel.stackStatePresenter
     override val backStack = BackStack<Component>()
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var childComponents: MutableList<Component> = mutableListOf()

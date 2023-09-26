@@ -9,6 +9,7 @@ import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.DesktopComponentRender
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.viewmodel.factory.AppViewModelFactory
+import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
 import com.macaosoftware.platform.DesktopBridge
 
@@ -16,7 +17,7 @@ class FullAppWindowComponent(
     val onCloseClick: () -> Unit
 ) : Component() {
     private val windowState = WindowState(size = DpSize(800.dp, 900.dp))
-    private var appComponent = AppComponent(
+    private var appComponent = StackComponent(
         viewModelFactory = AppViewModelFactory(
             stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
         ),

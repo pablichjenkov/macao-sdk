@@ -7,13 +7,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import com.macaosoftware.component.AndroidComponentRender
+import com.macaosoftware.component.demo.viewmodel.AppViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.AppViewModelFactory
+import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
 import com.macaosoftware.platform.AndroidBridge
 
 class FullAppIntroActivity : ComponentActivity() {
 
-    private val appComponent = AppComponent(
+    private val appComponent = StackComponent<AppViewModel>(
         viewModelFactory = AppViewModelFactory(
             stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
         ),

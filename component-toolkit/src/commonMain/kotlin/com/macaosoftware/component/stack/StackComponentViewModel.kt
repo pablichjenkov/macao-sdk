@@ -3,10 +3,10 @@ package com.macaosoftware.component.stack
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.viewmodel.ComponentViewModel
 
-abstract class StackComponentViewModel<T : StackStatePresenter>(
-    protected val stackComponent: StackComponent<T>
+abstract class StackComponentViewModel(
+    protected val stackComponent: StackComponent<StackComponentViewModel>
 ) : ComponentViewModel() {
-    abstract val stackStatePresenter: T
+    abstract val stackStatePresenter: StackStatePresenter
     abstract fun onCreate()
     abstract fun onStackTopUpdate(topComponent: Component)
 }
