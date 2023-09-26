@@ -22,15 +22,15 @@ import com.macaosoftware.component.util.EmptyNavigationComponentView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class BottomNavigationComponent<T : BottomNavigationStatePresenter>(
-    viewModelFactory: BottomNavigationComponentViewModelFactory<T>,
-    private var content: @Composable BottomNavigationComponent<T>.(
+class BottomNavigationComponent<out VM : BottomNavigationComponentViewModel>(
+    viewModelFactory: BottomNavigationComponentViewModelFactory<VM>,
+    private var content: @Composable BottomNavigationComponent<VM>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit
 ) : Component(), NavigationComponent {
 
-    val componentViewModel = viewModelFactory.create(this)
+    val componentViewModel: VM = viewModelFactory.create(this)
     val navBarStatePresenter = componentViewModel.bottomNavigationStatePresenter
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override var isFirstComponentInStackPreviousCache: Boolean = false

@@ -1,15 +1,13 @@
 package com.macaosoftware.component.demo.viewmodel.factory
 
 import com.macaosoftware.component.demo.viewmodel.BottomNavigationComponentViewModelEmpty
-import com.macaosoftware.component.navbar.BottomNavigationComponentViewModel
-import com.macaosoftware.component.navbar.BottomNavigationComponentViewModelFactory
 import com.macaosoftware.component.navbar.BottomNavigationComponent
-import com.macaosoftware.component.navbar.BottomNavigationStatePresenterDefault
+import com.macaosoftware.component.navbar.BottomNavigationComponentViewModelFactory
 
-class BottomNavigationComponentViewModelEmptyFactory : BottomNavigationComponentViewModelFactory<BottomNavigationStatePresenterDefault> {
+class BottomNavigationComponentViewModelEmptyFactory : BottomNavigationComponentViewModelFactory<BottomNavigationComponentViewModelEmpty> {
     override fun create(
-        bottomNavigationComponent: BottomNavigationComponent<BottomNavigationStatePresenterDefault>
-    ): BottomNavigationComponentViewModel<BottomNavigationStatePresenterDefault> {
+        bottomNavigationComponent: BottomNavigationComponent<BottomNavigationComponentViewModelEmpty>
+    ): BottomNavigationComponentViewModelEmpty {
         return BottomNavigationComponentViewModelEmpty(bottomNavigationComponent)
     }
 }

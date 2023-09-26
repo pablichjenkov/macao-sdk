@@ -9,6 +9,7 @@ import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponentViewModel
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
+import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationComponentViewModelEmptyFactory
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.DrawerComponentViewModelEmptyFactory
@@ -43,9 +44,7 @@ class AdaptiveSizeDemoViewModel(
         //adaptiveSizeComponent.setCompactContainer(PagerComponent())
         adaptiveSizeComponent.setMediumContainer(
             BottomNavigationComponent(
-                viewModelFactory = BottomNavigationDemoViewModelFactory(
-                    BottomNavigationComponentDefaults.createBottomNavigationStatePresenter()
-                ),
+                viewModelFactory = BottomNavigationComponentViewModelEmptyFactory(),
                 content = BottomNavigationComponentDefaults.BottomNavigationComponentView
             )
         )

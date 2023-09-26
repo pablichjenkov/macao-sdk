@@ -73,7 +73,7 @@ class PanelDemoViewModel(
         )
     }
 
-    private fun buildNavBarComponent(): BottomNavigationComponent<BottomNavigationStatePresenterDefault> {
+    private fun buildNavBarComponent(): BottomNavigationComponent<BottomNavigationDemoViewModel> {
 
         val navbarNavItems = mutableListOf(
             NavItem(

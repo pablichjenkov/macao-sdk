@@ -8,8 +8,8 @@ import com.macaosoftware.component.stack.PushStrategy
 import com.macaosoftware.component.viewmodel.ComponentViewModel
 import com.macaosoftware.platform.CoroutineDispatchers
 
-abstract class BottomNavigationComponentViewModel<T : BottomNavigationStatePresenter>(
-    protected val bottomNavigationComponent: BottomNavigationComponent<T>,
+abstract class BottomNavigationComponentViewModel(
+    protected val bottomNavigationComponent: BottomNavigationComponent<BottomNavigationComponentViewModel>,
     private val lifecycleHandler: NavigationComponent.LifecycleHandler =
         NavigationComponentDefaults.createLifecycleHandler(),
     val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
@@ -18,5 +18,5 @@ abstract class BottomNavigationComponentViewModel<T : BottomNavigationStatePrese
     NavigationComponent.LifecycleHandler by lifecycleHandler {
 
     abstract fun onCreate()
-    abstract val bottomNavigationStatePresenter: T
+    abstract val bottomNavigationStatePresenter: BottomNavigationStatePresenter
 }

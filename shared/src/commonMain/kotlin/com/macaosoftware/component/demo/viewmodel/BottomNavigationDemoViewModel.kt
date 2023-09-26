@@ -14,9 +14,9 @@ import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
 class BottomNavigationDemoViewModel(
-    bottomNavigationComponent: BottomNavigationComponent<BottomNavigationStatePresenterDefault>,
+    bottomNavigationComponent: BottomNavigationComponent<BottomNavigationDemoViewModel>,
     override val bottomNavigationStatePresenter: BottomNavigationStatePresenterDefault
-) : BottomNavigationComponentViewModel<BottomNavigationStatePresenterDefault>(bottomNavigationComponent) {
+) : BottomNavigationComponentViewModel(bottomNavigationComponent) {
 
     override fun onCreate() {
         val navBarItems = createNavBarItems()
