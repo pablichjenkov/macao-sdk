@@ -6,10 +6,10 @@ import com.macaosoftware.component.panel.PanelComponentViewModel
 import com.macaosoftware.component.panel.PanelStatePresenterDefault
 
 class PanelComponentViewModelEmpty(
-    panelComponent: PanelComponent<PanelStatePresenterDefault>,
+    panelComponent: PanelComponent<PanelComponentViewModelEmpty>,
     override val panelStatePresenter: PanelStatePresenterDefault =
         PanelComponentDefaults.createPanelStatePresenter()
-) : PanelComponentViewModel<PanelStatePresenterDefault>(panelComponent) {
+) : PanelComponentViewModel(panelComponent) {
 
     override fun onCreate() {
         println("PanelComponentViewModelEmpty::create()")

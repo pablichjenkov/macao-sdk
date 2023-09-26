@@ -22,15 +22,15 @@ import com.macaosoftware.component.util.EmptyNavigationComponentView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class PanelComponent<T : PanelStatePresenter>(
-    viewModelFactory: PanelComponentViewModelFactory<T>,
-    private val content: @Composable PanelComponent<T>.(
+class PanelComponent<out VM : PanelComponentViewModel>(
+    viewModelFactory: PanelComponentViewModelFactory<VM>,
+    private val content: @Composable PanelComponent<VM>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit
 ) : Component(), NavigationComponent {
 
-    private val componentViewModel: PanelComponentViewModel<T> = viewModelFactory.create(this)
+    private val componentViewModel: VM = viewModelFactory.create(this)
     val panelStatePresenter = componentViewModel.panelStatePresenter
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override var isFirstComponentInStackPreviousCache: Boolean = false

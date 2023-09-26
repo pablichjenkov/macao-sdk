@@ -24,9 +24,9 @@ import kotlinx.coroutines.launch
  * as a warmup so the next Component.Content is started already when the user swipe.
  * */
 @OptIn(ExperimentalFoundationApi::class)
-class PagerComponent(
-    viewModelFactory: PagerComponentViewModelFactory,
-    private var content: @Composable PagerComponent.(
+class PagerComponent<out VM : PagerComponentViewModel>(
+    viewModelFactory: PagerComponentViewModelFactory<VM>,
+    private var content: @Composable PagerComponent<VM>.(
         modifier: Modifier,
         pagerState: PagerState,
         childComponents: List<Component>

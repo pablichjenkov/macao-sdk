@@ -16,7 +16,7 @@ import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
 class PagerDemoViewModel(
-    pagerComponent: PagerComponent
+    pagerComponent: PagerComponent<PagerDemoViewModel>
 ) : PagerComponentViewModel(pagerComponent) {
 
     override fun onCreate() {

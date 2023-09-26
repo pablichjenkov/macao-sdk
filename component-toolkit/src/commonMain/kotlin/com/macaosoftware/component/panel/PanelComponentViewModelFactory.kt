@@ -1,5 +1,5 @@
 package com.macaosoftware.component.panel
 
-interface PanelComponentViewModelFactory<T : PanelStatePresenter> {
-    fun create(panelComponent: PanelComponent<T>): PanelComponentViewModel<T>
+interface PanelComponentViewModelFactory<VM : PanelComponentViewModel> {
+    fun create(panelComponent: PanelComponent<VM>): VM
 }
