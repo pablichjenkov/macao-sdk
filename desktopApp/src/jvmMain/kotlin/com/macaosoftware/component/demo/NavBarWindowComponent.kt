@@ -6,10 +6,9 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.DesktopComponentRender
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.demo.viewmodel.BottomNavigationDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
-import com.macaosoftware.component.navbar.NavBarComponent
-import com.macaosoftware.component.navbar.NavBarComponentDefaults
+import com.macaosoftware.component.navbar.BottomNavigationComponent
+import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
 import com.macaosoftware.platform.DesktopBridge
 
 class NavBarWindowComponent(
@@ -18,12 +17,12 @@ class NavBarWindowComponent(
     private val windowState = WindowState()
     private val desktopBridge = DesktopBridge()
 
-    private var navBarComponent = NavBarComponent(
+    private var bottomNavigationComponent = BottomNavigationComponent(
         // pushStrategy = FixSizedPushStrategy(1), // Uncomment to test other push strategies
         viewModelFactory = BottomNavigationDemoViewModelFactory(
-            NavBarComponentDefaults.createNavBarStatePresenter()
+            BottomNavigationComponentDefaults.createBottomNavigationStatePresenter()
         ),
-        content = NavBarComponentDefaults.NavBarComponentView
+        content = BottomNavigationComponentDefaults.BottomNavigationComponentView
     )
 
     @Composable
@@ -33,7 +32,7 @@ class NavBarWindowComponent(
             onCloseRequest = { onCloseClick() }
         ) {
             DesktopComponentRender(
-                rootComponent = navBarComponent,
+                rootComponent = bottomNavigationComponent,
                 windowState = windowState,
                 onBackPress = onCloseClick,
                 desktopBridge = desktopBridge

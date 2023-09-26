@@ -6,17 +6,17 @@ import com.macaosoftware.component.core.Component
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
-object NavBarComponentDefaults {
+object BottomNavigationComponentDefaults {
 
-    fun createNavBarStatePresenter(
+    fun createBottomNavigationStatePresenter(
         dispatcher: CoroutineDispatcher = Dispatchers.Main
-    ): NavBarStatePresenterDefault {
-        return NavBarStatePresenterDefault(
+    ): BottomNavigationStatePresenterDefault {
+        return BottomNavigationStatePresenterDefault(
             dispatcher = dispatcher
         )
     }
 
-    val NavBarComponentView: @Composable NavBarComponent<NavBarStatePresenterDefault>.(
+    val BottomNavigationComponentView: @Composable BottomNavigationComponent<BottomNavigationStatePresenterDefault>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit = { modifier, childComponent ->

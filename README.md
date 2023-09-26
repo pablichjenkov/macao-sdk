@@ -1,8 +1,8 @@
 ### Component Toolkit
 A set of prefabricated compose-multiplatform components to speedup the Multiplatform App development process. 
-The toolkit contains a variety of customizable navigation components such as `Drawer`, `Navbar`, `Pager`, `Panel`,
+The toolkit contains a variety of customizable navigation components such as `Drawer`, `BottomNavigation`, `Pager`, `Panel`,
 `Topbar`, `Stack` and many more. 
-It also provides an easy mechanism to implement MVVM architeture. Code is 99% reusable in each platform.
+It also provides an easy mechanism to implement MVVM architecture. Code is 99% reusable in each platform.
 
 ##### How to use it?
 Just add bellow dependency to the **commonMain** target and check the [Developers Guide](/component-toolkit/README.md) 
@@ -13,7 +13,7 @@ in the component-toolkit module.
 ```kotlin
 val commonMain by getting {
     dependencies {
-        implementation("io.github.pablichjenkov:component-toolkit:0.5.2")
+        implementation("io.github.pablichjenkov:component-toolkit:0.5.4")
     }
 }
 ```

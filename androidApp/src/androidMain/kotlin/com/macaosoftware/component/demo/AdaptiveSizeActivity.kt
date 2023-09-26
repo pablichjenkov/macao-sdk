@@ -18,8 +18,8 @@ import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
-import com.macaosoftware.component.navbar.NavBarComponent
-import com.macaosoftware.component.navbar.NavBarComponentDefaults
+import com.macaosoftware.component.navbar.BottomNavigationComponent
+import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
 import com.macaosoftware.platform.AndroidBridge
 
 class AdaptiveSizeActivity : ComponentActivity() {
@@ -76,18 +76,18 @@ fun DrawerPreview() {
             )
     )
 
-    val navBarComponent = NavBarComponent(
+    val bottomNavigationComponent = BottomNavigationComponent(
         viewModelFactory = BottomNavigationDemoViewModelFactory(
-            NavBarComponentDefaults.createNavBarStatePresenter()
+            BottomNavigationComponentDefaults.createBottomNavigationStatePresenter()
         ),
-        content = NavBarComponentDefaults.NavBarComponentView
+        content = BottomNavigationComponentDefaults.BottomNavigationComponentView
     ).also {
         it.setNavItems(navItems = navbarItems, selectedIndex = 0)
     }
 
     MaterialTheme {
         AndroidComponentRender(
-            rootComponent = navBarComponent,
+            rootComponent = bottomNavigationComponent,
             AndroidBridge(),
             onBackPress = { }
         )

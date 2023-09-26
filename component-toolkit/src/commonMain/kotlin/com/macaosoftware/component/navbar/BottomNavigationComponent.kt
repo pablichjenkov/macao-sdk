@@ -22,9 +22,9 @@ import com.macaosoftware.component.util.EmptyNavigationComponentView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class NavBarComponent<T : NavBarStatePresenter>(
+class BottomNavigationComponent<T : BottomNavigationStatePresenter>(
     viewModelFactory: BottomNavigationComponentViewModelFactory<T>,
-    private var content: @Composable NavBarComponent<T>.(
+    private var content: @Composable BottomNavigationComponent<T>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit
@@ -89,7 +89,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
     }
 
     override fun onSelectNavItem(selectedIndex: Int, navItems: MutableList<NavItem>) {
-        val navItemDecoNewList = navItems.map { it.toNavBarNavItem() }
+        val navItemDecoNewList = navItems.map { it.toBottomNavigationNavItem() }
         navBarStatePresenter.setNavItemsDeco(navItemDecoNewList)
         navBarStatePresenter.selectNavItemDeco(navItemDecoNewList[selectedIndex])
         if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
@@ -100,7 +100,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
     override fun updateSelectedNavItem(newTop: Component) {
         getNavItemFromComponent(newTop).let {
             println("${instanceId()}::updateSelectedNavItem(), selectedIndex = $it")
-            navBarStatePresenter.selectNavItemDeco(it.toNavBarNavItem())
+            navBarStatePresenter.selectNavItemDeco(it.toBottomNavigationNavItem())
             selectedIndex = childComponents.indexOf(newTop)
         }
     }
@@ -140,7 +140,7 @@ class NavBarComponent<T : NavBarStatePresenter>(
         if (activeComponentCopy != null) {
             content(modifier, activeComponentCopy)
         } else {
-            EmptyNavigationComponentView(this@NavBarComponent)
+            EmptyNavigationComponentView(this@BottomNavigationComponent)
         }
     }
 
