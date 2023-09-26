@@ -16,7 +16,7 @@ object BottomNavigationComponentDefaults {
         )
     }
 
-    val BottomNavigationComponentView: @Composable BottomNavigationComponent<BottomNavigationStatePresenterDefault>.(
+    val BottomNavigationComponentView: @Composable BottomNavigationComponent<BottomNavigationComponentViewModel>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit = { modifier, childComponent ->
