@@ -15,7 +15,7 @@ object TopBarComponentDefaults {
         return TopBarStatePresenterDefault(topBarStyle = topBarStyle)
     }
 
-    val TopBarComponentView: @Composable TopBarComponent<TopBarStatePresenterDefault>.(
+    val TopBarComponentView: @Composable TopBarComponent<out TopBarComponentViewModel>.(
         modifier: Modifier,
         activeChildComponent: Component
     ) -> Unit = { modifier, activeChildComponent ->

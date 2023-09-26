@@ -1,5 +1,5 @@
 package com.macaosoftware.component.topbar
 
-interface TopBarComponentViewModelFactory<T : TopBarStatePresenter> {
-    fun create(topBarComponent: TopBarComponent<T>): TopBarComponentViewModel<T>
+interface TopBarComponentViewModelFactory<VM : TopBarComponentViewModel> {
+    fun create(topBarComponent: TopBarComponent<VM>): VM
 }

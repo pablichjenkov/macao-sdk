@@ -12,11 +12,11 @@ import com.macaosoftware.component.topbar.TopBarItem
 import com.macaosoftware.component.topbar.TopBarStatePresenterDefault
 
 class HomeTopBarViewModel(
-    topBarComponent: TopBarComponent<TopBarStatePresenterDefault>,
+    topBarComponent: TopBarComponent<HomeTopBarViewModel>,
     override val topBarStatePresenter: TopBarStatePresenterDefault,
     screenName: String,
     onDone: () -> Unit
-) : TopBarComponentViewModel<TopBarStatePresenterDefault>(topBarComponent) {
+) : TopBarComponentViewModel(topBarComponent) {
 
     private var currentComponent: Component? = null
 

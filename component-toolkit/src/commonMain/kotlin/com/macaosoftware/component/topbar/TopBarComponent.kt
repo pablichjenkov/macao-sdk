@@ -17,15 +17,15 @@ import com.macaosoftware.component.stack.BackStack
 import com.macaosoftware.component.stack.StackTransition
 import com.macaosoftware.component.util.EmptyNavigationComponentView
 
-class TopBarComponent<T : TopBarStatePresenter>(
-    viewModelFactory: TopBarComponentViewModelFactory<T>,
-    private val content: @Composable TopBarComponent<T>.(
+class TopBarComponent<VM : TopBarComponentViewModel>(
+    viewModelFactory: TopBarComponentViewModelFactory<VM>,
+    private val content: @Composable TopBarComponent<VM>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit
 ) : Component(), ComponentWithBackStack {
 
-    val componentViewModel = viewModelFactory.create(this)
+    val componentViewModel: VM = viewModelFactory.create(this)
     val topBarStatePresenter = componentViewModel.topBarStatePresenter
     override val backStack = BackStack<Component>()
     override var isFirstComponentInStackPreviousCache: Boolean = false
