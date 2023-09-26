@@ -31,7 +31,7 @@ class DrawerComponent<T : DrawerStatePresenter>(
     ) -> Unit
 ) : Component(), NavigationComponent, DrawerNavigationProvider {
 
-    private val componentViewModel = viewModelFactory.create(this)
+    val componentViewModel = viewModelFactory.create(this)
     val drawerStatePresenter: T = componentViewModel.drawerStatePresenter
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override var isFirstComponentInStackPreviousCache: Boolean = false

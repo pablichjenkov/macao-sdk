@@ -22,7 +22,7 @@ class StackComponent<T : StackStatePresenter>(
     ) -> Unit
 ) : Component(), ComponentWithBackStack {
 
-    private val componentViewModel = viewModelFactory.create(this)
+    val componentViewModel = viewModelFactory.create(this)
     val stackStatePresenter: T = componentViewModel.stackStatePresenter
     override val backStack = BackStack<Component>()
     override var isFirstComponentInStackPreviousCache: Boolean = false

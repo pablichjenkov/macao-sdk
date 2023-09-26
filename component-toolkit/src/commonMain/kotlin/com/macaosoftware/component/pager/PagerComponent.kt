@@ -33,7 +33,7 @@ class PagerComponent(
     ) -> Unit
 ) : Component(), NavigationComponent {
 
-    private val componentViewModel: PagerComponentViewModel = viewModelFactory.create(this)
+    val componentViewModel: PagerComponentViewModel = viewModelFactory.create(this)
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var navItems: MutableList<NavItem> = mutableListOf()
