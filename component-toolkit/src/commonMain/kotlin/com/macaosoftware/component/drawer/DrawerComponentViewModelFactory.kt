@@ -1,5 +1,5 @@
 package com.macaosoftware.component.drawer
 
-interface DrawerComponentViewModelFactory<T : DrawerStatePresenter> {
-    fun create(drawerComponent: DrawerComponent<T>): DrawerComponentViewModel<T>
+interface DrawerComponentViewModelFactory<VM : DrawerComponentViewModel> {
+    fun create(drawerComponent: DrawerComponent<VM>): VM
 }

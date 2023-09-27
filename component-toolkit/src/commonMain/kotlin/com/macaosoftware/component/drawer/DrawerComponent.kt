@@ -23,16 +23,16 @@ import com.macaosoftware.component.util.EmptyNavigationComponentView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class DrawerComponent<T : DrawerStatePresenter>(
-    viewModelFactory: DrawerComponentViewModelFactory<T>,
-    private var content: @Composable DrawerComponent<T>.(
+class DrawerComponent<out VM : DrawerComponentViewModel>(
+    viewModelFactory: DrawerComponentViewModelFactory<VM>,
+    private var content: @Composable DrawerComponent<VM>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit
 ) : Component(), NavigationComponent, DrawerNavigationProvider {
 
-    val componentViewModel = viewModelFactory.create(this)
-    val drawerStatePresenter: T = componentViewModel.drawerStatePresenter
+    val componentViewModel: VM = viewModelFactory.create(this)
+    val drawerStatePresenter = componentViewModel.drawerStatePresenter
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var navItems: MutableList<NavItem> = mutableListOf()

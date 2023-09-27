@@ -6,10 +6,10 @@ import com.macaosoftware.component.drawer.DrawerComponentViewModel
 import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
 
 class DrawerComponentViewModelPreviewAndroidRender(
-    drawerComponent: DrawerComponent<DrawerStatePresenterDefault>,
+    drawerComponent: DrawerComponent<DrawerComponentViewModelPreviewAndroidRender>,
     override val drawerStatePresenter: DrawerStatePresenterDefault =
         DrawerComponentDefaults.createDrawerStatePresenter()
-) : DrawerComponentViewModel<DrawerStatePresenterDefault>(drawerComponent) {
+) : DrawerComponentViewModel(drawerComponent) {
 
     override fun onCreate() {
         println("DrawerComponentViewModelPreviewAndroidRender::onCreate()")

@@ -8,8 +8,8 @@ import com.macaosoftware.component.stack.PushStrategy
 import com.macaosoftware.component.viewmodel.ComponentViewModel
 import com.macaosoftware.platform.CoroutineDispatchers
 
-abstract class DrawerComponentViewModel<T : DrawerStatePresenter>(
-    protected val drawerComponent: DrawerComponent<T>,
+abstract class DrawerComponentViewModel(
+    protected val drawerComponent: DrawerComponent<DrawerComponentViewModel>,
     private val lifecycleHandler: NavigationComponent.LifecycleHandler =
         NavigationComponentDefaults.createLifecycleHandler(),
     val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
@@ -18,5 +18,5 @@ abstract class DrawerComponentViewModel<T : DrawerStatePresenter>(
     NavigationComponent.LifecycleHandler by lifecycleHandler {
 
     abstract fun onCreate()
-    abstract val drawerStatePresenter: T
+    abstract val drawerStatePresenter: DrawerStatePresenter
 }
