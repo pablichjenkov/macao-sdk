@@ -1,12 +1,5 @@
 package com.macaosoftware.component.adaptive
 
-interface AdaptiveSizeComponentViewModelFactory {
-    fun create(adaptiveSizeComponent: AdaptiveSizeComponent): AdaptiveSizeComponentViewModel
-}
-
-class AdaptiveSizeComponentViewModelFactoryDefault: AdaptiveSizeComponentViewModelFactory {
-
-    override fun create(adaptiveSizeComponent: AdaptiveSizeComponent): AdaptiveSizeComponentViewModel {
-        return AdaptiveSizeComponentDefaultViewModel()
-    }
+interface AdaptiveSizeComponentViewModelFactory<VM : AdaptiveSizeComponentViewModel> {
+    fun create(adaptiveSizeComponent: AdaptiveSizeComponent<VM>): VM
 }

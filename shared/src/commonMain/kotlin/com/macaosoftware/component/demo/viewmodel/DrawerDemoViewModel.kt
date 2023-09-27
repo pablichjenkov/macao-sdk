@@ -15,14 +15,13 @@ import com.macaosoftware.component.drawer.DrawerComponentViewModel
 import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
 import com.macaosoftware.component.navbar.BottomNavigationComponent
 import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
-import com.macaosoftware.component.navbar.BottomNavigationStatePresenterDefault
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
 class DrawerDemoViewModel(
-    drawerComponent: DrawerComponent<DrawerStatePresenterDefault>,
+    drawerComponent: DrawerComponent<DrawerDemoViewModel>,
     override val drawerStatePresenter: DrawerStatePresenterDefault
-) : DrawerComponentViewModel<DrawerStatePresenterDefault>(drawerComponent) {
+) : DrawerComponentViewModel(drawerComponent) {
 
     override fun onCreate() {
         val drawerNavItems = createDrawerItems()

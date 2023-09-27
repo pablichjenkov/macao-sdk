@@ -143,7 +143,7 @@ class AppViewModel(
         }
     }
 
-    private fun buildNestedDrawer(): DrawerComponent<DrawerStatePresenterDefault> {
+    private fun buildNestedDrawer(): DrawerComponent<DrawerComponentViewModelEmpty> {
 
         val navbarNavItems = mutableListOf(
             NavItem(

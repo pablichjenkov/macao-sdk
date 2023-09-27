@@ -26,7 +26,7 @@ import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 
 class AdaptiveSizeDemoViewModel(
-    private val adaptiveSizeComponent: AdaptiveSizeComponent
+    private val adaptiveSizeComponent: AdaptiveSizeComponent<AdaptiveSizeDemoViewModel>
 ) : AdaptiveSizeComponentViewModel() {
 
     private var subTreeNavItems: MutableList<NavItem>? = null

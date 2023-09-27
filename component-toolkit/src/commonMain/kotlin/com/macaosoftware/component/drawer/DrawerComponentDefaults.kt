@@ -25,7 +25,7 @@ object DrawerComponentDefaults {
         )
     }
 
-    val DrawerComponentView: @Composable DrawerComponent<DrawerStatePresenterDefault>.(
+    val DrawerComponentView: @Composable DrawerComponent<DrawerComponentViewModel>.(
         modifier: Modifier,
         childComponent: Component
     ) -> Unit = { modifier, childComponent ->
