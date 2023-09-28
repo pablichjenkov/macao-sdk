@@ -4,6 +4,25 @@ import com.macaosoftware.component.core.deeplink.DeepLinkResult
 import com.macaosoftware.component.stack.BackStack
 import com.macaosoftware.component.stack.StackTransition
 
+// region: backStack accessors
+
+fun ComponentWithBackStack.push(component: Component)  = backStack.push(component)
+
+fun ComponentWithBackStack.pop()  = backStack.pop()
+
+fun ComponentWithBackStack.popTo(
+    component: Component,
+    inclusive: Boolean
+)  = backStack.popTo(component, inclusive)
+
+fun ComponentWithBackStack.popToIndex(index: Int)  = backStack.popToIndex(index)
+
+fun ComponentWithBackStack.stackSize() = backStack.size()
+
+fun ComponentWithBackStack.clear() = backStack.clear()
+
+// endregion
+
 internal fun ComponentWithBackStack.processBackstackEvent(
     event: BackStack.Event<Component>
 ): StackTransition<Component> {
@@ -78,7 +97,7 @@ fun ComponentWithBackStack.componentWithBackStackOnDeepLinkNavigateTo(
     matchingComponent: Component
 ): DeepLinkResult {
     println("${getComponent().instanceId()}.onDeepLinkMatch() matchingNode = ${matchingComponent.instanceId()}")
-    backStack.push(matchingComponent)
+    push(matchingComponent)
     return DeepLinkResult.Success(matchingComponent)
 }
 

@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Color
 import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.core.push
 import com.macaosoftware.component.demo.SimpleComponent
 import com.macaosoftware.component.demo.SimpleResponseComponent
 import com.macaosoftware.component.topbar.TopBarComponent
@@ -18,6 +19,7 @@ class SettingsTopBarViewModel(
     onDone: () -> Unit
 ) : TopBarComponentViewModel(topBarComponent) {
 
+    private val settingsComponent = topBarComponent
     private var currentComponent: Component? = null
 
     val Step1 = SimpleComponent(
@@ -26,11 +28,11 @@ class SettingsTopBarViewModel(
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                topBarComponent.backStack.push(Step2)
+                settingsComponent.push(Step2)
             }
         }
     }.also {
-        it.setParent(topBarComponent)
+        it.setParent(settingsComponent)
         it.uriFragment = "Page 1"
     }
 
@@ -40,11 +42,11 @@ class SettingsTopBarViewModel(
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                topBarComponent.backStack.push(Step3)
+                settingsComponent.push(Step3)
             }
         }
     }.also {
-        it.setParent(topBarComponent)
+        it.setParent(settingsComponent)
         it.uriFragment = "Page 2"
     }
 
@@ -53,7 +55,7 @@ class SettingsTopBarViewModel(
             "$screenName/Page 3",
             Color.Cyan
         ).also {
-            it.setParent(topBarComponent)
+            it.setParent(settingsComponent)
             it.uriFragment = "Page 3"
         }
 
@@ -63,7 +65,7 @@ class SettingsTopBarViewModel(
     override fun onStart() {
         if (currentComponent == null) {
             currentComponent = Step1
-            topBarComponent.backStack.push(Step1)
+            settingsComponent.push(Step1)
         }
     }
 
@@ -105,7 +107,7 @@ class SettingsTopBarViewModel(
     override fun onCheckChildForNextUriFragment(
         nextUriFragment: String
     ): Component? {
-        println("${topBarComponent.instanceId()}::getChildForNextUriFragment = $nextUriFragment")
+        println("${settingsComponent.instanceId()}::getChildForNextUriFragment = $nextUriFragment")
         return when (nextUriFragment) {
             Step1.uriFragment -> Step1
             Step2.uriFragment -> Step2
