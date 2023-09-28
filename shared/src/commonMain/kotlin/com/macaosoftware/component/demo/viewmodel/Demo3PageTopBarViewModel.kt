@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Color
 import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.core.push
 import com.macaosoftware.component.demo.SimpleComponent
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentViewModel
@@ -17,6 +18,7 @@ class Demo3PageTopBarViewModel(
     onDone: () -> Unit,
 ) : TopBarComponentViewModel(topBarComponent) {
 
+    private val demo3PageComponent = topBarComponent
     private var currentComponent: Component? = null
 
     val Step1 = SimpleComponent(
@@ -25,7 +27,7 @@ class Demo3PageTopBarViewModel(
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                topBarComponent.backStack.push(Step2)
+                demo3PageComponent.push(Step2)
 
             }
         }
@@ -39,7 +41,7 @@ class Demo3PageTopBarViewModel(
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                topBarComponent.backStack.push(Step3)
+                demo3PageComponent.push(Step3)
             }
         }
     }.also {
@@ -61,14 +63,14 @@ class Demo3PageTopBarViewModel(
 
     override fun onCreate() {
         listOf(Step1, Step2, Step3).forEach {
-            it.setParent(topBarComponent)
+            it.setParent(demo3PageComponent)
         }
     }
 
     override fun onStart() {
         if (currentComponent == null) {
             currentComponent = Step1
-            topBarComponent.backStack.push(Step1)
+            demo3PageComponent.push(Step1)
         }
     }
 
@@ -77,17 +79,6 @@ class Demo3PageTopBarViewModel(
 
     override fun onDestroy() {
     }
-
-    /*override fun start() {
-
-    }
-
-    override fun stop() {
-    }
-
-    override fun destroy() {
-        println("${topBarComponent.instanceId()}::onStop()")
-    }*/
 
     override fun mapComponentToStackBarItem(topComponent: Component): TopBarItem {
         return when (topComponent) {

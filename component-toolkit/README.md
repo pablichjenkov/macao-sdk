@@ -299,7 +299,7 @@ private val myViewModel = SimpleViewModel(
     screenName = "$screenName/Page 2",
     bgColor = Color.Green,
     onNext = {
-        backStack.push(Step3)
+        push(Step3)
     }
 )
 

@@ -25,7 +25,7 @@ class NavigationComponentDefaultLifecycleHandler : NavigationComponent.Lifecycle
 
         if (childComponents.isNotEmpty()) {
             println("${getComponent().instanceId()}::onStart(). Pushing selectedIndex = $selectedIndex, children.size = ${childComponents.size}")
-            backStack.push(childComponents[selectedIndex])
+            push(childComponents[selectedIndex])
         } else {
             println("${getComponent().instanceId()}::onStart() with childComponents empty")
         }

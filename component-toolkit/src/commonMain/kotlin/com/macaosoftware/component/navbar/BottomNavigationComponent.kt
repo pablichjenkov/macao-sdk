@@ -17,6 +17,7 @@ import com.macaosoftware.component.core.destroyChildComponent
 import com.macaosoftware.component.core.getNavItemFromComponent
 import com.macaosoftware.component.core.processBackstackEvent
 import com.macaosoftware.component.core.processBackstackTransition
+import com.macaosoftware.component.core.push
 import com.macaosoftware.component.core.resetNavigationComponent
 import com.macaosoftware.component.util.EmptyNavigationComponentView
 import kotlinx.coroutines.CoroutineScope
@@ -43,7 +44,7 @@ class BottomNavigationComponent<out VM : BottomNavigationComponentViewModel>(
     init {
         coroutineScope.launch {
             navBarStatePresenter.navItemClickFlow.collect { navItem ->
-                backStack.push(navItem.component)
+                push(navItem.component)
             }
         }
         backStack.eventListener = { event ->
@@ -93,7 +94,7 @@ class BottomNavigationComponent<out VM : BottomNavigationComponentViewModel>(
         navBarStatePresenter.setNavItemsDeco(navItemDecoNewList)
         navBarStatePresenter.selectNavItemDeco(navItemDecoNewList[selectedIndex])
         if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
-            backStack.push(childComponents[selectedIndex])
+            push(childComponents[selectedIndex])
         }
     }
 

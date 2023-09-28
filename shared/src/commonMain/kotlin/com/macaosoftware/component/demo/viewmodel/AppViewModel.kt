@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.NavItem
+import com.macaosoftware.component.core.push
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.demo.SplashComponent
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
@@ -13,7 +14,6 @@ import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewMod
 import com.macaosoftware.component.demo.viewmodel.factory.DrawerComponentViewModelEmptyFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
-import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
 import com.macaosoftware.component.navbar.BottomNavigationComponent
 import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
 import com.macaosoftware.component.split.SplitComponent
@@ -28,13 +28,15 @@ class AppViewModel(
     override val stackStatePresenter: StackStatePresenterDefault
 ) : StackComponentViewModel(stackComponent) {
 
+    private val appComponent = stackComponent
+
     private val customTopBarComponent: Component = TopBarComponent(
         viewModelFactory = Demo3PageTopBarViewModelFactory(
             topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
             screenName = "Onboard",
             onDone = {
-                val drawerComponent = buildDrawerStateTree(stackComponent)
-                stackComponent.backStack.push(drawerComponent)
+                val drawerComponent = buildDrawerStateTree(appComponent)
+                appComponent.push(drawerComponent)
             }
         ),
         content = TopBarComponentDefaults.TopBarComponentView
@@ -43,16 +45,16 @@ class AppViewModel(
     }
 
     private val splashComponent = SplashComponent {
-        stackComponent.backStack.push(customTopBarComponent)
+        appComponent.push(customTopBarComponent)
     }
 
     override fun onCreate() {
-        splashComponent.setParent(stackComponent)
-        customTopBarComponent.setParent(stackComponent)
+        splashComponent.setParent(appComponent)
+        customTopBarComponent.setParent(appComponent)
     }
 
     override fun onStart() {
-        stackComponent.backStack.push(splashComponent)
+        appComponent.push(splashComponent)
     }
 
     override fun onStackTopUpdate(topComponent: Component) {
