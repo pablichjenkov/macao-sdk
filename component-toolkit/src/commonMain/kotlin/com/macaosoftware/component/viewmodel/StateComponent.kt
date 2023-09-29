@@ -4,17 +4,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.macaosoftware.component.core.Component
 
-class StateComponent<State>(
-    private val componentViewModel: StateViewModel<State>,
-    private val content: @Composable StateComponent<State>.(
+class StateComponent<out VM : ComponentViewModel>(
+    viewModelFactory: ComponentViewModelFactory<VM>,
+    private val content: @Composable StateComponent<VM>.(
         modifier: Modifier,
-        componentViewModel: StateViewModel<State>
+        componentViewModel: VM
     ) -> Unit
 ) : Component() {
+
+    val componentViewModel = viewModelFactory.create(this)
+
     @Composable
     override fun Content(modifier: Modifier) {
         this@StateComponent.content(modifier, componentViewModel)
     }
 }
-
-abstract class StateViewModel<U> : ComponentViewModel()
