@@ -4,7 +4,7 @@ plugins {
 }
 
 kotlin {
-    applyDefaultHierarchyTemplate()
+    // applyDefaultHierarchyTemplate()
     jvm {}
     sourceSets {
         val jvmMain by getting  {

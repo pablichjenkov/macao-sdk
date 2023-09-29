@@ -165,7 +165,7 @@ tasks.withType<AbstractPublishToMaven>().configureEach {
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    applyDefaultHierarchyTemplate()
+    // applyDefaultHierarchyTemplate()
 
     // ANDROID
     androidTarget {
