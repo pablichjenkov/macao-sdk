@@ -1,20 +1,17 @@
 ## Component Toolkit
-Component-toolkit is basically a state management library. At its core, a Component is nothing else 
-than a State Holder class to help with state hoisting. 
-In the context of this library, Components are state holders that form a tree, in this tree, 
-Components can interact with each other directly or indirectly. In a direct manner, a parent 
-component will create or hoist children components so it knows the children types and functionality.
-In an indirect way, a Component can connect to another Component in the tree that is not its 
-children. Using Component deep linking, any Component in the tree can connect to another Component 
-and send requests and receive results back.
+Component-toolkit is a state management library rather than a component ui library. A Component is nothing else than a State Holder class to help with state hoisting.
+In the context of this library, Components are state holders that form a tree, in this tree,
+Components can interact with each other directly or indirectly.
+In a direct manner, a parent component will create or hoist children components so it knows the children types and functionality.
+In an indirect way, a Component can connect to another Component in the tree that is not necesarelly its children. Using Component deep linking, any Component in the tree can connect to another Component and send requests and receive results back.
 
-`Bellow Guides are outdated, project is waiting for cmp 1.5.0 release to make toolkit 0.5.0 and update the guides. API improvements coming!`
-#### Guides
+#### Guides (As of v0.5.8)
 1. [Simple Component](#simple-component)
-2. [Navigation Component](#navigation-component)
-3. [Platform Renderers](#platform-renderers)
-4. [Component Deep Linking](#components-deep-linking)
-5. [Component Extensions](#components-ext)
+2. [State Component](#state-component)
+3. [Navigation Component](#navigation-component)
+4. [Platform Renderers](#platform-renderers)
+5. [Component Deep Linking](#components-deep-linking)
+6. [Component Extensions](#components-ext)
 
 #### <a id="simple-component"></a>Simple Component
 To create a component all you need to do is extend the Component class and provide an implementation
@@ -64,56 +61,144 @@ class SimpleComponent(
 }
 ```
 
-#### <a id="navigation-component"></a>Navigation Component
-Simple Components are basically the leaf nodes in the Component tree. To build the actual tree we need Components that can hoist children Components. The toolkit defines an interface just for that, `ComponentWithChildren`.
-This interface is the base to `NavigationComponent` interface which is implemented by many navigator Components. The next code snippet shows how to instantiate a NavBarComponent.
+#### <a id="state-component"></a>State Component
+A simple component like the one in the previous section offers a lot of possibilities but with freedom comes responsibility and we tend to get creative and invent so many things that are fine 
+for us but hard to understand for others. So, to help with putting a little bit of order, the library has a couple of built-in components that follow the MVVM pattern which is really popular. All
+predefined components are design using the MVVM and the library encourages other developers creating components to do the same.
 
-```kotlin
-fun build(): NavBarComponent<NavBarStatePresenterDefault> {
+Talking about extending functionality, the only Component that can be inherited from, is the abstract `Component` class. The rest of the components, extend functionality by using a parametrized 
+`ViewModel` that gets passed in the component constructor. Actually not, is a factory of this `ViewModel` what gets passed to the Component constructor. The library discourage inheritance and 
+encourage composition, you should to write your custom components the same way. No inheritance other than the `Component class`.
 
-        val navbarNavItems = mutableListOf(
-            NavItem(
-                label = "Home",
-                icon = Icons.Filled.Home,
-                component = CustomTopBarComponent(
-                    "Home",
-                    TopBarComponent.DefaultConfig,
-                    {},
-                )
-            ),
-            NavItem(
-                label = "Orders",
-                icon = Icons.Filled.Settings,
-                component = CustomTopBarComponent(
-                    "Orders",
-                    TopBarComponent.DefaultConfig,
-                    {},
-                )
-            ),
-            NavItem(
-                label = "Settings",
-                icon = Icons.Filled.Add,
-                component = CustomTopBarComponent(
-                    "Settings",
-                    TopBarComponent.DefaultConfig,
-                    {},
-                )
-            )
-        )
+Bellow snippet shows a custom ViewModel class `DemoViewModel` and its corresponding factory.
+```
+class DemoViewModel(
+    private val component: StateComponent<DemoViewModel>,
+    viewModelDependency: ViewModelDependency
+) : ComponentViewModel() {
 
-        val navBarComponent = NavBarComponent(
-            navBarStatePresenter = NavBarComponent.createDefaultNavBarStatePresenter(),
-            config = NavBarComponent.DefaultConfig,
-            content = NavBarComponent.DefaultNavBarComponentView
-        )
-        navBarComponent.setNavItems(navbarNavItems, 0)
-        return navBarComponent
+    val name = "DemoViewModel"
+
+    override fun onStart() {
+        println("My bound Component ID = ${component.instanceId()}")
+        viewModelDependency.getX()
+        ...
     }
+
+    override fun onStop() {
+    }
+
+    override fun onDestroy() {
+    }
+}
+
+class DemoViewModelFactory(
+    private val viewModelDependency: ViewModelDependency, // Prefereably inject it using a DI library
+) : ComponentViewModelFactory<DemoViewModel> {
+
+    override fun create(component: StateComponent<DemoViewModel>): DemoViewModel {
+        return DemoViewModel(component, viewModelDependency)
+    }
+}
+
 ```
 
-Above code snippet will produce bellow image. 
+And bellow snippet shows how to create the StateComponent instance parameterized to this DemoViewModel class.
 
-<image src="https://github.com/pablichjenkov/component-toolkit/assets/5303301/d331f0a9-1241-484a-82bf-517f3fdd3168" width=220>
+```
+
+// You can have a reference to a composable function in another file
+// file: DemoComponentContent.kt
+
+val DemoComponentContent =
+    @Composable
+    fun StateComponent<DemoViewModel>.(
+        modifier: Modifier,
+        componentViewModel: DemoViewModel
+    ) {
+        Text("My bound Component ID = ${instanceId()}")
+    }
+
+// file: DemoComponentTest.kt
+
+fun test1() {
+    val component1 = StateComponent<DemoViewModel>(
+        viewModelFactory = DemoViewModelFactory(ViewModelDependency()),
+        content = DemoComponentContent
+    )
+    
+    component1.dispatchStart()
+}
+```
+
+Or define the composable function in the call-site as a trailing lambda
+
+```
+fun test2() {
+    val component2 = StateComponent<DemoViewModel>(
+        viewModelFactory = DemoViewModelFactory(ViewModelDependency())
+    ) { modifier: Modifier, componentViewModel: DemoViewModel ->
+        
+        Text("This Composable is an extension function of StateComponent<DemoViewModel>")
+        Text("My bound Component ID = ${instanceId()}")
+        Text("My componentViewModel = ${componentViewModel.name}")
+    }
+
+    component2.dispatchStart()
+}
+```
+
+Above API design gives a developer enough freedom to define whatever ViewModel class and whatever Composable function to render that specific ViewModel type. Thanks to Kotlin well design generics api.
+
+#### <a id="navigation-component"></a>Navigation Component
+Simple components or StateComponents are basically leaf nodes in the Component tree. They are made just for that, rendering a given state, but that is it.
+
+To make a full App you will need more sophisticated components. Components that allow to do things like navigation between components, data passing between components and things of this nature. 
+These components will form the actual component tree. A fundamental aspect of a node in a tree is to have children, so we need components that can hoist children components. The toolkit defines an 
+interface just for that, `ComponentWithChildren`.
+
+`ComponentWithChildren` interface is the base to `NavigationComponent` interface which is implemented by many navigator Components. Most of the time you wont be implementing 
+`ComponentWithChildren` but `NavigationComponent` interface. The library will try to include the more popular navigation components anyways so you don't have to create a navigation component but 
+just styling the existing ones to your needs.
+
+The next code snippet shows how to instantiate a BottomNavigationComponent.
+
+```kotlin
+fun testBottomNavigationComponentCreation() {
+    val bottomNavigationComponent = BottomNavigationComponent(
+            viewModelFactory = BottomNavigationDemoViewModelFactory(
+                BottomNavigationComponentDefaults.createBottomNavigationStatePresenter()
+            ),
+            content = BottomNavigationComponentDefaults.BottomNavigationComponentView
+        )
+        
+    bottomNavigationComponent.dispatchStart()
+}
+```
+
+Above code snippet will produce a component similar to the image bellow.
+
+<image src="https://github.com/pablichjenkov/component-toolkit/assets/5303301/d331f0a9-1241-484a-82bf-517f3fdd3168" width=220 />
+
+Previous code snippet uses `BottomNavigationComponentDefaults.BottomNavigationComponentView` which is a Composable function that renders classes of `BottomNavigationDemoViewModel` type. But if you 
+want a custom rendering of your `BottomNavigationCustomViewModel` you just need to define your own and pass it to the component.
+
+```kotlin
+val CustomBottomNavigationView: @Composable BottomNavigationComponent<BottomNavigationCustomViewModel>.(
+        modifier: Modifier,
+        childComponent: Component // Currently selected component child in the BottomNavigation
+    ) -> Unit = { modifier, childComponent ->
+        NavigationBottom(
+            modifier = modifier,
+            navbarStatePresenter = navBarStatePresenter
+        ) {
+           Column {
+              Text("My Custom rendering of BottomNavigationCustomViewModel")
+              childComponent.Content(Modifier)
+           }
+        }
+    }
+```
 
 There are many other navigation Components such as `DrawerComponent`, `PagerComponent`, `PanelComponent`, `TopBarComponent`, `StackComponent` and a special type of Component named `AdaptiveSizeComponent` which takes 3 NavigationComponents as children, each one to be used depending on the screen size when it varies.
 You can also create your own navigator by implementing the NavigationComponent interface. Check the code in NavBarComponent for instance, to have some guidance on how to do so.
@@ -184,7 +269,7 @@ class DrawerActivity : ComponentActivity() {
 ```
 
 #### <a id="components-deep-linking"></a>Components Deep Linking
-A parent Component can activate/deactivate or show/hide a direct child Component. It does so by calling dispatchStart()/dispatchStop() on the respective child. But sometimes in an App, a user needs to go to another screen that is not a direct child of the current screen. Let's say there is a banner in the Feed screen that takes users to the Setting screen to see their most recent credit score changes. 
+A parent Component can activate/deactivate or show/hide a direct child Component. It does so by calling dispatchStart()/dispatchStop() on the respective child. But sometimes in an App, a user needs to go to another screen that is not a direct child of the current screen. Let's say there is a banner in the Feed screen that takes users to the Setting screen to see their most recent credit score changes.
 The toolkit support this type of navigation by using deep links. Each Component has a property named `uriFragment` that represents a path in the deep link uri. The App developer most know the path to the Component to be able to navigate to it.
 ```kotlin
 
@@ -221,9 +306,9 @@ Button(
 Lets decode above snippet:
 1. First it grabs the `rootComponent` from a CompositionLocal.
 2. Create a `DeepLinkMsg` specifying the `path` and a `resultListener` to receive the result of the deep link navigation as well as the navigated to Component.
-`path = listOf("_navigator_adaptive", "*", "Settings", "Page 3")` indicates that the first Component which `uriFragmet = _navigator_adaptive`, then `*` means that there is a NavigationComponent in the deep link route that will accept any uri path as name. Then it goes through the `Settings` TopBarComponent and then finally to `Page 3` SimpleResponseComponent.
+   `path = listOf("_navigator_adaptive", "*", "Settings", "Page 3")` indicates that the first Component which `uriFragmet = _navigator_adaptive`, then `*` means that there is a NavigationComponent in the deep link route that will accept any uri path as name. Then it goes through the `Settings` TopBarComponent and then finally to `Page 3` SimpleResponseComponent.
 3. Call Component::navigateToDeepLink(DeepLinkMsg) function to start the navigation. The algorithm will traverse the Component tree matching the uri path against the Components uriFragment property. As it traverse the tree it activates the Components that match each uri path. If a full uri match succeed, then a `DeepLinkResult.Success` is returned and as a result of traversing the tree, the Component represented by the last uri path will be the one active.
-If no child Component is found to match a specific uri path at a specific tree level, then a `DeepLinkResult.Error` will be returned.
+   If no child Component is found to match a specific uri path at a specific tree level, then a `DeepLinkResult.Error` will be returned.
 4. Once the component has been navigated to, the DeepLinkResult gives a reference to it. If you know the type then cast it and start interacting with it. That is the code below:
     ```kotlin
       val responseComponent = component as? SimpleResponseComponent
@@ -240,12 +325,15 @@ If no child Component is found to match a specific uri path at a specific tree l
 
 #### <a id="components-ext"></a>Component Extensions
 The toolkit provides some nice extensions to match some extension functions popular in Android.
+
+##### repeatOnLifecycle
 ```kotlin
 suspend fun Component.repeatOnLifecycle(
     block: suspend CoroutineScope.() -> Unit
 )
 ```
 
+##### collectAsStateWithLifecycle
 ```kotlin
 @Composable
 fun <T> Flow<T>.collectAsStateWithLifecycle(
@@ -263,51 +351,5 @@ fun <T> StateFlow<T>.collectAsStateWithLifecycle(
 ): State<T>
 ```
 
-In adition to above extension functions the toolkit provides a `ViewModel` class for those familiar with that architecture. To use the ViewModel in this library you have to use the `ViewModelComponent` class defined as bellow.
-```kotlin
-open class ViewModelComponent<VM : ViewModel>(
-    private var viewModel: VM,
-    private val content: @Composable (VM) -> Unit
-) : Component()
-```
-Sample usage:
-```kotlin
-val SimpleViewModelView: @Composable (SimpleViewModel) -> Unit = { viewModel ->
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer(Modifier.height(12.dp))
-        Text(
-            text = viewModel.text,
-            style = MaterialTheme.typography.bodyMedium
-        )
-        Button(
-            onClick = {
-                viewModel.next()
-            }
-        ) {
-            Text(
-                text = "Next",
-                style = MaterialTheme.typography.bodyMedium
-            )
-        }
-    }
-}
-    
-private val myViewModel = SimpleViewModel(
-    screenName = "$screenName/Page 2",
-    bgColor = Color.Green,
-    onNext = {
-        push(Step3)
-    }
-)
-
-val myComponent = ViewModelComponent(
-    viewModel = myViewModel,
-    content = SimpleViewModelView
-)
-
-// Somewhere in the parent Component call
-myComponent.dispatchStart()
-```
+##### MVVM architecture
+In adition to above extension functions, the toolkit provides a `abstract ComponentViewModel` class for those familiar with MVVM architecture. To use this specialized ViewModel, you have to use the `StateComponent<VM : ComponentViewModel>` class. See the StateComponent section above [State Component](#state-component).

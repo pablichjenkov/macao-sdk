@@ -18,7 +18,7 @@ compose {
 }
 
 kotlin {
-    applyDefaultHierarchyTemplate()
+    // applyDefaultHierarchyTemplate()
     js(IR) {
         browser()
         binaries.executable()
