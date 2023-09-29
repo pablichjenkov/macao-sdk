@@ -4,6 +4,10 @@ The toolkit contains a variety of customizable navigation components such as `Dr
 `Topbar`, `Stack` and many more. 
 It also provides an easy mechanism to implement MVVM architecture. Code is 99% reusable in each platform.
 
+*-One image a thousand words*
+
+<img width="550" alt="component-toolkit-arch" src="https://github.com/pablichjenkov/component-toolkit/assets/5303301/00cbc1e3-c9bd-4a1b-942d-c0a4db53cb7f">
+
 ##### How to use it?
 Just add bellow dependency to the **commonMain** target and check the [Developers Guide](/component-toolkit/README.md) 
 in the component-toolkit module.
