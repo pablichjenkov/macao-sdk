@@ -152,7 +152,11 @@ class AdaptiveSizeComponent<out VM :AdaptiveSizeComponentViewModel>(
             content = { adaptiveSelectorScope.AdaptiveView() },
             modifier = modifier
         ) { measurables: List<Measurable>, constraints: Constraints ->
-            adaptiveSelectorScope.updateMaxWidth(this@Layout, constraints.maxWidth)
+            adaptiveSelectorScope.updateMaxDimensions(
+                this@Layout,
+                constraints.maxWidth,
+                constraints.maxHeight
+            )
             val placeables = measurables.map { measurable ->
                 measurable.measure(constraints)
             }
@@ -194,9 +198,12 @@ class AdaptiveSizeComponent<out VM :AdaptiveSizeComponentViewModel>(
     private fun setAndStartNavComponentByWindowSizeInfo(windowSizeInfo: WindowSizeInfo) {
         val navComponent = when (windowSizeInfo) {
             WindowSizeInfo.ZeroSize -> currentNavComponent.value
-            WindowSizeInfo.Compact -> CompactNavComponent
-            WindowSizeInfo.Medium -> MediumNavComponent
-            WindowSizeInfo.Expanded -> ExpandedNavComponent
+            WindowSizeInfo.CompactPortrait -> CompactNavComponent
+            WindowSizeInfo.CompactLandscape -> CompactNavComponent
+            WindowSizeInfo.MediumPortrait -> MediumNavComponent
+            WindowSizeInfo.MediumLandscape -> ExpandedNavComponent
+            WindowSizeInfo.ExpandedPortrait -> MediumNavComponent
+            WindowSizeInfo.ExpandedLandscape -> ExpandedNavComponent
         }
         navComponent.setNavItems(navItems, selectedIndex)
         navComponent.getComponent().dispatchStart()
@@ -212,15 +219,27 @@ class AdaptiveSizeComponent<out VM :AdaptiveSizeComponentViewModel>(
                 currentNavComponent.value
             }
 
-            WindowSizeInfo.Compact -> {
+            WindowSizeInfo.CompactPortrait -> {
                 transfer(currentNavComponent.value, CompactNavComponent)
             }
 
-            WindowSizeInfo.Medium -> {
+            WindowSizeInfo.CompactLandscape -> {
+                transfer(currentNavComponent.value, CompactNavComponent)
+            }
+
+            WindowSizeInfo.MediumPortrait -> {
                 transfer(currentNavComponent.value, MediumNavComponent)
             }
 
-            WindowSizeInfo.Expanded -> {
+            WindowSizeInfo.MediumLandscape -> {
+                transfer(currentNavComponent.value, ExpandedNavComponent)
+            }
+
+            WindowSizeInfo.ExpandedPortrait -> {
+                transfer(currentNavComponent.value, ExpandedNavComponent)
+            }
+
+            WindowSizeInfo.ExpandedLandscape -> {
                 transfer(currentNavComponent.value, ExpandedNavComponent)
             }
         }

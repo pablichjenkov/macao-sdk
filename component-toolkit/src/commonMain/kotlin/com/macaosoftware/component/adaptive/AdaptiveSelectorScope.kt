@@ -16,21 +16,43 @@ internal interface AdaptiveSelectorScope {
 internal class AdaptiveSelectorScopeImpl : AdaptiveSelectorScope {
 
     private var maxWidthDp = mutableStateOf(0.dp)
+    private var maxHeightDp = mutableStateOf(0.dp)
     private var currentMaxWidthPixel: Int = 0
+    private var currentMaxHeightPixel: Int = 0
 
-    fun updateMaxWidth(density: Density, maxWidthPixel: Int) {
+    fun updateMaxDimensions(density: Density, maxWidthPixel: Int, maxHeightPixel: Int) {
+        calculateWindowSizeInfoWithWidth(density, maxWidthPixel)
+        calculateWindowSizeInfoWithHeight(density, maxHeightPixel)
+    }
+
+    private fun calculateWindowSizeInfoWithWidth(density: Density, maxWidthPixel: Int) {
         val pixelDelta = abs(maxWidthPixel.minus(currentMaxWidthPixel))
         if (pixelDelta < PIXEL_DELTA_MIN) {
             return
         }
+        currentMaxWidthPixel = maxWidthPixel
+
         maxWidthDp.value = with(density) {
-            currentMaxWidthPixel = maxWidthPixel
             maxWidthPixel.toDp()
         }
     }
 
+    private fun calculateWindowSizeInfoWithHeight(density: Density, maxHeightPixel: Int) {
+        val pixelDelta = abs(maxHeightPixel.minus(currentMaxHeightPixel))
+        if (pixelDelta < PIXEL_DELTA_MIN) {
+            return
+        }
+        currentMaxHeightPixel = maxHeightPixel
+
+        maxHeightDp.value = with(density) {
+            maxHeightPixel.toDp()
+        }
+    }
+
     override val windowSizeInfoState: State<WindowSizeInfo> = derivedStateOf {
-        WindowSizeInfo.fromWidthDp(maxWidthDp.value)
+        maxHeightDp.value
+        val isPortrait = currentMaxWidthPixel <= currentMaxHeightPixel
+        WindowSizeInfo.fromWidthDp(maxWidthDp.value, isPortrait)
     }
 
 }

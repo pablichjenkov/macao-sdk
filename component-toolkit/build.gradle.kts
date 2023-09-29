@@ -163,7 +163,10 @@ tasks.withType<AbstractPublishToMaven>().configureEach {
     kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.8.21")
 }*/
 
+@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
+    applyDefaultHierarchyTemplate()
+
     // ANDROID
     androidTarget {
         publishLibraryVariants("release")
@@ -182,7 +185,7 @@ kotlin {
             compilerOptions.configure {
                 // Try out preview custom allocator in K/N 1.9
                 // https://kotlinlang.org/docs/whatsnew19.html#preview-of-custom-memory-allocator
-                freeCompilerArgs.add("-Xallocator=custom")
+                // freeCompilerArgs.add("-Xallocator=custom")
 
                 // https://kotlinlang.org/docs/whatsnew19.html#compiler-option-for-c-interop-implicit-integer-conversions
                 // freeCompilerArgs.add("-XXLanguage:+ImplicitSignedToUnsignedIntegerConversion")
@@ -225,7 +228,7 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.animation)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-                implementation("org.jetbrains.compose.ui:ui-util:1.4.3")
+                implementation("org.jetbrains.compose.ui:ui-util:1.5.2")
                 // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
             }
         }
@@ -249,13 +252,13 @@ kotlin {
             }
         }
         val androidInstrumentedTest by getting
-
+/*
         // IOS
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
 
-        val iosMain by creating {
+        val iosMain by getting {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
@@ -265,7 +268,7 @@ kotlin {
         val iosX64Test by getting
         val iosArm64Test by getting
         val iosSimulatorArm64Test by getting
-        val iosTest by creating {
+        val iosTest by getting {
             dependsOn(commonTest)
             iosX64Test.dependsOn(this)
             iosArm64Test.dependsOn(this)
@@ -274,7 +277,7 @@ kotlin {
 
         // JS
         val jsMain by getting
-
+*/
         // WASM
         /*val wasmMain by getting
         val wasmTest by getting

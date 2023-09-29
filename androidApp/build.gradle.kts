@@ -13,6 +13,7 @@ plugins {
 }*/
 
 kotlin {
+    applyDefaultHierarchyTemplate()
     androidTarget()
     sourceSets {
         val androidMain by getting {
