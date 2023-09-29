@@ -285,12 +285,15 @@ Lets decode above snippet:
 
 #### <a id="components-ext"></a>Component Extensions
 The toolkit provides some nice extensions to match some extension functions popular in Android.
+
+##### repeatOnLifecycle
 ```kotlin
 suspend fun Component.repeatOnLifecycle(
     block: suspend CoroutineScope.() -> Unit
 )
 ```
 
+##### collectAsStateWithLifecycle
 ```kotlin
 @Composable
 fun <T> Flow<T>.collectAsStateWithLifecycle(
@@ -308,51 +311,6 @@ fun <T> StateFlow<T>.collectAsStateWithLifecycle(
 ): State<T>
 ```
 
-In adition to above extension functions the toolkit provides a `ViewModel` class for those familiar with that architecture. To use the ViewModel in this library you have to use the `ViewModelComponent` class defined as bellow.
-```kotlin
-open class ViewModelComponent<VM : ViewModel>(
-    private var viewModel: VM,
-    private val content: @Composable (VM) -> Unit
-) : Component()
-```
-Sample usage:
-```kotlin
-val SimpleViewModelView: @Composable (SimpleViewModel) -> Unit = { viewModel ->
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer(Modifier.height(12.dp))
-        Text(
-            text = viewModel.text,
-            style = MaterialTheme.typography.bodyMedium
-        )
-        Button(
-            onClick = {
-                viewModel.next()
-            }
-        ) {
-            Text(
-                text = "Next",
-                style = MaterialTheme.typography.bodyMedium
-            )
-        }
-    }
-}
-    
-private val myViewModel = SimpleViewModel(
-    screenName = "$screenName/Page 2",
-    bgColor = Color.Green,
-    onNext = {
-        push(Step3)
-    }
-)
+##### MVVM architecture
+In adition to above extension functions, the toolkit provides a `abstract ComponentViewModel` class for those familiar with MVVM architecture. To use this specialized ViewModel, you have to use the `StateComponent<VM : ComponentViewModel>` class. See the StateComponent section above [State Component](#state-component).
 
-val myComponent = ViewModelComponent(
-    viewModel = myViewModel,
-    content = SimpleViewModelView
-)
-
-// Somewhere in the parent Component call
-myComponent.dispatchStart()
-```
