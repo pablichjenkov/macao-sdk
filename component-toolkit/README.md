@@ -204,7 +204,8 @@ There are many other navigation Components such as `DrawerComponent`, `PagerComp
 You can also create your own navigator by implementing the NavigationComponent interface. Check the code in NavBarComponent for instance, to have some guidance on how to do so.
 
 #### <a id="platform-renderers"></a>Platform Renderes
-Once you create a Component or more often a NavigationComponent, we need to render its Composable content. For that the toolkit provides a Component renderer Composable per each platform.
+You may have noticed in previous code samples the use of `component.dispatchStart()` function. This function basically tells the component that the underlying platform lifecycle gave the signal to start. In the case of Android it is an Activity in the case of iOS a UiViewController, the web uses the window browser lifecycle and desktop the desktop window lifecycle too. In reality, you don't need to deal with platform's lifecycle or when to call `component.dispatchStart()` or `component.dispatchStop()`, the toolkit has that functionality already. The toolkit provides a Component renderer Composable function in each platform, that just receive the root component and takes care of the rest. See bellow code snippets for more details.
+
 ```kotlin
 // Android
 @Composable
