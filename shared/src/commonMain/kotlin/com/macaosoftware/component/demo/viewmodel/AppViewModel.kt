@@ -36,7 +36,7 @@ class AppViewModel(
             screenName = "Onboard",
             onDone = {
                 val drawerComponent = buildDrawerStateTree(appComponent)
-                appComponent.push(drawerComponent)
+                appComponent.navigator.push(drawerComponent)
             }
         ),
         content = TopBarComponentDefaults.TopBarComponentView
@@ -45,7 +45,7 @@ class AppViewModel(
     }
 
     private val splashComponent = SplashComponent {
-        appComponent.push(customTopBarComponent)
+        appComponent.navigator.push(customTopBarComponent)
     }
 
     override fun onCreate() {
@@ -54,7 +54,7 @@ class AppViewModel(
     }
 
     override fun onStart() {
-        appComponent.push(splashComponent)
+        appComponent.navigator.push(splashComponent)
     }
 
     override fun onStackTopUpdate(topComponent: Component) {

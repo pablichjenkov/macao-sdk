@@ -9,6 +9,7 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.ComponentWithBackStack
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.NavigationComponent
+import com.macaosoftware.component.core.Navigator
 import com.macaosoftware.component.core.componentWithBackStackGetChildForNextUriFragment
 import com.macaosoftware.component.core.deeplink.DeepLinkResult
 import com.macaosoftware.component.core.destroyChildComponent
@@ -35,6 +36,7 @@ class PagerComponent<out VM : PagerComponentViewModel>(
 
     val componentViewModel: PagerComponentViewModel = viewModelFactory.create(this)
     override val backStack = createBackStack(componentViewModel.pushStrategy)
+    override val navigator = Navigator(backStack)
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0

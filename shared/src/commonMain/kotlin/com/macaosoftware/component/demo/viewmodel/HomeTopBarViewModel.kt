@@ -28,7 +28,7 @@ class HomeTopBarViewModel(
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                homeComponent.push(Step2)
+                homeComponent.navigator.push(Step2)
             }
         }
     }.also {
@@ -42,7 +42,7 @@ class HomeTopBarViewModel(
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                homeComponent.push(Step3)
+                homeComponent.navigator.push(Step3)
             }
         }
     }.also {
@@ -65,7 +65,7 @@ class HomeTopBarViewModel(
     override fun onStart() {
         if (currentComponent == null) {
             currentComponent = Step1
-            homeComponent.push(Step1)
+            homeComponent.navigator.push(Step1)
         }
     }
 

@@ -10,6 +10,7 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.ComponentLifecycleState
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.NavigationComponent
+import com.macaosoftware.component.core.Navigator
 import com.macaosoftware.component.core.componentWithBackStackGetChildForNextUriFragment
 import com.macaosoftware.component.core.componentWithBackStackOnDeepLinkNavigateTo
 import com.macaosoftware.component.core.consumeBackPressedDefault
@@ -35,6 +36,7 @@ class DrawerComponent<out VM : DrawerComponentViewModel>(
     val componentViewModel: VM = viewModelFactory.create(this)
     val drawerStatePresenter = componentViewModel.drawerStatePresenter
     override val backStack = createBackStack(componentViewModel.pushStrategy)
+    override val navigator = Navigator(backStack)
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
@@ -45,7 +47,7 @@ class DrawerComponent<out VM : DrawerComponentViewModel>(
     init {
         coroutineScope.launch {
             drawerStatePresenter.navItemClickFlow.collect { navItemClick ->
-                push(navItemClick.component)
+                navigator.push(navItemClick.component)
             }
         }
         backStack.eventListener = { event ->
@@ -113,7 +115,7 @@ class DrawerComponent<out VM : DrawerComponentViewModel>(
         drawerStatePresenter.setNavItemsDeco(navItemDecoNewList)
         drawerStatePresenter.selectNavItemDeco(navItemDecoNewList[selectedIndex])
         if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
-            push(childComponents[selectedIndex])
+            navigator.push(childComponents[selectedIndex])
         }
     }
 

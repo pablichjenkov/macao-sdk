@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.ComponentWithBackStack
+import com.macaosoftware.component.core.Navigator
 import com.macaosoftware.component.core.componentWithBackStackGetChildForNextUriFragment
 import com.macaosoftware.component.core.componentWithBackStackOnDeepLinkNavigateTo
 import com.macaosoftware.component.core.consumeBackPressedDefault
@@ -25,6 +26,7 @@ class StackComponent<out VM : StackComponentViewModel>(
     val componentViewModel = viewModelFactory.create(this)
     val stackStatePresenter = componentViewModel.stackStatePresenter
     override val backStack = BackStack<Component>()
+    override val navigator = Navigator(backStack)
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)

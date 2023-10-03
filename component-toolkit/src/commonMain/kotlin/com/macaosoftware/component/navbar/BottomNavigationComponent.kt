@@ -9,6 +9,7 @@ import com.macaosoftware.component.core.ComponentLifecycleState
 import com.macaosoftware.component.core.ComponentWithBackStack
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.NavigationComponent
+import com.macaosoftware.component.core.Navigator
 import com.macaosoftware.component.core.componentWithBackStackGetChildForNextUriFragment
 import com.macaosoftware.component.core.componentWithBackStackOnDeepLinkNavigateTo
 import com.macaosoftware.component.core.consumeBackPressedDefault
@@ -34,6 +35,7 @@ class BottomNavigationComponent<out VM : BottomNavigationComponentViewModel>(
     val componentViewModel: VM = viewModelFactory.create(this)
     val navBarStatePresenter = componentViewModel.bottomNavigationStatePresenter
     override val backStack = createBackStack(componentViewModel.pushStrategy)
+    override val navigator = Navigator(backStack)
     override var isFirstComponentInStackPreviousCache: Boolean = false
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
@@ -44,7 +46,7 @@ class BottomNavigationComponent<out VM : BottomNavigationComponentViewModel>(
     init {
         coroutineScope.launch {
             navBarStatePresenter.navItemClickFlow.collect { navItem ->
-                push(navItem.component)
+                navigator.push(navItem.component)
             }
         }
         backStack.eventListener = { event ->
@@ -94,7 +96,7 @@ class BottomNavigationComponent<out VM : BottomNavigationComponentViewModel>(
         navBarStatePresenter.setNavItemsDeco(navItemDecoNewList)
         navBarStatePresenter.selectNavItemDeco(navItemDecoNewList[selectedIndex])
         if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
-            push(childComponents[selectedIndex])
+            navigator.push(childComponents[selectedIndex])
         }
     }
 
