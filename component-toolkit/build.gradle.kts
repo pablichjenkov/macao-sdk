@@ -165,7 +165,7 @@ tasks.withType<AbstractPublishToMaven>().configureEach {
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    //applyDefaultHierarchyTemplate()
+    applyDefaultHierarchyTemplate()
 
     // ANDROID
     androidTarget {
@@ -254,6 +254,7 @@ kotlin {
         val androidInstrumentedTest by getting
 
         // IOS
+/*
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -274,7 +275,7 @@ kotlin {
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
         }
-
+*/
         // JS
         val jsMain by getting
 
