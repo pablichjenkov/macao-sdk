@@ -107,8 +107,8 @@ And bellow snippet shows how to create the StateComponent instance parameterized
 
 ```
 
-// You can have a reference to a composable function in another file
-// file: DemoComponentContent.kt
+// You can have a reference to a composable lambda that is an extention of StateComponent<DemoViewModel> in another file.
+// file: DemoComponentView.kt
 
 val DemoComponentView: @Composable StateComponent<DemoViewModel>.(
         modifier: Modifier,
