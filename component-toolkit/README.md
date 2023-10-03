@@ -110,12 +110,10 @@ And bellow snippet shows how to create the StateComponent instance parameterized
 // You can have a reference to a composable function in another file
 // file: DemoComponentContent.kt
 
-val DemoComponentContent =
-    @Composable
-    fun StateComponent<DemoViewModel>.(
+val DemoComponentView: @Composable StateComponent<DemoViewModel>.(
         modifier: Modifier,
         componentViewModel: DemoViewModel
-    ) {
+    ) -> Unit = { modifier, childComponent ->
         Text("My bound Component ID = ${instanceId()}")
     }
 
@@ -124,7 +122,7 @@ val DemoComponentContent =
 fun test1() {
     val component1 = StateComponent<DemoViewModel>(
         viewModelFactory = DemoViewModelFactory(ViewModelDependency()),
-        content = DemoComponentContent
+        content = DemoComponentView
     )
     
     component1.dispatchStart()
