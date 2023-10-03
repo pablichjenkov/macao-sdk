@@ -113,7 +113,7 @@ And bellow snippet shows how to create the StateComponent instance parameterized
 val DemoComponentView: @Composable StateComponent<DemoViewModel>.(
         modifier: Modifier,
         componentViewModel: DemoViewModel
-    ) -> Unit = { modifier, childComponent ->
+    ) -> Unit = { modifier, demoViewModel ->
         Text("My bound Component ID = ${instanceId()}")
     }
 
