@@ -71,7 +71,8 @@ Talking about extending functionality, the only Component that can be inherited 
 encourage composition, you should to write your custom components the same way. No inheritance other than the `Component class`.
 
 Bellow snippet shows a custom ViewModel class `DemoViewModel` and its corresponding factory.
-```
+
+```kotlin
 class DemoViewModel(
     private val component: StateComponent<DemoViewModel>,
     viewModelDependency: ViewModelDependency
@@ -100,13 +101,11 @@ class DemoViewModelFactory(
         return DemoViewModel(component, viewModelDependency)
     }
 }
-
 ```
 
 And bellow snippet shows how to create the StateComponent instance parameterized to this DemoViewModel class.
 
-```
-
+```kotlin
 // You can have a reference to a composable lambda that is an extention of StateComponent<DemoViewModel> in another file.
 // file: DemoComponentView.kt
 
@@ -131,7 +130,7 @@ fun test1() {
 
 Or define the composable function in the call-site as a trailing lambda
 
-```
+```kotlin
 fun test2() {
     val component2 = StateComponent<DemoViewModel>(
         viewModelFactory = DemoViewModelFactory(ViewModelDependency())
@@ -181,6 +180,7 @@ Above code snippet will produce a component similar to the image bellow.
 Previous code snippet uses `BottomNavigationComponentDefaults.BottomNavigationComponentView` which is a Composable function that renders classes of `BottomNavigationDemoViewModel` type. But if you 
 want a custom rendering of your `BottomNavigationCustomViewModel` you just need to define your own and pass it to the component.
 
+`A custom BottomNavigation composable`
 ```kotlin
 val CustomBottomNavigationView: @Composable BottomNavigationComponent<BottomNavigationCustomViewModel>.(
         modifier: Modifier,
@@ -196,6 +196,40 @@ val CustomBottomNavigationView: @Composable BottomNavigationComponent<BottomNavi
            }
         }
     }
+```
+
+`A custom BottomNavigation ViewModel`
+```kotlin
+class BottomNavigationDemoViewModel(
+    bottomNavigationComponent: BottomNavigationComponent<BottomNavigationDemoViewModel>,
+    override val bottomNavigationStatePresenter: BottomNavigationStatePresenterDefault,
+    private val httpClient: HttpClient()
+) : BottomNavigationComponentViewModel(bottomNavigationComponent) {
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+
+    override fun onCreate() {
+        coroutineScope.launch {
+            val navBarItems = fetchNavBarItems()
+            val selectedIndex = 0
+            bottomNavigationComponent.setNavItems(navBarItems, selectedIndex)
+        }
+    }
+
+    override fun onStart() {
+    }
+
+    override fun onStop() {
+    }
+
+    override fun onDestroy() {
+    }
+
+    private suspend fun fetchNavBarItems(): MutableList<NavItem> {
+        return httpClient.fetchRemoteNavItems()
+    }
+
+}
 ```
 
 There are many other navigation Components such as `DrawerComponent`, `PagerComponent`, `PanelComponent`, `TopBarComponent`, `StackComponent` and a special type of Component named `AdaptiveSizeComponent` which takes 3 NavigationComponents as children, each one to be used depending on the screen size when it varies.
@@ -270,8 +304,8 @@ class DrawerActivity : ComponentActivity() {
 #### <a id="components-deep-linking"></a>Components Deep Linking
 A parent Component can activate/deactivate or show/hide a direct child Component. It does so by calling dispatchStart()/dispatchStop() on the respective child. But sometimes in an App, a user needs to go to another screen that is not a direct child of the current screen. Let's say there is a banner in the Feed screen that takes users to the Setting screen to see their most recent credit score changes.
 The toolkit support this type of navigation by using deep links. Each Component has a property named `uriFragment` that represents a path in the deep link uri. The App developer most know the path to the Component to be able to navigate to it.
-```kotlin
 
+```kotlin
 val rootComponent = LocalRootComponentProvider.current
 
 Button(
