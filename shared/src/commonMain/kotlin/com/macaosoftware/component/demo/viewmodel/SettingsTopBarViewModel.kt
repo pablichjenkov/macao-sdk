@@ -28,7 +28,7 @@ class SettingsTopBarViewModel(
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                settingsComponent.push(Step2)
+                settingsComponent.navigator.push(Step2)
             }
         }
     }.also {
@@ -42,7 +42,7 @@ class SettingsTopBarViewModel(
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                settingsComponent.push(Step3)
+                settingsComponent.navigator.push(Step3)
             }
         }
     }.also {
@@ -65,7 +65,7 @@ class SettingsTopBarViewModel(
     override fun onStart() {
         if (currentComponent == null) {
             currentComponent = Step1
-            settingsComponent.push(Step1)
+            settingsComponent.navigator.push(Step1)
         }
     }
 

@@ -14,7 +14,7 @@ version = extra["component-toolkit.version"] as String
 }*/
 
 kotlin {
-    applyDefaultHierarchyTemplate()
+    //applyDefaultHierarchyTemplate()
     // IOS
     listOf(
         // iosX64(),
@@ -53,23 +53,23 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-/*
+
         // IOS
         val iosArm64Main by getting
         //val iosSimulatorArm64Main by getting
-        val iosMain by getting {
+        val iosMain by creating {
             dependsOn(commonMain)
             iosArm64Main.dependsOn(this)
          //   iosSimulatorArm64Main.dependsOn(this)
         }
         val iosArm64Test by getting
 //        val iosSimulatorArm64Test by getting
-        val iosTest by getting {
+        val iosTest by creating {
             dependsOn(commonTest)
             iosArm64Test.dependsOn(this)
 //            iosSimulatorArm64Test.dependsOn(this)
         }
-*/
+
     }
 
 }

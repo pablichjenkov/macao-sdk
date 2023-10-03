@@ -27,7 +27,7 @@ class Demo3PageTopBarViewModel(
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                demo3PageComponent.push(Step2)
+                demo3PageComponent.navigator.push(Step2)
 
             }
         }
@@ -41,7 +41,7 @@ class Demo3PageTopBarViewModel(
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                demo3PageComponent.push(Step3)
+                demo3PageComponent.navigator.push(Step3)
             }
         }
     }.also {
@@ -70,7 +70,7 @@ class Demo3PageTopBarViewModel(
     override fun onStart() {
         if (currentComponent == null) {
             currentComponent = Step1
-            demo3PageComponent.push(Step1)
+            demo3PageComponent.navigator.push(Step1)
         }
     }
 
