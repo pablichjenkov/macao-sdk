@@ -11,7 +11,8 @@ In an indirect way, a Component can connect to another Component in the tree tha
 3. [Navigation Component](#navigation-component)
 4. [Platform Renderers](#platform-renderers)
 5. [Component Deep Linking](#components-deep-linking)
-6. [Component Extensions](#components-ext)
+6. [Component Lifecycle](#component-lifecycle)
+7. [Component Extensions](#components-ext)
 
 #### <a id="simple-component"></a>Simple Component
 To create a component all you need to do is extend the Component class and provide an implementation
@@ -355,6 +356,19 @@ Lets decode above snippet:
             }
         }
     ```
+
+#### <a id="component-lifecycle"></a>Component Lifecycle
+Components and ViewModels conform to specific application lifecycles, ComponentLifecycle and ComponentViewModelLifecycle respectively. These lifecycle classes are pretty similar to lifecycles in Android but with an important difference. The lifecycle is not just controlled by the underliying Activity or UiViewController but it also have into account vissibility in the parent component. In other words, the parent component controll the lifecycle of its children depending if they are vissible or not.
+The components lifecycle is determine by the platform lifecycle plus vissibility in the parent. 
+In regards to platform lifecycle, the library commonize the platforms in the following manner:
+
+`Android::onStart()` = `iOS::UIApplication.didBecomeActiveNotification` = `!(Desktop/Browser)::Window::minimized`
+
+`Android::onStop()` = `iOS::UIApplication.didEnterBackgroundNotification` = `(Desktop/Browser)::Window::minimized`
+
+`Android::onDestroy()` = `iOS::Application.exit()` = `(Desktop/Browser)::Window::exit()`
+
+To propagate platforms events into compose the library uses a **DefaultAppLifecycleDispatcher**. Check that class usage to see how it works. The same technique can be applied for communication between any platform API and compose so it is worthy to check how this class work.
 
 #### <a id="components-ext"></a>Component Extensions
 The toolkit provides some nice extensions to match some extension functions popular in Android.
