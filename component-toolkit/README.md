@@ -358,7 +358,32 @@ Lets decode above snippet:
     ```
 
 #### <a id="component-lifecycle"></a>Component Lifecycle
-Components and ViewModels conform to specific application lifecycles, ComponentLifecycle and ComponentViewModelLifecycle respectively. These lifecycle classes are pretty similar to lifecycles in Android but with an important difference. The lifecycle is not just controlled by the underliying Activity or UiViewController but it also have into account vissibility in the parent component. In other words, the parent component controll the lifecycle of its children depending if they are vissible or not.
+Components and ViewModels conform to specific application lifecycles, `ComponentLifecycle` and `ComponentViewModelLifecycle` respectively. 
+
+```
+class SimpleComponent(
+    val screenName: String,
+    val bgColor: Color,
+    val onMessage: (Msg) -> Unit
+) : Component() {
+
+    override fun onStart() {
+        println("${instanceId()}::onStart()")
+    }
+
+    override fun onStop() {
+        println("${instanceId()}::onStop()")
+    }
+
+    override fun onDestroy() {
+        println("${instanceId()}::onDestroy()")
+    }
+
+    ...
+}
+```
+
+These lifecycle classes are pretty similar to lifecycles in Android but with an important difference. The lifecycle is not just controlled by the underliying Activity, UiViewController or Window. It is also related to the component vissibility in its parent component. In other words, the parent component controll the lifecycle of its children depending if they are vissible or not.
 The components lifecycle is determine by the platform lifecycle plus vissibility in the parent. 
 In regards to platform lifecycle, the library commonize the platforms in the following manner:
 
