@@ -6,7 +6,7 @@ It also provides an easy mechanism to implement MVVM architecture. Code is 99% r
 
 *-One image is worth a thousand words*
 
-<img width="600" alt="component-toolkit-arch" src="https://github.com/pablichjenkov/component-toolkit/assets/5303301/0959727d-52ab-4ca4-a238-365dd694c725">
+<img width="700" alt="macao-toolkit-arch" src="https://github.com/pablichjenkov/component-toolkit/assets/5303301/234e2a45-38aa-4311-902f-fe3b749399e2">
 
 ##### How to use it?
 Just add bellow dependency to the **commonMain** target and check the [Developers Guide](/component-toolkit/README.md) 
