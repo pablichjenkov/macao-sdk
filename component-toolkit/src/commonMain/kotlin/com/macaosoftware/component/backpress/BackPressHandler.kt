@@ -34,11 +34,11 @@ fun BackPressHandler(
 
     val backPressDispatcher = LocalBackPressedDispatcher.current
     val componentLifecycleState by component.lifecycleStateFlow.collectAsState(
-        ComponentLifecycleState.Created
+        ComponentLifecycleState.Attached
     )
 
     when (componentLifecycleState) {
-        ComponentLifecycleState.Created -> {
+        ComponentLifecycleState.Attached -> {
             println("${component.instanceId()}::Lifecycle Flow = Created, Ignoring")
             // Ignore
         }
@@ -55,7 +55,7 @@ fun BackPressHandler(
             backPressDispatcher.unsubscribe(backPressCallback)
         }
 
-        ComponentLifecycleState.Destroyed -> {
+        ComponentLifecycleState.Detached -> {
             println("${component.instanceId()}::Lifecycle Flow = Destroyed, Ignoring")
             // Ignore it did unsubscribe in Stopped already.
         }

@@ -12,7 +12,6 @@ import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoVi
 import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
 import com.macaosoftware.component.navbar.BottomNavigationComponent
 import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
-import com.macaosoftware.component.navbar.BottomNavigationStatePresenterDefault
 import com.macaosoftware.component.panel.PanelComponent
 import com.macaosoftware.component.panel.PanelComponentViewModel
 import com.macaosoftware.component.panel.PanelStatePresenterDefault
@@ -24,7 +23,7 @@ class PanelDemoViewModel(
     override val panelStatePresenter: PanelStatePresenterDefault
 ) : PanelComponentViewModel(panelComponent) {
 
-    override fun onCreate() {
+    override fun onAttach() {
         val panelNavItems = createPanelNavItems()
         val selectedIndex = 0
         panelComponent.setNavItems(panelNavItems, selectedIndex)
@@ -36,7 +35,7 @@ class PanelDemoViewModel(
     override fun onStop() {
     }
 
-    override fun onDestroy() {
+    override fun onDetach() {
     }
 
     private fun createPanelNavItems(): List<NavItem> {

@@ -41,6 +41,7 @@ fun BrowserComponentRender(
     }
 
     LaunchedEffect(key1 = rootComponent) {
+        rootComponent.dispatchAttach()
         rootComponent.isRoot = true
         rootComponent.rootBackPressDelegate = updatedOnBackPressed
         rootComponent.dispatchStart()

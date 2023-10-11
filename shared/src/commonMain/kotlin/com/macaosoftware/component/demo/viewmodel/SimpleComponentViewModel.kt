@@ -11,6 +11,9 @@ class SimpleComponentViewModel(
 
     val text = "A sample text from the view Model"
 
+    override fun onAttach() {
+    }
+
     override fun onStart() {
 
     }
@@ -19,7 +22,7 @@ class SimpleComponentViewModel(
 
     }
 
-    override fun onDestroy() {
+    override fun onDetach() {
 
     }
 

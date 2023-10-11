@@ -12,7 +12,7 @@ import com.macaosoftware.component.navbar.BottomNavigationComponent
 import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
 import com.macaosoftware.platform.AndroidBridge
 
-class NavBarActivity : ComponentActivity() {
+class BottomNavigationActivity : ComponentActivity() {
 
     val bottomNavigationComponent = BottomNavigationComponent(
         // pushStrategy = FixSizedPushStrategy(1), // Uncomment to test other push strategies

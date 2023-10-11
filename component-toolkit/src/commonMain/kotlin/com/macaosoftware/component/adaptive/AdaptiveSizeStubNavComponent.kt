@@ -39,8 +39,8 @@ internal class AdaptiveSizeStubNavComponent : Component(), NavigationComponent {
     override fun updateSelectedNavItem(newTop: Component) {
     }
 
-    override fun onDestroyChildComponent(component: Component) {
-        component.dispatchDestroy()
+    override fun onDetachChildComponent(component: Component) {
+        component.dispatchDetach()
     }
 
     @Composable

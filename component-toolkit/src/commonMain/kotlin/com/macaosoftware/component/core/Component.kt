@@ -21,45 +21,73 @@ abstract class Component : ComponentLifecycle() {
 
     fun setParent(parentComponent: Component) {
         if (this == parentComponent) throw IllegalArgumentException("A Component cannot be its own parent Component")
+        // Protect against double calling
+        if (this.parentComponent == parentComponent) {
+            return
+        }
         this.parentComponent = parentComponent
+        dispatchAttach()
     }
 
-    fun isAttached(): Boolean = parentComponent != null
+    fun isAttached(): Boolean = lifecycleState == ComponentLifecycleState.Attached
 
     // endregion
 
     // region: Lifecycle
 
-    var lifecycleState: ComponentLifecycleState = ComponentLifecycleState.Created
+    var lifecycleState: ComponentLifecycleState = ComponentLifecycleState.Attached
 
     private val _lifecycleStateFlow = MutableStateFlow(lifecycleState)
     val lifecycleStateFlow: StateFlow<ComponentLifecycleState>
         get() = _lifecycleStateFlow.asStateFlow()
 
+    internal fun dispatchAttach() {
+        lifecycleState = ComponentLifecycleState.Attached
+        onAttach()
+        _lifecycleStateFlow.value = ComponentLifecycleState.Attached
+    }
+
     open fun dispatchStart() {
-        lifecycleState =
-            ComponentLifecycleState.Started // It has to be the first line of this block
+        // Protect against double calling
+        if (lifecycleState == ComponentLifecycleState.Started) {
+            return
+        }
+        // It has to be the first line of this block
+        lifecycleState = ComponentLifecycleState.Started
         if (deepLinkNavigationAwaitsStartedState) {
             deepLinkNavigationAwaitsStartedState = false
             awaitingDeepLinkMsg?.let {
                 DefaultDeepLinkManager().navigateToDeepLink(this, it)
             }
+            return
         }
         onStart()
         _lifecycleStateFlow.value = ComponentLifecycleState.Started
     }
 
     open fun dispatchStop() {
+        // Protect against double calling
+        if (lifecycleState == ComponentLifecycleState.Stopped) {
+            return
+        }
         lifecycleState = ComponentLifecycleState.Stopped
         onStop()
         _lifecycleStateFlow.value = ComponentLifecycleState.Stopped
         resetStartedValuesInternal()
     }
 
-    open fun dispatchDestroy() {
-        lifecycleState = ComponentLifecycleState.Destroyed
-        onDestroy()
-        _lifecycleStateFlow.value = ComponentLifecycleState.Destroyed
+    open fun dispatchDetach() {
+        // Protect against double calling
+        if (lifecycleState == ComponentLifecycleState.Detached) {
+            return
+        }
+        lifecycleState = ComponentLifecycleState.Detached
+        onDetach()
+        _lifecycleStateFlow.value = ComponentLifecycleState.Detached
+        this.parentComponent = null
+    }
+
+    override fun onAttach() {
     }
 
     override fun onStart() {
@@ -68,7 +96,7 @@ abstract class Component : ComponentLifecycle() {
     override fun onStop() {
     }
 
-    override fun onDestroy() {
+    override fun onDetach() {
     }
 
     // endregion
@@ -152,14 +180,8 @@ object ComponentDefaults {
 }
 
 sealed interface ComponentLifecycleState {
-    object Created : ComponentLifecycleState
+    object Attached : ComponentLifecycleState
     object Started : ComponentLifecycleState
     object Stopped : ComponentLifecycleState
-    object Destroyed : ComponentLifecycleState
-}
-
-abstract class ComponentLifecycle {
-    protected abstract fun onStart()
-    protected abstract fun onStop()
-    protected abstract fun onDestroy()
+    object Detached : ComponentLifecycleState
 }

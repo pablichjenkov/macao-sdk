@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Color
 import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.core.clearBackStack
 import com.macaosoftware.component.core.push
 import com.macaosoftware.component.demo.SimpleComponent
 import com.macaosoftware.component.demo.SimpleResponseComponent
@@ -59,23 +60,35 @@ class SettingsTopBarViewModel(
             it.uriFragment = "Page 3"
         }
 
-    override fun onCreate() {
+    override fun onAttach() {
+        println("${topBarComponent.instanceId()}::SettingsTopBarViewModel::onAttach()")
     }
 
     override fun onStart() {
-        if (currentComponent == null) {
+        println("${topBarComponent.instanceId()}::SettingsTopBarViewModel::onStart()")
+        val shouldPushFirstChild: Boolean = if (currentComponent == null) {
+            true
+        } else if (topBarComponent.isFirstComponentInStackPreviousCache) {
+            currentComponent != Step1
+        } else false
+
+        if (shouldPushFirstChild) {
             currentComponent = Step1
+            settingsComponent.navigator.clearBackStack()
             settingsComponent.navigator.push(Step1)
         }
     }
 
     override fun onStop() {
+        println("${topBarComponent.instanceId()}::SettingsTopBarViewModel::onStop()")
     }
 
-    override fun onDestroy() {
+    override fun onDetach() {
+        println("${topBarComponent.instanceId()}::SettingsTopBarViewModel::onDetach()")
     }
 
     override fun mapComponentToStackBarItem(topComponent: Component): TopBarItem {
+        currentComponent = topComponent
         return when (topComponent) {
             Step1 -> {
                 TopBarItem(
@@ -114,10 +127,6 @@ class SettingsTopBarViewModel(
             Step3.uriFragment -> Step3
             else -> null
         }
-    }
-
-    override fun onBackstackEmpty() {
-        currentComponent = null
     }
 
 }

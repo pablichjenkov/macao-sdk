@@ -11,8 +11,8 @@ class DrawerComponentViewModelEmpty(
         DrawerComponentDefaults.createDrawerStatePresenter()
 ) : DrawerComponentViewModel(drawerComponent) {
 
-    override fun onCreate() {
-        println("DrawerComponentDefaultViewModel::onCreate()")
+    override fun onAttach() {
+        println("DrawerComponentDefaultViewModel::onAttach()")
     }
 
     override fun onStart() {
@@ -23,7 +23,7 @@ class DrawerComponentViewModelEmpty(
         println("DrawerComponentDefaultViewModel::onStop()")
     }
 
-    override fun onDestroy() {
-        println("DrawerComponentDefaultViewModel::onDestroy()")
+    override fun onDetach() {
+        println("DrawerComponentDefaultViewModel::onDetach()")
     }
 }

@@ -9,19 +9,22 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import com.macaosoftware.component.core.Component
 
 @Composable
 fun LifecycleEventObserver(
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     onStart: () -> Unit,
-    onStop: () -> Unit
+    onStop: () -> Unit,
+    initializeBlock: () -> Unit
 ) {
     // Safely update the current lambdas when a new one is provided
     val currentOnStart by rememberUpdatedState(newValue = onStart)
     val currentOnStop by rememberUpdatedState(newValue = onStop)
 
     // If the enclosing lifecycleOwner changes, dispose and reset the effect
-    DisposableEffect(lifecycleOwner) {
+    DisposableEffect(key1 = initializeBlock, key2 = lifecycleOwner) {
+        initializeBlock.invoke()
         // Create an observer that triggers our remembered callbacks
         // when the LifecycleOwner that contains this composable changes its state.
         val observer = LifecycleEventObserver { _, event ->

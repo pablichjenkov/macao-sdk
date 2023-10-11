@@ -17,6 +17,5 @@ abstract class DrawerComponentViewModel(
 ) : ComponentViewModel(),
     NavigationComponent.LifecycleHandler by lifecycleHandler {
 
-    abstract fun onCreate()
     abstract val drawerStatePresenter: DrawerStatePresenter
 }

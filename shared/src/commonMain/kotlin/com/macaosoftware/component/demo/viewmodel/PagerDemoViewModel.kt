@@ -19,7 +19,7 @@ class PagerDemoViewModel(
     pagerComponent: PagerComponent<PagerDemoViewModel>
 ) : PagerComponentViewModel(pagerComponent) {
 
-    override fun onCreate() {
+    override fun onAttach() {
         pagerComponent.setNavItems(
             navItems = createPagerItems(),
             selectedIndex = 0
@@ -34,7 +34,7 @@ class PagerDemoViewModel(
 
     }
 
-    override fun onDestroy() {
+    override fun onDetach() {
 
     }
 

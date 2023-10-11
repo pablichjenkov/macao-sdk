@@ -31,12 +31,20 @@ class SimpleComponent(
     val onResult: (result: Boolean) -> Unit
 ) : Component() {
 
+    override fun onAttach() {
+        println("${instanceId()}::onAttach()")
+        ...
+    }
+   
     override fun onStart() {
         println("${instanceId()}::onStart()")
     }
 
     override fun onStop() {
         println("${instanceId()}::onStop()")
+    }
+
+    override fun onDetach() {
     }
 
     @Composable
@@ -80,6 +88,11 @@ class DemoViewModel(
 ) : ComponentViewModel() {
 
     val name = "DemoViewModel"
+   
+    override fun onAttach() { 
+        println("${instanceId()}::onAttach()")
+        ...
+    }
 
     override fun onStart() {
         println("My bound Component ID = ${component.instanceId()}")
@@ -90,7 +103,7 @@ class DemoViewModel(
     override fun onStop() {
     }
 
-    override fun onDestroy() {
+    override fun onDetach() {
     }
 }
 
@@ -209,21 +222,22 @@ class BottomNavigationDemoViewModel(
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
-    override fun onCreate() {
-        coroutineScope.launch {
-            val navBarItems = fetchNavBarItems()
-            val selectedIndex = 0
-            bottomNavigationComponent.setNavItems(navBarItems, selectedIndex)
-        }
+    override fun onAttach() {
+       println("${instanceId()}::onAttach()")
+       coroutineScope.launch {
+          val navBarItems = fetchNavBarItems()
+          val selectedIndex = 0
+          bottomNavigationComponent.setNavItems(navBarItems, selectedIndex)
+       }
     }
-
+   
     override fun onStart() {
     }
 
     override fun onStop() {
     }
 
-    override fun onDestroy() {
+    override fun onDetach() {
     }
 
     private suspend fun fetchNavBarItems(): MutableList<NavItem> {
@@ -360,12 +374,16 @@ Lets decode above snippet:
 #### <a id="component-lifecycle"></a>Component Lifecycle
 Components and ViewModels conform to specific application lifecycles, `ComponentLifecycle` and `ComponentViewModelLifecycle` respectively. 
 
-```
+```kotlin
 class SimpleComponent(
     val screenName: String,
     val bgColor: Color,
     val onMessage: (Msg) -> Unit
 ) : Component() {
+
+    override fun onAttach() {
+        println("${instanceId()}::onAttach()")
+    }
 
     override fun onStart() {
         println("${instanceId()}::onStart()")
@@ -375,8 +393,8 @@ class SimpleComponent(
         println("${instanceId()}::onStop()")
     }
 
-    override fun onDestroy() {
-        println("${instanceId()}::onDestroy()")
+    override fun onDetach() {
+        println("${instanceId()}::onDetach()")
     }
 
     ...
@@ -391,7 +409,7 @@ In regards to platform lifecycle, the library commonize the platforms in the fol
 
 `Android::onStop()` = `iOS::UIApplication.didEnterBackgroundNotification` = `(Desktop/Browser)::Window::minimized`
 
-`Android::onDestroy()` = `iOS::Application.exit()` = `(Desktop/Browser)::Window::exit()`
+`Android::onDetach()` = `iOS::Application.exit()` = `(Desktop/Browser)::Window::exit()`
 
 To propagate platforms events into compose the library uses a **DefaultAppLifecycleDispatcher**. Check that class usage to see how it works. The same technique can be applied for communication between any platform API and compose so it is worthy to check how this class work.
 

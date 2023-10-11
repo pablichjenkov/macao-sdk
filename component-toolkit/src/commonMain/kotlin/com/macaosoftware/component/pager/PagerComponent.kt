@@ -51,8 +51,10 @@ class PagerComponent<out VM : PagerComponentViewModel>(
 
     private var currentPage = 0
 
-    init {
-        componentViewModel.onCreate()
+    // region: ComponentLifecycle
+
+    override fun onAttach() {
+        componentViewModel.dispatchAttached()
     }
 
     override fun onStart() {
@@ -71,7 +73,7 @@ class PagerComponent<out VM : PagerComponentViewModel>(
                 childComponents[activeChildIndex].dispatchStart()
             }
         }
-        componentViewModel.onStart()
+        componentViewModel.dispatchStart()
     }
 
     override fun onStop() {
@@ -80,11 +82,11 @@ class PagerComponent<out VM : PagerComponentViewModel>(
             childComponents[activeChildIndex].dispatchStop()
         }
         coroutineScope.coroutineContext.cancelChildren()
-        componentViewModel.onStop()
+        componentViewModel.dispatchStop()
     }
 
-    override fun onDestroy() {
-        componentViewModel.onDestroy()
+    override fun onDetach() {
+        componentViewModel.dispatchDetach()
     }
 
     override fun handleBackPressed() {
@@ -94,6 +96,8 @@ class PagerComponent<out VM : PagerComponentViewModel>(
             delegateBackPressedToParent()
         }
     }
+
+    // endregion
 
     // region: NavigatorItems
 
@@ -109,7 +113,7 @@ class PagerComponent<out VM : PagerComponentViewModel>(
         // The ViewPager updates the indicator automatically, no need to do anything here.
     }
 
-    override fun onDestroyChildComponent(component: Component) {
+    override fun onDetachChildComponent(component: Component) {
         destroyChildComponent()
     }
 

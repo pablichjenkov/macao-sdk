@@ -93,8 +93,8 @@ class MainWindowComponent(
             DesktopComponentRender(
                 rootComponent = adaptableSizeComponent,
                 windowState = windowState,
-                onBackPress = onExitClick,
-                desktopBridge = desktopBridge
+                desktopBridge = desktopBridge,
+                onBackPress = onExitClick
             )
         }
     }

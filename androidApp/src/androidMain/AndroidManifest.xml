@@ -32,7 +32,7 @@
             android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true" />
         <activity
-            android:name=".NavBarActivity"
+            android:name=".BottomNavigationActivity"
             android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true" />
         <activity

@@ -31,7 +31,7 @@ class AdaptiveSizeDemoViewModel(
 
     private var subTreeNavItems: MutableList<NavItem>? = null
 
-    override fun onCreate() {
+    override fun onAttach() {
         adaptiveSizeComponent.uriFragment = "_navigator_adaptive"
         val navItems = getOrCreateDetachedNavItems()
         adaptiveSizeComponent.setNavItems(navItems, 0)
@@ -65,8 +65,8 @@ class AdaptiveSizeDemoViewModel(
         println("AdaptiveSizeDemoViewModel::onStop()")
     }
 
-    override fun onDestroy() {
-        println("AdaptiveSizeDemoViewModel::onDestroy()")
+    override fun onDetach() {
+        println("AdaptiveSizeDemoViewModel::onDetach()")
     }
 
     fun getOrCreateDetachedNavItems(): MutableList<NavItem> {

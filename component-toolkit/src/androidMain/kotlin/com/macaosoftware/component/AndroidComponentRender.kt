@@ -9,7 +9,6 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
@@ -53,13 +52,14 @@ fun AndroidComponentRender(
         onStop = {
             println("Receiving Activity.onStop() event")
             rootComponent.dispatchStop()
+        },
+        initializeBlock = {
+            rootComponent.dispatchAttach()
+            rootComponent.isRoot = true
+            rootComponent.rootBackPressDelegate = updatedOnBackPressed
         }
     )
 
-    LaunchedEffect(rootComponent) {
-        rootComponent.isRoot = true
-        rootComponent.rootBackPressDelegate = updatedOnBackPressed
-    }
 }
 
 @Preview

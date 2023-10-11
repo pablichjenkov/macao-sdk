@@ -37,33 +37,11 @@ fun Component.BackPressHandler() {
     )
 }
 
-/*
-fun Component.jsonify(): JsonObject {
-    val rootJsonObject = buildJsonObject {
-        put("component_type", JsonPrimitive(clazz))
-
-        if (this@jsonify is NavComponent) {
-            val children = mutableListOf<JsonObject>()
-            this@jsonify.childComponents.forEach {
-                val childJson = it.jsonify()
-                children.add(childJson)
-            }
-            putJsonArray("children") {
-                for (child in children) add(child)
-            }
-        }
-
-    }
-
-    return rootJsonObject
-}
-*/
-
 suspend fun Component.repeatOnLifecycle(
     block: suspend CoroutineScope.() -> Unit
 ) {
 
-    if (lifecycleState === ComponentLifecycleState.Destroyed) {
+    if (lifecycleState === ComponentLifecycleState.Detached) {
         return
     }
 
@@ -72,7 +50,7 @@ suspend fun Component.repeatOnLifecycle(
         withContext(Dispatchers.Main.immediate) {
             // Check the current state of the lifecycle as the previous check is not guaranteed
             // to be done on the main thread.
-            if (lifecycleState === ComponentLifecycleState.Destroyed) return@withContext
+            if (lifecycleState === ComponentLifecycleState.Detached) return@withContext
 
             // Instance of the running repeating coroutine
             var launchedJob: Job? = null
@@ -80,8 +58,8 @@ suspend fun Component.repeatOnLifecycle(
             try {
                 lifecycleStateFlow.collect { componentLifecycleState ->
                     when (componentLifecycleState) {
-                        ComponentLifecycleState.Created,
-                        ComponentLifecycleState.Destroyed -> {
+                        ComponentLifecycleState.Attached,
+                        ComponentLifecycleState.Detached -> {
                             // no-op
                         }
 

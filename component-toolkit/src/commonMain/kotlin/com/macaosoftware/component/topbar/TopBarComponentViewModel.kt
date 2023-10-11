@@ -10,11 +10,8 @@ abstract class TopBarComponentViewModel(
 
     abstract val topBarStatePresenter: TopBarStatePresenter
 
-    abstract fun onCreate()
     abstract fun mapComponentToStackBarItem(topComponent: Component): TopBarItem
     abstract fun onCheckChildForNextUriFragment(
         nextUriFragment: String
     ): Component?
-
-    abstract fun onBackstackEmpty()
 }

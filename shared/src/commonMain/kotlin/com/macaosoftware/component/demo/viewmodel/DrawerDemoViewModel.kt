@@ -23,19 +23,23 @@ class DrawerDemoViewModel(
     override val drawerStatePresenter: DrawerStatePresenterDefault
 ) : DrawerComponentViewModel(drawerComponent) {
 
-    override fun onCreate() {
+    override fun onAttach() {
+        println("DrawerDemoViewModel::onAttach()")
         val drawerNavItems = createDrawerItems()
         val selectedIndex = 0
         this.drawerComponent.setNavItems(drawerNavItems, selectedIndex)
     }
 
     override fun onStart() {
+        println("DrawerDemoViewModel::onStart()")
     }
 
     override fun onStop() {
+        println("DrawerDemoViewModel::onStop()")
     }
 
-    override fun onDestroy() {
+    override fun onDetach() {
+        println("DrawerDemoViewModel::onDetach()")
     }
 
     private fun createDrawerItems(): MutableList<NavItem> {

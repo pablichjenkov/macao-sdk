@@ -11,8 +11,8 @@ class DrawerComponentViewModelPreviewAndroidRender(
         DrawerComponentDefaults.createDrawerStatePresenter()
 ) : DrawerComponentViewModel(drawerComponent) {
 
-    override fun onCreate() {
-        println("DrawerComponentViewModelPreviewAndroidRender::onCreate()")
+    override fun onAttach() {
+        println("DrawerComponentViewModelPreviewAndroidRender::onAttach()")
     }
 
     override fun onStart() {
@@ -23,7 +23,7 @@ class DrawerComponentViewModelPreviewAndroidRender(
         println("DrawerComponentViewModelPreviewAndroidRender::onStop()")
     }
 
-    override fun onDestroy() {
-        println("DrawerComponentViewModelPreviewAndroidRender::onDestroy()")
+    override fun onDetach() {
+        println("DrawerComponentViewModelPreviewAndroidRender::onDetach()")
     }
 }

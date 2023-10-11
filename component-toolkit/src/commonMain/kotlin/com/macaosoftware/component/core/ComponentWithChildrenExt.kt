@@ -3,8 +3,8 @@ package com.macaosoftware.component.core
 internal fun ComponentWithChildrenOneActive.destroyChildComponent() {
     if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
         getComponent().dispatchStop()
-        getComponent().dispatchDestroy()
+        getComponent().dispatchDetach()
     } else {
-        getComponent().dispatchDestroy()
+        getComponent().dispatchDetach()
     }
 }

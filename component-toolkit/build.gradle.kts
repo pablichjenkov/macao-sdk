@@ -228,7 +228,7 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.animation)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-                implementation("org.jetbrains.compose.ui:ui-util:1.5.2")
+                implementation("org.jetbrains.compose.ui:ui-util:1.5.3")
                 // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
             }
         }
