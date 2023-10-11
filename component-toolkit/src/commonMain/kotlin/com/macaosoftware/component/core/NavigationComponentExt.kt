@@ -40,14 +40,14 @@ internal fun NavigationComponent.removeNavItem(removeIndex: Int) {
     }
     navItems.removeAt(removeIndex)
     val removedComponent = childComponents.removeAt(removeIndex)
-    onDestroyChildComponent(removedComponent)
+    onDetachChildComponent(removedComponent)
 
     // Let's update the UI
     onSelectNavItem(selectedIndex, navItems)
 }
 
 internal fun NavigationComponent.resetNavigationComponent() {
-    println("${getComponent().instanceId()}.resetNavigationComponent")
+    println("${getComponent().instanceId()}::resetNavigationComponent")
     selectedIndex = 0
 }
 

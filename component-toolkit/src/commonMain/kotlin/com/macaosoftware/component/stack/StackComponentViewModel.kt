@@ -7,6 +7,5 @@ abstract class StackComponentViewModel(
     protected val stackComponent: StackComponent<StackComponentViewModel>
 ) : ComponentViewModel() {
     abstract val stackStatePresenter: StackStatePresenter
-    abstract fun onCreate()
     abstract fun onStackTopUpdate(topComponent: Component)
 }

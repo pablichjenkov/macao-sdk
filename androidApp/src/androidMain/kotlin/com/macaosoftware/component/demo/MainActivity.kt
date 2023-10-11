@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
                         "Pager Example"
                     )
                     LaunchButton(
-                        NavBarActivity::class.java,
+                        BottomNavigationActivity::class.java,
                         "BottomBar Example"
                     )
                     LaunchButton(

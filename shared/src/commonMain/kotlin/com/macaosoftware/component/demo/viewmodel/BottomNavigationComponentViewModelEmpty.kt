@@ -11,8 +11,8 @@ class BottomNavigationComponentViewModelEmpty(
         BottomNavigationComponentDefaults.createBottomNavigationStatePresenter()
 ) : BottomNavigationComponentViewModel(bottomNavigationComponent) {
 
-    override fun onCreate() {
-        println("BottomNavigationComponentDefaultViewModel::onCreate()")
+    override fun onAttach() {
+        println("BottomNavigationComponentDefaultViewModel::onAttach()")
     }
 
     override fun onStart() {
@@ -23,7 +23,7 @@ class BottomNavigationComponentViewModelEmpty(
         println("BottomNavigationComponentDefaultViewModel::onStop()")
     }
 
-    override fun onDestroy() {
-        println("BottomNavigationComponentDefaultViewModel::onDestroy()")
+    override fun onDetach() {
+        println("BottomNavigationComponentDefaultViewModel::onDetach()")
     }
 }

@@ -48,7 +48,7 @@ class AppViewModel(
         appComponent.navigator.push(customTopBarComponent)
     }
 
-    override fun onCreate() {
+    override fun onAttach() {
         splashComponent.setParent(appComponent)
         customTopBarComponent.setParent(appComponent)
     }
@@ -65,7 +65,7 @@ class AppViewModel(
 
     }
 
-    override fun onDestroy() {
+    override fun onDetach() {
 
     }
 

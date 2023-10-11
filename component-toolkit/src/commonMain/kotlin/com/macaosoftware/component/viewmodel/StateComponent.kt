@@ -14,6 +14,22 @@ class StateComponent<out VM : ComponentViewModel>(
 
     val componentViewModel = viewModelFactory.create(this)
 
+    override fun onAttach() {
+        componentViewModel.dispatchAttached()
+    }
+
+    override fun onStart() {
+        componentViewModel.dispatchStart()
+    }
+
+    override fun onStop() {
+        componentViewModel.dispatchStop()
+    }
+
+    override fun onDetach() {
+        componentViewModel.dispatchDetach()
+    }
+
     @Composable
     override fun Content(modifier: Modifier) {
         this@StateComponent.content(modifier, componentViewModel)

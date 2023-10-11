@@ -37,6 +37,6 @@ class NavigationComponentDefaultLifecycleHandler : NavigationComponent.Lifecycle
     }
 
     override fun NavigationComponent.navigationComponentLifecycleDestroy() {
-        println("${getComponent().instanceId()}::onDestroy()")
+        println("${getComponent().instanceId()}::onDetach()")
     }
 }

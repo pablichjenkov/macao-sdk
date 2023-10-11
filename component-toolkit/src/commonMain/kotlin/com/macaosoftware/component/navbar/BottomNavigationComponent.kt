@@ -53,27 +53,32 @@ class BottomNavigationComponent<out VM : BottomNavigationComponentViewModel>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
-        componentViewModel.onCreate()
+    }
+
+    // region: ComponentLifecycle
+
+    override fun onAttach() {
+        componentViewModel.dispatchAttached()
     }
 
     override fun onStart() {
         with(componentViewModel) {
             navigationComponentLifecycleStart()
-            onStart()
+            dispatchStart()
         }
     }
 
     override fun onStop() {
         with(componentViewModel) {
             navigationComponentLifecycleStop()
-            onStop()
+            dispatchStop()
         }
     }
 
-    override fun onDestroy() {
+    override fun onDetach() {
         with(componentViewModel) {
             navigationComponentLifecycleDestroy()
-            onDestroy()
+            dispatchDetach()
         }
     }
 
@@ -84,6 +89,8 @@ class BottomNavigationComponent<out VM : BottomNavigationComponentViewModel>(
             delegateBackPressedToParent()
         }
     }
+
+    // endregion
 
     // region: NavigatorItems
 
@@ -108,7 +115,7 @@ class BottomNavigationComponent<out VM : BottomNavigationComponentViewModel>(
         }
     }
 
-    override fun onDestroyChildComponent(component: Component) {
+    override fun onDetachChildComponent(component: Component) {
         destroyChildComponent()
     }
 

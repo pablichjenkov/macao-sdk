@@ -22,7 +22,7 @@ import com.macaosoftware.component.util.EmptyNavigationComponentView
 /**
  * This node is basically a proxy, it transfer request and events to its active child node
  * */
-class AdaptiveSizeComponent<out VM :AdaptiveSizeComponentViewModel>(
+class AdaptiveSizeComponent<out VM : AdaptiveSizeComponentViewModel>(
     viewModelFactory: AdaptiveSizeComponentViewModelFactory<VM>,
 ) : Component() {
 
@@ -38,10 +38,6 @@ class AdaptiveSizeComponent<out VM :AdaptiveSizeComponentViewModel>(
     var childComponents: MutableList<Component> = mutableListOf()
 
     private var currentWindowSizeInfo: WindowSizeInfo? = null
-
-    init {
-        componentViewModel.onCreate()
-    }
 
     fun setNavItems(navItems: MutableList<NavItem>, selectedIndex: Int) {
         this.navItems = navItems
@@ -69,22 +65,28 @@ class AdaptiveSizeComponent<out VM :AdaptiveSizeComponentViewModel>(
         childComponents.add(navComponent.getComponent())
     }
 
+    override fun onAttach() {
+        println("${instanceId()}::onAttach()")
+        currentNavComponent.value.getComponent().setParent(this@AdaptiveSizeComponent)
+        componentViewModel.dispatchAttached()
+    }
+
     override fun onStart() {
         println("${instanceId()}::onStart()")
         currentNavComponent.value.getComponent().dispatchStart()
-        componentViewModel.onStart()
+        componentViewModel.dispatchStart()
     }
 
     override fun onStop() {
         println("${instanceId()}::onStop()")
         currentNavComponent.value.getComponent().dispatchStop()
-        componentViewModel.onStop()
+        componentViewModel.dispatchStop()
     }
 
-    override fun onDestroy() {
-        println("${instanceId()}::onDestroy()")
-        currentNavComponent.value.getComponent().dispatchDestroy()
-        componentViewModel.onDestroy()
+    override fun onDetach() {
+        println("${instanceId()}::onDetach()")
+        currentNavComponent.value.getComponent().dispatchDetach()
+        componentViewModel.dispatchDetach()
     }
 
     override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
@@ -107,10 +109,10 @@ class AdaptiveSizeComponent<out VM :AdaptiveSizeComponentViewModel>(
     @Composable
     override fun Content(modifier: Modifier) {
         println("${instanceId()}.Composing() lifecycleState = $lifecycleState")
-        val componentLifecycleState by lifecycleStateFlow.collectAsState(ComponentLifecycleState.Created)
+        val componentLifecycleState by lifecycleStateFlow.collectAsState(ComponentLifecycleState.Attached)
         when (componentLifecycleState) {
-            ComponentLifecycleState.Created,
-            ComponentLifecycleState.Destroyed -> {
+            ComponentLifecycleState.Attached,
+            ComponentLifecycleState.Detached -> {
             }
 
             ComponentLifecycleState.Started -> {

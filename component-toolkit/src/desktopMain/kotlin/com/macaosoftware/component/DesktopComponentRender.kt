@@ -52,6 +52,7 @@ fun DesktopComponentRender(
     }
 
     LaunchedEffect(rootComponent, windowState) {
+        rootComponent.dispatchAttach()
         rootComponent.isRoot = true
         rootComponent.rootBackPressDelegate = updatedOnBackPressed
         launch {

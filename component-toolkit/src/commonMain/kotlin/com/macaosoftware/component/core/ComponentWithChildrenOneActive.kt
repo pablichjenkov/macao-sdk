@@ -6,5 +6,5 @@ interface ComponentWithChildrenOneActive {
     fun getComponent(): Component
     var childComponents: MutableList<Component>
     var activeComponent: MutableState<Component?>
-    fun onDestroyChildComponent(component: Component)
+    fun onDetachChildComponent(component: Component)
 }

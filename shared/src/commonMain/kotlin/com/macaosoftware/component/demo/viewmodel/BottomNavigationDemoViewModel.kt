@@ -7,8 +7,8 @@ import androidx.compose.material.icons.filled.Settings
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
-import com.macaosoftware.component.navbar.BottomNavigationComponentViewModel
 import com.macaosoftware.component.navbar.BottomNavigationComponent
+import com.macaosoftware.component.navbar.BottomNavigationComponentViewModel
 import com.macaosoftware.component.navbar.BottomNavigationStatePresenterDefault
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
@@ -18,19 +18,23 @@ class BottomNavigationDemoViewModel(
     override val bottomNavigationStatePresenter: BottomNavigationStatePresenterDefault
 ) : BottomNavigationComponentViewModel(bottomNavigationComponent) {
 
-    override fun onCreate() {
+    override fun onAttach() {
+        println("BottomNavigationDemoViewModel::onAttach()")
         val navBarItems = createNavBarItems()
         val selectedIndex = 0
         bottomNavigationComponent.setNavItems(navBarItems, selectedIndex)
     }
 
     override fun onStart() {
+        println("BottomNavigationDemoViewModel::onStart()")
     }
 
     override fun onStop() {
+        println("BottomNavigationDemoViewModel::onStop()")
     }
 
-    override fun onDestroy() {
+    override fun onDetach() {
+        println("BottomNavigationDemoViewModel::onDetach()")
     }
 
     private fun createNavBarItems(): MutableList<NavItem> {

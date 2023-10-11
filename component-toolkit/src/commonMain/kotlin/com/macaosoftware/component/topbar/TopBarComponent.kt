@@ -44,40 +44,39 @@ class TopBarComponent<out VM : TopBarComponentViewModel>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
-        componentViewModel.onCreate()
+    }
+
+    override fun onAttach() {
+        println("${instanceId()}::onAttach()")
+        componentViewModel.dispatchAttached()
     }
 
     override fun onStart() {
         println("${instanceId()}::onStart()")
-        if (activeComponent.value != null && !isFirstComponentInStackPreviousCache) {
-            activeComponent.value?.dispatchStart()
-        }
-        if (isFirstComponentInStackPreviousCache) {
-            activeComponent.value = null
-            backStack.clear()
-        }
         if (this.startedFromDeepLink) {
             return
         }
-        componentViewModel.onStart()
+        if (activeComponent.value != null && !isFirstComponentInStackPreviousCache) {
+            activeComponent.value?.dispatchStart()
+        }
+        componentViewModel.dispatchStart()
     }
 
     override fun onStop() {
         println("${instanceId()}::onStop()")
         activeComponent.value?.dispatchStop()
         lastBackstackEvent = null
-        componentViewModel.onStop()
+        componentViewModel.dispatchStop()
     }
 
-    override fun onDestroy() {
-        println("${instanceId()}::onDestroy()")
-        componentViewModel.onDestroy()
+    override fun onDetach() {
+        println("${instanceId()}::onDetach()")
+        componentViewModel.dispatchDetach()
     }
 
     override fun handleBackPressed() {
         println("${instanceId()}::handleBackPressed, backStack.size = ${backStack.size()}")
         if (consumeBackPressedDefault().not()) {
-            componentViewModel.onBackstackEmpty()
             delegateBackPressedToParent()
         }
     }
@@ -135,7 +134,7 @@ class TopBarComponent<out VM : TopBarComponentViewModel>(
         }
     }
 
-    override fun onDestroyChildComponent(component: Component) {
+    override fun onDetachChildComponent(component: Component) {
         destroyChildComponent()
     }
 

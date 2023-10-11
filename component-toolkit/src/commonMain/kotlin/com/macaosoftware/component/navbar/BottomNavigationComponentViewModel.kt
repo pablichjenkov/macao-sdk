@@ -17,6 +17,5 @@ abstract class BottomNavigationComponentViewModel(
 ) : ComponentViewModel(),
     NavigationComponent.LifecycleHandler by lifecycleHandler {
 
-    abstract fun onCreate()
     abstract val bottomNavigationStatePresenter: BottomNavigationStatePresenter
 }

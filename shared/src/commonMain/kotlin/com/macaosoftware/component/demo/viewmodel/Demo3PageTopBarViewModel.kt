@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Color
 import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.core.clearBackStack
 import com.macaosoftware.component.core.push
 import com.macaosoftware.component.demo.SimpleComponent
 import com.macaosoftware.component.topbar.TopBarComponent
@@ -28,7 +29,6 @@ class Demo3PageTopBarViewModel(
         when (msg) {
             SimpleComponent.Msg.Next -> {
                 demo3PageComponent.navigator.push(Step2)
-
             }
         }
     }.also {
@@ -61,23 +61,34 @@ class Demo3PageTopBarViewModel(
         it.uriFragment = "Page 3"
     }
 
-    override fun onCreate() {
+    override fun onAttach() {
+        println("${topBarComponent.instanceId()}::Demo3PageTopBarViewModel::onAttach()")
         listOf(Step1, Step2, Step3).forEach {
             it.setParent(demo3PageComponent)
         }
     }
 
     override fun onStart() {
-        if (currentComponent == null) {
+        println("${topBarComponent.instanceId()}::Demo3PageTopBarViewModel::onStart()")
+        val shouldPushFirstChild: Boolean = if (currentComponent == null) {
+            true
+        } else if (topBarComponent.isFirstComponentInStackPreviousCache) {
+            currentComponent != Step1
+        } else false
+
+        if (shouldPushFirstChild) {
             currentComponent = Step1
-            demo3PageComponent.navigator.push(Step1)
+            topBarComponent.navigator.clearBackStack()
+            topBarComponent.navigator.push(Step1)
         }
     }
 
     override fun onStop() {
+        println("${topBarComponent.instanceId()}::Demo3PageTopBarViewModel::onStop()")
     }
 
-    override fun onDestroy() {
+    override fun onDetach() {
+        println("${topBarComponent.instanceId()}::Demo3PageTopBarViewModel::onDetach()")
     }
 
     override fun mapComponentToStackBarItem(topComponent: Component): TopBarItem {
@@ -117,10 +128,6 @@ class Demo3PageTopBarViewModel(
             Step3.uriFragment -> Step3
             else -> null
         }
-    }
-
-    override fun onBackstackEmpty() {
-        currentComponent = null
     }
 
 }

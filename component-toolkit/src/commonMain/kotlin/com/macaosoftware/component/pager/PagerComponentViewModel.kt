@@ -11,7 +11,4 @@ abstract class PagerComponentViewModel(
     val pagerStyle: PagerStyle = PagerStyle(),
     val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
     val pushStrategy: PushStrategy<Component> = AddAllPushStrategy()
-) : ComponentViewModel() {
-
-    abstract fun onCreate()
-}
+) : ComponentViewModel()

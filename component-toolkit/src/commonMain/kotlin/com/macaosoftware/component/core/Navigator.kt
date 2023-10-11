@@ -19,4 +19,4 @@ fun Navigator.canPop(): Boolean = backStack.size() > 1
 
 fun Navigator.stackSize() = backStack.size()
 
-fun Navigator.clear() = backStack.clear()
+fun Navigator.clearBackStack() = backStack.clear()

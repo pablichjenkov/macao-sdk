@@ -11,19 +11,19 @@ class PanelComponentViewModelEmpty(
         PanelComponentDefaults.createPanelStatePresenter()
 ) : PanelComponentViewModel(panelComponent) {
 
-    override fun onCreate() {
-        println("PanelComponentViewModelEmpty::create()")
+    override fun onAttach() {
+        println("PanelComponentViewModelEmpty::onAttach()")
     }
 
     override fun onStart() {
-        println("PanelComponentViewModelEmpty::create()")
+        println("PanelComponentViewModelEmpty::onStart()")
     }
 
     override fun onStop() {
-        println("PanelComponentViewModelEmpty::create()")
+        println("PanelComponentViewModelEmpty::onStop()")
     }
 
-    override fun onDestroy() {
-        println("PanelComponentViewModelEmpty::create()")
+    override fun onDetach() {
+        println("PanelComponentViewModelEmpty::onDetach()")
     }
 }

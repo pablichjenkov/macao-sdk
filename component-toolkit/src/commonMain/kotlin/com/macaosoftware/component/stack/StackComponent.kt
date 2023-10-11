@@ -16,7 +16,7 @@ import com.macaosoftware.component.core.processBackstackEvent
 import com.macaosoftware.component.util.EmptyNavigationComponentView
 
 class StackComponent<out VM : StackComponentViewModel>(
-    private val viewModelFactory: StackComponentViewModelFactory<VM>,
+    viewModelFactory: StackComponentViewModelFactory<VM>,
     private val content: @Composable StackComponent<VM>.(
         modifier: Modifier,
         activeComponent: Component
@@ -38,24 +38,32 @@ class StackComponent<out VM : StackComponentViewModel>(
             val stackTransition = processBackstackEvent(event)
             processBackstackTransition(stackTransition)
         }
-        componentViewModel.onCreate()
+    }
+
+    // region: ComponentLifecycle
+
+    override fun onAttach() {
+        componentViewModel.dispatchAttached()
     }
 
     override fun onStart() {
-        if (activeComponent.value != null) {
+        if (this.startedFromDeepLink) {
+            return
+        }
+        if (activeComponent.value != null && !isFirstComponentInStackPreviousCache) {
             activeComponent.value?.dispatchStart()
         }
-        componentViewModel.onStart()
+        componentViewModel.dispatchStart()
     }
 
     override fun onStop() {
         activeComponent.value?.dispatchStop()
         lastBackstackEvent = null
-        componentViewModel.onStop()
+        componentViewModel.dispatchStop()
     }
 
-    override fun onDestroy() {
-        componentViewModel.onDestroy()
+    override fun onDetach() {
+        componentViewModel.dispatchDetach()
     }
 
     override fun handleBackPressed() {
@@ -65,7 +73,9 @@ class StackComponent<out VM : StackComponentViewModel>(
         }
     }
 
-// region: ComponentWithChildren
+    // endregion
+
+    // region: ComponentWithChildren
 
     override fun getComponent(): Component {
         return this
@@ -100,7 +110,7 @@ class StackComponent<out VM : StackComponentViewModel>(
         componentViewModel.onStackTopUpdate(topComponent)
     }
 
-    override fun onDestroyChildComponent(component: Component) {
+    override fun onDetachChildComponent(component: Component) {
         destroyChildComponent()
     }
 

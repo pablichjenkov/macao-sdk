@@ -17,6 +17,5 @@ abstract class PanelComponentViewModel(
 ) : ComponentViewModel(),
     NavigationComponent.LifecycleHandler by lifecycleHandler {
 
-    abstract fun onCreate()
     abstract val panelStatePresenter: PanelStatePresenter
 }
