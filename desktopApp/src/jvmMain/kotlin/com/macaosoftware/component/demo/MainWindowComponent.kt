@@ -26,7 +26,7 @@ class MainWindowComponent(
 ) : Component() {
     private val windowState = WindowState(size = DpSize(1000.dp, 900.dp))
     private var adaptableSizeComponent = AdaptiveSizeComponent(AdaptiveSizeDemoViewModelFactory())
-    private val desktopBridge = DesktopBridge()
+    private val desktopBridge = DesktopBridge(onReady = {})
 
     // region: DeepLink
 

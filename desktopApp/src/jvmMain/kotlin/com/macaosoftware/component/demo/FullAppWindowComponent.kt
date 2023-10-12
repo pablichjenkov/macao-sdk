@@ -23,7 +23,7 @@ class FullAppWindowComponent(
         ),
         content = StackComponentDefaults.DefaultStackComponentView
     )
-    private val desktopBridge = DesktopBridge()
+    private val desktopBridge = DesktopBridge(onReady = {})
 
     @Composable
     override fun Content(modifier: Modifier) {
