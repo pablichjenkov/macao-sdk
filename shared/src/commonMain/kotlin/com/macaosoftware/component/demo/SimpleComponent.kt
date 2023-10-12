@@ -53,12 +53,20 @@ class SimpleComponent(
     val onMessage: (Msg) -> Unit
 ) : Component() {
 
+    override fun onAttach() {
+        println("${instanceId()}::onAttach()")
+    }
+
     override fun onStart() {
         println("${instanceId()}::onStart()")
     }
 
     override fun onStop() {
         println("${instanceId()}::onStop()")
+    }
+
+    override fun onDetach() {
+        println("${instanceId()}::onDetach()")
     }
 
     sealed interface Msg {

@@ -17,6 +17,7 @@ import com.macaosoftware.component.backpress.DefaultBackPressDispatcher
 import com.macaosoftware.component.backpress.LocalBackPressedDispatcher
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
+import com.macaosoftware.platform.ComposeReady
 import com.macaosoftware.platform.DesktopBridge
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -40,21 +41,19 @@ fun DesktopComponentRender(
         LocalRootComponentProvider provides rootComponent
     ) {
         rootComponent.Content(Modifier.fillMaxSize())
-        /*Box {
-            rootComponent.Content(Modifier.fillMaxSize())
-            // Add back button in the TopBar like Chrome Apps. For that need to create in
-            FloatingBackButton(
-                modifier = Modifier.offset(y = 48.dp),
-                alignment = Alignment.TopStart,
-                onClick = { desktopBackPressDispatcher.dispatchBackPressed() }
-            )
-        }*/
     }
 
     LaunchedEffect(rootComponent, windowState) {
         rootComponent.dispatchAttach()
         rootComponent.isRoot = true
         rootComponent.rootBackPressDelegate = updatedOnBackPressed
+
+        desktopBridge.onReady.invoke(
+            ComposeReady(
+                desktopBackPressDispatcher
+            )
+        )
+
         launch {
             snapshotFlow { windowState.isMinimized }
                 .onEach { isMinimized ->

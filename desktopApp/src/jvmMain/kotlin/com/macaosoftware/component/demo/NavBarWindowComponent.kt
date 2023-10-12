@@ -15,7 +15,7 @@ class NavBarWindowComponent(
     val onCloseClick: () -> Unit
 ) : Component() {
     private val windowState = WindowState()
-    private val desktopBridge = DesktopBridge()
+    private val desktopBridge = DesktopBridge(onReady = {})
 
     private var bottomNavigationComponent = BottomNavigationComponent(
         // pushStrategy = FixSizedPushStrategy(1), // Uncomment to test other push strategies

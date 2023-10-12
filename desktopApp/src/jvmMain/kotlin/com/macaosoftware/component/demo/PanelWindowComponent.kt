@@ -6,8 +6,6 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.DesktopComponentRender
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.demo.viewmodel.PanelDemoViewModel
-import com.macaosoftware.component.demo.viewmodel.factory.PanelComponentViewModelEmptyFactory
 import com.macaosoftware.component.demo.viewmodel.factory.PanelDemoViewModelFactory
 import com.macaosoftware.component.panel.PanelComponent
 import com.macaosoftware.component.panel.PanelComponentDefaults
@@ -17,7 +15,7 @@ class PanelWindowComponent(
     val onCloseClick: () -> Unit
 ) : Component() {
     private val windowState = WindowState()
-    private val desktopBridge = DesktopBridge()
+    private val desktopBridge = DesktopBridge(onReady = {})
 
     private var panelComponent = PanelComponent(
         viewModelFactory = PanelDemoViewModelFactory(
