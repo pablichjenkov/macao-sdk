@@ -16,7 +16,7 @@ class DrawerWindowComponent(
     val onCloseClick: () -> Unit
 ) : Component() {
     private val windowState = WindowState()
-    private val desktopBridge = DesktopBridge(onReady = {})
+    private val desktopBridge = DesktopBridge()
 
     private var drawerComponent: Component = DrawerComponent(
         viewModelFactory = DrawerDemoViewModelFactory(

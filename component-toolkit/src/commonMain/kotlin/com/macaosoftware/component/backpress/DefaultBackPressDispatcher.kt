@@ -4,6 +4,7 @@ interface BackPressDispatcher {
     fun subscribe(backPressedCallback: BackPressedCallback)
     fun unsubscribe(backPressedCallback: BackPressedCallback)
     fun isSystemBackButtonEnabled(): Boolean
+    fun dispatchBackPressed()
 }
 
 class DefaultBackPressDispatcher : BackPressDispatcher {
@@ -27,7 +28,7 @@ class DefaultBackPressDispatcher : BackPressDispatcher {
         return true
     }
 
-    fun dispatchBackPressed() {
+    override fun dispatchBackPressed() {
         onBackPressedCallbacks.lastOrNull { it.isEnabled }?.handleOnBackPressed()
     }
 

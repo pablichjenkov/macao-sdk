@@ -23,6 +23,10 @@ class AndroidBackPressDispatcher(
         return navigationMode != SystemNavigationUtil.NAVIGATION_BAR_INTERACTION_MODE_GESTURE
     }
 
+    override fun dispatchBackPressed() {
+        // no-op. In Android the system will dispatch the back events
+    }
+
 }
 
 internal class AndroidBackPressedCallbackProxy(

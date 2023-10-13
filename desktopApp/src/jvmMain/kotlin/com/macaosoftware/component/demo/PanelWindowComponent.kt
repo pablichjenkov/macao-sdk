@@ -15,7 +15,7 @@ class PanelWindowComponent(
     val onCloseClick: () -> Unit
 ) : Component() {
     private val windowState = WindowState()
-    private val desktopBridge = DesktopBridge(onReady = {})
+    private val desktopBridge = DesktopBridge()
 
     private var panelComponent = PanelComponent(
         viewModelFactory = PanelDemoViewModelFactory(

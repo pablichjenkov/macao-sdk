@@ -13,11 +13,9 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.WindowState
-import com.macaosoftware.component.backpress.DefaultBackPressDispatcher
 import com.macaosoftware.component.backpress.LocalBackPressedDispatcher
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
-import com.macaosoftware.platform.ComposeReady
 import com.macaosoftware.platform.DesktopBridge
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -32,7 +30,7 @@ fun DesktopComponentRender(
 ) {
 
     val desktopBackPressDispatcher = remember(rootComponent) {
-        DefaultBackPressDispatcher()
+        desktopBridge.backPressDispatcher
     }
     val updatedOnBackPressed by rememberUpdatedState(onBackPress)
 
@@ -47,12 +45,6 @@ fun DesktopComponentRender(
         rootComponent.dispatchAttach()
         rootComponent.isRoot = true
         rootComponent.rootBackPressDelegate = updatedOnBackPressed
-
-        desktopBridge.onReady.invoke(
-            ComposeReady(
-                desktopBackPressDispatcher
-            )
-        )
 
         launch {
             snapshotFlow { windowState.isMinimized }

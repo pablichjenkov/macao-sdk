@@ -3,9 +3,12 @@ package com.macaosoftware.platform
 import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
-interface IAppLifecycleDispatcher {
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("AppLifecycleDispatcher", exact = true)
+interface AppLifecycleDispatcher {
     fun subscribe(appLifecycleCallback: AppLifecycleCallback)
     fun unsubscribe(appLifecycleCallback: AppLifecycleCallback)
+    fun dispatchAppLifecycleEvent(appLifecycleEvent: AppLifecycleEvent)
 }
 
 @OptIn(ExperimentalObjCName::class)
@@ -23,7 +26,7 @@ abstract class AppLifecycleCallback {
 
 @OptIn(ExperimentalObjCName::class)
 @ObjCName(name = "DefaultAppLifecycleDispatcher", exact = true)
-class DefaultAppLifecycleDispatcher : IAppLifecycleDispatcher {
+class DefaultAppLifecycleDispatcher : AppLifecycleDispatcher {
 
     private val appLifecycleCallbacks: ArrayDeque<AppLifecycleCallback> = ArrayDeque()
     private var lastEvent: AppLifecycleEvent? = null
@@ -39,7 +42,7 @@ class DefaultAppLifecycleDispatcher : IAppLifecycleDispatcher {
         appLifecycleCallbacks.remove(appLifecycleCallback)
     }
 
-    fun dispatchAppLifecycleEvent(appLifecycleEvent: AppLifecycleEvent) {
+    override fun dispatchAppLifecycleEvent(appLifecycleEvent: AppLifecycleEvent) {
         println("DefaultAppLifecycleDispatcher::dispatchAppLifecycleEvent(${appLifecycleEvent})")
         lastEvent = appLifecycleEvent
         appLifecycleCallbacks.forEach { it.onEvent(appLifecycleEvent) }
