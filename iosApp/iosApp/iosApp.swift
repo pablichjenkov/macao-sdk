@@ -5,7 +5,7 @@ import ComponentDemoKt
 struct iOSDemoAppApp: App {
 
     let iosBridge = IosBridge(
-        appLifecycleDispatcher: DefaultAppLifecycleDispatcher()
+        appLifecycleDispatcher: BindingsKt.createDefaultAppLifecycleDispatcher()
     )
 
     var body: some Scene {
