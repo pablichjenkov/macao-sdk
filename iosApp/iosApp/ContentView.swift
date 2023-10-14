@@ -15,7 +15,7 @@ struct ComposeView : UIViewControllerRepresentable {
             test: NSURL.fileURL(withPath: "this_should_be_a_url")
         )
         
-        let mainViewController = BindingsKt.ComponentRenderer(
+        let mainViewController = BindingsKt.buildDemoViewController(
             rootComponent: adaptiveComponent,
             iosBridge: iosBridge,
             iosBridge2: test,
