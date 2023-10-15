@@ -45,13 +45,14 @@ class SimpleComponent(
     }
 
     override fun onDetach() {
+        println("${instanceId()}::onDetach()")
     }
 
     @Composable
     override fun Content(modifier: Modifier) {
         println("${instanceId()}::Composing()")
         // To handle back press events.
-        consumeBackPressEvent()
+        BackPressHandler()
         Column (
             modifier = modifier.fillMaxSize()
                 .background(bgColor)
@@ -84,7 +85,7 @@ Bellow snippet shows a custom ViewModel class `DemoViewModel` and its correspond
 ```kotlin
 class DemoViewModel(
     private val component: StateComponent<DemoViewModel>,
-    viewModelDependency: ViewModelDependency
+    private val viewModelDependencies: ViewModelDependencies // Any dependency you viewmodel depends on
 ) : ComponentViewModel() {
 
     val name = "DemoViewModel"
@@ -101,18 +102,20 @@ class DemoViewModel(
     }
 
     override fun onStop() {
+        println("${instanceId()}::onStop()")
     }
 
     override fun onDetach() {
+        println("${instanceId()}::onDetach()")
     }
 }
 
 class DemoViewModelFactory(
-    private val viewModelDependency: ViewModelDependency, // Prefereably inject it using a DI library
+    private val viewModelDependencies: ViewModelDependencies, // Prefereably inject this using a DI library
 ) : ComponentViewModelFactory<DemoViewModel> {
 
     override fun create(component: StateComponent<DemoViewModel>): DemoViewModel {
-        return DemoViewModel(component, viewModelDependency)
+        return DemoViewModel(component, viewModelDependencies)
     }
 }
 ```
@@ -125,16 +128,18 @@ And bellow snippet shows how to create the StateComponent instance parameterized
 
 val DemoComponentView: @Composable StateComponent<DemoViewModel>.(
         modifier: Modifier,
-        componentViewModel: DemoViewModel
+        demoViewModel: DemoViewModel
     ) -> Unit = { modifier, demoViewModel ->
-        Text("My bound Component ID = ${instanceId()}")
+        Text("My Component ID: ${instanceId()}")
     }
 
 // file: DemoComponentTest.kt
 
 fun test1() {
+    viewModelDependencies = ViewModelDependencies()
+
     val component1 = StateComponent<DemoViewModel>(
-        viewModelFactory = DemoViewModelFactory(ViewModelDependency()),
+        viewModelFactory = DemoViewModelFactory(viewModelDependencies),
         content = DemoComponentView
     )
     
@@ -146,13 +151,15 @@ Or define the composable function in the call-site as a trailing lambda
 
 ```kotlin
 fun test2() {
+    viewModelDependencies = ViewModelDependencies()
+
     val component2 = StateComponent<DemoViewModel>(
-        viewModelFactory = DemoViewModelFactory(ViewModelDependency())
-    ) { modifier: Modifier, componentViewModel: DemoViewModel ->
+        viewModelFactory = DemoViewModelFactory(viewModelDependencies)
+    ) { modifier: Modifier, demoViewModel: DemoViewModel ->
         
         Text("This Composable is an extension function of StateComponent<DemoViewModel>")
-        Text("My bound Component ID = ${instanceId()}")
-        Text("My componentViewModel = ${componentViewModel.name}")
+        Text("My Component ID: ${instanceId()}")
+        Text("My componentViewModel = ${demoViewModel.name}")
     }
 
     component2.dispatchStart()
