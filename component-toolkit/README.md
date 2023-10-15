@@ -130,6 +130,7 @@ val DemoComponentView: @Composable StateComponent<DemoViewModel>.(
         modifier: Modifier,
         demoViewModel: DemoViewModel
     ) -> Unit = { modifier, demoViewModel ->
+        BackPressHandler() // If interesting in handling back press events
         Text("My Component ID: ${instanceId()}")
     }
 
@@ -156,7 +157,7 @@ fun test2() {
     val component2 = StateComponent<DemoViewModel>(
         viewModelFactory = DemoViewModelFactory(viewModelDependencies)
     ) { modifier: Modifier, demoViewModel: DemoViewModel ->
-        
+        BackPressHandler() // If interesting in handling back press events
         Text("This Composable is an extension function of StateComponent<DemoViewModel>")
         Text("My Component ID: ${instanceId()}")
         Text("My componentViewModel = ${demoViewModel.name}")
