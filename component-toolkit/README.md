@@ -324,6 +324,34 @@ class DrawerActivity : ComponentActivity() {
 }
 ```
 
+You can also embed the root component in an existing Composable you are already using. You will have to figure out a way to get the root component and ComponentRender composable function dependencies.
+
+```kotlin
+@Composable
+fun MyExistingScreen() {
+
+    ...
+
+    // Example 
+    val diContainer = DiContainerCompositionLocal.current
+    val viewModelDependencies = diContainer.viewModelDependencies
+    val iosBridge = diContainer.iosBridge
+
+    val rootComponent = remember(viewModelDependencies, iosBridge) {
+        StateComponent<DemoViewModel>(
+            viewModelFactory = DemoViewModelFactory(viewModelDependencies),
+            content = DemoComponentView
+        )
+    }
+
+    // Here as an example in iOS
+    IosComponentRender(rootComponent, iosBridge)
+
+    ...
+
+}
+```
+
 #### <a id="components-deep-linking"></a>Components Deep Linking
 A parent Component can activate/deactivate or show/hide a direct child Component. It does so by calling dispatchStart()/dispatchStop() on the respective child. But sometimes in an App, a user needs to go to another screen that is not a direct child of the current screen. Let's say there is a banner in the Feed screen that takes users to the Setting screen to see their most recent credit score changes.
 The toolkit support this type of navigation by using deep links. Each Component has a property named `uriFragment` that represents a path in the deep link uri. The App developer most know the path to the Component to be able to navigate to it.
