@@ -11,11 +11,8 @@ import org.jetbrains.skiko.wasm.onWasmReady
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
     onWasmReady {
-        val adaptiveSizeComponent = AdaptiveSizeComponent(AdaptiveSizeDemoViewModelFactory())
-
         CanvasBasedWindow("Component Demo") {
-            BrowserComponentRender(
-                rootComponent = adaptiveSizeComponent,
+            DemoMainView(
                 jsBridge = JsBridge(),
                 onBackPress = {
                     println("Back press dispatched in root component")

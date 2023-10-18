@@ -20,8 +20,8 @@ enum class AppLifecycleEvent {
     Stop
 }
 
-abstract class AppLifecycleCallback {
-    abstract fun onEvent(appLifecycleEvent: AppLifecycleEvent)
+interface AppLifecycleCallback {
+    fun onEvent(appLifecycleEvent: AppLifecycleEvent)
 }
 
 @OptIn(ExperimentalObjCName::class)
@@ -50,7 +50,7 @@ class DefaultAppLifecycleDispatcher : AppLifecycleDispatcher {
 
 }
 
-object EmptyAppLifecycleCallback : AppLifecycleCallback() {
+object EmptyAppLifecycleCallback : AppLifecycleCallback {
     override fun onEvent(appLifecycleEvent: AppLifecycleEvent) {
         println("EmptyAppLifecycleCallback::onEvent(${appLifecycleEvent}) does nothing")
     }
@@ -58,7 +58,7 @@ object EmptyAppLifecycleCallback : AppLifecycleCallback() {
 
 class ForwardAppLifecycleCallback(
     private val onAppLifecycleEvent: (appLifecycleEvent: AppLifecycleEvent) -> Unit
-): AppLifecycleCallback() {
+): AppLifecycleCallback {
     override fun onEvent(appLifecycleEvent: AppLifecycleEvent) {
         onAppLifecycleEvent(appLifecycleEvent)
     }
