@@ -35,7 +35,8 @@ fun buildDemoViewController(
     iosBridge2: IOSBridge2 = IOSBridge2(test = NSURL(string = "kjbkjbk")),
     onBackPress: () -> Unit = {}
 ): UIViewController = ComposeUIViewController {
-    IosComponentRender(rootComponent, iosBridge, onBackPress)
+    //IosComponentRender(rootComponent, iosBridge, onBackPress)
+    DemoMainView(iosBridge, onBackPress)
 }
 
 fun buildDrawerComponent(): Component {
