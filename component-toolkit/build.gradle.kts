@@ -216,7 +216,7 @@ kotlin {
     }*/
 
     // JVM
-    jvm("desktop")
+    jvm()
 
     sourceSets {
         // COMMON
@@ -285,7 +285,7 @@ kotlin {
         */
 
         // JVM
-        val desktopMain by getting {
+        val jvmMain by getting {
             dependencies {
                 api(compose.uiTooling)
                 api(compose.preview)
