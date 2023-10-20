@@ -3,7 +3,7 @@ include(":component-toolkit")
 include(":shared")
 include(":androidApp")
 include(":jsApp")
-include(":desktopApp")
+include(":jvmApp")
 
 pluginManagement {
     repositories {
