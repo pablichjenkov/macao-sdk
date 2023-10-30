@@ -90,7 +90,17 @@ fun DemoMainView(
     MaterialTheme {
         Box {
             rootComponent.ifNotNull {
-                IosComponentRender(it, iosBridge, onBackPress)
+                IosComponentRender(
+                    it,
+                    iosBridge,
+                    onBackPress = {
+                        if (rootComponent == null) {
+                            onBackPress.invoke()
+                        } else {
+                            rootComponent = null
+                        }
+                    }
+                )
             }.elseIfNull {
                 Column(
                     modifier = Modifier.fillMaxSize(),

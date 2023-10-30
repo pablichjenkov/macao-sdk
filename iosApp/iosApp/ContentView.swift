@@ -7,12 +7,12 @@ struct ComposeView : UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> UIViewController {
         // let drawerComponent = BindingsKt.buildDrawerComponent()
-         let adaptiveComponent = BindingsKt.buildAdaptableSizeComponent()
+        let adaptiveComponent = BindingsKt.buildAdaptableSizeComponent()
         // let pagerComponent = BindingsKt.buildPagerComponent()
         
         
         let test = IosBridge2(
-            test: NSURL.fileURL(withPath: "this_should_be_a_url")
+            test: NSURL.fileURL(withPath: "https://google.com")
         )
         
         let mainViewController = BindingsKt.buildDemoViewController(
@@ -37,7 +37,7 @@ struct ContentView: View {
     var body: some View {
         ComposeView(iosBridge: iosBridge)
                 .ignoresSafeArea(.keyboard) // Compose has own keyboard handler
-                //.ignoresSafeArea(.all, edges: .bottom) // If prefered to handle this in compose land
+                //.ignoresSafeArea(.all, edges: .bottom) // If preferred to handle this in compose land
 
     }
 }

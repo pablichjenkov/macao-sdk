@@ -72,7 +72,6 @@ class MainActivity : ComponentActivity() {
     private fun startActivity(clazz: Class<out Activity>) {
         Intent(this, clazz).also {
             startActivity(it)
-            finish()
         }
     }
 

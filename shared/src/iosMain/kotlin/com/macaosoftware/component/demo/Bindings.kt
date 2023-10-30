@@ -32,10 +32,10 @@ import platform.UIKit.UIViewController
 fun buildDemoViewController(
     rootComponent: Component,
     iosBridge: IosBridge,
-    iosBridge2: IOSBridge2 = IOSBridge2(test = NSURL(string = "kjbkjbk")),
+    iosBridge2: IOSBridge2 = IOSBridge2(test = NSURL(string = "https://google.com")),
     onBackPress: () -> Unit = {}
 ): UIViewController = ComposeUIViewController {
-    //IosComponentRender(rootComponent, iosBridge, onBackPress)
+    // IosComponentRender(rootComponent, iosBridge, onBackPress)
     DemoMainView(iosBridge, onBackPress)
 }
 
