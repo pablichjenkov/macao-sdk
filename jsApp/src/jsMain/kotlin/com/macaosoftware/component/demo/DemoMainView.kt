@@ -90,7 +90,17 @@ fun DemoMainView(
     MaterialTheme {
         Box {
             rootComponent.ifNotNull {
-                BrowserComponentRender(it, jsBridge, onBackPress)
+                BrowserComponentRender(
+                    it,
+                    jsBridge,
+                    onBackPress = {
+                        if (rootComponent == null) {
+                            onBackPress.invoke()
+                        } else {
+                            rootComponent = null
+                        }
+                    }
+                )
             }.elseIfNull {
                 Column(
                     modifier = Modifier.fillMaxSize(),
