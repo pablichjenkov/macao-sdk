@@ -362,26 +362,26 @@ val rootComponent = LocalRootComponentProvider.current
 Button(
     modifier = Modifier.padding(vertical = 40.dp),
     onClick = {
-        rootComponent?.navigateToDeepLink(
-            DeepLinkMsg(
-                path = listOf("_navigator_adaptive", "*", "Settings", "Page 3"),
-                resultListener = { result, component ->
-                    println("Deep link result: $result")
-                    
-                    val responseComponent = component as? SimpleResponseComponent
-                    
-                    if (responseComponent == null) {
-                        println("Cast to SimpleResponseComponent failed")
-                        return
-                    }
-                    coroutineScope.launch {
-                        responseComponent.resultSharedFlow.collect {
-                            println("Receiving response = $it")
-                        }
-                    }
+       DefaultDeepLinkManager().navigateToDeepLink(
+          rootComponent,
+          DeepLinkMsg(
+             /**
+              * The path is made of a list that consists of each uriFragment between
+              * the root component and the selected component. All uriFragments have to match
+              * in order to activate the complete path up to the component which the
+              * message is intended to.
+              * */
+             path = listOf("_navigator_adaptive", "*", "Settings", "Page 3"),
+             resultListener = { result  ->
+                println("$screenName deeplink result: $result")
+                if (result is DeepLinkResult.Success) {
+                   subscribeToSimpleResponseComponent(
+                      result.componentOrNull<SimpleResponseComponent>()
+                   )
                 }
-            )
-        )
+             }
+          )
+       )
     }
 ) {
     Text(text = "Go To Settings/Page 3")

@@ -1,14 +1,16 @@
 ### Component Toolkit
 A set of prefabricated compose-multiplatform components to speedup the Multiplatform App development process. 
 The toolkit contains a variety of customizable navigation components such as `Drawer`, `BottomNavigation`, `Pager`, `Panel`,
-`Topbar`, `Stack` and many more. 
-It also provides an easy mechanism to implement MVVM architecture. Code is 99% reusable in each platform.
+`Topbar`, `Stack` and many more. The API also contemplates lifecycle, global back press handling and ViewModel
+utilities. It is really easy to implement MVVM/MVI on top of it.
+<BR/>
+Code is 99% reusable and available in all platforms.
 
 *-One image is worth a thousand words*
 
 <img width="700" alt="macao-toolkit-arch" src="https://github.com/pablichjenkov/component-toolkit/assets/5303301/234e2a45-38aa-4311-902f-fe3b749399e2">
 
-##### How to use it?
+#### How to use it?
 Just add bellow dependency to the **commonMain** target and check the [Developers Guide](/component-toolkit/README.md) 
 in the component-toolkit module.
 
@@ -21,6 +23,10 @@ val commonMain by getting {
     }
 }
 ```
+
+#### Contributions
+We welcome contributions from the community! If you have ideas for new features, bug fixes, or improvements, please open 
+an issue or submit a pull request.
 
 ### Built with component-toolkit
 #### Component Toolkit Demo App

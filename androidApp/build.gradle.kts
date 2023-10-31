@@ -21,7 +21,7 @@ kotlin {
                 implementation(project(":shared"))
                 implementation(project(":component-toolkit"))
                 implementation(compose.material3)
-                implementation("androidx.activity:activity-compose:1.7.2")
+                implementation("androidx.activity:activity-compose:1.8.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
             }
@@ -48,6 +48,6 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.2"
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
 }
