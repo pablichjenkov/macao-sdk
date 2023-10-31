@@ -2,7 +2,7 @@
 A set of prefabricated compose-multiplatform components to speedup the Multiplatform App development process. 
 The toolkit contains a variety of customizable navigation components such as `Drawer`, `BottomNavigation`, `Pager`, `Panel`,
 `Topbar`, `Stack` and many more. The API also contemplates lifecycle, global back press handling and ViewModel
-utilities. It is really easy to implement MVVM/MVI on top of it.
+utilities. It is really easy to implement MVVM or MVI on top of it.
 <BR/>
 Code is 99% reusable and available in all platforms.
 
