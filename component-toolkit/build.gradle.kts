@@ -241,7 +241,7 @@ kotlin {
         // ANDROID
         val androidMain by getting {
             dependencies {
-                implementation("androidx.activity:activity-compose:1.7.2")
+                implementation("androidx.activity:activity-compose:1.8.0")
                 api(compose.uiTooling)
                 api(compose.preview)
             }
@@ -315,6 +315,6 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.2"
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
 }

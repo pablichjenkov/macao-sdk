@@ -92,6 +92,12 @@ class SimpleRequestComponent(
                     DefaultDeepLinkManager().navigateToDeepLink(
                         rootComponent,
                         DeepLinkMsg(
+                            /**
+                             * The path is made of a list that consists of each uriFragment between
+                             * the root component and the selected component. All uriFragments have to match
+                             * in order to activate the complete path up to the component which the
+                             * message is intended to.
+                             * */
                             path = listOf("_navigator_adaptive", "*", "Settings", "Page 3"),
                             resultListener = { result  ->
                                 println("$screenName deeplink result: $result")
