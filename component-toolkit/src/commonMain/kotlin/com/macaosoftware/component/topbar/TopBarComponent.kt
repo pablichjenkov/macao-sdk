@@ -27,7 +27,7 @@ class TopBarComponent<out VM : TopBarComponentViewModel>(
 ) : Component(), ComponentWithBackStack {
 
     val componentViewModel: VM = viewModelFactory.create(this)
-    val topBarStatePresenter = componentViewModel.topBarStatePresenter
+    private val topBarStatePresenter = componentViewModel.topBarStatePresenter
     override val backStack = BackStack<Component>()
     override val navigator = Navigator(backStack)
     override var isFirstComponentInStackPreviousCache: Boolean = false

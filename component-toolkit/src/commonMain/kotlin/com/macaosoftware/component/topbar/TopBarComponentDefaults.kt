@@ -22,7 +22,7 @@ object TopBarComponentDefaults {
         Scaffold(
             modifier = modifier,
             topBar = {
-                TopBar(topBarStatePresenter)
+                TopBar(componentViewModel.topBarStatePresenter)
             }
         ) { paddingValues ->
             PredictiveBackstackView(
@@ -31,7 +31,7 @@ object TopBarComponentDefaults {
                 backStack = backStack,
                 lastBackstackEvent = lastBackstackEvent,
                 onComponentSwipedOut = {
-                    topBarStatePresenter.onBackPressEvent()
+                    componentViewModel.topBarStatePresenter.onBackPressEvent()
                 }
             )
         }

@@ -32,8 +32,8 @@ class PanelComponent<out VM : PanelComponentViewModel>(
     ) -> Unit
 ) : Component(), NavigationComponent {
 
-    private val componentViewModel: VM = viewModelFactory.create(this)
-    val panelStatePresenter = componentViewModel.panelStatePresenter
+    val componentViewModel: VM = viewModelFactory.create(this)
+    private val panelStatePresenter = componentViewModel.panelStatePresenter
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override val navigator = Navigator(backStack)
     override var isFirstComponentInStackPreviousCache: Boolean = false

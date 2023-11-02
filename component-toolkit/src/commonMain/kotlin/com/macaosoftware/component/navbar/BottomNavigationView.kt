@@ -19,17 +19,17 @@ import androidx.compose.ui.Modifier
 @Composable
 fun NavigationBottom(
     modifier: Modifier = Modifier,
-    navbarStatePresenter: BottomNavigationStatePresenter,
+    bottomNavigationStatePresenter: BottomNavigationStatePresenter,
     Content: @Composable () -> Unit
 ) {
-    val navItems by navbarStatePresenter.navItemsState
-    val navBarStyle = navbarStatePresenter.bottomNavigationStyle
+    val navItems by bottomNavigationStatePresenter.navItemsState
+    val navBarStyle = bottomNavigationStatePresenter.bottomNavigationStyle
 
     Scaffold(
         modifier = modifier,
         bottomBar = {
             BottomBar(navItems, navBarStyle) { navItem ->
-                navbarStatePresenter.navItemClick(navItem)
+                bottomNavigationStatePresenter.navItemClick(navItem)
             }
         }
     ) { paddingValues ->
