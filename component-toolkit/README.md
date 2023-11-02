@@ -207,7 +207,7 @@ Above code snippet will produce a component similar to the image bellow.
 
 Previous code snippet uses `BottomNavigationComponentDefaults.BottomNavigationComponentView` which is a Composable function that renders classes of `BottomNavigationComponentViewModel` type. But if you want a custom rendering of your own `CustomBottomNavigationViewModel`, you just need to implement your own class that extends `BottomNavigationComponentViewModel` and pass it to the `BottomNavigationComponent`.
 
-`A custom BottomNavigation composable view would look like this`
+`A custom BottomNavigation Composable would look like this:`
 
 ```kotlin
 val CustomBottomNavigationView: @Composable BottomNavigationComponent<CustomBottomNavigationViewModel>.(
@@ -238,7 +238,9 @@ val CustomBottomNavigationView: @Composable BottomNavigationComponent<CustomBott
 
 // The BottomNavigationComponentViewModel needs a base BottomNavigationStatePresenter. Make your CustomBottomNavigationStatePresenter extend
 // BottomNavigationStatePresenter and provide your implementation to your CustomBottomNavigationViewModel.
-`A custom BottomNavigationStatePresenter`
+
+`A custom BottomNavigationStatePresenter would look like this:`
+
 ```
 class CustomBottomNavigationStatePresenter(
     dispatcher: CoroutineDispatcher,
@@ -265,8 +267,8 @@ class CustomBottomNavigationStatePresenter(
 }
 ```
 
+`A custom BottomNavigationComponentViewModel ViewModel would look like this:`
 
-`A custom BottomNavigation ViewModel`
 ```kotlin
 class CustomBottomNavigationViewModel(
     bottomNavigationComponent: BottomNavigationComponent<CustomBottomNavigationViewModel>,
