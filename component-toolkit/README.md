@@ -83,6 +83,8 @@ encourage composition, you should to write your custom components the same way. 
 Bellow snippet shows a custom ViewModel class `DemoViewModel` and its corresponding factory.
 
 ```kotlin
+
+// The ViewModel
 class DemoViewModel(
     private val component: StateComponent<DemoViewModel>,
     private val viewModelDependencies: ViewModelDependencies // Any dependency you viewmodel depends on
@@ -110,6 +112,7 @@ class DemoViewModel(
     }
 }
 
+// The corresponding factory for the ViewModel
 class DemoViewModelFactory(
     private val viewModelDependencies: ViewModelDependencies, // Prefereably inject this using a DI library
 ) : ComponentViewModelFactory<DemoViewModel> {
@@ -130,6 +133,7 @@ val DemoComponentView: @Composable StateComponent<DemoViewModel>.(
         modifier: Modifier,
         demoViewModel: DemoViewModel
     ) -> Unit = { modifier, demoViewModel ->
+
         BackPressHandler() // If interesting in handling back press events
         Text("My Component ID: ${instanceId()}")
     }
@@ -157,6 +161,7 @@ fun test2() {
     val component2 = StateComponent<DemoViewModel>(
         viewModelFactory = DemoViewModelFactory(viewModelDependencies)
     ) { modifier: Modifier, demoViewModel: DemoViewModel ->
+
         BackPressHandler() // If interesting in handling back press events
         Text("This Composable is an extension function of StateComponent<DemoViewModel>")
         Text("My Component ID: ${instanceId()}")
@@ -167,14 +172,13 @@ fun test2() {
 }
 ```
 
-Above API design gives a developer enough freedom to define whatever ViewModel class and whatever Composable function to render that specific ViewModel type. Thanks to Kotlin well design generics api.
+Above API design gives a developer enough freedom to define whatever ViewModel class and whatever Composable function to render that specific ViewModel type.
 
 #### <a id="navigation-component"></a>Navigation Component
 Simple components or StateComponents are basically leaf nodes in the Component tree. They are made just for that, rendering a given state, but that is it.
 
 To make a full App you will need more sophisticated components. Components that allow to do things like navigation between components, data passing between components and things of this nature. 
-These components will form the actual component tree. A fundamental aspect of a node in a tree is to have children, so we need components that can hoist children components. The toolkit defines an 
-interface just for that, `ComponentWithChildren`.
+These components will form the actual component tree. A fundamental aspect of a node in a tree is to have children, so we need components that can hoist children components. The toolkit defines an interface just for that, `ComponentWithChildren`.
 
 `ComponentWithChildren` interface is the base to `NavigationComponent` interface which is implemented by many navigator Components. Most of the time you wont be implementing 
 `ComponentWithChildren` but `NavigationComponent` interface. The library will try to include the more popular navigation components anyways so you don't have to create a navigation component but 
@@ -184,6 +188,7 @@ The next code snippet shows how to instantiate a BottomNavigationComponent.
 
 ```kotlin
 fun testBottomNavigationComponentCreation() {
+
     val bottomNavigationComponent = BottomNavigationComponent(
             viewModelFactory = BottomNavigationDemoViewModelFactory(
                 BottomNavigationComponentDefaults.createBottomNavigationStatePresenter()
@@ -192,6 +197,7 @@ fun testBottomNavigationComponentCreation() {
         )
         
     bottomNavigationComponent.dispatchStart()
+
 }
 ```
 
@@ -199,32 +205,72 @@ Above code snippet will produce a component similar to the image bellow.
 
 <image src="https://github.com/pablichjenkov/component-toolkit/assets/5303301/d331f0a9-1241-484a-82bf-517f3fdd3168" width=220 />
 
-Previous code snippet uses `BottomNavigationComponentDefaults.BottomNavigationComponentView` which is a Composable function that renders classes of `BottomNavigationDemoViewModel` type. But if you 
-want a custom rendering of your `BottomNavigationCustomViewModel` you just need to define your own and pass it to the component.
+Previous code snippet uses `BottomNavigationComponentDefaults.BottomNavigationComponentView` which is a Composable function that renders classes of `BottomNavigationComponentViewModel` type. But if you want a custom rendering of your own `CustomBottomNavigationViewModel`, you just need to implement your own class that extends `BottomNavigationComponentViewModel` and pass it to the `BottomNavigationComponent`.
 
-`A custom BottomNavigation composable`
+`A custom BottomNavigation composable view would look like this`
+
 ```kotlin
-val CustomBottomNavigationView: @Composable BottomNavigationComponent<BottomNavigationCustomViewModel>.(
+val CustomBottomNavigationView: @Composable BottomNavigationComponent<CustomBottomNavigationViewModel>.(
         modifier: Modifier,
         childComponent: Component // Currently selected component child in the BottomNavigation
     ) -> Unit = { modifier, childComponent ->
+
         NavigationBottom(
             modifier = modifier,
-            navbarStatePresenter = navBarStatePresenter
+            bottomNavigationStatePresenter = componentViewModel.bottomNavigationStatePresenter
         ) {
+
+           val navItems by bottomNavigationStatePresenter.navItemsState
+
            Column {
               Text("My Custom rendering of BottomNavigationCustomViewModel")
+           Button(
+              onClick = { bottomNavigationStatePresenter.onClickMe() }
+           ) {
+              Text("Click Me")
+           }
               childComponent.Content(Modifier)
            }
         }
     }
+
 ```
+
+// The BottomNavigationComponentViewModel needs a base BottomNavigationStatePresenter. Make your CustomBottomNavigationStatePresenter extend
+// BottomNavigationStatePresenter and provide your implementation to your CustomBottomNavigationViewModel.
+`A custom BottomNavigationStatePresenter`
+```
+class CustomBottomNavigationStatePresenter(
+    dispatcher: CoroutineDispatcher,
+    override val bottomNavigationStyle: BottomNavigationStyle = BottomNavigationStyle(),
+    navItemList: List<BottomNavigationNavItem> = emptyList()
+) : BottomNavigationStatePresenter {
+
+    // Override the abstract functions
+    override fun navItemClick(navbarItem: BottomNavigationNavItem) {
+        ...
+    }
+
+    ...
+
+    // A custom function
+    fun blinkSelectedTabWhenComponentStart() {
+        ...
+    }
+
+    // A callback from composable
+    fun onClickMe() {
+        ...
+    }
+}
+```
+
 
 `A custom BottomNavigation ViewModel`
 ```kotlin
-class BottomNavigationDemoViewModel(
-    bottomNavigationComponent: BottomNavigationComponent<BottomNavigationDemoViewModel>,
-    override val bottomNavigationStatePresenter: BottomNavigationStatePresenterDefault,
+class CustomBottomNavigationViewModel(
+    bottomNavigationComponent: BottomNavigationComponent<CustomBottomNavigationViewModel>,
+    override val bottomNavigationStatePresenter: CustomBottomNavigationStatePresenter,
     private val httpClient: HttpClient()
 ) : BottomNavigationComponentViewModel(bottomNavigationComponent) {
 
@@ -240,6 +286,7 @@ class BottomNavigationDemoViewModel(
     }
    
     override fun onStart() {
+        bottomNavigationStatePresenter.blinkSelectedTabWhenComponentStart()
     }
 
     override fun onStop() {
@@ -298,13 +345,19 @@ This is a snippet on Android, see the toolkit Demo App for the other platforms.
 ```kotlin
 class DrawerActivity : ComponentActivity() {
 
+    private val drawerComponent = DrawerComponent(
+        viewModelFactory = DrawerDemoViewModelFactory(
+            DrawerComponentDefaults.createDrawerStatePresenter()
+        ),
+        content = DrawerComponentDefaults.DrawerComponentView
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val rootComponent = DrawerTreeBuilder.build()
         setContent {
             MaterialTheme {
                 AndroidComponentRender(
-                    rootComponent = rootComponent,
+                    rootComponent = drawerComponent,
                     onBackPress = { finish() }
                 )
             }
@@ -366,10 +419,13 @@ Button(
           rootComponent,
           DeepLinkMsg(
              /**
-              * The path is made of a list that consists of each uriFragment between
-              * the root component and the selected component. All uriFragments have to match
-              * in order to activate the complete path up to the component which the
-              * message is intended to.
+              * The path is a list of all uriFragment between the component pass as rootComponent
+              * and the selected component. All uriFragments have to match in order to activate
+              * the full path of components up to the very last one.
+              * Eg: _navigator_adaptive -> * -> Settings -> Page 3
+              * In this example, `*` is used to skip the uriFragment comparison. You can create
+              * your custom skippers or uri rules, just override bellow function in your component.
+              * fun getChildForNextUriFragment(nextUriFragment: String): Component? { ... }
               * */
              path = listOf("_navigator_adaptive", "*", "Settings", "Page 3"),
              resultListener = { result  ->
@@ -393,18 +449,23 @@ Lets decode above snippet:
    `path = listOf("_navigator_adaptive", "*", "Settings", "Page 3")` indicates that the first Component which `uriFragmet = _navigator_adaptive`, then `*` means that there is a NavigationComponent in the deep link route that will accept any uri path as name. Then it goes through the `Settings` TopBarComponent and then finally to `Page 3` SimpleResponseComponent.
 3. Call Component::navigateToDeepLink(DeepLinkMsg) function to start the navigation. The algorithm will traverse the Component tree matching the uri path against the Components uriFragment property. As it traverse the tree it activates the Components that match each uri path. If a full uri match succeed, then a `DeepLinkResult.Success` is returned and as a result of traversing the tree, the Component represented by the last uri path will be the one active.
    If no child Component is found to match a specific uri path at a specific tree level, then a `DeepLinkResult.Error` will be returned.
-4. Once the component has been navigated to, the DeepLinkResult gives a reference to it. If you know the type then cast it and start interacting with it. That is the code below:
+4. Once the component has been navigated to, the DeepLinkResult gives a reference to it. Use DeepLinkResult::componentOrNull to cast it to your type, see code below:
     ```kotlin
-      val responseComponent = component as? SimpleResponseComponent
-      if (responseComponent == null) {
-            println("Cast to SimpleResponseComponent failed")
-            return
-        }
-        coroutineScope.launch {
-            responseComponent.resultSharedFlow.collect {
-                println("Receiving response = $it")
-            }
-        }
+       resultListener = { result  ->
+           when (result) {
+               is DeepLinkResult.Success -> {
+                   val myCustomComponent = result.componentOrNull<MyCustomComponent>()
+                   coroutineScope.launch {
+                       myCustomComponent.resultSharedFlow.collect {
+                           println("Received myCustomComponent response = $it")
+                       }
+                   }
+               }
+               is DeepLinkResult.Error -> {
+                   println("Deep link navigation error: $it")
+               }
+           }           
+       }
     ```
 
 #### <a id="component-lifecycle"></a>Component Lifecycle
