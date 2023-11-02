@@ -33,7 +33,7 @@ class BottomNavigationComponent<out VM : BottomNavigationComponentViewModel>(
 ) : Component(), NavigationComponent {
 
     val componentViewModel: VM = viewModelFactory.create(this)
-    val navBarStatePresenter = componentViewModel.bottomNavigationStatePresenter
+    private val navBarStatePresenter = componentViewModel.bottomNavigationStatePresenter
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override val navigator = Navigator(backStack)
     override var isFirstComponentInStackPreviousCache: Boolean = false

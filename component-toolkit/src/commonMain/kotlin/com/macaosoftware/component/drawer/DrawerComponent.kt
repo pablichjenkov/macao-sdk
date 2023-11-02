@@ -34,7 +34,7 @@ class DrawerComponent<out VM : DrawerComponentViewModel>(
 ) : Component(), NavigationComponent, DrawerNavigationProvider {
 
     val componentViewModel: VM = viewModelFactory.create(this)
-    val drawerStatePresenter = componentViewModel.drawerStatePresenter
+    private val drawerStatePresenter = componentViewModel.drawerStatePresenter
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override val navigator = Navigator(backStack)
     override var isFirstComponentInStackPreviousCache: Boolean = false

@@ -22,7 +22,7 @@ object BottomNavigationComponentDefaults {
     ) -> Unit = { modifier, childComponent ->
         NavigationBottom(
             modifier = modifier,
-            navbarStatePresenter = navBarStatePresenter
+            bottomNavigationStatePresenter = componentViewModel.bottomNavigationStatePresenter
         ) {
             childComponent.Content(Modifier)
         }

@@ -31,7 +31,7 @@ object PanelComponentDefaults {
     ) -> Unit = { modifier, childComponent ->
         NavigationPanel(
             modifier = modifier,
-            panelStatePresenter = panelStatePresenter
+            panelStatePresenter = componentViewModel.panelStatePresenter
         ) {
             childComponent.Content(Modifier)
         }
