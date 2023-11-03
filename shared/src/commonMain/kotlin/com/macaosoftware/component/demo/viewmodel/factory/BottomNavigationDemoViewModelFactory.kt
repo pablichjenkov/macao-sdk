@@ -7,11 +7,11 @@ import com.macaosoftware.component.navbar.BottomNavigationComponent
 import com.macaosoftware.component.navbar.BottomNavigationStatePresenterDefault
 
 class BottomNavigationDemoViewModelFactory(
-    private val navBarStatePresenter: BottomNavigationStatePresenterDefault
+    private val bottomNavigationStatePresenter: BottomNavigationStatePresenterDefault
 ) : BottomNavigationComponentViewModelFactory<BottomNavigationDemoViewModel> {
     override fun create(
         bottomNavigationComponent: BottomNavigationComponent<BottomNavigationDemoViewModel>
     ): BottomNavigationDemoViewModel {
-        return BottomNavigationDemoViewModel(bottomNavigationComponent, navBarStatePresenter)
+        return BottomNavigationDemoViewModel(bottomNavigationComponent, bottomNavigationStatePresenter)
     }
 }

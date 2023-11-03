@@ -9,6 +9,11 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.viewmodel.factory.PanelDemoViewModelFactory
 import com.macaosoftware.component.panel.PanelComponent
 import com.macaosoftware.component.panel.PanelComponentDefaults
+import com.macaosoftware.component.panel.PanelHeaderState
+import com.macaosoftware.component.panel.PanelHeaderStateDefault
+import com.macaosoftware.component.panel.PanelStatePresenter
+import com.macaosoftware.component.panel.PanelStatePresenterDefault
+import com.macaosoftware.component.panel.PanelStyle
 import com.macaosoftware.platform.DesktopBridge
 
 class PanelWindowComponent(
@@ -19,7 +24,7 @@ class PanelWindowComponent(
 
     private var panelComponent = PanelComponent(
         viewModelFactory = PanelDemoViewModelFactory(
-            PanelComponentDefaults.createPanelStatePresenter()
+            panelStatePresenter = setupPanelStatePresenter()
         ),
         content = PanelComponentDefaults.PanelComponentView
     )
@@ -39,4 +44,16 @@ class PanelWindowComponent(
         }
     }
 
+}
+
+private fun setupPanelStatePresenter(): PanelStatePresenterDefault {
+    return PanelComponentDefaults.createPanelStatePresenter(
+        panelStyle = PanelStyle(),
+        panelHeaderState = PanelHeaderStateDefault(
+            title = "Component Toolkit",
+            description = "A tool that allows to build scalable multiplatform Apps",
+            imageUri = "no_image",
+            style = PanelStyle()
+        )
+    )
 }

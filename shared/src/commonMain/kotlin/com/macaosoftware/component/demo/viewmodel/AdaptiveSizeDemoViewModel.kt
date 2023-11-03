@@ -18,12 +18,19 @@ import com.macaosoftware.component.demo.viewmodel.factory.PanelComponentViewMode
 import com.macaosoftware.component.demo.viewmodel.factory.SettingsTopBarViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
+import com.macaosoftware.component.drawer.DrawerHeaderDefaultState
+import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
+import com.macaosoftware.component.drawer.DrawerStyle
 import com.macaosoftware.component.navbar.BottomNavigationComponent
 import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
 import com.macaosoftware.component.panel.PanelComponent
 import com.macaosoftware.component.panel.PanelComponentDefaults
+import com.macaosoftware.component.panel.PanelHeaderStateDefault
+import com.macaosoftware.component.panel.PanelStatePresenterDefault
+import com.macaosoftware.component.panel.PanelStyle
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
+import kotlinx.coroutines.Dispatchers
 
 class AdaptiveSizeDemoViewModel(
     private val adaptiveSizeComponent: AdaptiveSizeComponent<AdaptiveSizeDemoViewModel>
@@ -37,7 +44,9 @@ class AdaptiveSizeDemoViewModel(
         adaptiveSizeComponent.setNavItems(navItems, 0)
         adaptiveSizeComponent.setCompactContainer(
             DrawerComponent(
-                viewModelFactory = DrawerComponentViewModelEmptyFactory(),
+                viewModelFactory = DrawerComponentViewModelEmptyFactory(
+                    drawerStatePresenter = setupDrawerStatePresenterDefault()
+                ),
                 content = DrawerComponentDefaults.DrawerComponentView
             )
         )
@@ -50,7 +59,9 @@ class AdaptiveSizeDemoViewModel(
         )
         adaptiveSizeComponent.setExpandedContainer(
             PanelComponent(
-                viewModelFactory = PanelComponentViewModelEmptyFactory(),
+                viewModelFactory = PanelComponentViewModelEmptyFactory(
+                    panelStatePresenter = setupPanelStatePresenterDefault()
+                ),
                 content = PanelComponentDefaults.PanelComponentView
             )
         )
@@ -69,7 +80,32 @@ class AdaptiveSizeDemoViewModel(
         println("AdaptiveSizeDemoViewModel::onDetach()")
     }
 
-    fun getOrCreateDetachedNavItems(): MutableList<NavItem> {
+    private fun setupDrawerStatePresenterDefault():DrawerStatePresenterDefault {
+        return DrawerStatePresenterDefault(
+            dispatcher = Dispatchers.Main,
+            drawerStyle = DrawerStyle(),
+            drawerHeaderState = DrawerHeaderDefaultState(
+                title = "Component Toolkit",
+                description = "I am Drawer Component",
+                imageUri = "no_image",
+                style = DrawerStyle()
+            )
+        )
+    }
+
+    private fun setupPanelStatePresenterDefault(): PanelStatePresenterDefault {
+        return PanelComponentDefaults.createPanelStatePresenter(
+            panelStyle = PanelStyle(),
+            panelHeaderState = PanelHeaderStateDefault(
+                title = "Component Toolkit",
+                description = "I am Panel Component",
+                imageUri = "no_image",
+                style = PanelStyle()
+            )
+        )
+    }
+
+    private fun getOrCreateDetachedNavItems(): MutableList<NavItem> {
 
         subTreeNavItems?.let {
             return it
