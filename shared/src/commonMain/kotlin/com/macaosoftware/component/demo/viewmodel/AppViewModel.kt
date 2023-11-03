@@ -14,6 +14,9 @@ import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewMod
 import com.macaosoftware.component.demo.viewmodel.factory.DrawerComponentViewModelEmptyFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
+import com.macaosoftware.component.drawer.DrawerHeaderDefaultState
+import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
+import com.macaosoftware.component.drawer.DrawerStyle
 import com.macaosoftware.component.navbar.BottomNavigationComponent
 import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
 import com.macaosoftware.component.split.SplitComponent
@@ -22,6 +25,7 @@ import com.macaosoftware.component.stack.StackComponentViewModel
 import com.macaosoftware.component.stack.StackStatePresenterDefault
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
+import kotlinx.coroutines.Dispatchers
 
 class AppViewModel(
     stackComponent: StackComponent<StackComponentViewModel>,
@@ -135,7 +139,18 @@ class AppViewModel(
         )
 
         val drawerComponent = DrawerComponent(
-            viewModelFactory = DrawerComponentViewModelEmptyFactory(),
+            viewModelFactory = DrawerComponentViewModelEmptyFactory(
+                drawerStatePresenter = DrawerStatePresenterDefault(
+                    dispatcher = Dispatchers.Main,
+                    drawerStyle = DrawerStyle(),
+                    drawerHeaderState = DrawerHeaderDefaultState(
+                        title = "Component Toolkit",
+                        description = "I am a Drawer Component",
+                        imageUri = "no_image",
+                        style = DrawerStyle()
+                    )
+                )
+            ),
             content = DrawerComponentDefaults.DrawerComponentView
         )
 
@@ -214,7 +229,18 @@ class AppViewModel(
         )
 
         val drawerComponent = DrawerComponent(
-            viewModelFactory = DrawerComponentViewModelEmptyFactory(),
+            viewModelFactory = DrawerComponentViewModelEmptyFactory(
+                drawerStatePresenter = DrawerStatePresenterDefault(
+                    dispatcher = Dispatchers.Main,
+                    drawerStyle = DrawerStyle(),
+                    drawerHeaderState = DrawerHeaderDefaultState(
+                        title = "Component Toolkit",
+                        description = "I am a Drawer Component",
+                        imageUri = "no_image",
+                        style = DrawerStyle()
+                    )
+                )
+            ),
             content = DrawerComponentDefaults.DrawerComponentView
         )
 

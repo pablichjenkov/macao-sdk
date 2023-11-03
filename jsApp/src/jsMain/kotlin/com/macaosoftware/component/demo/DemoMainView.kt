@@ -27,15 +27,27 @@ import com.macaosoftware.component.demo.viewmodel.factory.AppViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.DrawerDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.PagerDemoViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.factory.PanelDemoViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
+import com.macaosoftware.component.drawer.DrawerHeaderDefaultState
+import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
+import com.macaosoftware.component.drawer.DrawerStyle
 import com.macaosoftware.component.navbar.BottomNavigationComponent
 import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
+import com.macaosoftware.component.navbar.BottomNavigationStatePresenterDefault
+import com.macaosoftware.component.navbar.BottomNavigationStyle
 import com.macaosoftware.component.pager.PagerComponent
 import com.macaosoftware.component.pager.PagerComponentDefaults
+import com.macaosoftware.component.panel.PanelComponent
+import com.macaosoftware.component.panel.PanelComponentDefaults
+import com.macaosoftware.component.panel.PanelHeaderStateDefault
+import com.macaosoftware.component.panel.PanelStatePresenterDefault
+import com.macaosoftware.component.panel.PanelStyle
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
 import com.macaosoftware.platform.JsBridge
+import kotlinx.coroutines.Dispatchers
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -54,7 +66,12 @@ fun DemoMainView(
         BottomNavigationComponent(
             // pushStrategy = FixSizedPushStrategy(1), // Uncomment to test other push strategies
             viewModelFactory = BottomNavigationDemoViewModelFactory(
-                BottomNavigationComponentDefaults.createBottomNavigationStatePresenter()
+                bottomNavigationStatePresenter = BottomNavigationStatePresenterDefault(
+                    dispatcher = Dispatchers.Main,
+                    bottomNavigationStyle = BottomNavigationStyle(
+                        showLabel = true
+                    )
+                )
             ),
             content = BottomNavigationComponentDefaults.BottomNavigationComponentView
         )
@@ -63,9 +80,36 @@ fun DemoMainView(
     val drawerComponent = remember {
         DrawerComponent(
             viewModelFactory = DrawerDemoViewModelFactory(
-                DrawerComponentDefaults.createDrawerStatePresenter()
+                drawerStatePresenter = DrawerStatePresenterDefault(
+                    dispatcher = Dispatchers.Main,
+                    drawerStyle = DrawerStyle(),
+                    drawerHeaderState = DrawerHeaderDefaultState(
+                        title = "Component Toolkit",
+                        description = "This is the default Drawer Component",
+                        imageUri = "no_image",
+                        style = DrawerStyle()
+                    )
+                )
             ),
             content = DrawerComponentDefaults.DrawerComponentView
+        )
+    }
+
+    val panelComponent = remember {
+        PanelComponent(
+            viewModelFactory = PanelDemoViewModelFactory(
+                panelStatePresenter = PanelStatePresenterDefault(
+                    dispatcher = Dispatchers.Main,
+                    panelStyle = PanelStyle(),
+                    panelHeaderState = PanelHeaderStateDefault(
+                        title = "Component Toolkit",
+                        description = "This is the default Panel Component",
+                        imageUri = "no_image",
+                        style = PanelStyle()
+                    )
+                )
+            ),
+            content = PanelComponentDefaults.PanelComponentView
         )
     }
 
@@ -118,6 +162,11 @@ fun DemoMainView(
                         rootComponent = pagerComponent
                     }
                     LaunchButton(
+                        "Panel Example"
+                    ) {
+                        rootComponent = panelComponent
+                    }
+                    LaunchButton(
                         "BottomBar Example"
                     ) {
                         rootComponent = bottomNavigationComponent
@@ -128,7 +177,7 @@ fun DemoMainView(
                         rootComponent = adaptiveSizeComponent
                     }
                     LaunchButton(
-                        "Full App Navigation Example"
+                        "Stack Navigation with Splash screen Example"
                     ) {
                         rootComponent = appComponent
                     }
