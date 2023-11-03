@@ -236,8 +236,7 @@ val CustomBottomNavigationView: @Composable BottomNavigationComponent<CustomBott
 
 ```
 
-// The BottomNavigationComponentViewModel needs a base BottomNavigationStatePresenter. Make your CustomBottomNavigationStatePresenter extend
-// BottomNavigationStatePresenter and provide your implementation to your CustomBottomNavigationViewModel.
+The BottomNavigationComponentViewModel needs a base BottomNavigationStatePresenter. Make your CustomBottomNavigationStatePresenter extend BottomNavigationStatePresenter and provide your implementation to your CustomBottomNavigationViewModel.
 
 `A custom BottomNavigationStatePresenter would look like this:`
 
@@ -320,6 +319,7 @@ fun AndroidComponentRender(
 )
 
 // iOS
+@Composable
 fun IosComponentRender(
     rootComponent: Component,
     iosBridge: IosBridge,
