@@ -7,16 +7,14 @@ kotlin {
     applyDefaultHierarchyTemplate()
     jvm()
     sourceSets {
-        val jvmMain by getting  {
-            dependencies {
-                implementation(project(":shared"))
-                implementation(project(":component-toolkit"))
-                implementation(compose.desktop.common)
-                implementation(compose.desktop.currentOs)
-                implementation(compose.material3)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.3")
-            }
+        jvmMain.dependencies {
+            implementation(project(":shared"))
+            implementation(project(":component-toolkit"))
+            implementation(compose.desktop.common)
+            implementation(compose.desktop.currentOs)
+            implementation(compose.material3)
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.3")
         }
     }
 }

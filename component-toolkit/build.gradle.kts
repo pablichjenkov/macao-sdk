@@ -12,7 +12,7 @@ version = extra["component-toolkit.version"] as String
 val mavenCentralUser = extra["mavenCentral.user"] as String
 val mavenCentralPass = extra["mavenCentral.pass"] as String
 
-/*
+/* This is to use custom name on the artifact
 fun String.dasherize() = fold("") {acc, value ->
     if (value.isUpperCase()) {
         "$acc-${value.toLowerCase()}"
@@ -94,7 +94,7 @@ publishing {
     repositories {
         maven {
             name = "Central"
-            //setUrl("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            // setUrl("https://s01.oss.sonatype.org/content/repositories/snapshots/")
             // setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
             setUrl("https://s01.oss.sonatype.org/content/repositories/releases/")
             credentials {
@@ -106,7 +106,7 @@ publishing {
     publications {
         withType<MavenPublication> {
             groupId = group as String
-            artifactId = "component-toolkit"//makeArtifactId(name)
+            artifactId = "component-toolkit" // makeArtifactId(name)
             version
             artifact(javadocJar)
             pom {
@@ -139,13 +139,6 @@ publishing {
                 }
             }
         }
-        /*create<MavenPublication>("state3x") {
-            groupId = "org.gradle.sample"
-            artifactId = "state3-desktop"
-            version = "1.1"
-
-            from(components["java"])
-        }*/
     }
 }
 
@@ -178,28 +171,8 @@ kotlin {
         iosArm64(),
         iosSimulatorArm64(),
     ).forEach { target ->
-        /*target.binaries.framework {
-            baseName = path.substring(1).replace(':', '-')
-        }*/
-        target.compilations.configureEach {
-            compilerOptions.configure {
-                // Try out preview custom allocator in K/N 1.9
-                // https://kotlinlang.org/docs/whatsnew19.html#preview-of-custom-memory-allocator
-                // freeCompilerArgs.add("-Xallocator=custom")
-
-                // https://kotlinlang.org/docs/whatsnew19.html#compiler-option-for-c-interop-implicit-integer-conversions
-                // freeCompilerArgs.add("-XXLanguage:+ImplicitSignedToUnsignedIntegerConversion")
-
-                // Enable debug symbols:
-                // https://kotlinlang.org/docs/native-ios-symbolication.html
-                freeCompilerArgs.add("-Xadd-light-debug=enable")
-
-                // Various opt-ins
-                freeCompilerArgs.addAll(
-                    "-opt-in=kotlinx.cinterop.ExperimentalForeignApi",
-                    "-opt-in=kotlinx.cinterop.BetaInteropApi",
-                )
-            }
+        target.binaries.framework {
+            baseName = "ComponentToolkitKt"
         }
     }
 
@@ -220,31 +193,25 @@ kotlin {
 
     sourceSets {
         // COMMON
-        val commonMain by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.ui)
-                implementation(compose.material3)
-                implementation(compose.animation)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-                implementation("org.jetbrains.compose.ui:ui-util:1.5.3")
-                // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
-            }
+        commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.ui)
+            implementation(compose.material3)
+            implementation(compose.animation)
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+            implementation("org.jetbrains.compose.ui:ui-util:1.5.10")
+            // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
 
         // ANDROID
-        val androidMain by getting {
-            dependencies {
-                implementation("androidx.activity:activity-compose:1.8.0")
-                api(compose.uiTooling)
-                api(compose.preview)
-            }
+        androidMain.dependencies {
+            implementation("androidx.activity:activity-compose:1.8.0")
+            api(compose.uiTooling)
+            api(compose.preview)
         }
         val androidUnitTest by getting {
             dependencies {
@@ -253,43 +220,15 @@ kotlin {
         }
         val androidInstrumentedTest by getting
 
-        // IOS
-/*
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-        }
-
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
-        }
-*/
-        // JS
-        val jsMain by getting
-
         // WASM
         /*val wasmMain by getting
         val wasmTest by getting
         */
 
         // JVM
-        val jvmMain by getting {
-            dependencies {
-                api(compose.uiTooling)
-                api(compose.preview)
-            }
+        jvmMain.dependencies {
+            api(compose.uiTooling)
+            api(compose.preview)
         }
     }
 

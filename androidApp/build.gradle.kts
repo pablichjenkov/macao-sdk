@@ -16,15 +16,13 @@ kotlin {
     applyDefaultHierarchyTemplate()
     androidTarget()
     sourceSets {
-        val androidMain by getting {
-            dependencies {
-                implementation(project(":shared"))
-                implementation(project(":component-toolkit"))
-                implementation(compose.material3)
-                implementation("androidx.activity:activity-compose:1.8.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-            }
+        androidMain.dependencies {
+            implementation(project(":shared"))
+            implementation(project(":component-toolkit"))
+            implementation(compose.material3)
+            implementation("androidx.activity:activity-compose:1.8.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
         }
     }
 }
