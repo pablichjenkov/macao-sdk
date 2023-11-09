@@ -20,14 +20,14 @@ pluginManagement {
         val composeVersion = extra["compose.version"] as String
         val dokkaVersion = extra["dokkaVersion"] as String
 
-        kotlin("jvm").version(kotlinVersion)
         kotlin("multiplatform").version(kotlinVersion)
+        kotlin("jvm").version(kotlinVersion)
         kotlin("android").version(kotlinVersion)
-        id("org.jetbrains.dokka").version(dokkaVersion)
-        id("com.android.base").version(agpVersion)
+
         id("com.android.application").version(agpVersion)
         id("com.android.library").version(agpVersion)
         id("org.jetbrains.compose").version(composeVersion)
+        id("org.jetbrains.dokka").version(dokkaVersion)
     }
 }
 
