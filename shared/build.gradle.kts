@@ -14,8 +14,6 @@ version = extra["component-toolkit.version"] as String
 }*/
 
 kotlin {
-    applyDefaultHierarchyTemplate()
-
     // IOS
     listOf(
         iosX64(),

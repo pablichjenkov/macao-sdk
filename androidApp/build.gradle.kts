@@ -13,7 +13,6 @@ plugins {
 }*/
 
 kotlin {
-    applyDefaultHierarchyTemplate()
     androidTarget()
     sourceSets {
         androidMain.dependencies {
@@ -46,6 +45,6 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
 }

@@ -158,8 +158,6 @@ tasks.withType<AbstractPublishToMaven>().configureEach {
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    applyDefaultHierarchyTemplate()
-
     // ANDROID
     androidTarget {
         publishLibraryVariants("release")
@@ -254,6 +252,6 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
 }

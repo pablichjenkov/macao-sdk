@@ -4,7 +4,6 @@ plugins {
 }
 
 kotlin {
-    applyDefaultHierarchyTemplate()
     jvm()
     sourceSets {
         jvmMain.dependencies {
