@@ -33,7 +33,6 @@ class SimpleComponent(
 
     override fun onAttach() {
         println("${instanceId()}::onAttach()")
-        ...
     }
    
     override fun onStart() {
@@ -189,9 +188,22 @@ The next code snippet shows how to instantiate a BottomNavigationComponent.
 ```kotlin
 fun testBottomNavigationComponentCreation() {
 
+    val bottomNavigationStyle = BottomNavigationStyle(
+        barSize = 56.dp,
+        showLabel = true,
+        bgColor = Color.Cyan,
+        unselectedColor = Color.LightGray,
+        selectedColor = Color.Gray,
+        textSize = 14.dp
+    )
+
+   val bottomNavigationPresenterDefault = BottomNavigationComponentDefaults.createBottomNavigationStatePresenter(
+       bottomNavigationStyle = bottomNavigationStyle
+   )
+
     val bottomNavigationComponent = BottomNavigationComponent(
             viewModelFactory = BottomNavigationDemoViewModelFactory(
-                BottomNavigationComponentDefaults.createBottomNavigationStatePresenter()
+                bottomNavigationStatePresenter = bottomNavigationPresenterDefault
             ),
             content = BottomNavigationComponentDefaults.BottomNavigationComponentView
         )
@@ -240,10 +252,20 @@ The BottomNavigationComponentViewModel needs a base BottomNavigationStatePresent
 
 `A custom BottomNavigationStatePresenter would look like this:`
 
-```
+```kotlin
+
+data class CustomBottomNavigationStyle(
+    val barSize: Dp = 56.dp,
+    val showLabel: Boolean = true,
+    val bgColor: Color = Color.Cyan,
+    val unselectedColor: Color = Color.LightGray,
+    val selectedColor: Color = Color.Gray,
+    val textSize: Dp = 14.dp
+)
+
 class CustomBottomNavigationStatePresenter(
     dispatcher: CoroutineDispatcher,
-    override val bottomNavigationStyle: BottomNavigationStyle = BottomNavigationStyle(),
+    override val bottomNavigationStyle: BottomNavigationStyle = CustomBottomNavigationStyle(),
     navItemList: List<BottomNavigationNavItem> = emptyList()
 ) : BottomNavigationStatePresenter {
 
@@ -456,9 +478,9 @@ Lets decode above snippet:
        resultListener = { result  ->
            when (result) {
                is DeepLinkResult.Success -> {
-                   val myCustomComponent = result.componentOrNull<MyCustomComponent>()
+                   val myCustomComponent = result.componentOrNull<MyCustomComponent>() // get the reference to the deep linked component
                    coroutineScope.launch {
-                       myCustomComponent.resultSharedFlow.collect {
+                       myCustomComponent.resultSharedFlow.collect { // start receiving events from the deep linked component
                            println("Received myCustomComponent response = $it")
                        }
                    }
