@@ -1,8 +1,8 @@
 package com.macaosoftware.component.demo
 
-import com.macaosoftware.plugin.AppLifecycleDispatcher
-import com.macaosoftware.plugin.DefaultAppLifecycleDispatcher
+import com.macaosoftware.plugin.PlatformLifecyclePlugin
+import com.macaosoftware.plugin.DefaultPlatformLifecyclePlugin
 
-fun createDefaultAppLifecycleDispatcher(): AppLifecycleDispatcher {
-    return DefaultAppLifecycleDispatcher()
+fun createDefaultAppLifecycleDispatcher(): PlatformLifecyclePlugin {
+    return DefaultPlatformLifecyclePlugin()
 }

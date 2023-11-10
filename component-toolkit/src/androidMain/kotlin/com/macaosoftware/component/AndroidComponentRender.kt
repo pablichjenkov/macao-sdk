@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
-import com.macaosoftware.plugin.backpress.AndroidBackPressDispatcher
+import com.macaosoftware.plugin.backpress.AndroidBackPressDispatcherPlugin
 import com.macaosoftware.component.util.LocalBackPressedDispatcher
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.NavItem
@@ -37,7 +37,7 @@ fun AndroidComponentRender(
     val activity = LocalContext.current as ComponentActivity
 
     CompositionLocalProvider(
-        LocalBackPressedDispatcher provides AndroidBackPressDispatcher(activity),
+        LocalBackPressedDispatcher provides AndroidBackPressDispatcherPlugin(activity),
         LocalRootComponentProvider provides rootComponent
     ) {
         rootComponent.Content(Modifier.fillMaxSize())

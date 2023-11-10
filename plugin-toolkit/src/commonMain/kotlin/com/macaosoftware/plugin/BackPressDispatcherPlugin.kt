@@ -1,13 +1,13 @@
 package com.macaosoftware.plugin
 
-interface BackPressDispatcher {
+interface BackPressDispatcherPlugin {
     fun subscribe(backPressedCallback: BackPressedCallback)
     fun unsubscribe(backPressedCallback: BackPressedCallback)
     fun isSystemBackButtonEnabled(): Boolean
     fun dispatchBackPressed()
 }
 
-class DefaultBackPressDispatcher : BackPressDispatcher {
+class DefaultBackPressDispatcherPlugin : BackPressDispatcherPlugin {
 
     private val onBackPressedCallbacks: ArrayDeque<BackPressedCallbackProxy> = ArrayDeque()
 
