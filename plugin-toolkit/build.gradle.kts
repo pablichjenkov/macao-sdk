@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform")
+    id("org.jetbrains.compose")
     id("com.android.library")
     id("org.jetbrains.dokka")
     id("maven-publish")
@@ -48,7 +49,7 @@ publishing {
     publications {
         withType<MavenPublication> {
             groupId = group as String
-            artifactId = "component-toolkit" // makeArtifactId(name)
+            artifactId = "plugin-toolkit"
             version
             artifact(javadocJar)
             pom {
@@ -134,8 +135,8 @@ kotlin {
     sourceSets {
         // COMMON
         commonMain.dependencies {
+            implementation(compose.runtime)
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-            implementation("org.jetbrains.compose.ui:ui-util:1.5.10")
             // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
         }
         commonTest.dependencies {
@@ -152,21 +153,12 @@ kotlin {
             }
         }
         val androidInstrumentedTest by getting
-
-        // WASM
-        /*val wasmMain by getting
-        val wasmTest by getting
-        */
-
-        // JVM
-        jvmMain.dependencies {
-        }
     }
 
 }
 
 android {
-    namespace = "com.macaosoftware.component"
+    namespace = "com.macaosoftware.plugin"
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
     sourceSets {
         named("main") {

@@ -15,8 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
-import com.macaosoftware.plugin.backpress.AndroidBackPressDispatcherPlugin
-import com.macaosoftware.component.util.LocalBackPressedDispatcher
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
@@ -24,7 +22,10 @@ import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.preview.DrawerComponentViewModelPreviewAndroidRenderFactory
+import com.macaosoftware.component.util.LocalBackPressedDispatcher
 import com.macaosoftware.plugin.AndroidBridge
+import com.macaosoftware.plugin.LifecycleEventObserver
+import com.macaosoftware.plugin.backpress.AndroidBackPressDispatcherPlugin
 
 @Composable
 fun AndroidComponentRender(
