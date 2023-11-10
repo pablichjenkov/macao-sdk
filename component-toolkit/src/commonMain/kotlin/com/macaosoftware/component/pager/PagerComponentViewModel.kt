@@ -4,7 +4,7 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.stack.AddAllPushStrategy
 import com.macaosoftware.component.stack.PushStrategy
 import com.macaosoftware.component.viewmodel.ComponentViewModel
-import com.macaosoftware.platform.CoroutineDispatchers
+import com.macaosoftware.plugin.CoroutineDispatchers
 
 abstract class PagerComponentViewModel(
     val pagerComponent: PagerComponent<PagerComponentViewModel>,

@@ -17,6 +17,7 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(project(":shared"))
+            implementation(project(":plugin-toolkit"))
             implementation(project(":component-toolkit"))
             implementation(compose.material3)
             implementation("androidx.activity:activity-compose:1.8.0")

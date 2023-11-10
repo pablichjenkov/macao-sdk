@@ -29,6 +29,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.material3)
             implementation(project(":shared"))
+            implementation(project(":plugin-toolkit"))
             implementation(project(":component-toolkit"))
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.7.3")

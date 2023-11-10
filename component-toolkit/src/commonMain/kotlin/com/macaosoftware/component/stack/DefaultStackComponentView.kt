@@ -3,7 +3,7 @@ package com.macaosoftware.component.stack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.backpress.LocalBackPressedDispatcher
+import com.macaosoftware.component.util.LocalBackPressedDispatcher
 
 @Composable
 fun PredictiveBackstackView(

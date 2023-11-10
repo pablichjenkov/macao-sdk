@@ -33,10 +33,10 @@ import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.drawer.DrawerHeaderDefaultState
 import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
 import com.macaosoftware.component.drawer.DrawerStyle
-import com.macaosoftware.component.navbar.BottomNavigationComponent
-import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
-import com.macaosoftware.component.navbar.BottomNavigationStatePresenterDefault
-import com.macaosoftware.component.navbar.BottomNavigationStyle
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDefaults
+import com.macaosoftware.component.bottomnavigation.BottomNavigationStatePresenterDefault
+import com.macaosoftware.component.bottomnavigation.BottomNavigationStyle
 import com.macaosoftware.component.pager.PagerComponent
 import com.macaosoftware.component.pager.PagerComponentDefaults
 import com.macaosoftware.component.panel.PanelComponent
@@ -46,7 +46,7 @@ import com.macaosoftware.component.panel.PanelStatePresenterDefault
 import com.macaosoftware.component.panel.PanelStyle
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
-import com.macaosoftware.platform.JsBridge
+import com.macaosoftware.plugin.JsBridge
 import kotlinx.coroutines.Dispatchers
 
 @OptIn(ExperimentalFoundationApi::class)

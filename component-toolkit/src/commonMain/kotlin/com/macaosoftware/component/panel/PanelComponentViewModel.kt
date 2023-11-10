@@ -6,7 +6,7 @@ import com.macaosoftware.component.core.NavigationComponentDefaults
 import com.macaosoftware.component.stack.AddAllPushStrategy
 import com.macaosoftware.component.stack.PushStrategy
 import com.macaosoftware.component.viewmodel.ComponentViewModel
-import com.macaosoftware.platform.CoroutineDispatchers
+import com.macaosoftware.plugin.CoroutineDispatchers
 
 abstract class PanelComponentViewModel(
     val panelComponent: PanelComponent<PanelComponentViewModel>,

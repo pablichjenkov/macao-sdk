@@ -10,7 +10,7 @@ import com.macaosoftware.component.AndroidComponentRender
 import com.macaosoftware.component.demo.viewmodel.factory.DrawerDemoViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
-import com.macaosoftware.platform.AndroidBridge
+import com.macaosoftware.plugin.AndroidBridge
 
 class DrawerActivity : ComponentActivity() {
 

@@ -14,7 +14,7 @@ import com.macaosoftware.component.panel.PanelHeaderStateDefault
 import com.macaosoftware.component.panel.PanelStatePresenter
 import com.macaosoftware.component.panel.PanelStatePresenterDefault
 import com.macaosoftware.component.panel.PanelStyle
-import com.macaosoftware.platform.DesktopBridge
+import com.macaosoftware.plugin.DesktopBridge
 
 class PanelWindowComponent(
     val onCloseClick: () -> Unit

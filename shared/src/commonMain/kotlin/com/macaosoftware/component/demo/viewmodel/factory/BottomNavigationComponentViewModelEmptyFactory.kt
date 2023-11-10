@@ -1,8 +1,8 @@
 package com.macaosoftware.component.demo.viewmodel.factory
 
 import com.macaosoftware.component.demo.viewmodel.BottomNavigationComponentViewModelEmpty
-import com.macaosoftware.component.navbar.BottomNavigationComponent
-import com.macaosoftware.component.navbar.BottomNavigationComponentViewModelFactory
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentViewModelFactory
 
 class BottomNavigationComponentViewModelEmptyFactory : BottomNavigationComponentViewModelFactory<BottomNavigationComponentViewModelEmpty> {
     override fun create(

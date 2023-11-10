@@ -11,7 +11,7 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.viewmodel.factory.AppViewModelFactory
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
-import com.macaosoftware.platform.DesktopBridge
+import com.macaosoftware.plugin.DesktopBridge
 
 class FullAppWindowComponent(
     val onCloseClick: () -> Unit

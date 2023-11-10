@@ -8,9 +8,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import com.macaosoftware.component.AndroidComponentRender
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
-import com.macaosoftware.component.navbar.BottomNavigationComponent
-import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
-import com.macaosoftware.platform.AndroidBridge
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDefaults
+import com.macaosoftware.plugin.AndroidBridge
 
 class BottomNavigationActivity : ComponentActivity() {
 

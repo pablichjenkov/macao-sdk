@@ -50,7 +50,7 @@ fun TopBar(
                             state.onIconGlobalNavigationClick?.invoke(drawerNavigationProvider)
                         },
                     imageVector = it,
-                    contentDescription = "com.pablichj.templato.component.core.TopBar icon"
+                    contentDescription = "TopBar icon"
                 )
             }
 
@@ -62,7 +62,7 @@ fun TopBar(
                             state.onBackNavigationIconClick?.invoke(drawerNavigationProvider)
                         },
                     imageVector = it,
-                    contentDescription = "com.pablichj.templato.component.core.TopBar icon"
+                    contentDescription = "TopBar icon"
                 )
             }
 
