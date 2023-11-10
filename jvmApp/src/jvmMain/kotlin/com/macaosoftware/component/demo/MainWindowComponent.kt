@@ -17,7 +17,7 @@ import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewMo
 import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
-import com.macaosoftware.platform.DesktopBridge
+import com.macaosoftware.plugin.DesktopBridge
 
 class MainWindowComponent(
     val onOpenDeepLinkClick: () -> Unit,

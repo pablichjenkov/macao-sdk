@@ -199,7 +199,8 @@ kotlin {
             implementation(compose.animation)
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
             implementation("org.jetbrains.compose.ui:ui-util:1.5.10")
-            // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+            implementation(project(":plugin-toolkit"))
+        // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
@@ -233,7 +234,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.pablichj.templato.component"
+    namespace = "com.macaosoftware.component"
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
     sourceSets {
         named("main") {

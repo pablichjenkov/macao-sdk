@@ -9,7 +9,7 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.viewmodel.factory.DrawerDemoViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
-import com.macaosoftware.platform.DesktopBridge
+import com.macaosoftware.plugin.DesktopBridge
 import kotlin.system.exitProcess
 
 class DrawerWindowComponent(

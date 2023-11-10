@@ -12,7 +12,7 @@ import com.macaosoftware.component.demo.viewmodel.PagerDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.PagerDemoViewModelFactory
 import com.macaosoftware.component.pager.PagerComponent
 import com.macaosoftware.component.pager.PagerComponentDefaults
-import com.macaosoftware.platform.AndroidBridge
+import com.macaosoftware.plugin.AndroidBridge
 
 class PagerActivity : ComponentActivity() {
 

@@ -11,7 +11,7 @@ import com.macaosoftware.component.demo.viewmodel.AppViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.AppViewModelFactory
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
-import com.macaosoftware.platform.AndroidBridge
+import com.macaosoftware.plugin.AndroidBridge
 
 class FullAppIntroActivity : ComponentActivity() {
 

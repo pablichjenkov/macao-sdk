@@ -1,5 +1,6 @@
 rootProject.name = "component-toolkit"
 include(":component-toolkit")
+include(":plugin-toolkit")
 include(":shared")
 include(":androidApp")
 include(":jsApp")

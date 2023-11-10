@@ -8,11 +8,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
-import com.macaosoftware.component.backpress.DefaultBackPressDispatcher
-import com.macaosoftware.component.backpress.LocalBackPressedDispatcher
+import com.macaosoftware.component.util.LocalBackPressedDispatcher
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
-import com.macaosoftware.platform.JsBridge
+import com.macaosoftware.plugin.DefaultBackPressDispatcher
+import com.macaosoftware.plugin.JsBridge
 
 @Composable
 fun BrowserComponentRender(

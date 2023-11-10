@@ -13,8 +13,8 @@ import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewMod
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentViewModel
 import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
-import com.macaosoftware.component.navbar.BottomNavigationComponent
-import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDefaults
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 

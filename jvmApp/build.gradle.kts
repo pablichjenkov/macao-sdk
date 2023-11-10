@@ -8,6 +8,7 @@ kotlin {
     sourceSets {
         jvmMain.dependencies {
             implementation(project(":shared"))
+            implementation(project(":plugin-toolkit"))
             implementation(project(":component-toolkit"))
             implementation(compose.desktop.common)
             implementation(compose.desktop.currentOs)

@@ -13,10 +13,10 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.WindowState
-import com.macaosoftware.component.backpress.LocalBackPressedDispatcher
+import com.macaosoftware.component.util.LocalBackPressedDispatcher
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
-import com.macaosoftware.platform.DesktopBridge
+import com.macaosoftware.plugin.DesktopBridge
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch

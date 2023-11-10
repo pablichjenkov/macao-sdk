@@ -1,9 +1,9 @@
 package com.macaosoftware.component.demo.viewmodel
 
-import com.macaosoftware.component.navbar.BottomNavigationComponent
-import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
-import com.macaosoftware.component.navbar.BottomNavigationComponentViewModel
-import com.macaosoftware.component.navbar.BottomNavigationStatePresenterDefault
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDefaults
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentViewModel
+import com.macaosoftware.component.bottomnavigation.BottomNavigationStatePresenterDefault
 
 class BottomNavigationComponentViewModelEmpty(
     bottomNavigationComponent: BottomNavigationComponent<BottomNavigationComponentViewModelEmpty>,

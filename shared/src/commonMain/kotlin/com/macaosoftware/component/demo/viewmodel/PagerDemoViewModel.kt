@@ -8,8 +8,8 @@ import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
-import com.macaosoftware.component.navbar.BottomNavigationComponent
-import com.macaosoftware.component.navbar.BottomNavigationComponentDefaults
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
+import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDefaults
 import com.macaosoftware.component.pager.PagerComponent
 import com.macaosoftware.component.pager.PagerComponentViewModel
 import com.macaosoftware.component.topbar.TopBarComponent
