@@ -30,7 +30,7 @@ fun DesktopComponentRender(
 ) {
 
     val desktopBackPressDispatcher = remember(rootComponent) {
-        desktopBridge.backPressDispatcher
+        desktopBridge.backPressDispatcherPlugin
     }
     val updatedOnBackPressed by rememberUpdatedState(onBackPress)
 

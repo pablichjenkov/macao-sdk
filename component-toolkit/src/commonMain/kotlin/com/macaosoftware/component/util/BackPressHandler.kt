@@ -9,8 +9,8 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.ComponentLifecycleState
-import com.macaosoftware.plugin.BackPressDispatcher
-import com.macaosoftware.plugin.DefaultBackPressDispatcher
+import com.macaosoftware.plugin.BackPressDispatcherPlugin
+import com.macaosoftware.plugin.DefaultBackPressDispatcherPlugin
 import com.macaosoftware.plugin.ForwardBackPressCallback
 
 /**
@@ -73,7 +73,7 @@ fun BackPressHandler(
 }
 
 /**
- * This [CompositionLocal] is used to provide an [BackPressDispatcher]:
+ * This [CompositionLocal] is used to provide an [BackPressDispatcherPlugin]:
  *
  * ```
  * val backPressedDispatcher = AndroidBackPressedDispatcher
@@ -86,4 +86,4 @@ fun BackPressHandler(
  * and setting up the callbacks with [BackPressHandler].
  */
 val LocalBackPressedDispatcher =
-    staticCompositionLocalOf<BackPressDispatcher> { DefaultBackPressDispatcher() }
+    staticCompositionLocalOf<BackPressDispatcherPlugin> { DefaultBackPressDispatcherPlugin() }

@@ -5,7 +5,7 @@ import kotlin.native.ObjCName
 
 @OptIn(ExperimentalObjCName::class)
 @ObjCName("AppLifecycleDispatcher", exact = true)
-interface AppLifecycleDispatcher {
+interface PlatformLifecyclePlugin {
     fun subscribe(appLifecycleCallback: AppLifecycleCallback)
     fun unsubscribe(appLifecycleCallback: AppLifecycleCallback)
     fun dispatchAppLifecycleEvent(appLifecycleEvent: AppLifecycleEvent)
@@ -26,7 +26,7 @@ interface AppLifecycleCallback {
 
 @OptIn(ExperimentalObjCName::class)
 @ObjCName(name = "DefaultAppLifecycleDispatcher", exact = true)
-class DefaultAppLifecycleDispatcher : AppLifecycleDispatcher {
+class DefaultPlatformLifecyclePlugin : PlatformLifecyclePlugin {
 
     private val appLifecycleCallbacks: ArrayDeque<AppLifecycleCallback> = ArrayDeque()
     private var lastEvent: AppLifecycleEvent? = null

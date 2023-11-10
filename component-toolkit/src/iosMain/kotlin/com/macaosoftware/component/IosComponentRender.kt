@@ -13,7 +13,7 @@ import com.macaosoftware.component.util.LocalBackPressedDispatcher
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
 import com.macaosoftware.plugin.AppLifecycleEvent
-import com.macaosoftware.plugin.DefaultBackPressDispatcher
+import com.macaosoftware.plugin.DefaultBackPressDispatcherPlugin
 import com.macaosoftware.plugin.ForwardAppLifecycleCallback
 import com.macaosoftware.plugin.IosBridge
 
@@ -25,7 +25,7 @@ fun IosComponentRender(
 ) {
 
     val backPressDispatcher = remember(rootComponent) {
-        DefaultBackPressDispatcher()
+        DefaultBackPressDispatcherPlugin()
     }
 
     val updatedOnBackPressed by rememberUpdatedState(onBackPress)
@@ -43,7 +43,7 @@ fun IosComponentRender(
         rootComponent.dispatchAttach()
         rootComponent.isRoot = true
         rootComponent.rootBackPressDelegate = updatedOnBackPressed
-        iosBridge.appLifecycleDispatcher.subscribe(
+        iosBridge.platformLifecyclePlugin.subscribe(
             ForwardAppLifecycleCallback {
                 when (it) {
                     AppLifecycleEvent.Start -> rootComponent.dispatchStart()

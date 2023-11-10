@@ -2,12 +2,12 @@ package com.macaosoftware.plugin.backpress
 
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
-import com.macaosoftware.plugin.BackPressDispatcher
+import com.macaosoftware.plugin.BackPressDispatcherPlugin
 import com.macaosoftware.plugin.BackPressedCallback
 
-class AndroidBackPressDispatcher(
+class AndroidBackPressDispatcherPlugin(
     private val componentActivity: ComponentActivity,
-) : BackPressDispatcher {
+) : BackPressDispatcherPlugin {
 
     override fun subscribe(backPressedCallback: BackPressedCallback) {
         componentActivity.onBackPressedDispatcher.addCallback(
