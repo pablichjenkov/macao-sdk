@@ -25,6 +25,7 @@ fun IosComponentRender(
 ) {
 
     val backPressDispatcher = remember(rootComponent) {
+        // todo: get this from the plugin manager instead
         DefaultBackPressDispatcherPlugin()
     }
 

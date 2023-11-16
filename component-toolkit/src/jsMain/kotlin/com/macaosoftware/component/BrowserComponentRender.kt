@@ -21,6 +21,7 @@ fun BrowserComponentRender(
     onBackPress: () -> Unit = {}
 ) {
     val webBackPressDispatcher = remember(rootComponent) {
+        // todo: get this from the plugin manager instead
         DefaultBackPressDispatcherPlugin()
     }
     val updatedOnBackPressed by rememberUpdatedState(onBackPress)

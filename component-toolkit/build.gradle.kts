@@ -199,7 +199,7 @@ kotlin {
             implementation(compose.animation)
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
             implementation("org.jetbrains.compose.ui:ui-util:1.5.10")
-            implementation(project(":plugin-toolkit"))
+            // implementation(project(":plugin-toolkit"))
         // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
         }
         commonTest.dependencies {
@@ -208,7 +208,7 @@ kotlin {
 
         // ANDROID
         androidMain.dependencies {
-            implementation("androidx.activity:activity-compose:1.8.0")
+            implementation("androidx.activity:activity-compose:1.8.1")
             api(compose.uiTooling)
             api(compose.preview)
         }
