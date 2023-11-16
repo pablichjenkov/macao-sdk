@@ -38,6 +38,7 @@ fun AndroidComponentRender(
     val activity = LocalContext.current as ComponentActivity
 
     CompositionLocalProvider(
+        // Todo: Should get it from the plugin manager or directly in the constructor
         LocalBackPressedDispatcher provides AndroidBackPressDispatcherPlugin(activity),
         LocalRootComponentProvider provides rootComponent
     ) {

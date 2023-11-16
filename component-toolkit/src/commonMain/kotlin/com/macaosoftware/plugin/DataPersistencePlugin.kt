@@ -1,4 +1,4 @@
 package com.macaosoftware.plugin
 
-interface PersistencePlugin {
+interface DataPersistencePlugin {
 }

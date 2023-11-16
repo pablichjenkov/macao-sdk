@@ -2,10 +2,10 @@ import SwiftUI
 import ComponentDemoKt
 
 @main
-struct iOSDemoAppApp: App {
+struct iOSDemoApp: App {
 
     let iosBridge = IosBridge(
-        appLifecycleDispatcher: BindingsKt.createDefaultAppLifecycleDispatcher()
+        platformLifecyclePlugin: BindingsKt.createDefaultPlatformLifecyclePlugin()
     )
 
     var body: some Scene {
@@ -18,7 +18,7 @@ struct iOSDemoAppApp: App {
                    }
                    .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                        print("application_didBecomeActive")
-                       iosBridge.appLifecycleDispatcher.dispatchAppLifecycleEvent(
+                       iosBridge.platformLifecyclePlugin.dispatchAppLifecycleEvent(
                            appLifecycleEvent: .start
                        )
                    }
@@ -26,7 +26,7 @@ struct iOSDemoAppApp: App {
                        print("application_willResignActive")
                    }.onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
                        print("application_didEnterBackground")
-                       iosBridge.appLifecycleDispatcher.dispatchAppLifecycleEvent(
+                       iosBridge.platformLifecyclePlugin.dispatchAppLifecycleEvent(
                            appLifecycleEvent: .stop
                        )
                    }

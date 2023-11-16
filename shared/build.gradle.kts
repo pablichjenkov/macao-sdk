@@ -42,7 +42,7 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.ui)
             implementation(compose.material3)
-            implementation(project(":plugin-toolkit"))
+            // implementation(project(":plugin-toolkit"))
             implementation(project(":component-toolkit"))
             implementation("org.jetbrains.compose.components:components-resources:1.5.10")
         }
