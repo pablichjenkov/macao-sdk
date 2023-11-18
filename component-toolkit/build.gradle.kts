@@ -8,9 +8,9 @@ plugins {
 }
 
 group = "io.github.pablichjenkov"
-version = extra["component-toolkit.version"] as String
-val mavenCentralUser = extra["mavenCentral.user"] as String
-val mavenCentralPass = extra["mavenCentral.pass"] as String
+version = (findProperty("component-toolkit.version") as? String).orEmpty()
+val mavenCentralUser = (findProperty("mavenCentral.user") as? String).orEmpty()
+val mavenCentralPass = (findProperty("mavenCentral.pass") as? String).orEmpty()
 
 /* This is to use custom name on the artifact
 fun String.dasherize() = fold("") {acc, value ->

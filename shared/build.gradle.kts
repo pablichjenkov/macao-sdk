@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.compose")
 }
 
-version = extra["component-toolkit.version"] as String
+version = (findProperty("component-toolkit.version") as? String).orEmpty()
 
 /*compose {
     // Sets a specific JetBrains Compose Compiler version
