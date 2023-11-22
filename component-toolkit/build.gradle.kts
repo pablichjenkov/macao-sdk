@@ -12,42 +12,6 @@ version = (findProperty("component-toolkit.version") as? String).orEmpty()
 val mavenCentralUser = (findProperty("mavenCentral.user") as? String).orEmpty()
 val mavenCentralPass = (findProperty("mavenCentral.pass") as? String).orEmpty()
 
-/* This is to use custom name on the artifact
-fun String.dasherize() = fold("") {acc, value ->
-    if (value.isUpperCase()) {
-        "$acc-${value.toLowerCase()}"
-    } else {
-        "$acc$value"
-    }
-}
-
-fun makeArtifactId(name: String) =
-    if ("kotlinMultiplatform" in name) {
-        "state3"
-    } else {
-        "state3-${name.dasherize()}"
-    }
-
-afterEvaluate {
-    configure<PublishingExtension> {
-        publications.all {
-            val mavenPublication = this as? MavenPublication
-            mavenPublication?.artifactId = makeArtifactId(name)
-        }
-    }
-}
-
-configure<PublishingExtension> {
-    publications {
-        withType<MavenPublication> {
-            //groupId = "com.meowbox.fourpillars"
-            artifactId = makeArtifactId(name)
-            //version
-        }
-    }
-}
-*/
-
 /*tasks.dokkaHtml.configure {
     outputDirectory.set(buildDir.resolve("dokka"))
     moduleName.set("component")
