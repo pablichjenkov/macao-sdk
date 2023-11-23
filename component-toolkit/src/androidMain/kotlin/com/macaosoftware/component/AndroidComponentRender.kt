@@ -23,14 +23,12 @@ import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.preview.DrawerComponentViewModelPreviewAndroidRenderFactory
 import com.macaosoftware.component.util.LocalBackPressedDispatcher
-import com.macaosoftware.plugin.AndroidBridge
 import com.macaosoftware.plugin.LifecycleEventObserver
 import com.macaosoftware.plugin.backpress.AndroidBackPressDispatcherPlugin
 
 @Composable
 fun AndroidComponentRender(
     rootComponent: Component,
-    androidBridge: AndroidBridge,
     onBackPress: () -> Unit = {}
 ) {
 
@@ -110,7 +108,6 @@ private fun AndroidComponentRenderPreview() {
 
     AndroidComponentRender(
         rootComponent = drawerComponent,
-        androidBridge = AndroidBridge(),
         onBackPress = {}
     )
 

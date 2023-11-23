@@ -336,7 +336,6 @@ You may have noticed in previous code samples the use of `component.dispatchStar
 @Composable
 fun AndroidComponentRender(
    rootComponent: Component,
-   androidBridge: AndroidBridge,
    onBackPress: () -> Unit = {}
 )
 

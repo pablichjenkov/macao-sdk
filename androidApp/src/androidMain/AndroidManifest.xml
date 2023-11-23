@@ -4,44 +4,24 @@
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.Widget"
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:enableOnBackInvokedCallback="true">
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Widget">
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity
-            android:name=".DrawerActivity"
-            android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
-            android:exported="true"/>
-        <activity
-            android:name=".PagerActivity"
-            android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
-            android:exported="true" />
-        <activity
-            android:name=".BottomNavigationActivity"
-            android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
-            android:exported="true" />
-        <activity
-            android:name=".FullAppIntroActivity"
-            android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
-            android:exported="true" />
-        <activity
-            android:name=".AdaptiveSizeActivity"
-            android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
-            android:exported="true" />
     </application>
 </manifest>
