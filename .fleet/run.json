@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "android-app",
+            "name": "Android-app configuration",
+            "module": "macao-sdk.androidApp.main",
+            "destination": "Google Pixel 8 Pro",
+        },
+        {
+            "type": "xcode-app",
+            "name": "Xcode-app configuration",
+            "buildTarget": {
+                "project": "ComponentDemo",
+                "target": "ComponentDemo",
+            },
+            "configuration": "Debug",
+            "destination": "Pablo’s iPhone",
+        },
+        
+        
+    ]
+}
