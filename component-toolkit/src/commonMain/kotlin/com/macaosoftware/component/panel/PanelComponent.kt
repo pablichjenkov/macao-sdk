@@ -84,10 +84,14 @@ class PanelComponent<out VM : PanelComponentViewModel>(
 
     override fun handleBackPressed() {
         println("${instanceId()}::handleBackPressed, backStack.size = ${backStack.size()}")
-        if (consumeBackPressedDefault().not()) {
-            resetNavigationComponent()
-            delegateBackPressedToParent()
+        if (componentViewModel.handleBackPressed()) {
+            return
         }
+        if (consumeBackPressedDefault()) {
+            return
+        }
+        resetNavigationComponent()
+        delegateBackPressedToParent()
     }
 
     // endregion

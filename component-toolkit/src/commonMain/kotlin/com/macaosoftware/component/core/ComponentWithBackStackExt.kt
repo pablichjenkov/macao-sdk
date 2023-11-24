@@ -50,6 +50,7 @@ internal fun ComponentWithBackStack.processBackstackEvent(
 
 private fun ComponentWithBackStack.transitionIn(newTop: Component): StackTransition.In<Component> {
     println("${getComponent().instanceId()}::transitionIn(), newTop: ${newTop::class.simpleName}")
+    newTop.setParent(getComponent())
     newTop.dispatchStart()
     return StackTransition.In(newTop)
 }
@@ -64,6 +65,7 @@ private fun ComponentWithBackStack.transitionInOut(
     )
     // By convention always stop the previous top before starting the new one. TODO: Tests
     oldTop.dispatchStop()
+    newTop.setParent(getComponent())
     newTop.dispatchStart()
     return StackTransition.InOut(newTop, oldTop)
 }

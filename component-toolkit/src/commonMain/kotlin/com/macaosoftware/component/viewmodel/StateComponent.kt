@@ -30,6 +30,12 @@ class StateComponent<out VM : ComponentViewModel>(
         componentViewModel.dispatchDetach()
     }
 
+    override fun handleBackPressed() {
+        if (!componentViewModel.handleBackPressed()) {
+            delegateBackPressedToParent()
+        }
+    }
+
     @Composable
     override fun Content(modifier: Modifier) {
         this@StateComponent.content(modifier, componentViewModel)
