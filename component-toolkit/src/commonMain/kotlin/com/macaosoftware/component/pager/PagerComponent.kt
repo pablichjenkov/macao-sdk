@@ -11,6 +11,7 @@ import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.NavigationComponent
 import com.macaosoftware.component.core.Navigator
 import com.macaosoftware.component.core.componentWithBackStackGetChildForNextUriFragment
+import com.macaosoftware.component.core.consumeBackPressedDefault
 import com.macaosoftware.component.core.deeplink.DeepLinkResult
 import com.macaosoftware.component.core.destroyChildComponent
 import com.macaosoftware.component.util.EmptyNavigationComponentView
@@ -93,6 +94,9 @@ class PagerComponent<out VM : PagerComponentViewModel>(
         if (currentPage > 0) {
             selectPage(currentPage - 1)
         } else {
+            if (componentViewModel.handleBackPressed()) {
+                return
+            }
             delegateBackPressedToParent()
         }
     }

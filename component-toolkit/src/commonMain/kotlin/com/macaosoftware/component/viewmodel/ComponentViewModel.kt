@@ -1,6 +1,5 @@
 package com.macaosoftware.component.viewmodel
 
-import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.ComponentLifecycleState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -36,6 +35,13 @@ abstract class ComponentViewModel : ComponentViewModelLifecycle() {
         lifecycleState = ComponentLifecycleState.Detached
         onDetach()
         _lifecycleStateFlow.value = ComponentLifecycleState.Detached
+    }
+
+    /**
+     * Returns true if the back press event was consumed false otherwise
+     * */
+    open fun handleBackPressed(): Boolean {
+        return false
     }
 
 }

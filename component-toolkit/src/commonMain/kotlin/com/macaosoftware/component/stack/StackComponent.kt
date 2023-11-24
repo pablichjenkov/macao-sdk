@@ -68,9 +68,13 @@ class StackComponent<out VM : StackComponentViewModel>(
 
     override fun handleBackPressed() {
         println("${instanceId()}::handleBackPressed, backStack.size = ${backStack.size()}")
-        if (consumeBackPressedDefault().not()) {
-            delegateBackPressedToParent()
+        if (componentViewModel.handleBackPressed()) {
+            return
         }
+        if (consumeBackPressedDefault()) {
+            return
+        }
+        delegateBackPressedToParent()
     }
 
     // endregion

@@ -111,7 +111,7 @@ abstract class Component : ComponentLifecycle() {
      * All the way up to the root Component.
      * */
     open fun handleBackPressed() {
-        println("${instanceId()}::onBackPressed() handling")
+        println("${instanceId()}::handleBackPressed() Base Component")
         delegateBackPressedToParent()
     }
 

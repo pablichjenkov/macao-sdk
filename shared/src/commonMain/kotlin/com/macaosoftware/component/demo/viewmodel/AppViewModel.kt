@@ -19,7 +19,6 @@ import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
 import com.macaosoftware.component.drawer.DrawerStyle
 import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
 import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDefaults
-import com.macaosoftware.component.split.SplitComponent
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentViewModel
 import com.macaosoftware.component.stack.StackStatePresenterDefault
@@ -39,7 +38,7 @@ class AppViewModel(
             topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
             screenName = "Onboard",
             onDone = {
-                val drawerComponent = buildDrawerStateTree(appComponent)
+                val drawerComponent = buildDrawerComponent(appComponent)
                 appComponent.navigator.push(drawerComponent)
             }
         ),
@@ -73,21 +72,7 @@ class AppViewModel(
 
     }
 
-    private fun buildDrawerStateTree(parentComponent: Component): Component {
-
-        val splitComponent = SplitComponent(SplitComponent.DefaultConfig).apply {
-            setTopComponent(buildNestedDrawer())
-            setBottomComponent(
-                TopBarComponent(
-                    viewModelFactory = Demo3PageTopBarViewModelFactory(
-                        topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                        screenName = "Orders / Current",
-                        onDone = {}
-                    ),
-                    content = TopBarComponentDefaults.TopBarComponentView
-                )
-            )
-        }
+    private fun buildDrawerComponent(parentComponent: Component): Component {
 
         val navbarNavItems = mutableListOf(
             NavItem(
@@ -101,11 +86,6 @@ class AppViewModel(
                     ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 )
-            ),
-            NavItem(
-                label = "Nested Node",
-                icon = Icons.Filled.Email,
-                component = splitComponent
             )
         )
 
