@@ -8,7 +8,7 @@ Code is 99% reusable and available in all platforms.
 
 *-One image is worth a thousand words*
 
-<img width="700" alt="macao-sdk-arch" src="https://github.com/pablichjenkov/macao-sdk/assets/5303301/afddbe47-f3fc-47f1-b30a-572972a2ed72">
+<img width="700" alt="macao-sdk-arch" src="https://github.com/pablichjenkov/macao-sdk/assets/5303301/2f3b0d28-c3ab-42cd-9de0-094d373503c7">
 
 <img width="700" alt="macao-component-diagram" src="https://github.com/pablichjenkov/macao-sdk/assets/5303301/fe84be5a-c0a7-48f4-bfdc-79dbd7dbe30c">
 
