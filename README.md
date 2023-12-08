@@ -21,7 +21,7 @@ in the component-toolkit module.
 ```kotlin
 val commonMain by getting {
     dependencies {
-        implementation("io.github.pablichjenkov:component-toolkit:0.5.11")
+        implementation("io.github.pablichjenkov:component-toolkit:0.5.12")
     }
 }
 ```
