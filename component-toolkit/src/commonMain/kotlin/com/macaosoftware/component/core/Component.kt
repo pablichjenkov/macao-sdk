@@ -16,8 +16,6 @@ abstract class Component : ComponentLifecycle() {
     var id: String? = null
     var parentComponent: Component? = null
         private set
-    var isRoot = false
-        internal set
 
     fun setParent(parentComponent: Component) {
         if (this == parentComponent) throw IllegalArgumentException("A Component cannot be its own parent Component")

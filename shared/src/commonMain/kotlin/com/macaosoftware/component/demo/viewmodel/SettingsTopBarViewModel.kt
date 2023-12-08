@@ -6,6 +6,9 @@ import androidx.compose.ui.graphics.Color
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.clearBackStack
 import com.macaosoftware.component.core.push
+import com.macaosoftware.component.core.replaceTop
+import com.macaosoftware.component.core.stackSize
+import com.macaosoftware.component.core.top
 import com.macaosoftware.component.demo.SimpleComponent
 import com.macaosoftware.component.demo.SimpleResponseComponent
 import com.macaosoftware.component.topbar.TopBarComponent
@@ -20,20 +23,17 @@ class SettingsTopBarViewModel(
     onDone: () -> Unit
 ) : TopBarComponentViewModel(topBarComponent) {
 
-    private val settingsComponent = topBarComponent
-    private var currentComponent: Component? = null
-
     val Step1 = SimpleComponent(
         "$screenName/Page 1",
         Color.Yellow
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                settingsComponent.navigator.push(Step2)
+                topBarComponent.navigator.push(Step2)
             }
         }
     }.also {
-        it.setParent(settingsComponent)
+        it.setParent(topBarComponent)
         it.uriFragment = "Page 1"
     }
 
@@ -43,11 +43,11 @@ class SettingsTopBarViewModel(
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                settingsComponent.navigator.push(Step3)
+                topBarComponent.navigator.push(Step3)
             }
         }
     }.also {
-        it.setParent(settingsComponent)
+        it.setParent(topBarComponent)
         it.uriFragment = "Page 2"
     }
 
@@ -56,7 +56,7 @@ class SettingsTopBarViewModel(
             "$screenName/Page 3",
             Color.Cyan
         ).also {
-            it.setParent(settingsComponent)
+            it.setParent(topBarComponent)
             it.uriFragment = "Page 3"
         }
 
@@ -66,16 +66,14 @@ class SettingsTopBarViewModel(
 
     override fun onStart() {
         println("${topBarComponent.instanceId()}::SettingsTopBarViewModel::onStart()")
-        val shouldPushFirstChild: Boolean = if (currentComponent == null) {
-            true
-        } else if (topBarComponent.isFirstComponentInStackPreviousCache) {
-            currentComponent != Step1
-        } else false
 
-        if (shouldPushFirstChild) {
-            currentComponent = Step1
-            settingsComponent.navigator.clearBackStack()
-            settingsComponent.navigator.push(Step1)
+        val navigator = topBarComponent.navigator
+        val topComponent = navigator.top()
+        if (topComponent == null
+            || topBarComponent.backstackRecords.isTopComponentStaled
+        ) {
+            topBarComponent.navigator.replaceTop(Step1)
+            return
         }
     }
 
@@ -88,7 +86,6 @@ class SettingsTopBarViewModel(
     }
 
     override fun mapComponentToStackBarItem(topComponent: Component): TopBarItem {
-        currentComponent = topComponent
         return when (topComponent) {
             Step1 -> {
                 TopBarItem(
@@ -120,7 +117,7 @@ class SettingsTopBarViewModel(
     override fun onCheckChildForNextUriFragment(
         nextUriFragment: String
     ): Component? {
-        println("${settingsComponent.instanceId()}::getChildForNextUriFragment = $nextUriFragment")
+        println("${topBarComponent.instanceId()}::getChildForNextUriFragment = $nextUriFragment")
         return when (nextUriFragment) {
             Step1.uriFragment -> Step1
             Step2.uriFragment -> Step2
