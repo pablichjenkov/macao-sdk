@@ -176,14 +176,25 @@ Above API design gives a developer enough freedom to define whatever ViewModel c
 #### <a id="navigation-component"></a>Navigation Component
 Simple components or StateComponents are basically leaf nodes in the Component tree. They are made just for that, rendering a given state, but that is it.
 
-To make a full App you will need more sophisticated components. Components that allow to do things like navigation between components, data passing between components and things of this nature. 
-These components will form the actual component tree. A fundamental aspect of a node in a tree is to have children, so we need components that can hoist children components. The toolkit defines an interface just for that, `ComponentWithChildren`.
+However, to make a full App we will need more sophisticated components. Components that allow to do things like navigation between components, data passing between components and things of this nature. 
+A fundamental aspect of a node in a tree is to have children, so we need components that can hoist children components. The toolkit defines an interface just for that, `ComponentWithChildren`.
 
-`ComponentWithChildren` interface is the base to `NavigationComponent` interface which is implemented by many navigator Components. Most of the time you wont be implementing 
-`ComponentWithChildren` but `NavigationComponent` interface. The library will try to include the more popular navigation components anyways so you don't have to create a navigation component but 
-just styling the existing ones to your needs.
+`ComponentWithChildren` interface is the base of `ComponentWithBackStack` and `NavigationComponent` interfaces. Any Component interested in providing navigation should implement one of these interfaces.
+The `ComponentWithBackStack` contains a `navigator: Navigator` class that one can use to navigate between children components in a stack manner. See example bellow.
 
-The next code snippet shows how to instantiate a BottomNavigationComponent.
+```kotlin
+val childComponent = StateComponent<CustomStateViewModel>()
+
+val stackComponent = StackComponent<StackViewModel>(
+    viewModelFactory = StackViewModelFactory(),
+        content = StackComponentDefaults.DefaultStackComponentView
+    )
+
+stackComponent.navigator.push(childComponent)
+stackComponent.navigator.pop()
+```
+
+The toolkik provides the basic navigation components to build an App and provides an easy API to create any custom navigation component. The next code snippet shows how to instantiate a BottomNavigationComponent for instance.
 
 ```kotlin
 fun testBottomNavigationComponentCreation() {
