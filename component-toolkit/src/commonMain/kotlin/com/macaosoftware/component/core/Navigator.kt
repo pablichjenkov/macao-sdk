@@ -15,6 +15,10 @@ fun Navigator.popTo(
 
 fun Navigator.popToIndex(index: Int)  = backStack.popToIndex(index)
 
+fun Navigator.replaceTop(component: Component) = backStack.replaceTop(component)
+
+fun Navigator.top(): Component? = backStack.deque.lastOrNull()
+
 fun Navigator.canPop(): Boolean = backStack.size() > 1
 
 fun Navigator.stackSize() = backStack.size()

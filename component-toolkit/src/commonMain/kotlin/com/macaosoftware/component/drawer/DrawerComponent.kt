@@ -21,6 +21,7 @@ import com.macaosoftware.component.core.processBackstackEvent
 import com.macaosoftware.component.core.processBackstackTransition
 import com.macaosoftware.component.core.push
 import com.macaosoftware.component.core.resetNavigationComponent
+import com.macaosoftware.component.stack.BackstackRecords
 import com.macaosoftware.component.util.EmptyNavigationComponentView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -37,7 +38,7 @@ class DrawerComponent<out VM : DrawerComponentViewModel>(
     private val drawerStatePresenter = componentViewModel.drawerStatePresenter
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override val navigator = Navigator(backStack)
-    override var isFirstComponentInStackPreviousCache: Boolean = false
+    override val backstackRecords = BackstackRecords()
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()

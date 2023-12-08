@@ -4,8 +4,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Color
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.core.clearBackStack
 import com.macaosoftware.component.core.push
+import com.macaosoftware.component.core.replaceTop
+import com.macaosoftware.component.core.top
 import com.macaosoftware.component.demo.SimpleComponent
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentViewModel
@@ -19,16 +20,13 @@ class Demo3PageTopBarViewModel(
     onDone: () -> Unit,
 ) : TopBarComponentViewModel(topBarComponent) {
 
-    private val demo3PageComponent = topBarComponent
-    private var currentComponent: Component? = null
-
     val Step1 = SimpleComponent(
         "$screenName/Page 1",
         Color.Yellow
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                demo3PageComponent.navigator.push(Step2)
+                topBarComponent.navigator.push(Step2)
             }
         }
     }.also {
@@ -41,7 +39,7 @@ class Demo3PageTopBarViewModel(
     ) { msg ->
         when (msg) {
             SimpleComponent.Msg.Next -> {
-                demo3PageComponent.navigator.push(Step3)
+                topBarComponent.navigator.push(Step3)
             }
         }
     }.also {
@@ -64,22 +62,20 @@ class Demo3PageTopBarViewModel(
     override fun onAttach() {
         println("${topBarComponent.instanceId()}::Demo3PageTopBarViewModel::onAttach()")
         listOf(Step1, Step2, Step3).forEach {
-            it.setParent(demo3PageComponent)
+            it.setParent(topBarComponent)
         }
     }
 
     override fun onStart() {
         println("${topBarComponent.instanceId()}::Demo3PageTopBarViewModel::onStart()")
-        val shouldPushFirstChild: Boolean = if (currentComponent == null) {
-            true
-        } else if (topBarComponent.isFirstComponentInStackPreviousCache) {
-            currentComponent != Step1
-        } else false
 
-        if (shouldPushFirstChild) {
-            currentComponent = Step1
-            topBarComponent.navigator.clearBackStack()
-            topBarComponent.navigator.push(Step1)
+        val navigator = topBarComponent.navigator
+        val topComponent = navigator.top()
+        if (topComponent == null
+            || topBarComponent.backstackRecords.isTopComponentStaled
+        ) {
+            topBarComponent.navigator.replaceTop(Step1)
+            return
         }
     }
 

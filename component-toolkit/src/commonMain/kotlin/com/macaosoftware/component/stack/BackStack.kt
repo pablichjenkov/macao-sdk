@@ -77,6 +77,20 @@ class BackStack<T : Component>(
         return true
     }
 
+    /*
+    * Replace the current top with the new component or just push it to the top
+    * if the deque is empty
+    * */
+    fun replaceTop(component: T) {
+        if (deque.size == 0) {
+            pushStrategy.onPush(component, this)
+            return
+        }
+        val oldTop = deque.removeLast()
+        deque.addLast(component)
+        onStackPop(oldTop)
+    }
+
     internal fun onStackPush() {
         eventListener(Event.Push(deque))
     }

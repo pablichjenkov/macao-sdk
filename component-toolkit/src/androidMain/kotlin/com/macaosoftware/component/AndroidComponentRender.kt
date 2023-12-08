@@ -55,7 +55,6 @@ fun AndroidComponentRender(
         },
         initializeBlock = {
             rootComponent.dispatchAttach()
-            rootComponent.isRoot = true
             rootComponent.rootBackPressDelegate = updatedOnBackPressed
         }
     )
