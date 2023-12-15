@@ -1,9 +1,9 @@
 ### Component Toolkit
 A set of prefabricated components and platform API plug-ins to speedup the Compose Multiplatform Application development process. 
 The toolkit contains a variety of customizable navigation components such as `Drawer`, `BottomNavigation`, `Pager`, `Panel`,
-`Topbar`, `Stack` and many more. It also includes some predefined screens flows such as Authentication, Settings, Commerce and some data collection presenter screens. All them customizable from the server application.
+`Topbar`, `Stack` and many more. It also includes some predefined screens flows such as `Authentication`, `Settings`, `Commerce` and some `Data Collection` screens. All them customizable from the server application.
 <BR/>
-On the plug-in side it already has multiplatform implementations for GlobalBackPressDispatcher, PlatformLifecycle, Firebase, Notifications and many more to come.
+On the plug-in side it already has multiplatform implementations for `GlobalBackPressDispatcher`, `PlatformLifecycle`, `Firebase`, `Notifications` and many more to come.
 <BR/>
 Code is 99% reusable and available in all platforms.
 
