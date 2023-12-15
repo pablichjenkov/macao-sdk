@@ -15,7 +15,7 @@ import com.macaosoftware.component.core.deeplink.DeepLinkResult
 import com.macaosoftware.component.core.destroyChildComponent
 import com.macaosoftware.component.core.processBackstackEvent
 import com.macaosoftware.component.stack.BackStack
-import com.macaosoftware.component.stack.BackstackRecords
+import com.macaosoftware.component.stack.BackstackInfo
 import com.macaosoftware.component.stack.StackTransition
 import com.macaosoftware.component.util.EmptyNavigationComponentView
 
@@ -31,7 +31,7 @@ class TopBarComponent<out VM : TopBarComponentViewModel>(
     private val topBarStatePresenter = componentViewModel.topBarStatePresenter
     override val backStack = BackStack<Component>()
     override val navigator = Navigator(backStack)
-    override val backstackRecords = BackstackRecords()
+    override val backstackInfo = BackstackInfo()
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
     var lastBackstackEvent: BackStack.Event<Component>? = null
@@ -57,7 +57,7 @@ class TopBarComponent<out VM : TopBarComponentViewModel>(
         if (this.startedFromDeepLink) {
             return
         }
-        if (activeComponent.value != null && !backstackRecords.isTopComponentStaled) {
+        if (activeComponent.value != null && !backstackInfo.isTopComponentStaled) {
             activeComponent.value?.dispatchStart()
         }
         componentViewModel.dispatchStart()

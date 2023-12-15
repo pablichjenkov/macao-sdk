@@ -9,13 +9,13 @@ import com.macaosoftware.component.core.NavigationComponent
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.Navigator
 import com.macaosoftware.component.stack.BackStack
-import com.macaosoftware.component.stack.BackstackRecords
+import com.macaosoftware.component.stack.BackstackInfo
 
 internal class AdaptiveSizeStubNavComponent : Component(), NavigationComponent {
 
     override val backStack: BackStack<Component> = BackStack()
     override val navigator = Navigator(backStack)
-    override val backstackRecords = BackstackRecords()
+    override val backstackInfo = BackstackInfo()
     override var selectedIndex: Int = 0
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var childComponents: MutableList<Component> = mutableListOf()

@@ -4,10 +4,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Color
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.core.clearBackStack
 import com.macaosoftware.component.core.push
 import com.macaosoftware.component.core.replaceTop
-import com.macaosoftware.component.core.stackSize
 import com.macaosoftware.component.core.top
 import com.macaosoftware.component.demo.SimpleComponent
 import com.macaosoftware.component.demo.SimpleResponseComponent
@@ -70,7 +68,7 @@ class SettingsTopBarViewModel(
         val navigator = topBarComponent.navigator
         val topComponent = navigator.top()
         if (topComponent == null
-            || topBarComponent.backstackRecords.isTopComponentStaled
+            || topBarComponent.backstackInfo.isTopComponentStaled
         ) {
             topBarComponent.navigator.replaceTop(Step1)
             return

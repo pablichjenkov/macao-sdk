@@ -11,10 +11,9 @@ import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.NavigationComponent
 import com.macaosoftware.component.core.Navigator
 import com.macaosoftware.component.core.componentWithBackStackGetChildForNextUriFragment
-import com.macaosoftware.component.core.consumeBackPressedDefault
 import com.macaosoftware.component.core.deeplink.DeepLinkResult
 import com.macaosoftware.component.core.destroyChildComponent
-import com.macaosoftware.component.stack.BackstackRecords
+import com.macaosoftware.component.stack.BackstackInfo
 import com.macaosoftware.component.util.EmptyNavigationComponentView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancelChildren
@@ -39,7 +38,7 @@ class PagerComponent<out VM : PagerComponentViewModel>(
     val componentViewModel: PagerComponentViewModel = viewModelFactory.create(this)
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override val navigator = Navigator(backStack)
-    override val backstackRecords = BackstackRecords()
+    override val backstackInfo = BackstackInfo()
     override var navItems: MutableList<NavItem> = mutableListOf()
     override var selectedIndex: Int = 0
     override var childComponents: MutableList<Component> = mutableListOf()

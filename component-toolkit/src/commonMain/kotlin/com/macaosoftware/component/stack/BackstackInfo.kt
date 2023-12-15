@@ -1,6 +1,6 @@
 package com.macaosoftware.component.stack
 
-class BackstackRecords {
+class BackstackInfo {
     /*
     * When we pop the last element of the stack, we don't remove it from the stack
     * because doing so creates a bad visual effect. Instead, we leave the element in

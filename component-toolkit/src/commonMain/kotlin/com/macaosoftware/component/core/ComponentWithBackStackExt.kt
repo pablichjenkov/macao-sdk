@@ -10,7 +10,7 @@ internal fun ComponentWithBackStack.processBackstackEvent(
     return when (event) {
         is BackStack.Event.Push -> {
             println("${getComponent().instanceId()}::Event.Push")
-            backstackRecords.isTopComponentStaled = false
+            backstackInfo.isTopComponentStaled = false
             val stack = event.stack
             if (stack.size > 1) {
                 val newTop = stack[stack.lastIndex]
@@ -101,7 +101,7 @@ fun ComponentWithBackStack.consumeBackPressedDefault(): Boolean {
         backStack.pop()
         true
     } else {
-        backstackRecords.isTopComponentStaled = true
+        backstackInfo.isTopComponentStaled = true
         false
     }
 }
