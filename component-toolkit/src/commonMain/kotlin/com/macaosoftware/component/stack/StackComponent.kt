@@ -27,7 +27,7 @@ class StackComponent<out VM : StackComponentViewModel>(
     val stackStatePresenter = componentViewModel.stackStatePresenter
     override val backStack = BackStack<Component>()
     override val navigator = Navigator(backStack)
-    override val backstackRecords = BackstackRecords()
+    override val backstackInfo = BackstackInfo()
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(null)
     var lastBackstackEvent: BackStack.Event<Component>? = null
@@ -50,7 +50,7 @@ class StackComponent<out VM : StackComponentViewModel>(
         if (this.startedFromDeepLink) {
             return
         }
-        if (activeComponent.value != null && !backstackRecords.isTopComponentStaled) {
+        if (activeComponent.value != null && !backstackInfo.isTopComponentStaled) {
             activeComponent.value?.dispatchStart()
         }
         componentViewModel.dispatchStart()

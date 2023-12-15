@@ -72,7 +72,7 @@ class Demo3PageTopBarViewModel(
         val navigator = topBarComponent.navigator
         val topComponent = navigator.top()
         if (topComponent == null
-            || topBarComponent.backstackRecords.isTopComponentStaled
+            || topBarComponent.backstackInfo.isTopComponentStaled
         ) {
             topBarComponent.navigator.replaceTop(Step1)
             return
