@@ -36,6 +36,8 @@ import com.macaosoftware.component.pager.PagerComponentDefaults
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
 import com.macaosoftware.plugin.IosBridge
+import com.macaosoftware.util.elseIfNull
+import com.macaosoftware.util.ifNotNull
 
 @Composable
 fun DemoMainView(

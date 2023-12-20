@@ -1,4 +1,4 @@
-package com.macaosoftware.component.demo
+package com.macaosoftware.util
 
 inline fun <T> T?.ifNotNull(block: (T) -> Unit): T? {
     if (this != null) {
