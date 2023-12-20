@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -46,6 +45,8 @@ import com.macaosoftware.component.panel.PanelStatePresenterDefault
 import com.macaosoftware.component.panel.PanelStyle
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
+import com.macaosoftware.util.elseIfNull
+import com.macaosoftware.util.ifNotNull
 import kotlinx.coroutines.Dispatchers
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -129,55 +130,53 @@ fun DemoMainView(
 
     var rootComponent by remember { mutableStateOf<Component?>(null) }
 
-    MaterialTheme {
-        Box {
-            rootComponent.ifNotNull {
-                AndroidComponentRender(
-                    rootComponent = it,
-                    onBackPress = {
-                        if (rootComponent == null) {
-                            onBackPress.invoke()
-                        } else {
-                            rootComponent = null
-                        }
+    Box {
+        rootComponent.ifNotNull {
+            AndroidComponentRender(
+                rootComponent = it,
+                onBackPress = {
+                    if (rootComponent == null) {
+                        onBackPress.invoke()
+                    } else {
+                        rootComponent = null
                     }
-                )
-            }.elseIfNull {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                }
+            )
+        }.elseIfNull {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                LaunchButton(
+                    "Drawer Example"
                 ) {
-                    LaunchButton(
-                        "Drawer Example"
-                    ) {
-                        rootComponent = drawerComponent
-                    }
-                    LaunchButton(
-                        "Pager Example"
-                    ) {
-                        rootComponent = pagerComponent
-                    }
-                    LaunchButton(
-                        "Panel Example"
-                    ) {
-                        rootComponent = panelComponent
-                    }
-                    LaunchButton(
-                        "BottomBar Example"
-                    ) {
-                        rootComponent = bottomNavigationComponent
-                    }
-                    LaunchButton(
-                        "Adaptive Navigation Example"
-                    ) {
-                        rootComponent = adaptiveSizeComponent
-                    }
-                    LaunchButton(
-                        "Stack Navigation with Splash screen Example"
-                    ) {
-                        rootComponent = appComponent
-                    }
+                    rootComponent = drawerComponent
+                }
+                LaunchButton(
+                    "Pager Example"
+                ) {
+                    rootComponent = pagerComponent
+                }
+                LaunchButton(
+                    "Panel Example"
+                ) {
+                    rootComponent = panelComponent
+                }
+                LaunchButton(
+                    "BottomBar Example"
+                ) {
+                    rootComponent = bottomNavigationComponent
+                }
+                LaunchButton(
+                    "Adaptive Navigation Example"
+                ) {
+                    rootComponent = adaptiveSizeComponent
+                }
+                LaunchButton(
+                    "Stack Navigation with Splash screen Example"
+                ) {
+                    rootComponent = appComponent
                 }
             }
         }

@@ -47,6 +47,8 @@ import com.macaosoftware.component.panel.PanelStyle
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
 import com.macaosoftware.plugin.JsBridge
+import com.macaosoftware.util.elseIfNull
+import com.macaosoftware.util.ifNotNull
 import kotlinx.coroutines.Dispatchers
 
 @OptIn(ExperimentalFoundationApi::class)
