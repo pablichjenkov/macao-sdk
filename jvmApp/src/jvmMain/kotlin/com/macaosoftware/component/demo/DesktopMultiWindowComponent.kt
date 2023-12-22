@@ -6,14 +6,14 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Modifier
 import com.macaosoftware.component.core.Component
 
-class DesktopAppComponent : Component() {
+class DesktopMultiWindowComponent : Component() {
     private val activeComponents = mutableStateListOf<Component>()
 
     private val MainWindowNode = MainWindowComponent(
         onOpenDeepLinkClick = {
             openDeepLinkWindow()
         },
-        onRootNodeSelection = {
+        onMenuItemClick = {
             openWindow(it)
         },
         onExitClick = { exit() }

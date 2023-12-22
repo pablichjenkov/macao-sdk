@@ -12,7 +12,7 @@ class AppViewModelFactory(
 
     override fun create(
         stackComponent: StackComponent<AppViewModel>
-    ): StackComponentViewModel {
+    ): AppViewModel {
         return AppViewModel(
             stackComponent = stackComponent,
             stackStatePresenter = stackStatePresenter

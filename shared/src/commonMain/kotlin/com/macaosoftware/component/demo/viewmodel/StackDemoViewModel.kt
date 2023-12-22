@@ -1,34 +1,20 @@
-package com.macaosoftware.component.demo
+package com.macaosoftware.component.demo.viewmodel
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.macaosoftware.component.AndroidComponentRender
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
 import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDefaults
 import com.macaosoftware.component.bottomnavigation.BottomNavigationStatePresenterDefault
 import com.macaosoftware.component.bottomnavigation.BottomNavigationStyle
 import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.core.push
+import com.macaosoftware.component.demo.view.MainScreenView
+import com.macaosoftware.component.demo.view.DemoType
 import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.AppViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.DrawerDemoViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.factory.MainScreenViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.PagerDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.PanelDemoViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
@@ -45,23 +31,42 @@ import com.macaosoftware.component.panel.PanelStatePresenterDefault
 import com.macaosoftware.component.panel.PanelStyle
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
-import com.macaosoftware.util.elseIfNull
-import com.macaosoftware.util.ifNotNull
+import com.macaosoftware.component.stack.StackComponentViewModel
+import com.macaosoftware.component.stack.StackStatePresenter
+import com.macaosoftware.component.viewmodel.StateComponent
 import kotlinx.coroutines.Dispatchers
 
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun DemoMainView(
-    onBackPress: () -> Unit
-) {
+class StackDemoViewModel(
+    stackComponent: StackComponent<StackComponentViewModel>,
+    override val stackStatePresenter: StackStatePresenter,
+    onBackPress: () -> Boolean
+) : StackComponentViewModel(stackComponent) {
 
-    val adaptiveSizeComponent = remember {
+    private val mainScreenComponent = StateComponent<MainScreenViewModel>(
+        viewModelFactory = MainScreenViewModelFactory(
+            onItemSelected = {
+                val component = when (it) {
+                    DemoType.bottomNavigation -> bottomNavigationComponent
+                    DemoType.drawer -> drawerComponent
+                    DemoType.pager -> pagerComponent
+                    DemoType.panel -> panelComponent
+                    DemoType.adaptive -> adaptiveSizeComponent
+                    DemoType.coordinator -> appComponent
+                }
+                stackComponent.navigator.push(component)
+            },
+            onBackPress = onBackPress
+        ),
+        content = MainScreenView
+    )
+
+    val adaptiveSizeComponent =
         AdaptiveSizeComponent(
             AdaptiveSizeDemoViewModelFactory()
         )
-    }
 
-    val bottomNavigationComponent = remember {
+
+    val bottomNavigationComponent =
         BottomNavigationComponent(
             // pushStrategy = FixSizedPushStrategy(1), // Uncomment to test other push strategies
             viewModelFactory = BottomNavigationDemoViewModelFactory(
@@ -74,9 +79,9 @@ fun DemoMainView(
             ),
             content = BottomNavigationComponentDefaults.BottomNavigationComponentView
         )
-    }
 
-    val drawerComponent = remember {
+
+    val drawerComponent =
         DrawerComponent(
             viewModelFactory = DrawerDemoViewModelFactory(
                 drawerStatePresenter = DrawerStatePresenterDefault(
@@ -92,9 +97,14 @@ fun DemoMainView(
             ),
             content = DrawerComponentDefaults.DrawerComponentView
         )
-    }
 
-    val panelComponent = remember {
+    @OptIn(ExperimentalFoundationApi::class)
+    val pagerComponent = PagerComponent(
+        viewModelFactory = PagerDemoViewModelFactory(),
+        content = PagerComponentDefaults.PagerComponentView
+    )
+
+    val panelComponent =
         PanelComponent(
             viewModelFactory = PanelDemoViewModelFactory(
                 panelStatePresenter = PanelStatePresenterDefault(
@@ -110,90 +120,33 @@ fun DemoMainView(
             ),
             content = PanelComponentDefaults.PanelComponentView
         )
-    }
 
-    val appComponent = remember {
+    val appComponent =
         StackComponent(
             viewModelFactory = AppViewModelFactory(
                 stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
             ),
             content = StackComponentDefaults.DefaultStackComponentView
         )
+
+
+    override fun onStackTopUpdate(topComponent: Component) {
+
     }
 
-    val pagerComponent = remember {
-        PagerComponent(
-            viewModelFactory = PagerDemoViewModelFactory(),
-            content = PagerComponentDefaults.PagerComponentView
-        )
+    override fun onAttach() {
+        stackComponent.navigator.push(mainScreenComponent)
     }
 
-    var rootComponent by remember { mutableStateOf<Component?>(null) }
+    override fun onStart() {
 
-    Box {
-        rootComponent.ifNotNull {
-            AndroidComponentRender(
-                rootComponent = it,
-                onBackPress = {
-                    if (rootComponent == null) {
-                        onBackPress.invoke()
-                    } else {
-                        rootComponent = null
-                    }
-                }
-            )
-        }.elseIfNull {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                LaunchButton(
-                    "Drawer Example"
-                ) {
-                    rootComponent = drawerComponent
-                }
-                LaunchButton(
-                    "Pager Example"
-                ) {
-                    rootComponent = pagerComponent
-                }
-                LaunchButton(
-                    "Panel Example"
-                ) {
-                    rootComponent = panelComponent
-                }
-                LaunchButton(
-                    "BottomBar Example"
-                ) {
-                    rootComponent = bottomNavigationComponent
-                }
-                LaunchButton(
-                    "Adaptive Navigation Example"
-                ) {
-                    rootComponent = adaptiveSizeComponent
-                }
-                LaunchButton(
-                    "Stack Navigation with Splash screen Example"
-                ) {
-                    rootComponent = appComponent
-                }
-            }
-        }
     }
-}
 
-@Composable
-private fun LaunchButton(
-    text: String,
-    onClick: () -> Unit
-) {
-    Spacer(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(16.dp)
-    )
-    Button(onClick = onClick) {
-        Text(text)
+    override fun onStop() {
+
+    }
+
+    override fun onDetach() {
+
     }
 }

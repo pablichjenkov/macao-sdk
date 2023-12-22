@@ -14,12 +14,11 @@ import androidx.compose.ui.Modifier
 import com.macaosoftware.app.AndroidMacaoApplication
 import com.macaosoftware.app.MacaoApplicationState
 import com.macaosoftware.app.RootComponentProvider
-import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
-import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDefaults
-import com.macaosoftware.component.bottomnavigation.BottomNavigationStatePresenterDefault
-import com.macaosoftware.component.bottomnavigation.BottomNavigationStyle
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.StackDemoViewModel
+import com.macaosoftware.component.demo.viewmodel.factory.StackDemoViewModelFactory
+import com.macaosoftware.component.stack.StackComponent
+import com.macaosoftware.component.stack.StackComponentDefaults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 
@@ -30,21 +29,20 @@ class MainActivity : ComponentActivity() {
 
             delay(2000)
 
-            return BottomNavigationComponent(
-                // pushStrategy = FixSizedPushStrategy(1), // Uncomment to test other push strategies
-                viewModelFactory = BottomNavigationDemoViewModelFactory(
-                    bottomNavigationStatePresenter = BottomNavigationStatePresenterDefault(
-                        dispatcher = Dispatchers.Main,
-                        bottomNavigationStyle = BottomNavigationStyle(
-                            showLabel = true
-                        )
-                    )
+            return StackComponent<StackDemoViewModel>(
+                viewModelFactory = StackDemoViewModelFactory(
+                    stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
+                    onBackPress = {
+                        this@MainActivity.finish()
+                        true
+                    }
                 ),
-                content = BottomNavigationComponentDefaults.BottomNavigationComponentView
+                content = StackComponentDefaults.DefaultStackComponentView
             )
         }
 
     }
+
     private val macaoApplicationState = MacaoApplicationState(
         Dispatchers.IO,
         rootComponentProvider
@@ -65,7 +63,6 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 }
-                // DemoMainView(onBackPress = { finish() })
             }
         }
 

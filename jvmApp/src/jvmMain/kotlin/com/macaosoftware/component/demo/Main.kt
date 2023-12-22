@@ -6,10 +6,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.application
 
 fun main() = application {
-    val desktopAppComponent = remember(key1 = this) {
-        DesktopAppComponent()
+    val multiWindowComponent = remember(key1 = this) {
+        DesktopMultiWindowComponent()
     }
     MaterialTheme {
-        desktopAppComponent.Content(Modifier)
+        multiWindowComponent.Content(Modifier)
     }
 }
