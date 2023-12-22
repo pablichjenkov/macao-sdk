@@ -2,12 +2,17 @@ package com.macaosoftware.component.demo
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.ui.window.ComposeUIViewController
+import com.macaosoftware.app.IosMacaoApplication
+import com.macaosoftware.app.MacaoApplicationState
+import com.macaosoftware.app.RootComponentProvider
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.demo.viewmodel.StackDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.AppViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.DrawerDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.PagerDemoViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.factory.StackDemoViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.pager.PagerComponent
@@ -18,8 +23,12 @@ import com.macaosoftware.plugin.DefaultPlatformLifecyclePlugin
 import com.macaosoftware.plugin.IOSBridge2
 import com.macaosoftware.plugin.IosBridge
 import com.macaosoftware.plugin.PlatformLifecyclePlugin
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.delay
 import platform.Foundation.NSURL
 import platform.UIKit.UIViewController
+import platform.posix.exit
 
 fun buildDemoViewController(
     rootComponent: Component,
@@ -27,8 +36,38 @@ fun buildDemoViewController(
     iosBridge2: IOSBridge2 = IOSBridge2(test = NSURL(string = "https://google.com")),
     onBackPress: () -> Unit = {}
 ): UIViewController = ComposeUIViewController {
-    // IosComponentRender(rootComponent, iosBridge, onBackPress)
-    DemoMainView(iosBridge, onBackPress)
+
+    val rootComponentProvider = object : RootComponentProvider {
+        override suspend fun provideRootComponent(): Component {
+
+            delay(2000)
+
+            return StackComponent<StackDemoViewModel>(
+                viewModelFactory = StackDemoViewModelFactory(
+                    stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
+                    onBackPress = {
+                        exit(0)
+                        true
+                    }
+                ),
+                content = StackComponentDefaults.DefaultStackComponentView
+            )
+        }
+
+    }
+
+    val macaoApplicationState = MacaoApplicationState(
+        Dispatchers.IO,
+        rootComponentProvider
+    )
+
+    IosMacaoApplication(
+        iosBridge = iosBridge,
+        onBackPress = onBackPress,
+        macaoApplicationState = macaoApplicationState,
+        splashScreenContent = { SplashScreen() }
+    )
+
 }
 
 fun buildDrawerComponent(): Component {

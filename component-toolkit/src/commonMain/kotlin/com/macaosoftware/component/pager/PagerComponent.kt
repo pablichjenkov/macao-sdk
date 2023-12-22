@@ -35,7 +35,7 @@ class PagerComponent<out VM : PagerComponentViewModel>(
     ) -> Unit
 ) : Component(), NavigationComponent {
 
-    val componentViewModel: PagerComponentViewModel = viewModelFactory.create(this)
+    val componentViewModel: VM = viewModelFactory.create(this)
     override val backStack = createBackStack(componentViewModel.pushStrategy)
     override val navigator = Navigator(backStack)
     override val backstackInfo = BackstackInfo()

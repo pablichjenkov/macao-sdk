@@ -23,7 +23,7 @@ class StackComponent<out VM : StackComponentViewModel>(
     ) -> Unit
 ) : Component(), ComponentWithBackStack {
 
-    val componentViewModel = viewModelFactory.create(this)
+    val componentViewModel: VM = viewModelFactory.create(this)
     val stackStatePresenter = componentViewModel.stackStatePresenter
     override val backStack = BackStack<Component>()
     override val navigator = Navigator(backStack)
