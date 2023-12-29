@@ -13,13 +13,15 @@ import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import com.macaosoftware.app.JvmMacaoApplication
 import com.macaosoftware.app.MacaoApplicationState
+import com.macaosoftware.app.MacaoApplication
+import com.macaosoftware.app.PluginManager
 import com.macaosoftware.app.RootComponentProvider
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
+import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
 import com.macaosoftware.component.demo.viewmodel.StackDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
@@ -57,7 +59,7 @@ class MainWindowComponent(
     // endregion
 
     private val rootComponentProvider = object : RootComponentProvider {
-        override suspend fun provideRootComponent(): Component {
+        override suspend fun provideRootComponent(pluginManager: PluginManager): Component {
 
             delay(2000)
 
@@ -74,8 +76,9 @@ class MainWindowComponent(
     }
 
     private val macaoApplicationState = MacaoApplicationState(
-        Dispatchers.Default,
-        rootComponentProvider
+        dispatcher = Dispatchers.Default,
+        rootComponentProvider = rootComponentProvider,
+        pluginInitializer = DemoPluginInitializer()
     )
 
     @Composable
@@ -89,7 +92,7 @@ class MainWindowComponent(
                 onMenuItemClick = onMenuItemClick,
                 onExitClick = onExitClick
             )
-            JvmMacaoApplication(
+            MacaoApplication(
                 windowState = windowState,
                 desktopBridge = desktopBridge,
                 onBackPress = { exitProcess(0) },

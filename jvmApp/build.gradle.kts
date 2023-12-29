@@ -8,8 +8,10 @@ kotlin {
     sourceSets {
         jvmMain.dependencies {
             implementation(project(":shared"))
-            // implementation(project(":plugin-toolkit"))
-            implementation(project(":component-toolkit"))
+            implementation(project(":macao-sdk-koin"))
+            implementation(project(":macao-sdk-app"))
+            //implementation(project(":macao-sdk-koin"))
+            //implementation(project(":macao-sdk-app"))
             implementation(compose.desktop.common)
             implementation(compose.desktop.currentOs)
             implementation(compose.material3)

@@ -7,10 +7,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.CanvasBasedWindow
-import com.macaosoftware.app.BrowserMacaoApplication
+import com.macaosoftware.app.MacaoApplication
 import com.macaosoftware.app.MacaoApplicationState
+import com.macaosoftware.app.PluginManager
 import com.macaosoftware.app.RootComponentProvider
 import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
 import com.macaosoftware.component.demo.viewmodel.StackDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.StackDemoViewModelFactory
 import com.macaosoftware.component.stack.StackComponent
@@ -25,7 +27,9 @@ fun main() {
     onWasmReady {
 
         val rootComponentProvider = object : RootComponentProvider {
-            override suspend fun provideRootComponent(): Component {
+            override suspend fun provideRootComponent(
+                pluginManager: PluginManager
+            ): Component {
 
                 delay(2000)
 
@@ -40,12 +44,13 @@ fun main() {
         }
 
         val macaoApplicationState = MacaoApplicationState(
-            Dispatchers.Default,
-            rootComponentProvider
+            dispatcher = Dispatchers.Default,
+            rootComponentProvider = rootComponentProvider,
+            pluginInitializer = DemoPluginInitializer()
         )
 
         CanvasBasedWindow("Macao SDK Demo") {
-            BrowserMacaoApplication(
+            MacaoApplication(
                 jsBridge = JsBridge(),
                 onBackPress = {
                     println("Back press dispatched in root node")

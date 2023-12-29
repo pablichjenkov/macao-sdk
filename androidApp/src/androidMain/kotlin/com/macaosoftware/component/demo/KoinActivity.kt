@@ -11,24 +11,24 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.macaosoftware.app.MacaoApplication
-import com.macaosoftware.app.MacaoApplicationState
-import com.macaosoftware.app.PluginManager
-import com.macaosoftware.app.RootComponentProvider
+import com.macaosoftware.app.MacaoKoinApplication
+import com.macaosoftware.app.MacaoKoinApplicationState
+import com.macaosoftware.app.RootComponentKoinProvider
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
+import com.macaosoftware.component.demo.plugin.DemoKoinModuleInitializer
 import com.macaosoftware.component.demo.viewmodel.StackDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.StackDemoViewModelFactory
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import org.koin.core.component.KoinComponent
 
-class MainActivity : ComponentActivity() {
+class KoinActivity : ComponentActivity() {
 
-    private val rootComponentProvider = object : RootComponentProvider {
+    private val rootComponentKoinProvider = object : RootComponentKoinProvider {
         override suspend fun provideRootComponent(
-            pluginManager: PluginManager
+            koinComponent: KoinComponent
         ): Component {
 
             delay(2000)
@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                 viewModelFactory = StackDemoViewModelFactory(
                     stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
                     onBackPress = {
-                        this@MainActivity.finish()
+                        this@KoinActivity.finish()
                         true
                     }
                 ),
@@ -47,19 +47,19 @@ class MainActivity : ComponentActivity() {
 
     }
 
-    private val macaoApplicationState = MacaoApplicationState(
+    private val applicationState = MacaoKoinApplicationState(
         dispatcher = Dispatchers.IO,
-        rootComponentProvider = rootComponentProvider,
-        pluginInitializer = DemoPluginInitializer()
+        rootComponentKoinProvider = rootComponentKoinProvider,
+        koinModuleInitializer = DemoKoinModuleInitializer()
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme {
-                MacaoApplication(
+                MacaoKoinApplication(
                     onBackPress = { finish() },
-                    macaoApplicationState = macaoApplicationState
+                    applicationState = applicationState
                 ) {
                     Box(modifier = Modifier.fillMaxSize()) {
                         Text(

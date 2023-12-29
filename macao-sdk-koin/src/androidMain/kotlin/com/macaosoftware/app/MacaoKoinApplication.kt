@@ -1,28 +1,25 @@
 package com.macaosoftware.app
 
 import androidx.compose.runtime.Composable
-import com.macaosoftware.component.IosComponentRender
-import com.macaosoftware.plugin.IosBridge
+import com.macaosoftware.component.AndroidComponentRender
 import com.macaosoftware.util.elseIfNull
 import com.macaosoftware.util.ifNotNull
 
 @Composable
-fun IosMacaoApplication(
-    iosBridge: IosBridge,
+fun MacaoKoinApplication(
     onBackPress: () -> Unit,
-    macaoApplicationState: MacaoApplicationState,
+    applicationState: MacaoKoinApplicationState,
     splashScreenContent: @Composable () -> Unit
 ) {
 
-    val rootComponent = macaoApplicationState.rootComponentState.value
+    val rootComponent = applicationState.rootComponentState.value
     rootComponent.ifNotNull {
-        IosComponentRender(
+        AndroidComponentRender(
             rootComponent = it,
-            iosBridge = iosBridge,
             onBackPress = onBackPress
         )
     }.elseIfNull {
         splashScreenContent()
-        macaoApplicationState.fetchRootComponent()
+        applicationState.fetchRootComponent()
     }
 }

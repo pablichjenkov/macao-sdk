@@ -1,12 +1,14 @@
 package com.macaosoftware.app
 
 import androidx.compose.runtime.Composable
-import com.macaosoftware.component.AndroidComponentRender
+import com.macaosoftware.component.IosComponentRender
+import com.macaosoftware.plugin.IosBridge
 import com.macaosoftware.util.elseIfNull
 import com.macaosoftware.util.ifNotNull
 
 @Composable
-fun AndroidMacaoApplication(
+fun MacaoApplication(
+    iosBridge: IosBridge,
     onBackPress: () -> Unit,
     macaoApplicationState: MacaoApplicationState,
     splashScreenContent: @Composable () -> Unit
@@ -14,8 +16,9 @@ fun AndroidMacaoApplication(
 
     val rootComponent = macaoApplicationState.rootComponentState.value
     rootComponent.ifNotNull {
-        AndroidComponentRender(
+        IosComponentRender(
             rootComponent = it,
+            iosBridge = iosBridge,
             onBackPress = onBackPress
         )
     }.elseIfNull {

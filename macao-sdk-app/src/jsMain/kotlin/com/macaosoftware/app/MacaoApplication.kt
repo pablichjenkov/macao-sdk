@@ -7,7 +7,7 @@ import com.macaosoftware.util.elseIfNull
 import com.macaosoftware.util.ifNotNull
 
 @Composable
-fun BrowserMacaoApplication(
+fun MacaoApplication(
     jsBridge: JsBridge,
     onBackPress: () -> Unit,
     macaoApplicationState: MacaoApplicationState,
