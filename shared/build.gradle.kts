@@ -42,8 +42,8 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.ui)
             implementation(compose.material3)
-            // implementation(project(":plugin-toolkit"))
-            implementation(project(":component-toolkit"))
+            api(project(":macao-sdk-koin"))
+            api(project(":macao-sdk-app"))
             implementation("org.jetbrains.compose.components:components-resources:1.5.10")
         }
         commonTest.dependencies {

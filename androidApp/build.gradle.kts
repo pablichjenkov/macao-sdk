@@ -17,8 +17,8 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(project(":shared"))
-            // implementation(project(":plugin-toolkit"))
-            implementation(project(":component-toolkit"))
+            implementation(project(":macao-sdk-koin"))
+            implementation(project(":macao-sdk-app"))
             implementation(compose.material3)
             implementation("androidx.activity:activity-compose:1.8.1")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")

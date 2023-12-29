@@ -8,15 +8,15 @@ import com.macaosoftware.util.elseIfNull
 import com.macaosoftware.util.ifNotNull
 
 @Composable
-fun JvmMacaoApplication(
+fun MacaoKoinApplication(
     windowState: WindowState,
     desktopBridge: DesktopBridge,
     onBackPress: () -> Unit,
-    macaoApplicationState: MacaoApplicationState,
+    applicationState: MacaoKoinApplicationState,
     splashScreenContent: @Composable () -> Unit
 ) {
 
-    val rootComponent = macaoApplicationState.rootComponentState.value
+    val rootComponent = applicationState.rootComponentState.value
     rootComponent.ifNotNull {
         DesktopComponentRender(
             rootComponent = it,
@@ -26,6 +26,6 @@ fun JvmMacaoApplication(
         )
     }.elseIfNull {
         splashScreenContent()
-        macaoApplicationState.fetchRootComponent()
+        applicationState.fetchRootComponent()
     }
 }

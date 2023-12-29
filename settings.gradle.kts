@@ -1,6 +1,7 @@
 rootProject.name = "macao-sdk"
 include(":component-toolkit")
-// include(":plugin-toolkit")
+include(":macao-sdk-koin")
+include(":macao-sdk-app")
 include(":shared")
 include(":androidApp")
 include(":jsApp")

@@ -2,14 +2,14 @@ package com.macaosoftware.app
 
 import androidx.compose.runtime.mutableStateOf
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.plugin.PluginManager
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class MacaoApplicationState(
     dispatcher: CoroutineDispatcher,
-    val rootComponentProvider: RootComponentProvider
+    val rootComponentProvider: RootComponentProvider,
+    pluginInitializer: PluginInitializer
 ) {
     val coroutineScope = CoroutineScope(dispatcher)
 
@@ -17,9 +17,13 @@ class MacaoApplicationState(
 
     val pluginManager = PluginManager()
 
+    init {
+        pluginInitializer.initialize(pluginManager)
+    }
+
     fun fetchRootComponent() {
         coroutineScope.launch {
-            rootComponentState.value = rootComponentProvider.provideRootComponent()
+            rootComponentState.value = rootComponentProvider.provideRootComponent(pluginManager)
         }
     }
 }

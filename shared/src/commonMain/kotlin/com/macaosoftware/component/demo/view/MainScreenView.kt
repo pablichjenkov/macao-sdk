@@ -19,12 +19,12 @@ import com.macaosoftware.component.viewmodel.StateComponent
 val MainScreenView: @Composable StateComponent<MainScreenViewModel>.(
     modifier: Modifier,
     componentViewModel: MainScreenViewModel
-) -> Unit = { modifier, componentViewModel ->
+) -> Unit = { modifier, mainScreenViewModel ->
 
     BackPressHandler()
     DemoSelection(
         onClick = {
-            componentViewModel.onClick(it)
+            mainScreenViewModel.onClick(it)
         }
     )
 }
