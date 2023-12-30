@@ -13,6 +13,7 @@ import com.macaosoftware.app.PluginManager
 import com.macaosoftware.app.RootComponentProvider
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
+import com.macaosoftware.component.demo.view.SplashScreen
 import com.macaosoftware.component.demo.viewmodel.StackDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.StackDemoViewModelFactory
 import com.macaosoftware.component.stack.StackComponent
@@ -55,16 +56,9 @@ fun main() {
                 onBackPress = {
                     println("Back press dispatched in root node")
                 },
-                macaoApplicationState = macaoApplicationState
-            ) {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    Text(
-                        modifier = Modifier.align(Alignment.Center),
-                        text = "Example of Browser Splash Screen"
-                    )
-                }
-            }
+                macaoApplicationState = macaoApplicationState,
+                splashScreenContent = { SplashScreen() }
+            )
         }
-
     }
 }
