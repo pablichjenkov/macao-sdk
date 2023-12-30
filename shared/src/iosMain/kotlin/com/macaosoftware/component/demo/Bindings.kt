@@ -13,6 +13,7 @@ import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.plugin.DemoKoinModuleInitializer
 import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
+import com.macaosoftware.component.demo.view.SplashScreen
 import com.macaosoftware.component.demo.viewmodel.StackDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.AppViewModelFactory

@@ -22,6 +22,7 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
 import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
+import com.macaosoftware.component.demo.view.SplashScreen
 import com.macaosoftware.component.demo.viewmodel.StackDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
@@ -96,21 +97,10 @@ class MainWindowComponent(
                 windowState = windowState,
                 desktopBridge = desktopBridge,
                 onBackPress = { exitProcess(0) },
-                macaoApplicationState = macaoApplicationState
-            ) {
-                SplashScreen()
-            }
+                macaoApplicationState = macaoApplicationState,
+                splashScreenContent = { SplashScreen() }
+            )
         }
-    }
-}
-
-@Composable
-private fun SplashScreen() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Text(
-            modifier = Modifier.align(Alignment.Center),
-            text = "Example of JVM Splash Screen"
-        )
     }
 }
 

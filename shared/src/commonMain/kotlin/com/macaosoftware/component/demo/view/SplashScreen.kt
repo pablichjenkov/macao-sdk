@@ -1,4 +1,4 @@
-package com.macaosoftware.component.demo
+package com.macaosoftware.component.demo.view
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +12,7 @@ fun SplashScreen() {
     Box(modifier = Modifier.fillMaxSize()) {
         Text(
             modifier = Modifier.align(Alignment.Center),
-            text = "Example of iOS Splash Screen"
+            text = "Example of Splash Screen"
         )
     }
 }

@@ -16,6 +16,7 @@ import com.macaosoftware.app.MacaoKoinApplicationState
 import com.macaosoftware.app.RootComponentKoinProvider
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.plugin.DemoKoinModuleInitializer
+import com.macaosoftware.component.demo.view.SplashScreen
 import com.macaosoftware.component.demo.viewmodel.StackDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.StackDemoViewModelFactory
 import com.macaosoftware.component.stack.StackComponent
@@ -59,15 +60,9 @@ class KoinActivity : ComponentActivity() {
             MaterialTheme {
                 MacaoKoinApplication(
                     onBackPress = { finish() },
-                    applicationState = applicationState
-                ) {
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        Text(
-                            modifier = Modifier.align(Alignment.Center),
-                            text = "Example of Android Splash Screen"
-                        )
-                    }
-                }
+                    applicationState = applicationState,
+                    splashScreenContent = { SplashScreen() }
+                )
             }
         }
 

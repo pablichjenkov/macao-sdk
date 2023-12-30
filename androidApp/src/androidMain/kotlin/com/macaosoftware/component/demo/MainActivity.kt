@@ -5,18 +5,14 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import com.macaosoftware.app.MacaoApplication
 import com.macaosoftware.app.MacaoApplicationState
 import com.macaosoftware.app.PluginManager
 import com.macaosoftware.app.RootComponentProvider
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
+import com.macaosoftware.component.demo.view.SplashScreen
 import com.macaosoftware.component.demo.viewmodel.StackDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.StackDemoViewModelFactory
 import com.macaosoftware.component.stack.StackComponent
@@ -59,15 +55,9 @@ class MainActivity : ComponentActivity() {
             MaterialTheme {
                 MacaoApplication(
                     onBackPress = { finish() },
-                    macaoApplicationState = macaoApplicationState
-                ) {
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        Text(
-                            modifier = Modifier.align(Alignment.Center),
-                            text = "Example of Android Splash Screen"
-                        )
-                    }
-                }
+                    macaoApplicationState = macaoApplicationState,
+                    splashScreenContent = { SplashScreen() }
+                )
             }
         }
 
