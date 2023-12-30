@@ -2,11 +2,17 @@ package com.macaosoftware.component.demo
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.ui.window.ComposeUIViewController
-import com.macaosoftware.app.IosMacaoApplication
+import com.macaosoftware.app.MacaoApplication
 import com.macaosoftware.app.MacaoApplicationState
+import com.macaosoftware.app.MacaoKoinApplication
+import com.macaosoftware.app.MacaoKoinApplicationState
+import com.macaosoftware.app.PluginManager
+import com.macaosoftware.app.RootComponentKoinProvider
 import com.macaosoftware.app.RootComponentProvider
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
+import com.macaosoftware.component.demo.plugin.DemoKoinModuleInitializer
+import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
 import com.macaosoftware.component.demo.viewmodel.StackDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.AppViewModelFactory
@@ -26,6 +32,7 @@ import com.macaosoftware.plugin.PlatformLifecyclePlugin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
+import org.koin.core.component.KoinComponent
 import platform.Foundation.NSURL
 import platform.UIKit.UIViewController
 import platform.posix.exit
@@ -38,7 +45,9 @@ fun buildDemoViewController(
 ): UIViewController = ComposeUIViewController {
 
     val rootComponentProvider = object : RootComponentProvider {
-        override suspend fun provideRootComponent(): Component {
+        override suspend fun provideRootComponent(
+            pluginManager: PluginManager
+        ): Component {
 
             delay(2000)
 
@@ -57,17 +66,59 @@ fun buildDemoViewController(
     }
 
     val macaoApplicationState = MacaoApplicationState(
-        Dispatchers.IO,
-        rootComponentProvider
+        dispatcher = Dispatchers.IO,
+        rootComponentProvider = rootComponentProvider,
+        pluginInitializer = DemoPluginInitializer()
     )
 
-    IosMacaoApplication(
+    MacaoApplication(
         iosBridge = iosBridge,
         onBackPress = onBackPress,
         macaoApplicationState = macaoApplicationState,
         splashScreenContent = { SplashScreen() }
     )
+}
 
+fun buildKoinDemoViewController(
+    rootComponent: Component,
+    iosBridge: IosBridge,
+    iosBridge2: IOSBridge2 = IOSBridge2(test = NSURL(string = "https://google.com")),
+    onBackPress: () -> Unit = {}
+): UIViewController = ComposeUIViewController {
+
+    val rootComponentKoinProvider = object : RootComponentKoinProvider {
+        override suspend fun provideRootComponent(
+            koinComponent: KoinComponent
+        ): Component {
+
+            delay(2000)
+
+            return StackComponent<StackDemoViewModel>(
+                viewModelFactory = StackDemoViewModelFactory(
+                    stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
+                    onBackPress = {
+                        exit(0)
+                        true
+                    }
+                ),
+                content = StackComponentDefaults.DefaultStackComponentView
+            )
+        }
+
+    }
+
+    val applicationState = MacaoKoinApplicationState(
+        dispatcher = Dispatchers.IO,
+        rootComponentKoinProvider = rootComponentKoinProvider,
+        koinModuleInitializer = DemoKoinModuleInitializer()
+    )
+
+    MacaoKoinApplication(
+        iosBridge = iosBridge,
+        onBackPress = onBackPress,
+        applicationState = applicationState,
+        splashScreenContent = { SplashScreen() }
+    )
 }
 
 fun buildDrawerComponent(): Component {
