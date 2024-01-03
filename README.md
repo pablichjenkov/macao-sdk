@@ -22,7 +22,11 @@ in the component-toolkit module.
 ```kotlin
 val commonMain by getting {
     dependencies {
-        implementation("io.github.pablichjenkov:component-toolkit:0.5.13")
+        // The basic components and plugins API
+        implementation("io.github.pablichjenkov:component-toolkit:0.5.16")
+
+        // An extension of the component package using koin as DI container.
+        implementation("io.github.pablichjenkov:macao-sdk-di-koin:0.5.16")
     }
 }
 ```
