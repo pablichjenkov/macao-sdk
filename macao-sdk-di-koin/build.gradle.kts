@@ -92,7 +92,9 @@ tasks.withType<AbstractPublishToMaven>().configureEach {
 }
 
 kotlin {
-    androidTarget()
+    androidTarget {
+        publishLibraryVariants("release")
+    }
     
     listOf(
         iosX64(),

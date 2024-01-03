@@ -8,4 +8,3 @@ class DemoPluginInitializer : PluginInitializer {
     override fun initialize(pluginManager: PluginManager) {
     }
 }
-
