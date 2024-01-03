@@ -1,9 +1,8 @@
 package com.macaosoftware.app
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import com.macaosoftware.component.AndroidComponentRender
-import com.macaosoftware.util.elseIfNull
-import com.macaosoftware.util.ifNotNull
 
 @Composable
 fun MacaoKoinApplication(
@@ -12,14 +11,22 @@ fun MacaoKoinApplication(
     splashScreenContent: @Composable () -> Unit
 ) {
 
-    val rootComponent = applicationState.rootComponentState.value
-    rootComponent.ifNotNull {
-        AndroidComponentRender(
-            rootComponent = it,
-            onBackPress = onBackPress
-        )
-    }.elseIfNull {
-        splashScreenContent()
-        applicationState.fetchRootComponent()
+    when (val stage = applicationState.stage.value) {
+        Stage.Created -> {
+            SideEffect {
+                applicationState.start()
+            }
+        }
+
+        is Stage.Started -> {
+            AndroidComponentRender(
+                rootComponent = stage.rootComponent,
+                onBackPress = onBackPress
+            )
+        }
+
+        Stage.Starting -> {
+            splashScreenContent()
+        }
     }
 }
