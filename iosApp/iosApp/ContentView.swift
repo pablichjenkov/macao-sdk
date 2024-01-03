@@ -6,19 +6,13 @@ struct ComposeView : UIViewControllerRepresentable {
     var iosBridge: IosBridge
 
     func makeUIViewController(context: Context) -> UIViewController {
-        // let drawerComponent = BindingsKt.buildDrawerComponent()
-        let adaptiveComponent = BindingsKt.buildAdaptableSizeComponent()
-        // let pagerComponent = BindingsKt.buildPagerComponent()
-        
         
         let test = IosBridge2(
             test: NSURL.fileURL(withPath: "https://google.com")
         )
         
-        let mainViewController = BindingsKt.buildDemoViewController(
-            rootComponent: adaptiveComponent,
+        let mainViewController = BindingsKt.buildKoinDemoViewController(
             iosBridge: iosBridge,
-            iosBridge2: test,
             onBackPress: {
                 exit(0)
             }

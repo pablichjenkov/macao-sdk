@@ -39,7 +39,6 @@ import platform.UIKit.UIViewController
 import platform.posix.exit
 
 fun buildDemoViewController(
-    rootComponent: Component,
     iosBridge: IosBridge,
     iosBridge2: IOSBridge2 = IOSBridge2(test = NSURL(string = "https://google.com")),
     onBackPress: () -> Unit = {}
@@ -81,9 +80,7 @@ fun buildDemoViewController(
 }
 
 fun buildKoinDemoViewController(
-    rootComponent: Component,
     iosBridge: IosBridge,
-    iosBridge2: IOSBridge2 = IOSBridge2(test = NSURL(string = "https://google.com")),
     onBackPress: () -> Unit = {}
 ): UIViewController = ComposeUIViewController {
 
@@ -122,7 +119,7 @@ fun buildKoinDemoViewController(
     )
 }
 
-fun buildDrawerComponent(): Component {
+private fun buildDrawerComponent(): Component {
     return DrawerComponent(
         viewModelFactory = DrawerDemoViewModelFactory(
             DrawerComponentDefaults.createDrawerStatePresenter()
@@ -132,18 +129,18 @@ fun buildDrawerComponent(): Component {
 }
 
 @OptIn(ExperimentalFoundationApi::class)
-fun buildPagerComponent(): Component {
+private fun buildPagerComponent(): Component {
     return PagerComponent(
         viewModelFactory = PagerDemoViewModelFactory(),
         content = PagerComponentDefaults.PagerComponentView
     )
 }
 
-fun buildAdaptableSizeComponent(): Component {
+private fun buildAdaptableSizeComponent(): Component {
     return AdaptiveSizeComponent(AdaptiveSizeDemoViewModelFactory())
 }
 
-fun buildAppWithIntroComponent(): Component {
+private fun buildAppWithIntroComponent(): Component {
     return StackComponent(
         viewModelFactory = AppViewModelFactory(
             stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
