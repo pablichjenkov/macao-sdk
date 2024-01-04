@@ -26,8 +26,8 @@ val commonMain by getting {
         // application architecture already and you just want to use some plugin implementations.
         implementation("io.github.pablichjenkov:component-toolkit:0.5.16")
 
-        // A full compose application architecture package with delegates to set the desired
-        // plugins and components.
+        // A full compose application architecture package with Koin as dependency injection
+        // container. It also has an application class with delegates to set the desired plugins.
         implementation("io.github.pablichjenkov:macao-sdk-di-koin:0.5.16")
     }
 }
