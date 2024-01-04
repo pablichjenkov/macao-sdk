@@ -22,10 +22,12 @@ in the component-toolkit module.
 ```kotlin
 val commonMain by getting {
     dependencies {
-        // The basic components and plugins API
+        // The basic components and plugins API. Use it if you have an
+        // application architecture already and you just want to use some plugin implementations.
         implementation("io.github.pablichjenkov:component-toolkit:0.5.16")
 
-        // An extension of the component package using koin as DI container.
+        // A full compose application architecture package with delegates to set the desired
+        // plugins and components.
         implementation("io.github.pablichjenkov:macao-sdk-di-koin:0.5.16")
     }
 }
