@@ -8,44 +8,15 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import com.macaosoftware.app.MacaoApplication
 import com.macaosoftware.app.MacaoApplicationState
-import com.macaosoftware.app.PluginManager
-import com.macaosoftware.app.RootComponentProvider
-import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
 import com.macaosoftware.component.demo.view.SplashScreen
-import com.macaosoftware.component.demo.viewmodel.StackDemoViewModel
-import com.macaosoftware.component.demo.viewmodel.factory.StackDemoViewModelFactory
-import com.macaosoftware.component.stack.StackComponent
-import com.macaosoftware.component.stack.StackComponentDefaults
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
 
-    private val rootComponentProvider = object : RootComponentProvider {
-        override suspend fun provideRootComponent(
-            pluginManager: PluginManager
-        ): Component {
-
-            delay(2000)
-
-            return StackComponent<StackDemoViewModel>(
-                viewModelFactory = StackDemoViewModelFactory(
-                    stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
-                    onBackPress = {
-                        this@MainActivity.finish()
-                        true
-                    }
-                ),
-                content = StackComponentDefaults.DefaultStackComponentView
-            )
-        }
-
-    }
-
     private val macaoApplicationState = MacaoApplicationState(
         dispatcher = Dispatchers.IO,
-        rootComponentProvider = rootComponentProvider,
+        rootComponentProvider = AndroidRootComponentProvider(this),
         pluginInitializer = DemoPluginInitializer()
     )
 

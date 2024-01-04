@@ -7,7 +7,6 @@ import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDef
 import com.macaosoftware.component.bottomnavigation.BottomNavigationStatePresenterDefault
 import com.macaosoftware.component.bottomnavigation.BottomNavigationStyle
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.core.push
 import com.macaosoftware.component.demo.view.MainScreenView
 import com.macaosoftware.component.demo.view.DemoType
 import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
@@ -63,7 +62,9 @@ class StackDemoViewModel(
     val adaptiveSizeComponent =
         AdaptiveSizeComponent(
             AdaptiveSizeDemoViewModelFactory()
-        )
+        ).also {
+            it.uriFragment = "_navigator_adaptive"
+        }
 
 
     val bottomNavigationComponent =

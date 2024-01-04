@@ -4,10 +4,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Color
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.core.push
-import com.macaosoftware.component.core.replaceTop
-import com.macaosoftware.component.core.stackSize
-import com.macaosoftware.component.core.top
 import com.macaosoftware.component.demo.SimpleComponent
 import com.macaosoftware.component.demo.SimpleRequestComponent
 import com.macaosoftware.component.topbar.TopBarComponent

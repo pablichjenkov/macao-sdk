@@ -27,26 +27,9 @@ import org.jetbrains.skiko.wasm.onWasmReady
 fun main() {
     onWasmReady {
 
-        val rootComponentProvider = object : RootComponentProvider {
-            override suspend fun provideRootComponent(
-                pluginManager: PluginManager
-            ): Component {
-
-                delay(2000)
-
-                return StackComponent<StackDemoViewModel>(
-                    viewModelFactory = StackDemoViewModelFactory(
-                        stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
-                        onBackPress = { true }
-                    ),
-                    content = StackComponentDefaults.DefaultStackComponentView
-                )
-            }
-        }
-
         val macaoApplicationState = MacaoApplicationState(
             dispatcher = Dispatchers.Default,
-            rootComponentProvider = rootComponentProvider,
+            rootComponentProvider = BrowserRootComponentProvider(),
             pluginInitializer = DemoPluginInitializer()
         )
 

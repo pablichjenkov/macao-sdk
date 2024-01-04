@@ -98,7 +98,7 @@ class SimpleRequestComponent(
                              * in order to activate the complete path up to the component which the
                              * message is intended to.
                              * */
-                            path = listOf("_navigator_adaptive", "*", "Settings", "Page 3"),
+                            path = listOf("_root_navigator_stack", "_navigator_adaptive", "*", "Settings", "Page 3"),
                             resultListener = { result  ->
                                 println("$screenName deeplink result: $result")
                                 if (result is DeepLinkResult.Success) {
