@@ -6,7 +6,6 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.NavItem
-import com.macaosoftware.component.core.push
 import com.macaosoftware.component.core.setNavItems
 import com.macaosoftware.component.demo.SplashComponent
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory

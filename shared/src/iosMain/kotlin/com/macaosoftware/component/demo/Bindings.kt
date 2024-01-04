@@ -6,20 +6,15 @@ import com.macaosoftware.app.MacaoApplication
 import com.macaosoftware.app.MacaoApplicationState
 import com.macaosoftware.app.MacaoKoinApplication
 import com.macaosoftware.app.MacaoKoinApplicationState
-import com.macaosoftware.app.PluginManager
-import com.macaosoftware.app.RootComponentKoinProvider
-import com.macaosoftware.app.RootComponentProvider
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.plugin.DemoKoinModuleInitializer
 import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
 import com.macaosoftware.component.demo.view.SplashScreen
-import com.macaosoftware.component.demo.viewmodel.StackDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.AppViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.DrawerDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.PagerDemoViewModelFactory
-import com.macaosoftware.component.demo.viewmodel.factory.StackDemoViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.pager.PagerComponent
@@ -32,11 +27,8 @@ import com.macaosoftware.plugin.IosBridge
 import com.macaosoftware.plugin.PlatformLifecyclePlugin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.delay
-import org.koin.core.component.KoinComponent
 import platform.Foundation.NSURL
 import platform.UIKit.UIViewController
-import platform.posix.exit
 
 fun buildDemoViewController(
     iosBridge: IosBridge,
@@ -44,30 +36,9 @@ fun buildDemoViewController(
     onBackPress: () -> Unit = {}
 ): UIViewController = ComposeUIViewController {
 
-    val rootComponentProvider = object : RootComponentProvider {
-        override suspend fun provideRootComponent(
-            pluginManager: PluginManager
-        ): Component {
-
-            delay(2000)
-
-            return StackComponent<StackDemoViewModel>(
-                viewModelFactory = StackDemoViewModelFactory(
-                    stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
-                    onBackPress = {
-                        exit(0)
-                        true
-                    }
-                ),
-                content = StackComponentDefaults.DefaultStackComponentView
-            )
-        }
-
-    }
-
     val macaoApplicationState = MacaoApplicationState(
         dispatcher = Dispatchers.IO,
-        rootComponentProvider = rootComponentProvider,
+        rootComponentProvider = IosRootComponentProvider(),
         pluginInitializer = DemoPluginInitializer()
     )
 
@@ -84,30 +55,9 @@ fun buildKoinDemoViewController(
     onBackPress: () -> Unit = {}
 ): UIViewController = ComposeUIViewController {
 
-    val rootComponentKoinProvider = object : RootComponentKoinProvider {
-        override suspend fun provideRootComponent(
-            koinComponent: KoinComponent
-        ): Component {
-
-            delay(2000)
-
-            return StackComponent<StackDemoViewModel>(
-                viewModelFactory = StackDemoViewModelFactory(
-                    stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
-                    onBackPress = {
-                        exit(0)
-                        true
-                    }
-                ),
-                content = StackComponentDefaults.DefaultStackComponentView
-            )
-        }
-
-    }
-
     val applicationState = MacaoKoinApplicationState(
         dispatcher = Dispatchers.IO,
-        rootComponentKoinProvider = rootComponentKoinProvider,
+        rootComponentKoinProvider = IosRootComponentKoinProvider(),
         koinModuleInitializer = DemoKoinModuleInitializer()
     )
 

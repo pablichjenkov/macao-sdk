@@ -18,7 +18,6 @@ import com.macaosoftware.component.core.destroyChildComponent
 import com.macaosoftware.component.core.getNavItemFromComponent
 import com.macaosoftware.component.core.processBackstackEvent
 import com.macaosoftware.component.core.processBackstackTransition
-import com.macaosoftware.component.core.push
 import com.macaosoftware.component.core.resetNavigationComponent
 import com.macaosoftware.component.stack.BackstackInfo
 import com.macaosoftware.component.util.EmptyNavigationComponentView

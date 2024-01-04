@@ -1,11 +1,7 @@
 package com.macaosoftware.component.demo
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -13,27 +9,20 @@ import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import com.macaosoftware.app.MacaoApplicationState
 import com.macaosoftware.app.MacaoApplication
-import com.macaosoftware.app.PluginManager
-import com.macaosoftware.app.RootComponentProvider
+import com.macaosoftware.app.MacaoApplicationState
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
 import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
 import com.macaosoftware.component.demo.view.SplashScreen
-import com.macaosoftware.component.demo.viewmodel.StackDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
-import com.macaosoftware.component.demo.viewmodel.factory.StackDemoViewModelFactory
-import com.macaosoftware.component.stack.StackComponent
-import com.macaosoftware.component.stack.StackComponentDefaults
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 import com.macaosoftware.plugin.DesktopBridge
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlin.system.exitProcess
 
 class MainWindowComponent(
@@ -59,26 +48,9 @@ class MainWindowComponent(
 
     // endregion
 
-    private val rootComponentProvider = object : RootComponentProvider {
-        override suspend fun provideRootComponent(pluginManager: PluginManager): Component {
-
-            delay(2000)
-
-            return StackComponent<StackDemoViewModel>(
-                viewModelFactory = StackDemoViewModelFactory(
-                    stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
-                    onBackPress = {
-                        exitProcess(0)
-                    }
-                ),
-                content = StackComponentDefaults.DefaultStackComponentView
-            )
-        }
-    }
-
     private val macaoApplicationState = MacaoApplicationState(
         dispatcher = Dispatchers.Default,
-        rootComponentProvider = rootComponentProvider,
+        rootComponentProvider = JvmRootComponentProvider(),
         pluginInitializer = DemoPluginInitializer()
     )
 
