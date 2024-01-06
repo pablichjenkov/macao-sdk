@@ -1,6 +1,5 @@
 package com.macaosoftware.component.pager
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,7 +16,6 @@ import kotlinx.coroutines.launch
 
 object PagerComponentDefaults {
 
-    @OptIn(ExperimentalFoundationApi::class)
     val PagerComponentView: @Composable PagerComponent<PagerComponentViewModel>.(
         modifier: Modifier,
         pagerState: PagerState,

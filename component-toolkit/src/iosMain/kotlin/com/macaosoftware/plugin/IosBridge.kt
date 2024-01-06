@@ -1,9 +1,9 @@
 package com.macaosoftware.plugin
 
-import kotlin.experimental.ExperimentalObjCName
+import com.macaosoftware.plugin.account.AccountPlugin
 
-@OptIn(ExperimentalObjCName::class)
 @ObjCName(name = "IosBridge", exact = true)
 class IosBridge(
-    var platformLifecyclePlugin: PlatformLifecyclePlugin
+    val platformLifecyclePlugin: PlatformLifecyclePlugin,
+    val accountPlugin: AccountPlugin
 )

@@ -1,6 +1,5 @@
 package com.macaosoftware.component.demo
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -79,7 +78,6 @@ fun DemoMainView(
         )
     }
 
-    @OptIn(ExperimentalFoundationApi::class)
     val pagerComponent = remember {
         PagerComponent(
             viewModelFactory = PagerDemoViewModelFactory(),

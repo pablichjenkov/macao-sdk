@@ -1,6 +1,5 @@
 package com.macaosoftware.component.pager
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.*
@@ -25,7 +24,6 @@ import kotlinx.coroutines.launch
  * The PagerComponent keeps 3 started children components at the same time. It is necessary
  * as a warmup so the next Component.Content is started already when the user swipe.
  * */
-@OptIn(ExperimentalFoundationApi::class)
 class PagerComponent<out VM : PagerComponentViewModel>(
     viewModelFactory: PagerComponentViewModelFactory<VM>,
     private var content: @Composable PagerComponent<VM>.(
