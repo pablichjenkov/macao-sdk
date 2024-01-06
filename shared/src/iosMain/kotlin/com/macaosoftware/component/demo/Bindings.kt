@@ -1,6 +1,5 @@
 package com.macaosoftware.component.demo
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.ui.window.ComposeUIViewController
 import com.macaosoftware.app.MacaoApplication
 import com.macaosoftware.app.MacaoApplicationState
@@ -22,17 +21,14 @@ import com.macaosoftware.component.pager.PagerComponentDefaults
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
 import com.macaosoftware.plugin.DefaultPlatformLifecyclePlugin
-import com.macaosoftware.plugin.IOSBridge2
 import com.macaosoftware.plugin.IosBridge
 import com.macaosoftware.plugin.PlatformLifecyclePlugin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import platform.Foundation.NSURL
 import platform.UIKit.UIViewController
 
 fun buildDemoViewController(
     iosBridge: IosBridge,
-    iosBridge2: IOSBridge2 = IOSBridge2(test = NSURL(string = "https://google.com")),
     onBackPress: () -> Unit = {}
 ): UIViewController = ComposeUIViewController {
 
@@ -78,7 +74,6 @@ private fun buildDrawerComponent(): Component {
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 private fun buildPagerComponent(): Component {
     return PagerComponent(
         viewModelFactory = PagerDemoViewModelFactory(),

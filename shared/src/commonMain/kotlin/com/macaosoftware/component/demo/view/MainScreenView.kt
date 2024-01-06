@@ -23,6 +23,7 @@ val MainScreenView: @Composable StateComponent<MainScreenViewModel>.(
 
     BackPressHandler()
     DemoSelection(
+        modifier = modifier,
         onClick = {
             mainScreenViewModel.onClick(it)
         }
@@ -31,6 +32,7 @@ val MainScreenView: @Composable StateComponent<MainScreenViewModel>.(
 
 @Composable
 private fun DemoSelection(
+    modifier: Modifier,
     onClick: (DemoType) -> Unit
 ) {
     Column(

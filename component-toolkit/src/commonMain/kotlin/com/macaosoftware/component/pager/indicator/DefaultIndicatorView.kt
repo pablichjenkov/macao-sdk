@@ -1,6 +1,5 @@
 package com.macaosoftware.component.pager.indicator
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -37,7 +36,6 @@ import com.macaosoftware.component.pager.IndicatorOrientation
  * @param orientation determines whether items should be aligned horizontally or vertically
  * @param onClick action that should be taken when any indicator items are touched
  */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DefaultPagerIndicator(
     modifier: Modifier = Modifier,

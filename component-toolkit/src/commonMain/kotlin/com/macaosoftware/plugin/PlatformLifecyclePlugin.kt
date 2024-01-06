@@ -1,9 +1,7 @@
 package com.macaosoftware.plugin
 
-import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
-@OptIn(ExperimentalObjCName::class)
 @ObjCName("AppLifecycleDispatcher", exact = true)
 interface PlatformLifecyclePlugin {
     fun subscribe(appLifecycleCallback: AppLifecycleCallback)
@@ -11,7 +9,6 @@ interface PlatformLifecyclePlugin {
     fun dispatchAppLifecycleEvent(appLifecycleEvent: AppLifecycleEvent)
 }
 
-@OptIn(ExperimentalObjCName::class)
 @ObjCName("AppLifecycleEvent", exact = true)
 enum class AppLifecycleEvent {
     // @ObjCName("Start"), if not used is exported as start
@@ -24,7 +21,6 @@ interface AppLifecycleCallback {
     fun onEvent(appLifecycleEvent: AppLifecycleEvent)
 }
 
-@OptIn(ExperimentalObjCName::class)
 @ObjCName(name = "DefaultAppLifecycleDispatcher", exact = true)
 class DefaultPlatformLifecyclePlugin : PlatformLifecyclePlugin {
 

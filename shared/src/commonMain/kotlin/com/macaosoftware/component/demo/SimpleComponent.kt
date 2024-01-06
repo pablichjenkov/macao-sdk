@@ -30,7 +30,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
@@ -95,7 +94,6 @@ class SimpleComponent(
 
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SignUpForm(
     onSignIn: () -> Unit,
@@ -249,7 +247,7 @@ fun TermsAndConditions() {
     val annotatedString = buildAnnotatedString {
         append(fullText)
         val start = fullText.indexOf(clickableText)
-        val end = start + clickableText.length
+        // val end = start + clickableText.length
 
         addStyle(
             style = SpanStyle(

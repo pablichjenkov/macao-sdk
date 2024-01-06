@@ -1,6 +1,5 @@
 package com.macaosoftware.component.demo.viewmodel
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
 import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDefaults
@@ -99,7 +98,6 @@ class StackDemoViewModel(
             content = DrawerComponentDefaults.DrawerComponentView
         )
 
-    @OptIn(ExperimentalFoundationApi::class)
     val pagerComponent = PagerComponent(
         viewModelFactory = PagerDemoViewModelFactory(),
         content = PagerComponentDefaults.PagerComponentView

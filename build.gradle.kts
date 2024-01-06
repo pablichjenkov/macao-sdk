@@ -10,3 +10,21 @@ plugins {
     id("org.jetbrains.compose") apply false
     id("org.jetbrains.dokka") apply false
 }
+
+allprojects {
+    afterEvaluate {
+        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
+            compilerOptions {
+                with(optIn) {
+                    add("kotlin.experimental.ExperimentalObjCName")
+                    add("androidx.compose.ui.ExperimentalComposeUiApi")
+                    add("androidx.compose.material3.ExperimentalMaterial3Api")
+                    add("androidx.compose.foundation.layout.ExperimentalLayoutApi")
+                    add("org.jetbrains.compose.resources.ExperimentalResourceApi")
+                    add("kotlinx.serialization.ExperimentalSerializationApi")
+                    add("androidx.compose.foundation.ExperimentalFoundationApi")
+                }
+            }
+        }
+    }
+}
