@@ -33,11 +33,11 @@ import com.macaosoftware.component.util.FloatingBackButton
 import com.macaosoftware.component.core.Component
 import kotlinx.coroutines.launch
 
-private val PredictiveBackAreaWidth = 100
-private val PredictiveBackDragWidth = 50
+private const val PredictiveBackAreaWidth = 100
+private const val PredictiveBackDragWidth = 50
 
 @Composable
-fun StackCustomPredictiveBack(
+fun StackWithCustomPredictiveBackView(
     modifier: Modifier,
     childComponent: Component?,
     prevChildComponent: Component?,

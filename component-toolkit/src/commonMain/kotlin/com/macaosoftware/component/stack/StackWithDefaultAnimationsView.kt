@@ -11,7 +11,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.macaosoftware.component.core.Component
 
 @Composable
-fun StackSystemPredictiveBack(
+fun StackWithDefaultAnimationsView(
     modifier: Modifier,
     childComponent: Component?,
     animationType: AnimationType

@@ -14,14 +14,14 @@ object StackComponentDefaults {
     val DefaultStackComponentView: @Composable StackComponent<StackComponentViewModel>.(
         modifier: Modifier,
         activeChildComponent: Component
-    ) -> Unit = { modifier, activeChildComponent ->
+    ) -> Unit = { modifier, _ ->
         Box {
-            PredictiveBackstackView(
+            StackView(
                 modifier = modifier,
-                predictiveComponent = activeChildComponent,
                 backStack = backStack,
                 lastBackstackEvent = lastBackstackEvent,
-                onComponentSwipedOut = {}
+                onComponentSwipedOut = {},
+                useCustomPredictiveBack = false
             )
         }
     }
