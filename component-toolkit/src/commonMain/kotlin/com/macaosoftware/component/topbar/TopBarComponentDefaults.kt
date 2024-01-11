@@ -25,6 +25,7 @@ object TopBarComponentDefaults {
                 TopBar(componentViewModel.topBarStatePresenter)
             }
         ) { paddingValues ->
+            println("TopBarComponent::${instanceId()} composing")
             PredictiveBackstackView(
                 predictiveComponent = activeChildComponent,
                 modifier = modifier.padding(paddingValues),

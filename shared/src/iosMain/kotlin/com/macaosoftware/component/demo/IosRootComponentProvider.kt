@@ -27,7 +27,7 @@ class IosRootComponentProvider : RootComponentProvider {
             ),
             content = StackComponentDefaults.DefaultStackComponentView
         ).also {
-            it.uriFragment = "_root_navigator_stack"
+            it.deepLinkPathSegment = "_root_navigator_stack"
         }
     }
 }

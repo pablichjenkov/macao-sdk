@@ -25,8 +25,8 @@ class DefaultDeepLinkManager: DeepLinkManager {
             return
         }
 
-        val uriFragment = deepLinkMsg.path[0]
-        val match = component.uriFragment == uriFragment
+        val deepLinkPathSegment = deepLinkMsg.path[0]
+        val match = component.deepLinkPathSegment == deepLinkPathSegment
 
         if (match) {
             if (deepLinkMsg.path.size == 1) {
@@ -34,12 +34,12 @@ class DefaultDeepLinkManager: DeepLinkManager {
                 return
             }
 
-            val nextUriFragment = deepLinkMsg.path[1]
-            val nextComponent = component.getChildForNextUriFragment(nextUriFragment)
+            val nextDeepLinkPathSegment = deepLinkMsg.path[1]
+            val nextComponent = component.getChildForNextUriFragment(nextDeepLinkPathSegment)
             if (nextComponent == null) {
                 deepLinkMsg.resultListener.invoke(
                     DeepLinkResult.Error(
-                        "Component: ${component.instanceId()} does not have any child that handle uri fragment = $nextUriFragment"
+                        "Component: ${component.instanceId()} does not have any child that handle path segment = $nextDeepLinkPathSegment"
                     )
                 )
                 return
@@ -60,7 +60,7 @@ class DefaultDeepLinkManager: DeepLinkManager {
         } else {
             deepLinkMsg.resultListener.invoke(
                 DeepLinkResult.Error(
-                    "Component: ${component.instanceId()} does not handle DeepLink fragment = $uriFragment."
+                    "Component: ${component.instanceId()} does not handle DeepLinkPathSegment = $deepLinkPathSegment."
                 )
             )
         }

@@ -8,7 +8,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.ComponentWithBackStack
-import com.macaosoftware.component.core.Navigator
 import com.macaosoftware.component.core.TopBarComponentNavigator
 import com.macaosoftware.component.core.componentWithBackStackOnDeepLinkNavigateTo
 import com.macaosoftware.component.core.consumeBackPressedDefault
@@ -175,9 +174,9 @@ class TopBarComponent<out VM : TopBarComponentViewModel>(
     }
 
     override fun getChildForNextUriFragment(
-        nextUriFragment: String
+        deepLinkPathSegment: String
     ): Component? {
-        return componentViewModel.onCheckChildForNextUriFragment(nextUriFragment)
+        return componentViewModel.onCheckChildForNextUriFragment(deepLinkPathSegment)
     }
 
     override fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {

@@ -39,7 +39,7 @@ class AdaptiveSizeDemoViewModel(
     private var subTreeNavItems: MutableList<NavItem>? = null
 
     override fun onAttach() {
-        adaptiveSizeComponent.uriFragment = "_navigator_adaptive"
+        adaptiveSizeComponent.deepLinkPathSegment = "_navigator_adaptive"
         val navItems = getOrCreateDetachedNavItems()
         adaptiveSizeComponent.setNavItems(navItems, 0)
         adaptiveSizeComponent.setCompactContainer(
@@ -123,7 +123,7 @@ class AdaptiveSizeDemoViewModel(
                     ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 ).apply {
-                    uriFragment = "Current"
+                    deepLinkPathSegment = "Current"
                 }
             ),
             NavItem(
@@ -137,7 +137,7 @@ class AdaptiveSizeDemoViewModel(
                     ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 ).apply {
-                    uriFragment = "Past"
+                    deepLinkPathSegment = "Past"
                 }
             ),
             NavItem(
@@ -151,7 +151,7 @@ class AdaptiveSizeDemoViewModel(
                     ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 ).apply {
-                    uriFragment = "Claim"
+                    deepLinkPathSegment = "Claim"
                 }
             )
         )
@@ -162,7 +162,7 @@ class AdaptiveSizeDemoViewModel(
             ),
             content = BottomNavigationComponentDefaults.BottomNavigationComponentView
         ).apply {
-            uriFragment = "Orders"
+            deepLinkPathSegment = "Orders"
         }
 
         bottomNavigationComponent.setNavItems(navbarNavItems, 0)
@@ -175,7 +175,7 @@ class AdaptiveSizeDemoViewModel(
             ),
             content = TopBarComponentDefaults.TopBarComponentView
         ).apply {
-            uriFragment = "Home"
+            deepLinkPathSegment = "Home"
         }
 
         val settingsComponent = TopBarComponent(
@@ -186,7 +186,7 @@ class AdaptiveSizeDemoViewModel(
             ),
             content = TopBarComponentDefaults.TopBarComponentView
         ).apply {
-            uriFragment = "Settings"
+            deepLinkPathSegment = "Settings"
         }
 
         val navItems = mutableListOf(

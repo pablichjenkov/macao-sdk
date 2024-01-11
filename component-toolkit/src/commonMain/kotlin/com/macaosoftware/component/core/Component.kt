@@ -135,10 +135,10 @@ abstract class Component : ComponentLifecycle() {
     internal var deepLinkNavigationAwaitsStartedState = false
     internal var awaitingDeepLinkMsg: DeepLinkMsg? = null
     var startedFromDeepLink = false
-    var uriFragment: String? = null
+    var deepLinkPathSegment: String? = null
 
     open fun getChildForNextUriFragment(
-        nextUriFragment: String
+        deepLinkPathSegment: String
     ): Component? {
         println("${instanceId()}::getChildForNextUriFragment() has been called but the function is not override in this class")
         return null
