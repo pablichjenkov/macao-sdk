@@ -12,6 +12,6 @@ abstract class TopBarComponentViewModel(
 
     abstract fun mapComponentToStackBarItem(topComponent: Component): TopBarItem
     abstract fun onCheckChildForNextUriFragment(
-        nextUriFragment: String
+        deepLinkPathSegment: String
     ): Component?
 }

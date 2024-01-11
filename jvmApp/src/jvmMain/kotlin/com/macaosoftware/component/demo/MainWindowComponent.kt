@@ -146,7 +146,7 @@ fun MainWindowComponentPreview() {
         ),
         content = TopBarComponentDefaults.TopBarComponentView
     ).apply {
-        uriFragment = "Orders"
+        deepLinkPathSegment = "Orders"
     }
     topbarComponent.dispatchStart()
     topbarComponent.Content(Modifier)

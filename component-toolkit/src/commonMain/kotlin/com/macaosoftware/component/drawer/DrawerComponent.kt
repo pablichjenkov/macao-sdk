@@ -142,8 +142,8 @@ class DrawerComponent<out VM : DrawerComponentViewModel>(
 
     // region: DeepLink
 
-    override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
-        return componentWithBackStackGetChildForNextUriFragment(nextUriFragment)
+    override fun getChildForNextUriFragment(deepLinkPathSegment: String): Component? {
+        return componentWithBackStackGetChildForNextUriFragment(deepLinkPathSegment)
     }
 
     override fun onDeepLinkNavigateTo(matchingComponent: Component): DeepLinkResult {

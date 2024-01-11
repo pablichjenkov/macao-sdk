@@ -43,7 +43,7 @@ class AppViewModel(
         ),
         content = TopBarComponentDefaults.TopBarComponentView
     ).apply {
-        uriFragment = "Onboard"
+        deepLinkPathSegment = "Onboard"
     }
 
     private val splashComponent = SplashComponent {

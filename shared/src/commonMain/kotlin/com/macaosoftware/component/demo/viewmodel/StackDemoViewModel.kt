@@ -62,7 +62,7 @@ class StackDemoViewModel(
         AdaptiveSizeComponent(
             AdaptiveSizeDemoViewModelFactory()
         ).also {
-            it.uriFragment = "_navigator_adaptive"
+            it.deepLinkPathSegment = "_navigator_adaptive"
         }
 
 

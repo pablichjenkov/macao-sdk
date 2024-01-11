@@ -29,7 +29,7 @@ class HomeTopBarViewModel(
         }
     }.also {
         it.setParent(topBarComponent)
-        it.uriFragment = "Page 1"
+        it.deepLinkPathSegment = "Page 1"
     }
 
     val Step2 = SimpleComponent(
@@ -43,7 +43,7 @@ class HomeTopBarViewModel(
         }
     }.also {
         it.setParent(topBarComponent)
-        it.uriFragment = "Page 2"
+        it.deepLinkPathSegment = "Page 2"
     }
 
     val Step3 =
@@ -52,7 +52,7 @@ class HomeTopBarViewModel(
             Color.Cyan
         ).also {
             it.setParent(topBarComponent)
-            it.uriFragment = "Page 3"
+            it.deepLinkPathSegment = "Page 3"
         }
 
     override fun onAttach() {
@@ -71,6 +71,7 @@ class HomeTopBarViewModel(
         val stackSize = navigator.stackSize()
         if (stackSize == 1 && topComponent != Step1) {
             topBarComponent.navigator.replaceTop(Step1)
+            topBarComponent.lastBackstackEvent = null
             return
         }
     }
@@ -112,12 +113,12 @@ class HomeTopBarViewModel(
         }
     }
 
-    override fun onCheckChildForNextUriFragment(nextUriFragment: String): Component? {
-        println("${topBarComponent.instanceId()}::getChildForNextUriFragment = $nextUriFragment")
-        return when (nextUriFragment) {
-            Step1.uriFragment -> Step1
-            Step2.uriFragment -> Step2
-            Step3.uriFragment -> Step3
+    override fun onCheckChildForNextUriFragment(deepLinkPathSegment: String): Component? {
+        println("${topBarComponent.instanceId()}::getChildForNextUriFragment = $deepLinkPathSegment")
+        return when (deepLinkPathSegment) {
+            Step1.deepLinkPathSegment -> Step1
+            Step2.deepLinkPathSegment -> Step2
+            Step3.deepLinkPathSegment -> Step3
             else -> null
         }
     }

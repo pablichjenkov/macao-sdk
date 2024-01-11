@@ -14,9 +14,7 @@
                 "target": "ComponentDemo",
             },
             "configuration": "Debug",
-            "destination": "Pablo’s iPhone",
+            "destination": "Test iPhone",
         },
-        
-        
     ]
 }

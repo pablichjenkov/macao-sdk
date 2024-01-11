@@ -14,6 +14,8 @@ fun PredictiveBackstackView(
     onComponentSwipedOut: () -> Unit
 ) {
 
+    println("PredictiveBackstackView, backStackSize = ${backStack.size()}, lastBackstackEvent = ${lastBackstackEvent}")
+
     val animationType = when (lastBackstackEvent) {
         is BackStack.Event.Pop -> {
             if (backStack.size() > 0)

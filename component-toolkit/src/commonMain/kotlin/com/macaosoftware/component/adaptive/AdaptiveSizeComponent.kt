@@ -89,9 +89,9 @@ class AdaptiveSizeComponent<out VM : AdaptiveSizeComponentViewModel>(
         componentViewModel.dispatchDetach()
     }
 
-    override fun getChildForNextUriFragment(nextUriFragment: String): Component? {
+    override fun getChildForNextUriFragment(deepLinkPathSegment: String): Component? {
         val nextComponent = currentNavComponent.value.getComponent()
-        nextComponent.uriFragment = nextUriFragment
+        nextComponent.deepLinkPathSegment = deepLinkPathSegment
         return nextComponent
     }
 

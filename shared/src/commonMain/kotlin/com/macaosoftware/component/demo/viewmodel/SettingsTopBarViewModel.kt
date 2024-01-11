@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Color
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.SimpleComponent
 import com.macaosoftware.component.demo.SimpleResponseComponent
+import com.macaosoftware.component.stack.BackStack
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentViewModel
 import com.macaosoftware.component.topbar.TopBarItem
@@ -29,7 +30,7 @@ class SettingsTopBarViewModel(
         }
     }.also {
         it.setParent(topBarComponent)
-        it.uriFragment = "Page 1"
+        it.deepLinkPathSegment = "Page 1"
     }
 
     val Step2 = SimpleComponent(
@@ -43,7 +44,7 @@ class SettingsTopBarViewModel(
         }
     }.also {
         it.setParent(topBarComponent)
-        it.uriFragment = "Page 2"
+        it.deepLinkPathSegment = "Page 2"
     }
 
     val Step3 =
@@ -52,7 +53,7 @@ class SettingsTopBarViewModel(
             Color.Cyan
         ).also {
             it.setParent(topBarComponent)
-            it.uriFragment = "Page 3"
+            it.deepLinkPathSegment = "Page 3"
         }
 
     override fun onAttach() {
@@ -68,6 +69,7 @@ class SettingsTopBarViewModel(
             || topBarComponent.backstackInfo.isTopComponentStaled
         ) {
             topBarComponent.navigator.replaceTop(Step1)
+            topBarComponent.lastBackstackEvent = null
             return
         }
     }
@@ -110,13 +112,13 @@ class SettingsTopBarViewModel(
     }
 
     override fun onCheckChildForNextUriFragment(
-        nextUriFragment: String
+        deepLinkPathSegment: String
     ): Component? {
-        println("${topBarComponent.instanceId()}::getChildForNextUriFragment = $nextUriFragment")
-        return when (nextUriFragment) {
-            Step1.uriFragment -> Step1
-            Step2.uriFragment -> Step2
-            Step3.uriFragment -> Step3
+        println("${topBarComponent.instanceId()}::getChildForNextUriFragment = $deepLinkPathSegment")
+        return when (deepLinkPathSegment) {
+            Step1.deepLinkPathSegment -> Step1
+            Step2.deepLinkPathSegment -> Step2
+            Step3.deepLinkPathSegment -> Step3
             else -> null
         }
     }

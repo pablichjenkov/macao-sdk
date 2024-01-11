@@ -84,12 +84,12 @@ fun ComponentWithBackStack.componentWithBackStackOnDeepLinkNavigateTo(
     return DeepLinkResult.Success(matchingComponent)
 }
 
-fun ComponentWithBackStack.componentWithBackStackGetChildForNextUriFragment(nextUriFragment: String): Component? {
-    println("${getComponent().instanceId()}.getChildForNextUriFragment() nextUriFragment = $nextUriFragment")
+fun ComponentWithBackStack.componentWithBackStackGetChildForNextUriFragment(nextDeepLinkPathSegment: String): Component? {
+    println("${getComponent().instanceId()}.getChildForNextDeepLinkPathSegment() nextDeepLinkPathSegment = $nextDeepLinkPathSegment")
     childComponents.forEach {
-        println("${getComponent().instanceId()}::child.uriFragment = ${it.uriFragment}")
-        val isUriFragmentMatch = it.uriFragment == nextUriFragment
-        if (isUriFragmentMatch) {
+        println("${getComponent().instanceId()}::child.deepLinkPathSegment = ${it.deepLinkPathSegment}")
+        val isDeepLinkPathSegmentMatch = it.deepLinkPathSegment == nextDeepLinkPathSegment
+        if (isDeepLinkPathSegmentMatch) {
             return it
         }
     }
