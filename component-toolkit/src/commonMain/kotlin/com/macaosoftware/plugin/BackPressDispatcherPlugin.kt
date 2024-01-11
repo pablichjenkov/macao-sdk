@@ -3,7 +3,6 @@ package com.macaosoftware.plugin
 interface BackPressDispatcherPlugin {
     fun subscribe(backPressedCallback: BackPressedCallback)
     fun unsubscribe(backPressedCallback: BackPressedCallback)
-    fun isSystemBackButtonEnabled(): Boolean
     fun dispatchBackPressed()
 }
 
@@ -22,10 +21,6 @@ class DefaultBackPressDispatcherPlugin : BackPressDispatcherPlugin {
         onBackPressedCallbacks.remove(
             BackPressedCallbackProxy(backPressedCallback, true)
         )
-    }
-
-    override fun isSystemBackButtonEnabled(): Boolean {
-        return true
     }
 
     override fun dispatchBackPressed() {

@@ -3,18 +3,17 @@ package com.macaosoftware.component.stack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.util.LocalBackPressedDispatcher
 
 @Composable
-fun PredictiveBackstackView(
+fun StackView(
     modifier: Modifier,
-    predictiveComponent: Component,
     backStack: BackStack<Component>,
     lastBackstackEvent: BackStack.Event<Component>?,
-    onComponentSwipedOut: () -> Unit
+    onComponentSwipedOut: () -> Unit,
+    useCustomPredictiveBack: Boolean = false
 ) {
-
-    println("PredictiveBackstackView, backStackSize = ${backStack.size()}, lastBackstackEvent = ${lastBackstackEvent}")
+    val backStackSize = backStack.size()
+    println("StackView, backStackSize = $backStackSize, lastBackstackEvent = $lastBackstackEvent")
 
     val animationType = when (lastBackstackEvent) {
         is BackStack.Event.Pop -> {
@@ -40,19 +39,19 @@ fun PredictiveBackstackView(
         null -> AnimationType.Enter
     }
 
-    val prevComponent = if (backStack.size() > 1) {
-        backStack.deque[backStack.size() - 2]
+    val topChildComponent = backStack.deque[backStackSize - 1]
+
+    val prevComponent = if (backStackSize > 1) {
+        backStack.deque[backStackSize - 2]
     } else {
         null
     }
 
-    when (LocalBackPressedDispatcher.current.isSystemBackButtonEnabled()) {
+    when (useCustomPredictiveBack) {
         true -> {
-            // Except Android, (and when the traditional 3 button navigation is enabled),
-            // all the platforms will fall in to this case.
-            StackCustomPredictiveBack(
+            StackWithCustomPredictiveBackView(
                 modifier = modifier,
-                childComponent = predictiveComponent,
+                childComponent = topChildComponent,
                 prevChildComponent = prevComponent,
                 animationType = animationType,
                 onComponentSwipedOut = onComponentSwipedOut
@@ -60,12 +59,9 @@ fun PredictiveBackstackView(
         }
 
         false -> {
-            // In Android, ff the traditional back button is enabled then we use our custom
-            // predictive back. Otherwise, if the user has gesture navigation enabled, we let the
-            // system gesture takes care of the App.
-            StackSystemPredictiveBack(
+            StackWithDefaultAnimationsView(
                 modifier = modifier,
-                childComponent = predictiveComponent,
+                childComponent = topChildComponent,
                 animationType = animationType
             )
         }
