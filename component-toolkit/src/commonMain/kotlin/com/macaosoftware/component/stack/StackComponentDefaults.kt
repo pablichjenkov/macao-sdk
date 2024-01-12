@@ -21,7 +21,7 @@ object StackComponentDefaults {
                 backStack = backStack,
                 lastBackstackEvent = lastBackstackEvent,
                 onComponentSwipedOut = {},
-                useCustomPredictiveBack = false
+                stackViewAnimations = StackViewAnimations.Default
             )
         }
     }

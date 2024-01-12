@@ -5,6 +5,7 @@ import com.macaosoftware.util.MacaoError
 import com.macaosoftware.util.MacaoResult
 import kotlin.native.ObjCName
 
+@ObjCName(name = "AccountPlugin", exact = true)
 interface AccountPlugin : MacaoPlugin {
     suspend fun initialize(): Boolean
     suspend fun createUserWithEmailAndPassword(signUpRequest: SignUpRequest): MacaoResult<MacaoUser>

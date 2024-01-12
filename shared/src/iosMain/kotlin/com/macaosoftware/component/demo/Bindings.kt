@@ -1,6 +1,7 @@
 package com.macaosoftware.component.demo
 
 import androidx.compose.ui.window.ComposeUIViewController
+import com.macaosoftware.ComponentToolkitBinder
 import com.macaosoftware.app.MacaoApplication
 import com.macaosoftware.app.MacaoApplicationState
 import com.macaosoftware.app.MacaoKoinApplication
@@ -23,6 +24,8 @@ import com.macaosoftware.component.stack.StackComponentDefaults
 import com.macaosoftware.plugin.DefaultPlatformLifecyclePlugin
 import com.macaosoftware.plugin.IosBridge
 import com.macaosoftware.plugin.PlatformLifecyclePlugin
+import com.macaosoftware.plugin.account.AccountPlugin
+import com.macaosoftware.plugin.account.AccountPluginEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import platform.UIKit.UIViewController
@@ -94,6 +97,10 @@ private fun buildAppWithIntroComponent(): Component {
     )
 }
 
-fun createDefaultPlatformLifecyclePlugin(): PlatformLifecyclePlugin {
-    return DefaultPlatformLifecyclePlugin()
-}
+/**
+ * Kotlin compiler will export the class automatically if it detects that such a
+ * class has public use in the umbrella framework(shared framework).
+ * */
+/*fun exportComponentToolkitBinder(componentToolkitBinder: ComponentToolkitBinder) {
+
+}*/

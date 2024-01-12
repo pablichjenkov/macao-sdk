@@ -37,7 +37,7 @@ private const val PredictiveBackAreaWidth = 100
 private const val PredictiveBackDragWidth = 50
 
 @Composable
-fun StackWithCustomPredictiveBackView(
+fun StackViewWithCustomPredictiveBack(
     modifier: Modifier,
     childComponent: Component?,
     prevChildComponent: Component?,

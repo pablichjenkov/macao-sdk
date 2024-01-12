@@ -22,6 +22,7 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries {
             framework {
+                export(project(":component-toolkit"))
                 baseName = "ComponentDemoKt"
                 isStatic = true
             }
@@ -39,12 +40,15 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(compose.runtime)
-            implementation(compose.foundation)
             implementation(compose.ui)
+            implementation(compose.foundation)
             implementation(compose.material3)
+            implementation("org.jetbrains.compose.components:components-resources:1.5.11")
+
+            // Macao Libs
             api(project(":macao-sdk-di-koin"))
             api(project(":macao-sdk-di-manual"))
-            implementation("org.jetbrains.compose.components:components-resources:1.5.10")
+            api(project(":component-toolkit"))
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
