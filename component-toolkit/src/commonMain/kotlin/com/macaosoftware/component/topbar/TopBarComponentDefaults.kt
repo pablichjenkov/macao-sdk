@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.stack.StackView
+import com.macaosoftware.component.stack.StackViewAnimations
 
 object TopBarComponentDefaults {
 
@@ -32,7 +33,7 @@ object TopBarComponentDefaults {
                 onComponentSwipedOut = {
                     componentViewModel.topBarStatePresenter.onBackPressEvent()
                 },
-                useCustomPredictiveBack = false
+                stackViewAnimations = StackViewAnimations.Default
             )
         }
     }

@@ -7,10 +7,6 @@ struct ComposeView : UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> UIViewController {
         
-        let test = IosBridge2(
-            test: NSURL.fileURL(withPath: "https://google.com")
-        )
-        
         let mainViewController = BindingsKt.buildKoinDemoViewController(
             iosBridge: iosBridge,
             onBackPress: {

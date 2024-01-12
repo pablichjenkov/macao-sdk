@@ -10,7 +10,7 @@ fun StackView(
     backStack: BackStack<Component>,
     lastBackstackEvent: BackStack.Event<Component>?,
     onComponentSwipedOut: () -> Unit,
-    useCustomPredictiveBack: Boolean = false
+    stackViewAnimations: StackViewAnimations = StackViewAnimations.Default
 ) {
     val backStackSize = backStack.size()
     println("StackView, backStackSize = $backStackSize, lastBackstackEvent = $lastBackstackEvent")
@@ -43,13 +43,24 @@ fun StackView(
 
     val prevComponent = if (backStackSize > 1) {
         backStack.deque[backStackSize - 2]
-    } else {
-        null
-    }
+    } else null
 
-    when (useCustomPredictiveBack) {
-        true -> {
-            StackWithCustomPredictiveBackView(
+    when (stackViewAnimations) {
+
+        StackViewAnimations.NoAnimation -> {
+
+        }
+
+        StackViewAnimations.Default -> {
+            StackViewWithDefaultAnimations(
+                modifier = modifier,
+                childComponent = topChildComponent,
+                animationType = animationType
+            )
+        }
+
+        StackViewAnimations.CustomPredictiveBack -> {
+            StackViewWithCustomPredictiveBack(
                 modifier = modifier,
                 childComponent = topChildComponent,
                 prevChildComponent = prevComponent,
@@ -57,14 +68,12 @@ fun StackView(
                 onComponentSwipedOut = onComponentSwipedOut
             )
         }
-
-        false -> {
-            StackWithDefaultAnimationsView(
-                modifier = modifier,
-                childComponent = topChildComponent,
-                animationType = animationType
-            )
-        }
     }
 
+}
+
+enum class StackViewAnimations {
+    NoAnimation,
+    Default,
+    CustomPredictiveBack,
 }

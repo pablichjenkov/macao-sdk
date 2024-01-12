@@ -1,10 +1,12 @@
 package com.macaosoftware.plugin.account
 
 import com.macaosoftware.util.MacaoResult
+import kotlin.native.ObjCName
 
 /**
  * An empty implementation for those platforms that don't have Firebase.
  * */
+@ObjCName(name = "MacaoAccountPluginEmpty", exact = true)
 class AccountPluginEmpty : AccountPlugin {
     override suspend fun initialize(): Boolean {
         println(" AuthPluginEmpty::initialize() has been called")
