@@ -9,7 +9,6 @@ import androidx.compose.material3.MaterialTheme
 import com.macaosoftware.app.MacaoKoinApplication
 import com.macaosoftware.app.MacaoKoinApplicationState
 import com.macaosoftware.component.demo.plugin.DemoKoinModuleInitializer
-import com.macaosoftware.component.demo.view.SplashScreen
 import kotlinx.coroutines.Dispatchers
 
 class KoinActivity : ComponentActivity() {
@@ -26,8 +25,7 @@ class KoinActivity : ComponentActivity() {
             MaterialTheme {
                 MacaoKoinApplication(
                     onBackPress = { finish() },
-                    applicationState = applicationState,
-                    splashScreenContent = { SplashScreen() }
+                    applicationState = applicationState
                 )
             }
         }

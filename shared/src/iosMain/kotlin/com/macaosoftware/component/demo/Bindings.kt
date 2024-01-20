@@ -1,11 +1,13 @@
 package com.macaosoftware.component.demo
 
+import androidx.compose.ui.uikit.ComposeUIViewControllerDelegate
 import androidx.compose.ui.window.ComposeUIViewController
-import com.macaosoftware.ComponentToolkitBinder
 import com.macaosoftware.app.MacaoApplication
 import com.macaosoftware.app.MacaoApplicationState
 import com.macaosoftware.app.MacaoKoinApplication
 import com.macaosoftware.app.MacaoKoinApplicationState
+import com.macaosoftware.app.MacaoKoinComposeViewController
+import com.macaosoftware.component.MacaoComposeUIViewControllerDelegate
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.plugin.DemoKoinModuleInitializer
@@ -21,11 +23,9 @@ import com.macaosoftware.component.pager.PagerComponent
 import com.macaosoftware.component.pager.PagerComponentDefaults
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
-import com.macaosoftware.plugin.DefaultPlatformLifecyclePlugin
+import com.macaosoftware.plugin.AppLifecycleEvent
 import com.macaosoftware.plugin.IosBridge
 import com.macaosoftware.plugin.PlatformLifecyclePlugin
-import com.macaosoftware.plugin.account.AccountPlugin
-import com.macaosoftware.plugin.account.AccountPluginEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import platform.UIKit.UIViewController
@@ -33,26 +33,45 @@ import platform.UIKit.UIViewController
 fun buildDemoViewController(
     iosBridge: IosBridge,
     onBackPress: () -> Unit = {}
-): UIViewController = ComposeUIViewController {
+): UIViewController {
 
-    val macaoApplicationState = MacaoApplicationState(
-        dispatcher = Dispatchers.IO,
-        rootComponentProvider = IosRootComponentProvider(),
-        pluginInitializer = DemoPluginInitializer()
-    )
+    val mDelegate = object : ComposeUIViewControllerDelegate {
+        override fun viewDidAppear(animated: Boolean) {
+            println("Pablo::viewDidAppear")
+            iosBridge.platformLifecyclePlugin.dispatchAppLifecycleEvent(AppLifecycleEvent.Start)
+        }
 
-    MacaoApplication(
-        iosBridge = iosBridge,
-        onBackPress = onBackPress,
-        macaoApplicationState = macaoApplicationState,
-        splashScreenContent = { SplashScreen() }
-    )
+        override fun viewDidDisappear(animated: Boolean) {
+            println("Pablo::viewDidDisappear")
+            iosBridge.platformLifecyclePlugin.dispatchAppLifecycleEvent(AppLifecycleEvent.Stop)
+        }
+    }
+
+    return ComposeUIViewController(
+        configure = {
+            delegate = mDelegate
+        }
+    ) {
+        val macaoApplicationState = MacaoApplicationState(
+            dispatcher = Dispatchers.IO,
+            rootComponentProvider = IosRootComponentProvider(),
+            pluginInitializer = DemoPluginInitializer()
+        )
+
+        MacaoApplication(
+            iosBridge = iosBridge,
+            onBackPress = onBackPress,
+            macaoApplicationState = macaoApplicationState,
+            splashScreenContent = { SplashScreen() }
+        )
+    }
+
 }
 
 fun buildKoinDemoViewController(
     iosBridge: IosBridge,
     onBackPress: () -> Unit = {}
-): UIViewController = ComposeUIViewController {
+): UIViewController {
 
     val applicationState = MacaoKoinApplicationState(
         dispatcher = Dispatchers.IO,
@@ -60,11 +79,10 @@ fun buildKoinDemoViewController(
         koinModuleInitializer = DemoKoinModuleInitializer()
     )
 
-    MacaoKoinApplication(
-        iosBridge = iosBridge,
-        onBackPress = onBackPress,
-        applicationState = applicationState,
-        splashScreenContent = { SplashScreen() }
+    return MacaoKoinComposeViewController(
+        iosBridge,
+        applicationState,
+        onBackPress
     )
 }
 
@@ -96,11 +114,3 @@ private fun buildAppWithIntroComponent(): Component {
         content = StackComponentDefaults.DefaultStackComponentView
     )
 }
-
-/**
- * Kotlin compiler will export the class automatically if it detects that such a
- * class has public use in the umbrella framework(shared framework).
- * */
-/*fun exportComponentToolkitBinder(componentToolkitBinder: ComponentToolkitBinder) {
-
-}*/

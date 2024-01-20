@@ -20,7 +20,7 @@ struct iOSDemoApp: App {
             ZStack {
                 Color.white.ignoresSafeArea(.all) // status bar color
                 ContentView(iosBridge: iosBridge)
-                    .onAppear(perform: {
+                    /*.onAppear(perform: {
                         iosBridge.platformLifecyclePlugin.dispatchAppLifecycleEvent(
                             appLifecycleEvent: .start
                         )
@@ -28,7 +28,7 @@ struct iOSDemoApp: App {
                         iosBridge.platformLifecyclePlugin.dispatchAppLifecycleEvent(
                             appLifecycleEvent: .stop
                         )
-                    }
+                    }*/
             }.preferredColorScheme(.light)
         }
     }

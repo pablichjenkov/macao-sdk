@@ -7,13 +7,10 @@ import com.macaosoftware.component.demo.viewmodel.StackDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.StackDemoViewModelFactory
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
-import kotlinx.coroutines.delay
 import kotlin.system.exitProcess
 
 class JvmRootComponentProvider : RootComponentProvider {
     override suspend fun provideRootComponent(pluginManager: PluginManager): Component {
-
-        delay(2000)
 
         return StackComponent<StackDemoViewModel>(
             viewModelFactory = StackDemoViewModelFactory(

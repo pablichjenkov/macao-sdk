@@ -15,8 +15,6 @@ class IosRootComponentProvider : RootComponentProvider {
         pluginManager: PluginManager
     ): Component {
 
-        delay(2000)
-
         return StackComponent<StackDemoViewModel>(
             viewModelFactory = StackDemoViewModelFactory(
                 stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
