@@ -8,7 +8,6 @@ import com.macaosoftware.component.demo.viewmodel.StackDemoViewModel
 import com.macaosoftware.component.demo.viewmodel.factory.StackDemoViewModelFactory
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
-import kotlinx.coroutines.delay
 
 class AndroidRootComponentProvider(
     private val activity: ComponentActivity
@@ -17,8 +16,6 @@ class AndroidRootComponentProvider(
     override suspend fun provideRootComponent(
         pluginManager: PluginManager
     ): Component {
-
-        delay(2000)
 
         return StackComponent<StackDemoViewModel>(
             viewModelFactory = StackDemoViewModelFactory(

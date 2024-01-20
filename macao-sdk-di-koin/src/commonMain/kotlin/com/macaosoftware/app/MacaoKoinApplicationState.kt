@@ -4,7 +4,6 @@ import androidx.compose.runtime.mutableStateOf
 import com.macaosoftware.component.core.Component
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.dsl.koinApplication
 
@@ -20,10 +19,7 @@ class MacaoKoinApplicationState(
     fun start() {
         coroutineScope.launch {
 
-            stage.value = Stage.Starting
-            // todo: Remove this bellow
-            delay(1000)
-
+            stage.value = Stage.KoinLoading
             val appModule = koinModuleInitializer.initialize()
 
             val koinApplication = koinApplication {
@@ -42,6 +38,6 @@ class MacaoKoinApplicationState(
 
 sealed class Stage {
     data object Created : Stage()
-    data object Starting : Stage()
+    data object KoinLoading : Stage()
     class Started(val rootComponent: Component) : Stage()
 }
