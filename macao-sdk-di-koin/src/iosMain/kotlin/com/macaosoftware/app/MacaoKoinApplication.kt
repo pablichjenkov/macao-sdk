@@ -7,7 +7,6 @@ import com.macaosoftware.plugin.IosBridge
 
 @Composable
 fun MacaoKoinApplication(
-    iosBridge: IosBridge,
     applicationState: MacaoKoinApplicationState,
     onBackPress: () -> Unit
 ) {
@@ -26,7 +25,6 @@ fun MacaoKoinApplication(
         is Stage.Started -> {
             IosComponentRender(
                 rootComponent = stage.rootComponent,
-                iosBridge = iosBridge,
                 onBackPress = onBackPress
             )
         }

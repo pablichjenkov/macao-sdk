@@ -8,7 +8,6 @@ import com.macaosoftware.util.ifNotNull
 
 @Composable
 fun MacaoApplication(
-    iosBridge: IosBridge,
     onBackPress: () -> Unit,
     macaoApplicationState: MacaoApplicationState,
     splashScreenContent: @Composable () -> Unit
@@ -18,7 +17,6 @@ fun MacaoApplication(
     rootComponent.ifNotNull {
         IosComponentRender(
             rootComponent = it,
-            iosBridge = iosBridge,
             onBackPress = onBackPress
         )
     }.elseIfNull {

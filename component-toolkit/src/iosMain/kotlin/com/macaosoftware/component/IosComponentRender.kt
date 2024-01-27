@@ -4,23 +4,20 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
-import com.macaosoftware.component.util.LocalBackPressedDispatcher
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
-import com.macaosoftware.plugin.AppLifecycleEvent
+import com.macaosoftware.component.util.LocalBackPressedDispatcher
 import com.macaosoftware.plugin.DefaultBackPressDispatcherPlugin
-import com.macaosoftware.plugin.ForwardAppLifecycleCallback
-import com.macaosoftware.plugin.IosBridge
+import com.macaosoftware.plugin.LifecycleEventObserver
+import com.macaosoftware.plugin.LifecycleOwner
 
 @Composable
 fun IosComponentRender(
     rootComponent: Component,
-    iosBridge: IosBridge,
     onBackPress: () -> Unit = {}
 ) {
 
@@ -30,6 +27,7 @@ fun IosComponentRender(
     }
 
     val updatedOnBackPressed by rememberUpdatedState(onBackPress)
+    val lifecycleOwner = remember(rootComponent) { LifecycleOwner() }
 
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides backPressDispatcher,
@@ -40,17 +38,20 @@ fun IosComponentRender(
         }
     }
 
-    LaunchedEffect(key1 = rootComponent) {
-        rootComponent.dispatchAttach()
-        rootComponent.rootBackPressDelegate = updatedOnBackPressed
-        iosBridge.platformLifecyclePlugin.subscribe(
-            ForwardAppLifecycleCallback {
-                when (it) {
-                    AppLifecycleEvent.Start -> rootComponent.dispatchStart()
-                    AppLifecycleEvent.Stop -> rootComponent.dispatchStop()
-                }
-            }
-        )
-    }
+    LifecycleEventObserver(
+        lifecycleOwner = lifecycleOwner,
+        onStart = {
+            println("Receiving IosApp.onStart() event")
+            rootComponent.dispatchStart()
+        },
+        onStop = {
+            println("Receiving IosApp.onStop() event")
+            rootComponent.dispatchStop()
+        },
+        initializeBlock = {
+            rootComponent.dispatchAttach()
+            rootComponent.rootBackPressDelegate = updatedOnBackPressed
+        }
+    )
 
 }
