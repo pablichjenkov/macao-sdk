@@ -10,7 +10,6 @@ struct iOSDemoApp: App {
     init() {
         self.componentToolkitBinder = ComponentToolkitBinder()
         self.iosBridge = IosBridge(
-            platformLifecyclePlugin: componentToolkitBinder.createDefaultPlatformLifecyclePlugin(),
             accountPlugin: componentToolkitBinder.createAccountPluginEmpty()
         )
     }
@@ -20,16 +19,8 @@ struct iOSDemoApp: App {
             ZStack {
                 Color.white.ignoresSafeArea(.all) // status bar color
                 ContentView(iosBridge: iosBridge)
-                    /*.onAppear(perform: {
-                        iosBridge.platformLifecyclePlugin.dispatchAppLifecycleEvent(
-                            appLifecycleEvent: .start
-                        )
-                    }).onDisappear {
-                        iosBridge.platformLifecyclePlugin.dispatchAppLifecycleEvent(
-                            appLifecycleEvent: .stop
-                        )
-                    }*/
-            }.preferredColorScheme(.light)
+            }
+            .preferredColorScheme(.light)
         }
     }
 }

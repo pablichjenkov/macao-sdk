@@ -4,10 +4,8 @@ import androidx.compose.ui.uikit.ComposeUIViewControllerDelegate
 import androidx.compose.ui.window.ComposeUIViewController
 import com.macaosoftware.app.MacaoApplication
 import com.macaosoftware.app.MacaoApplicationState
-import com.macaosoftware.app.MacaoKoinApplication
 import com.macaosoftware.app.MacaoKoinApplicationState
 import com.macaosoftware.app.MacaoKoinComposeViewController
-import com.macaosoftware.component.MacaoComposeUIViewControllerDelegate
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.plugin.DemoKoinModuleInitializer
@@ -25,7 +23,6 @@ import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
 import com.macaosoftware.plugin.AppLifecycleEvent
 import com.macaosoftware.plugin.IosBridge
-import com.macaosoftware.plugin.PlatformLifecyclePlugin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import platform.UIKit.UIViewController
@@ -38,12 +35,10 @@ fun buildDemoViewController(
     val mDelegate = object : ComposeUIViewControllerDelegate {
         override fun viewDidAppear(animated: Boolean) {
             println("Pablo::viewDidAppear")
-            iosBridge.platformLifecyclePlugin.dispatchAppLifecycleEvent(AppLifecycleEvent.Start)
         }
 
         override fun viewDidDisappear(animated: Boolean) {
             println("Pablo::viewDidDisappear")
-            iosBridge.platformLifecyclePlugin.dispatchAppLifecycleEvent(AppLifecycleEvent.Stop)
         }
     }
 
@@ -53,13 +48,13 @@ fun buildDemoViewController(
         }
     ) {
         val macaoApplicationState = MacaoApplicationState(
+            // iosBridge,
             dispatcher = Dispatchers.IO,
             rootComponentProvider = IosRootComponentProvider(),
             pluginInitializer = DemoPluginInitializer()
         )
 
         MacaoApplication(
-            iosBridge = iosBridge,
             onBackPress = onBackPress,
             macaoApplicationState = macaoApplicationState,
             splashScreenContent = { SplashScreen() }
@@ -74,13 +69,13 @@ fun buildKoinDemoViewController(
 ): UIViewController {
 
     val applicationState = MacaoKoinApplicationState(
+        // iosBridge,
         dispatcher = Dispatchers.IO,
         rootComponentKoinProvider = IosRootComponentKoinProvider(),
         koinModuleInitializer = DemoKoinModuleInitializer()
     )
 
     return MacaoKoinComposeViewController(
-        iosBridge,
         applicationState,
         onBackPress
     )
