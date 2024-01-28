@@ -9,6 +9,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
@@ -17,6 +18,10 @@ import com.macaosoftware.component.util.LocalBackPressedDispatcher
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
 import com.macaosoftware.plugin.DesktopBridge
+import com.macaosoftware.plugin.Lifecycle
+import com.macaosoftware.plugin.LifecycleEventObserver
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -32,7 +37,12 @@ fun DesktopComponentRender(
     val desktopBackPressDispatcher = remember(rootComponent) {
         desktopBridge.backPressDispatcherPlugin
     }
+
     val updatedOnBackPressed by rememberUpdatedState(onBackPress)
+
+    val lifecycle = remember(rootComponent) {
+        Lifecycle(CoroutineScope(Dispatchers.Main), windowState)
+    }
 
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides desktopBackPressDispatcher,
@@ -41,29 +51,21 @@ fun DesktopComponentRender(
         rootComponent.Content(Modifier.fillMaxSize())
     }
 
-    LaunchedEffect(rootComponent, windowState) {
-        rootComponent.dispatchAttach()
-        rootComponent.rootBackPressDelegate = updatedOnBackPressed
-
-        launch {
-            snapshotFlow { windowState.isMinimized }
-                .onEach { isMinimized ->
-                    onWindowMinimized(rootComponent, isMinimized)
-                }
-                .launchIn(this)
+    LifecycleEventObserver(
+        lifecycle = lifecycle,
+        onStart = {
+            println("Receiving Desktop.onStart() event")
+            rootComponent.dispatchStart()
+        },
+        onStop = {
+            println("Receiving Desktop.onStop() event")
+            rootComponent.dispatchStop()
+        },
+        initializeBlock = {
+            rootComponent.dispatchAttach()
+            rootComponent.rootBackPressDelegate = updatedOnBackPressed
         }
-    }
-}
-
-private fun onWindowMinimized(
-    rootComponent: Component,
-    minimized: Boolean
-) {
-    if (minimized) {
-        rootComponent.dispatchStop()
-    } else {
-        rootComponent.dispatchStart()
-    }
+    )
 }
 
 @Preview
