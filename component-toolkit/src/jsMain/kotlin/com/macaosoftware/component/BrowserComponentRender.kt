@@ -13,6 +13,10 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
 import com.macaosoftware.plugin.DefaultBackPressDispatcherPlugin
 import com.macaosoftware.plugin.JsBridge
+import com.macaosoftware.plugin.Lifecycle
+import com.macaosoftware.plugin.LifecycleEventObserver
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 @Composable
 fun BrowserComponentRender(
@@ -24,7 +28,9 @@ fun BrowserComponentRender(
         // todo: get this from the plugin manager instead
         DefaultBackPressDispatcherPlugin()
     }
+
     val updatedOnBackPressed by rememberUpdatedState(onBackPress)
+    val lifecycle = remember(rootComponent) { Lifecycle() }
 
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides webBackPressDispatcher,
@@ -41,10 +47,20 @@ fun BrowserComponentRender(
         }*/
     }
 
-    LaunchedEffect(key1 = rootComponent) {
-        rootComponent.dispatchAttach()
-        rootComponent.rootBackPressDelegate = updatedOnBackPressed
-        rootComponent.dispatchStart()
-    }
+    LifecycleEventObserver(
+        lifecycle = lifecycle,
+        onStart = {
+            println("Receiving Js.onStart() event")
+            rootComponent.dispatchStart()
+        },
+        onStop = {
+            println("Receiving Js.onStop() event")
+            rootComponent.dispatchStop()
+        },
+        initializeBlock = {
+            rootComponent.dispatchAttach()
+            rootComponent.rootBackPressDelegate = updatedOnBackPressed
+        }
+    )
 
 }

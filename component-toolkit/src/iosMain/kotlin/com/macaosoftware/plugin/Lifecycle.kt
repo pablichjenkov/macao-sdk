@@ -7,9 +7,9 @@ import platform.UIKit.UIApplicationDidEnterBackgroundNotification
 import platform.UIKit.UIApplicationWillTerminateNotification
 import platform.darwin.NSObjectProtocol
 
-class LifecycleOwner {
+class Lifecycle {
 
-    private var appLifecycleCallback: AppLifecycleCallback? = null
+    private val platformLifecyclePlugin = DefaultPlatformLifecyclePlugin()
 
     private lateinit var didEnterBackgroundNotificationObserver: NSObjectProtocol
     private lateinit var didBecomeActiveNotificationObserver: NSObjectProtocol
@@ -17,6 +17,7 @@ class LifecycleOwner {
 
     init {
         startObserving()
+        platformLifecyclePlugin.dispatchAppLifecycleEvent(AppLifecycleEvent.Start)
     }
 
     private fun startObserving() {
@@ -48,19 +49,18 @@ class LifecycleOwner {
     }
 
     fun subscribe(appLifecycleCallback: AppLifecycleCallback) {
-        this.appLifecycleCallback = appLifecycleCallback
-        appLifecycleCallback.onEvent(AppLifecycleEvent.Start)
+        platformLifecyclePlugin.subscribe(appLifecycleCallback)
     }
 
     private fun started() {
-        appLifecycleCallback?.onEvent(AppLifecycleEvent.Start)
+        platformLifecyclePlugin.dispatchAppLifecycleEvent(AppLifecycleEvent.Start)
     }
 
     private fun stopped() {
-        appLifecycleCallback?.onEvent(AppLifecycleEvent.Stop)
+        platformLifecyclePlugin.dispatchAppLifecycleEvent(AppLifecycleEvent.Stop)
     }
 
     fun unsubscribe(appLifecycleCallback: AppLifecycleCallback) {
-        this.appLifecycleCallback = null
+        platformLifecyclePlugin.unsubscribe(appLifecycleCallback)
     }
 }

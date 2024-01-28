@@ -13,7 +13,7 @@ import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
 import com.macaosoftware.component.util.LocalBackPressedDispatcher
 import com.macaosoftware.plugin.DefaultBackPressDispatcherPlugin
 import com.macaosoftware.plugin.LifecycleEventObserver
-import com.macaosoftware.plugin.LifecycleOwner
+import com.macaosoftware.plugin.Lifecycle
 
 @Composable
 fun IosComponentRender(
@@ -27,7 +27,7 @@ fun IosComponentRender(
     }
 
     val updatedOnBackPressed by rememberUpdatedState(onBackPress)
-    val lifecycleOwner = remember(rootComponent) { LifecycleOwner() }
+    val lifecycle = remember(rootComponent) { Lifecycle() }
 
     CompositionLocalProvider(
         LocalBackPressedDispatcher provides backPressDispatcher,
@@ -39,7 +39,7 @@ fun IosComponentRender(
     }
 
     LifecycleEventObserver(
-        lifecycleOwner = lifecycleOwner,
+        lifecycle = lifecycle,
         onStart = {
             println("Receiving IosApp.onStart() event")
             rootComponent.dispatchStart()

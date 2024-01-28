@@ -12,7 +12,7 @@ import androidx.lifecycle.LifecycleOwner
 
 @Composable
 fun LifecycleEventObserver(
-    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    lifecycleOwner: LifecycleOwner,
     onStart: () -> Unit,
     onStop: () -> Unit,
     initializeBlock: () -> Unit

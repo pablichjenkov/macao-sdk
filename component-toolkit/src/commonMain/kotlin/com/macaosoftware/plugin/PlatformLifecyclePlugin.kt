@@ -45,17 +45,3 @@ class DefaultPlatformLifecyclePlugin : PlatformLifecyclePlugin {
     }
 
 }
-
-object EmptyAppLifecycleCallback : AppLifecycleCallback {
-    override fun onEvent(appLifecycleEvent: AppLifecycleEvent) {
-        println("EmptyAppLifecycleCallback::onEvent(${appLifecycleEvent}) does nothing")
-    }
-}
-
-class ForwardAppLifecycleCallback(
-    private val onAppLifecycleEvent: (appLifecycleEvent: AppLifecycleEvent) -> Unit
-): AppLifecycleCallback {
-    override fun onEvent(appLifecycleEvent: AppLifecycleEvent) {
-        onAppLifecycleEvent(appLifecycleEvent)
-    }
-}
