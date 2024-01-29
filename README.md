@@ -1,4 +1,4 @@
-### Component Toolkit
+### Macao SDK
 A set of prefabricated components and platform API plug-ins to speedup the Compose Multiplatform Application development process. 
 The toolkit contains a variety of customizable navigation components such as `Drawer`, `BottomNavigation`, `Pager`, `Panel`,
 `Topbar`, `Stack` and many more. It also includes some predefined screens flows such as `Authentication`, `Settings`, `Commerce` and some `Data Collection` screens. All them customizable from the server application.
