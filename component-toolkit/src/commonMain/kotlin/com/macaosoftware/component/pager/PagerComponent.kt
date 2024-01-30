@@ -2,10 +2,13 @@ package com.macaosoftware.component.pager
 
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.core.ComponentWithBackStack
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.NavigationComponent
 import com.macaosoftware.component.core.Navigator
@@ -130,7 +133,7 @@ class PagerComponent<out VM : PagerComponentViewModel>(
     }
 
     override fun getChildForNextUriFragment(deepLinkPathSegment: String): Component? {
-        return (this as ComponentWithBackStack).componentWithBackStackGetChildForNextUriFragment(
+        return this.componentWithBackStackGetChildForNextUriFragment(
             deepLinkPathSegment
         )
     }

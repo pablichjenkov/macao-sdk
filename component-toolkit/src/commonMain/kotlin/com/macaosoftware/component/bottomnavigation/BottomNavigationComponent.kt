@@ -134,7 +134,7 @@ class BottomNavigationComponent<out VM : BottomNavigationComponentViewModel>(
     }
 
     override fun getChildForNextUriFragment(deepLinkPathSegment: String): Component? {
-        return (this as ComponentWithBackStack).componentWithBackStackGetChildForNextUriFragment(
+        return this.componentWithBackStackGetChildForNextUriFragment(
             deepLinkPathSegment
         )
     }

@@ -134,7 +134,7 @@ class PanelComponent<out VM : PanelComponentViewModel>(
     }
 
     override fun getChildForNextUriFragment(deepLinkPathSegment: String): Component? {
-        return (this as ComponentWithBackStack).componentWithBackStackGetChildForNextUriFragment(
+        return this.componentWithBackStackGetChildForNextUriFragment(
             deepLinkPathSegment
         )
     }

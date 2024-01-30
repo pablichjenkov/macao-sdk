@@ -9,89 +9,37 @@ import com.macaosoftware.component.core.Component
 class DesktopMultiWindowComponent : Component() {
     private val activeComponents = mutableStateListOf<Component>()
 
-    private val MainWindowNode = MainWindowComponent(
+    private val mainWindowComponent = MainWindowComponent(
         onOpenDeepLinkClick = {
             openDeepLinkWindow()
         },
         onMenuItemClick = {
-            openWindow(it)
+            // openWindow(it)
         },
         onExitClick = { exit() }
     )
 
-    private val DeepLinkDemoNode = DeepLinkDemoComponent(
+    private val deepLinkDemoComponent = DeepLinkDemoWindowComponent(
         onDeepLinkClick = { path ->
-            MainWindowNode.handleDeepLink(path)
+            mainWindowComponent.handleDeepLink(path)
         },
         onCloseClick = {
             closeDeepLinkWindow()
         }
     )
 
-    private val DrawerWindowNode = DrawerWindowComponent(
-        onCloseClick = {
-            closeDrawerWindowNode()
-        }
-    )
-
-    private val NavBarWindowNode = NavBarWindowComponent(
-        onCloseClick = {
-            closeNavBarWindowNode()
-        }
-    )
-
-    private val PanelWindowNode = PanelWindowComponent(
-        onCloseClick = {
-            closePanelWindowNode()
-        }
-    )
-
-    private val FullAppWindowNode = FullAppWindowComponent(
-        onCloseClick = {
-            closeFullAppWindowNode()
-        }
-    )
-
     init {
-        activeComponents.add(MainWindowNode)
+        activeComponents.add(mainWindowComponent)
     }
 
     private fun openDeepLinkWindow() {
-        if (!activeComponents.contains(DeepLinkDemoNode)) {
-            activeComponents.add(DeepLinkDemoNode)
-        }
-    }
-
-    private fun openWindow(windowSample: WindowSample) {
-        val window = when (windowSample) {
-            WindowSample.Drawer -> DrawerWindowNode
-            WindowSample.Navbar -> NavBarWindowNode
-            WindowSample.Panel -> PanelWindowNode
-            WindowSample.FullApp -> FullAppWindowNode
-        }
-        if (!activeComponents.contains(window)) {
-            activeComponents.add(window)
+        if (!activeComponents.contains(deepLinkDemoComponent)) {
+            activeComponents.add(deepLinkDemoComponent)
         }
     }
 
     private fun closeDeepLinkWindow() {
-        activeComponents.remove(DeepLinkDemoNode)
-    }
-
-    private fun closeDrawerWindowNode() {
-        activeComponents.remove(DrawerWindowNode)
-    }
-
-    private fun closeNavBarWindowNode() {
-        activeComponents.remove(NavBarWindowNode)
-    }
-
-    private fun closePanelWindowNode() {
-        activeComponents.remove(PanelWindowNode)
-    }
-
-    private fun closeFullAppWindowNode() {
-        activeComponents.remove(FullAppWindowNode)
+        activeComponents.remove(deepLinkDemoComponent)
     }
 
     private fun exit() {

@@ -6,8 +6,8 @@ import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDef
 import com.macaosoftware.component.bottomnavigation.BottomNavigationStatePresenterDefault
 import com.macaosoftware.component.bottomnavigation.BottomNavigationStyle
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.demo.view.MainScreenView
 import com.macaosoftware.component.demo.view.DemoType
+import com.macaosoftware.component.demo.view.MainScreenView
 import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.AppViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
@@ -78,7 +78,9 @@ class StackDemoViewModel(
                 )
             ),
             content = BottomNavigationComponentDefaults.BottomNavigationComponentView
-        )
+        ).also {
+            it.deepLinkPathSegment = "_navigator_bottom_navigation"
+        }
 
 
     val drawerComponent =
@@ -96,12 +98,16 @@ class StackDemoViewModel(
                 )
             ),
             content = DrawerComponentDefaults.DrawerComponentView
-        )
+        ).also {
+            it.deepLinkPathSegment = "_navigator_drawer"
+        }
 
     val pagerComponent = PagerComponent(
         viewModelFactory = PagerDemoViewModelFactory(),
         content = PagerComponentDefaults.PagerComponentView
-    )
+    ).also {
+        it.deepLinkPathSegment = "_navigator_pager"
+    }
 
     val panelComponent =
         PanelComponent(
@@ -118,7 +124,9 @@ class StackDemoViewModel(
                 )
             ),
             content = PanelComponentDefaults.PanelComponentView
-        )
+        ).also {
+            it.deepLinkPathSegment = "_navigator_panel"
+        }
 
     val appComponent =
         StackComponent(
@@ -128,6 +136,17 @@ class StackDemoViewModel(
             content = StackComponentDefaults.DefaultStackComponentView
         )
 
+    override fun onCheckChildForNextUriFragment(deepLinkPathSegment: String): Component? {
+        println("${stackComponent.instanceId()}::getChildForNextUriFragment = $deepLinkPathSegment")
+        return when (deepLinkPathSegment) {
+            "_navigator_adaptive" -> adaptiveSizeComponent
+            "_navigator_bottom_navigation" -> bottomNavigationComponent
+            "_navigator_drawer" -> drawerComponent
+            "_navigator_pager" -> pagerComponent
+            "_navigator_panel" -> panelComponent
+            else -> null
+        }
+    }
 
     override fun onStackTopUpdate(topComponent: Component) {
 

@@ -11,6 +11,7 @@ abstract class TopBarComponentViewModel(
     abstract val topBarStatePresenter: TopBarStatePresenter
 
     abstract fun mapComponentToStackBarItem(topComponent: Component): TopBarItem
+
     abstract fun onCheckChildForNextUriFragment(
         deepLinkPathSegment: String
     ): Component?

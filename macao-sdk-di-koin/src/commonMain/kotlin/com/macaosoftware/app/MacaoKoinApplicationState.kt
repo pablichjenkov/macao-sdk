@@ -8,7 +8,6 @@ import kotlinx.coroutines.launch
 import org.koin.dsl.koinApplication
 
 class MacaoKoinApplicationState(
-    // iosBridge: IosBridge, // Might be useful later
     dispatcher: CoroutineDispatcher,
     val rootComponentKoinProvider: RootComponentKoinProvider,
     private val koinModuleInitializer: KoinModuleInitializer

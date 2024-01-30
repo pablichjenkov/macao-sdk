@@ -113,45 +113,45 @@ class AdaptiveSizeDemoViewModel(
 
         val navbarNavItems = mutableListOf(
             NavItem(
-                label = "Current",
+                label = "Tab_1",
                 icon = Icons.Filled.Home,
                 component = TopBarComponent(
                     viewModelFactory = Demo3PageTopBarViewModelFactory(
                         topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                        screenName = "Orders/Current",
+                        screenName = "Tab_1",
                         onDone = {}
                     ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 ).apply {
-                    deepLinkPathSegment = "Current"
+                    deepLinkPathSegment = "Tab_1"
                 }
             ),
             NavItem(
-                label = "Past",
+                label = "Tab_2",
                 icon = Icons.Filled.Edit,
                 component = TopBarComponent(
                     viewModelFactory = Demo3PageTopBarViewModelFactory(
                         topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                        screenName = "Orders/Past",
+                        screenName = "Tab_2",
                         onDone = {}
                     ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 ).apply {
-                    deepLinkPathSegment = "Past"
+                    deepLinkPathSegment = "Tab_2"
                 }
             ),
             NavItem(
-                label = "Claim",
+                label = "Tab_3",
                 icon = Icons.Filled.Email,
                 component = TopBarComponent(
                     viewModelFactory = Demo3PageTopBarViewModelFactory(
                         topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
-                        screenName = "Orders/Claim",
+                        screenName = "Tab_3",
                         onDone = {}
                     ),
                     content = TopBarComponentDefaults.TopBarComponentView
                 ).apply {
-                    deepLinkPathSegment = "Claim"
+                    deepLinkPathSegment = "Tab_3"
                 }
             )
         )

@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.ComponentWithBackStack
 import com.macaosoftware.component.core.StackComponentNavigator
-import com.macaosoftware.component.core.componentWithBackStackGetChildForNextUriFragment
 import com.macaosoftware.component.core.componentWithBackStackOnDeepLinkNavigateTo
 import com.macaosoftware.component.core.consumeBackPressedDefault
 import com.macaosoftware.component.core.deeplink.DeepLinkResult
@@ -126,8 +125,10 @@ class StackComponent<out VM : StackComponentViewModel>(
         return (this as ComponentWithBackStack).componentWithBackStackOnDeepLinkNavigateTo(matchingComponent)
     }
 
-    override fun getChildForNextUriFragment(deepLinkPathSegment: String): Component? {
-        return (this as ComponentWithBackStack).componentWithBackStackGetChildForNextUriFragment(deepLinkPathSegment)
+    override fun getChildForNextUriFragment(
+        deepLinkPathSegment: String
+    ): Component? {
+        return componentViewModel.onCheckChildForNextUriFragment(deepLinkPathSegment)
     }
 
 // endregion
