@@ -17,7 +17,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.core.Component
 
-class DeepLinkDemoComponent(
+class DeepLinkDemoWindowComponent(
     val onDeepLinkClick: (destination: List<String>) -> Unit,
     val onCloseClick: () -> Unit
 ) : Component() {
@@ -26,10 +26,25 @@ class DeepLinkDemoComponent(
     )
 
     private val deepLinks = mutableListOf(
-        listOf("_navigator_adaptive", "*", "Home", "Page 1"),
-        listOf("_navigator_adaptive", "*", "Orders", "Past", "Page 2"),
-        listOf("_navigator_adaptive", "*", "Settings", "Page 3"),
-        listOf("_navigator_adaptive", "*", "Settings", "Page 1")
+        listOf("_root_navigator_stack", "_navigator_adaptive", "*", "Home", "Page 1"),
+        listOf("_root_navigator_stack", "_navigator_adaptive", "*", "Home", "Page 2"),
+        listOf("_root_navigator_stack", "_navigator_adaptive", "*", "Home", "Page 3"),
+
+        listOf("_root_navigator_stack", "_navigator_adaptive", "*", "Orders", "Tab_1", "Page 1"),
+        listOf("_root_navigator_stack", "_navigator_adaptive", "*", "Orders", "Tab_1", "Page 2"),
+        listOf("_root_navigator_stack", "_navigator_adaptive", "*", "Orders", "Tab_1", "Page 3"),
+
+        listOf("_root_navigator_stack", "_navigator_adaptive", "*", "Orders", "Tab_2", "Page 1"),
+        listOf("_root_navigator_stack", "_navigator_adaptive", "*", "Orders", "Tab_2", "Page 2"),
+        listOf("_root_navigator_stack", "_navigator_adaptive", "*", "Orders", "Tab_2", "Page 3"),
+
+        listOf("_root_navigator_stack", "_navigator_adaptive", "*", "Orders", "Tab_3", "Page 1"),
+        listOf("_root_navigator_stack", "_navigator_adaptive", "*", "Orders", "Tab_3", "Page 2"),
+        listOf("_root_navigator_stack", "_navigator_adaptive", "*", "Orders", "Tab_3", "Page 3"),
+
+        listOf("_root_navigator_stack", "_navigator_adaptive", "*", "Settings", "Page 1"),
+        listOf("_root_navigator_stack", "_navigator_adaptive", "*", "Settings", "Page 2"),
+        listOf("_root_navigator_stack", "_navigator_adaptive", "*", "Settings", "Page 3"),
     )
 
     @Composable

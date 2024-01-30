@@ -8,4 +8,8 @@ abstract class StackComponentViewModel(
 ) : ComponentViewModel() {
     abstract val stackStatePresenter: StackStatePresenter
     abstract fun onStackTopUpdate(topComponent: Component)
+
+    abstract fun onCheckChildForNextUriFragment(
+        deepLinkPathSegment: String
+    ): Component?
 }

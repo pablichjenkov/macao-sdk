@@ -9,15 +9,13 @@ import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import com.macaosoftware.app.MacaoApplication
-import com.macaosoftware.app.MacaoApplicationState
-import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
+import com.macaosoftware.app.MacaoKoinApplication
+import com.macaosoftware.app.MacaoKoinApplicationState
+import com.macaosoftware.app.Stage
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
-import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
-import com.macaosoftware.component.demo.view.SplashScreen
-import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
+import com.macaosoftware.component.demo.plugin.DemoKoinModuleInitializer
 import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
@@ -27,31 +25,45 @@ import kotlin.system.exitProcess
 
 class MainWindowComponent(
     val onOpenDeepLinkClick: () -> Unit,
-    val onMenuItemClick: (WindowSample) -> Unit,
+    val onMenuItemClick: (String) -> Unit,
     val onExitClick: () -> Unit
 ) : Component() {
     private val windowState = WindowState(size = DpSize(1000.dp, 900.dp))
-    private var adaptableSizeComponent = AdaptiveSizeComponent(AdaptiveSizeDemoViewModelFactory())
+
+    //private var adaptableSizeComponent = AdaptiveSizeComponent(AdaptiveSizeDemoViewModelFactory())
     private val desktopBridge = DesktopBridge()
+    //private val rootComponentKoinProvider = JvmRootComponentKoinProvider()
 
     // region: DeepLink
 
     fun handleDeepLink(destinations: List<String>) {
-        val deepLinkMsg = DeepLinkMsg(
-            path = destinations,
-            resultListener = { result ->
-                println("MainWindowNode::deepLinkResult = $result")
+        when (
+            val applicationState = macaoKoinApplicationState.stage.value
+        ) {
+            Stage.Created,
+            Stage.KoinLoading -> {
+                // no-op
             }
-        )
-        DefaultDeepLinkManager().navigateToDeepLink(adaptableSizeComponent, deepLinkMsg)
+
+            is Stage.Started -> {
+                val deepLinkMsg = DeepLinkMsg(
+                    path = destinations,
+                    resultListener = { result ->
+                        println("MainWindowComponent::deepLinkResult = $result")
+                    }
+                )
+
+                DefaultDeepLinkManager().navigateToDeepLink(applicationState.rootComponent, deepLinkMsg)
+            }
+        }
     }
 
     // endregion
 
-    private val macaoApplicationState = MacaoApplicationState(
+    private val macaoKoinApplicationState = MacaoKoinApplicationState(
         dispatcher = Dispatchers.Default,
-        rootComponentProvider = JvmRootComponentProvider(),
-        pluginInitializer = DemoPluginInitializer()
+        rootComponentKoinProvider = JvmRootComponentKoinProvider(),
+        koinModuleInitializer = DemoKoinModuleInitializer()
     )
 
     @Composable
@@ -65,12 +77,11 @@ class MainWindowComponent(
                 onMenuItemClick = onMenuItemClick,
                 onExitClick = onExitClick
             )
-            MacaoApplication(
+            MacaoKoinApplication(
                 windowState = windowState,
                 desktopBridge = desktopBridge,
                 onBackPress = { exitProcess(0) },
-                macaoApplicationState = macaoApplicationState,
-                splashScreenContent = { SplashScreen() }
+                applicationState = macaoKoinApplicationState
             )
         }
     }
@@ -79,7 +90,7 @@ class MainWindowComponent(
 @Composable
 private fun FrameWindowScope.DemoMenu(
     onOpenDeepLinkClick: () -> Unit,
-    onMenuItemClick: (WindowSample) -> Unit,
+    onMenuItemClick: (String) -> Unit,
     onExitClick: () -> Unit
 ) {
     MenuBar {
@@ -99,27 +110,15 @@ private fun FrameWindowScope.DemoMenu(
         }
         Menu("Samples") {
             Item(
-                "Slide Drawer",
+                "Menu.Item.1",
                 onClick = {
-                    onMenuItemClick(WindowSample.Drawer)
+                    onMenuItemClick("Menu.Item.1")
                 }
             )
             Item(
-                "Nav Bottom Bar",
+                "Menu.Item.2",
                 onClick = {
-                    onMenuItemClick(WindowSample.Navbar)
-                }
-            )
-            Item(
-                "Left Panel",
-                onClick = {
-                    onMenuItemClick(WindowSample.Panel)
-                }
-            )
-            Item(
-                "Full App Sample",
-                onClick = {
-                    onMenuItemClick(WindowSample.FullApp)
+                    onMenuItemClick("Menu.Item.2")
                 }
             )
         }
@@ -138,7 +137,7 @@ fun MainWindowComponentPreview() {
     simpleComponent.Content(Modifier)
     */
 
-    val topbarComponent = TopBarComponent(
+    val topBarComponent = TopBarComponent(
         viewModelFactory = Demo3PageTopBarViewModelFactory(
             topBarStatePresenter = TopBarComponentDefaults.createTopBarStatePresenter(),
             screenName = "Orders",
@@ -148,6 +147,6 @@ fun MainWindowComponentPreview() {
     ).apply {
         deepLinkPathSegment = "Orders"
     }
-    topbarComponent.dispatchStart()
-    topbarComponent.Content(Modifier)
+    topBarComponent.dispatchStart()
+    topBarComponent.Content(Modifier)
 }

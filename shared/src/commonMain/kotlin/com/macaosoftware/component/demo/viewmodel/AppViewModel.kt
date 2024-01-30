@@ -63,6 +63,11 @@ class AppViewModel(
 
     }
 
+    override fun onCheckChildForNextUriFragment(deepLinkPathSegment: String): Component? {
+        // do not participate in deep link navigation
+        return null
+    }
+
     override fun onStop() {
 
     }
