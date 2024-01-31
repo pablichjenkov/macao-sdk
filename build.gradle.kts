@@ -18,6 +18,7 @@ allprojects {
                 with(optIn) {
                     add("kotlin.experimental.ExperimentalObjCName")
                     add("androidx.compose.ui.ExperimentalComposeUiApi")
+                    add("androidx.compose.ui.window.ExperimentalComposeUiApi")
                     add("androidx.compose.material3.ExperimentalMaterial3Api")
                     add("androidx.compose.foundation.layout.ExperimentalLayoutApi")
                     add("org.jetbrains.compose.resources.ExperimentalResourceApi")

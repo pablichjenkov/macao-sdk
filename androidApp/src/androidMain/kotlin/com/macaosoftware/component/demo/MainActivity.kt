@@ -9,7 +9,6 @@ import androidx.compose.material3.MaterialTheme
 import com.macaosoftware.app.MacaoApplication
 import com.macaosoftware.app.MacaoApplicationState
 import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
-import com.macaosoftware.component.demo.view.SplashScreen
 import kotlinx.coroutines.Dispatchers
 
 class MainActivity : ComponentActivity() {
@@ -26,8 +25,7 @@ class MainActivity : ComponentActivity() {
             MaterialTheme {
                 MacaoApplication(
                     onBackPress = { finish() },
-                    macaoApplicationState = macaoApplicationState,
-                    splashScreenContent = { SplashScreen() }
+                    macaoApplicationState = macaoApplicationState
                 )
             }
         }

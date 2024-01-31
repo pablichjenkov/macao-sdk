@@ -1,10 +1,9 @@
 package com.macaosoftware.component.demo
 
 import androidx.compose.ui.window.CanvasBasedWindow
-import com.macaosoftware.app.MacaoApplication
-import com.macaosoftware.app.MacaoApplicationState
-import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
-import com.macaosoftware.component.demo.view.SplashScreen
+import com.macaosoftware.app.MacaoKoinApplication
+import com.macaosoftware.app.MacaoKoinApplicationState
+import com.macaosoftware.component.demo.plugin.DemoKoinModuleInitializer
 import com.macaosoftware.plugin.JsBridge
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.skiko.wasm.onWasmReady
@@ -12,20 +11,19 @@ import org.jetbrains.skiko.wasm.onWasmReady
 fun main() {
     onWasmReady {
 
-        val macaoApplicationState = MacaoApplicationState(
+        val applicationState = MacaoKoinApplicationState(
             dispatcher = Dispatchers.Default,
-            rootComponentProvider = BrowserRootComponentProvider(),
-            pluginInitializer = DemoPluginInitializer()
+            rootComponentKoinProvider = BrowserRootComponentKoinProvider(),
+            koinModuleInitializer = DemoKoinModuleInitializer()
         )
 
         CanvasBasedWindow("Macao SDK Demo") {
-            MacaoApplication(
+            MacaoKoinApplication(
                 jsBridge = JsBridge(),
                 onBackPress = {
                     println("Back press dispatched in root node")
                 },
-                macaoApplicationState = macaoApplicationState,
-                splashScreenContent = { SplashScreen() }
+                applicationState = applicationState
             )
         }
     }
