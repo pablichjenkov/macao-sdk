@@ -56,8 +56,7 @@ fun buildDemoViewController(
 
         MacaoApplication(
             onBackPress = onBackPress,
-            macaoApplicationState = macaoApplicationState,
-            splashScreenContent = { SplashScreen() }
+            macaoApplicationState = macaoApplicationState
         )
     }
 
