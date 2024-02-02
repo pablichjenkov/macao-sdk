@@ -8,7 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import com.macaosoftware.app.MacaoKoinApplication
 import com.macaosoftware.app.MacaoKoinApplicationState
-import com.macaosoftware.component.demo.plugin.DemoKoinModuleInitializer
+import com.macaosoftware.component.demo.plugin.DemoKoinRootModuleInitializer
 import kotlinx.coroutines.Dispatchers
 
 class KoinActivity : ComponentActivity() {
@@ -16,7 +16,7 @@ class KoinActivity : ComponentActivity() {
     private val applicationState = MacaoKoinApplicationState(
         dispatcher = Dispatchers.IO,
         rootComponentKoinProvider = AndroidRootComponentKoinProvider(this),
-        koinModuleInitializer = DemoKoinModuleInitializer()
+        koinRootModuleInitializer = DemoKoinRootModuleInitializer()
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

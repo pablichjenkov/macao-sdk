@@ -3,28 +3,21 @@ import ComponentDemoKt
 
 struct ContentView: View {
     
-    let iosBridge: IosBridge
-    
     var body: some View {
-        ComposeView(iosBridge: iosBridge)
-        // Compose has own keyboard handler
-        .ignoresSafeArea(.keyboard)
-        // If preferred to handle this in compose land
-        //.ignoresSafeArea(.all, edges: .bottom)
+        ComposeViewController()
+            // Compose has own keyboard handler
+            .ignoresSafeArea(.keyboard)
+            // If preferred to handle this in compose land
+            //.ignoresSafeArea(.all, edges: .bottom)
     }
 }
 
-struct ComposeView : UIViewControllerRepresentable {
-    
-    let iosBridge: IosBridge
+struct ComposeViewController : UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> UIViewController {
         
         return BindingsKt.buildKoinDemoViewController(
-            iosBridge: iosBridge,
-            onBackPress: {
-                exit(0)
-            }
+            onBackPress: { exit(0) }
         )
     }
     
@@ -32,5 +25,4 @@ struct ComposeView : UIViewControllerRepresentable {
         _ uiViewController: UIViewController,
         context: Context
     ) {}
-    
 }
