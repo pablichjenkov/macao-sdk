@@ -2,11 +2,9 @@ package com.macaosoftware.app
 
 import androidx.compose.runtime.Composable
 import com.macaosoftware.component.BrowserComponentRender
-import com.macaosoftware.plugin.JsBridge
 
 @Composable
 fun MacaoApplication(
-    jsBridge: JsBridge,
     onBackPress: () -> Unit,
     macaoApplicationState: MacaoApplicationState
 ) {
@@ -16,7 +14,6 @@ fun MacaoApplication(
         ?.also {
             BrowserComponentRender(
                 rootComponent = it,
-                jsBridge = jsBridge,
                 onBackPress = onBackPress
             )
         }

@@ -3,7 +3,6 @@ package com.macaosoftware.app
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import com.macaosoftware.component.IosComponentRender
-import com.macaosoftware.plugin.IosBridge
 
 @Composable
 fun MacaoKoinApplication(

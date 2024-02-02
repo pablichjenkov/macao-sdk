@@ -3,25 +3,20 @@ package com.macaosoftware.component
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
-import com.macaosoftware.component.util.LocalBackPressedDispatcher
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
+import com.macaosoftware.component.util.LocalBackPressedDispatcher
 import com.macaosoftware.plugin.DefaultBackPressDispatcherPlugin
-import com.macaosoftware.plugin.JsBridge
 import com.macaosoftware.plugin.Lifecycle
 import com.macaosoftware.plugin.LifecycleEventObserver
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 
 @Composable
 fun BrowserComponentRender(
     rootComponent: Component,
-    jsBridge: JsBridge,
     onBackPress: () -> Unit = {}
 ) {
     val webBackPressDispatcher = remember(rootComponent) {

@@ -15,7 +15,7 @@ import com.macaosoftware.app.Stage
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
-import com.macaosoftware.component.demo.plugin.DemoKoinModuleInitializer
+import com.macaosoftware.component.demo.plugin.DemoKoinRootModuleInitializer
 import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
@@ -63,7 +63,7 @@ class MainWindowComponent(
     private val macaoKoinApplicationState = MacaoKoinApplicationState(
         dispatcher = Dispatchers.Default,
         rootComponentKoinProvider = JvmRootComponentKoinProvider(),
-        koinModuleInitializer = DemoKoinModuleInitializer()
+        koinRootModuleInitializer = DemoKoinRootModuleInitializer()
     )
 
     @Composable

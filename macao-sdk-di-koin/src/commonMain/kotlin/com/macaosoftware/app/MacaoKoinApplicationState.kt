@@ -10,7 +10,7 @@ import org.koin.dsl.koinApplication
 class MacaoKoinApplicationState(
     dispatcher: CoroutineDispatcher,
     val rootComponentKoinProvider: RootComponentKoinProvider,
-    private val koinModuleInitializer: KoinModuleInitializer
+    private val koinRootModuleInitializer: KoinRootModuleInitializer
 ) {
     private val coroutineScope = CoroutineScope(dispatcher)
 
@@ -20,7 +20,7 @@ class MacaoKoinApplicationState(
         coroutineScope.launch {
 
             stage.value = Stage.KoinLoading
-            val appModule = koinModuleInitializer.initialize()
+            val appModule = koinRootModuleInitializer.initialize()
 
             val koinApplication = koinApplication {
                 printLogger()

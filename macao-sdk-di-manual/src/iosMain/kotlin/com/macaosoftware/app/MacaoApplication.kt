@@ -6,10 +6,10 @@ import com.macaosoftware.component.IosComponentRender
 @Composable
 fun MacaoApplication(
     onBackPress: () -> Unit,
-    macaoApplicationState: MacaoApplicationState
+    applicationState: MacaoApplicationState
 ) {
 
-    macaoApplicationState.rootComponentState.value
+    applicationState.rootComponentState.value
         .takeIf { it != null }
         ?.also {
             IosComponentRender(
@@ -18,6 +18,6 @@ fun MacaoApplication(
             )
         }
         ?: {
-            macaoApplicationState.fetchRootComponent()
+            applicationState.fetchRootComponent()
         }
 }
