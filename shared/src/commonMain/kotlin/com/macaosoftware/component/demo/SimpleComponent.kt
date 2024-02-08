@@ -56,11 +56,11 @@ class SimpleComponent(
         println("${instanceId()}::onAttach()")
     }
 
-    override fun onStart() {
+    override fun onActive() {
         println("${instanceId()}::onStart()")
     }
 
-    override fun onStop() {
+    override fun onInactive() {
         println("${instanceId()}::onStop()")
     }
 

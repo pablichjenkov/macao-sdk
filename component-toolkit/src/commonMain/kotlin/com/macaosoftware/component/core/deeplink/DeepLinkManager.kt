@@ -18,7 +18,7 @@ class DefaultDeepLinkManager: DeepLinkManager {
     ) {
         println("${component.instanceId()}::navigateToDeepLink(), path = ${deepLinkMsg.path.joinToString("/")}")
 
-        if (component.lifecycleState != ComponentLifecycleState.Started) {
+        if (component.lifecycleState != ComponentLifecycleState.Active) {
             println("${component.instanceId()}::navigateToDeepLink(), Waiting to be Started")
             component.deepLinkNavigationAwaitsStartedState = true
             component.awaitingDeepLinkMsg = deepLinkMsg

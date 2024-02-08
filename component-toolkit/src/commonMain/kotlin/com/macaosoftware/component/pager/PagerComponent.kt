@@ -59,7 +59,7 @@ class PagerComponent<out VM : PagerComponentViewModel>(
         componentViewModel.dispatchAttached()
     }
 
-    override fun onStart() {
+    override fun onActive() {
         println("${instanceId()}::onStart()")
         if (currentActiveIndexSet.isEmpty()) {
             if (childComponents.isNotEmpty()) {
@@ -72,16 +72,16 @@ class PagerComponent<out VM : PagerComponentViewModel>(
             }
         } else {
             currentActiveIndexSet.forEach { activeChildIndex ->
-                childComponents[activeChildIndex].dispatchStart()
+                childComponents[activeChildIndex].dispatchActive()
             }
         }
         componentViewModel.dispatchStart()
     }
 
-    override fun onStop() {
+    override fun onInactive() {
         println("${instanceId()}::onStop()")
         currentActiveIndexSet.forEach { activeChildIndex ->
-            childComponents[activeChildIndex].dispatchStop()
+            childComponents[activeChildIndex].dispatchInactive()
         }
         coroutineScope.coroutineContext.cancelChildren()
         componentViewModel.dispatchStop()
@@ -167,7 +167,7 @@ class PagerComponent<out VM : PagerComponentViewModel>(
                 keepStartedIndexSet.add(index)
             } else {
                 println("onPageChanged::stopping old index = $index")
-                childComponents[index].dispatchStop()
+                childComponents[index].dispatchInactive()
             }
         }
 
@@ -175,7 +175,7 @@ class PagerComponent<out VM : PagerComponentViewModel>(
         val newStartingSet = nextStartedIndexSet.subtract(keepStartedIndexSet)
         println("onPageChanged::newStartingSet = $newStartingSet")
         newStartingSet.forEach { index ->
-            childComponents[index].dispatchStart()
+            childComponents[index].dispatchActive()
         }
 
         currentActiveIndexSet = nextStartedIndexSet

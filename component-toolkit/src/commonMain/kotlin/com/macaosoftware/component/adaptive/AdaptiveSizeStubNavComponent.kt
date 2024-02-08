@@ -21,11 +21,11 @@ internal class AdaptiveSizeStubNavComponent : Component(), NavigationComponent {
     override var childComponents: MutableList<Component> = mutableListOf()
     override var activeComponent: MutableState<Component?> = mutableStateOf(this)
 
-    override fun onStart() {
+    override fun onActive() {
         println("${instanceId()}.start()")
     }
 
-    override fun onStop() {
+    override fun onInactive() {
         println("${instanceId()}.stop()")
     }
 

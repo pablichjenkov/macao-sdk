@@ -19,7 +19,7 @@ class NavigationComponentDefaultLifecycleHandler : NavigationComponent.Lifecycle
         val activeComponentCopy = activeComponent.value
         if (activeComponentCopy != null && backStack.size() > 0) {
             println("${getComponent().instanceId()}::onStart() with activeChild = ${activeComponentCopy.instanceId()}")
-            activeComponentCopy.dispatchStart()
+            activeComponentCopy.dispatchActive()
             return
         }
 
@@ -33,7 +33,7 @@ class NavigationComponentDefaultLifecycleHandler : NavigationComponent.Lifecycle
 
     override fun NavigationComponent.navigationComponentLifecycleStop() {
         println("${getComponent().instanceId()}::onStop()")
-        activeComponent.value?.dispatchStop()
+        activeComponent.value?.dispatchInactive()
     }
 
     override fun NavigationComponent.navigationComponentLifecycleDestroy() {

@@ -45,18 +45,18 @@ class StackComponent<out VM : StackComponentViewModel>(
         componentViewModel.dispatchAttached()
     }
 
-    override fun onStart() {
+    override fun onActive() {
         if (this.startedFromDeepLink) {
             return
         }
         if (activeComponent.value != null && !backstackInfo.isTopComponentStaled) {
-            activeComponent.value?.dispatchStart()
+            activeComponent.value?.dispatchActive()
         }
         componentViewModel.dispatchStart()
     }
 
-    override fun onStop() {
-        activeComponent.value?.dispatchStop()
+    override fun onInactive() {
+        activeComponent.value?.dispatchInactive()
         lastBackstackEvent = null
         componentViewModel.dispatchStop()
     }

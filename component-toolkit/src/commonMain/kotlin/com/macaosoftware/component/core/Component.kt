@@ -45,13 +45,13 @@ abstract class Component : ComponentLifecycle() {
         _lifecycleStateFlow.value = ComponentLifecycleState.Attached
     }
 
-    open fun dispatchStart() {
+    open fun dispatchActive() {
         // Protect against double calling
-        if (lifecycleState == ComponentLifecycleState.Started) {
+        if (lifecycleState == ComponentLifecycleState.Active) {
             return
         }
         // It has to be the first line of this block
-        lifecycleState = ComponentLifecycleState.Started
+        lifecycleState = ComponentLifecycleState.Active
         if (deepLinkNavigationAwaitsStartedState) {
             deepLinkNavigationAwaitsStartedState = false
             awaitingDeepLinkMsg?.let {
@@ -59,18 +59,18 @@ abstract class Component : ComponentLifecycle() {
             }
             return
         }
-        onStart()
-        _lifecycleStateFlow.value = ComponentLifecycleState.Started
+        onActive()
+        _lifecycleStateFlow.value = ComponentLifecycleState.Active
     }
 
-    open fun dispatchStop() {
+    open fun dispatchInactive() {
         // Protect against double calling
-        if (lifecycleState == ComponentLifecycleState.Stopped) {
+        if (lifecycleState == ComponentLifecycleState.Inactive) {
             return
         }
-        lifecycleState = ComponentLifecycleState.Stopped
-        onStop()
-        _lifecycleStateFlow.value = ComponentLifecycleState.Stopped
+        lifecycleState = ComponentLifecycleState.Inactive
+        onInactive()
+        _lifecycleStateFlow.value = ComponentLifecycleState.Inactive
         resetStartedValuesInternal()
     }
 
@@ -88,10 +88,10 @@ abstract class Component : ComponentLifecycle() {
     override fun onAttach() {
     }
 
-    override fun onStart() {
+    override fun onActive() {
     }
 
-    override fun onStop() {
+    override fun onInactive() {
     }
 
     override fun onDetach() {
@@ -175,11 +175,4 @@ abstract class Component : ComponentLifecycle() {
 object ComponentDefaults {
     internal const val EmptyStackMessage =
         "NavigationComponent Empty Stack!.\nYou either did not call setNavItem(...) and/or dispatchStart()"
-}
-
-sealed interface ComponentLifecycleState {
-    object Attached : ComponentLifecycleState
-    object Started : ComponentLifecycleState
-    object Stopped : ComponentLifecycleState
-    object Detached : ComponentLifecycleState
 }

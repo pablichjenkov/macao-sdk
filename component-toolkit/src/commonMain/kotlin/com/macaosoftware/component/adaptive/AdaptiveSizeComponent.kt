@@ -71,15 +71,15 @@ class AdaptiveSizeComponent<out VM : AdaptiveSizeComponentViewModel>(
         componentViewModel.dispatchAttached()
     }
 
-    override fun onStart() {
+    override fun onActive() {
         println("${instanceId()}::onStart()")
-        currentNavComponent.value.getComponent().dispatchStart()
+        currentNavComponent.value.getComponent().dispatchActive()
         componentViewModel.dispatchStart()
     }
 
-    override fun onStop() {
+    override fun onInactive() {
         println("${instanceId()}::onStop()")
-        currentNavComponent.value.getComponent().dispatchStop()
+        currentNavComponent.value.getComponent().dispatchInactive()
         componentViewModel.dispatchStop()
     }
 
@@ -115,7 +115,7 @@ class AdaptiveSizeComponent<out VM : AdaptiveSizeComponentViewModel>(
             ComponentLifecycleState.Detached -> {
             }
 
-            ComponentLifecycleState.Started -> {
+            ComponentLifecycleState.Active -> {
                 /*
                 // Uncomment this code to see the performance difference. You will notice a small
                 // glitch when switching from Panel to BottomNavigation for instance
@@ -138,8 +138,9 @@ class AdaptiveSizeComponent<out VM : AdaptiveSizeComponentViewModel>(
                 AdaptiveChildComponentSelector(modifier.fillMaxSize())
             }
 
-            ComponentLifecycleState.Stopped -> {
+            ComponentLifecycleState.Inactive -> {
             }
+
         }
     }
 
@@ -208,7 +209,7 @@ class AdaptiveSizeComponent<out VM : AdaptiveSizeComponentViewModel>(
             WindowSizeInfo.ExpandedLandscape -> ExpandedNavComponent
         }
         navComponent.setNavItems(navItems, selectedIndex)
-        navComponent.getComponent().dispatchStart()
+        navComponent.getComponent().dispatchActive()
         currentNavComponent.value = navComponent
     }
 

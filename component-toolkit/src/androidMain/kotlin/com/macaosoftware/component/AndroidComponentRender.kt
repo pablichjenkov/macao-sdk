@@ -47,11 +47,11 @@ fun AndroidComponentRender(
         lifecycleOwner = LocalLifecycleOwner.current,
         onStart = {
             println("Receiving Activity.onStart() event")
-            rootComponent.dispatchStart()
+            rootComponent.dispatchActive()
         },
         onStop = {
             println("Receiving Activity.onStop() event")
-            rootComponent.dispatchStop()
+            rootComponent.dispatchInactive()
         },
         initializeBlock = {
             rootComponent.dispatchAttach()

@@ -46,11 +46,11 @@ fun BrowserComponentRender(
         lifecycle = lifecycle,
         onStart = {
             println("Receiving Js.onStart() event")
-            rootComponent.dispatchStart()
+            rootComponent.dispatchActive()
         },
         onStop = {
             println("Receiving Js.onStop() event")
-            rootComponent.dispatchStop()
+            rootComponent.dispatchInactive()
         },
         initializeBlock = {
             rootComponent.dispatchAttach()

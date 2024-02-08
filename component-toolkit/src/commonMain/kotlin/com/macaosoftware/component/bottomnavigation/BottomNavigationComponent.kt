@@ -61,14 +61,14 @@ class BottomNavigationComponent<out VM : BottomNavigationComponentViewModel>(
         componentViewModel.dispatchAttached()
     }
 
-    override fun onStart() {
+    override fun onActive() {
         with(componentViewModel) {
             navigationComponentLifecycleStart()
             dispatchStart()
         }
     }
 
-    override fun onStop() {
+    override fun onInactive() {
         with(componentViewModel) {
             navigationComponentLifecycleStop()
             dispatchStop()
@@ -106,7 +106,7 @@ class BottomNavigationComponent<out VM : BottomNavigationComponentViewModel>(
         val navItemDecoNewList = navItems.map { it.toBottomNavigationNavItem() }
         navBarStatePresenter.setNavItemsDeco(navItemDecoNewList)
         navBarStatePresenter.selectNavItemDeco(navItemDecoNewList[selectedIndex])
-        if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
+        if (getComponent().lifecycleState == ComponentLifecycleState.Active) {
             navigator.push(childComponents[selectedIndex])
         }
     }
