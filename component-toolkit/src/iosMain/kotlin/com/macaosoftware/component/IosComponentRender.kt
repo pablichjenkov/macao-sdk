@@ -42,11 +42,11 @@ fun IosComponentRender(
         lifecycle = lifecycle,
         onStart = {
             println("Receiving IosApp.onStart() event")
-            rootComponent.dispatchStart()
+            rootComponent.dispatchActive()
         },
         onStop = {
             println("Receiving IosApp.onStop() event")
-            rootComponent.dispatchStop()
+            rootComponent.dispatchInactive()
         },
         initializeBlock = {
             rootComponent.dispatchAttach()

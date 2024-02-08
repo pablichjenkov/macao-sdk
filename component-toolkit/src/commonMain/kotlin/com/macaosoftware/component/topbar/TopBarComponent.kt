@@ -52,20 +52,20 @@ class TopBarComponent<out VM : TopBarComponentViewModel>(
         componentViewModel.dispatchAttached()
     }
 
-    override fun onStart() {
+    override fun onActive() {
         println("${instanceId()}::onStart()")
         if (this.startedFromDeepLink) {
             return
         }
         if (activeComponent.value != null && !backstackInfo.isTopComponentStaled) {
-            activeComponent.value?.dispatchStart()
+            activeComponent.value?.dispatchActive()
         }
         componentViewModel.dispatchStart()
     }
 
-    override fun onStop() {
+    override fun onInactive() {
         println("${instanceId()}::onStop()")
-        activeComponent.value?.dispatchStop()
+        activeComponent.value?.dispatchInactive()
         lastBackstackEvent = null
         componentViewModel.dispatchStop()
     }

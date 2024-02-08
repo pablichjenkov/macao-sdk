@@ -6,12 +6,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.util.LocalBackPressedDispatcher
@@ -22,9 +19,6 @@ import com.macaosoftware.plugin.Lifecycle
 import com.macaosoftware.plugin.LifecycleEventObserver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 @Composable
 fun DesktopComponentRender(
@@ -55,11 +49,11 @@ fun DesktopComponentRender(
         lifecycle = lifecycle,
         onStart = {
             println("Receiving Desktop.onStart() event")
-            rootComponent.dispatchStart()
+            rootComponent.dispatchActive()
         },
         onStop = {
             println("Receiving Desktop.onStop() event")
-            rootComponent.dispatchStop()
+            rootComponent.dispatchInactive()
         },
         initializeBlock = {
             rootComponent.dispatchAttach()

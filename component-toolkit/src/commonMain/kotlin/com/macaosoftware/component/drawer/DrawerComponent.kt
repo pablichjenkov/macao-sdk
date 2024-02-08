@@ -62,14 +62,14 @@ class DrawerComponent<out VM : DrawerComponentViewModel>(
         componentViewModel.dispatchAttached()
     }
 
-    override fun onStart() {
+    override fun onActive() {
         with(componentViewModel) {
             navigationComponentLifecycleStart()
             dispatchStart()
         }
     }
 
-    override fun onStop() {
+    override fun onInactive() {
         with(componentViewModel) {
             navigationComponentLifecycleStop()
             dispatchStop()
@@ -121,7 +121,7 @@ class DrawerComponent<out VM : DrawerComponentViewModel>(
         val navItemDecoNewList = navItems.map { it.toDrawerNavItem() }
         drawerStatePresenter.setNavItemsDeco(navItemDecoNewList)
         drawerStatePresenter.selectNavItemDeco(navItemDecoNewList[selectedIndex])
-        if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
+        if (getComponent().lifecycleState == ComponentLifecycleState.Active) {
             navigator.push(childComponents[selectedIndex])
         }
     }

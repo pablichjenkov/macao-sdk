@@ -63,7 +63,7 @@ suspend fun Component.repeatOnLifecycle(
                             // no-op
                         }
 
-                        ComponentLifecycleState.Started -> {
+                        ComponentLifecycleState.Active -> {
                             // Launch the repeating work preserving the calling context
                             launchedJob = this@coroutineScope.launch {
                                 // coroutineScope ensures all child coroutines finish
@@ -73,7 +73,7 @@ suspend fun Component.repeatOnLifecycle(
                             }
                         }
 
-                        ComponentLifecycleState.Stopped -> {
+                        ComponentLifecycleState.Inactive -> {
                             launchedJob?.cancel()
                             launchedJob = null
                         }

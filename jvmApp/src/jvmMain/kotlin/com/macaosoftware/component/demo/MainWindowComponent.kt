@@ -147,6 +147,6 @@ fun MainWindowComponentPreview() {
     ).apply {
         deepLinkPathSegment = "Orders"
     }
-    topBarComponent.dispatchStart()
+    topBarComponent.dispatchActive()
     topBarComponent.Content(Modifier)
 }

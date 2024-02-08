@@ -20,15 +20,15 @@ abstract class ComponentViewModel : ComponentViewModelLifecycle() {
 
     open fun dispatchStart() {
         // It has to be the first line of this block
-        lifecycleState = ComponentLifecycleState.Started
+        lifecycleState = ComponentLifecycleState.Active
         onStart()
-        _lifecycleStateFlow.value = ComponentLifecycleState.Started
+        _lifecycleStateFlow.value = ComponentLifecycleState.Active
     }
 
     open fun dispatchStop() {
-        lifecycleState = ComponentLifecycleState.Stopped
+        lifecycleState = ComponentLifecycleState.Inactive
         onStop()
-        _lifecycleStateFlow.value = ComponentLifecycleState.Stopped
+        _lifecycleStateFlow.value = ComponentLifecycleState.Inactive
     }
 
     open fun dispatchDetach() {

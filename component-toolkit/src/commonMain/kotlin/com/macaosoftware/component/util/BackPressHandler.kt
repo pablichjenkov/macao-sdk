@@ -52,14 +52,14 @@ fun BackPressHandler(
             // Ignore
         }
 
-        ComponentLifecycleState.Started -> {
+        ComponentLifecycleState.Active -> {
             println("${component.instanceId()}::Lifecycle Flow = Started, BackPressHandler Subscribing")
             if (enabled) {
                 backPressDispatcher.subscribe(backPressCallback)
             }
         }
 
-        ComponentLifecycleState.Stopped -> {
+        ComponentLifecycleState.Inactive -> {
             println("${component.instanceId()}::Lifecycle Flow = Stopped, BackPressHandler Unsubscribing")
             backPressDispatcher.unsubscribe(backPressCallback)
         }

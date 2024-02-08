@@ -44,11 +44,11 @@ class SimpleResponseComponent(
     private val _resultStateFlow = MutableStateFlow<String>("")
     val resultStateFlow: StateFlow<String> = _resultStateFlow.asStateFlow()
 
-    override fun onStart() {
+    override fun onActive() {
         println("${instanceId()}::onStart()")
     }
 
-    override fun onStop() {
+    override fun onInactive() {
         println("${instanceId()}::onStop()")
     }
 

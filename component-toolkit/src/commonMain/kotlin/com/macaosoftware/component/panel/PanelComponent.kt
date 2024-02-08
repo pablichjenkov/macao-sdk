@@ -61,14 +61,14 @@ class PanelComponent<out VM : PanelComponentViewModel>(
         componentViewModel.dispatchAttached()
     }
 
-    override fun onStart() {
+    override fun onActive() {
         with(componentViewModel) {
             navigationComponentLifecycleStart()
             dispatchStart()
         }
     }
 
-    override fun onStop() {
+    override fun onInactive() {
         with(componentViewModel) {
             navigationComponentLifecycleStop()
             dispatchStop()
@@ -106,7 +106,7 @@ class PanelComponent<out VM : PanelComponentViewModel>(
         val navItemDecoNewList = navItems.map { it.toPanelNavItem() }
         panelStatePresenter.setNavItemsDeco(navItemDecoNewList)
         panelStatePresenter.selectNavItemDeco(navItemDecoNewList[selectedIndex])
-        if (getComponent().lifecycleState == ComponentLifecycleState.Started) {
+        if (getComponent().lifecycleState == ComponentLifecycleState.Active) {
             navigator.push(childComponents[selectedIndex])
         }
     }

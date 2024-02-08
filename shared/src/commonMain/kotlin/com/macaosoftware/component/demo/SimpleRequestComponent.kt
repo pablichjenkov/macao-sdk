@@ -39,11 +39,11 @@ class SimpleRequestComponent(
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
     private var responseComponent by mutableStateOf<SimpleResponseComponent?>(null)
 
-    override fun onStart() {
+    override fun onActive() {
         println("${instanceId()}::onStart()")
     }
 
-    override fun onStop() {
+    override fun onInactive() {
         println("${instanceId()}::onStop()")
     }
 

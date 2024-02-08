@@ -18,11 +18,11 @@ class StateComponent<out VM : ComponentViewModel>(
         componentViewModel.dispatchAttached()
     }
 
-    override fun onStart() {
+    override fun onActive() {
         componentViewModel.dispatchStart()
     }
 
-    override fun onStop() {
+    override fun onInactive() {
         componentViewModel.dispatchStop()
     }
 
