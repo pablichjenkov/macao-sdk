@@ -14,21 +14,20 @@ Code is 99% reusable and available in all platforms.
 <img width="700" alt="macao-component-diagram" src="https://github.com/pablichjenkov/macao-sdk/assets/5303301/fe84be5a-c0a7-48f4-bfdc-79dbd7dbe30c">
 
 #### How to use it?
-Just add bellow dependency to the **commonMain** target and check the [Developers Guide](/component-toolkit/README.md) 
-in the component-toolkit module.
+Check the [Developers Guide](/component-toolkit/README.md) in the component-toolkit module. Soon the macao-sdk-di-koin module will have its own guide.
 
-**Component-toolkit is published on Maven Central:**
+**Artifacts are published on Maven Central:**
 
 ```kotlin
 val commonMain by getting {
     dependencies {
         // The basic components and plugins API. Use it if you have an
         // application architecture already and you just want to use some plugin implementations.
-        implementation("io.github.pablichjenkov:component-toolkit:0.5.16")
+        implementation("io.github.pablichjenkov:component-toolkit:0.5.17")
 
         // A full compose application architecture package with Koin as dependency injection
         // container. It also has an application class with delegates to set the desired plugins.
-        implementation("io.github.pablichjenkov:macao-sdk-di-koin:0.5.16")
+        implementation("io.github.pablichjenkov:macao-sdk-di-koin:0.5.17")
     }
 }
 ```
