@@ -21,16 +21,10 @@ fun IosComponentRender(
     onBackPress: () -> Unit = {}
 ) {
 
-    val backPressDispatcher = remember(rootComponent) {
-        // todo: get this from the plugin manager instead
-        DefaultBackPressDispatcherPlugin()
-    }
-
     val updatedOnBackPressed by rememberUpdatedState(onBackPress)
     val lifecycle = remember(rootComponent) { Lifecycle() }
 
     CompositionLocalProvider(
-        LocalBackPressedDispatcher provides backPressDispatcher,
         LocalRootComponentProvider provides rootComponent
     ) {
         Box(modifier = Modifier.fillMaxSize()) {

@@ -3,12 +3,10 @@ package com.macaosoftware.app
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.DesktopComponentRender
-import com.macaosoftware.plugin.DesktopBridge
 
 @Composable
 fun MacaoApplication(
     windowState: WindowState,
-    desktopBridge: DesktopBridge,
     onBackPress: () -> Unit,
     macaoApplicationState: MacaoApplicationState
 ) {
@@ -18,7 +16,6 @@ fun MacaoApplication(
             DesktopComponentRender(
                 rootComponent = it,
                 windowState = windowState,
-                desktopBridge = desktopBridge,
                 onBackPress = onBackPress
             )
         }

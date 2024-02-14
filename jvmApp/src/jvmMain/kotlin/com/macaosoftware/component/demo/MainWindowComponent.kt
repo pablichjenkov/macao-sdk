@@ -19,7 +19,6 @@ import com.macaosoftware.component.demo.plugin.DemoKoinRootModuleInitializer
 import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
-import com.macaosoftware.plugin.DesktopBridge
 import kotlinx.coroutines.Dispatchers
 import kotlin.system.exitProcess
 
@@ -30,9 +29,11 @@ class MainWindowComponent(
 ) : Component() {
     private val windowState = WindowState(size = DpSize(1000.dp, 900.dp))
 
-    //private var adaptableSizeComponent = AdaptiveSizeComponent(AdaptiveSizeDemoViewModelFactory())
-    private val desktopBridge = DesktopBridge()
-    //private val rootComponentKoinProvider = JvmRootComponentKoinProvider()
+    private val macaoKoinApplicationState = MacaoKoinApplicationState(
+        dispatcher = Dispatchers.Default,
+        rootComponentKoinProvider = JvmRootComponentKoinProvider(),
+        koinRootModuleInitializer = DemoKoinRootModuleInitializer()
+    )
 
     // region: DeepLink
 
@@ -60,12 +61,6 @@ class MainWindowComponent(
 
     // endregion
 
-    private val macaoKoinApplicationState = MacaoKoinApplicationState(
-        dispatcher = Dispatchers.Default,
-        rootComponentKoinProvider = JvmRootComponentKoinProvider(),
-        koinRootModuleInitializer = DemoKoinRootModuleInitializer()
-    )
-
     @Composable
     override fun Content(modifier: Modifier) {
         Window(
@@ -79,7 +74,6 @@ class MainWindowComponent(
             )
             MacaoKoinApplication(
                 windowState = windowState,
-                desktopBridge = desktopBridge,
                 onBackPress = { exitProcess(0) },
                 applicationState = macaoKoinApplicationState
             )
