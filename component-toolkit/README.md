@@ -354,7 +354,6 @@ fun AndroidComponentRender(
 @Composable
 fun IosComponentRender(
     rootComponent: Component,
-    iosBridge: IosBridge,
     onBackPress: () -> Unit = {}
 )
 
@@ -363,7 +362,6 @@ fun IosComponentRender(
 fun DesktopComponentRender(
     rootComponent: Component,
     windowState: WindowState,
-    desktopBridge: DesktopBridge,
     onBackPress: () -> Unit = {}
 )
 
@@ -371,7 +369,6 @@ fun DesktopComponentRender(
 @Composable
 fun BrowserComponentRender(
    rootComponent: Component,
-   jsBridge: JsBridge,
    onBackPress: () -> Unit = {}
 )
 ```
@@ -422,9 +419,8 @@ fun MyExistingScreen() {
     // Example 
     val diContainer = DiContainerCompositionLocal.current
     val viewModelDependencies = diContainer.viewModelDependencies
-    val iosBridge = diContainer.iosBridge
 
-    val rootComponent = remember(viewModelDependencies, iosBridge) {
+    val rootComponent = remember(viewModelDependencies) {
         StateComponent<DemoViewModel>(
             viewModelFactory = DemoViewModelFactory(viewModelDependencies),
             content = DemoComponentView
@@ -432,7 +428,7 @@ fun MyExistingScreen() {
     }
 
     // Here as an example in iOS
-    IosComponentRender(rootComponent, iosBridge)
+    IosComponentRender(rootComponent)
 
     ...
 

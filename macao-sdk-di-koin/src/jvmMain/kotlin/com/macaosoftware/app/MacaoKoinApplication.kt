@@ -4,12 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.DesktopComponentRender
-import com.macaosoftware.plugin.DesktopBridge
 
 @Composable
 fun MacaoKoinApplication(
     windowState: WindowState,
-    desktopBridge: DesktopBridge,
     onBackPress: () -> Unit,
     applicationState: MacaoKoinApplicationState
 ) {
@@ -29,7 +27,6 @@ fun MacaoKoinApplication(
             DesktopComponentRender(
                 rootComponent = stage.rootComponent,
                 windowState = windowState,
-                desktopBridge = desktopBridge,
                 onBackPress = onBackPress
             )
         }

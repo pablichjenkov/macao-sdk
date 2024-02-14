@@ -11,10 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.WindowState
-import com.macaosoftware.component.util.LocalBackPressedDispatcher
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
-import com.macaosoftware.plugin.DesktopBridge
 import com.macaosoftware.plugin.Lifecycle
 import com.macaosoftware.plugin.LifecycleEventObserver
 import kotlinx.coroutines.CoroutineScope
@@ -24,13 +22,8 @@ import kotlinx.coroutines.Dispatchers
 fun DesktopComponentRender(
     rootComponent: Component,
     windowState: WindowState,
-    desktopBridge: DesktopBridge,
     onBackPress: () -> Unit = {}
 ) {
-
-    val desktopBackPressDispatcher = remember(rootComponent) {
-        desktopBridge.backPressDispatcherPlugin
-    }
 
     val updatedOnBackPressed by rememberUpdatedState(onBackPress)
 
@@ -39,7 +32,6 @@ fun DesktopComponentRender(
     }
 
     CompositionLocalProvider(
-        LocalBackPressedDispatcher provides desktopBackPressDispatcher,
         LocalRootComponentProvider provides rootComponent
     ) {
         rootComponent.Content(Modifier.fillMaxSize())
