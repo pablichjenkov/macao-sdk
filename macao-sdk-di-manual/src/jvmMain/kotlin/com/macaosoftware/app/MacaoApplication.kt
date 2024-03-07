@@ -1,6 +1,7 @@
 package com.macaosoftware.app
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.DesktopComponentRender
 
@@ -8,18 +9,27 @@ import com.macaosoftware.component.DesktopComponentRender
 fun MacaoApplication(
     windowState: WindowState,
     onBackPress: () -> Unit,
-    macaoApplicationState: MacaoApplicationState
+    applicationState: MacaoApplicationState
 ) {
 
-    macaoApplicationState.rootComponentState.value.takeIf { it != null }
-        ?.also {
+    when (val stage = applicationState.stage.value) {
+
+        Stage.Created -> {
+            SideEffect {
+                applicationState.start()
+            }
+        }
+
+        Stage.Loading -> {
+        }
+
+        is Stage.Started -> {
             DesktopComponentRender(
-                rootComponent = it,
+                rootComponent = stage.rootComponent,
                 windowState = windowState,
                 onBackPress = onBackPress
             )
         }
-        ?: {
-            macaoApplicationState.fetchRootComponent()
-        }
+    }
+
 }

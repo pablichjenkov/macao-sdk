@@ -12,16 +12,16 @@ fun MacaoKoinApplication(
 
     when (val stage = applicationState.stage.value) {
 
-        Stage.Created -> {
+        KoinAppStage.Created -> {
             SideEffect {
                 applicationState.start()
             }
         }
 
-        Stage.KoinLoading -> {
+        KoinAppStage.Loading -> {
         }
 
-        is Stage.Started -> {
+        is KoinAppStage.Started -> {
             IosComponentRender(
                 rootComponent = stage.rootComponent,
                 onBackPress = onBackPress

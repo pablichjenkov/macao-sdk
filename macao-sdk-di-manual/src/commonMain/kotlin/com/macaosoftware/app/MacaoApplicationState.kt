@@ -8,22 +8,27 @@ import kotlinx.coroutines.launch
 
 class MacaoApplicationState(
     dispatcher: CoroutineDispatcher,
-    val rootComponentProvider: RootComponentProvider,
-    pluginInitializer: PluginInitializer
+    private val rootComponentProvider: RootComponentProvider,
+    private val pluginInitializer: PluginInitializer
 ) {
-    val coroutineScope = CoroutineScope(dispatcher)
 
-    var rootComponentState = mutableStateOf<Component?>(null)
+    var stage = mutableStateOf<Stage>(Stage.Created)
+    private val coroutineScope = CoroutineScope(dispatcher)
+    private val pluginManager = PluginManager()
 
-    val pluginManager = PluginManager()
-
-    init {
-        pluginInitializer.initialize(pluginManager)
-    }
-
-    fun fetchRootComponent() {
+    fun start() {
         coroutineScope.launch {
-            rootComponentState.value = rootComponentProvider.provideRootComponent(pluginManager)
+
+            stage.value = Stage.Loading
+            pluginInitializer.initialize(pluginManager)
+            val rootComponent = rootComponentProvider.provideRootComponent(pluginManager)
+            stage.value = Stage.Started(rootComponent)
         }
     }
+}
+
+sealed class Stage {
+    data object Created : Stage()
+    data object Loading : Stage()
+    class Started(val rootComponent: Component) : Stage()
 }

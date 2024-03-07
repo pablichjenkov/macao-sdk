@@ -1,6 +1,7 @@
 package com.macaosoftware.app
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import com.macaosoftware.component.IosComponentRender
 
 @Composable
@@ -9,15 +10,23 @@ fun MacaoApplication(
     applicationState: MacaoApplicationState
 ) {
 
-    applicationState.rootComponentState.value
-        .takeIf { it != null }
-        ?.also {
+    when (val stage = applicationState.stage.value) {
+
+        Stage.Created -> {
+            SideEffect {
+                applicationState.start()
+            }
+        }
+
+        Stage.Loading -> {
+        }
+
+        is Stage.Started -> {
             IosComponentRender(
-                rootComponent = it,
+                rootComponent = stage.rootComponent,
                 onBackPress = onBackPress
             )
         }
-        ?: {
-            applicationState.fetchRootComponent()
-        }
+    }
+
 }

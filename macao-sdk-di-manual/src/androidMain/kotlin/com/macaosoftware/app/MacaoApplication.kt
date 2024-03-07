@@ -1,23 +1,31 @@
 package com.macaosoftware.app
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import com.macaosoftware.component.AndroidComponentRender
 
 @Composable
 fun MacaoApplication(
     onBackPress: () -> Unit,
-    macaoApplicationState: MacaoApplicationState
+    applicationState: MacaoApplicationState
 ) {
 
-    macaoApplicationState.rootComponentState.value
-        .takeIf { it != null }
-        ?.also {
+    when (val stage = applicationState.stage.value) {
+
+        Stage.Created -> {
+            SideEffect {
+                applicationState.start()
+            }
+        }
+
+        Stage.Loading -> {
+        }
+
+        is Stage.Started -> {
             AndroidComponentRender(
-                rootComponent = it,
+                rootComponent = stage.rootComponent,
                 onBackPress = onBackPress
             )
         }
-        ?: {
-            macaoApplicationState.fetchRootComponent()
-        }
+    }
 }
