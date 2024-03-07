@@ -26,7 +26,9 @@ class AndroidRootComponentProvider(
                 }
             ),
             content = StackComponentDefaults.DefaultStackComponentView
-        )
+        ).also {
+            it.deepLinkPathSegment = "_root_navigator_stack"
+        }
     }
 
 }

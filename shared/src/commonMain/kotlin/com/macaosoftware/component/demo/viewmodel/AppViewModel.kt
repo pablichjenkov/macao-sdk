@@ -7,7 +7,6 @@ import androidx.compose.material.icons.filled.Home
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.NavItem
 import com.macaosoftware.component.core.setNavItems
-import com.macaosoftware.component.demo.SplashComponent
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.Demo3PageTopBarViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.DrawerComponentViewModelEmptyFactory
@@ -18,11 +17,15 @@ import com.macaosoftware.component.drawer.DrawerStatePresenterDefault
 import com.macaosoftware.component.drawer.DrawerStyle
 import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
 import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDefaults
+import com.macaosoftware.component.demo.startup.StartupView
+import com.macaosoftware.component.demo.startup.StartupViewModel
+import com.macaosoftware.component.demo.startup.StartupViewModelFactory
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentViewModel
 import com.macaosoftware.component.stack.StackStatePresenterDefault
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
+import com.macaosoftware.component.viewmodel.StateComponent
 import kotlinx.coroutines.Dispatchers
 
 class AppViewModel(
@@ -46,9 +49,12 @@ class AppViewModel(
         deepLinkPathSegment = "Onboard"
     }
 
-    private val splashComponent = SplashComponent {
-        appComponent.navigator.push(customTopBarComponent)
-    }
+    private val splashComponent = StateComponent<StartupViewModel>(
+        viewModelFactory = StartupViewModelFactory {
+            appComponent.navigator.push(customTopBarComponent)
+        },
+        content = StartupView
+    )
 
     override fun onAttach() {
         splashComponent.setParent(appComponent)

@@ -6,26 +6,26 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
-import com.macaosoftware.app.MacaoKoinApplication
-import com.macaosoftware.app.MacaoKoinApplicationState
-import com.macaosoftware.component.demo.plugin.DemoKoinRootModuleInitializer
+import com.macaosoftware.app.MacaoApplication
+import com.macaosoftware.app.MacaoApplicationState
+import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
 import kotlinx.coroutines.Dispatchers
 
-class KoinActivity : ComponentActivity() {
+class ManualDiActivityDemo : ComponentActivity() {
 
-    private val applicationState = MacaoKoinApplicationState(
+    private val macaoApplicationState = MacaoApplicationState(
         dispatcher = Dispatchers.IO,
-        rootComponentKoinProvider = AndroidRootComponentKoinProvider(this),
-        koinRootModuleInitializer = DemoKoinRootModuleInitializer()
+        rootComponentProvider = AndroidRootComponentProvider(this),
+        pluginInitializer = DemoPluginInitializer()
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme {
-                MacaoKoinApplication(
+                MacaoApplication(
                     onBackPress = { finish() },
-                    applicationState = applicationState
+                    applicationState = macaoApplicationState
                 )
             }
         }

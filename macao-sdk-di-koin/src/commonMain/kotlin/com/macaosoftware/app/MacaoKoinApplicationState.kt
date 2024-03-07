@@ -12,14 +12,14 @@ class MacaoKoinApplicationState(
     val rootComponentKoinProvider: RootComponentKoinProvider,
     private val koinRootModuleInitializer: KoinRootModuleInitializer
 ) {
-    private val coroutineScope = CoroutineScope(dispatcher)
 
-    var stage = mutableStateOf<Stage>(Stage.Created)
+    var stage = mutableStateOf<KoinAppStage>(KoinAppStage.Created)
+    private val coroutineScope = CoroutineScope(dispatcher)
 
     fun start() {
         coroutineScope.launch {
 
-            stage.value = Stage.KoinLoading
+            stage.value = KoinAppStage.Loading
             val appModule = koinRootModuleInitializer.initialize()
 
             val koinApplication = koinApplication {
@@ -31,13 +31,13 @@ class MacaoKoinApplicationState(
 
             val rootComponent = rootComponentKoinProvider.provideRootComponent(koinDiContainer)
 
-            stage.value = Stage.Started(rootComponent)
+            stage.value = KoinAppStage.Started(rootComponent)
         }
     }
 }
 
-sealed class Stage {
-    data object Created : Stage()
-    data object KoinLoading : Stage()
-    class Started(val rootComponent: Component) : Stage()
+sealed class KoinAppStage {
+    data object Created : KoinAppStage()
+    data object Loading : KoinAppStage()
+    class Started(val rootComponent: Component) : KoinAppStage()
 }

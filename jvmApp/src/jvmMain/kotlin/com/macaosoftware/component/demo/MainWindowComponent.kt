@@ -11,7 +11,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.app.MacaoKoinApplication
 import com.macaosoftware.app.MacaoKoinApplicationState
-import com.macaosoftware.app.Stage
+import com.macaosoftware.app.KoinAppStage
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
@@ -41,12 +41,12 @@ class MainWindowComponent(
         when (
             val applicationState = macaoKoinApplicationState.stage.value
         ) {
-            Stage.Created,
-            Stage.KoinLoading -> {
+            KoinAppStage.Created,
+            KoinAppStage.Loading -> {
                 // no-op
             }
 
-            is Stage.Started -> {
+            is KoinAppStage.Started -> {
                 val deepLinkMsg = DeepLinkMsg(
                     path = destinations,
                     resultListener = { result ->

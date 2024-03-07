@@ -13,12 +13,3 @@ sealed interface ComponentLifecycleState {
     object Inactive : ComponentLifecycleState
     object Detached : ComponentLifecycleState
 }
-
-sealed interface PlatformLifecycleState {
-    object Created : PlatformLifecycleState
-    object Started : PlatformLifecycleState
-    object Resumed : PlatformLifecycleState
-    object Paused : PlatformLifecycleState
-    object Stopped : PlatformLifecycleState
-    object Destroyed : PlatformLifecycleState
-}
