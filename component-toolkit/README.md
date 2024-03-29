@@ -5,7 +5,7 @@ Components can interact with each other directly or indirectly.
 In a direct manner, a parent component will create or hoist children components so it knows the children types and functionality.
 In an indirect way, a Component can connect to another Component in the tree that is not necesarelly its children. Using Component deep linking, any Component in the tree can connect to another Component and send requests and receive results back.
 
-#### Guides
+#### Guides [A bit outdated, it will update in next release]
 1. [Simple Component](#simple-component)
 2. [State Component](#state-component)
 3. [Navigation Component](#navigation-component)
