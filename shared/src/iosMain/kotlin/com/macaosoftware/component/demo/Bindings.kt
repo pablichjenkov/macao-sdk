@@ -22,9 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import platform.UIKit.UIViewController
 
-fun buildDemoViewController(
-    onBackPress: () -> Unit = {}
-): UIViewController {
+fun buildDemoViewController(): UIViewController {
 
     val applicationState = MacaoApplicationState(
         dispatcher = Dispatchers.IO,
@@ -33,14 +31,11 @@ fun buildDemoViewController(
     )
 
     return MacaoComposeViewController(
-        applicationState = applicationState,
-        onBackPress = onBackPress
+        applicationState = applicationState
     )
 }
 
-fun buildKoinDemoViewController(
-    onBackPress: () -> Unit = {}
-): UIViewController {
+fun buildKoinDemoViewController(): UIViewController {
 
     val applicationState = MacaoKoinApplicationState(
         dispatcher = Dispatchers.IO,
@@ -49,8 +44,7 @@ fun buildKoinDemoViewController(
     )
 
     return MacaoKoinComposeViewController(
-        applicationState,
-        onBackPress
+        applicationState
     )
 }
 

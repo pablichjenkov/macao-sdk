@@ -17,11 +17,9 @@ import com.macaosoftware.plugin.Lifecycle
 
 @Composable
 fun IosComponentRender(
-    rootComponent: Component,
-    onBackPress: () -> Unit = {}
+    rootComponent: Component
 ) {
 
-    val updatedOnBackPressed by rememberUpdatedState(onBackPress)
     val lifecycle = remember(rootComponent) { Lifecycle() }
 
     CompositionLocalProvider(
@@ -44,7 +42,6 @@ fun IosComponentRender(
         },
         initializeBlock = {
             rootComponent.dispatchAttach()
-            rootComponent.rootBackPressDelegate = updatedOnBackPressed
         }
     )
 

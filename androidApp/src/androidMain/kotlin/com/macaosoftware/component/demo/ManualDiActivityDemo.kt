@@ -24,7 +24,6 @@ class ManualDiActivityDemo : ComponentActivity() {
         setContent {
             MaterialTheme {
                 MacaoApplication(
-                    onBackPress = { finish() },
                     applicationState = macaoApplicationState
                 )
             }

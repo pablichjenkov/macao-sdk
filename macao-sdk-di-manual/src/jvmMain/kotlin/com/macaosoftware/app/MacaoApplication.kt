@@ -8,7 +8,6 @@ import com.macaosoftware.component.DesktopComponentRender
 @Composable
 fun MacaoApplication(
     windowState: WindowState,
-    onBackPress: () -> Unit,
     applicationState: MacaoApplicationState
 ) {
 
@@ -26,8 +25,7 @@ fun MacaoApplication(
         is Stage.Started -> {
             DesktopComponentRender(
                 rootComponent = stage.rootComponent,
-                windowState = windowState,
-                onBackPress = onBackPress
+                windowState = windowState
             )
         }
     }

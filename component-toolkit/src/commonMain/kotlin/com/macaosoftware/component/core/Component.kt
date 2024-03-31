@@ -101,8 +101,6 @@ abstract class Component : ComponentLifecycle() {
 
     // region: BackPress
 
-    internal var rootBackPressDelegate: (() -> Unit)? = null
-
     /**
      * If a Component does not override handleBackPressed() function, the default behavior is to
      * delegate/forward the back press event upstream, for its parent Component to handle it.
@@ -119,8 +117,8 @@ abstract class Component : ComponentLifecycle() {
             println("${instanceId()}::delegateBackPressedToParent()")
             parentComponentCopy.handleBackPressed()
         } else {
-            println("${instanceId()}::Back Press reached root component unhandled")
-            rootBackPressDelegate?.invoke()
+            println("${instanceId()}::Back Press reached parentComponentCopy = null. " +
+                    "Is either root component or unattached component")
         }
     }
 

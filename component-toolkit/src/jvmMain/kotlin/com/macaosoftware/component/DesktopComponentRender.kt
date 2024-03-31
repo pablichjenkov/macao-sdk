@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.core.Component
@@ -21,11 +19,8 @@ import kotlinx.coroutines.Dispatchers
 @Composable
 fun DesktopComponentRender(
     rootComponent: Component,
-    windowState: WindowState,
-    onBackPress: () -> Unit = {}
+    windowState: WindowState
 ) {
-
-    val updatedOnBackPressed by rememberUpdatedState(onBackPress)
 
     val lifecycle = remember(rootComponent) {
         Lifecycle(CoroutineScope(Dispatchers.Main), windowState)
@@ -49,7 +44,6 @@ fun DesktopComponentRender(
         },
         initializeBlock = {
             rootComponent.dispatchAttach()
-            rootComponent.rootBackPressDelegate = updatedOnBackPressed
         }
     )
 }

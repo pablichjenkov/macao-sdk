@@ -6,8 +6,7 @@ import com.macaosoftware.component.IosComponentRender
 
 @Composable
 fun MacaoKoinApplication(
-    applicationState: MacaoKoinApplicationState,
-    onBackPress: () -> Unit
+    applicationState: MacaoKoinApplicationState
 ) {
 
     when (val stage = applicationState.stage.value) {
@@ -23,8 +22,7 @@ fun MacaoKoinApplication(
 
         is KoinAppStage.Started -> {
             IosComponentRender(
-                rootComponent = stage.rootComponent,
-                onBackPress = onBackPress
+                rootComponent = stage.rootComponent
             )
         }
     }

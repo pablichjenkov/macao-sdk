@@ -4,11 +4,9 @@ import androidx.compose.ui.window.ComposeUIViewController
 import platform.UIKit.UIViewController
 
 fun MacaoKoinComposeViewController(
-    applicationState: MacaoKoinApplicationState,
-    onBackPress: () -> Unit = {}
+    applicationState: MacaoKoinApplicationState
 ): UIViewController = ComposeUIViewController {
     MacaoKoinApplication(
-        applicationState = applicationState,
-        onBackPress = onBackPress
+        applicationState = applicationState
     )
 }

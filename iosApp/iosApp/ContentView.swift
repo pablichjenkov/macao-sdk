@@ -16,9 +16,8 @@ struct ComposeViewController : UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> UIViewController {
         
-        return BindingsKt.buildKoinDemoViewController(
-            onBackPress: { exit(0) }
-        )
+        //return BindingsKt.buildDemoViewController()
+        return BindingsKt.buildKoinDemoViewController()
     }
     
     func updateUIViewController(

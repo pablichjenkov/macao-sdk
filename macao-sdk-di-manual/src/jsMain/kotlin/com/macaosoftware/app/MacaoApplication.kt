@@ -6,7 +6,6 @@ import com.macaosoftware.component.BrowserComponentRender
 
 @Composable
 fun MacaoApplication(
-    onBackPress: () -> Unit,
     applicationState: MacaoApplicationState
 ) {
 
@@ -22,10 +21,7 @@ fun MacaoApplication(
         }
 
         is Stage.Started -> {
-            BrowserComponentRender(
-                rootComponent = stage.rootComponent,
-                onBackPress = onBackPress
-            )
+            BrowserComponentRender(rootComponent = stage.rootComponent)
         }
     }
     
