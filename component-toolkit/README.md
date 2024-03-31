@@ -345,32 +345,22 @@ You may have noticed in previous code samples the use of `component.dispatchStar
 ```kotlin
 // Android
 @Composable
-fun AndroidComponentRender(
-   rootComponent: Component,
-   onBackPress: () -> Unit = {}
-)
+fun AndroidComponentRender(rootComponent: Component)
 
 // iOS
 @Composable
-fun IosComponentRender(
-    rootComponent: Component,
-    onBackPress: () -> Unit = {}
-)
+fun IosComponentRender(rootComponent: Component)
 
 // Desktop
 @Composable
 fun DesktopComponentRender(
     rootComponent: Component,
-    windowState: WindowState,
-    onBackPress: () -> Unit = {}
+    windowState: WindowState
 )
 
 // JS
 @Composable
-fun BrowserComponentRender(
-   rootComponent: Component,
-   onBackPress: () -> Unit = {}
-)
+fun BrowserComponentRender(rootComponent: Component)
 ```
 This is a snippet on Android, see the toolkit Demo App for the other platforms.
 ```kotlin
@@ -387,10 +377,7 @@ class DrawerActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme {
-                AndroidComponentRender(
-                    rootComponent = drawerComponent,
-                    onBackPress = { finish() }
-                )
+                AndroidComponentRender(rootComponent = drawerComponent)
             }
         }
     }
