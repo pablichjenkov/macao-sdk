@@ -124,10 +124,6 @@ abstract class Component : ComponentLifecycle() {
         }
     }
 
-    private fun resetStartedValuesInternal() {
-        startedFromDeepLink = false
-    }
-
     // endregion
 
     // region: DeepLink
@@ -151,6 +147,10 @@ abstract class Component : ComponentLifecycle() {
                 "override in this class. Default implementation does nothing.
             """
         )
+    }
+
+    private fun resetStartedValuesInternal() {
+        startedFromDeepLink = false
     }
 
     // endregion
