@@ -24,7 +24,6 @@ class KoinDiActivityDemo : ComponentActivity() {
         setContent {
             MaterialTheme {
                 MacaoKoinApplication(
-                    onBackPress = { finish() },
                     applicationState = applicationState
                 )
             }

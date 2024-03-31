@@ -6,7 +6,6 @@ import com.macaosoftware.component.AndroidComponentRender
 
 @Composable
 fun MacaoApplication(
-    onBackPress: () -> Unit,
     applicationState: MacaoApplicationState
 ) {
 
@@ -23,8 +22,7 @@ fun MacaoApplication(
 
         is Stage.Started -> {
             AndroidComponentRender(
-                rootComponent = stage.rootComponent,
-                onBackPress = onBackPress
+                rootComponent = stage.rootComponent
             )
         }
     }

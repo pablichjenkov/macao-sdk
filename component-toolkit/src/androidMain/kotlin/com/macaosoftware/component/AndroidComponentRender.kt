@@ -28,11 +28,9 @@ import com.macaosoftware.plugin.backpress.AndroidBackPressDispatcherPlugin
 
 @Composable
 fun AndroidComponentRender(
-    rootComponent: Component,
-    onBackPress: () -> Unit = {}
+    rootComponent: Component
 ) {
 
-    val updatedOnBackPressed by rememberUpdatedState(onBackPress)
     val activity = LocalContext.current as ComponentActivity
 
     CompositionLocalProvider(
@@ -54,7 +52,6 @@ fun AndroidComponentRender(
         },
         initializeBlock = {
             rootComponent.dispatchAttach()
-            rootComponent.rootBackPressDelegate = updatedOnBackPressed
         }
     )
 
@@ -104,9 +101,6 @@ private fun AndroidComponentRenderPreview() {
         it.setNavItems(navItems = drawerItems, selectedIndex = 1)
     }
 
-    AndroidComponentRender(
-        rootComponent = drawerComponent,
-        onBackPress = {}
-    )
+    AndroidComponentRender(rootComponent = drawerComponent)
 
 }

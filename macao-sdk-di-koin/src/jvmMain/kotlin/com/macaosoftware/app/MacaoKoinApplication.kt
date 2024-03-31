@@ -26,8 +26,7 @@ fun MacaoKoinApplication(
         is KoinAppStage.Started -> {
             DesktopComponentRender(
                 rootComponent = stage.rootComponent,
-                windowState = windowState,
-                onBackPress = onBackPress
+                windowState = windowState
             )
         }
     }

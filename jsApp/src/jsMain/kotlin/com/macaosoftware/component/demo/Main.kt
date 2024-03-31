@@ -17,12 +17,7 @@ fun main() {
         )
 
         CanvasBasedWindow("Macao SDK Demo") {
-            MacaoKoinApplication(
-                onBackPress = {
-                    println("Back press dispatched in root node")
-                },
-                applicationState = applicationState
-            )
+            MacaoKoinApplication(applicationState = applicationState)
         }
     }
 }
