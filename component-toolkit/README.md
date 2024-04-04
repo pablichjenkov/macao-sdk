@@ -35,12 +35,12 @@ class SimpleComponent(
         println("${instanceId()}::onAttach()")
     }
    
-    override fun onStart() {
-        println("${instanceId()}::onStart()")
+    override fun onActive() {
+        println("${instanceId()}::onActive()")
     }
 
-    override fun onStop() {
-        println("${instanceId()}::onStop()")
+    override fun onInactive() {
+        println("${instanceId()}::onInactive()")
     }
 
     override fun onDetach() {
@@ -96,14 +96,14 @@ class DemoViewModel(
         ...
     }
 
-    override fun onStart() {
+    override fun onActive() {
         println("My bound Component ID = ${component.instanceId()}")
         viewModelDependency.getX()
         ...
     }
 
-    override fun onStop() {
-        println("${instanceId()}::onStop()")
+    override fun onInactive() {
+        println("${instanceId()}::onInactive()")
     }
 
     override fun onDetach() {
@@ -319,11 +319,11 @@ class CustomBottomNavigationViewModel(
        }
     }
    
-    override fun onStart() {
+    override fun onActive() {
         bottomNavigationStatePresenter.blinkSelectedTabWhenComponentStart()
     }
 
-    override fun onStop() {
+    override fun onInactive() {
     }
 
     override fun onDetach() {
@@ -499,12 +499,12 @@ class SimpleComponent(
         println("${instanceId()}::onAttach()")
     }
 
-    override fun onStart() {
-        println("${instanceId()}::onStart()")
+    override fun onActive() {
+        println("${instanceId()}::onActive()")
     }
 
-    override fun onStop() {
-        println("${instanceId()}::onStop()")
+    override fun onInactive() {
+        println("${instanceId()}::onInactive()")
     }
 
     override fun onDetach() {
@@ -519,11 +519,9 @@ These lifecycle classes are pretty similar to lifecycles in Android but with an 
 The components lifecycle is determine by the platform lifecycle plus vissibility in the parent. 
 In regards to platform lifecycle, the library commonize the platforms in the following manner:
 
-`Android::onStart()` = `iOS::UIApplication.didBecomeActiveNotification` = `!(Desktop/Browser)::Window::minimized`
+`Android::onActive()` = `iOS::UIApplication.didBecomeActiveNotification` = `!(Desktop/Browser)::Window::minimized`
 
-`Android::onStop()` = `iOS::UIApplication.didEnterBackgroundNotification` = `(Desktop/Browser)::Window::minimized`
-
-`Android::onDetach()` = `iOS::Application.exit()` = `(Desktop/Browser)::Window::exit()`
+`Android::onInactive()` = `iOS::UIApplication.didEnterBackgroundNotification` = `(Desktop/Browser)::Window::minimized`
 
 To propagate platforms events into compose the library uses a **DefaultAppLifecycleDispatcher**. Check that class usage to see how it works. The same technique can be applied for communication between any platform API and compose so it is worthy to check how this class work.
 
