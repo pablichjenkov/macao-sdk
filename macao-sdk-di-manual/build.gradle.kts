@@ -29,7 +29,7 @@ kotlin {
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        moduleName = "MacaoSdkKoin"
+        moduleName = "MacaoSdk"
         browser()
         binaries.library()
     }
