@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -138,17 +140,17 @@ kotlin {
         }
     }
 
-    // JS
+    // Browser
     js(IR) {
         browser()
     }
 
-    // WASM, once kotlin 1.8.20 is out. Although I believe this should go in the jsApp module not
-    // in the library. Perhaps can go here without the binaries.executable() statement
-    /*wasm {
-        binaries.executable()
-        browser {}
-    }*/
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        moduleName = "ComponentToolkitKt"
+        browser()
+        binaries.library()
+    }
 
     // JVM
     jvm()
@@ -161,7 +163,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.material3)
             implementation(compose.animation)
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
             // implementation("org.jetbrains.compose.ui:ui-util:1.5.10")
             // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
         }

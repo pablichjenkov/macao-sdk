@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -111,6 +113,13 @@ kotlin {
         browser()
     }
 
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        moduleName = "MacaoSdkKoin"
+        browser()
+        binaries.library()
+    }
+
     jvm()
 
     sourceSets {
@@ -118,25 +127,26 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.ui)
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
 
             // Macao Libs
             api(project(":component-toolkit"))
 
             // Koin
-            api("io.insert-koin:koin-core:3.5.3")
+            // api("io.insert-koin:koin-core:3.5.3")
+            api("io.insert-koin:koin-core:3.6.0-wasm-alpha2")
         }
         commonTest.dependencies {
             // implementation(libs.kotlin.test)
         }
         androidMain.dependencies {
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
         }
         jvmMain.dependencies {
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.3")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.8.0")
         }
         jsMain.dependencies {
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.7.3")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.8.0")
         }
     }
 }

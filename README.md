@@ -19,8 +19,8 @@ Check the [Developers Guide](/component-toolkit/README.md) in the component-tool
 **Artifacts are published on Maven Central:**
 
 ```kotlin
-val commonMain by getting {
-    dependencies {
+sourceSets {
+    commonMain.dependencies {
         // The basic components and plugins API. Use it if you have an
         // application architecture already and you just want to use some plugin implementations.
         implementation("io.github.pablichjenkov:component-toolkit:0.6.1")
