@@ -20,9 +20,9 @@ kotlin {
             implementation(project(":macao-sdk-di-koin"))
             implementation(project(":macao-sdk-di-manual"))
             implementation(compose.material3)
-            implementation("androidx.activity:activity-compose:1.8.1")
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+            implementation("androidx.activity:activity-compose:1.8.2")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
         }
     }
 }

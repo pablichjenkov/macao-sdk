@@ -6,6 +6,7 @@ include(":shared")
 include(":androidApp")
 include(":jsApp")
 include(":jvmApp")
+include(":wasmApp")
 
 pluginManagement {
     repositories {

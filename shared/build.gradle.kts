@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
@@ -34,6 +36,13 @@ kotlin {
         browser()
     }
 
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        moduleName = "shared"
+        browser()
+        binaries.library()
+    }
+
     // JVM
     jvm()
 
@@ -43,7 +52,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.foundation)
             implementation(compose.material3)
-            implementation("org.jetbrains.compose.components:components-resources:1.5.11")
+            implementation("org.jetbrains.compose.components:components-resources:1.6.1")
 
             // Macao Libs
             api(project(":macao-sdk-di-koin"))
