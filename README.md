@@ -11,7 +11,7 @@ Code is 99% reusable and available in all platforms.
 
 <img width="700" alt="macao-sdk-arch" src="https://github.com/pablichjenkov/macao-sdk/assets/5303301/2f3b0d28-c3ab-42cd-9de0-094d373503c7">
 
-<img width="700" alt="macao-component-diagram" src="https://github.com/pablichjenkov/macao-sdk/assets/5303301/fe84be5a-c0a7-48f4-bfdc-79dbd7dbe30c">
+<img width="700" alt="macao-component-diagram" src="https://github.com/pablichjenkov/macao-sdk/assets/5303301/fa58c951-0fc7-470d-b2a0-9a534a405c34">
 
 #### How to use it?
 Check the [Developers Guide](/component-toolkit/README.md) in the component-toolkit module. Soon the macao-sdk-di-koin module will have its own guide.
