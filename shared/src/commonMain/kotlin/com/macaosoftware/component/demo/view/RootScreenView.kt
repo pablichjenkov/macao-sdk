@@ -13,12 +13,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.macaosoftware.component.core.BackPressHandler
-import com.macaosoftware.component.demo.viewmodel.MainScreenViewModel
+import com.macaosoftware.component.demo.viewmodel.RootScreenViewModel
 import com.macaosoftware.component.viewmodel.StateComponent
 
-val MainScreenView: @Composable StateComponent<MainScreenViewModel>.(
+val RootScreenView: @Composable StateComponent<RootScreenViewModel>.(
     modifier: Modifier,
-    componentViewModel: MainScreenViewModel
+    componentViewModel: RootScreenViewModel
 ) -> Unit = { modifier, mainScreenViewModel ->
 
     BackPressHandler()

@@ -1,17 +1,17 @@
 package com.macaosoftware.component.demo.viewmodel.factory
 
 import com.macaosoftware.component.demo.view.DemoType
-import com.macaosoftware.component.demo.viewmodel.MainScreenViewModel
+import com.macaosoftware.component.demo.viewmodel.RootScreenViewModel
 import com.macaosoftware.component.viewmodel.ComponentViewModelFactory
 import com.macaosoftware.component.viewmodel.StateComponent
 
-class MainScreenViewModelFactory(
+class RootScreenViewModelFactory(
     private val onItemSelected: (DemoType) -> Unit,
     private val onBackPress: () -> Boolean
-) :ComponentViewModelFactory<MainScreenViewModel> {
+) :ComponentViewModelFactory<RootScreenViewModel> {
     override fun create(
-        component: StateComponent<MainScreenViewModel>
-    ): MainScreenViewModel {
-        return MainScreenViewModel(onItemSelected, onBackPress)
+        component: StateComponent<RootScreenViewModel>
+    ): RootScreenViewModel {
+        return RootScreenViewModel(onItemSelected, onBackPress)
     }
 }

@@ -9,8 +9,6 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -23,8 +21,8 @@ import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.preview.DrawerComponentViewModelPreviewAndroidRenderFactory
 import com.macaosoftware.component.util.LocalBackPressedDispatcher
-import com.macaosoftware.plugin.LifecycleEventObserver
 import com.macaosoftware.plugin.backpress.AndroidBackPressDispatcherPlugin
+import com.macaosoftware.plugin.lifecycle.LifecycleEventObserver
 
 @Composable
 fun AndroidComponentRender(
