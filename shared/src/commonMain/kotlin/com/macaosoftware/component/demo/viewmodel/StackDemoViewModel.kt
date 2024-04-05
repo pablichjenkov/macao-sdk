@@ -7,12 +7,12 @@ import com.macaosoftware.component.bottomnavigation.BottomNavigationStatePresent
 import com.macaosoftware.component.bottomnavigation.BottomNavigationStyle
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.view.DemoType
-import com.macaosoftware.component.demo.view.MainScreenView
+import com.macaosoftware.component.demo.view.RootScreenView
 import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.AppViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.DrawerDemoViewModelFactory
-import com.macaosoftware.component.demo.viewmodel.factory.MainScreenViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.factory.RootScreenViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.PagerDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.factory.PanelDemoViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
@@ -40,8 +40,8 @@ class StackDemoViewModel(
     onBackPress: () -> Boolean
 ) : StackComponentViewModel(stackComponent) {
 
-    private val mainScreenComponent = StateComponent<MainScreenViewModel>(
-        viewModelFactory = MainScreenViewModelFactory(
+    private val rootScreenComponent = StateComponent<RootScreenViewModel>(
+        viewModelFactory = RootScreenViewModelFactory(
             onItemSelected = {
                 val component = when (it) {
                     DemoType.bottomNavigation -> bottomNavigationComponent
@@ -55,7 +55,7 @@ class StackDemoViewModel(
             },
             onBackPress = onBackPress
         ),
-        content = MainScreenView
+        content = RootScreenView
     )
 
     val adaptiveSizeComponent =
@@ -153,7 +153,7 @@ class StackDemoViewModel(
     }
 
     override fun onAttach() {
-        stackComponent.navigator.push(mainScreenComponent)
+        stackComponent.navigator.push(rootScreenComponent)
     }
 
     override fun onStart() {

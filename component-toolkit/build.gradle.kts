@@ -166,6 +166,8 @@ kotlin {
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
             // implementation("org.jetbrains.compose.ui:ui-util:1.5.10")
             // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+            implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0-dev1557")
+            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.8.0-dev1557")
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
@@ -173,8 +175,6 @@ kotlin {
 
         // ANDROID
         androidMain.dependencies {
-            // implementation("androidx.lifecycle:lifecycle-common:2.8.0-alpha02")
-            // implementation("androidx.lifecycle:lifecycle-runtime:2.8.0-alpha02")
             implementation("androidx.activity:activity-compose:1.8.2")
             api(compose.uiTooling)
             api(compose.preview)
@@ -188,8 +188,6 @@ kotlin {
 
         // IOS
         iosMain.dependencies {
-            // implementation("androidx.lifecycle:lifecycle-common:2.8.0-alpha02")
-            // implementation("androidx.lifecycle:lifecycle-runtime:2.8.0-alpha02")
         }
 
         // WASM
@@ -199,8 +197,6 @@ kotlin {
 
         // JVM
         jvmMain.dependencies {
-            // implementation("androidx.lifecycle:lifecycle-common:2.8.0-alpha02")
-            // implementation("androidx.lifecycle:lifecycle-runtime:2.8.0-alpha02")
             api(compose.uiTooling)
             api(compose.preview)
         }

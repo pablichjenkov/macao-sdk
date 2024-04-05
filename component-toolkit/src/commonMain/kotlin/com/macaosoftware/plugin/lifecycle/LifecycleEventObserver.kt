@@ -1,11 +1,9 @@
-package com.macaosoftware.plugin
+package com.macaosoftware.plugin.lifecycle
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -22,7 +20,7 @@ fun LifecycleEventObserver(
     val currentOnStop by rememberUpdatedState(newValue = onStop)
 
     // If the enclosing lifecycleOwner changes, dispose and reset the effect
-    DisposableEffect(key1 = initializeBlock, key2 = lifecycleOwner) {
+    DisposableEffect(key1 = lifecycleOwner) {
         initializeBlock.invoke()
         // Create an observer that triggers our remembered callbacks
         // when the LifecycleOwner that contains this composable changes its state.
@@ -40,10 +38,7 @@ fun LifecycleEventObserver(
         // When the effect leaves the Composition, remove the observer
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
-            Log.d(
-                "LifecycleEventObserver",
-                "Disposing LifecycleEventObserver"
-            )
+            println("LifecycleEventObserver::Disposing LifecycleEventObserver")
         }
     }
 

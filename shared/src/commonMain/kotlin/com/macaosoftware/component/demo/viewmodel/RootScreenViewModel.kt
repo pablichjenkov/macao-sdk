@@ -3,7 +3,7 @@ package com.macaosoftware.component.demo.viewmodel
 import com.macaosoftware.component.demo.view.DemoType
 import com.macaosoftware.component.viewmodel.ComponentViewModel
 
-class MainScreenViewModel(
+class RootScreenViewModel(
     private val onOptionSelected: (DemoType) -> Unit,
     private val onBackPress: () -> Boolean
 ) : ComponentViewModel() {

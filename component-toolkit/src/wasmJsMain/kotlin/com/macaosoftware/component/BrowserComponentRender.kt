@@ -3,19 +3,16 @@ package com.macaosoftware.component
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
-import com.macaosoftware.plugin.Lifecycle
-import com.macaosoftware.plugin.LifecycleEventObserver
+import com.macaosoftware.plugin.lifecycle.LifecycleEventObserver
 
 @Composable
 fun BrowserComponentRender(
     rootComponent: Component
 ) {
-
-    val lifecycle = remember(rootComponent) { Lifecycle() }
 
     CompositionLocalProvider(
         LocalRootComponentProvider provides rootComponent
@@ -32,7 +29,7 @@ fun BrowserComponentRender(
     }
 
     LifecycleEventObserver(
-        lifecycle = lifecycle,
+        lifecycleOwner = LocalLifecycleOwner.current,
         onStart = {
             println("Receiving Js.onStart() event")
             rootComponent.dispatchActive()
