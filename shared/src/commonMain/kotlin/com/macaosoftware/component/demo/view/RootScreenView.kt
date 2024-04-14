@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.macaosoftware.component.core.BackPressHandler
-import com.macaosoftware.component.demo.viewmodel.RootScreenViewModel
+import com.macaosoftware.component.demo.viewmodel.root.RootScreenViewModel
 import com.macaosoftware.component.viewmodel.StateComponent
 
 val RootScreenView: @Composable StateComponent<RootScreenViewModel>.(
@@ -65,11 +65,6 @@ private fun DemoSelection(
         ) {
             onClick(DemoType.adaptive)
         }
-        LaunchButton(
-            "Stack Navigation with Splash screen Example"
-        ) {
-            onClick(DemoType.coordinator)
-        }
     }
 }
 
@@ -93,6 +88,5 @@ enum class DemoType {
     drawer,
     pager,
     panel,
-    adaptive,
-    coordinator
+    adaptive
 }

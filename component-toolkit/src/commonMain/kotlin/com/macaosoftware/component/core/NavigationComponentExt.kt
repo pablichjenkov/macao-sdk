@@ -61,6 +61,11 @@ internal fun NavigationComponent.clearNavigationComponent() {
 }
 
 fun NavigationComponent.getNavItemFromComponent(component: Component): NavItem {
+    println("Pablo:: looking for: ${component.instanceId()}")
+    println("Pablo:: navItems in ${this.getComponent().instanceId()} ")
+    navItems.forEachIndexed { idx, item ->
+        println("Pablo:: navItems: ${item.component.instanceId()}")
+    }
     return navItems.first { it.component == component }
 }
 

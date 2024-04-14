@@ -252,7 +252,7 @@ class AdaptiveSizeComponent<out VM : AdaptiveSizeComponentViewModel>(
         donorNavComponent: NavigationComponent,
         adoptingNavComponent: NavigationComponent
     ): NavigationComponent {
-        if (adoptingNavComponent == donorNavComponent) {
+        if (adoptingNavComponent === donorNavComponent) {
             return adoptingNavComponent
         }
         return adoptingNavComponent.apply { transferFrom(donorNavComponent) }
