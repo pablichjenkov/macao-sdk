@@ -8,10 +8,9 @@ import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.demo.plugin.DemoKoinRootModuleInitializer
 import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
-import com.macaosoftware.component.demo.viewmodel.factory.AdaptiveSizeDemoViewModelFactory
-import com.macaosoftware.component.demo.viewmodel.factory.AppViewModelFactory
-import com.macaosoftware.component.demo.viewmodel.factory.DrawerDemoViewModelFactory
-import com.macaosoftware.component.demo.viewmodel.factory.PagerDemoViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.adaptive.AdaptiveSizeDemoViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.drawer.DrawerDemoViewModelFactory
+import com.macaosoftware.component.demo.viewmodel.pager.PagerDemoViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.pager.PagerComponent
