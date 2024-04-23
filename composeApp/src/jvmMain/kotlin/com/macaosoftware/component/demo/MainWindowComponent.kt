@@ -9,9 +9,6 @@ import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import com.macaosoftware.app.MacaoApplication
-import com.macaosoftware.plugin.app.MacaoApplicationState
-import com.macaosoftware.plugin.app.Stage
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
@@ -19,6 +16,9 @@ import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
 import com.macaosoftware.component.demo.viewmodel.topbar.Demo3PageTopBarViewModelFactory
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
+import com.macaosoftware.plugin.app.MacaoApplication
+import com.macaosoftware.plugin.app.MacaoApplicationState
+import com.macaosoftware.plugin.app.Stage
 import kotlinx.coroutines.Dispatchers
 
 class MainWindowComponent(
@@ -72,7 +72,6 @@ class MainWindowComponent(
                 onExitClick = onExitClick
             )
             MacaoApplication(
-                windowState = windowState,
                 applicationState = macaoKoinApplicationState
             )
         }

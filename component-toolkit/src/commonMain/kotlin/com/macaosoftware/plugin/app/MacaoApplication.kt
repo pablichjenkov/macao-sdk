@@ -2,9 +2,7 @@ package com.macaosoftware.plugin.app
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import com.macaosoftware.component.IosComponentRender
-import com.macaosoftware.plugin.app.MacaoApplicationState
-import com.macaosoftware.plugin.app.Stage
+import com.macaosoftware.component.PlatformComponentRenderer
 
 @Composable
 fun MacaoApplication(
@@ -23,10 +21,7 @@ fun MacaoApplication(
         }
 
         is Stage.Started -> {
-            IosComponentRender(
-                rootComponent = stage.rootComponent
-            )
+            PlatformComponentRenderer(rootComponent = stage.rootComponent)
         }
     }
-
 }
