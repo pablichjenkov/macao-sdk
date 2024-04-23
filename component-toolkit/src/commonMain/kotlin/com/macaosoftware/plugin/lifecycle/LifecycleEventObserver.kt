@@ -25,6 +25,7 @@ fun LifecycleEventObserver(
         // Create an observer that triggers our remembered callbacks
         // when the LifecycleOwner that contains this composable changes its state.
         val observer = LifecycleEventObserver { _, event ->
+            println("Receiving event: $event")
             if (event == Lifecycle.Event.ON_START) {
                 currentOnStart()
             } else if (event == Lifecycle.Event.ON_STOP) {

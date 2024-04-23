@@ -8,15 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.LocalRootComponentProvider
 import com.macaosoftware.plugin.lifecycle.LifecycleEventObserver
 
 @Composable
 fun DesktopComponentRender(
-    rootComponent: Component,
-    windowState: WindowState
+    rootComponent: Component
 ) {
 
     CompositionLocalProvider(
