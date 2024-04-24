@@ -5,6 +5,11 @@ import kotlin.native.ObjCName
 
 @ObjCName("RootComponentProvider")
 interface RootComponentProvider {
+
+    /**
+     *
+     *
+     * */
     suspend fun provideRootComponent(
         pluginManager: PluginManager
     ): Component

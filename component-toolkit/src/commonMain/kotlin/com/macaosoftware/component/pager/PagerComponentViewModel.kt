@@ -9,6 +9,6 @@ import com.macaosoftware.plugin.CoroutineDispatchers
 abstract class PagerComponentViewModel(
     val pagerComponent: PagerComponent<PagerComponentViewModel>,
     val pagerStyle: PagerStyle = PagerStyle(),
-    val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
+    val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Default,
     val pushStrategy: PushStrategy<Component> = AddAllPushStrategy()
 ) : ComponentViewModel()

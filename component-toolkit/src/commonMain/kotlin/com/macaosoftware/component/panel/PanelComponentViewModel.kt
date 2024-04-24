@@ -12,7 +12,7 @@ abstract class PanelComponentViewModel(
     val panelComponent: PanelComponent<PanelComponentViewModel>,
     private val lifecycleHandler: NavigationComponent.LifecycleHandler =
         NavigationComponentDefaults.createLifecycleHandler(),
-    val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Defaults,
+    val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Default,
     val pushStrategy: PushStrategy<Component> = AddAllPushStrategy(),
 ) : ComponentViewModel(),
     NavigationComponent.LifecycleHandler by lifecycleHandler {

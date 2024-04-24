@@ -1,4 +1,4 @@
-package com.macaosoftware.component.demo.viewmodel.stack
+package com.macaosoftware.component.demo.startup
 
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
@@ -11,10 +11,10 @@ import com.macaosoftware.component.demo.view.RootScreenView
 import com.macaosoftware.component.demo.viewmodel.adaptive.AdaptiveSizeDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.bottomnavigation.BottomNavigationDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.drawer.DrawerDemoViewModelFactory
-import com.macaosoftware.component.demo.viewmodel.root.RootScreenViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.pager.PagerDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.panel.PanelDemoViewModelFactory
 import com.macaosoftware.component.demo.viewmodel.root.RootScreenViewModel
+import com.macaosoftware.component.demo.viewmodel.root.RootScreenViewModelFactory
 import com.macaosoftware.component.drawer.DrawerComponent
 import com.macaosoftware.component.drawer.DrawerComponentDefaults
 import com.macaosoftware.component.drawer.DrawerHeaderDefaultState
@@ -28,17 +28,20 @@ import com.macaosoftware.component.panel.PanelHeaderStateDefault
 import com.macaosoftware.component.panel.PanelStatePresenterDefault
 import com.macaosoftware.component.panel.PanelStyle
 import com.macaosoftware.component.stack.StackComponent
-import com.macaosoftware.component.stack.StackComponentDefaults
 import com.macaosoftware.component.stack.StackComponentViewModel
 import com.macaosoftware.component.stack.StackStatePresenter
 import com.macaosoftware.component.viewmodel.StateComponent
+import com.macaosoftware.plugin.app.PluginManager
 import kotlinx.coroutines.Dispatchers
 
-class StackDemoViewModel(
+class StartupCoordinatorViewModel(
     stackComponent: StackComponent<StackComponentViewModel>,
     override val stackStatePresenter: StackStatePresenter,
+    private val pluginManager: PluginManager,
     onBackPress: () -> Boolean
 ) : StackComponentViewModel(stackComponent) {
+
+    // val ktorClient = pluginManager.ktorClient
 
     private val rootScreenComponent = StateComponent<RootScreenViewModel>(
         viewModelFactory = RootScreenViewModelFactory(
@@ -63,7 +66,6 @@ class StackDemoViewModel(
         ).also {
             it.deepLinkPathSegment = "_navigator_adaptive"
         }
-
 
     val bottomNavigationComponent =
         BottomNavigationComponent(

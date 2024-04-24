@@ -19,7 +19,6 @@ import com.macaosoftware.component.topbar.TopBarComponentDefaults
 import com.macaosoftware.plugin.app.MacaoApplication
 import com.macaosoftware.plugin.app.MacaoApplicationState
 import com.macaosoftware.plugin.app.Stage
-import kotlinx.coroutines.Dispatchers
 
 class MainWindowComponent(
     val onOpenDeepLinkClick: () -> Unit,
@@ -29,7 +28,6 @@ class MainWindowComponent(
     private val windowState = WindowState(size = DpSize(1000.dp, 900.dp))
 
     private val macaoKoinApplicationState = MacaoApplicationState(
-        dispatcher = Dispatchers.Default,
         rootComponentProvider = JvmRootComponentProvider(),
         pluginInitializer = DemoPluginInitializer()
     )
@@ -41,7 +39,7 @@ class MainWindowComponent(
             val applicationState = macaoKoinApplicationState.stage.value
         ) {
             Stage.Created,
-            Stage.Loading -> {
+            Stage.InitializingDiAndRootComponent -> {
                 // no-op
             }
 
