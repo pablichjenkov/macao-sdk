@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Widget">
         <activity
-            android:name=".ManualDiActivityDemo"
+            android:name=".MainActivity"
             android:configChanges="orientation|screenLayout|smallestScreenSize|screenSize|keyboardHidden"
             android:exported="true">
             <intent-filter>

@@ -9,12 +9,10 @@ import androidx.compose.material3.MaterialTheme
 import com.macaosoftware.plugin.app.MacaoApplicationState
 import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
 import com.macaosoftware.plugin.app.MacaoApplication
-import kotlinx.coroutines.Dispatchers
 
-class ManualDiActivityDemo : ComponentActivity() {
+class MainActivity : ComponentActivity() {
 
     private val macaoApplicationState = MacaoApplicationState(
-        dispatcher = Dispatchers.IO,
         rootComponentProvider = AndroidRootComponentProvider(this),
         pluginInitializer = DemoPluginInitializer()
     )

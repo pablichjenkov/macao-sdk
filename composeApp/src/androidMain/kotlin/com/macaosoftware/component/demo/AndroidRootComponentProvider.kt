@@ -4,8 +4,8 @@ import androidx.activity.ComponentActivity
 import com.macaosoftware.plugin.app.PluginManager
 import com.macaosoftware.plugin.app.RootComponentProvider
 import com.macaosoftware.component.core.Component
-import com.macaosoftware.component.demo.viewmodel.stack.StackDemoViewModel
-import com.macaosoftware.component.demo.viewmodel.stack.StackDemoViewModelFactory
+import com.macaosoftware.component.demo.startup.StartupCoordinatorViewModel
+import com.macaosoftware.component.demo.startup.StartupCoordinatorViewModelFactory
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
 
@@ -17,9 +17,13 @@ class AndroidRootComponentProvider(
         pluginManager: PluginManager
     ): Component {
 
-        return StackComponent<StackDemoViewModel>(
-            viewModelFactory = StackDemoViewModelFactory(
+        // val httpClient = pluginManager.ktorClient
+        //
+
+        return StackComponent<StartupCoordinatorViewModel>(
+            viewModelFactory = StartupCoordinatorViewModelFactory(
                 stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
+                pluginManager = pluginManager,
                 onBackPress = {
                     activity.finish()
                     true

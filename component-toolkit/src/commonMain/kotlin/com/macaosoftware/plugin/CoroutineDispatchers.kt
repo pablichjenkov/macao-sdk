@@ -9,7 +9,7 @@ class CoroutineDispatchers(
     val io: CoroutineDispatcher
 ) {
     companion object {
-        val Defaults = CoroutineDispatchers(
+        val Default = CoroutineDispatchers(
             main = Dispatchers.Main,
             default = Dispatchers.Default,
             io = Dispatchers.Unconfined

@@ -13,11 +13,16 @@ fun MacaoApplication(
 
         Stage.Created -> {
             SideEffect {
-                applicationState.start()
+                applicationState.initialize()
             }
         }
 
-        Stage.Loading -> {
+        Stage.InitializingDiAndRootComponent -> {
+            // Is up to the developer showing a full color screen or Splash screen
+            // here in this stage. If the App requires fetching a configuration
+            // from the network eg: server-driven-ui. Then show a loader animation here.
+            // Otherwise just live it as is until the StartupCoordinator component
+            // or root component start.
         }
 
         is Stage.Started -> {
