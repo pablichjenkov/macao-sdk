@@ -1,32 +1,60 @@
 package com.macaosoftware.plugin.app
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.macaosoftware.component.PlatformComponentRenderer
 
 @Composable
 fun MacaoApplication(
     applicationState: MacaoApplicationState
-) {
+) = when (val stage = applicationState.stage.value) {
 
-    when (val stage = applicationState.stage.value) {
-
-        Stage.Created -> {
-            SideEffect {
-                applicationState.initialize()
-            }
+    Created -> {
+        SideEffect {
+            applicationState.initialize()
         }
+    }
 
-        is Stage.InitializingDiAndRootComponent -> {
-            // Is up to the developer showing a full color screen or Splash screen
-            // here in this stage. If the App requires fetching a configuration
-            // from the network eg: server-driven-ui. Then show a loader animation here.
-            // Otherwise just live it as is until the StartupCoordinator component
-            // or root component start.
-        }
+    is Initializing -> {
+        InitializationHandler(stage)
+    }
 
-        is Stage.Started -> {
-            PlatformComponentRenderer(rootComponent = stage.rootComponent)
-        }
+    is InitializationError -> {
+        SplashScreen(stage.errorMsg)
+    }
+
+    is InitializationSuccess -> {
+        PlatformComponentRenderer(rootComponent = stage.rootComponent)
+    }
+}
+
+@Composable
+private fun InitializationHandler(
+    initializing: Initializing
+) = when (initializing) {
+
+    Initializing.PluginManager -> {
+        SplashScreen("Creating DiContainer")
+    }
+    Initializing.RootComponent -> {
+        SplashScreen("Fetching Root Component from Services")
+    }
+}
+
+@Composable
+private fun SplashScreen(text: String) {
+    Box(Modifier.fillMaxSize().background(Color.LightGray)) {
+        BasicText(
+            modifier = Modifier.wrapContentSize().align(Alignment.Center),
+            text = text
+        )
     }
 }
