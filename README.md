@@ -21,7 +21,7 @@ Check the [Developers Guide](/component-toolkit/README.md) in the component-tool
 ```kotlin
 sourceSets {
     commonMain.dependencies {
-        implementation("io.github.pablichjenkov:component-toolkit:0.6.2")
+        implementation("io.github.pablichjenkov:component-toolkit:0.6.10-rc1")
     }
 }
 ```
