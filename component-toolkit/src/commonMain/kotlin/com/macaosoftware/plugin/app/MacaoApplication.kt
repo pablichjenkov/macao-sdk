@@ -17,7 +17,7 @@ fun MacaoApplication(
             }
         }
 
-        Stage.InitializingDiAndRootComponent -> {
+        is Stage.InitializingDiAndRootComponent -> {
             // Is up to the developer showing a full color screen or Splash screen
             // here in this stage. If the App requires fetching a configuration
             // from the network eg: server-driven-ui. Then show a loader animation here.

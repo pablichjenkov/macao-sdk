@@ -19,11 +19,18 @@ open class MacaoApplicationState(
 
     internal fun initialize() {
         coroutineScope.launch {
-            stage.value = Stage.InitializingDiAndRootComponent
-            val rootComponent = withContext(dispatchers.io) {
+
+            withContext(dispatchers.default) {
                 pluginInitializer.initialize(pluginManager)
+            }
+
+            // If the Root Component is defined remotely we should fetch it while showing a Splash animation
+            // stage.value = Stage.InitializingDiAndRootComponent("Initializing RootComponent")
+
+            val rootComponent = withContext(dispatchers.default) {
                 rootComponentProvider.provideRootComponent(pluginManager)
             }
+
             stage.value = Stage.Started(rootComponent)
         }
     }
@@ -31,6 +38,6 @@ open class MacaoApplicationState(
 
 sealed class Stage {
     data object Created : Stage()
-    data object InitializingDiAndRootComponent : Stage()
+    data class InitializingDiAndRootComponent(val initializerName: String) : Stage()
     class Started(val rootComponent: Component) : Stage()
 }

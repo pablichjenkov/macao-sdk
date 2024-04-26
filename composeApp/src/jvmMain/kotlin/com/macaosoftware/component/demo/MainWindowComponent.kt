@@ -38,7 +38,7 @@ class MainWindowComponent(
             val applicationState = macaoKoinApplicationState.stage.value
         ) {
             Stage.Created,
-            Stage.InitializingDiAndRootComponent -> {
+            is Stage.InitializingDiAndRootComponent -> {
                 // no-op
             }
 
