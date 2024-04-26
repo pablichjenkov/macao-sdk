@@ -15,6 +15,10 @@ import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
 import com.macaosoftware.component.demo.viewmodel.topbar.Demo3PageTopBarViewModelFactory
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
+import com.macaosoftware.plugin.app.Created
+import com.macaosoftware.plugin.app.InitializationError
+import com.macaosoftware.plugin.app.InitializationSuccess
+import com.macaosoftware.plugin.app.Initializing
 import com.macaosoftware.plugin.app.MacaoApplication
 import com.macaosoftware.plugin.app.MacaoApplicationState
 import com.macaosoftware.plugin.app.Stage
@@ -37,12 +41,13 @@ class MainWindowComponent(
         when (
             val applicationState = macaoKoinApplicationState.stage.value
         ) {
-            Stage.Created,
-            is Stage.InitializingDiAndRootComponent -> {
+            Created,
+            is InitializationError,
+            is Initializing -> {
                 // no-op
             }
 
-            is Stage.Started -> {
+            is InitializationSuccess -> {
                 val deepLinkMsg = DeepLinkMsg(
                     path = destinations,
                     resultListener = { result ->
