@@ -9,8 +9,8 @@ fun buildDemoViewController(
 ): UIViewController {
 
     val applicationState = MacaoApplicationState(
-        rootComponentProvider = IosRootComponentProvider(),
-        pluginInitializer = IosPluginInitializer(iosBridge)
+        pluginInitializer = IosPluginInitializer(iosBridge),
+        rootComponentInitializer = IosRootComponentInitializer()
     )
 
     return MacaoApplicationViewController(

@@ -21,7 +21,6 @@ import com.macaosoftware.plugin.app.InitializationSuccess
 import com.macaosoftware.plugin.app.Initializing
 import com.macaosoftware.plugin.app.MacaoApplication
 import com.macaosoftware.plugin.app.MacaoApplicationState
-import com.macaosoftware.plugin.app.Stage
 
 class MainWindowComponent(
     val onOpenDeepLinkClick: () -> Unit,
@@ -31,8 +30,8 @@ class MainWindowComponent(
     private val windowState = WindowState(size = DpSize(1000.dp, 900.dp))
 
     private val macaoKoinApplicationState = MacaoApplicationState(
-        rootComponentProvider = JvmRootComponentProvider(),
-        pluginInitializer = JvmPluginInitializer()
+        pluginInitializer = JvmPluginInitializer(),
+        rootComponentInitializer = JvmRootComponentInitializer()
     )
 
     // region: DeepLink

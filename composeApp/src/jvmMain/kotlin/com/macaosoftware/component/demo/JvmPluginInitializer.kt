@@ -1,11 +1,11 @@
 package com.macaosoftware.component.demo
 
-import com.macaosoftware.plugin.app.PluginInitializer
+import com.macaosoftware.plugin.app.Initializer
 import com.macaosoftware.plugin.app.PluginManager
 import com.macaosoftware.util.MacaoResult
 import kotlinx.coroutines.delay
 
-class JvmPluginInitializer : PluginInitializer {
+class JvmPluginInitializer : Initializer<PluginManager> {
 
     override fun shouldShowLoader(): Boolean {
         return true
