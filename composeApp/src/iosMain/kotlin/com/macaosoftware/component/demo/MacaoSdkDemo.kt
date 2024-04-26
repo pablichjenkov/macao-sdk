@@ -1,7 +1,7 @@
 package com.macaosoftware.component.demo
 
 import com.macaosoftware.plugin.app.MacaoApplicationState
-import com.macaosoftware.plugin.app.MacaoComposeViewController
+import com.macaosoftware.plugin.app.MacaoApplicationViewController
 import platform.UIKit.UIViewController
 
 fun buildDemoViewController(
@@ -13,7 +13,7 @@ fun buildDemoViewController(
         pluginInitializer = IosPluginInitializer(iosBridge)
     )
 
-    return MacaoComposeViewController(
+    return MacaoApplicationViewController(
         applicationState = applicationState
     )
 }
