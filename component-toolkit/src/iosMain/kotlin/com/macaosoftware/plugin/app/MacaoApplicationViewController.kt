@@ -3,7 +3,7 @@ package com.macaosoftware.plugin.app
 import androidx.compose.ui.window.ComposeUIViewController
 import platform.UIKit.UIViewController
 
-fun MacaoComposeViewController(
+fun MacaoApplicationViewController(
     applicationState: MacaoApplicationState,
 ): UIViewController = ComposeUIViewController {
     MacaoApplication(
