@@ -1,9 +1,9 @@
-package com.macaosoftware.component.demo.plugin
+package com.macaosoftware.component.demo
 
 import com.macaosoftware.plugin.app.PluginInitializer
 import com.macaosoftware.plugin.app.PluginManager
 
-class DemoPluginInitializer : PluginInitializer {
+class IosPluginInitializer(iosBridge: IosBridge) : PluginInitializer {
 
     override fun initialize(pluginManager: PluginManager) {
 

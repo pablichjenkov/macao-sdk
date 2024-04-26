@@ -12,7 +12,6 @@ import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
-import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
 import com.macaosoftware.component.demo.viewmodel.topbar.Demo3PageTopBarViewModelFactory
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
@@ -29,7 +28,7 @@ class MainWindowComponent(
 
     private val macaoKoinApplicationState = MacaoApplicationState(
         rootComponentProvider = JvmRootComponentProvider(),
-        pluginInitializer = DemoPluginInitializer()
+        pluginInitializer = JvmPluginInitializer()
     )
 
     // region: DeepLink
