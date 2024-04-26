@@ -31,7 +31,7 @@ kotlin {
         iosTarget.binaries {
             framework {
                 export(project(":component-toolkit"))
-                baseName = "ComponentDemoKt"
+                baseName = "MacaoSdkDemoKt"
                 isStatic = true
             }
         }

@@ -1,10 +1,12 @@
 import SwiftUI
-import ComponentDemoKt
+import MacaoSdkDemoKt
 
 struct ContentView: View {
     
+    var iosBridge: IosBridge
+    
     var body: some View {
-        ComposeViewController()
+        ComposeViewController(iosBridge: iosBridge)
             // Compose has own keyboard handler
             .ignoresSafeArea(.keyboard)
             // If preferred to handle this in compose land
@@ -13,10 +15,12 @@ struct ContentView: View {
 }
 
 struct ComposeViewController : UIViewControllerRepresentable {
-    
+
+    var iosBridge: IosBridge
+
     func makeUIViewController(context: Context) -> UIViewController {
         
-        return BindingsKt.buildDemoViewController()
+        return MacaoSdkDemoKt.buildDemoViewController(iosBridge: iosBridge)
     }
     
     func updateUIViewController(

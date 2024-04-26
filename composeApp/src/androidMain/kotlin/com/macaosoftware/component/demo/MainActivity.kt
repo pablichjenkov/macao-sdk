@@ -6,15 +6,14 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
-import com.macaosoftware.plugin.app.MacaoApplicationState
-import com.macaosoftware.component.demo.plugin.DemoPluginInitializer
 import com.macaosoftware.plugin.app.MacaoApplication
+import com.macaosoftware.plugin.app.MacaoApplicationState
 
 class MainActivity : ComponentActivity() {
 
     private val macaoApplicationState = MacaoApplicationState(
         rootComponentProvider = AndroidRootComponentProvider(this),
-        pluginInitializer = DemoPluginInitializer()
+        pluginInitializer = AndroidPluginInitializer(this)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
