@@ -12,8 +12,8 @@ import com.macaosoftware.plugin.app.MacaoApplicationState
 class MainActivity : ComponentActivity() {
 
     private val macaoApplicationState = MacaoApplicationState(
-        rootComponentProvider = AndroidRootComponentProvider(this),
-        pluginInitializer = AndroidPluginInitializer(this)
+        pluginInitializer = AndroidPluginInitializer(this),
+        rootComponentInitializer = AndroidRootComponentInitializer(this)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

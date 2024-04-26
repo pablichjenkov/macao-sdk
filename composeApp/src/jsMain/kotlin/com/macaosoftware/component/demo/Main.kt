@@ -9,8 +9,8 @@ fun main() {
     onWasmReady {
 
         val applicationState = MacaoApplicationState(
-            rootComponentProvider = BrowserRootComponentProvider(),
-            pluginInitializer = BrowserPluginInitializer()
+            pluginInitializer = BrowserPluginInitializer(),
+            rootComponentInitializer = BrowserRootComponentInitializer()
         )
 
         CanvasBasedWindow("Macao SDK Demo") {

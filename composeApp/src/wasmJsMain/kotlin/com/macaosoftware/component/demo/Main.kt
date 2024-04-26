@@ -6,7 +6,7 @@ import com.macaosoftware.plugin.app.MacaoApplicationState
 
 fun main() {
     val applicationState = MacaoApplicationState(
-        rootComponentProvider = BrowserRootComponentProvider(),
+        rootComponentProvider = BrowserRootComponentInitializer(),
         pluginInitializer = BrowserPluginInitializer()
     )
 

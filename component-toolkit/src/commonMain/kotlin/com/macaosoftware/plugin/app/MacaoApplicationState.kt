@@ -5,13 +5,12 @@ import com.macaosoftware.component.core.Component
 import com.macaosoftware.plugin.CoroutineDispatchers
 import com.macaosoftware.util.MacaoResult
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 open class MacaoApplicationState(
-    private val rootComponentProvider: RootComponentProvider,
-    private val pluginInitializer: PluginInitializer,
+    private val pluginInitializer: Initializer<PluginManager>,
+    private val rootComponentInitializer: InitializerWithInput<PluginManager, Component>,
     private val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Default,
 ) {
 
@@ -21,10 +20,10 @@ open class MacaoApplicationState(
     internal fun initialize() = coroutineScope.launch {
 
         val shouldShowLoader = pluginInitializer.shouldShowLoader()
-
         if (shouldShowLoader) {
             stage.value = Initializing.PluginManager
         }
+
         val result = withContext(dispatchers.default) {
             pluginInitializer.initialize()
         }
@@ -42,15 +41,23 @@ open class MacaoApplicationState(
 
     private suspend fun initializeRootComponent(pluginManager: PluginManager) {
 
-        // If the Root Component is defined remotely we should fetch it while showing a Splash animation
-        stage.value = Initializing.RootComponent
-        val rootComponent = withContext(dispatchers.default) {
-            // TODO: Remove this, only for simulating a network request
-            delay(2000)
-            rootComponentProvider.provideRootComponent(pluginManager)
+        val shouldShowLoader = rootComponentInitializer.shouldShowLoader()
+        if (shouldShowLoader) {
+            stage.value = Initializing.RootComponent
         }
 
-        stage.value = InitializationSuccess(rootComponent)
+        val result = withContext(dispatchers.default) {
+            rootComponentInitializer.initialize(pluginManager)
+        }
+        when (result) {
+            is MacaoResult.Error -> {
+                stage.value = InitializationError(result.error.toString())
+            }
+
+            is MacaoResult.Success -> {
+                stage.value = InitializationSuccess(result.value)
+            }
+        }
     }
 }
 
