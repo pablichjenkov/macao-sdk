@@ -1,15 +1,11 @@
 package com.macaosoftware.component.demo
 
-import com.macaosoftware.plugin.app.PluginInitializer
 import com.macaosoftware.plugin.app.PluginManager
+import com.macaosoftware.plugin.app.PluginManagerInitializer
 import com.macaosoftware.util.MacaoResult
 import kotlinx.coroutines.delay
 
-class IosPluginInitializer(iosBridge: IosBridge) : PluginInitializer {
-
-    override fun shouldShowLoader(): Boolean {
-        return true
-    }
+class IosPluginManagerInitializer(iosBridge: IosBridge) : PluginManagerInitializer {
 
     override suspend fun initialize(): MacaoResult<PluginManager> {
         // TODO: Remove this, just for testing

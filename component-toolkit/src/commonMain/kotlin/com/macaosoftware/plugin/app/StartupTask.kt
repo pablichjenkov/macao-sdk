@@ -2,7 +2,9 @@ package com.macaosoftware.plugin.app
 
 import com.macaosoftware.util.MacaoResult
 
-interface PluginInitializer {
+interface StartupTask {
+
+    fun name(): String
 
     /**
      * This function dictates whether the initialization will actually take place
@@ -17,5 +19,5 @@ interface PluginInitializer {
      * Things like Database Migration and LaunchDarkly initialization
      * can also take place here.
      * */
-    suspend fun initialize(): MacaoResult<PluginManager>
+    suspend fun initialize(pluginManager: PluginManager): MacaoResult<Unit>
 }
