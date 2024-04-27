@@ -4,9 +4,9 @@ import androidx.compose.ui.window.CanvasBasedWindow
 import com.macaosoftware.component.demo.startup.DatabaseMigrationStartupTask
 import com.macaosoftware.component.demo.startup.LaunchDarklyStartupTask
 import com.macaosoftware.component.demo.startup.SdkXyzStartupTask
-import com.macaosoftware.plugin.app.MacaoApplication
-import com.macaosoftware.plugin.app.MacaoApplicationState
-import com.macaosoftware.plugin.app.StartupTaskRunnerDefault
+import com.macaosoftware.app.MacaoApplication
+import com.macaosoftware.app.MacaoApplicationState
+import com.macaosoftware.app.StartupTaskRunnerDefault
 
 fun main() {
 

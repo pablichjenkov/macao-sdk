@@ -1,11 +1,10 @@
-package com.macaosoftware.plugin.app
+package com.macaosoftware.app
 
 import androidx.compose.runtime.mutableStateOf
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.plugin.CoroutineDispatchers
 import com.macaosoftware.util.MacaoResult
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
