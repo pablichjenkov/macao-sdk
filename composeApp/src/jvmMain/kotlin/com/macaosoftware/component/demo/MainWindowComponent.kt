@@ -2,7 +2,6 @@ package com.macaosoftware.component.demo
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -19,13 +18,13 @@ import com.macaosoftware.component.demo.startup.SdkXyzStartupTask
 import com.macaosoftware.component.demo.viewmodel.topbar.Demo3PageTopBarViewModelFactory
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
-import com.macaosoftware.plugin.app.Created
-import com.macaosoftware.plugin.app.InitializationError
-import com.macaosoftware.plugin.app.InitializationSuccess
-import com.macaosoftware.plugin.app.Initializing
-import com.macaosoftware.plugin.app.MacaoApplication
-import com.macaosoftware.plugin.app.MacaoApplicationState
-import com.macaosoftware.plugin.app.StartupTaskRunnerDefault
+import com.macaosoftware.app.Created
+import com.macaosoftware.app.InitializationError
+import com.macaosoftware.app.InitializationSuccess
+import com.macaosoftware.app.Initializing
+import com.macaosoftware.app.MacaoApplication
+import com.macaosoftware.app.MacaoApplicationState
+import com.macaosoftware.app.StartupTaskRunnerDefault
 
 class MainWindowComponent(
     val onOpenDeepLinkClick: () -> Unit,

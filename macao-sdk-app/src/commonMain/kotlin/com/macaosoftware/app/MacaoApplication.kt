@@ -1,4 +1,4 @@
-package com.macaosoftware.plugin.app
+package com.macaosoftware.app
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

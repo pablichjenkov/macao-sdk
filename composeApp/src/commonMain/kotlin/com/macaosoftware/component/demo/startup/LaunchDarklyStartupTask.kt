@@ -1,7 +1,7 @@
 package com.macaosoftware.component.demo.startup
 
-import com.macaosoftware.plugin.app.PluginManager
-import com.macaosoftware.plugin.app.StartupTask
+import com.macaosoftware.app.PluginManager
+import com.macaosoftware.app.StartupTask
 import com.macaosoftware.util.MacaoResult
 import kotlinx.coroutines.delay
 

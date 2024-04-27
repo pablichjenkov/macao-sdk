@@ -3,7 +3,7 @@ package com.macaosoftware.component.demo.startup
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentViewModelFactory
 import com.macaosoftware.component.stack.StackStatePresenter
-import com.macaosoftware.plugin.app.PluginManager
+import com.macaosoftware.app.PluginManager
 
 class StartupCoordinatorViewModelFactory(
     private val stackStatePresenter: StackStatePresenter,

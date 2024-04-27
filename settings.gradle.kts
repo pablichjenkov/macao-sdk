@@ -1,5 +1,6 @@
 rootProject.name = "macao-sdk"
 include(":component-toolkit")
+include(":macao-sdk-app")
 include(":composeApp")
 
 pluginManagement {

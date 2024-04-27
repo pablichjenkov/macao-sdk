@@ -1,4 +1,4 @@
-package com.macaosoftware.plugin.app
+package com.macaosoftware.app
 
 import com.macaosoftware.component.viewmodel.ComponentViewModelFactory
 import com.macaosoftware.plugin.MacaoPlugin
