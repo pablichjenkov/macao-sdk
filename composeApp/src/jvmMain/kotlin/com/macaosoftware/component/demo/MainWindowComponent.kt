@@ -2,6 +2,7 @@ package com.macaosoftware.component.demo
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -12,6 +13,9 @@ import androidx.compose.ui.window.WindowState
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.core.deeplink.DeepLinkMsg
 import com.macaosoftware.component.core.deeplink.DefaultDeepLinkManager
+import com.macaosoftware.component.demo.startup.DatabaseMigrationStartupTask
+import com.macaosoftware.component.demo.startup.LaunchDarklyStartupTask
+import com.macaosoftware.component.demo.startup.SdkXyzStartupTask
 import com.macaosoftware.component.demo.viewmodel.topbar.Demo3PageTopBarViewModelFactory
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
@@ -21,6 +25,7 @@ import com.macaosoftware.plugin.app.InitializationSuccess
 import com.macaosoftware.plugin.app.Initializing
 import com.macaosoftware.plugin.app.MacaoApplication
 import com.macaosoftware.plugin.app.MacaoApplicationState
+import com.macaosoftware.plugin.app.StartupTaskRunnerDefault
 
 class MainWindowComponent(
     val onOpenDeepLinkClick: () -> Unit,
@@ -29,8 +34,15 @@ class MainWindowComponent(
 ) : Component() {
     private val windowState = WindowState(size = DpSize(1000.dp, 900.dp))
 
+    val startupTasks = listOf(
+        DatabaseMigrationStartupTask(),
+        LaunchDarklyStartupTask(),
+        SdkXyzStartupTask()
+    )
+
     private val macaoKoinApplicationState = MacaoApplicationState(
-        pluginInitializer = JvmPluginInitializer(),
+        pluginManagerInitializer = JvmPluginManagerInitializer(),
+        startupTaskRunner = StartupTaskRunnerDefault(startupTasks),
         rootComponentInitializer = JvmRootComponentInitializer()
     )
 

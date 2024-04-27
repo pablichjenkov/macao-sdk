@@ -5,12 +5,12 @@ import com.macaosoftware.component.demo.startup.StartupCoordinatorViewModel
 import com.macaosoftware.component.demo.startup.StartupCoordinatorViewModelFactory
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
-import com.macaosoftware.plugin.app.InitializerWithInput
 import com.macaosoftware.plugin.app.PluginManager
+import com.macaosoftware.plugin.app.RootComponentInitializer
 import com.macaosoftware.util.MacaoResult
 import kotlinx.coroutines.delay
 
-class BrowserRootComponentInitializer : InitializerWithInput<PluginManager, Component> {
+class BrowserRootComponentInitializer : RootComponentInitializer {
 
     override fun shouldShowLoader(): Boolean {
         return true
@@ -24,7 +24,7 @@ class BrowserRootComponentInitializer : InitializerWithInput<PluginManager, Comp
         // val httpClient = pluginManager.ktorClient
         //
 
-        val rootComponent =  StackComponent<StartupCoordinatorViewModel>(
+        val rootComponent = StackComponent<StartupCoordinatorViewModel>(
             viewModelFactory = StartupCoordinatorViewModelFactory(
                 stackStatePresenter = StackComponentDefaults.createStackStatePresenter(),
                 pluginManager = pluginManager,

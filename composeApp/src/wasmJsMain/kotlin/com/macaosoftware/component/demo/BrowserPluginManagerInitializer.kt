@@ -1,16 +1,11 @@
 package com.macaosoftware.component.demo
 
-import android.content.Context
-import com.macaosoftware.plugin.app.Initializer
 import com.macaosoftware.plugin.app.PluginManager
+import com.macaosoftware.plugin.app.PluginManagerInitializer
 import com.macaosoftware.util.MacaoResult
 import kotlinx.coroutines.delay
 
-class AndroidPluginInitializer(context: Context) : Initializer<PluginManager> {
-
-    override fun shouldShowLoader(): Boolean {
-        return true
-    }
+class BrowserPluginManagerInitializer : PluginManagerInitializer {
 
     override suspend fun initialize(): MacaoResult<PluginManager> {
         // TODO: Remove this, just for testing

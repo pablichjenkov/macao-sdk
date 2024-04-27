@@ -42,8 +42,13 @@ private fun InitializationHandler(
 ) = when (initializing) {
 
     Initializing.PluginManager -> {
-        SplashScreen("Creating DiContainer")
+        // No-op
     }
+
+    is Initializing.StartupTask -> {
+        SplashScreen(initializing.taskName)
+    }
+
     Initializing.RootComponent -> {
         SplashScreen("Fetching Root Component from Services")
     }

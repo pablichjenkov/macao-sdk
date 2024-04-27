@@ -6,14 +6,14 @@ import com.macaosoftware.component.demo.startup.StartupCoordinatorViewModel
 import com.macaosoftware.component.demo.startup.StartupCoordinatorViewModelFactory
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
-import com.macaosoftware.plugin.app.InitializerWithInput
 import com.macaosoftware.plugin.app.PluginManager
+import com.macaosoftware.plugin.app.RootComponentInitializer
 import com.macaosoftware.util.MacaoResult
 import kotlinx.coroutines.delay
 
 class AndroidRootComponentInitializer(
     private val activity: ComponentActivity
-) : InitializerWithInput<PluginManager, Component> {
+) : RootComponentInitializer {
 
     override fun shouldShowLoader(): Boolean {
         return true
