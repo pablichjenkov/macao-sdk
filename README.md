@@ -18,7 +18,7 @@ Check the [Developers Guide](/component-toolkit/README.md) in the component-tool
 
 **Artifacts are published on Maven Central:**
 
-For component-toolkit, the core components API.
+For **component-toolkit**, the core components API.
 
 ```kotlin
 sourceSets {
@@ -28,7 +28,7 @@ sourceSets {
 }
 ```
 
-For macao-sdk-app, an extension on the core API to easy platform plugins integration.
+For **macao-sdk-app**, an extension on the core API to integrate platform plugins.
 
 ```kotlin
 sourceSets {
