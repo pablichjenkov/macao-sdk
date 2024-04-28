@@ -18,13 +18,29 @@ Check the [Developers Guide](/component-toolkit/README.md) in the component-tool
 
 **Artifacts are published on Maven Central:**
 
+For component-toolkit, the core components API.
+
 ```kotlin
 sourceSets {
     commonMain.dependencies {
-        implementation("io.github.pablichjenkov:component-toolkit:0.6.10-rc1")
+        implementation("io.github.pablichjenkov:component-toolkit:0.6.10-rc02")
     }
 }
 ```
+
+For macao-sdk-app, an extension on the core API to easy platform plugins integration.
+
+```kotlin
+sourceSets {
+    commonMain.dependencies {
+        implementation("io.github.pablichjenkov:macao-sdk-app:0.6.10-rc02")
+    }
+}
+```
+
+For Koin integration check this project:
+
+https://github.com/pablichjenkov/macao-marketplace/tree/dev/macao-sdk-koin
 
 #### Contributions
 We welcome contributions from the community! If you have ideas for new features, bug fixes, or improvements, please open 

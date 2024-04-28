@@ -51,7 +51,7 @@ publishing {
     publications {
         withType<MavenPublication> {
             groupId = group as String
-            artifactId = "macao-sdk-koin"
+            artifactId = "macao-sdk-app"
             version
             artifact(javadocJar)
             pom {
@@ -104,7 +104,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "MacaoSdkKoin"
+            baseName = "MacaoSdkApp"
             isStatic = true
         }
     }
@@ -115,7 +115,7 @@ kotlin {
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        moduleName = "MacaoSdkKoin"
+        moduleName = "MacaoSdkApp"
         browser()
         binaries.library()
     }
@@ -152,7 +152,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.macaosoftware.app.koin"
+    namespace = "com.macaosoftware.app"
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
     defaultConfig {
         minSdk = (findProperty("android.minSdk") as String).toInt()
