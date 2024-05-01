@@ -41,9 +41,9 @@ private fun InitializationHandler(
     initializing: Initializing
 ) = when (initializing) {
 
-    Initializing.PluginManager -> {
-        // No-op
-    }
+//    Initializing.PluginManager -> {
+//        // No-op
+//    }
 
     is Initializing.StartupTask -> {
         SplashScreen(initializing.taskName)
