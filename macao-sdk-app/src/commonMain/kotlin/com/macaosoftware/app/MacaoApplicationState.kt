@@ -13,7 +13,7 @@ open class MacaoApplicationState(
     private val pluginManagerInitializer: PluginManagerInitializer,
     private val startupTaskRunner: StartupTaskRunner,
     private val rootComponentInitializer: RootComponentInitializer,
-    private val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Default,
+    private val dispatchers: CoroutineDispatchers = CoroutineDispatchers.Default
 ) {
 
     var stage = mutableStateOf<Stage>(Created)
@@ -81,7 +81,7 @@ sealed class Stage
 data object Created : Stage()
 
 sealed class Initializing : Stage() {
-    data object PluginManager : Initializing()
+    // data object PluginManager : Initializing()
     data class StartupTask(val taskName: String) : Initializing()
     data object RootComponent : Initializing()
 }
