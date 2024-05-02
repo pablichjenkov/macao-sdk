@@ -6,15 +6,13 @@ import com.macaosoftware.app.PluginManager
 import com.macaosoftware.app.PluginManagerInitializer
 import com.macaosoftware.util.MacaoResult
 
-class JvmPluginManagerInitializer(
-    private val onExitJvmApplication: () -> Unit
-) : PluginManagerInitializer {
+class WasmPluginManagerInitializer : PluginManagerInitializer {
 
     override suspend fun initialize(): MacaoResult<PluginManager> {
 
         val macaoAppCallbackPlugin = object : MacaoApplicationCallback {
             override fun onExit() {
-                onExitJvmApplication()
+                // No way to automatically close a tab in the browser
             }
         }
 

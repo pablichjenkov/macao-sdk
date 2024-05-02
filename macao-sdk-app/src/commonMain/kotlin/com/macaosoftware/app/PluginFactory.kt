@@ -1,19 +1,8 @@
 package com.macaosoftware.app
 
-import com.macaosoftware.component.viewmodel.ComponentViewModelFactory
 import com.macaosoftware.plugin.MacaoPlugin
 
-interface PluginFactory {
+interface PluginFactory<P : MacaoPlugin> {
 
-    fun <VMF : ComponentViewModelFactory<*>> getViewModelFactoryOf(
-        componentType: String
-    ): VMF?
-
-    fun <P : MacaoPlugin> getPluginImplementationOf(
-        pluginType: P
-    ): P?
-
-    /*fun getNavItemOf(
-        componentType: String
-    ): NavItem*/
+    fun getPlugin(): P?
 }

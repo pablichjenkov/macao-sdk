@@ -6,12 +6,13 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
-import com.macaosoftware.component.demo.startup.DatabaseMigrationStartupTask
-import com.macaosoftware.component.demo.startup.LaunchDarklyStartupTask
-import com.macaosoftware.component.demo.startup.SdkXyzStartupTask
 import com.macaosoftware.app.MacaoApplication
 import com.macaosoftware.app.MacaoApplicationState
 import com.macaosoftware.app.StartupTaskRunnerDefault
+import com.macaosoftware.component.demo.startup.DatabaseMigrationStartupTask
+import com.macaosoftware.component.demo.startup.DemoRootComponentInitializer
+import com.macaosoftware.component.demo.startup.LaunchDarklyStartupTask
+import com.macaosoftware.component.demo.startup.SdkXyzStartupTask
 
 class MainActivity : ComponentActivity() {
 
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
     private val macaoApplicationState = MacaoApplicationState(
         pluginManagerInitializer = AndroidPluginManagerInitializer(this),
         startupTaskRunner = StartupTaskRunnerDefault(startupTasks),
-        rootComponentInitializer = AndroidRootComponentInitializer(this)
+        rootComponentInitializer = DemoRootComponentInitializer()
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

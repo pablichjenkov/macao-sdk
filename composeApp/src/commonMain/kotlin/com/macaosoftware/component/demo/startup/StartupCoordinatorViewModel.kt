@@ -1,5 +1,6 @@
 package com.macaosoftware.component.demo.startup
 
+import com.macaosoftware.app.PluginManager
 import com.macaosoftware.component.adaptive.AdaptiveSizeComponent
 import com.macaosoftware.component.bottomnavigation.BottomNavigationComponent
 import com.macaosoftware.component.bottomnavigation.BottomNavigationComponentDefaults
@@ -31,7 +32,6 @@ import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentViewModel
 import com.macaosoftware.component.stack.StackStatePresenter
 import com.macaosoftware.component.viewmodel.StateComponent
-import com.macaosoftware.app.PluginManager
 import kotlinx.coroutines.Dispatchers
 
 class StartupCoordinatorViewModel(
