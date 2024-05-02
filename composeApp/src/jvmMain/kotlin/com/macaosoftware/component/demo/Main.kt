@@ -7,7 +7,7 @@ import androidx.compose.ui.window.application
 
 fun main() = application {
     val multiWindowComponent = remember(key1 = this) {
-        DesktopMultiWindowComponent()
+        DesktopMultiWindowComponent(this)
     }
     MaterialTheme {
         multiWindowComponent.Content(Modifier)

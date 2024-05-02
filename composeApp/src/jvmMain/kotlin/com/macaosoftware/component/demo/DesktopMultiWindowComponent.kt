@@ -4,9 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.window.ApplicationScope
 import com.macaosoftware.component.core.Component
 
-class DesktopMultiWindowComponent : Component() {
+class DesktopMultiWindowComponent(
+    private val applicationScope: ApplicationScope
+) : Component() {
+
     private val activeComponents = mutableStateListOf<Component>()
 
     private val mainWindowComponent = MainWindowComponent(
@@ -44,6 +48,7 @@ class DesktopMultiWindowComponent : Component() {
 
     private fun exit() {
         activeComponents.clear()
+        applicationScope.exitApplication()
     }
 
     @Composable

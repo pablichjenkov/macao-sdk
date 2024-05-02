@@ -1,12 +1,13 @@
 package com.macaosoftware.component.demo
 
 import androidx.compose.ui.window.CanvasBasedWindow
-import com.macaosoftware.component.demo.startup.DatabaseMigrationStartupTask
-import com.macaosoftware.component.demo.startup.LaunchDarklyStartupTask
-import com.macaosoftware.component.demo.startup.SdkXyzStartupTask
 import com.macaosoftware.app.MacaoApplication
 import com.macaosoftware.app.MacaoApplicationState
 import com.macaosoftware.app.StartupTaskRunnerDefault
+import com.macaosoftware.component.demo.startup.DatabaseMigrationStartupTask
+import com.macaosoftware.component.demo.startup.DemoRootComponentInitializer
+import com.macaosoftware.component.demo.startup.LaunchDarklyStartupTask
+import com.macaosoftware.component.demo.startup.SdkXyzStartupTask
 import org.jetbrains.skiko.wasm.onWasmReady
 
 fun main() {
@@ -19,12 +20,12 @@ fun main() {
         )
 
         val applicationState = MacaoApplicationState(
-            pluginManagerInitializer = BrowserPluginManagerInitializer(),
+            pluginManagerInitializer = JsPluginManagerInitializer(),
             startupTaskRunner = StartupTaskRunnerDefault(startupTasks),
-            rootComponentInitializer = BrowserRootComponentInitializer()
+            rootComponentInitializer = DemoRootComponentInitializer()
         )
 
-        CanvasBasedWindow("Macao SDK Demo") {
+        CanvasBasedWindow("Macao SDK JS Demo") {
             MacaoApplication(applicationState = applicationState)
         }
     }

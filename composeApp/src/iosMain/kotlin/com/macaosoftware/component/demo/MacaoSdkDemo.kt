@@ -5,6 +5,7 @@ import com.macaosoftware.app.MacaoApplication
 import com.macaosoftware.app.MacaoApplicationState
 import com.macaosoftware.app.StartupTaskRunnerDefault
 import com.macaosoftware.component.demo.startup.DatabaseMigrationStartupTask
+import com.macaosoftware.component.demo.startup.DemoRootComponentInitializer
 import com.macaosoftware.component.demo.startup.LaunchDarklyStartupTask
 import com.macaosoftware.component.demo.startup.SdkXyzStartupTask
 import platform.UIKit.UIViewController
@@ -22,7 +23,7 @@ fun buildDemoViewController(
     val applicationState = MacaoApplicationState(
         pluginManagerInitializer = IosPluginManagerInitializer(iosBridge),
         startupTaskRunner = StartupTaskRunnerDefault(startupTasks),
-        rootComponentInitializer = IosRootComponentInitializer()
+        rootComponentInitializer = DemoRootComponentInitializer()
     )
 
     MacaoApplication(applicationState = applicationState)

@@ -25,6 +25,7 @@ import com.macaosoftware.app.Initializing
 import com.macaosoftware.app.MacaoApplication
 import com.macaosoftware.app.MacaoApplicationState
 import com.macaosoftware.app.StartupTaskRunnerDefault
+import com.macaosoftware.component.demo.startup.DemoRootComponentInitializer
 
 class MainWindowComponent(
     val onOpenDeepLinkClick: () -> Unit,
@@ -39,10 +40,14 @@ class MainWindowComponent(
         SdkXyzStartupTask()
     )
 
+    private val jvmPluginManagerInitializer = JvmPluginManagerInitializer(
+        onExitClick
+    )
+
     private val macaoKoinApplicationState = MacaoApplicationState(
-        pluginManagerInitializer = JvmPluginManagerInitializer(),
+        pluginManagerInitializer = jvmPluginManagerInitializer,
         startupTaskRunner = StartupTaskRunnerDefault(startupTasks),
-        rootComponentInitializer = JvmRootComponentInitializer()
+        rootComponentInitializer = DemoRootComponentInitializer()
     )
 
     // region: DeepLink
