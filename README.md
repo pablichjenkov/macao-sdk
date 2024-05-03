@@ -1,11 +1,10 @@
 ### Macao SDK
-A set of prefabricated components and platform API plug-ins to speedup the Compose Multiplatform Application development process. 
-The toolkit contains a variety of customizable navigation components such as `Drawer`, `BottomNavigation`, `Pager`, `Panel`,
-`Topbar`, `Stack` and many more. It also includes some predefined screens flows such as `Authentication`, `Settings`, `Commerce` and some `Data Collection` screens. All them customizable from the server application.
+Macao is an Application microframework built with Compose Multiplatform.
 <BR/>
-On the plug-in side it already has multiplatform implementations for `GlobalBackPressDispatcher`, `PlatformLifecycle`, `Firebase`, `Notifications` and many more to come.
+It ships a variety of customizable navigation components such as `Drawer`, `BottomNavigation`, `Pager`, `Panel`, `Topbar` and `Stack`. But it also offers the API to expand the existing components and/or create new ones.
+The framework also contains an Application architecture module with APIs for **App startup** and a **Plug-in infrastructure** that allows easy integration of platform specific code into **commonMain** code.
 <BR/>
-Code is 99% reusable and available in all platforms.
+<BR/>
 
 *-One image is worth a thousand words*
 
@@ -13,12 +12,11 @@ Code is 99% reusable and available in all platforms.
 
 <img width="700" alt="macao-component-diagram" src="https://github.com/pablichjenkov/macao-sdk/assets/5303301/fa58c951-0fc7-470d-b2a0-9a534a405c34">
 
-#### How to use it?
-Check the [Developers Guide](/component-toolkit/README.md) in the component-toolkit module. Soon the macao-sdk-di-koin module will have its own guide.
 
-**Artifacts are published on Maven Central:**
+### Modules
 
-For **component-toolkit**, the core components API.
+#### component-toolkit
+This module contains the core components API. Check the [Developers Guide](/component-toolkit/README.md) for more information.
 
 ```kotlin
 sourceSets {
@@ -28,7 +26,8 @@ sourceSets {
 }
 ```
 
-For **macao-sdk-app**, an extension on the core API to integrate platform plugins.
+#### macao-sdk-app
+An extension on the core API to integrate **platform plug-ins** in an opinionated Application architecture based on **manual dependency injection**. Check the [Developers Guide](/macao-sdk-app/README.md) for more information.
 
 ```kotlin
 sourceSets {
@@ -38,13 +37,22 @@ sourceSets {
 }
 ```
 
-For Koin integration check this project:
+#### macao-sdk-koin
+Similar to **macao-sdk-app** but instead of **manual DI** it uses **koin**. Check the [Developers Guide](https://github.com/pablichjenkov/macao-marketplace/blob/dev/macao-sdk-koin/README.md) for more information.
 
-https://github.com/pablichjenkov/macao-marketplace/tree/dev/macao-sdk-koin
+```kotlin
+sourceSets {
+    commonMain.dependencies {
+        implementation("io.github.pablichjenkov:macao-sdk-koin:0.6.10-rc02")
+    }
+}
+```
 
-#### Contributions
+
+### Contributions
 We welcome contributions from the community! If you have ideas for new features, bug fixes, or improvements, please open 
 an issue or submit a pull request.
+
 
 ### Built with component-toolkit
 #### Component Toolkit Demo App
