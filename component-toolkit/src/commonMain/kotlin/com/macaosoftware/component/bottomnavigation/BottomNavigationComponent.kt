@@ -82,6 +82,10 @@ class BottomNavigationComponent<out VM : BottomNavigationComponentViewModel>(
         }
     }
 
+    // endregion
+
+    // region: BackPressHandling
+
     override fun handleBackPressed() {
         println("${instanceId()}::handleBackPressed, backStack.size = ${backStack.size()}")
         if (componentViewModel.handleBackPressed()) {
