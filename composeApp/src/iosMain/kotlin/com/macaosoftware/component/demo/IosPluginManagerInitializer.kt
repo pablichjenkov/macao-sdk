@@ -1,6 +1,6 @@
 package com.macaosoftware.component.demo
 
-import com.macaosoftware.MacaoApplicationCallback
+import com.macaosoftware.plugin.MacaoApplicationCallback
 import com.macaosoftware.app.PluginFactory
 import com.macaosoftware.app.PluginManager
 import com.macaosoftware.app.PluginManagerInitializer
