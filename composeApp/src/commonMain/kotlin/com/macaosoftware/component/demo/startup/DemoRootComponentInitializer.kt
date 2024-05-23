@@ -1,6 +1,6 @@
 package com.macaosoftware.component.demo.startup
 
-import com.macaosoftware.MacaoApplicationCallback
+import com.macaosoftware.plugin.MacaoApplicationCallback
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.stack.StackComponent
 import com.macaosoftware.component.stack.StackComponentDefaults
