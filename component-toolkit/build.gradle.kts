@@ -163,10 +163,10 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.material3)
             implementation(compose.animation)
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
             // implementation("org.jetbrains.compose.ui:ui-util:1.5.10")
             // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
-            implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0-rc01")
+            implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0-rc03")
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
