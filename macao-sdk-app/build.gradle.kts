@@ -127,7 +127,7 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.ui)
             implementation(compose.foundation)
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
 
             // Macao Libs
             implementation(project(":component-toolkit"))
@@ -140,13 +140,13 @@ kotlin {
             // implementation(libs.kotlin.test)
         }
         androidMain.dependencies {
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
         }
         jvmMain.dependencies {
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.8.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.8.1")
         }
         jsMain.dependencies {
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.8.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.8.1")
         }
     }
 }

@@ -74,7 +74,7 @@ kotlin {
             implementation("org.jetbrains.compose.components:components-resources:1.6.1")
 
             // Coroutines core
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
 
             // Macao Libs
             api(project(":component-toolkit"))
@@ -86,17 +86,17 @@ kotlin {
         androidMain.dependencies {
             //implementation(project(":macao-sdk-di-manual"))
             implementation("androidx.activity:activity-compose:1.9.0")
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
         }
         jvmMain.dependencies {
             //implementation(project(":macao-sdk-di-manual"))
             implementation(compose.desktop.common)
             implementation(compose.desktop.currentOs)
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.8.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.8.1")
         }
         jsMain.dependencies {
             //implementation(project(":macao-sdk-di-manual"))
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.8.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.8.1")
         }
     }
 
