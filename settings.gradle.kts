@@ -20,7 +20,6 @@ pluginManagement {
         kotlin("multiplatform").version(kotlinVersion)
         id("org.jetbrains.kotlin.plugin.compose").version(kotlinVersion)
         id("org.jetbrains.compose").version(composeVersion)
-        kotlin("android").version(kotlinVersion)
         id("com.android.application").version(agpVersion)
         id("com.android.library").version(agpVersion)
         id("org.jetbrains.dokka").version(dokkaVersion)
