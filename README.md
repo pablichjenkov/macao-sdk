@@ -15,7 +15,8 @@ The framework also contains an Application architecture module with APIs for **A
 
 ### Modules
 
-#### component-toolkit
+#### 1. Component-toolkit
+
 This module contains the core components API. Check the [Developers Guide](/component-toolkit/README.md) for more information.
 
 ```kotlin
@@ -26,7 +27,7 @@ sourceSets {
 }
 ```
 
-#### macao-sdk-app
+#### 2. Macao-sdk-app
 An extension on the core API to integrate **platform plug-ins** in an opinionated Application architecture based on **manual dependency injection**. Check the [Developers Guide](/macao-sdk-app/README.md) for more information.
 
 ```kotlin
@@ -37,7 +38,7 @@ sourceSets {
 }
 ```
 
-#### macao-sdk-koin
+#### 3. Macao-sdk-koin
 Similar to **macao-sdk-app** but instead of **manual DI** it uses **koin**. Check the [Developers Guide](https://github.com/pablichjenkov/macao-marketplace/blob/dev/macao-sdk-koin/README.md) for more information.
 
 ```kotlin
@@ -48,6 +49,9 @@ sourceSets {
 }
 ```
 
+#### 4. Macao-sdk-jetpack-compose
+Built on top of **Jetpack Lifecycle, ViewModel, Navigation and Koin**, it offers the same extendable and flexible plugin architecture but using the Google recomended libraries instead.
+Check the [Developers Guide](https://github.com/pablichjenkov/macao-sdk-navigation-compose/blob/main/README.md) for more information.
 
 ### Contributions
 We welcome contributions from the community! If you have ideas for new features, bug fixes, or improvements, please open 
