@@ -49,7 +49,7 @@ sourceSets {
 }
 ```
 
-#### 4. Macao-sdk-jetpack-compose
+#### 4. Macao-sdk-jetpack-navigation
 Built on top of **Jetpack Lifecycle, ViewModel, Navigation and Koin**, it offers the same extendable and flexible plugin architecture but using the Google recomended libraries instead.
 Check the [Developers Guide](https://github.com/pablichjenkov/macao-sdk-navigation-compose/blob/main/README.md) for more information.
 
