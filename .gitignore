@@ -11,6 +11,8 @@ build/
 *.ipr
 *.hprof
 out/
+.kotlin
+kotlin-js-store/
 
 ### iOS Xcode generated ###
 iosApp/ComponentDemo.xcodeproj/*
@@ -18,4 +20,3 @@ iosApp/ComponentDemo.xcodeproj/*
 
 ### Mac OS ###
 .DS_Store
-/.kotlin/
