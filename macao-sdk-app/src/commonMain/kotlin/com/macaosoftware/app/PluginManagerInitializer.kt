@@ -9,5 +9,5 @@ interface PluginManagerInitializer {
      * The bridge will provide specific platfom actual implementations
      * of plugin interfaces.
      * */
-    suspend fun initialize(): MacaoResult<PluginManager>
+    suspend fun initialize(): MacaoResult<PluginManager, InitializationError>
 }

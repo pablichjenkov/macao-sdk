@@ -1,30 +1,37 @@
 package com.macaosoftware.plugin.account
 
 import com.macaosoftware.plugin.MacaoPlugin
-import com.macaosoftware.util.MacaoError
 import com.macaosoftware.util.MacaoResult
 import kotlin.native.ObjCName
 
 @ObjCName(name = "AccountPlugin", exact = true)
 interface AccountPlugin : MacaoPlugin {
     suspend fun initialize(): Boolean
-    suspend fun createUserWithEmailAndPassword(signUpRequest: SignUpRequest): MacaoResult<MacaoUser>
-    suspend fun signInWithEmailAndPassword(signInRequest: SignInRequest): MacaoResult<MacaoUser>
-    suspend fun signInWithEmailLink(signInRequest: SignInRequestForEmailLink): MacaoResult<MacaoUser>
-    suspend fun sendSignInLinkToEmail(emailLinkData: EmailLinkData): MacaoResult<Unit>
-    suspend fun getCurrentUser(): MacaoResult<MacaoUser>
+    suspend fun createUserWithEmailAndPassword(signUpRequest: SignUpRequest): MacaoResult<MacaoUser, AccountPluginError>
+    suspend fun signInWithEmailAndPassword(signInRequest: SignInRequest): MacaoResult<MacaoUser, AccountPluginError>
+    suspend fun signInWithEmailLink(signInRequest: SignInRequestForEmailLink): MacaoResult<MacaoUser, AccountPluginError>
+    suspend fun sendSignInLinkToEmail(emailLinkData: EmailLinkData): MacaoResult<Unit, AccountPluginError>
+    suspend fun getCurrentUser(): MacaoResult<MacaoUser, AccountPluginError>
 
-    suspend fun getProviderData(): MacaoResult<ProviderData>
-    suspend fun updateProfile(displayName: String, photoUrl: String): MacaoResult<MacaoUser>
-    suspend fun updateFullProfile(displayName: String?, country: String?, photoUrl: String?, phoneNo: String?, facebookLink: String?, linkedIn: String?, github: String?): MacaoResult<UserData>
-    suspend fun updateEmail(newEmail: String): MacaoResult<MacaoUser>
-    suspend fun updatePassword(newPassword: String): MacaoResult<MacaoUser>
-    suspend fun sendEmailVerification(): MacaoResult<MacaoUser>
-    suspend fun sendPasswordReset(): MacaoResult<MacaoUser>
-    suspend fun deleteUser(): MacaoResult<Unit>
-    suspend fun fetchUserData(): MacaoResult<UserData>
-    suspend fun checkAndFetchUserData(): MacaoResult<UserData>
-    suspend fun signOut(): MacaoResult<Unit>
+    suspend fun getProviderData(): MacaoResult<ProviderData, AccountPluginError>
+    suspend fun updateProfile(displayName: String, photoUrl: String): MacaoResult<MacaoUser, AccountPluginError>
+    suspend fun updateFullProfile(
+        displayName: String?,
+        country: String?,
+        photoUrl: String?,
+        phoneNo: String?,
+        facebookLink: String?,
+        linkedIn: String?,
+        github: String?
+    ): MacaoResult<UserData, AccountPluginError>
+    suspend fun updateEmail(newEmail: String): MacaoResult<MacaoUser, AccountPluginError>
+    suspend fun updatePassword(newPassword: String): MacaoResult<MacaoUser, AccountPluginError>
+    suspend fun sendEmailVerification(): MacaoResult<MacaoUser, AccountPluginError>
+    suspend fun sendPasswordReset(): MacaoResult<MacaoUser, AccountPluginError>
+    suspend fun deleteUser(): MacaoResult<Unit, AccountPluginError>
+    suspend fun fetchUserData(): MacaoResult<UserData, AccountPluginError>
+    suspend fun checkAndFetchUserData(): MacaoResult<UserData, AccountPluginError>
+    suspend fun signOut(): MacaoResult<Unit, AccountPluginError>
 }
 
 data class ProviderData(
@@ -82,10 +89,12 @@ data class SignupError(
     val instanceId: Long = -1L,
     val errorCode: Int = 1,
     val errorDescription: String = "Signup Failed"
-) : MacaoError
+) : AccountPluginError
 
 data class LoginError(
     val instanceId: Long = -1L,
     val errorCode: Int = 2,
     val errorDescription: String = "Login Failed"
-) : MacaoError
+) : AccountPluginError
+
+sealed interface AccountPluginError

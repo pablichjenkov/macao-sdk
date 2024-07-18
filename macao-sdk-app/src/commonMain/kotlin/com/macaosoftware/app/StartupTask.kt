@@ -19,5 +19,5 @@ interface StartupTask {
      * Things like Database Migration and LaunchDarkly initialization
      * can also take place here.
      * */
-    suspend fun initialize(pluginManager: PluginManager): MacaoResult<Unit>
+    suspend fun initialize(pluginManager: PluginManager): MacaoResult<Unit, InitializationError>
 }
