@@ -72,7 +72,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.foundation)
             implementation(compose.material3)
-            implementation("org.jetbrains.compose.components:components-resources:1.6.1")
+            implementation("org.jetbrains.compose.components:components-resources:1.6.11")
 
             // Coroutines core
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")

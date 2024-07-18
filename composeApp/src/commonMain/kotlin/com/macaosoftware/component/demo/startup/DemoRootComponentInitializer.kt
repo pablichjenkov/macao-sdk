@@ -1,5 +1,6 @@
 package com.macaosoftware.component.demo.startup
 
+import com.macaosoftware.app.InitializationError
 import com.macaosoftware.plugin.MacaoApplicationCallback
 import com.macaosoftware.component.core.Component
 import com.macaosoftware.component.stack.StackComponent
@@ -15,7 +16,7 @@ class DemoRootComponentInitializer : RootComponentInitializer {
         return true
     }
 
-    override suspend fun initialize(pluginManager: PluginManager): MacaoResult<Component> {
+    override suspend fun initialize(pluginManager: PluginManager): MacaoResult<Component, InitializationError> {
 
         // TODO: Remove this, only for simulating a network request
         delay(1000)

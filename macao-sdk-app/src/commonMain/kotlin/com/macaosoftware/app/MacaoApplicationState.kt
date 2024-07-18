@@ -26,7 +26,7 @@ open class MacaoApplicationState(
         }
         when (result) {
             is MacaoResult.Error -> {
-                stage.value = InitializationError(result.error.toString())
+                stage.value = InitializationErrorStage(result.error)
             }
 
             is MacaoResult.Success -> {
@@ -47,7 +47,7 @@ open class MacaoApplicationState(
                     }
 
                     is StartupTaskStatus.CompleteError -> {
-                        stage.value = InitializationError(status.errorMsg)
+                        stage.value = InitializationErrorStage(status.error)
                     }
 
                     is StartupTaskStatus.CompleteSuccess -> {
@@ -68,7 +68,7 @@ open class MacaoApplicationState(
 
         when(result) {
             is MacaoResult.Error -> {
-                stage.value = InitializationError(result.error.toString())
+                stage.value = InitializationErrorStage(result.error)
             }
             is MacaoResult.Success -> {
                 stage.value = InitializationSuccess(result.value)
@@ -86,5 +86,7 @@ sealed class Initializing : Stage() {
     data object RootComponent : Initializing()
 }
 
-class InitializationError(val errorMsg: String) : Stage()
+class InitializationErrorStage(val error: InitializationError) : Stage()
 class InitializationSuccess(val rootComponent: Component) : Stage()
+
+sealed class InitializationError(val errorMsg: String)

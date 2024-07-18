@@ -19,7 +19,7 @@ import com.macaosoftware.component.demo.viewmodel.topbar.Demo3PageTopBarViewMode
 import com.macaosoftware.component.topbar.TopBarComponent
 import com.macaosoftware.component.topbar.TopBarComponentDefaults
 import com.macaosoftware.app.Created
-import com.macaosoftware.app.InitializationError
+import com.macaosoftware.app.InitializationErrorStage
 import com.macaosoftware.app.InitializationSuccess
 import com.macaosoftware.app.Initializing
 import com.macaosoftware.app.MacaoApplication
@@ -57,7 +57,7 @@ class MainWindowComponent(
             val applicationState = macaoKoinApplicationState.stage.value
         ) {
             Created,
-            is InitializationError,
+            is InitializationErrorStage,
             is Initializing -> {
                 // no-op
             }

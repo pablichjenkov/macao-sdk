@@ -27,8 +27,8 @@ fun MacaoApplication(
         InitializationHandler(stage)
     }
 
-    is InitializationError -> {
-        SplashScreen(stage.errorMsg)
+    is InitializationErrorStage -> {
+        SplashScreen(stage.error.errorMsg)
     }
 
     is InitializationSuccess -> {

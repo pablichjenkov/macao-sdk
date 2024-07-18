@@ -12,5 +12,7 @@ interface RootComponentInitializer {
     /**
      * Initialize the Root Component of the Macao Application.
      * */
-    suspend fun initialize(pluginManager: PluginManager): MacaoResult<Component>
+    suspend fun initialize(
+        pluginManager: PluginManager
+    ): MacaoResult<Component, InitializationError>
 }
