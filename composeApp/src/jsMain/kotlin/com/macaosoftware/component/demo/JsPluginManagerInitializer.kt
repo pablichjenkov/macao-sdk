@@ -1,5 +1,6 @@
 package com.macaosoftware.component.demo
 
+import com.macaosoftware.app.InitializationError
 import com.macaosoftware.plugin.MacaoApplicationCallback
 import com.macaosoftware.app.PluginFactory
 import com.macaosoftware.app.PluginManager
@@ -8,7 +9,7 @@ import com.macaosoftware.util.MacaoResult
 
 class JsPluginManagerInitializer : PluginManagerInitializer {
 
-    override suspend fun initialize(): MacaoResult<PluginManager> {
+    override suspend fun initialize(): MacaoResult<PluginManager, InitializationError> {
 
         val macaoAppCallbackPlugin = object : MacaoApplicationCallback {
             override fun onExit() {

@@ -1,6 +1,7 @@
 package com.macaosoftware.component.demo
 
 import android.app.Activity
+import com.macaosoftware.app.InitializationError
 import com.macaosoftware.plugin.MacaoApplicationCallback
 import com.macaosoftware.app.PluginFactory
 import com.macaosoftware.app.PluginManager
@@ -9,7 +10,7 @@ import com.macaosoftware.util.MacaoResult
 
 class AndroidPluginManagerInitializer(private val activity: Activity) : PluginManagerInitializer {
 
-    override suspend fun initialize(): MacaoResult<PluginManager> {
+    override suspend fun initialize(): MacaoResult<PluginManager, InitializationError> {
 
         // Example of a MacaoApplicationCallback Plugin, implemented in kotlin side
         // But perfectly an interface pointing to a specific plaform implementation could
