@@ -1,5 +1,6 @@
 package com.macaosoftware.component.demo
 
+import com.macaosoftware.app.InitializationError
 import com.macaosoftware.plugin.MacaoApplicationCallback
 import com.macaosoftware.app.PluginFactory
 import com.macaosoftware.app.PluginManager
@@ -9,7 +10,7 @@ import platform.posix.exit
 
 class IosPluginManagerInitializer(iosBridge: IosBridge) : PluginManagerInitializer {
 
-    override suspend fun initialize(): MacaoResult<PluginManager> {
+    override suspend fun initialize(): MacaoResult<PluginManager, InitializationError> {
 
         // Example of a MacaoApplicationCallback Plugin, implemented in kotlin side
         // But perfectly an interface pointing to a specific swift implementation could
