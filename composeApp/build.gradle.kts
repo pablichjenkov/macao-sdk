@@ -1,14 +1,11 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
-    kotlin("multiplatform")
-    id("com.android.application")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("org.jetbrains.compose")
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.compose)
 }
-
-version = (findProperty("component-toolkit.version") as? String).orEmpty()
 
 /*compose {
     // Sets a specific JetBrains Compose Compiler version
@@ -44,7 +41,7 @@ kotlin {
         binaries.executable()
     }
 
-    @OptIn(ExperimentalWasmDsl::class)
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "composeApp"
         browser {
@@ -68,14 +65,14 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            // Compose
             implementation(compose.runtime)
             implementation(compose.ui)
             implementation(compose.foundation)
             implementation(compose.material3)
-            implementation("org.jetbrains.compose.components:components-resources:1.6.11")
 
             // Coroutines core
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+            implementation(libs.kotlinx.coroutines.core)
 
             // Macao Libs
             api(project(":component-toolkit"))
@@ -85,19 +82,23 @@ kotlin {
             implementation(kotlin("test"))
         }
         androidMain.dependencies {
-            //implementation(project(":macao-sdk-di-manual"))
-            implementation("androidx.activity:activity-compose:1.9.0")
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+            // AndroidX
+            implementation(libs.activity.compose)
+
+            // Coroutines
+            implementation(libs.kotlinx.coroutines.android)
         }
         jvmMain.dependencies {
-            //implementation(project(":macao-sdk-di-manual"))
+            // Compose Desktop Ecosystem
             implementation(compose.desktop.common)
             implementation(compose.desktop.currentOs)
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.8.1")
+
+            // Coroutines core
+            implementation(libs.kotlinx.coroutines.swing)
         }
         jsMain.dependencies {
-            //implementation(project(":macao-sdk-di-manual"))
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.8.1")
+            // Coroutines core
+            implementation(libs.kotlinx.coroutines.core.js)
         }
     }
 
@@ -105,12 +106,12 @@ kotlin {
 
 android {
     namespace = "com.macaosoftware.component.demo"
-    compileSdk = (findProperty("android.compileSdk") as String).toInt()
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         applicationId = "com.macaosoftware.component.demo"
-        minSdk = (findProperty("android.minSdk") as String).toInt()
-        targetSdk = (findProperty("android.targetSdk") as String).toInt()
+        minSdk = libs.versions.androidMinSdk.get().toInt()
+        compileSdk = libs.versions.androidCompileSdk.get().toInt()
+        targetSdk = libs.versions.androidTargetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
     }

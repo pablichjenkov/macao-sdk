@@ -1,17 +1,15 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
-
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("org.jetbrains.compose")
-    id("org.jetbrains.dokka")
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.dokka)
     id("maven-publish")
     id("signing")
 }
 
 group = "io.github.pablichjenkov"
-version = (findProperty("component-toolkit.version") as? String).orEmpty()
+version = libs.versions.macaoComponentToolkit.get()
 val mavenCentralUser = (findProperty("mavenCentral.user") as? String).orEmpty()
 val mavenCentralPass = (findProperty("mavenCentral.pass") as? String).orEmpty()
 
@@ -146,7 +144,7 @@ kotlin {
         browser()
     }
 
-    @OptIn(ExperimentalWasmDsl::class)
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "ComponentToolkitKt"
         browser()
@@ -164,10 +162,13 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.material3)
             implementation(compose.animation)
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
-            // implementation("org.jetbrains.compose.ui:ui-util:1.5.10")
-            // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
-            implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0-rc03")
+
+            // Coroutines
+            implementation(libs.kotlinx.coroutines.core)
+
+            // Lifecycle, used for components lifecycle
+            implementation(libs.lifecycle.viewmodel.compose)
+
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
@@ -175,13 +176,14 @@ kotlin {
 
         // ANDROID
         androidMain.dependencies {
-            implementation("androidx.activity:activity-compose:1.9.0")
+            implementation(libs.activity.compose)
             api(compose.uiTooling)
             api(compose.preview)
         }
         val androidUnitTest by getting {
             dependencies {
-                implementation("junit:junit:4.13.2")
+                // Android Junit
+                implementation(libs.junit)
             }
         }
         val androidInstrumentedTest by getting
@@ -206,7 +208,6 @@ kotlin {
 
 android {
     namespace = "com.macaosoftware.component"
-    compileSdk = (findProperty("android.compileSdk") as String).toInt()
     sourceSets {
         named("main") {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -214,7 +215,8 @@ android {
         }
     }
     defaultConfig {
-        minSdk = (findProperty("android.minSdk") as String).toInt()
+        minSdk = libs.versions.androidMinSdk.get().toInt()
+        compileSdk = libs.versions.androidCompileSdk.get().toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
