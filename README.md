@@ -22,7 +22,7 @@ This module contains the core components API. Check the [Developers Guide](/comp
 ```kotlin
 sourceSets {
     commonMain.dependencies {
-        implementation("io.github.pablichjenkov:component-toolkit:0.6.11")
+        implementation("io.github.pablichjenkov:component-toolkit:0.7.0")
     }
 }
 ```
@@ -33,7 +33,7 @@ An extension on the core API to integrate **platform plug-ins** in an opinionate
 ```kotlin
 sourceSets {
     commonMain.dependencies {
-        implementation("io.github.pablichjenkov:macao-sdk-app:0.6.11")
+        implementation("io.github.pablichjenkov:macao-sdk-app:0.7.0")
     }
 }
 ```
