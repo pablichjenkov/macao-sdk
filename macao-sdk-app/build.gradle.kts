@@ -1,17 +1,15 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
-
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("org.jetbrains.compose")
-    id("org.jetbrains.dokka")
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.dokka)
     id("maven-publish")
     id("signing")
 }
 
 group = "io.github.pablichjenkov"
-version = (findProperty("component-toolkit.version") as? String).orEmpty()
+version = libs.versions.macaoComponentToolkit.get()
 val mavenCentralUser = (findProperty("mavenCentral.user") as? String).orEmpty()
 val mavenCentralPass = (findProperty("mavenCentral.pass") as? String).orEmpty()
 
@@ -114,7 +112,7 @@ kotlin {
         browser()
     }
 
-    @OptIn(ExperimentalWasmDsl::class)
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "MacaoSdkApp"
         browser()
@@ -128,35 +126,24 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.ui)
             implementation(compose.foundation)
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+
+            // Coroutines
+            implementation(libs.kotlinx.coroutines.core)
 
             // Macao Libs
             implementation(project(":component-toolkit"))
-
-            // Koin
-            // api("io.insert-koin:koin-core:3.5.3")
-            api("io.insert-koin:koin-core:3.6.0-wasm-alpha2")
         }
         commonTest.dependencies {
-            // implementation(libs.kotlin.test)
-        }
-        androidMain.dependencies {
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
-        }
-        jvmMain.dependencies {
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.8.1")
-        }
-        jsMain.dependencies {
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.8.1")
+            implementation(kotlin("test"))
         }
     }
 }
 
 android {
     namespace = "com.macaosoftware.app"
-    compileSdk = (findProperty("android.compileSdk") as String).toInt()
     defaultConfig {
-        minSdk = (findProperty("android.minSdk") as String).toInt()
+        minSdk = libs.versions.androidMinSdk.get().toInt()
+        compileSdk = libs.versions.androidCompileSdk.get().toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

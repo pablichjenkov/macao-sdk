@@ -24,6 +24,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -192,7 +193,7 @@ fun SignUpForm(
             Modifier
                 .fillMaxWidth()
                 .clickable(interactionSource,
-                    indication = rememberRipple(),
+                    indication = ripple(),
                     onClick = {
                         acceptedTerms = acceptedTerms.not()
                     })

@@ -1,0 +1,55 @@
+[versions]
+
+## Kotlin Ecosystem
+kotlinVersion = "2.0.21"
+kotlinxCoroutines = "1.9.0"
+dokka = "1.9.10"
+
+## Compose
+composeAndroidCompiler = "1.7.4"
+composeVersion = "1.7.0"
+
+## Android Gradle Plugin
+agp = "8.5.2"
+androidCompileSdk = "34"
+androidTargetSdk = "34"
+androidMinSdk = "26"
+
+## Macao Libs
+macaoComponentToolkit = "0.7.0"
+
+## AndroidX
+androidxActivityCompose = "1.9.3"
+lifecycleViewmodelCompose = "2.8.3"
+
+## Unit Test
+junit = "4.13.2"
+
+[libraries]
+
+## AndroidX
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivityCompose" }
+lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
+
+## Coroutines
+kotlinx-coroutines-core-js = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-js", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+
+## Android Preview
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "composeAndroidCompiler" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "composeAndroidCompiler" }
+
+## Test
+junit = { module = "junit:junit", version.ref = "junit" }
+
+[plugins]
+
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlinVersion" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinVersion" }
+compose = { id = "org.jetbrains.compose", version.ref = "composeVersion" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinVersion" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
