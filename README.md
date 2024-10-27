@@ -44,7 +44,7 @@ Similar to **macao-sdk-app** but instead of **manual DI** it uses **koin**. Chec
 ```kotlin
 sourceSets {
     commonMain.dependencies {
-        implementation("io.github.pablichjenkov:macao-sdk-koin:0.6.11")
+        implementation("io.github.pablichjenkov:macao-sdk-koin:0.7.0")
     }
 }
 ```
